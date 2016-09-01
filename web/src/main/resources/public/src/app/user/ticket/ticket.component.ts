@@ -41,7 +41,6 @@ export class TicketComponent implements OnInit {
     private message:Message;
     private messageComponent:MessageComponent;
     private currentUser:User;
-  //  private userAssignArr:User[] = [];
     private dates:string[] = [];
     private pageCreator:PageCreator<Ticket>;
     private pageNumber:number = 1;
@@ -65,11 +64,6 @@ export class TicketComponent implements OnInit {
         this.getTicketsByPageNum(this.pageNumber, this.selectedRow);
     }
 
- /*  getAllUsers() {
-        return this.ticketService.getAllUsers()
-            .then(userAssignArr => this.userAssignArr = userAssignArr)      
-    }
-*/
     private initUpdatedTicket(ticket:ITicket):void {
         this.updatedTicket = ticket;
     }
@@ -167,6 +161,7 @@ export class TicketComponent implements OnInit {
     singleTicket(id:number) {
         this.router.navigate(['home/user/ticket', id]);
     }
+
 
     getTime(time:Date):string {
         return new Date(time).toLocaleString();
