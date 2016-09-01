@@ -193,15 +193,6 @@ public class TicketController {
     }
 
     @RequestMapping(value = "/sendEmailAssign", method = RequestMethod.POST)
-    public HttpStatus sendEmailAssignTicket(@RequestBody Mail mail) throws MessagingException {
-
-        logger.info("Send sendEmailAssignTicket ");
-
-        sender.send(mail);
-        return HttpStatus.ACCEPTED;
-    }
-/*
-    @RequestMapping(value = "/sendEmailAssign", method = RequestMethod.POST)
     public HttpStatus sendEmailAssignTicket(@RequestBody Integer ticketId) throws MessagingException {
         Ticket ticket = ticketService.findOne(ticketId);
         logger.info("Send sendEmailAssignTicket "+ ticket.getUser().getEmail());
@@ -213,7 +204,7 @@ public class TicketController {
             return HttpStatus.ACCEPTED;
         }
         return HttpStatus.NOT_FOUND;
-    }*/
+    }
 
     @RequestMapping(value = "/sendEmailState", method = RequestMethod.POST)
     public HttpStatus sendEmailStateTicket(@RequestBody Integer ticketId) throws MessagingException {
