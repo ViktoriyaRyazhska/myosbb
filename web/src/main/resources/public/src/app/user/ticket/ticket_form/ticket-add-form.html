@@ -34,7 +34,7 @@
                     <div class="alert alert-danger" *ngIf="submitAttempt && !isFindAssign()">
                         {{'assignErrorTicket'|translate}}
                     </div>
-                    <datalist id="assign">
+                    <datalist id="assign"   >
                         <ul>
                             <option *ngFor="let user of userAssignArr|ticketFilter:assign.value">
                                 <li>{{user.firstName}} {{user.lastName}}</li>

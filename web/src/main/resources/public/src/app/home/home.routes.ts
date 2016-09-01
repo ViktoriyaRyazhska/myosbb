@@ -4,7 +4,7 @@ import {OsbbComponent} from "../user/osbb/osbb.component";
 import {TicketAdminComponent} from "../user/ticket/ticket.component.admin";
 import {HouseTableComponent} from "../house/house.table.component";
 import {HouseShowComponent} from "../house/house.show.component";
-import {TicketSingleAdminComponent} from "../user/ticket/single.ticket.component.admin";
+import {TicketSingleAdminComponent} from "../user/ticket/single_ticket/single.ticket.component.admin";
 import {HomeWallComponent} from "./home_wall/home.wall.component";
 import {ProviderUserPageWrapperComponent} from "../user/provider/provider_home/provider-user-page.component.wrapper";
 import {ProviderInfoPageWrapperComponent} from "../user/provider/provider-info-page-wrapper.component";

@@ -3,16 +3,25 @@ package com.softserve.osbb.controller;
 
 import com.softserve.osbb.dto.TicketDTO;
 import com.softserve.osbb.dto.mappers.TicketDTOMapper;
+import com.softserve.osbb.model.Mail;
 import com.softserve.osbb.model.Ticket;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.model.enums.TicketState;
 import com.softserve.osbb.service.MessageService;
 import com.softserve.osbb.service.TicketService;
 import com.softserve.osbb.service.UserService;
+//<<<<<<< 33495e9e4cebb9b48911f58bbc267a767a76ff22
 import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
 import com.softserve.osbb.util.paging.impl.TicketPageDataObject;
 import com.softserve.osbb.util.resources.impl.EntityResourceList;
 import com.softserve.osbb.util.resources.impl.TicketResourceList;
+//=======
+import com.softserve.osbb.service.impl.MailSenderImpl;
+//import com.softserve.osbb.util.PageRequestGenerator;
+//import com.softserve.osbb.util.TicketPageCreator;
+//import com.softserve.osbb.util.resources.EntityResourceList;
+//import com.softserve.osbb.util.resources.TicketResourceList;
+//>>>>>>> change derictory for single_ticketderictory
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +32,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +62,9 @@ public class TicketController {
 
     @Autowired
     MessageService messageService;
+
+    @Autowired
+    private MailSenderImpl sender;
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Resource<Ticket>> createTicket(@RequestBody Ticket ticket) {
@@ -178,6 +191,46 @@ public class TicketController {
         ticketService.deleteAll();
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/sendEmailAssign", method = RequestMethod.POST)
+    public HttpStatus sendEmailAssignTicket(@RequestBody Mail mail) throws MessagingException {
+
+        logger.info("Send sendEmailAssignTicket ");
+
+        sender.send(mail);
+        return HttpStatus.ACCEPTED;
+    }
+/*
+    @RequestMapping(value = "/sendEmailAssign", method = RequestMethod.POST)
+    public HttpStatus sendEmailAssignTicket(@RequestBody Integer ticketId) throws MessagingException {
+        Ticket ticket = ticketService.findOne(ticketId);
+        logger.info("Send sendEmailAssignTicket "+ ticket.getUser().getEmail());
+
+        if(ticket.getAssigned().getEmail()!=null) {
+            sender.send(ticket.getAssigned().getEmail(),"My-osbb. You elected responsible.", "Name ticket: "+ ticket.getName()+
+                    " To see more information, click on link: "+"\n" +
+                    "192.168.195.250:8080/myosbb/home/user/ticket"+ticket.getTicketId());
+            return HttpStatus.ACCEPTED;
+        }
+        return HttpStatus.NOT_FOUND;
+    }*/
+
+    @RequestMapping(value = "/sendEmailState", method = RequestMethod.POST)
+    public HttpStatus sendEmailStateTicket(@RequestBody Integer ticketId) throws MessagingException {
+
+        Ticket ticket = ticketService.findOne(ticketId);
+        logger.info("Send sendEmailStateTicket "+ ticket.getUser().getEmail());
+        if(ticket.getUser().getEmail()!=null) {
+            sender.send(ticket.getAssigned().getEmail(),"My-osbb. Change state of your ticket.", "Name ticket: "+ ticket.getName()+
+                    " New status: "+ ticket.getState() +"\n" +
+                    " To see more information, click on link: "+
+                    "192.168.195.250:8080/myosbb/home/user/ticket"+ticket.getTicketId());
+            return HttpStatus.ACCEPTED;
+        }
+        return HttpStatus.NOT_FOUND;
+
+    }
+
     @RequestMapping(value = "/findName", method = RequestMethod.GET)
     public ResponseEntity<TicketPageDataObject> listTicketsByName(
             @RequestParam(value = "pageNumber", required = true) Integer pageNumber,
@@ -275,4 +328,5 @@ public class TicketController {
         pageCreator.setTotalPages(Integer.valueOf(pageSelector.getTotalPages()).toString());
         return pageCreator;
     }
+
 }

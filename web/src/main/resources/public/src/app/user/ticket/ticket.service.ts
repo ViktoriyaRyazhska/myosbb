@@ -6,6 +6,8 @@ import ApiService = require("../../../shared/services/api.service");
 import {User} from './../user';
 import {ITicket,TicketState} from './ticket';
 import {Observable} from "rxjs/Observable";
+import {Mail} from "../../../shared/models/mail.interface";
+
 
 @Injectable()
 export class TicketService {
@@ -19,14 +21,22 @@ export class TicketService {
     private getTicketByPage:string = ApiService.serverUrl + '/restful/ticket/page';
     private getUsers:string = ApiService.serverUrl + '/restful/user';
     private findTicketByName:string = ApiService.serverUrl + '/restful/ticket/findName';
-    private sendEmailAssignUrl:string = ApiService.serverUrl + '/sendEmailAssign';
-    private sendEmailStateUrl:string = ApiService.serverUrl + '/sendEmailState';
+    private sendEmailAssignUrl:string = ApiService.serverUrl + '/restful/ticket/sendEmailAssign';
+    private sendEmailStateUrl:string = ApiService.serverUrl + '/restful/ticket/sendEmailState';
     private findTicketByState:string = ApiService.serverUrl + '/restful/ticket/state';
     private findTicketByUser:string = ApiService.serverUrl + '/restful/ticket/userEmail';
     private aaa:string = ApiService.serverUrl + '/sendEmailMail';
     constructor(private http:Http) {
     }
 
+ sendMailAssign(mail : Mail){
+        console.log("sending http POST to " + this.sendEmailAssignUrl);
+        console.log("json obj: ", JSON.stringify(mail));
+        return this.http.post(this.sendEmailAssignUrl, JSON.stringify(mail))
+            .toPromise()
+            .then(()=>mail)
+            .catch((err)=>console.error(err));
+    }
 
     getTicketsByPage(pageNumber:number, selectedRow:number):Observable<any> {
         return this.http.get(this.getTicketByPage + '?pageNumber=' + pageNumber + '&&sortedBy=time' + '&&rowNum=' + selectedRow)
@@ -113,11 +123,17 @@ export class TicketService {
     sendEmailAssign(ticketId:number){
         return this.http.post(this.sendEmailAssignUrl, JSON.stringify(ticketId))
             .toPromise()
-            .then(res => res.json())
+            .then(() => (ticketId))
             .catch(this.handleError);
     }
-   
-
+sendMail(mail : Mail){
+        console.log("sending http POST to " + this.url);
+        console.log("json obj: ", JSON.stringify(mail));
+        return this.http.post(this.url, JSON.stringify(mail))
+            .toPromise()
+            .then(()=>mail)
+            .catch((err)=>console.error(err));
+    }
 
     private handleError(error:any):Promise<any> {
         console.log('HandleError', error);

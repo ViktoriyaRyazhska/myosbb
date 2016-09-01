@@ -83,49 +83,31 @@ public class BasicController {
         return HttpStatus.NOT_FOUND;
     }
 
-    @Autowired
-    private MailSenderImpl sender;
+    @RequestMapping(value = "/registration/osbb", method = RequestMethod.POST)
+    public Osbb putOsbb(@RequestBody Osbb osbb) {
+        logger.info("Saving osbb, sending to service");
+        return osbbService.addOsbb(osbb);
+    }
+    @RequestMapping(value = "/join/osbb", method = RequestMethod.GET)
+    public ResponseEntity<List<Resource<Osbb>>> getAllOsbb() {
+        logger.info("Get all osbb: ");
+        List<Osbb> osbbList = osbbService.getAllOsbb();
+        final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
 
-    @RequestMapping(value = "/sendEmailMail", method = RequestMethod.POST)
-    public HttpStatus sendEmailOnMail(@RequestBody String email) throws MessagingException {
-        User user=userService.findUserByEmail(email);
-        if(user!=null) {
-            sender.send(email,"My-osbb.Your forgoten password","Hello there friend here is your pass:"+passwordEncoder.encode(user.getPassword()));
-            return HttpStatus.ACCEPTED;
+        for(Osbb o: osbbList) {
+            resourceOsbbList.add(addResourceLinkToOsbb(o));
         }
-        return HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
     }
 
-    @Autowired
-    TicketService ticketService;
-
-    @RequestMapping(value = "/sendEmailAssign", method = RequestMethod.POST)
-    public HttpStatus sendEmailAssignTicket(@RequestBody Integer ticketId) throws MessagingException {
-        Ticket ticket = ticketService.findOne(ticketId);
-        logger.info("Send sendEmailAssignTicket "+ ticket.getUser().getEmail());
-
-        if(ticket.getAssigned().getEmail()!=null) {
-            sender.send(ticket.getAssigned().getEmail(),"My-osbb. You elected responsible.", "Name ticket: "+ ticket.getName()+
-                    " To see more information, click on link: "+"\n" +
-                    "192.168.195.250:8080/myosbb/home/user/ticket"+ticket.getTicketId());
-            return HttpStatus.ACCEPTED;
-        }
-        return HttpStatus.NOT_FOUND;
+    private Resource<Osbb> addResourceLinkToOsbb(Osbb osbb) {
+        if (osbb == null) return null;
+        Resource<Osbb> osbbResource = new Resource<>(osbb);
+        osbbResource.add(linkTo(methodOn(OsbbController.class)
+                .getOsbbById(osbb.getOsbbId()))
+                .withSelfRel());
+        return osbbResource;
     }
 
-    @RequestMapping(value = "/sendEmailState", method = RequestMethod.POST)
-    public HttpStatus sendEmailStateTicket(@RequestBody Integer ticketId) throws MessagingException {
 
-        Ticket ticket = ticketService.findOne(ticketId);
-        logger.info("Send sendEmailStateTicket "+ ticket.getUser().getEmail());
-        if(ticket.getUser().getEmail()!=null) {
-            sender.send(ticket.getAssigned().getEmail(),"My-osbb. Change state of your ticket.", "Name ticket: "+ ticket.getName()+
-                    " New status: "+ ticket.getState() +"\n" +
-                    " To see more information, click on link: "+
-                    "192.168.195.250:8080/myosbb/home/user/ticket"+ticket.getTicketId());
-            return HttpStatus.ACCEPTED;
-        }
-        return HttpStatus.NOT_FOUND;
-
-    }
 }

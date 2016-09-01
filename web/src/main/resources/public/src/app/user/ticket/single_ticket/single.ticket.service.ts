@@ -2,11 +2,11 @@ import {Injectable} from "@angular/core";
 import {Http, Headers} from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
-import {Ticket, ITicket} from './ticket';
+import {Ticket, ITicket} from './../ticket';
 import {IMessage} from './message';
 
 import {Observable} from "rxjs/Observable";
-import ApiService = require("../../../shared/services/api.service");
+import ApiService = require("../../../../shared/services/api.service");
 
 
 @Injectable()

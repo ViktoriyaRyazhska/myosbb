@@ -122,9 +122,6 @@ export class TicketEditFormComponent implements OnInit {
             return TicketState.DONE;
         }
         
-
-    //    this.messageService.editState(this.ticket)
-       // .this.ticketService.sendEmailState(this.ticket.ticketId);
     }
 
     initUpdatedTicket(ticket:Ticket) {

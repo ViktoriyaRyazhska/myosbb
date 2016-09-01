@@ -1,5 +1,5 @@
 import {DatePipe} from '@angular/common' ;
-import {Message} from './message' ;
+import {Message} from './single_ticket/message' ;
 import {User} from './../user';
 export interface ITicket {
     ticketId: number;

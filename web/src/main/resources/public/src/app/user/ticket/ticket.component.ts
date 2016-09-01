@@ -6,14 +6,14 @@ import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 import {PageCreator} from "../../../shared/services/page.creator.interface";
-import {IMessage,Message} from './message'
+import {IMessage,Message} from './single_ticket/message'
 import {Ticket, ITicket,TicketState} from './ticket';
 import { TicketService } from './ticket.service';
 import { TicketAddFormComponent } from './ticket_form/ticket-add-form.component';
 import { TicketEditFormComponent } from './ticket_form/ticket-edit-form.component';
 import { TicketDelFormComponent } from './ticket_form/ticket-del-form.component';
-import { MessageComponent } from './single.ticket.component';
-import { MessageService } from './single.ticket.service';
+import { MessageComponent } from './single_ticket/single.ticket.component';
+import { MessageService } from './single_ticket/single.ticket.service';
 import {Router} from '@angular/router';
 import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
@@ -41,7 +41,7 @@ export class TicketComponent implements OnInit {
     private message:Message;
     private messageComponent:MessageComponent;
     private currentUser:User;
-    private userAssignArr:User[] = [];
+  //  private userAssignArr:User[] = [];
     private dates:string[] = [];
     private pageCreator:PageCreator<Ticket>;
     private pageNumber:number = 1;
@@ -59,18 +59,17 @@ export class TicketComponent implements OnInit {
                 private currentUserService:CurrentUserService,
                 private router:Router) {
         this.currentUser = currentUserService.getUser();
-        console.log("user: " + this.currentUser);
     }
 
     ngOnInit() {
         this.getTicketsByPageNum(this.pageNumber, this.selectedRow);
     }
 
-   getAllUsers() {
+ /*  getAllUsers() {
         return this.ticketService.getAllUsers()
             .then(userAssignArr => this.userAssignArr = userAssignArr)      
     }
-
+*/
     private initUpdatedTicket(ticket:ITicket):void {
         this.updatedTicket = ticket;
     }
@@ -81,7 +80,7 @@ export class TicketComponent implements OnInit {
 
     
     private addTicket(ticket:ITicket):void {
-      //  this.ticketService.sendEmailAssign(ticket.ticketId);
+       // this.ticketService.sendEmailAssign(ticket.ticketId);
         this.ticketArr.unshift(ticket);
     }
 
@@ -168,7 +167,6 @@ export class TicketComponent implements OnInit {
     singleTicket(id:number) {
         this.router.navigate(['home/user/ticket', id]);
     }
-
 
     getTime(time:Date):string {
         return new Date(time).toLocaleString();

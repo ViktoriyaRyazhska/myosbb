@@ -6,24 +6,24 @@ import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {Observable} from 'rxjs/Observable';
 import {NgSwitch} from '@angular/common';
 import 'rxjs/Rx';
-import { TicketService } from './ticket.service';
+import { TicketService } from './../ticket.service';
 import {ROUTER_DIRECTIVES,RouterOutlet} from '@angular/router';
 import {Message, IMessage,} from './message';
-import {Ticket, ITicket,TicketState} from './ticket';
-import {TicketComponent} from './ticket.component';
+import {Ticket, ITicket,TicketState} from './../ticket';
+import {TicketComponent} from './../ticket.component';
 import { MessageService } from './single.ticket.service';
-import { TicketAddFormComponent } from './ticket_form/ticket-add-form.component';
-import { TicketEditFormComponent } from './ticket_form/ticket-edit-form.component';
-import { TicketDelFormComponent } from './ticket_form/ticket-del-form.component';
+import { TicketAddFormComponent } from './../ticket_form/ticket-add-form.component';
+import { TicketEditFormComponent } from './../ticket_form/ticket-edit-form.component';
+import { TicketDelFormComponent } from './../ticket_form/ticket-del-form.component';
 import {ActivatedRoute} from "@angular/router";
 import {Router} from '@angular/router';
 import {Subscription} from "rxjs";
-import {CurrentUserService} from "./../../../shared/services/current.user.service";
-import {User} from './../user';
+import {CurrentUserService} from "./../../../../shared/services/current.user.service";
+import {User} from './../../user';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 @Component({
     selector: 'ticket',
-    templateUrl: './src/app/user/ticket/single.ticket.component.html',
+    templateUrl: './src/app/user/ticket/single_ticket/single.ticket.component.html',
     providers: [ MessageService, TicketService],
     directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
@@ -192,7 +192,6 @@ export class MessageComponent implements OnInit {
     }
 
     isMessageCreator(message:Message):boolean {
-        console.log("ismeess creator" + message.user.firstName);
         return (message.user.firstName == this.currentUser.firstName && message.user.lastName == this.currentUser.lastName);
     }
 

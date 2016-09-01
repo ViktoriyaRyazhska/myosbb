@@ -57,7 +57,7 @@ export class TicketAddFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getAllUsers();
+      this.getAllUsers()
     }
 
     openAddModal() {
