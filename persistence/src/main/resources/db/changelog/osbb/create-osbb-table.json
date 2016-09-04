@@ -22,19 +22,43 @@
                 },
                 {
                   "column": {
-                    "name": "description",
-                    "type": "VARCHAR(255)"
-                  }
-                },
-                {
-                  "column": {
                     "name": "name",
                     "type": "VARCHAR(255)"
                   }
                 },
                 {
                   "column": {
+                    "name": "description",
+                    "type": "VARCHAR(255)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "address",
+                    "type": "VARCHAR(255)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "district",
+                    "type": "VARCHAR(255)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "creation_date",
+                    "type": "TIMESTAMP(6) WITH TIME ZONE"
+                  }
+                },
+                {
+                  "column": {
                     "name": "creator_id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "logo_id",
                     "type": "INT"
                   }
                 }
@@ -106,94 +130,6 @@
               "onUpdate": "NO ACTION",
               "referencedColumnNames": "osbb_id",
               "referencedTableName": "osbb"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "changeSet": {
-        "id": "2016/08/25-68",
-        "author": "Roman",
-        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
-        "changes": [
-          {
-            "addColumn": {
-              "columns": [
-                {
-                  "column": {
-                    "name": "address",
-                    "type": "varchar(255)"
-                  }
-                }
-              ],
-              "tableName": "osbb"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "changeSet": {
-        "id": "2016/08/25-72",
-        "author": "Roman",
-        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
-        "changes": [
-          {
-            "addColumn": {
-              "columns": [
-                {
-                  "column": {
-                    "name": "district",
-                    "type": "varchar(255)"
-                  }
-                }
-              ],
-              "tableName": "osbb"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "changeSet": {
-        "id": "2016/08/25-74",
-        "author": "Roman",
-        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
-        "changes": [
-          {
-            "addColumn": {
-              "columns": [
-                {
-                  "column": {
-                    "name": "creation_date",
-                    "type": "TIMESTAMP(6) WITH TIME ZONE"
-                  }
-                }
-              ],
-              "tableName": "osbb"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "changeSet": {
-        "id": "2016/08/29-78",
-        "author": "Roman",
-        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
-        "changes": [
-          {
-            "addColumn": {
-              "columns": [
-                {
-                  "column": {
-                    "name": "logo_url",
-                    "type": "varchar(255)"
-                  }
-                }
-              ],
-              "tableName": "osbb"
             }
           }
         ]

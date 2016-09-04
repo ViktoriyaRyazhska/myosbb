@@ -24,7 +24,7 @@ export class HomeWallComponent implements OnInit {
     currentOsbb: Osbb;
 
     constructor(private osbbService: OsbbService) {
-        this.currentOsbb = new Osbb();
+        this.currentOsbb = null;//
     }
 
     ngOnInit():any {

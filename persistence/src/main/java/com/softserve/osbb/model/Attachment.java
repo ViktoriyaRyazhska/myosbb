@@ -1,5 +1,7 @@
 package com.softserve.osbb.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.softserve.osbb.model.enums.AttachmentType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -15,6 +17,7 @@ public class Attachment {
 
     private Integer attachmentId;
     private String path;
+    private AttachmentType type;
 
     @Id
     @Column(name = "attachment_id")
@@ -35,6 +38,17 @@ public class Attachment {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    @JsonIgnore
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", columnDefinition = "varchar(255) default 'DATA'")
+    public AttachmentType getType() {
+        return type;
+    }
+
+    public void setType(AttachmentType type) {
+        this.type = type;
     }
 
     @Override

@@ -6,7 +6,7 @@ export interface IOsbb {
     creator:User;
     address: string;
     district:string;
-    logoUrl:string;
+    logo:any;
     creationDate: Date;
 }
 
@@ -17,8 +17,6 @@ export class Osbb implements IOsbb {
     creator: User;
     address: string;
     district:string;
-    logoUrl:string;
+    logo:any;
     creationDate: Date;
-
-    
 }

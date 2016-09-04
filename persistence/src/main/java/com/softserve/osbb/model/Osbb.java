@@ -18,7 +18,7 @@ public class Osbb {
     private String description;
     private String address;
     private String district;
-    private String logoUrl;
+    private Attachment logo;
     private Timestamp creationDate;
     private User creator;
     private Collection<Contract> contracts;
@@ -78,14 +78,14 @@ public class Osbb {
         this.district = district;
     }
 
-    @Basic
-    @Column(name = "logo_url")
-    public String getLogoUrl() {
-        return logoUrl;
+    @OneToOne(optional=true)
+    @JoinColumn(name = "logo_id", referencedColumnName = "attachment_id")
+    public Attachment getLogo() {
+        return logo;
     }
 
-    public void setLogoUrl(String logoUrl) {
-        this.logoUrl = logoUrl;
+    public void setLogo(Attachment logo) {
+        this.logo = logo;
     }
 
     @Basic
