@@ -54,13 +54,12 @@ public class AttachmentController {
         model.addAttribute("files", Files.walk(Paths.get(ROOT))
                 .filter(path -> !path.equals(Paths.get(ROOT)))
                 .map(path -> Paths.get(ROOT).relativize(path))
-//                .map(path -> linkTo(methodOn(AttachmentController.class).getFile(path.toString())).withRel(path.toString()))
                 .collect(Collectors.toList()));
     }
 
     @RequestMapping(value = "/{subdir}/{filename:.+}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> getFile(@PathVariable String subdir, @PathVariable String filename) {
+    public ResponseEntity<?> downloadFileFromServer(@PathVariable String subdir, @PathVariable String filename) {
         try {
             logger.info("Getting file " + filename);
             return new ResponseEntity<>(resourceLoader.getResource(
@@ -72,7 +71,7 @@ public class AttachmentController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> uploadFileToServer(@RequestParam("file") MultipartFile file) {
         if (!file.isEmpty()) {
             try {
                 logger.info("Uploading file " + file.getOriginalFilename());

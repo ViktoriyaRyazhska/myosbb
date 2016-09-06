@@ -3,22 +3,21 @@ package com.softserve.osbb.service.impl;
 import com.softserve.osbb.model.Attachment;
 import com.softserve.osbb.repository.AttachmentRepository;
 import com.softserve.osbb.service.AttachmentService;
+import com.softserve.osbb.utils.Constants;
 import liquibase.util.file.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Paths;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -37,16 +36,15 @@ public class AttachmentServiceImpl implements AttachmentService{
     private static final int DEF_ROWS = 10;
 
     @Override
-    public void uploadFile(MultipartFile file) throws IOException {
+    public Attachment uploadFile(MultipartFile file) throws IOException {
         Path attachmentPath = saveFile(getFilePathWithSubDir(file), file);
         Attachment attachment = new Attachment();
         attachment.setPath(attachmentPath.toString().replaceFirst(ROOT, ""));
-        saveAttachment(attachment);
+        return saveAttachment(attachment);
     }
 
     private Path getFilePathWithSubDir(MultipartFile file) throws IOException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Path path = Paths.get(ROOT + "/" + dateFormat.format(new Date()));
+        Path path = Paths.get(ROOT + "/" + Constants.DATE_FORMATTER.format(new Date()));
         Files.createDirectories(path);
         return Paths.get(String.valueOf(path) + "/" + file.getOriginalFilename());
     }
@@ -56,19 +54,20 @@ public class AttachmentServiceImpl implements AttachmentService{
             Files.copy(file.getInputStream(), newFilePath);
             return newFilePath;
         } else {
-            int i = 0;
-            Path tempPath = newFilePath;
-            while (true) {
-                try {
-                    Files.copy(file.getInputStream(), tempPath);
-                    return tempPath;
-                } catch (FileAlreadyExistsException ex) {
-                    String filePathWithoutExtension = newFilePath.toString().substring(0, newFilePath.toString().lastIndexOf("."));
-                    String fileExtension = newFilePath.toString().substring(newFilePath.toString().lastIndexOf("."));
-                    tempPath = Paths.get(filePathWithoutExtension + "(" + ++i + ")" + fileExtension);
-                }
-            }
+            newFilePath = getFilePathForDuplicatedFile(newFilePath);
+            return saveFile(newFilePath, file);
         }
+    }
+
+    private Path getFilePathForDuplicatedFile(Path existingFilePath) {
+        int i = 0;
+        Path tempPath = existingFilePath;
+        while (Files.exists(tempPath)) {
+            String filePathWithoutExtension = existingFilePath.toString().substring(0, existingFilePath.toString().lastIndexOf("."));
+            String fileExtension = existingFilePath.toString().substring(existingFilePath.toString().lastIndexOf("."));
+            tempPath = Paths.get(filePathWithoutExtension + "(" + ++i + ")" + fileExtension);
+        }
+        return tempPath;
     }
 
     @Override

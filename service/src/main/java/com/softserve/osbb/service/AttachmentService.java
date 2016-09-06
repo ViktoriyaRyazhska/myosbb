@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface AttachmentService {
 
-    void uploadFile(MultipartFile file) throws IOException;
+    Attachment uploadFile(MultipartFile file) throws IOException;
 
     Attachment downloadFile(String filename);
 

@@ -2,16 +2,26 @@ package com.softserve.osbb.service;
 
 import com.softserve.osbb.config.ServiceApplication;
 import com.softserve.osbb.model.Attachment;
+import com.softserve.osbb.service.impl.AttachmentServiceImpl;
+import com.softserve.osbb.utils.Constants;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -40,6 +50,26 @@ public class AttachmentServiceTest {
 
         attachment1 = new Attachment();
         attachment1.setPath("D://...");
+    }
+
+    @Test
+    public void testUploadFile() throws IOException {
+        MultipartFile file = new MockMultipartFile("file.txt", "file.txt", "text", "content of the file".getBytes());
+        Attachment attachment = attachmentService.uploadFile(file);
+        File f = new File(AttachmentServiceImpl.ROOT + attachment.getPath());
+        assertTrue(f.exists());
+        assertFalse(f.isDirectory());
+
+        // clean up
+        assertTrue(f.delete());
+        Path subDir = Paths.get(AttachmentServiceImpl.ROOT + "/" + Constants.DATE_FORMATTER.format(new Date()));
+        if (Files.isDirectory(subDir) && Files.list(subDir).count() == 0) {
+            Files.delete(subDir);
+        }
+        Path dir = Paths.get(AttachmentServiceImpl.ROOT);
+        if (Files.isDirectory(dir) && Files.list(dir).count() == 0) {
+            Files.delete(dir);
+        }
     }
 
     @Test
