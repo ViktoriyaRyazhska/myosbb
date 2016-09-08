@@ -1,11 +1,9 @@
-import {ChangeDetectorRef, OnInit} from "@angular/core";
-import {Component} from "@angular/core";
+import {ChangeDetectorRef, OnInit, Component} from "@angular/core";
 import {Schedule, Dialog, Button, InputText, Calendar, ToggleButton} from "primeng/primeng";
-import {Event} from "../event/event.interface";
+import {Event} from "../../event/event.interface";
 import {TranslatePipe, TranslateService} from "ng2-translate/ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
-import {EventService} from "../event/event.service";
-import {routes} from "../../app.routes";
+import {EventService} from "../../event/event.service";
 
 @Component({
     selector: 'my-calendar',
@@ -17,16 +15,17 @@ import {routes} from "../../app.routes";
 
 export class UserCalendarComponent implements OnInit {
 
-    events:Event[];
+    events: Event[];
     header: any;
-    event:Event = new Event;
+    event: Event = new Event;
     dialogVisible: boolean = false;
     idGen: number = 100;
     uk: any;
     lang: string = "uk";
 
     constructor(private eventService: EventService, private cd: ChangeDetectorRef,
-                private translate: TranslateService) { }
+                private translate: TranslateService) {
+    }
 
     getLang() {
         let lang = this.translate.currentLang;
@@ -35,7 +34,10 @@ export class UserCalendarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.eventService.getEvents().then(events => {this.events = events; console.log("component : " + this.events);});
+        this.eventService.getEvents().then(events => {
+            this.events = events;
+            console.log("component : " + this.events);
+        });
 
         this.lang = this.translate.currentLang;
         console.log("calendar lang " + this.lang);
@@ -49,10 +51,10 @@ export class UserCalendarComponent implements OnInit {
                 'Четвер', 'Пятниця', 'Субота'],
             dayNamesShort: ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
             buttonText: {
-                today:    'сьогодні',
-                month:    'місяць',
-                week:     'тиждень',
-                day:      'день'
+                today: 'сьогодні',
+                month: 'місяць',
+                week: 'тиждень',
+                day: 'день'
             },
             allDayText: 'Весь день'
         };
@@ -78,13 +80,13 @@ export class UserCalendarComponent implements OnInit {
 
         let start = e.calEvent.start;
         let end = e.calEvent.end;
-        if(e.view.title === 'month') {
+        if (e.view.title === 'month') {
             start.stripTime();
         }
 
-        if(end) {
+        if (end) {
             // end.stripTime();
-            this.event.end= end.format();
+            this.event.end = end.format();
         }
 
         this.event.id = e.calEvent.id;
@@ -93,12 +95,12 @@ export class UserCalendarComponent implements OnInit {
         this.dialogVisible = true;
     }
 
-    saveEvent(event:Event) {
+    saveEvent(event: Event) {
         //update
-        if(this.event.id) {
+        if (this.event.id) {
             this.eventService.editAndSave(event);
             let index: number = this.findEventIndexById(this.event.id);
-            if(index >= 0) {
+            if (index >= 0) {
                 this.event = event;
                 this.events[index] = this.event;
                 this.eventService.editAndSave(this.event);
@@ -118,7 +120,7 @@ export class UserCalendarComponent implements OnInit {
     deleteEvent() {
         let index: number = this.findEventIndexById(this.event.id);
         this.eventService.deleteEventById(this.event.id);
-        if(index >= 0) {
+        if (index >= 0) {
             this.events.splice(index, 1);
         }
         this.dialogVisible = false;
@@ -126,8 +128,8 @@ export class UserCalendarComponent implements OnInit {
 
     findEventIndexById(id: number) {
         let index = -1;
-        for(let i = 0; i < this.events.length; i++) {
-            if(id == this.events[i].id) {
+        for (let i = 0; i < this.events.length; i++) {
+            if (id == this.events[i].id) {
                 index = i;
                 break;
             }

@@ -22,7 +22,7 @@ public class Event {
     private Timestamp startTime;
     private Timestamp endTime;
     private String description;
-    private String author;
+    private User author;
     private Osbb osbb;
     private Periodicity repeat;
     private List<Attachment> attachments;
@@ -83,13 +83,13 @@ public class Event {
         this.description = description;
     }
 
-    @Basic
-    @Column(name = "author")
-    public String getAuthor() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author")
+    public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
 

@@ -29,7 +29,7 @@
                 {
                   "column": {
                     "name": "author",
-                    "type": "VARCHAR(255)"
+                    "type": "INT"
                   }
                 },
                 {

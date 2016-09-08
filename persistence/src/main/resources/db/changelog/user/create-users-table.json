@@ -181,6 +181,28 @@
     },
     {
       "changeSet": {
+        "id": "2016/09/08-1",
+        "author": "nataliia",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "author",
+              "baseTableName": "event",
+              "constraintName": "fk_f80s4splfik67j2ja555ygvws",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "user_id",
+              "referencedTableName": "users"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
         "id": "2016/08/03-49",
         "author": "nataliia",
         "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",

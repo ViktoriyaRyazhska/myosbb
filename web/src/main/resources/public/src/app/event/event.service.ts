@@ -4,7 +4,7 @@ import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import {Event} from "./event.interface";
 import "rxjs/add/operator/toPromise";
-import ApiService = require("../../../shared/services/api.service");
+import ApiService = require("../../shared/services/api.service");
 
 @Injectable()
 export class EventService {

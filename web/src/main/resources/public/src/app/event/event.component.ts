@@ -2,28 +2,32 @@ import {Component, OnInit, OnDestroy, ViewChild} from "@angular/core";
 import {CORE_DIRECTIVES} from "@angular/common";
 import {Event} from "./event.interface";
 import {EventService} from "./event.service";
-import {PageCreator} from "../../../shared/services/page.creator.interface";
+import {PageCreator} from "../../shared/services/page.creator.interface";
 import "rxjs/Rx";
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {TranslatePipe} from "ng2-translate/ng2-translate";
-import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
+import {CapitalizeFirstLetterPipe} from "../../shared/pipes/capitalize-first-letter";
 import {Timestamp} from "rxjs/operator/timestamp";
-import {SelectItem} from "../../../shared/models/ng2-select-item.interface";
-import {PeriodicityItems} from "../../../shared/models/periodicity.const";
-import {HeaderComponent} from "../../header/header.component";
+import {SelectItem} from "../../shared/models/ng2-select-item.interface";
+import {PeriodicityItems} from "../../shared/models/periodicity.const";
+import {HeaderComponent} from "../header/header.component";
 import {DROPDOWN_DIRECTIVES} from "ng2-bs-dropdown/dropdown";
 import {SELECT_DIRECTIVES} from "ng2-select";
-import {ActiveFilter} from "../../../shared/pipes/active.filter";
+import {ActiveFilter} from "../../shared/pipes/active.filter";
+import {User} from "../../shared/models/User";
+import {CurrentUserService} from "../../shared/services/current.user.service";
 
 @Component({
     selector: 'my-event',
-    templateUrl: 'src/app/user/event/event.html',
+    templateUrl: 'src/app/event/event.html',
     providers: [EventService],
     directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, DROPDOWN_DIRECTIVES, SELECT_DIRECTIVES],
     viewProviders: [BS_VIEW_PROVIDERS],
-    pipes: [TranslatePipe, CapitalizeFirstLetterPipe, ActiveFilter]
+    pipes: [TranslatePipe, CapitalizeFirstLetterPipe, ActiveFilter],
+    styleUrls: ['src/app/event/event.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
+    inputs: ['admin']
 })
-export class UserEventComponent implements OnInit, OnDestroy {
+export class EventComponent implements OnInit, OnDestroy {
 
     private events:Event[];
     private selectedEvent:Event = new Event;
@@ -38,11 +42,15 @@ export class UserEventComponent implements OnInit, OnDestroy {
     @ViewChild('editModal') public editModal:ModalDirective;
     active:boolean = true;
     order:boolean = true;
+    private pending: boolean = false;
+    private currentUser:User;
+    private showAllEvents: boolean = true;
 
     private id:number;
     private repeat: SelectItem[] = [];
 
-    constructor(private _eventService:EventService) {
+    constructor(private _eventService:EventService, private currentUserService:CurrentUserService) {
+        this.currentUser = currentUserService.getUser();
     }
 
     ngOnInit():any {
@@ -109,7 +117,6 @@ export class UserEventComponent implements OnInit, OnDestroy {
         this.active = false;
         console.log('saving event: ' + this.selectedEvent);
         this._eventService.editAndSave(this.selectedEvent);
-        this._eventService.getAllEvents(this.pageNumber);
         this.editModal.hide();
         setTimeout(() => this.active = true, 0);
     }
@@ -126,10 +133,11 @@ export class UserEventComponent implements OnInit, OnDestroy {
     onCreateEventSubmit() {
         this.active = false;
         console.log('creating event');
+        this.newEvent.author = this.currentUser;
         this._eventService.addEvent(this.newEvent);
         this.createModal.hide();
         setTimeout(() => this.active = true, 0);
-        this.refresh();
+        this.events.push(this.newEvent);
     }
 
     closeCreateModal() {
@@ -166,9 +174,11 @@ export class UserEventComponent implements OnInit, OnDestroy {
     getEventsByPageNum(pageNumber:number) {
         this.pageNumber = +pageNumber;
         this.emptyArray();
+        this.pending = true;
         return this._eventService.getAllEvents(this.pageNumber)
             .subscribe((data) => {
                     this.pageCreator = data;
+                    this.pending = false;
                     this.events = data.rows;
                     this.preparePageList(+this.pageCreator.beginPage,
                         +this.pageCreator.endPage);

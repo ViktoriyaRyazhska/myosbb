@@ -18,7 +18,7 @@ import java.util.Date;
 @Entity
 @Table(name = "users")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class User  implements Serializable {
+public class User implements Serializable {
 
     private Integer userId;
     private String firstName;
@@ -33,13 +33,14 @@ public class User  implements Serializable {
     private Role role;
     private Apartment apartment;
     private Osbb osbb;
-    private Collection<Vote> votes=new ArrayList<Vote>();
-    private Collection<Apartment> apartments=new ArrayList<Apartment>();
-    private Collection<Message> messages=new ArrayList<Message>();
-    private Collection<Ticket> assigned=new ArrayList<Ticket>();
-    private Collection<Ticket> tickets=new ArrayList<Ticket>();
-    private Collection<Option> options=new ArrayList<Option>();
-    private Collection<Report> reports=new ArrayList<Report>();
+    private Collection<Vote> votes = new ArrayList<Vote>();
+    private Collection<Apartment> apartments = new ArrayList<Apartment>();
+    private Collection<Message> messages = new ArrayList<Message>();
+    private Collection<Ticket> assigned = new ArrayList<Ticket>();
+    private Collection<Ticket> tickets = new ArrayList<Ticket>();
+    private Collection<Event> events = new ArrayList<Event>();
+    private Collection<Option> options = new ArrayList<Option>();
+    private Collection<Report> reports = new ArrayList<Report>();
     public Boolean isOwner;
 
     public User(User user) {
@@ -51,7 +52,7 @@ public class User  implements Serializable {
         this.phoneNumber = user.getPhoneNumber();
         this.password = user.getPassword();
         this.gender = user.getGender();
-        this.role=user.getRole();
+        this.role = user.getRole();
     }
 
 
@@ -120,7 +121,6 @@ public class User  implements Serializable {
     }
 
 
-
     @Basic
     @Column(name = "password")
     public String getPassword() {
@@ -141,7 +141,7 @@ public class User  implements Serializable {
         this.gender = gender;
     }
 
-    @Column(name="activated")
+    @Column(name = "activated")
     public Boolean getActivated() {
         return activated;
     }
@@ -149,7 +149,8 @@ public class User  implements Serializable {
     public void setActivated(Boolean activated) {
         this.activated = activated;
     }
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JsonIgnore
     public Role getRole() {
         return role;
@@ -171,7 +172,7 @@ public class User  implements Serializable {
 
 
     @Basic
-    @Column(name="is_owner")
+    @Column(name = "is_owner")
     public Boolean isOwner() {
         return isOwner;
     }
@@ -182,9 +183,9 @@ public class User  implements Serializable {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "apartment_id",referencedColumnName = "apartment_id")
+    @JoinColumn(name = "apartment_id", referencedColumnName = "apartment_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-     public Apartment getApartment() {
+    public Apartment getApartment() {
         return apartment;
     }
 
@@ -203,7 +204,7 @@ public class User  implements Serializable {
         this.osbb = osbb;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user",cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
     @JsonIgnore
     public Collection<Message> getMessages() {
         return messages;
@@ -243,7 +244,15 @@ public class User  implements Serializable {
         this.assigned = assigned;
     }
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
+    @JsonIgnore
+    public Collection<Event> getEvents() {
+        return events;
+    }
 
+    public void setEvents(Collection<Event> events) {
+        this.events = events;
+    }
 
     @Override
     public String toString() {
