@@ -104,7 +104,6 @@ public class Event {
         this.osbb = osbb;
     }
 
-    @Basic
     @Enumerated(EnumType.STRING)
     @Column(name = "repeat", columnDefinition = "varchar(45) default 'ONE_TIME'")
     public Periodicity getRepeat() {

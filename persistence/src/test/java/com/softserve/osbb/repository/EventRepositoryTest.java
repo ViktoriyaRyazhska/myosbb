@@ -38,6 +38,9 @@ public class EventRepositoryTest {
     @Autowired
     private OsbbRepository osbbRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     private Event event;
     private Event event1;
     private Timestamp t1;
@@ -60,7 +63,7 @@ public class EventRepositoryTest {
 
         event = new Event();
         event.setTitle("Trash droping.");
-        event.setAuthor(new User());
+        event.setAuthor(userRepository.findOne(1));
         event.setOsbb(osbb);
         event.setDescription("Simple repeatable trash recycling.");
         event.setRepeat(Periodicity.PERMANENT_WEEKLY);
@@ -69,7 +72,7 @@ public class EventRepositoryTest {
 
         event1 = new Event();
         event1.setTitle("Charity festival.");
-        event1.setAuthor(new User());
+        event1.setAuthor(userRepository.findOne(1));
         event1.setOsbb(osbb);
         event1.setDescription("Charity festival for homelesspeople.");
         event1.setRepeat(Periodicity.ONE_TIME);
