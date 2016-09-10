@@ -12,14 +12,14 @@ import java.io.File;
 /**
  * Created by nazar.dovhyy on 29.07.2016.
  */
-public class CsvReportSaver extends ReportSaver {
+public class CsvReportExporter extends ReportExporter {
 
-    public CsvReportSaver() {
+    public CsvReportExporter() {
         this.setFileName(buildDestinationFileName(getFileExtension()));
     }
 
     @Override
-    public void saveToOutputStream(JasperPrint jp, ByteArrayOutputStream baos) throws JRException {
+    public void exportToOutputStream(JasperPrint jp, ByteArrayOutputStream baos) throws JRException {
         JRCsvExporter exporterCSV = new JRCsvExporter();
         exporterCSV.setParameter(JRCsvExporterParameter.JASPER_PRINT, jp);
         exporterCSV.setParameter(JRCsvExporterParameter.OUTPUT_STREAM, baos);
@@ -27,7 +27,7 @@ public class CsvReportSaver extends ReportSaver {
     }
 
     @Override
-    public String saveToFile(JasperPrint jasperPrint, String outputDir) throws JRException {
+    public String exportToFile(JasperPrint jasperPrint, String outputDir) throws JRException {
         final String fileName = getFileName();
         JRCsvExporter exporter = new JRCsvExporter();
         String destFileName = outputDir + File.separator + fileName;

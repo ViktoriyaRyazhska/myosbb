@@ -9,9 +9,9 @@ import java.util.UUID;
 /**
  * Created by nazar.dovhyy on 29.07.2016.
  */
-public abstract class ReportSaver {
+public abstract class ReportExporter {
 
-    public static final ReportSaver NULL = null;
+    public static final ReportExporter NULL = null;
 
     private String fileName;
 
@@ -19,14 +19,10 @@ public abstract class ReportSaver {
         return fileName;
     }
 
-
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
-    public abstract void saveToOutputStream(JasperPrint jp, ByteArrayOutputStream baos) throws JRException;
-
-    public abstract String saveToFile(JasperPrint jasperPrint, String outputDir) throws JRException;
 
     String getFileExtension() {
         return this.getClass().getSimpleName().toLowerCase().substring(0, 3);
@@ -38,5 +34,9 @@ public abstract class ReportSaver {
         stringBuilder.append("report" + randomFileName).append(".").append(type);
         return stringBuilder.toString();
     }
+
+    public abstract void exportToOutputStream(JasperPrint jp, ByteArrayOutputStream baos) throws JRException;
+
+    public abstract String exportToFile(JasperPrint jasperPrint, String outputDir) throws JRException;
 
 }

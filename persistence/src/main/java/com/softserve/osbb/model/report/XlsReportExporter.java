@@ -12,14 +12,14 @@ import java.io.File;
 /**
  * Created by nazar.dovhyy on 29.07.2016.
  */
-public class XlsReportSaver extends ReportSaver {
+public class XlsReportExporter extends ReportExporter {
 
-    public XlsReportSaver() {
+    public XlsReportExporter() {
         setFileName(buildDestinationFileName(getFileExtension()));
     }
 
     @Override
-    public void saveToOutputStream(JasperPrint jp, ByteArrayOutputStream baos) throws JRException {
+    public void exportToOutputStream(JasperPrint jp, ByteArrayOutputStream baos) throws JRException {
         JRXlsExporter jrXlsExporter = new JRXlsExporter();
         jrXlsExporter.setParameter(JRExporterParameter.JASPER_PRINT, jp);
         jrXlsExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
@@ -30,7 +30,7 @@ public class XlsReportSaver extends ReportSaver {
     }
 
     @Override
-    public String saveToFile(JasperPrint jasperPrint, String outputDir) throws JRException {
+    public String exportToFile(JasperPrint jasperPrint, String outputDir) throws JRException {
         final String fileName = getFileName();
         String destFileName = outputDir + File.separator + fileName;
         JRXlsExporter exporter = new JRXlsExporter();

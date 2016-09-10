@@ -11,14 +11,14 @@ import java.io.File;
 /**
  * Created by nazar.dovhyy on 29.07.2016.
  */
-public class PdfReportSaver extends ReportSaver {
+public class PdfReportExporter extends ReportExporter {
 
-    public PdfReportSaver() {
+    public PdfReportExporter() {
         this.setFileName(buildDestinationFileName(getFileExtension()));
     }
 
     @Override
-    public void saveToOutputStream(JasperPrint jp, ByteArrayOutputStream baos) throws JRException {
+    public void exportToOutputStream(JasperPrint jp, ByteArrayOutputStream baos) throws JRException {
         JRPdfExporter jrPdfExporter = new JRPdfExporter();
         jrPdfExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
         jrPdfExporter.setParameter(JRExporterParameter.JASPER_PRINT, jp);
@@ -26,7 +26,7 @@ public class PdfReportSaver extends ReportSaver {
     }
 
     @Override
-    public String saveToFile(JasperPrint jasperPrint, String outputDir) throws JRException {
+    public String exportToFile(JasperPrint jasperPrint, String outputDir) throws JRException {
         final String fileName = getFileName();
         String outputFileName = outputDir + File.separator + fileName;
         if (jasperPrint != null) {

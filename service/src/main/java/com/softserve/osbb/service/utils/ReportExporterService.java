@@ -1,7 +1,7 @@
 package com.softserve.osbb.service.utils;
 
-import com.softserve.osbb.model.report.ReportGenFactory;
-import com.softserve.osbb.model.report.ReportSaver;
+import com.softserve.osbb.model.report.ReportExporter;
+import com.softserve.osbb.model.report.ReportExporterFactory;
 import com.softserve.osbb.utils.Constants;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -32,12 +32,12 @@ class ReportExporterService implements ReportExporterServiceInterface {
     }
 
     private HttpServletResponse exportToOutputStream(String type, JasperPrint jp, HttpServletResponse response, ByteArrayOutputStream baos) {
-        ReportSaver reportSaver = ReportGenFactory.generate(type);
+        ReportExporter reportExporter = ReportExporterFactory.generate(type);
         try {
-            if (reportSaver != null) {
-                reportSaver.saveToOutputStream(jp, baos);
+            if (reportExporter != null) {
+                reportExporter.exportToOutputStream(jp, baos);
                 logger.info("exporting report output stream in " + type);
-                buildHttpServletResponseMessage(response, baos, reportSaver.getFileName());
+                buildHttpServletResponseMessage(response, baos, reportExporter.getFileName());
             }
         } catch (JRException e) {
             logger.error("failed to save report in " + type);
@@ -49,17 +49,17 @@ class ReportExporterService implements ReportExporterServiceInterface {
 
     private String exportToFileSystem(JasperPrint jp, String type, String outputDir) {
         String destFileName = null;
-        ReportSaver reportSaver = ReportGenFactory.generate(type);
-        if (reportSaver != null) {
+        ReportExporter reportExporter = ReportExporterFactory.generate(type);
+        if (reportExporter != null) {
             try {
-                destFileName = reportSaver.saveToFile(jp, outputDir);
+                destFileName = reportExporter.exportToFile(jp, outputDir);
                 logger.info("exporting report to file in " + type);
             } catch (JRException e) {
                 logger.error("failed to save report to file in " + type);
                 throw new RuntimeException(e);
             }
         } else {
-            throw new IllegalArgumentException("reportSaver wasn't generated due to wrong type: " + type);
+            throw new IllegalArgumentException("reportExporter wasn't generated due to wrong type: " + type);
         }
 
         return destFileName;
