@@ -1,5 +1,6 @@
-package com.softserve.osbb.util.resources;
+package com.softserve.osbb.util.resources.impl;
 
+import com.softserve.osbb.util.resources.ResourceLinkCreator;
 import org.springframework.hateoas.Resource;
 
 import java.util.ArrayList;

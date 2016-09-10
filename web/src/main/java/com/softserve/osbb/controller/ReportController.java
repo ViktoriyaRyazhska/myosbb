@@ -8,11 +8,11 @@ import com.softserve.osbb.repository.ApartmentRepository;
 import com.softserve.osbb.service.UserService;
 import com.softserve.osbb.service.impl.ReportServiceImpl;
 import com.softserve.osbb.service.utils.ReportDownloadService;
-import com.softserve.osbb.util.PageRequestGenerator;
-import com.softserve.osbb.util.ReportPageCreator;
-import com.softserve.osbb.util.resources.EntityResourceList;
-import com.softserve.osbb.util.resources.ReportResourceList;
+import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
+import com.softserve.osbb.util.paging.impl.ReportPageDataObject;
 import com.softserve.osbb.util.resources.ResourceLinkCreator;
+import com.softserve.osbb.util.resources.impl.EntityResourceList;
+import com.softserve.osbb.util.resources.impl.ReportResourceList;
 import com.softserve.osbb.utils.CustomLocalDateDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +29,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.softserve.osbb.util.ResourceUtil.toResource;
+import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 
 
 /**
@@ -74,7 +74,7 @@ public class ReportController {
 
 
     @RequestMapping(value = "/user/{userId}/all", method = RequestMethod.GET)
-    public ResponseEntity<ReportPageCreator> listAllUserReports(
+    public ResponseEntity<ReportPageDataObject> listAllUserReports(
             @PathVariable("userId") Integer userId,
             @RequestParam(value = "pageNumber", required = true) Integer pageNumber,
             @RequestParam(value = "sortedBy", required = false) String sortedBy,
@@ -95,13 +95,13 @@ public class ReportController {
             ReportDTO reportDTO = ReportDTOMapper.mapReportEntityToDTO(report);
             reportResourceLinkList.add(toResource(reportDTO));
         });
-        ReportPageCreator pageCreator = setUpPageCreator(pageSelector, reportResourceLinkList);
+        ReportPageDataObject pageCreator = setUpPageCreator(pageSelector, reportResourceLinkList);
         return new ResponseEntity<>(pageCreator, HttpStatus.OK);
     }
 
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<ReportPageCreator> listAllReports(
+    public ResponseEntity<ReportPageDataObject> listAllReports(
             @RequestParam(value = "pageNumber", required = true) Integer pageNumber,
             @RequestParam(value = "sortedBy", required = false) String sortedBy,
             @RequestParam(value = "order", required = false) Boolean orderType,
@@ -119,12 +119,12 @@ public class ReportController {
             ReportDTO reportDTO = ReportDTOMapper.mapReportEntityToDTO(report);
             reportResourceLinkList.add(toResource(reportDTO));
         });
-        ReportPageCreator pageCreator = setUpPageCreator(pageSelector, reportResourceLinkList);
+        ReportPageDataObject pageCreator = setUpPageCreator(pageSelector, reportResourceLinkList);
         return new ResponseEntity<>(pageCreator, HttpStatus.OK);
     }
 
-    private ReportPageCreator setUpPageCreator(PageRequestGenerator.PageSelector pageSelector, List<Resource<ReportDTO>> resourceList) {
-        ReportPageCreator pageCreator = new ReportPageCreator();
+    private ReportPageDataObject setUpPageCreator(PageRequestGenerator.PageSelector pageSelector, List<Resource<ReportDTO>> resourceList) {
+        ReportPageDataObject pageCreator = new ReportPageDataObject();
         pageCreator.setRows(resourceList);
         pageCreator.setCurrentPage(Integer.valueOf(pageSelector.getCurrentPage()).toString());
         pageCreator.setBeginPage(Integer.valueOf(pageSelector.getBegin()).toString());

@@ -1,5 +1,6 @@
-package com.softserve.osbb.util;
+package com.softserve.osbb.util.resources.util;
 
+import com.softserve.osbb.util.resources.exceptions.ResourceNotFoundException;
 import org.springframework.hateoas.Resource;
 
 /**

@@ -1,4 +1,4 @@
-export interface SearchDTO {
+export interface PageParams {
     pageNumber: number;
     sortedBy: string;
     orderType: boolean;

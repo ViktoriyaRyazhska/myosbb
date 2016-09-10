@@ -3,7 +3,7 @@ package com.softserve.osbb.model;
 /**
  * Created by nazar.dovhyy on 28.08.2016.
  */
-public class BillChartData {
+public class  BillChartData {
 
     private Double totalPercentagePaid;
     private Double totalPercentageDebt;

@@ -1,4 +1,4 @@
-package com.softserve.osbb.dto;
+package com.softserve.osbb.dto.mappers;
 
 import com.softserve.osbb.model.ProviderType;
 import com.softserve.osbb.model.enums.Periodicity;

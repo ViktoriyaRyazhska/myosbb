@@ -1,11 +1,7 @@
 package com.softserve.osbb.dto.mappers;
 
-import com.softserve.osbb.dto.MessageDTO;
 import com.softserve.osbb.dto.TicketDTO;
-import com.softserve.osbb.dto.UserDTOMapper;
 import com.softserve.osbb.model.Ticket;
-
-import java.util.List;
 
 /**
  * Created by Kris on 22.08.2016.

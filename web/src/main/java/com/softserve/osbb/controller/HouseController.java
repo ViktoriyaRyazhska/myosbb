@@ -6,12 +6,12 @@ import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.House;
 import com.softserve.osbb.service.ApartmentService;
 import com.softserve.osbb.service.HouseService;
-import com.softserve.osbb.util.PageCreator;
-import com.softserve.osbb.util.PageRequestGenerator;
-import com.softserve.osbb.util.resources.ApartmentResourceList;
-import com.softserve.osbb.util.resources.EntityResourceList;
-import com.softserve.osbb.util.resources.HouseResourceList;
+import com.softserve.osbb.util.paging.PageDataObject;
+import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
 import com.softserve.osbb.util.resources.ResourceLinkCreator;
+import com.softserve.osbb.util.resources.impl.ApartmentResourceList;
+import com.softserve.osbb.util.resources.impl.EntityResourceList;
+import com.softserve.osbb.util.resources.impl.HouseResourceList;
 import com.softserve.osbb.utils.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.softserve.osbb.util.ResourceUtil.toResource;
+import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 
 /**
  * Created by nazar.dovhyy on 19.07.2016.
@@ -45,7 +45,7 @@ public class HouseController {
     private static Logger logger = LoggerFactory.getLogger(HouseController.class);
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<PageCreator<Resource<HouseDTO>>> listAllHouses(
+    public ResponseEntity<PageDataObject<Resource<HouseDTO>>> listAllHouses(
             @RequestParam(value = "pageNumber", required = true) Integer pageNumber,
             @RequestParam(value = "sortedBy", required = false) String sortedBy,
             @RequestParam(value = "order", required = false) Boolean order,
@@ -66,19 +66,19 @@ public class HouseController {
                     houseDTOEntityResourceList.add(toResource(houseDTO));
                 }
         );
-        PageCreator<Resource<HouseDTO>> houseDTOPageCreator = setUpPageCreator(pageSelector, houseDTOEntityResourceList);
+        PageDataObject<Resource<HouseDTO>> houseDTOPageDataObject = setUpPageCreator(pageSelector, houseDTOEntityResourceList);
 
-        return new ResponseEntity<>(houseDTOPageCreator, HttpStatus.OK);
+        return new ResponseEntity<>(houseDTOPageDataObject, HttpStatus.OK);
     }
 
-    private PageCreator<Resource<HouseDTO>> setUpPageCreator(PageRequestGenerator.PageSelector pageSelector, EntityResourceList<HouseDTO> houseDTOEntityResourceList) {
-        PageCreator<Resource<HouseDTO>> houseDTOPageCreator = new PageCreator<>();
-        houseDTOPageCreator.setRows(houseDTOEntityResourceList);
-        houseDTOPageCreator.setCurrentPage(Integer.valueOf(pageSelector.getCurrentPage()).toString());
-        houseDTOPageCreator.setBeginPage(Integer.valueOf(pageSelector.getBegin()).toString());
-        houseDTOPageCreator.setEndPage(Integer.valueOf(pageSelector.getEnd()).toString());
-        houseDTOPageCreator.setTotalPages(Integer.valueOf(pageSelector.getTotalPages()).toString());
-        return houseDTOPageCreator;
+    private PageDataObject<Resource<HouseDTO>> setUpPageCreator(PageRequestGenerator.PageSelector pageSelector, EntityResourceList<HouseDTO> houseDTOEntityResourceList) {
+        PageDataObject<Resource<HouseDTO>> houseDTOPageDataObject = new PageDataObject<>();
+        houseDTOPageDataObject.setRows(houseDTOEntityResourceList);
+        houseDTOPageDataObject.setCurrentPage(Integer.valueOf(pageSelector.getCurrentPage()).toString());
+        houseDTOPageDataObject.setBeginPage(Integer.valueOf(pageSelector.getBegin()).toString());
+        houseDTOPageDataObject.setEndPage(Integer.valueOf(pageSelector.getEnd()).toString());
+        houseDTOPageDataObject.setTotalPages(Integer.valueOf(pageSelector.getTotalPages()).toString());
+        return houseDTOPageDataObject;
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)

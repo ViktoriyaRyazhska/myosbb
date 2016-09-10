@@ -1,6 +1,8 @@
-package com.softserve.osbb.util;
+package com.softserve.osbb.util.paging.impl;
 
 import com.softserve.osbb.dto.ReportDTO;
+import com.softserve.osbb.util.paging.PageDataObject;
+import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
 import org.springframework.hateoas.Resource;
 
 import java.time.LocalDate;
@@ -10,7 +12,7 @@ import java.util.List;
 /**
  * Created by nazar.dovhyy on 08.08.2016.
  */
-public class ReportPageCreator extends PageCreator<Resource<ReportDTO>> {
+public class ReportPageDataObject extends PageDataObject<Resource<ReportDTO>> {
 
     private List<String> dates;
 
@@ -24,5 +26,10 @@ public class ReportPageCreator extends PageCreator<Resource<ReportDTO>> {
             dates.stream().filter((d) -> d != null).
                     forEach((date) -> this.dates.add(date.toString()));
         }
+    }
+
+    @Override
+    public PageDataObject<Resource<ReportDTO>> providePageData(PageRequestGenerator.PageSelector pageSelector, List<Resource<ReportDTO>> billResourceList) {
+        throw new UnsupportedOperationException();
     }
 }

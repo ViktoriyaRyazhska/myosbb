@@ -1,12 +1,12 @@
 package com.softserve.osbb.controller;
 
-import com.softserve.osbb.dto.ProviderPageDTO;
+import com.softserve.osbb.dto.mappers.ProviderPageDTO;
 import com.softserve.osbb.dto.mappers.ProviderPageDtoMapper;
 import com.softserve.osbb.model.Provider;
 import com.softserve.osbb.service.ProviderService;
 import com.softserve.osbb.service.ProviderTypeService;
 import com.softserve.osbb.util.EntityNotFoundException;
-import com.softserve.osbb.util.PageCreator;
+import com.softserve.osbb.util.paging.PageDataObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +58,7 @@ public class ProviderController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<PageCreator<Resource<ProviderPageDTO>>> listAllProviders(
+    public ResponseEntity<PageDataObject<Resource<ProviderPageDTO>>> listAllProviders(
             @RequestParam(value = "pageNum", required = true) Integer pageNumber,
             @RequestParam(value = "sortedBy", required = false) String sortedBy,
             @RequestParam(value = "asc", required = false) Boolean ascOrder,
@@ -87,14 +87,14 @@ public class ProviderController {
             }
         });
 
-        PageCreator<Resource<ProviderPageDTO>> pageCreator = new PageCreator<>();
-        pageCreator.setRows(resourceList);
-        pageCreator.setCurrentPage(Integer.valueOf(currentPage).toString());
-        pageCreator.setBeginPage(Integer.valueOf(begin).toString());
-        pageCreator.setEndPage(Integer.valueOf(end).toString());
-        pageCreator.setTotalPages(Integer.valueOf(totalPages).toString());
+        PageDataObject<Resource<ProviderPageDTO>> pageDataObject = new PageDataObject<>();
+        pageDataObject.setRows(resourceList);
+        pageDataObject.setCurrentPage(Integer.valueOf(currentPage).toString());
+        pageDataObject.setBeginPage(Integer.valueOf(begin).toString());
+        pageDataObject.setEndPage(Integer.valueOf(end).toString());
+        pageDataObject.setTotalPages(Integer.valueOf(totalPages).toString());
 
-        return new ResponseEntity<>(pageCreator, HttpStatus.OK);
+        return new ResponseEntity<>(pageDataObject, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

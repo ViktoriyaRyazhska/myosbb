@@ -1,8 +1,7 @@
-package com.softserve.osbb.util.resources;
+package com.softserve.osbb.util.resources.impl;
 
 import com.softserve.osbb.controller.TicketController;
 import com.softserve.osbb.model.Ticket;
-import com.softserve.osbb.util.resources.EntityResourceList;
 import org.springframework.hateoas.Resource;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;

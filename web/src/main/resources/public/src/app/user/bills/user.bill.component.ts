@@ -14,7 +14,7 @@ import {
     onErrorServerNoResponseToastMsg,
     onErrorResourceNotFoundToastMsg
 } from "../../../shared/error/error.handler.component";
-import {SearchDTO} from "../../../shared/models/search.model";
+import {PageParams} from "../../../shared/models/search.model";
 import {HeaderComponent} from "../../header/header.component";
 import {SELECT_DIRECTIVES} from "ng2-select";
 import {HouseService} from "../../house/house.service";
@@ -56,7 +56,7 @@ export class UserBillComponent implements OnInit {
     private onSearch: boolean = false;
     private rows: number[] = [10, 20, 50];
     private selectedRow: number = 10;
-    private searchDTO: SearchDTO = {pageNumber: 1, sortedBy: 'date', orderType: false, rowNum: 10};
+    private pageParams: PageParams = {pageNumber: 1, sortedBy: 'date', orderType: false, rowNum: 10};
     private currentUser: User;
     private isUserDownload: boolean = false;
     private osbbRole: string;
@@ -148,7 +148,7 @@ export class UserBillComponent implements OnInit {
 
     refresh() {
         console.log('refreshing...');
-        this.getBillsByPageNum(this.pageNumber, this.searchDTO.rowNum, this.status);
+        this.getBillsByPageNum(this.pageNumber, this.pageParams.rowNum, this.status);
     }
 
     onDelModalOpen(billId: number) {
@@ -205,10 +205,10 @@ export class UserBillComponent implements OnInit {
 
     getBillsByPageNum(pageNumber: number, selectedRow: number, status: string) {
         this.pending = true;
-        this.searchDTO.pageNumber = pageNumber;
-        this.searchDTO.rowNum = selectedRow;
+        this.pageParams.pageNumber = pageNumber;
+        this.pageParams.rowNum = selectedRow;
         this.status = status;
-        this._billService.getAllByRole(this.osbbRole, this.currentUser.userId, this.searchDTO, this.status)
+        this._billService.getAllByRole(this.osbbRole, this.currentUser.userId, this.pageParams, this.status)
             .subscribe((data) => {
                     this.processBillDTOData(data);
 
@@ -260,18 +260,18 @@ export class UserBillComponent implements OnInit {
     }
 
     selectRowNum(row: number) {
-        this.getBillsByPageNum(this.searchDTO.pageNumber, row, this.status);
+        this.getBillsByPageNum(this.pageParams.pageNumber, row, this.status);
     }
 
 
     prevPage() {
-        this.searchDTO.pageNumber = this.searchDTO.pageNumber - 1;
-        this.getBillsByPageNum(this.searchDTO.pageNumber, this.selectedRow, this.status);
+        this.pageParams.pageNumber = this.pageParams.pageNumber - 1;
+        this.getBillsByPageNum(this.pageParams.pageNumber, this.selectedRow, this.status);
     }
 
     nextPage() {
-        this.searchDTO.pageNumber = this.searchDTO.pageNumber + 1;
-        this.getBillsByPageNum(this.searchDTO.pageNumber, this.selectedRow, this.status);
+        this.pageParams.pageNumber = this.pageParams.pageNumber + 1;
+        this.getBillsByPageNum(this.pageParams.pageNumber, this.selectedRow, this.status);
     }
 
     emptyArray() {
@@ -290,10 +290,10 @@ export class UserBillComponent implements OnInit {
 
     sortBy(name: string) {
         console.log('sorted by ', name);
-        this.searchDTO.orderType = !this.searchDTO.orderType;
-        this.searchDTO.sortedBy = name;
-        console.log('order by asc', this.searchDTO.orderType);
-        this._billService.getAllByRole(this.osbbRole, this.currentUser.userId, this.searchDTO, this.status)
+        this.pageParams.orderType = !this.pageParams.orderType;
+        this.pageParams.sortedBy = name;
+        console.log('order by asc', this.pageParams.orderType);
+        this._billService.getAllByRole(this.osbbRole, this.currentUser.userId, this.pageParams, this.status)
             .subscribe((data) => {
                     this.processBillDTOData(data);
                 },

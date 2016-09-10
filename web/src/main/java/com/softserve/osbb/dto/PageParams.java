@@ -3,7 +3,7 @@ package com.softserve.osbb.dto;
 /**
  * Created by nazar.dovhyy on 21.08.2016.
  */
-public class SearchDTO {
+public class PageParams {
     private Integer pageNumber;
     private String sortedBy;
     private Boolean orderType;
@@ -43,7 +43,7 @@ public class SearchDTO {
 
     @Override
     public String toString() {
-        return "SearchDTO{" +
+        return "PageParams{" +
                 "pageNumber=" + pageNumber +
                 ", sortedBy='" + sortedBy + '\'' +
                 ", orderType=" + orderType +

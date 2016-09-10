@@ -2,7 +2,6 @@ package com.softserve.osbb.dto.mappers;
 
 
 import com.softserve.osbb.dto.MessageDTO;
-import com.softserve.osbb.dto.UserDTOMapper;
 import com.softserve.osbb.model.Message;
 import com.softserve.osbb.model.User;
 

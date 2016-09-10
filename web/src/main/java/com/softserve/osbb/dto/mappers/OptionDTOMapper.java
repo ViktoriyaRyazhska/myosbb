@@ -1,5 +1,6 @@
-package com.softserve.osbb.dto;
+package com.softserve.osbb.dto.mappers;
 
+import com.softserve.osbb.dto.OptionDTO;
 import com.softserve.osbb.model.Option;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package com.softserve.osbb.controller;
 
 import com.softserve.osbb.dto.VoteDTO;
-import com.softserve.osbb.dto.VoteDTOMapper;
+import com.softserve.osbb.dto.mappers.VoteDTOMapper;
 import com.softserve.osbb.model.Option;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.model.Vote;

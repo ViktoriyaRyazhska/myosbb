@@ -4,12 +4,11 @@ import com.softserve.osbb.model.Contract;
 import com.softserve.osbb.model.Provider;
 import com.softserve.osbb.service.ContractService;
 import com.softserve.osbb.service.ProviderService;
-import com.softserve.osbb.util.PageCreator;
+import com.softserve.osbb.util.paging.PageDataObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +51,7 @@ public class ContractController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<PageCreator<Resource<Contract>>> listAllContracts(
+    public ResponseEntity<PageDataObject<Resource<Contract>>> listAllContracts(
             @RequestParam(value = "pageNum", required = true) Integer pageNumber,
             @RequestParam(value = "sortedBy", required = false) String sortedBy,
             @RequestParam(value = "asc", required = false) Boolean ascOrder,
@@ -78,14 +77,14 @@ public class ContractController {
             resourceList.add(getContractResource(contract));
         });
 
-        PageCreator<Resource<Contract>> pageCreator = new PageCreator<>();
-        pageCreator.setRows(resourceList);
-        pageCreator.setCurrentPage(Integer.valueOf(currentPage).toString());
-        pageCreator.setBeginPage(Integer.valueOf(begin).toString());
-        pageCreator.setEndPage(Integer.valueOf(end).toString());
-        pageCreator.setTotalPages(Integer.valueOf(totalPages).toString());
+        PageDataObject<Resource<Contract>> pageDataObject = new PageDataObject<>();
+        pageDataObject.setRows(resourceList);
+        pageDataObject.setCurrentPage(Integer.valueOf(currentPage).toString());
+        pageDataObject.setBeginPage(Integer.valueOf(begin).toString());
+        pageDataObject.setEndPage(Integer.valueOf(end).toString());
+        pageDataObject.setTotalPages(Integer.valueOf(totalPages).toString());
 
-        return new ResponseEntity<>(pageCreator, HttpStatus.OK);
+        return new ResponseEntity<>(pageDataObject, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/find", method = RequestMethod.GET)

@@ -1,19 +1,26 @@
-package com.softserve.osbb.util;
+package com.softserve.osbb.util.paging;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
+import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 /**
  * Created by nazar.dovhyy on 31.07.2016.
  */
-public class PageCreator<T> {
+@Component
+public class PageDataObject<T> {
 
     private String currentPage;
     private String totalPages;
     private String beginPage;
     private String endPage;
     private List<T> rows;
+
+
+    public PageDataObject<T> providePageData(PageRequestGenerator.PageSelector pageSelector, List<T> billResourceList) {
+        throw new UnsupportedOperationException();
+    }
 
     public String getCurrentPage() {
         return currentPage;

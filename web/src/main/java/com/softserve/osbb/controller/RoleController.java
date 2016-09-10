@@ -2,7 +2,7 @@ package com.softserve.osbb.controller;
 
 import com.softserve.osbb.model.Role;
 import com.softserve.osbb.service.RoleService;
-import com.softserve.osbb.util.PageCreator;
+import com.softserve.osbb.util.paging.PageDataObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.softserve.osbb.util.ResourceUtil.toResource;
+import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -45,7 +45,7 @@ public class RoleController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ResponseEntity<PageCreator<Resource<Role>>> getAllRole(
+    public ResponseEntity<PageDataObject<Resource<Role>>> getAllRole(
             @RequestParam(value = "pageNumber", required = true) Integer pageNumber,
             @RequestParam(value = "sortedBy", required = false) String sortedBy,
             @RequestParam(value = "asc", required = false) Boolean ascOrder) {
@@ -60,14 +60,14 @@ public class RoleController {
         List<Resource<Role>> resourceList = new ArrayList<>();
         rolesByPage.forEach((role) -> resourceList.add(getLink(toResource(role))));
 
-        PageCreator<Resource<Role>> pageCreator = new PageCreator<>();
-        pageCreator.setRows(resourceList);
-        pageCreator.setCurrentPage(Integer.valueOf(currentPage).toString());
-        pageCreator.setBeginPage(Integer.valueOf(begin).toString());
-        pageCreator.setEndPage(Integer.valueOf(end).toString());
-        pageCreator.setTotalPages(Integer.valueOf(totalPages).toString());
+        PageDataObject<Resource<Role>> pageDataObject = new PageDataObject<>();
+        pageDataObject.setRows(resourceList);
+        pageDataObject.setCurrentPage(Integer.valueOf(currentPage).toString());
+        pageDataObject.setBeginPage(Integer.valueOf(begin).toString());
+        pageDataObject.setEndPage(Integer.valueOf(end).toString());
+        pageDataObject.setTotalPages(Integer.valueOf(totalPages).toString());
 
-        return new ResponseEntity<>(pageCreator, HttpStatus.OK);
+        return new ResponseEntity<>(pageDataObject, HttpStatus.OK);
     }
 
 

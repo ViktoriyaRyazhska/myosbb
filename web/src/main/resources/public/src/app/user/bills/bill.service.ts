@@ -3,7 +3,7 @@ import {Headers, Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
-import {SearchDTO} from "../../../shared/models/search.model";
+import {PageParams} from "../../../shared/models/search.model";
 import {BillDTO} from "./show_bill_dto.interface";
 import ApiService = require("../../../shared/services/api.service");
 
@@ -19,7 +19,7 @@ export class BillService {
     }
 
 
-    getAllByRole(osbbRole: string, userId: number, searchDTO: SearchDTO, status: string): Observable<any> {
+    getAllByRole(osbbRole: string, userId: number, searchDTO: PageParams, status: string): Observable<any> {
         if (osbbRole != 'HEAD') {
             console.log('get all user bills');
             return this.getAllByUser(userId, searchDTO, status);
@@ -32,7 +32,7 @@ export class BillService {
 
     }
 
-    getAllByUser(userId: number, searchDTO: SearchDTO, status: string): Observable<any> {
+    getAllByUser(userId: number, searchDTO: PageParams, status: string): Observable<any> {
         return this._http.post(this.userBillsURL + userId + '/all?status=' + status, JSON.stringify(searchDTO))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));

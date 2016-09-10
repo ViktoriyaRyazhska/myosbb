@@ -1,4 +1,4 @@
-package com.softserve.osbb.util.resources;
+package com.softserve.osbb.util.resources.impl;
 
 import com.softserve.osbb.controller.ReportController;
 import com.softserve.osbb.dto.ReportDTO;

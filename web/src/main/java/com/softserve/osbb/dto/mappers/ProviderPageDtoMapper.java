@@ -1,14 +1,11 @@
 package com.softserve.osbb.dto.mappers;
 
-import com.softserve.osbb.controller.ReportController;
-import com.softserve.osbb.dto.ProviderPageDTO;
 import com.softserve.osbb.model.Provider;
 import com.softserve.osbb.model.ProviderType;
 import com.softserve.osbb.model.enums.Periodicity;
 import com.softserve.osbb.service.ProviderService;
 import com.softserve.osbb.service.ProviderTypeService;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 /**
  * Created by Anastasiia Fedorak on 8/2/16.

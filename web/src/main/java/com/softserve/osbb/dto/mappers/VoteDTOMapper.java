@@ -1,5 +1,6 @@
-package com.softserve.osbb.dto;
+package com.softserve.osbb.dto.mappers;
 
+import com.softserve.osbb.dto.VoteDTO;
 import com.softserve.osbb.model.Option;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.model.Vote;

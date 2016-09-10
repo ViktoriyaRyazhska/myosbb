@@ -1,4 +1,4 @@
-package com.softserve.osbb.util.resources;
+package com.softserve.osbb.util.resources.impl;
 
 import com.softserve.osbb.controller.ApartmentController;
 import com.softserve.osbb.model.Apartment;

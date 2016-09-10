@@ -1,4 +1,4 @@
-package com.softserve.osbb.util;
+package com.softserve.osbb.util.paging.generator;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,9 +11,7 @@ public class PageRequestGenerator {
 
     private static final int DEF_ROWS = 10;
     private PageRequestHolder pageRequestHolder;
-    private static String defaultSortingFiled = "";
-
-    private Integer currentPage;
+    private String defaultSortingFiled = "";
 
 
     public static class PageSelector {
@@ -55,17 +53,17 @@ public class PageRequestGenerator {
         }
     }
 
-    public static class PageRequestHolder {
+    private static class PageRequestHolder {
         private Integer pageNumber;
         private Integer rowNum;
         private String sortedBy;
         private Boolean order;
 
-        public PageRequestHolder(Integer pageNumber) {
+        PageRequestHolder(Integer pageNumber) {
             this.pageNumber = pageNumber;
         }
 
-        public PageRequestHolder(Integer pageNumber, Integer rowNum) {
+        PageRequestHolder(Integer pageNumber, Integer rowNum) {
             this(pageNumber);
             this.rowNum = rowNum;
         }
@@ -103,13 +101,12 @@ public class PageRequestGenerator {
         }
     }
 
-    public PageRequestGenerator(PageRequestHolder pageRequestHolder) {
+    private PageRequestGenerator(PageRequestHolder pageRequestHolder) {
         this.pageRequestHolder = pageRequestHolder;
     }
 
     public static PageRequestGenerator generatePageRequest(Integer pageNumber) {
-        PageRequestGenerator pageRequestGen = new PageRequestGenerator(new PageRequestHolder(pageNumber));
-        return pageRequestGen;
+        return new PageRequestGenerator(new PageRequestHolder(pageNumber));
     }
 
     public PageRequestGenerator addRows(Integer rowNum) {
@@ -129,12 +126,7 @@ public class PageRequestGenerator {
     }
 
     public PageRequest toPageRequest() {
-        PageRequest pageRequest = new PageRequest(
-                addPageNumber(),
-                addRowNum(),
-                addSortingOrderType(),
-                addSortedByField());
-        return pageRequest;
+        return new PageRequest(addPageNumber(), addRowNum(), addSortingOrderType(), addSortedByField());
     }
 
     public static <T> PageSelector generatePageSelectorData(Page<T> pageObject) {
@@ -168,6 +160,6 @@ public class PageRequestGenerator {
         if (order == null) {
             return Sort.Direction.DESC;
         }
-        return order == true ? Sort.Direction.ASC : Sort.Direction.DESC;
+        return order ? Sort.Direction.ASC : Sort.Direction.DESC;
     }
 }
