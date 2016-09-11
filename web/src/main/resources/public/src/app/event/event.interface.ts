@@ -5,8 +5,8 @@ export class Event {
     title:string;
     author: User;
     description:string;
-    start:DateTime;
-    end:DateTime;
+    start:Date;
+    end:Date;
     repeat:string;
     path:string;
     constructor(eventItem?:{id:number, title:string, author:User, description:string, start:string,

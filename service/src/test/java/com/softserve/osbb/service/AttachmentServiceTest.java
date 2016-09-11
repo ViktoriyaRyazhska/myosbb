@@ -5,6 +5,7 @@ import com.softserve.osbb.model.Attachment;
 import com.softserve.osbb.service.impl.AttachmentServiceImpl;
 import com.softserve.osbb.utils.Constants;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ import static org.junit.Assert.*;
  * Created by nataliia on 18.07.16.
  */
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ServiceApplication.class)
 @Rollback

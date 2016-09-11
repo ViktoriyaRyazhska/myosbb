@@ -1,0 +1,68 @@
+<section class="task-panel tasks-widget block-center">
+    <div class="panel-heading top-panel">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="text-center">
+                        <h3><b>Подія</b></h3>
+                        <img src="assets/img/event.png" alt="my_event" width="400" height="400">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="task-content">
+                        <ul class="task-list">
+                            <li>
+                                <b>{{ 'name' | translate | capitalize }}:</b>
+                                <br>
+                                <div class="task-title">
+                                    <span class="task-title-sp">{{event.title}}</span>
+                                </div>
+                            </li>
+                            <li>
+                                <b>{{ 'author' | translate | capitalize }}:</b>
+                                <br>
+                                <div class="task-title">
+                                    <!--<span class="task-title-sp">{{event.author.firstName + " " + event.author.lastName}}</span>-->
+                                </div>
+                            </li>
+                            <li>
+                                <b>{{ 'dateStart' | translate | capitalize }}:</b>
+                                <br>
+                                <div class="task-title">
+                                    <span class="task-title-sp">{{event.start}}</span>
+                                </div>
+                            </li>
+                            <li>
+                                <b>{{ 'dateFinish' | translate | capitalize }}:</b>
+                                <br>
+                                <div class="task-title">
+                                    <span class="task-title-sp">{{event.end}}</span>
+                                </div>
+                            </li>
+                            <li>
+                                <b>{{ 'repeat' | translate | capitalize }}:</b>
+                                <br>
+                                <div class="task-title">
+                                    <span class="task-title-sp">{{event.repeat}}</span>
+                                </div>
+                            </li>
+                            <li>
+                                <b>{{ 'additionalInformation' | translate | capitalize }}:</b>
+                                <br>
+                                <div class="task-title">
+                                    <span class="task-title-sp">{{event.description}}</span>
+                                </div>
+                            </li>
+                            <button class="btn btn-primary btn-lg" value="Back" (click)="backClicked()" style="margin-top: 40px">
+                                <span class="glyphicon glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                                {{ 'go_back' | translate | capitalize }}
+                            </button>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

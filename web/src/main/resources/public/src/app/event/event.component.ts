@@ -16,12 +16,19 @@ import {SELECT_DIRECTIVES} from "ng2-select";
 import {ActiveFilter} from "../../shared/pipes/active.filter";
 import {User} from "../../shared/models/User";
 import {CurrentUserService} from "../../shared/services/current.user.service";
+import {ToasterContainerComponent, ToasterService} from "angular2-toaster/angular2-toaster";
+import {onErrorResourceNotFoundToastMsg, onErrorServerNoResponseToastMsg}
+        from "../../shared/error/error.handler.component";
+import {Router} from "@angular/router";
+import moment from 'moment';
+import {DateTime} from "ng2-datetime-picker/dist/datetime";
+
 
 @Component({
     selector: 'my-event',
     templateUrl: 'src/app/event/event.html',
-    providers: [EventService],
-    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, DROPDOWN_DIRECTIVES, SELECT_DIRECTIVES],
+    providers: [EventService, ToasterService],
+    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, DROPDOWN_DIRECTIVES, SELECT_DIRECTIVES, ToasterContainerComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe, ActiveFilter],
     styleUrls: ['src/app/event/event.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
@@ -45,11 +52,13 @@ export class EventComponent implements OnInit, OnDestroy {
     private pending: boolean = false;
     private currentUser:User;
     private showAllEvents: boolean = true;
+    private admin: boolean;
 
     private id:number;
     private repeat: SelectItem[] = [];
 
-    constructor(private _eventService:EventService, private currentUserService:CurrentUserService) {
+    constructor(private _eventService:EventService, private currentUserService:CurrentUserService,
+                private _router: Router, private _toasterService: ToasterService) {
         this.currentUser = currentUserService.getUser();
     }
 
@@ -102,6 +111,10 @@ export class EventComponent implements OnInit, OnDestroy {
         return end > start;
     }
 
+    formatDate(date: DateTime) {
+        return moment(date).format("DD.MM.YYYY hh:mm A");
+    }
+
     refresh() {
         console.log('refreshing...');
         this.getEventsByPageNum(this.pageNumber);
@@ -109,6 +122,8 @@ export class EventComponent implements OnInit, OnDestroy {
 
     openEditModal(event:Event) {
         this.selectedEvent = event;
+        this.selectedEvent.start = <Date>moment(this.selectedEvent.start).format("YYYY-MM-DDTHH:mm:ss");
+        this.selectedEvent.end = <Date>moment(this.selectedEvent.end).format("YYYY-MM-DDTHH:mm:ss");
         console.log('selected event: ' + this.selectedEvent);
         this.editModal.show();
     }
@@ -116,6 +131,8 @@ export class EventComponent implements OnInit, OnDestroy {
     onEditEventSubmit() {
         this.active = false;
         console.log('saving event: ' + this.selectedEvent);
+        this.selectedEvent.start = <Date>moment(this.selectedEvent.start).format("YYYY-MM-DDTHH:mmZZ");
+        this.selectedEvent.end = <Date>moment(this.selectedEvent.end).format("YYYY-MM-DDTHH:mmZZ");
         this._eventService.editAndSave(this.selectedEvent);
         this.editModal.hide();
         setTimeout(() => this.active = true, 0);
@@ -134,6 +151,8 @@ export class EventComponent implements OnInit, OnDestroy {
         this.active = false;
         console.log('creating event');
         this.newEvent.author = this.currentUser;
+        this.newEvent.start = <Date>moment(this.newEvent.start).format("YYYY-MM-DDTHH:mmZZ");
+        this.newEvent.end = <Date>moment(this.newEvent.end).format("YYYY-MM-DDTHH:mmZZ");
         this._eventService.addEvent(this.newEvent);
         this.createModal.hide();
         setTimeout(() => this.active = true, 0);
@@ -229,7 +248,6 @@ export class EventComponent implements OnInit, OnDestroy {
                 });
     }
 
-
     ngOnDestroy():any {
         //this.subscriber.unsubscribe();
     }
@@ -241,5 +259,28 @@ export class EventComponent implements OnInit, OnDestroy {
                 console.log("data: " + events);
                 this.events = events;
             });
+    }
+
+    onNavigate(id: number) {
+        console.log('navigating to event with id ', id);
+        if (this.admin) {
+            this._router.navigate(['admin/event', id]);
+            return;
+        }
+        this._router.navigate(['home/event', id]);
+    }
+
+    private handleErrors(error: any) {
+        if (error.status === 404 || error.status === 400) {
+            console.log('server error 400');
+            this._toasterService.pop(onErrorResourceNotFoundToastMsg);
+            return;
+        }
+
+        if (error.status === 500) {
+            console.log('server error 500');
+            this._toasterService.pop(onErrorServerNoResponseToastMsg);
+            return;
+        }
     }
 }

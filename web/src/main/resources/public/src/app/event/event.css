@@ -1,11 +1,9 @@
-
 .block-center {
     position: relative;
     top: -40px;
     max-width: 100%;
     min-width: 60%;
     margin-left: 210px;
-
 }
 
 .disabled {

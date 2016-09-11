@@ -52,7 +52,7 @@ public class Event {
     @Basic
     @Column(name = "start_time")
     @JsonProperty(value = "start")
-    @JsonFormat(pattern = "yyyy-MM-dd'T'hh:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'hh:mmZ")
     public Timestamp getStartTime() {
         return startTime;
     }
@@ -64,7 +64,7 @@ public class Event {
     @Basic
     @Column(name = "end_time")
     @JsonProperty(value = "end")
-    @JsonFormat(pattern = "yyyy-MM-dd'T'hh:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'hh:mmZ")
     public Timestamp getEndTime() {
         return endTime;
     }

@@ -5,6 +5,7 @@ import "rxjs/add/operator/toPromise";
 import ApiService = require("../../../shared/services/api.service");
 import {User} from './../user';
 import {ITicket,TicketState} from './ticket';
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class TicketService {

@@ -27,12 +27,20 @@ export class EventService {
             .then(data => { console.log("service : " + data); return data; });
     }
 
-    getEvent(id:number) {
-        let url = this.url + id;
-        console.log('delete event by id: ' + id);
-        return this._http.get(url)
-            .toPromise()
-            .catch((error)=>console.error(error));
+    // getEvent(id:number)/*: Promise<Event>*/ {
+    //     let url = this.url + id;
+    //     console.log('get event by id: ' + id);
+    //     return this._http.get(url)
+    //         .toPromise()
+    //         // .then(res => res.json())
+    //         .catch((error)=>console.error(error));
+    // }
+
+    getEvent(id:number): Observable<any> {
+        console.log('get event by id: ' + id);
+        return this._http.get(this.url + id)
+            .map((response)=> response.json())
+            .catch((error)=>Observable.throw(error));
     }
 
     getAllEvents(pageNumber:number):Observable<any> {
