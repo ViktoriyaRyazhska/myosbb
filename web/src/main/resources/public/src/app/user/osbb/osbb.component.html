@@ -9,7 +9,7 @@
                 <osbb-del-form (delete)="deleteOsbb($event)" #delForm></osbb-del-form>
             </div>
             <div class="pull-left">
-                <button class="btn btn-success" (click)="addForm.openAddModal();printCurrentUser()"><i>{{'add' | translate}}</i></button>
+                <button class="btn btn-success" (click)="addForm.openAddModal()"><i>{{'add' | translate}}</i></button>
             </div>
             <div id="example_filter" class="pull-right dataTables_filter">
                 <input type="search" class="form-control input-sm" placeholder="{{'searchByName' | translate}}" aria-controls="example" (keyup.enter)="searchByNameOsbb(searchInput.value)"
@@ -35,7 +35,7 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let osbb of osbbArr">
-                        <td><img src="{{osbb.logo.path}}" alt="empty" height="50" width="60" /></td>
+                        <td><img *ngIf="osbb.logo !== null" src="" alt="empty" height="50" width="60" /></td>
                         <td>{{osbb.name}}</td>
                         <td>{{osbb.description}}</td>
                         <td>{{osbb.address}}</td>
@@ -58,22 +58,5 @@
                 </tbody>
             </table>
         </div>
-        <!--
-        <nav class="pull-right" aria-label="Page navigation">
-            <ul class="pagination">
-                <li [ngStyle]="{'display': pageNumber == 1? 'none' : ''}">
-                    <a (click)="prevPage()" style="cursor: pointer" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li [ngClass]="{'active': num == pageNumber}" *ngFor="let num of pageList"><a
-                        style="cursor: pointer" (click)="getReportsByPageNum(num)">{{num}}</a></li>
-                <li [ngStyle]="{'display': pageNumber == totalPages? 'none' : ''}">
-                    <a (click)="nextPage()" style="cursor: pointer" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav> -->
     </div>
 </div>

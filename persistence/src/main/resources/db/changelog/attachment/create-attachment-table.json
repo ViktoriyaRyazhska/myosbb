@@ -41,6 +41,21 @@
           }
         ]
       }
+    },
+    {
+      "changeSet": {
+        "id": "2016/09/08-135",
+        "author": "Roman",
+        "changes": [
+          {
+            "addDefaultValue": {
+              "columnDataType": "varchar(255)",
+              "columnName": "type",
+              "defaultValue": "DATA",
+              "tableName": "attachment"
+            }
+          }]
+      }
     }
   ]
 }

@@ -6,12 +6,17 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 
 import {IOsbb, Osbb} from "../../../shared/models/osbb";
+import { OsbbDTO } from './osbb';
 import { OsbbService } from './osbb.service';
 import { OsbbModalComponent } from './osbb_form/osbb-modal.component';
 import { OsbbDelFormComponent } from './osbb_form/osbb-del-form.component';
 import {CurrentUserService} from "../../../shared/services/current.user.service";
 import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
+import ApiService = require("../../../shared/services/api.service");
+import {FILE_UPLOAD_DIRECTIVES, FileSelectDirective, FileDropDirective, FileUploader} from "ng2-file-upload/ng2-file-upload";
+
+const attachmentUploadUrl = ApiService.serverUrl + '/restful/osbb';
 
 @Component({
     selector: 'osbb',
@@ -40,8 +45,22 @@ export class OsbbComponent implements OnInit {
         this.updatedOsbb = osbb;
     }
 
-    createOsbb(osbb:IOsbb): void {
-        this.osbbService.addOsbb(osbb).then(osbb => this.addOsbb(osbb));
+    createOsbb(osbbDTO:OsbbDTO): void {
+        this.osbbService.addOsbb(osbbDTO.osbb)
+        .then((osbb) => {
+            let fileUploader = osbbDTO.logo;
+             if(fileUploader.queue.length > 0) {
+                fileUploader.queue[0].url = attachmentUploadUrl + '/' +  osbb.osbbId;
+                fileUploader.authToken = 'Bearer ' + localStorage.getItem('access_token')
+                fileUploader.queue[0].upload();
+             }
+            fileUploader.onCompleteAll = () =>  fileUploader.clearQueue();
+            this.addOsbb(osbb);
+        })
+    }
+
+    private addOsbb(osbb: IOsbb): void {
+        this.osbbArr.unshift(osbb);
     }
 
     editOsbb(osbb:IOsbb): void {
@@ -50,10 +69,6 @@ export class OsbbComponent implements OnInit {
 
     deleteOsbb(osbb:IOsbb): void {
         this.osbbService.deleteOsbb(osbb).then(osbb => this.deleteOsbbFromArr(osbb));
-    }
-
-    private addOsbb(osbb: IOsbb): void {
-        this.osbbArr.push(osbb);
     }
 
      private deleteOsbbFromArr(osbb: IOsbb): void {
@@ -65,10 +80,6 @@ export class OsbbComponent implements OnInit {
 
     getCreationDate(date:Date):string {
         return new Date(date).toLocaleString();
-    }
-
-    printCurrentUser() {
-        console.log("CurrentUserId: " + this.userService.getUser().userId);
     }
 
     searchByNameOsbb(osbbName: string) {

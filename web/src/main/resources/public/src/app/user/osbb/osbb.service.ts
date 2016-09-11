@@ -7,6 +7,8 @@ import "rxjs/add/operator/toPromise";
 import {IOsbb} from "../../../shared/models/osbb";
 import ApiService = require("../../../shared/services/api.service");
 
+const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment';
+
 @Injectable()
 export class OsbbService { 
 
@@ -21,6 +23,11 @@ export class OsbbService {
                  .then(res => res.json())
                  .catch(this.handleError);
     }
+
+   /* uploadLogo(formData:FormData) {
+        console.log("try to upload file: " + formData);
+      this.http.post(attachmentUploadUrl, formData).map(res => res.json()).subscribe((data) => console.log(data));
+    }*/
     
     getAllOsbbByNameContaining(osbbName: string ):Promise<IOsbb[]> {
         let url = this.url + '/search/' + osbbName;
@@ -47,6 +54,7 @@ export class OsbbService {
     }
 
     addOsbb(osbb:IOsbb): Promise<IOsbb> {
+        //console.log("Service add osbb: " + osbb.logo.path + " type: " + osbb.logo.type);
         return this.http.post(this.url, JSON.stringify(osbb))
                         .toPromise()
                         .then(res => res.json())
