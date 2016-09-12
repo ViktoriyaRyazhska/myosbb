@@ -214,7 +214,7 @@ public class User implements Serializable {
         this.messages = messages;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     public Collection<Ticket> getTickets() {
         return tickets;

@@ -126,7 +126,7 @@ public class Osbb {
         this.events = events;
     }
 
-    @OneToMany(mappedBy = "osbb")
+    @OneToMany(mappedBy = "osbb", cascade = CascadeType.ALL)
     public Collection<House> getHouses() {
         return houses;
     }
