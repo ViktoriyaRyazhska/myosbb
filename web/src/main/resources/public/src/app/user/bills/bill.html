@@ -280,7 +280,7 @@
                             </a>
                         </li>
                         <li [ngClass]="{'active': num == pageParams.pageNumber}" *ngFor="let num of pageList"><a
-                                (click)="getBillsByPageNum(num, selectedRow, status)">{{num}}</a></li>
+                                (click)="getBillsByPageNum(num, pageParams.rowNum, status)">{{num}}</a></li>
                         <li [ngStyle]="{'display': pageParams.pageNumber == totalPages? 'none' : ''}">
                             <a (click)="nextPage()" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>

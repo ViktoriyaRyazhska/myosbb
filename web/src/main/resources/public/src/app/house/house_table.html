@@ -206,23 +206,23 @@
         </div>
         <nav *ngIf="houses.length != 0" class="pull-left" aria-label="Page navigation">
             <ul class="pagination">
-                <li [ngClass]="{'active': row == selectedRow}" *ngFor="let row of rows"><a
+                <li [ngClass]="{'active': row == pageParams.rowNum}" *ngFor="let row of rows"><a
                         style="cursor: pointer" (click)="selectRowNum(row)">{{row}}</a></li>
             </ul>
         </nav>
 
         <nav class="pull-right" aria-label="Page navigation">
             <ul class="pagination">
-                <li [ngStyle]="{'display': pageNumber === 1? 'none' : ''}">
+                <li [ngStyle]="{'display': pageParams.pageNumber === 1? 'none' : ''}">
                     <a (click)="prevPage()" style="cursor: pointer" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li [ngClass]="{'active': num == pageNumber}" *ngFor="let num of pageList">
-                    <a (click)="findAllHousesByPage(num, selectedRow)">{{num}}
+                <li [ngClass]="{'active': num == pageParams.pageNumber}" *ngFor="let num of pageList">
+                    <a (click)="selectByPageNumber(num)">{{num}}
                     </a>
                 </li>
-                <li [ngStyle]="{'display':  pageNumber == totalPages? 'none' : ''}">
+                <li [ngStyle]="{'display':  pageParams.pageNumber == totalPages? 'none' : ''}">
                     <a (click)="nextPage()" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>

@@ -1,13 +1,14 @@
 package com.softserve.osbb.controller;
 
+import com.softserve.osbb.dto.PageParams;
 import com.softserve.osbb.dto.ReportDTO;
 import com.softserve.osbb.dto.mappers.ReportDTOMapper;
 import com.softserve.osbb.model.Report;
 import com.softserve.osbb.model.User;
-import com.softserve.osbb.repository.ApartmentRepository;
 import com.softserve.osbb.service.UserService;
 import com.softserve.osbb.service.impl.ReportServiceImpl;
 import com.softserve.osbb.service.utils.ReportDownloadService;
+import com.softserve.osbb.util.paging.PageDataUtil;
 import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
 import com.softserve.osbb.util.paging.impl.ReportPageDataObject;
 import com.softserve.osbb.util.resources.ResourceLinkCreator;
@@ -50,9 +51,6 @@ public class ReportController {
     private UserService userService;
 
     @Autowired
-    private ApartmentRepository apartmentRepository;
-
-    @Autowired
     private ReportDownloadService reportDownloadService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -73,19 +71,16 @@ public class ReportController {
     }
 
 
-    @RequestMapping(value = "/user/{userId}/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/{userId}/all", method = RequestMethod.POST)
     public ResponseEntity<ReportPageDataObject> listAllUserReports(
             @PathVariable("userId") Integer userId,
-            @RequestParam(value = "pageNumber", required = true) Integer pageNumber,
-            @RequestParam(value = "sortedBy", required = false) String sortedBy,
-            @RequestParam(value = "order", required = false) Boolean orderType,
-            @RequestParam(value = "rowNum", required = false) Integer rowNum
+            @RequestBody PageParams pageParams
     ) {
-        logger.info(String.format("listing all reports for user: %d , page number: %d ", userId, pageNumber));
-        final PageRequest pageRequest = PageRequestGenerator.generatePageRequest(pageNumber)
-                .addRows(rowNum)
-                .addOrderType(orderType)
-                .addSortedBy(sortedBy, "name")
+        logger.info(String.format("listing all reports for user: %d , page number: %d ", userId, pageParams.getPageNumber()));
+        final PageRequest pageRequest = PageRequestGenerator.generatePageRequest(pageParams.getPageNumber())
+                .addRows(pageParams.getRowNum())
+                .addOrderType(pageParams.getOrderType())
+                .addSortedBy(pageParams.getSortedBy(), "name")
                 .toPageRequest();
         Page<Report> reportsByPage = reportService.getAllUserReports(userId, pageRequest);
         PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator
@@ -95,22 +90,20 @@ public class ReportController {
             ReportDTO reportDTO = ReportDTOMapper.mapReportEntityToDTO(report);
             reportResourceLinkList.add(toResource(reportDTO));
         });
-        ReportPageDataObject pageCreator = setUpPageCreator(pageSelector, reportResourceLinkList);
+        ReportPageDataObject pageCreator = (ReportPageDataObject) PageDataUtil.providePageData(ReportPageDataObject.class, pageSelector, reportResourceLinkList);
+        pageCreator.setDates(reportService.findDistinctCreationDates());
         return new ResponseEntity<>(pageCreator, HttpStatus.OK);
     }
 
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.POST)
     public ResponseEntity<ReportPageDataObject> listAllReports(
-            @RequestParam(value = "pageNumber", required = true) Integer pageNumber,
-            @RequestParam(value = "sortedBy", required = false) String sortedBy,
-            @RequestParam(value = "order", required = false) Boolean orderType,
-            @RequestParam(value = "rowNum", required = false) Integer rowNum) {
-        logger.info("get all report by page number: " + pageNumber);
-        final PageRequest pageRequest = PageRequestGenerator.generatePageRequest(pageNumber)
-                .addRows(rowNum)
-                .addSortedBy(sortedBy, "name")
-                .addOrderType(orderType)
+            @RequestBody PageParams pageParams) {
+        logger.info("get all report by page number: " + pageParams.getPageNumber());
+        final PageRequest pageRequest = PageRequestGenerator.generatePageRequest(pageParams.getPageNumber())
+                .addRows(pageParams.getRowNum())
+                .addSortedBy(pageParams.getSortedBy(), "name")
+                .addOrderType(pageParams.getOrderType())
                 .toPageRequest();
         Page<Report> reportsByPage = reportService.getAllReports(pageRequest);
         PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(reportsByPage);
@@ -119,20 +112,11 @@ public class ReportController {
             ReportDTO reportDTO = ReportDTOMapper.mapReportEntityToDTO(report);
             reportResourceLinkList.add(toResource(reportDTO));
         });
-        ReportPageDataObject pageCreator = setUpPageCreator(pageSelector, reportResourceLinkList);
+        ReportPageDataObject pageCreator = (ReportPageDataObject) PageDataUtil.providePageData(ReportPageDataObject.class, pageSelector, reportResourceLinkList);
+        pageCreator.setDates(reportService.findDistinctCreationDates());
         return new ResponseEntity<>(pageCreator, HttpStatus.OK);
     }
 
-    private ReportPageDataObject setUpPageCreator(PageRequestGenerator.PageSelector pageSelector, List<Resource<ReportDTO>> resourceList) {
-        ReportPageDataObject pageCreator = new ReportPageDataObject();
-        pageCreator.setRows(resourceList);
-        pageCreator.setCurrentPage(Integer.valueOf(pageSelector.getCurrentPage()).toString());
-        pageCreator.setBeginPage(Integer.valueOf(pageSelector.getBegin()).toString());
-        pageCreator.setEndPage(Integer.valueOf(pageSelector.getEnd()).toString());
-        pageCreator.setTotalPages(Integer.valueOf(pageSelector.getTotalPages()).toString());
-        pageCreator.setDates(reportService.findDistinctCreationDates());
-        return pageCreator;
-    }
 
     @RequestMapping(value = "/between", method = RequestMethod.GET)
     public ResponseEntity<EntityResourceList<ReportDTO>> listReportsByDates(
@@ -294,7 +278,7 @@ public class ReportController {
 
     @RequestMapping(value = "/{reportId}/download", method = RequestMethod.GET)
     public void downloadExisting(@PathVariable("reportId") Integer reportId,
-                         HttpServletResponse httpServletResponse) {
+                                 HttpServletResponse httpServletResponse) {
         logger.info("preparing download report with id: " + reportId);
         reportDownloadService.downloadExisting(reportId, httpServletResponse);
 

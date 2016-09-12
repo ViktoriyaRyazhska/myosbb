@@ -266,12 +266,12 @@ export class UserBillComponent implements OnInit {
 
     prevPage() {
         this.pageParams.pageNumber = this.pageParams.pageNumber - 1;
-        this.getBillsByPageNum(this.pageParams.pageNumber, this.selectedRow, this.status);
+        this.getBillsByPageNum(this.pageParams.pageNumber, this.pageParams.rowNum, this.status);
     }
 
     nextPage() {
         this.pageParams.pageNumber = this.pageParams.pageNumber + 1;
-        this.getBillsByPageNum(this.pageParams.pageNumber, this.selectedRow, this.status);
+        this.getBillsByPageNum(this.pageParams.pageNumber, this.pageParams.rowNum, this.status);
     }
 
     emptyArray() {

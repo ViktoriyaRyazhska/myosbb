@@ -1,6 +1,7 @@
 package com.softserve.osbb.util.paging;
 
-import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -11,16 +12,13 @@ import java.util.List;
 @Component
 public class PageDataObject<T> {
 
+    private static Logger logger = LoggerFactory.getLogger(PageDataObject.class);
     private String currentPage;
     private String totalPages;
     private String beginPage;
     private String endPage;
     private List<T> rows;
 
-
-    public PageDataObject<T> providePageData(PageRequestGenerator.PageSelector pageSelector, List<T> billResourceList) {
-        throw new UnsupportedOperationException();
-    }
 
     public String getCurrentPage() {
         return currentPage;

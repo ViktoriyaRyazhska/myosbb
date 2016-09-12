@@ -15,6 +15,7 @@ import {User} from "../../../shared/models/User";
 import {HeaderComponent} from "../../header/header.component";
 import {FORM_DIRECTIVES} from "@angular/forms";
 import {FileDownloaderService} from "./download/report.downloader.service";
+import {PageParams} from "../../../shared/models/search.model";
 import FileServer = require("../../../shared/services/file.server.path");
 import Regex = require('../../../shared/services/regex.all.text');
 
@@ -40,7 +41,6 @@ export class UserReportComponent implements OnInit, OnDestroy {
         userId: null
     };
     private pageCreator: PageCreator<Report>;
-    private pageNumber: number = 1;
     private pageList: Array<number> = [];
     private totalPages: number;
     private dates: string[] = [];
@@ -51,20 +51,18 @@ export class UserReportComponent implements OnInit, OnDestroy {
     @ViewChild('searchOptional') public searchOptional: ModalDirective;
     private active: boolean = true;
     private order: boolean = true;
-    private isShowOptional: boolean = false;
     private dateFromActive: boolean;
     private dateToActive: boolean;
     private pending = false;
     private reportId: number;
     private onSearch: boolean = false;
     private rows: number[] = [10, 20, 50];
-    private selectedRow: number = 10;
     private currentUser: User;
-    private fileServerPath: string = FileServer.fileServerPath;
+    private pageParams: PageParams = {pageNumber: 1, sortedBy: null, orderType: false, rowNum: 10};
 
     constructor(private _reportService: ReportService,
                 private sanitizer: DomSanitizationService,
-                private _fileDownloaderservice: FileDownloaderService) {
+                private fileDownloaderService: FileDownloaderService) {
         this.currentUser = HeaderComponent.currentUserService.getUser();
     }
 
@@ -125,21 +123,19 @@ export class UserReportComponent implements OnInit, OnDestroy {
 
     ngOnInit(): any {
         console.log('current user: ', this.currentUser.lastName);
-        this.getReportsByPageNum(this.pageNumber, this.selectedRow);
+        this.getReportsByPageNum();
     }
 
 
     refresh() {
         console.log('refreshing...');
-        this.getReportsByPageNum(this.pageNumber, this.selectedRow);
+        this.getReportsByPageNum();
     }
 
-    getReportsByPageNum(pageNumber: number, selectedRow: number) {
-        this.pageNumber = +pageNumber;
+    getReportsByPageNum() {
         this.pending = true;
-        this.selectedRow = +selectedRow;
         return this._reportService.getAllUserReports(this.currentUser.userId,
-            this.pageNumber, this.selectedRow)
+            this.pageParams)
             .subscribe((data) => {
                     this.pending = false;
                     this.pageCreator = data;
@@ -157,7 +153,9 @@ export class UserReportComponent implements OnInit, OnDestroy {
 
 
     selectRowNum(row: number) {
-        this.getReportsByPageNum(this.pageNumber, row);
+        console.log("get by row number: " + row);
+        this.pageParams.rowNum = row;
+        this.getReportsByPageNum();
     }
 
 
@@ -172,15 +170,19 @@ export class UserReportComponent implements OnInit, OnDestroy {
         return safeUrlReports;
     }
 
+    selectByPageNumber(num: number) {
+        this.pageParams.pageNumber = num;
+        this.getReportsByPageNum();
+    }
 
     prevPage() {
-        this.pageNumber = this.pageNumber - 1;
-        this.getReportsByPageNum(this.pageNumber, this.selectedRow);
+        this.pageParams.pageNumber -= 1;
+        this.getReportsByPageNum();
     }
 
     nextPage() {
-        this.pageNumber = this.pageNumber + 1;
-        this.getReportsByPageNum(this.pageNumber, this.selectedRow);
+        this.pageParams.pageNumber += 1;
+        this.getReportsByPageNum();
     }
 
     emptyArray() {
@@ -199,9 +201,10 @@ export class UserReportComponent implements OnInit, OnDestroy {
 
     sortBy(name: string) {
         console.log('sorted by ', name);
-        this.order = !this.order;
+        this.pageParams.orderType = !this.pageParams.orderType;
         console.log('order by asc', this.order);
-        this._reportService.getAllUserReportsSorted(this.currentUser.userId, this.pageNumber, name, this.order)
+        this.pageParams.sortedBy = name;
+        this._reportService.getAllUserReports(this.currentUser.userId, this.pageParams)
             .subscribe((data) => {
                     this.pageCreator = data;
                     this.reports = data.rows;
@@ -259,7 +262,7 @@ export class UserReportComponent implements OnInit, OnDestroy {
                 .subscribe((data)=> {
                         this.onSearch = true;
                         this.reports = data;
-                        this.preparePageList(this.pageNumber, this.pageNumber);
+                        this.preparePageList(this.pageParams.pageNumber, this.pageParams.pageNumber);
                     },
                     (error)=> {
                         console.log(error)
@@ -276,7 +279,7 @@ export class UserReportComponent implements OnInit, OnDestroy {
                 .subscribe((data)=> {
                         this.onSearch = true;
                         this.reports = data;
-                        this.preparePageList(this.pageNumber, this.pageNumber);
+                        this.preparePageList(this.pageParams.pageNumber, this.pageParams.pageNumber);
                     },
                     (error)=> {
                         console.error(error)
@@ -298,7 +301,7 @@ export class UserReportComponent implements OnInit, OnDestroy {
         let filePath = report.filePath;
         let docType = filePath.substring(filePath.lastIndexOf('.') + 1);
         console.log('docType: ' + docType);
-        this._fileDownloaderservice.downloadBy(id, docType);
+        this.fileDownloaderService.downloadBy(id, docType);
 
     }
 }

@@ -4,13 +4,14 @@ import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import {Report} from "./report.interface";
 import "rxjs/add/operator/toPromise";
+import {PageParams} from "../../../shared/models/search.model";
 import ApiService = require("../../../shared/services/api.service");
 
 
 @Injectable()
 export class ReportService {
 
-    private getReportByPageNumberUr = ApiService.serverUrl + '/restful/report?pageNumber=';
+    private getReportsURL = ApiService.serverUrl + '/restful/report';
     private delReportUrl = ApiService.serverUrl + '/restful/report/';
     private updateReportUrl = ApiService.serverUrl + '/restful/report/';
     private getReportByParamURL = ApiService.serverUrl + '/restful/report/between?';
@@ -25,8 +26,8 @@ export class ReportService {
 
 
     //for current logged-in user
-    getAllUserReports(userId: number, pageNumber: number, selectedRow: number): Observable<any> {
-        return this._http.get(this.getReportsByUserUrl + userId + '/all?pageNumber=' + pageNumber + '&&rowNum=' + selectedRow)
+    getAllUserReports(userId: number, pageParams: PageParams): Observable<any> {
+        return this._http.post(this.getReportsByUserUrl + userId + '/all', JSON.stringify(pageParams))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
@@ -46,23 +47,18 @@ export class ReportService {
     searchUserReportsByDates(userId: number, dateFrom: string, dateTo: string): Observable<any> {
         return this._http.get(this.getReportsByUserUrl + userId + "/between?"
             + 'dateFrom=' + dateFrom + '&&'
-            + 'dateTo=' + dateTo, {headers: this.headers})
+            + 'dateTo=' + dateTo)
             .map((response)=>response.json())
             .catch((error)=>Observable.throw(error));
     }
 
 
-    getAllReports(pageNumber: number, selectedRow: number): Observable<any> {
-        return this._http.get(this.getReportByPageNumberUr + pageNumber + '&&rowNum=' + selectedRow)
+    getAllReports(pageParms: PageParams): Observable<any> {
+        return this._http.post(this.getReportsURL + 'all', JSON.stringify(pageParms))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
 
-    getAllReportsSorted(pageNumber: number, name: string, order: boolean): Observable<any> {
-        return this._http.get(this.getReportByPageNumberUr + pageNumber + '&&sortedBy=' + name + '&&order=' + order)
-            .map((response)=> response.json())
-            .catch((error)=>Observable.throw(error));
-    }
 
     searchByDates(dateFrom: string, dateTo: string): Observable<any> {
         return this._http.get(this.getReportByParamURL

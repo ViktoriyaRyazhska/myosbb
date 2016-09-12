@@ -23,12 +23,12 @@ class ReportExporterService implements ReportExporterServiceInterface {
     private static Logger logger = LoggerFactory.getLogger(ReportExporterService.class);
 
     @Autowired
-    private FileServer fileServer;
+    private FileDirectoryConfig fileDirectoryConfig;
 
     @Override
     public String export(String type, JasperPrint jp, HttpServletResponse response, ByteArrayOutputStream baos) throws IOException {
         exportToOutputStream(type, jp, response, baos);
-        return exportToFileSystem(jp, type, fileServer.getOutputFileDirectory(Constants.REPORTS_DIR_NAME));
+        return exportToFileSystem(jp, type, fileDirectoryConfig.getOutputFileDirectory(Constants.REPORTS_DIR_NAME));
     }
 
     private HttpServletResponse exportToOutputStream(String type, JasperPrint jp, HttpServletResponse response, ByteArrayOutputStream baos) {

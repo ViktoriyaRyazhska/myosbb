@@ -12,6 +12,7 @@ import {
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from "ng2-bootstrap";
 import {FORM_DIRECTIVES} from "@angular/forms";
 import {CORE_DIRECTIVES} from "@angular/common";
+import {PageParams} from "../../shared/models/search.model";
 import Regex = require('../../shared/services/regex.all.text');
 
 @Component({
@@ -28,12 +29,11 @@ export class HouseTableComponent implements OnInit {
 
     private houses: HousePageObject[] = [];
     private houseId: number;
-    private pageNumber: number = 1;
+    private pageParams: PageParams = {pageNumber: 1, sortedBy: null, orderType: false, rowNum: 10};
     private totalPages: string;
     private pageList: Array<number> = [];
     private pending: boolean = false;
     private rows: number[] = [10, 20, 50];
-    private selectedRow: number = 10;
     private onSearch: boolean = false;
     private admin: boolean;
     private selectedHouse: HousePageObject = {
@@ -50,12 +50,12 @@ export class HouseTableComponent implements OnInit {
     }
 
     ngOnInit(): any {
-        this.findAllHousesByPage(this.pageNumber, this.selectedRow);
+        this.findAllHousesByPage();
 
     }
 
     refresh() {
-        this.findAllHousesByPage(this.pageNumber, this.selectedRow);
+        this.findAllHousesByPage();
     }
 
 
@@ -113,12 +113,17 @@ export class HouseTableComponent implements OnInit {
         return false;
     }
 
-    private findAllHousesByPage(pageNumber, selectedRow) {
+
+    selectByPageNumber(num) {
+        this.pageParams.pageNumber = +num;
+        this.findAllHousesByPage();
+
+    }
+
+    private findAllHousesByPage() {
         this.emptyPageList();
         this.pending = true;
-        this.pageNumber = +pageNumber;
-        this.selectedRow = +selectedRow;
-        this._houseService.getAllHousesByPageNumber(this.pageNumber, this.selectedRow)
+        this._houseService.getAllHousesByPageParams(this.pageParams)
             .subscribe((data)=> {
                     this.pending = false;
                     this.houses = data.rows;
@@ -144,19 +149,22 @@ export class HouseTableComponent implements OnInit {
 
 
     prevPage() {
-        this.pageNumber = this.pageNumber - 1;
-        this.findAllHousesByPage(this.pageNumber, this.selectedRow)
+        this.pageParams.pageNumber -= 1;
+        console.log("load by page :", this.pageParams.pageNumber);
+        this.findAllHousesByPage()
     }
 
     nextPage() {
-        this.pageNumber = this.pageNumber + 1;
-        this.findAllHousesByPage(this.pageNumber, this.selectedRow)
+        this.pageParams.pageNumber += 1;
+        console.log("load by page :", this.pageParams.pageNumber);
+        this.findAllHousesByPage()
     }
 
 
     selectRowNum(row: number) {
-        console.log('row number', row);
-        this.findAllHousesByPage(this.pageNumber, row);
+        console.log('load by row number', row);
+        this.pageParams.rowNum = +row;
+        this.findAllHousesByPage();
     }
 
 
@@ -170,7 +178,7 @@ export class HouseTableComponent implements OnInit {
                         this.pending = false;
                         this.onSearch = true;
                         this.houses = data;
-                        this.fillPageList(this.pageNumber, this.pageNumber);
+                        this.fillPageList(this.pageParams.pageNumber, this.pageParams.pageNumber);
                     },
                     (error)=> {
                         this.handleErrors(error);

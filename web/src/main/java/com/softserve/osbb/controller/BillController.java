@@ -11,7 +11,9 @@ import com.softserve.osbb.service.BillService;
 import com.softserve.osbb.service.ProviderService;
 import com.softserve.osbb.util.filter.FilterList;
 import com.softserve.osbb.util.paging.PageDataObject;
+import com.softserve.osbb.util.paging.PageDataUtil;
 import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
+import com.softserve.osbb.util.paging.impl.BillPageDataObject;
 import com.softserve.osbb.util.resources.ResourceLinkCreator;
 import com.softserve.osbb.util.resources.impl.BillResourceList;
 import com.softserve.osbb.util.resources.impl.EntityResourceList;
@@ -48,9 +50,6 @@ public class BillController {
     private ProviderService providerService;
 
     @Autowired
-    private PageDataObject<Resource<BillDTO>> pageDataObject;
-
-    @Autowired
     private FilterList<Resource<BillDTO>, Bill> filterList;
 
 
@@ -84,7 +83,7 @@ public class BillController {
         }
         PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(bills);
         EntityResourceList<BillDTO> billResourceList = (EntityResourceList<BillDTO>) filterList.generateFilteredList(status, bills);
-        PageDataObject<Resource<BillDTO>> billPageDataObject = pageDataObject.providePageData(pageSelector, billResourceList);
+        PageDataObject<Resource<BillDTO>> billPageDataObject = PageDataUtil.providePageData(BillPageDataObject.class, pageSelector, billResourceList);
         return new ResponseEntity<>(billPageDataObject, HttpStatus.OK);
     }
 
@@ -106,7 +105,7 @@ public class BillController {
         }
         PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(bills);
         EntityResourceList<BillDTO> billResourceList = (EntityResourceList<BillDTO>) filterList.generateFilteredList(status, bills);
-        PageDataObject<Resource<BillDTO>> billPageDataObject = pageDataObject.providePageData(pageSelector, billResourceList);
+        PageDataObject<Resource<BillDTO>> billPageDataObject = PageDataUtil.providePageData(BillPageDataObject.class, pageSelector, billResourceList);
         return new ResponseEntity<>(billPageDataObject, HttpStatus.OK);
     }
 

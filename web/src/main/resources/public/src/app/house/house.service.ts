@@ -3,6 +3,7 @@ import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import {HousePageObject} from "./house.page.object";
+import {PageParams} from "../../shared/models/search.model";
 import ApiService = require("../../shared/services/api.service");
 
 
@@ -35,8 +36,8 @@ export class HouseService {
             .catch((error)=>Observable.throw(error));
     }
 
-    getAllHousesByPageNumber(pageNumber: number, selectedRow: number): Observable<any> {
-        return this._http.get(this.housesByPageUrl + pageNumber + '&&rowNum=' + selectedRow)
+    getAllHousesByPageParams(pageParams: PageParams): Observable<any> {
+        return this._http.post(this.houseURL + 'all', JSON.stringify(pageParams))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
 

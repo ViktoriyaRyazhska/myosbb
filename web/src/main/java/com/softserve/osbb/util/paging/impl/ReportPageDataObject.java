@@ -2,7 +2,6 @@ package com.softserve.osbb.util.paging.impl;
 
 import com.softserve.osbb.dto.ReportDTO;
 import com.softserve.osbb.util.paging.PageDataObject;
-import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
 import org.springframework.hateoas.Resource;
 
 import java.time.LocalDate;
@@ -28,8 +27,4 @@ public class ReportPageDataObject extends PageDataObject<Resource<ReportDTO>> {
         }
     }
 
-    @Override
-    public PageDataObject<Resource<ReportDTO>> providePageData(PageRequestGenerator.PageSelector pageSelector, List<Resource<ReportDTO>> billResourceList) {
-        throw new UnsupportedOperationException();
-    }
 }

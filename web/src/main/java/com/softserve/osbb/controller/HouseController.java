@@ -1,13 +1,16 @@
 package com.softserve.osbb.controller;
 
 import com.softserve.osbb.dto.HouseDTO;
+import com.softserve.osbb.dto.PageParams;
 import com.softserve.osbb.dto.mappers.HouseDTOMapper;
 import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.House;
 import com.softserve.osbb.service.ApartmentService;
 import com.softserve.osbb.service.HouseService;
 import com.softserve.osbb.util.paging.PageDataObject;
+import com.softserve.osbb.util.paging.PageDataUtil;
 import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
+import com.softserve.osbb.util.paging.impl.HousePageDataObject;
 import com.softserve.osbb.util.resources.ResourceLinkCreator;
 import com.softserve.osbb.util.resources.impl.ApartmentResourceList;
 import com.softserve.osbb.util.resources.impl.EntityResourceList;
@@ -44,42 +47,7 @@ public class HouseController {
 
     private static Logger logger = LoggerFactory.getLogger(HouseController.class);
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<PageDataObject<Resource<HouseDTO>>> listAllHouses(
-            @RequestParam(value = "pageNumber", required = true) Integer pageNumber,
-            @RequestParam(value = "sortedBy", required = false) String sortedBy,
-            @RequestParam(value = "order", required = false) Boolean order,
-            @RequestParam(value = "rowNum", required = false) Integer rowNum) {
-        logger.info("get all houses by page number: " + pageNumber);
-        final PageRequest pageRequest = PageRequestGenerator.generatePageRequest(pageNumber)
-                .addSortedBy(sortedBy, "street")
-                .addOrderType(order)
-                .addRows(rowNum)
-                .toPageRequest();
 
-        Page<House> housesByPage = houseService.getAllHouses(pageRequest);
-        PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(housesByPage);
-        EntityResourceList<HouseDTO> houseDTOEntityResourceList = new HouseResourceList();
-        housesByPage.forEach(house -> {
-                    HouseDTO houseDTO = HouseDTOMapper.mapHouseEntityToDTO(house);
-                    logger.info("houseDTO created " + houseDTO.toString());
-                    houseDTOEntityResourceList.add(toResource(houseDTO));
-                }
-        );
-        PageDataObject<Resource<HouseDTO>> houseDTOPageDataObject = setUpPageCreator(pageSelector, houseDTOEntityResourceList);
-
-        return new ResponseEntity<>(houseDTOPageDataObject, HttpStatus.OK);
-    }
-
-    private PageDataObject<Resource<HouseDTO>> setUpPageCreator(PageRequestGenerator.PageSelector pageSelector, EntityResourceList<HouseDTO> houseDTOEntityResourceList) {
-        PageDataObject<Resource<HouseDTO>> houseDTOPageDataObject = new PageDataObject<>();
-        houseDTOPageDataObject.setRows(houseDTOEntityResourceList);
-        houseDTOPageDataObject.setCurrentPage(Integer.valueOf(pageSelector.getCurrentPage()).toString());
-        houseDTOPageDataObject.setBeginPage(Integer.valueOf(pageSelector.getBegin()).toString());
-        houseDTOPageDataObject.setEndPage(Integer.valueOf(pageSelector.getEnd()).toString());
-        houseDTOPageDataObject.setTotalPages(Integer.valueOf(pageSelector.getTotalPages()).toString());
-        return houseDTOPageDataObject;
-    }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<EntityResourceList<HouseDTO>> getAllHousesList() {
@@ -91,6 +59,29 @@ public class HouseController {
             houseEntityResourceList.add(toResource(houseDTO));
         });
         return new ResponseEntity<>(houseEntityResourceList, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.POST)
+    public ResponseEntity<PageDataObject<Resource<HouseDTO>>> listAllHouses(
+            @RequestBody PageParams pageParams) {
+        logger.info("get all houses by page number: " + pageParams.getPageNumber());
+        final PageRequest pageRequest = PageRequestGenerator.generatePageRequest(pageParams.getPageNumber())
+                .addSortedBy(pageParams.getSortedBy(), "street")
+                .addOrderType(pageParams.getOrderType())
+                .addRows(pageParams.getRowNum())
+                .toPageRequest();
+        Page<House> housesByPage = houseService.getAllHouses(pageRequest);
+        PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(housesByPage);
+        EntityResourceList<HouseDTO> houseDTOEntityResourceList = new HouseResourceList();
+        housesByPage.forEach(house -> {
+                    HouseDTO houseDTO = HouseDTOMapper.mapHouseEntityToDTO(house);
+                    logger.info("houseDTO created " + houseDTO.toString());
+                    houseDTOEntityResourceList.add(toResource(houseDTO));
+                }
+        );
+        PageDataObject<Resource<HouseDTO>> houseDTOPageDataObject = PageDataUtil.providePageData(HousePageDataObject.class, pageSelector, houseDTOEntityResourceList);
+
+        return new ResponseEntity<>(houseDTOPageDataObject, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/apartments", method = RequestMethod.GET)
@@ -161,18 +152,16 @@ public class HouseController {
         return apartmentList;
     }
 
-    @RequestMapping(value="/{id}",method=RequestMethod.POST)
-        public ResponseEntity<Resource<Apartment>> addApartmentToHouse(@PathVariable("id") Integer id, @RequestBody Apartment apartment){
-        House house =houseService.findHouseById(id);
-       apartment.setHouse(house);
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    public ResponseEntity<Resource<Apartment>> addApartmentToHouse(@PathVariable("id") Integer id, @RequestBody Apartment apartment) {
+        House house = houseService.findHouseById(id);
+        apartment.setHouse(house);
         apartmentService.saveApartment(apartment);
 
         ResourceLinkCreator<Apartment> apartmentResourceLinkCreator = new ApartmentResourceList();
         Resource<Apartment> apartmentResource = apartmentResourceLinkCreator.createLink(toResource(apartment));
-        return new ResponseEntity<>(apartmentResource,HttpStatus.OK );
+        return new ResponseEntity<>(apartmentResource, HttpStatus.OK);
     }
-
-
 
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

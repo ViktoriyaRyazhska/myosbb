@@ -1,10 +1,8 @@
 package com.softserve.osbb.utils;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -17,12 +15,12 @@ import java.time.format.DateTimeParseException;
 public class CustomLocalDateDeserializer extends JsonDeserializer<LocalDate> {
 
     private static DateTimeFormatter dateTimeFormatter =
-            DateTimeFormatter.ofPattern(Constants.DATE_FORMAT);
+            DateTimeFormatter.ofPattern(Constants.YYYY_MM_DD);
 
 
     @Override
     public LocalDate deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-            throws IOException, JsonProcessingException {
+            throws IOException {
         try {
             String date = jsonParser.getText();
             return LocalDate.parse(date, dateTimeFormatter);

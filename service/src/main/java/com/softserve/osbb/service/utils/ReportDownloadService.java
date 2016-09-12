@@ -4,6 +4,7 @@ import com.softserve.osbb.model.Report;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.repository.ReportRepository;
 import com.softserve.osbb.utils.Constants;
+import com.softserve.osbb.utils.CustomDateFormatter;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
@@ -112,7 +113,7 @@ public class ReportDownloadService {
             long seconds = TimeUnit.MILLISECONDS.toSeconds(counter) -
                     TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(counter));
             StringBuilder invoiceGenStringBuilder = new StringBuilder();
-            invoiceGenStringBuilder.append(Constants.DATE_FORMATTER.format(new Date()))
+            invoiceGenStringBuilder.append(CustomDateFormatter.marshal(new Date()))
                     .append("-")
                     .append(String.format("%02d%02d%02d", hours, minutes, seconds));
             return invoiceGenStringBuilder.toString();
@@ -147,7 +148,7 @@ public class ReportDownloadService {
         Report report = new Report();
         report.setName((String) invoiceParam.get("invoiceNumber"));
         report.setCreationDate(LocalDate.now());
-        report.setFilePath(Constants.REPORTS_DIR_NAME + File.separator + Constants.DATE_FORMATTER.format(new Date()) + File.separator + savedFileName);
+        report.setFilePath(Constants.REPORTS_DIR_NAME + File.separator + CustomDateFormatter.marshal(new Date()) + File.separator + savedFileName);
         report.setUser(currentUser);
         reportRepository.save(report);
         logger.info("saved report :" + report.getName() + " to database");
