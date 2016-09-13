@@ -66,7 +66,7 @@ export class ApartmentService{
 
 
 
-    getAllUsersInAppartment(id:number){
+    getAllUsersInApartment(id:number){
         let headers = new Headers({'Authorization': 'Bearer '+localStorage.getItem('token')});
         headers.append('Content-Type', 'application/json');
         return this.http.get(ApiService.serverUrl + "/restful/apartment/users"+id)

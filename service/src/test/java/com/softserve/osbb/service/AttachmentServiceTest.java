@@ -31,7 +31,6 @@ import static org.junit.Assert.*;
  * Created by nataliia on 18.07.16.
  */
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ServiceApplication.class)
 @Rollback
