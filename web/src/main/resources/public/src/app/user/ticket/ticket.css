@@ -196,3 +196,12 @@ hr {
 .ng-invalid {
     border-left: 5px solid #a94442;
 }
+
+/*.uuu {
+    
+}*/
+.notice {
+    padding: 15px;
+    margin-top: 1px;
+    border-color: #fff;
+}

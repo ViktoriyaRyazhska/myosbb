@@ -376,6 +376,29 @@
           }
         ]
       }
+    },
+    {
+      "changeSet": {
+        "id": "2016/09/06-52",
+        "author": "kristina",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "user_id",
+              "baseTableName": "notice",
+              "constraintName": "fk_i0i7rws9vvh121bg8mibj73pe123",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "user_id",
+              "referencedTableName": "users"
+            }
+          }
+        ]
+      }
     }
+
   ]
 }

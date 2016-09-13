@@ -33,14 +33,16 @@ public class User implements Serializable {
     private Role role;
     private Apartment apartment;
     private Osbb osbb;
-    private Collection<Vote> votes = new ArrayList<Vote>();
-    private Collection<Apartment> apartments = new ArrayList<Apartment>();
-    private Collection<Message> messages = new ArrayList<Message>();
-    private Collection<Ticket> assigned = new ArrayList<Ticket>();
-    private Collection<Ticket> tickets = new ArrayList<Ticket>();
-    private Collection<Event> events = new ArrayList<Event>();
-    private Collection<Option> options = new ArrayList<Option>();
-    private Collection<Report> reports = new ArrayList<Report>();
+    private Collection<Notice> notices=new ArrayList<>();
+    private Collection<Vote> votes=new ArrayList<>();
+    private Collection<Apartment> apartments=new ArrayList<>();
+    private Collection<Message> messages=new ArrayList<>();
+    private Collection<Ticket> assigned=new ArrayList<>();
+    private Collection<Ticket> tickets=new ArrayList<>();
+    private Collection<Event> events = new ArrayList<>();
+    private Collection<Option> options=new ArrayList<>();
+    private Collection<Report> reports=new ArrayList<>();
+
     public Boolean isOwner;
 
     public User(User user) {
@@ -91,7 +93,7 @@ public class User implements Serializable {
     }
 
     @Basic
-    @Column(name = "birthDate")
+    @Column(name = "birth_date")
     public Date getBirthDate() {
         return birthDate;
     }
@@ -252,6 +254,16 @@ public class User implements Serializable {
 
     public void setEvents(Collection<Event> events) {
         this.events = events;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonIgnore
+    public Collection<Notice> getNotices() {
+        return notices;
+    }
+
+    public void setNotices(Collection<Notice> notices) {
+        this.notices = notices;
     }
 
     @Override

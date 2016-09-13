@@ -5,14 +5,15 @@ import {RegistrationComponent} from "../registration/registration_user/registrat
 import {CurrentUserService} from "../../shared/services/current.user.service";
 import {ToasterContainerComponent, ToasterService, ToasterConfig} from 'angular2-toaster/angular2-toaster';
 import MaskedInput from 'angular2-text-mask';
-import emailMask from 'node_modules/text-mask-addons/dist/emailMask.js'
+import emailMask from 'node_modules/text-mask-addons/dist/emailMask.js';
 
+import {NoticeService} from './../header/header.notice.service';
 @Component({
     selector: 'app-login',
     templateUrl: 'src/app/login/login.html',
     styleUrls: ['assets/css/login/login.css'],
     directives: [RegistrationComponent, ToasterContainerComponent, MaskedInput],
-    providers: [LoginService, ToasterService],
+    providers: [LoginService, ToasterService,NoticeService],
     outputs: ['isLoggedIn']
 })
 export class LoginComponent implements OnInit {
@@ -44,20 +45,28 @@ export class LoginComponent implements OnInit {
                             this.model.username = "";
                             this.model.password = "";
                             this.isLoggedIn = true;
+                           // this.headerComponent.getNotice();
+                          
                             this._toasterService.pop('success'
                                 , "Congratulation," + this._currentUserService.getUser().firstName + " !"
                                 , 'We glad to see you hare again');
+                               
                             this._router.navigate(['home/wall']);
                         }
                     )
                 }
+               
+
             },
             err => {
                 this.model.password = "";
                 this.handleErrors(err);
             },
             () => console.log('Sending credentials completed')
-        )
+        )  
+        
+ 
+        
     }
 
     private handleErrors(error) {

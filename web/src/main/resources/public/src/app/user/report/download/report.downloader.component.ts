@@ -109,10 +109,7 @@ export class ReportDownloaderComponent {
         } else {
             this._toasterService.pop(onErrorResourceNotFoundToastMsg);
         }
-
-
     }
-
 }
 
 export let onFileDownloadSuccessToastMsg: Toast = {

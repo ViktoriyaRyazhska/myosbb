@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {User} from "../../shared/models/User";
 import ApiService = require("../../shared/services/api.service");
 import {routes} from "../app.routes";
+import {Component} from '@angular/core';
 
 @Injectable()
 export class LoginService {
@@ -28,7 +29,7 @@ export class LoginService {
         let tokenUrl = this._pathUrl + "/oauth/token";
         var data = 'username=' + encodeURIComponent(model.username) + '&password='
             + encodeURIComponent(model.password) + '&grant_type=password';
-
+           // HeaderComponent.currentUser = 
         return this.http.post(tokenUrl, data);
     }
 

@@ -1,7 +1,9 @@
-import {Injectable} from "@angular/core";
+import {Injectable,Component} from "@angular/core";
 import {User} from "../../shared/models/User";
 import {Response} from "@angular/http";
 import {LoginService} from "../../app/login/login.service";
+
+
 @Injectable()
 export class CurrentUserService {
 
@@ -10,7 +12,7 @@ export class CurrentUserService {
 
     constructor(private _loginservice: LoginService) {
         this.currentUser = new User();
-        this.getUser();
+        this.getUser();        
     }
 
     setUser(user: Response) {

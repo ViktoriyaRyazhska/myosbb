@@ -4,6 +4,7 @@ import {UserMainComponent} from "./main/user.main.component";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {HeaderComponent} from "../header/header.component";
 import {CurrentUserService} from "../../shared/services/current.user.service";
+
 @Component({
     selector: 'my-user',
     templateUrl: 'src/app/user/user.html',
@@ -19,8 +20,7 @@ export class UserComponent implements OnInit{
 
     ngOnInit():any {
         this.userName=this._currentUserService.getUser().firstName+" "+this._currentUserService.getUser().lastName;
-        console.log(this.userName);
+      //  console.log("UERS COMPONENT:"+this.userName);
     }
-
     
 }

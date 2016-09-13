@@ -53,19 +53,27 @@ public class PageRequestGenerator {
         }
     }
 
-    private static class PageRequestHolder {
+    public static class PageRequestHolder {
         private Integer pageNumber;
         private Integer rowNum;
         private String sortedBy;
         private Boolean order;
 
-        PageRequestHolder(Integer pageNumber) {
+        public PageRequestHolder(){}
+
+        public PageRequestHolder(Integer pageNumber) {
             this.pageNumber = pageNumber;
         }
 
-        PageRequestHolder(Integer pageNumber, Integer rowNum) {
+        public PageRequestHolder(Integer pageNumber, Integer rowNum) {
             this(pageNumber);
             this.rowNum = rowNum;
+        }
+
+        public PageRequestHolder(Integer pageNumber, Integer rowNum, String sortedBy, boolean order) {
+            this(pageNumber, rowNum);
+            this.sortedBy = sortedBy;
+            this.order = order;
         }
 
         public int getPageNumber() {
@@ -101,7 +109,7 @@ public class PageRequestGenerator {
         }
     }
 
-    private PageRequestGenerator(PageRequestHolder pageRequestHolder) {
+    public PageRequestGenerator(PageRequestHolder pageRequestHolder) {
         this.pageRequestHolder = pageRequestHolder;
     }
 

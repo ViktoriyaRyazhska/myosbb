@@ -21,10 +21,16 @@ import {Subscription} from "rxjs";
 import {CurrentUserService} from "./../../../../shared/services/current.user.service";
 import {User} from './../../user';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
+import {HeaderComponent} from "../../../header/header.component";
+import {ToasterContainerComponent, ToasterService} from "angular2-toaster/angular2-toaster";
+import {
+    onErrorResourceNotFoundToastMsg,
+    onErrorServerNoResponseToastMsg
+} from "../../../../shared/error/error.handler.component";
 @Component({
     selector: 'ticket',
     templateUrl: './src/app/user/ticket/single_ticket/single.ticket.component.html',
-    providers: [ MessageService, TicketService],
+    providers: [ MessageService, TicketService,ToasterService],
     directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     styleUrls: ['src/app/user/ticket/ticket.css'],
@@ -47,14 +53,21 @@ export class MessageComponent implements OnInit {
                 private ticketService:TicketService,
                 private messageService:MessageService,
                 private currentUserService:CurrentUserService,
+                 private _toasterService: ToasterService,
                 private router:Router) {
-        this.currentUser = currentUserService.getUser();
+         this.currentUserService=HeaderComponent.currentUserService;
+        this.currentUser = this.currentUserService.getUser();
+        
+       
+        
         this.ticket = new Ticket("", "", TicketState.NEW);
         this.ticket.user = new User();
         this.ticket.assigned = new User();
+
         this.message = new Message("");
         this.ticket.messages = [];
         this.message.answers = [];
+         console.log("single ticket: "+this.currentUser.firstName+"  "+this.currentUser.lastName);
     }
 
     ngOnInit():any {
@@ -63,8 +76,31 @@ export class MessageComponent implements OnInit {
             this.messageService.getTicketbyId(this.ticketId)
                 .subscribe((data) =>  this.ticket = data
                 ),
-                (error) => console.error(error)
+                 (error)=> {
+                     console.log("pfguyguyfytrecsews123456789");
+                     
+                    this.handleErrors(error)
+                }
         });
+        if(this.ticket == null){
+        this.router.navigate(['home/**']);
+            
+        }
+
+    }
+
+    private handleErrors(error: any) {
+        if (error.status === 404 || error.status === 400) {
+            console.log('server error 400');
+            this._toasterService.pop(onErrorResourceNotFoundToastMsg);
+            return;
+        }
+
+        if (error.status === 500) {
+            console.log('server error 500');
+            this._toasterService.pop(onErrorServerNoResponseToastMsg);
+            return;
+        }
     }
 
     private toTableTicket() {
@@ -138,14 +174,19 @@ export class MessageComponent implements OnInit {
         }
         console.log("STATE:  " + this.ticket.state);
 
-        this.messageService.editState(this.ticket);
+        this.messageService.editState(this.ticket)
+        .then( setTimeout => this.ngOnInit(), 1000);
+
         
    // this.ticketService.sendEmailState(this.ticket.ticketId);
     }
 
 
     editTicket(ticket:ITicket):void {
-        this.ticketService.editTicket(ticket);
+        console.log("SINGLE TICKET UPDATE");
+        
+        this.ticketService.editTicket(ticket)
+        .then( setTimeout => this.ngOnInit(), 1000);
     }
 
     deleteTicket(ticket:ITicket):void {

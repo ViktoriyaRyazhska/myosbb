@@ -24,7 +24,7 @@ export class TicketEditFormComponent implements OnInit {
     editModal:ModalDirective;
     states:string[];
 
-   stateTicket = "NEW";
+    stateTicket = "NEW";
     userAssignArr:User[] = [];
     assign:User;
     creatingForm:ControlGroup;
@@ -106,6 +106,7 @@ export class TicketEditFormComponent implements OnInit {
 
     onEditTicket() {
         if (this.nameInput.valid && this.descriptionInput.valid && this.assignInput.valid && this.isFindAssign()) {
+             console.log("TICKET: "+JSON.stringify(this.editTicket()));
             this.update.emit(this.editTicket());
             this.closeEditModal();
         }

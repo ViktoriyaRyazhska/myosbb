@@ -1,0 +1,55 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "2016/09/06-24",
+        "author": "krisrina",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "createTable": {
+              "columns": [
+                {
+                  "column": {
+                    "autoIncrement": true,
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "notice_pkey"
+                    },
+                    "name": "notice_id",
+                    "type": "SERIAL"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "description",
+                    "type": "VARCHAR(250)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "path",
+                    "type": "VARCHAR(250)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "user_id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "type",
+                    "type": "VARCHAR(255)"
+                  }
+                }
+              ],
+              "tableName": "notice"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

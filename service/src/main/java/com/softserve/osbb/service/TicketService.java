@@ -66,4 +66,14 @@ public interface TicketService {
     Page<Ticket> getTicketsByState(TicketState ticketState, PageRequest pageRequest);
 
     Page<Ticket> getTicketsByUser(User user, PageRequest pageRequest);
+
+    Page<Ticket> getTicketsByAssigned(User user, PageRequest pageRequest);
+
+    Page<Ticket> findTicketsByStateAndUser(TicketState state, User user, PageRequest pageRequest);
+
+    Page<Ticket> findTicketsByStateAndAssign(TicketState state, User user, PageRequest pageRequest);
+
+
+
+
 }

@@ -9,10 +9,14 @@
                 <ticket-edit-form [ticket]="updatedTicket" (update)="editTicket($event)" #editForm></ticket-edit-form>
                 <ticket-del-form (delete)="deleteTicket($event)" #delForm></ticket-del-form>
 
-                            <span class="label btn-round label-danger" style="cursor:pointer;float:right;margin-left: 20px;" (click)="findTicketByState('DONE')">DONE</span>
-                            <span class="label btn-round label-success" style="cursor:pointer;float:right;margin-left: 20px;" (click)="findTicketByState('IN_PROGRESS')">IN_PROGRESS</span>
-                            <span class="label btn-round label-info" style="cursor:pointer;float:right;margin-left: 20px;" (click)="findTicketByState('NEW')">NEW</span>
-                            <button type="button" class="btn btn-default btn-xs" style="cursor:pointer;float:right;margin-left: 20px;"  (click)="findMyTickets()">My tickets</button>
+                            <span class="label btn-round label-danger" style="cursor:pointer;float:right;margin-left: 5px;" (click)="findTicketByState('DONE')">DONE</span>
+                            <span class="label btn-round label-success" style="cursor:pointer;float:right;margin-left: 5px;" (click)="findTicketByState('IN_PROGRESS')">IN_PROGRESS</span>
+                            <span class="label btn-round label-info" style="cursor:pointer;float:right;margin-left: 15px;" (click)="findTicketByState('NEW')">NEW</span>
+                           <div class="btn-group" style="float:right;">
+						        <button type="button" class="btn btn-default  btn-xs"  style="background:#F0FFFF;" (click)="getTicketsByPageNum(1,10)">All</button>
+						        <button type="button" class="btn btn-default  btn-xs" (click)="findMyTickets()">My tickets</button>
+						        <button type="button" class="btn btn-default  btn-xs" (click)="findMyAssigned()">My assign</button>
+		                     </div>
             </div>
 
             <div id="example_filter" class="pull-right dataTables_filter">
@@ -47,7 +51,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let item of ticketArr">
+                <tr *ngFor="let item of ticketArr" >
                     <td class="nameTabl"><a class="nameTablA" (click)="singleTicket(item.ticketId)"> {{item.name}}</a>
                     </td>
                     <td style="width:28%;min-width:28%;text-overflow: ellipsis; overflow: hidden;" class="descTabl">
@@ -58,16 +62,16 @@
                     <td style="margin: 15px;">{{item.assigned.firstName}} {{item.assigned.lastName}}</td>
                     <td>
 
-                        <div *ngIf=" item.state == 'NEW' || item.state == '0'  ">
-                            <span class="label btn-round label-info " style="margin: 15px;"
-                                  list="assign">{{item.state}}</span>
+                        <div  *ngIf=" item.state == 'NEW' || item.state == '0'  ">
+                            <span class="label btn-round label-info " style="margin: 5px;"
+                                  list="assign" >NEW</span>
                         </div>
                         <div *ngIf=" item.state == '1' || item.state == 'IN_PROGRESS'">
-                            <span class="label btn-round label-success" style="margin: 20px;">IN_PROGRESS</span>
+                            <span class="label btn-round label-success" style=" text-align: center;margin: 5px;">IN_PROGRESS</span>
 
                         </div>
                         <div *ngIf=" item.state == '2' || item.state == 'DONE'">
-                            <span class="label btn-round label-danger" style="margin: 20px;">DONE</span>
+                            <span class="label btn-round label-danger" style=" text-align: center;margin: 5px;">DONE</span>
                         </div>
                     </td>
                     <td>
@@ -80,7 +84,7 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                 <li><a style="cursor: pointer"
-                                       (click)="editForm.initUpdatedTicket(item);editForm.openEditModal()">
+                                       (click)=" initUpdatedTicket(item); editForm.initUpdatedTicket(item);editForm.openEditModal()">
                                     {{'editTicket' | translate}}</a></li>
                                 <li><a style="cursor: pointer" (click)="delForm.openDelModal(item)">{{'deleteTicket' |
                                     translate}}</a></li>

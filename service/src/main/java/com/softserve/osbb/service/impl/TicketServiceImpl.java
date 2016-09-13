@@ -158,6 +158,33 @@ public class TicketServiceImpl implements TicketService {
         return ticketRepository.findTicketsByUser(user, pageRequest) ;
     }
 
+    @Override
+    public Page<Ticket> getTicketsByAssigned(User user, PageRequest pageRequest) {
+        return ticketRepository.findTicketsByAssigned(user, pageRequest) ;
+    }
+
+    @Override
+    public Page<Ticket> findTicketsByStateAndUser(TicketState state, User user, PageRequest pageRequest) {
+        if(state == null){
+            return ticketRepository.findTicketsByUser(user, pageRequest) ;
+        }
+        else{
+            return ticketRepository.findTicketsByStateAndUser(state, user, pageRequest) ;
+
+        }
+    }
+
+    @Override
+    public Page<Ticket> findTicketsByStateAndAssign(TicketState state, User user, PageRequest pageRequest) {
+        if(state == null){
+            return ticketRepository.findTicketsByAssigned(user, pageRequest) ;
+        }
+        else{
+            return ticketRepository.findTicketsByStateAndAssigned(state, user, pageRequest) ;
+
+        }
+    }
+
 
     public Sort.Direction getSortingOrder(Boolean order) {
         if (order == null) {

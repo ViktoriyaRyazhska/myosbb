@@ -21,4 +21,14 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
     Page<Ticket> findByState(TicketState ticketState,Pageable pageRequest);
 
     Page<Ticket> findTicketsByUser(User user, Pageable pageRequest);
+
+    Page<Ticket> findTicketsByAssigned(User user, Pageable pageRequest);
+
+    Page<Ticket> findTicketsByStateAndUser(TicketState state, User user, Pageable pageRequest);
+
+    Page<Ticket> findTicketsByStateAndAssigned(TicketState state, User user, Pageable pageRequest);
+
+
+
+
 }

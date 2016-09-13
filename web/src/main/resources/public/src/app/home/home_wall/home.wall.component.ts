@@ -29,5 +29,6 @@ export class HomeWallComponent implements OnInit {
 
     ngOnInit():any {
          this.osbbService.getOsbbById(this.currentOsbbId).then( osbb =>  this.currentOsbb = osbb );
+          //setTimeout(()=> {this.headerComponent.getNotice();}, 2000);
     }
 }

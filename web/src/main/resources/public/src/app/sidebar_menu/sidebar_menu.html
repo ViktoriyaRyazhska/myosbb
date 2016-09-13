@@ -1,5 +1,7 @@
 <aside>
     <div id="sidebar" class="nav-collapse ">
+    <!--    <app-header (notice)="updateNotice($event)" #header></app-header>-->
+
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
 
@@ -35,7 +37,7 @@
             <li class="sub-menu">
                 <a [routerLink]="['ticket']">
                     <i class="fa fa-comments"></i>
-                    <span>{{ 'messages' | translate | capitalize }}</span>
+                    <span>{{ 'tickets' | translate | capitalize }}</span>
                 </a>
             </li>
             <li class="sub-menu">

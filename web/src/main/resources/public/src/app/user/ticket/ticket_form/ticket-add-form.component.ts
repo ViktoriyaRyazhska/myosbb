@@ -52,8 +52,6 @@ export class TicketAddFormComponent implements OnInit {
             assignInput: this.assignInput
         });
 
-        this.nameTicket = '';
-        this.descriptionTicket = '';
     }
 
     ngOnInit() {
@@ -78,8 +76,7 @@ export class TicketAddFormComponent implements OnInit {
 
     getAllUsers() {
         return this.ticketService.getAllUsers()
-            .then(userAssignArr => this.userAssignArr = userAssignArr)
-            .then(console.log("длинна "+ this.userAssignArr.length));       
+            .then(userAssignArr => this.userAssignArr = userAssignArr);  
     }
 
     toggleSubmitAttempt() {

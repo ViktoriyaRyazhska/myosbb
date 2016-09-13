@@ -166,6 +166,11 @@
   "headmaster" : "голова осбб",
   "inhabitants" : "жителі",
   "mail_format_err":"невірний формат емейлу",
-  "phone_format_err" : "невірний формат телефону"
+  "phone_format_err" : "невірний формат телефону",
+  "You_have":"У вас",
+  "pending_tasks" :"новини",
+  "pending_task":"новин",
+  "pending_task1":"новина",
+  "nothingToShow":"немає новин"
 }
 

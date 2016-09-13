@@ -23,14 +23,11 @@ public class Message {
     public Message() {
     }
 
-    public Message(String message) {
-
-        this.message = message;
-    }
-
-    public Message(String message, Timestamp time) {
+    public Message(String message, Timestamp time, Ticket ticket, User user) {
         this.message = message;
         this.time = time;
+        this.ticket = ticket;
+        this.user = user;
     }
 
     @Id

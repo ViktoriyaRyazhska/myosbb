@@ -49,19 +49,17 @@ public class MessageController {
         Resource<Message> messageResource;
         try {
             User user = userService.findOne(message.getUser().getUserId());
-            user.getMessages().add(message);
             message.setUser(user);
             logger.info("User mes " + user.getUserId());
 
             Ticket ticket = ticketService.findOne(ticketId);
-            ticket.getMessages().add(message);
             message.setTicket(ticket);
             logger.info("Ticket mes " + ticket.getTicketId());
 
             message.setTime(new Timestamp(new Date().getTime()));
             message = messageService.save(message);
-            userService.save(user);
-            ticketService.update(ticket);
+          //  userService.save(user);
+           // ticketService.update(ticket);
             messageResource = addResourceLinkToMessage(message);
             logger.info("Saving message object " + message.toString());
         } catch (Exception e) {

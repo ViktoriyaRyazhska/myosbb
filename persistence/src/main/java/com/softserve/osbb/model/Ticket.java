@@ -1,5 +1,6 @@
 package com.softserve.osbb.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.softserve.osbb.model.enums.TicketState;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -137,6 +138,7 @@ public class Ticket {
     }
 
     @OneToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
     public Collection<Attachment> getAttachments() {
         return attachments;
     }

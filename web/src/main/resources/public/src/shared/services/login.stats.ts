@@ -6,6 +6,7 @@ export class LoginStat {
 
     private isLoggedIn = new Subject<boolean>();
     loggedInObserver$ = this.isLoggedIn.asObservable();
+    
     setLoginStat(stat:boolean) {
         this.isLoggedIn.next(stat);
     }
