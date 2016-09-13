@@ -39,7 +39,7 @@ public class OsbbController {
     private AttachmentService attachmentService;
 
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value="",method = RequestMethod.POST)
     public ResponseEntity<Resource<Osbb>> createOsbb(@RequestBody Osbb osbb) {
         logger.info("Create osbb:  " + osbb);
         // System.out.println(" ***************Osbb:" + osbb.getLogo().);
@@ -126,7 +126,7 @@ public class OsbbController {
         return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "",method = RequestMethod.GET)
     public ResponseEntity<List<Resource<Osbb>>> getAllOsbb() {
         logger.info("Get all osbb.");
         List<Osbb> osbbList = osbbService.getAllOsbb();

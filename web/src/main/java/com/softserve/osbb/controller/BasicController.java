@@ -96,32 +96,6 @@ public class BasicController {
         return HttpStatus.NOT_FOUND;
     }
 
-    @RequestMapping(value = "/registration/osbb", method = RequestMethod.POST)
-    public Osbb putOsbb(@RequestBody Osbb osbb) {
-        logger.info("Saving osbb, sending to service");
-        return osbbService.addOsbb(osbb);
-    }
-    @RequestMapping(value = "/join/osbb", method = RequestMethod.GET)
-    public ResponseEntity<List<Resource<Osbb>>> getAllOsbb() {
-        logger.info("Get all osbb: ");
-        List<Osbb> osbbList = osbbService.getAllOsbb();
-        final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
-
-        for(Osbb o: osbbList) {
-            resourceOsbbList.add(addResourceLinkToOsbb(o));
-        }
-        return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
-    }
-
-    private Resource<Osbb> addResourceLinkToOsbb(Osbb osbb) {
-        if (osbb == null) return null;
-        Resource<Osbb> osbbResource = new Resource<>(osbb);
-        osbbResource.add(linkTo(methodOn(OsbbController.class)
-                .getOsbbById(osbb.getOsbbId()))
-                .withSelfRel());
-        return osbbResource;
-    }
-
     @Autowired
     TicketService ticketService;
 
