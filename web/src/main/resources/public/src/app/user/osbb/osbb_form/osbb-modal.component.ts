@@ -1,4 +1,4 @@
-import { Component, Output, Input, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Component, Output, Input, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {FORM_DIRECTIVES, CORE_DIRECTIVES, FormBuilder, Control, ControlGroup, Validators} from '@angular/common';
 import {IOsbb, Osbb} from "../../../../shared/models/osbb";
 import { OsbbDTO } from '../osbb';
@@ -7,7 +7,6 @@ import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {TranslatePipe} from "ng2-translate";
 import {FILE_UPLOAD_DIRECTIVES, FileSelectDirective, FileDropDirective, FileUploader} from "ng2-file-upload/ng2-file-upload";
 import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
-//import {Attachment} from "../../../../shared/models/attachment";
 
 @Component({
     selector: 'osbb-modal',
@@ -42,7 +41,7 @@ export class OsbbModalComponent implements OnInit{
     addressControl: Control;
     districtControl: Control;
 
-     constructor(private builder: FormBuilder) {
+     constructor(private builder: FormBuilder, private element: ElementRef) {
         this.created = new EventEmitter<OsbbDTO>();
         this.update = new EventEmitter<Osbb>();
         this.nameControl = new Control('', Validators.required);
@@ -61,6 +60,16 @@ export class OsbbModalComponent implements OnInit{
         if(this.osbb === undefined){
             this.osbb = new Osbb();
         }
+    }
+
+    showLogo(event) {
+        var reader = new FileReader();
+        var image = this.element.nativeElement.querySelector('.image');
+        reader.onload = function(e) {
+            var src = e.target.result;
+            image.src = src;
+        };
+        reader.readAsDataURL(event.target.files[0]);
     }
 
     openAddModal() {
