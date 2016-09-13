@@ -3,11 +3,8 @@
  */
 export interface IApartment{
     apartmentId:number;
-
     square:number;
-
     number:number;
-
     house:any;
     owner:number;
     bills:any[];

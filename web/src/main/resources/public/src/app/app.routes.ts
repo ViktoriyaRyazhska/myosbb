@@ -5,11 +5,11 @@ import {HomeComponent} from "./home/home.component";
 import {UserComponent} from "./user/user.component";
 import {homeRoutes} from "./home/home.routes";
 import {userRoutes} from "./user/user.routes";
-import {RegistrationComponent} from "./registration/registration.component";
+import {RegistrationComponent} from "./registration/registration_user/registration.component";
 import {ErrorHandlerComponent} from "../shared/error/error.handler.component";
 import {adminRoutes} from "./admin/admin.routes";
-import {RegistrationOsbbComponent} from "./registration/registration.osbb.component";
-import {JoinOsbbComponent} from "./registration/join.osbb.component";
+import {RegistrationOsbbComponent} from "./registration/registration_osbb/registration.osbb.component";
+import {JoinOsbbComponent} from "./registration/join/join.osbb.component";
 
 
 export const routes: RouterConfig = [

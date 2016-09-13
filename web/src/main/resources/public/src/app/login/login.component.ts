@@ -1,7 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {LoginService} from "./login.service";
 import {Router} from "@angular/router";
-import {RegistrationComponent} from "../registration/registration.component";
+import {RegistrationComponent} from "../registration/registration_user/registration.component";
 import {CurrentUserService} from "../../shared/services/current.user.service";
 import {ToasterContainerComponent, ToasterService, ToasterConfig} from 'angular2-toaster/angular2-toaster';
 import MaskedInput from 'angular2-text-mask';
