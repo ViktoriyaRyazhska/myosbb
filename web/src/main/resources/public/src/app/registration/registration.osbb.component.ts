@@ -32,7 +32,7 @@ export class RegistrationOsbbComponent {
 
     public address: Object;
     getAddress(place: Object) {
-        this.address = place['formatted_address'];
+        this.newOsbb.address = place['formatted_address'];
         var location = place['geometry']['location'];
         var lat = location.lat();
         var lng = location.lng();
