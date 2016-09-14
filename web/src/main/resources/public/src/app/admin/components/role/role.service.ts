@@ -4,7 +4,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import {IRole} from "./role";
 import {Observable} from "rxjs/Observable";
-import ApiService = require("../../../shared/services/api.service");
+import ApiService = require("../../../../shared/services/api.service");
 
 @Injectable()
 export class RoleService { 

@@ -9,11 +9,11 @@ import { RoleService } from './role.service';
 import { RoleAddFormComponent } from './role_form/role-add-form.component';
 import { RoleEditFormComponent } from './role_form/role-edit-form.component';
 import { RoleDelFormComponent } from './role_form/role-del-form.component';
-import {PageCreator} from "../../../shared/services/page.creator.interface";
+import {PageCreator} from "../../../../shared/services/page.creator.interface";
 
 @Component({
     selector: 'role',
-    templateUrl: './src/app/user/role/role.component.html',
+    templateUrl: './src/app/admin/components/role/role.component.html',
     providers: [ RoleService],
     directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, RoleAddFormComponent, RoleEditFormComponent, RoleDelFormComponent],
     viewProviders: [BS_VIEW_PROVIDERS]

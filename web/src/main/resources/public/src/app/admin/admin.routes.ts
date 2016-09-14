@@ -4,7 +4,7 @@ import {OsbbTableAdminComponent} from "./components/osbb/osbb_table.admin.compon
 import {HouseTableAdminComponent} from "./components/house/house_table.admin.component";
 import {ApartmentTableAdminComponent} from "./components/apartment/apartment.table.admin.component";
 import {UserTableAdminComponent} from "./components/user/user_table.admin.component";
-
+import {RoleComponent} from "./components/role/role.component";
 import {HouseShowAdminComponent} from "./components/house/house_show.admin.component";
 
 import {ApartmentProfileComponent} from "../../app/user/ApartmentProfile/apartment.profile"
@@ -21,7 +21,8 @@ export const adminRoutes: RouterConfig = [
             {path: 'house/:id', component: HouseShowAdminComponent},
             {path: 'apartments', component: ApartmentTableAdminComponent},
             {path: 'users', component: UserTableAdminComponent},
-            {path:'apartments/apartmentprofile/:id', component:ApartmentProfileComponent}
+            {path:'apartments/apartmentprofile/:id', component:ApartmentProfileComponent},
+            {path: 'role', component: RoleComponent}
         ]
     },
 

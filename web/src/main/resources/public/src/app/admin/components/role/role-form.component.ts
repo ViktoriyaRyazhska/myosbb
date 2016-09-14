@@ -4,7 +4,7 @@ import {IRole, Role} from "./role";
 
 @Component({
     selector: 'role-form',
-    templateUrl: './src/app/user/role/role-form.component.html',
+    templateUrl: './src/app/admin/components/role/role-form.component.html',
     directives:[MODAL_DIRECTIVES]
 })
 export class RoleFormComponent implements OnInit{
