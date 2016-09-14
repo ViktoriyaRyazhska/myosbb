@@ -21,7 +21,9 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ServiceApplication.class)
 public class UserServiceTest {
+
     private User user;
+
     @Autowired
     private UserService userService;
 
