@@ -33,21 +33,16 @@ public class UserServiceImpl implements UserService{
     @Autowired
     RoleRepository userRoleRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     private Logger log;
 
     @Override
     public User save(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
 
     @Override
     public User findOne(Integer integer) {
-
         return userRepository.findOne(integer);
     }
 
@@ -56,7 +51,7 @@ public class UserServiceImpl implements UserService{
         try {
             return userRepository.findOne(Integer.parseInt(id));
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            log.warn("UserService: Cant find user with id:"+id);
         }
         return null;
     }
@@ -93,17 +88,18 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void delete(Integer integer) {
-        if (exists(integer))
+        if (exists(integer)) {
             userRepository.delete(integer);
-
-
+        }else{
+            log.warn("Cant find user with id:"+integer);
+        }
     }
 
     @Override
     public void delete(User user) {
-        if (exists(user.getUserId()))
+        if (exists(user.getUserId())) {
             userRepository.delete(user.getUserId());
-
+        }
     }
 
     @Override
@@ -138,7 +134,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User saveAndFlush(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.saveAndFlush(user);
     }
 
@@ -148,7 +143,6 @@ public class UserServiceImpl implements UserService{
         List<User> encodedUsers=new ArrayList<User>();
         while(ite.hasNext()){
             User temp=ite.next();
-            temp.setPassword(passwordEncoder.encode(temp.getPassword()));
             encodedUsers.add(temp);
         }
         return userRepository.save(encodedUsers);

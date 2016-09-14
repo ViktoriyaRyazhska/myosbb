@@ -54,9 +54,7 @@
                   "column": {
                     "name": "repeat",
                     "type": "VARCHAR(255)",
-                    "constraints": {
-                      "defaultValue": "ONE_TIME"
-                    }
+                    "defaultValue": "ONE_TIME"
                   }
                 },
                 {

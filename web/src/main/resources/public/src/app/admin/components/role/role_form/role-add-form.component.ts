@@ -5,7 +5,7 @@ import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 @Component({
     selector: 'role-add-form',
-    templateUrl: './src/app/user/role/role_form/role-add-form.html',
+    templateUrl: './src/app/admin/components/role/role_form/role-add-form.html',
     directives:[MODAL_DIRECTIVES, CORE_DIRECTIVES],
     viewProviders: [BS_VIEW_PROVIDERS]
 })

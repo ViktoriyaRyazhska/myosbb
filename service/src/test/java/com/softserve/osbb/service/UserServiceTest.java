@@ -21,7 +21,9 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ServiceApplication.class)
 public class UserServiceTest {
+
     private User user;
+
     @Autowired
     private UserService userService;
 
@@ -29,10 +31,10 @@ public class UserServiceTest {
     public void setUpToUserObject() {
         user=new User();
         user.setFirstName("Oleg");
-        user.setLastName("Kotsik");
-        user.setEmail("cavayman@gmail.com");
+        user.setLastName("SecondNameForTest");
+        user.setEmail("ThisIsSuperTestEmail@gmail.com");
         user.setPassword("1111");
-        user.setGender("JuniorJavaDev");
+        user.setGender("male");
         user.setPhoneNumber("+380679167305");
         user.setBirthDate(new java.util.Date(System.currentTimeMillis()));
     }

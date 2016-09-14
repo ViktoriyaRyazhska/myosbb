@@ -10,7 +10,6 @@ import {UserAttachmentComponent} from "./attachment/user.attachment.component";
 import {UserReportComponent} from "./report/user.report.component";
 import {UsersComponent} from "./users/users.component";
 import {OsbbComponent} from "./osbb/osbb.component";
-import {RoleComponent} from "./role/role.component";
 import {ProviderComponent} from "./provider/provider.component";
 import {ContractComponent} from "./contract/contract.component";
 import {ApartmentProfileComponent} from "./ApartmentProfile/apartment.profile";
@@ -18,7 +17,7 @@ import {ProviderInfoComponent} from "./provider/provider-info";
 import {ProfileComponent} from "./profile/profile.component";
 import {ProviderUserPageComponent} from "./provider/provider_home/provider-user-page.component";
 import {OsbbBillComponent} from "./bills/osbb/osbb.bill.component";
-
+ 
 export const userRoutes: RouterConfig = [
     {
         path: 'home/user',
@@ -36,7 +35,6 @@ export const userRoutes: RouterConfig = [
             {path: 'users', component: UsersComponent},
             {path: 'profile', component: ProfileComponent},
             {path: 'osbb', component: OsbbComponent},
-            {path: 'role', component: RoleComponent},
             {path: 'provider', component: ProviderComponent},
             {path: 'provider/info/:id', component: ProviderInfoComponent},
             {path: 'provider/info', component: ProviderUserPageComponent},
