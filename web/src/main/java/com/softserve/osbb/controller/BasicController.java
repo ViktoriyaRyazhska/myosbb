@@ -45,26 +45,6 @@ public class BasicController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-   /* @RequestMapping(value = "user/login", method = RequestMethod.POST)
-    public String login(@RequestBody Map<String, String> json) throws ServletException {
-        if (json.get("username") == null || json.get("password") == null) {
-            throw new ServletException("Please fill in username and password");
-        }
-        String userName = json.get("username");
-        String password = json.get("password");
-
-        User user = userService.findUserByEmail(userName);
-        if (user == null) {
-            throw new ServletException("User name not found");
-        }
-        String pwd = user.getPassword();
-        if (!password.equals(pwd)) {
-            throw new ServletException("Invalid.Please check you'r username and password");
-        }
-        return Jwts.builder().setId(user.getUserId().toString()).setSubject(userName).claim("roles", "User").setIssuedAt(new Date())
-                .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
-    }
-    */
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public User putUser(@RequestBody User user) {
@@ -90,7 +70,7 @@ public class BasicController {
     public HttpStatus sendEmailOnMail(@RequestBody String email) throws MessagingException {
         User user=userService.findUserByEmail(email);
         if(user!=null) {
-            sender.send(email,"My-osbb.Your forgoten password","Hello there friend here is your pass:"+passwordEncoder.encode(user.getPassword()));
+            sender.send(email,"My-osbb.Your forgoten password","Hello there friend! here is your url to change your pass:<a href='localhost:3000/forgotPass;email="+email+"'></a>");
             return HttpStatus.ACCEPTED;
         }
         return HttpStatus.NOT_FOUND;
@@ -105,7 +85,7 @@ public class BasicController {
         logger.info("Send sendEmailAssignTicket "+ ticket.getUser().getEmail());
 
         if(ticket.getAssigned().getEmail()!=null) {
-            sender.send(ticket.getAssigned().getEmail(),"My-osbb. You elected responsible.", "Name ticket: "+ ticket.getName()+
+            sender.send(ticket.getAssigned().getEmail(),"My-osbb. You selected responsible.", "Name ticket: "+ ticket.getName()+
                     " To see more information, click on link: "+"\n" +
                     "192.168.195.250:8080/myosbb/home/user/ticket"+ticket.getTicketId());
             return HttpStatus.ACCEPTED;
