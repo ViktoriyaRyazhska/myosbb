@@ -69,7 +69,7 @@ public class BasicController {
         if (user != null) {
             setSecretKeyForUser(user.getUserId());
             sender.send(email, "My-osbb.Your forgoten password", "Hello there friend! here is your url to change your pass:" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort()
-                    + "/forgotPass;id=" + user.getUserId() + ";key=" + getSecretKeyForEmail(user.getUserId())+";");
+                    + "/myosbb/forgotPass;id=" + user.getUserId() + ";key=" + getSecretKeyForEmail(user.getUserId())+";");
             return HttpStatus.ACCEPTED;
         }
         return HttpStatus.NOT_FOUND;
