@@ -15,22 +15,25 @@ export class ForgotPasswordComponent implements OnInit {
     confirmPassword:string = "";
     errorMsg:string = "";
     errorConfirm:boolean = false;
-    email:string="";
+    id:string="";
+    FormValid=false;
 
 
-    constructor(private route:ActivatedRoute,private forgotPassService:ForgotPasswordService) {
-       this.validateKey();
+    constructor(private _router:Router,private route:ActivatedRoute,private forgotPassService:ForgotPasswordService) {
+        this.route.params.subscribe(params =>
+        {   this.id=params['id']||'None';
+            this.key = params['key'] || 'None';});
     }
 
     ngOnInit():any {
-        this.route.params.subscribe(params =>
-        {   this.email=params['id']||'None';
-            this.key = params['key'] || 'None';});
+        this.validateKey();
+
     }
     confirmPass() {
         this.errorMsg="";
         var password = this.confirmPassword;
         var password2 = this.password;
+        this.FormValid=false;
         if (password.length != 0) {
             if (password != password2) {
                 this.errorMsg = "Passwords don't match. Please try again";
@@ -38,16 +41,31 @@ export class ForgotPasswordComponent implements OnInit {
                 this.confirmPassword = "";
                 return;
             }
+            this.FormValid=true;
         }
+
     }
     validateKey() {
-        this.forgotPassService.validateKey({email:this.email,key:this.key}).subscribe(
+        this.forgotPassService.validateKey({id:this.id,key:this.key}).subscribe(
             data=> {
                 if (data.json() === "FOUND") {
-                    keyValid=true;
+                    this.keyValid=true;
                 } else {
-                    this.emailValid = false;
+
+                    this.keyValid = false;
+                this.errorMsg="Your url is not valid. Try again or stop lamatu this Nazar."
                 }
+            }
+        )
+    }
+    updatePassword(){
+        this.forgotPassService.updatePassword(this.id,this.password).subscribe(
+            data=>{
+                this._router.navigate(['/login'])
+            }
+            ,
+            error=>{
+                console.log(error);
             }
         )
     }

@@ -25,7 +25,7 @@ import java.util.*;
  * Created by cavayman on 11.07.2016.
  */
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService{
         try {
             return userRepository.findOne(Integer.parseInt(id));
         } catch (NumberFormatException e) {
-            log.warn("UserService: Cant find user with id:"+id);
+            log.warn("UserService: Cant find user with id:" + id);
         }
         return null;
     }
@@ -90,8 +90,8 @@ public class UserServiceImpl implements UserService{
     public void delete(Integer integer) {
         if (exists(integer)) {
             userRepository.delete(integer);
-        }else{
-            log.warn("Cant find user with id:"+integer);
+        } else {
+            log.warn("Cant find user with id:" + integer);
         }
     }
 
@@ -139,23 +139,22 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<User> save(Iterable<User> iterable) {
-        Iterator<User> ite=iterable.iterator();
-        List<User> encodedUsers=new ArrayList<User>();
-        while(ite.hasNext()){
-            User temp=ite.next();
+        Iterator<User> ite = iterable.iterator();
+        List<User> encodedUsers = new ArrayList<User>();
+        while (ite.hasNext()) {
+            User temp = ite.next();
             encodedUsers.add(temp);
         }
         return userRepository.save(encodedUsers);
     }
 
     @Override
-    public User findUserByEmail(String email)  {
+    public User findUserByEmail(String email) {
         try {
             List<User> temp = userRepository.findUserByEmail(email);
             return temp.get(0);
-        }catch(IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             return null;
         }
     }
-
 }

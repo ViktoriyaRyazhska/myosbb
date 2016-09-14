@@ -1,2 +1,53 @@
-<h1>Hello in  forgotpass!<h1>
-    <h3>Your email is:{{email}}<h3>
+
+<div *ngIf="keyValid" class="jumbotron">
+    <div class="registration-form  center-block" *ngIf="!registered">
+        <form class="ui form " >
+            <div class="form-header">
+                <h3>Заміна паролю</h3>
+            </div>
+            <div class="form-container">
+                 <div class="row">
+                        <div class="col-xs-12">
+                            <label>Пароль</label> <input class="form-control placeholder-no-fix col-xs-6"
+                                                         name="password"
+                                                         [(ngModel)]="password"
+                                                         (blur)="confirmPass()" placeholder='Введіть свій пароль'
+                                                         type="password" required>
+                            <div class="col-xs-12 centered">
+                                <label *ngIf='error' class="error" disabled=true>{{errorMsg}}</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <label>Підтвердіть пароль</label> <input class="form-control placeholder-no-fix col-xs-6"
+                                                                     [(ngModel)]="confirmPassword"
+                                                                     name="confirmPassword" (blur)="confirmPass()"
+                                                                     placeholder='Повторіть пароль' type="password"
+                                                                     required>
+                            <div class="col-xs-12 centered">
+                                <label *ngIf='errorConfirm' class="error" disabled=true>{{errorMsg}}</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+
+                </div>
+
+                <div class="row form-footer">
+                    <hr>
+                    <br>
+                    <div class="col-xs-6">
+                        <a class="btn btn-danger col-xs-12" href="javascript:history.back()">Back</a>
+                    </div>
+                    <div class="col-xs-6">
+                        <button class="btn btn-primary col-xs-12"  (click)="updatePassword()"
+                                [disabled]="!FormValid">Ok
+                        </button>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+<div class="jumbotron">
+   <h1>{{errorMsg}}</h1>
+    </div>

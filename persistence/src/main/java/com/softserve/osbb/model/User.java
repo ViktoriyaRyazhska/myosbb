@@ -55,6 +55,7 @@ public class User implements Serializable {
         this.password = user.getPassword();
         this.gender = user.getGender();
         this.role = user.getRole();
+        this.apartment=user.apartment;
     }
 
 

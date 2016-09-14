@@ -5,10 +5,13 @@ import com.softserve.osbb.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -27,8 +30,12 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RequestMapping(value = "/restful")
 public class UserController {
 
+    @Autowired
+    PasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
+
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
     private static final List<Resource<User>> EMPTY_LIST = new ArrayList<>(0);
+
     @Autowired
     UserService userService;
 
@@ -72,9 +79,17 @@ public class UserController {
     @RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
     public User updateUser(@PathVariable Integer id, @RequestBody User user) {
         logger.info("Updating user id:" + id);
-        user.setUserId(id);
-        return userService.saveAndFlush(user);
+        return userService.save(user);
     }
+    @RequestMapping(value = "/user/{id}/password", method = RequestMethod.POST)
+    public User updateUserPassword(@PathVariable Integer id, @RequestBody String password) {
+        logger.info("Updating user id:" + id);
+        User user=userService.getOne(id);
+        System.out.println("PASSWORD:"+password);
+        user.setPassword(passwordEncoder.encode(password));
+        return userService.save(user);
+    }
+
 
     @RequestMapping(value = "/user", method = RequestMethod.DELETE)
     public boolean deleteAllUsers(@RequestBody User user) {
@@ -97,6 +112,7 @@ public class UserController {
 //        resource.add(linkTo(methodOn(ApartmentController.class).getAppartmentByOwner(user.getUserId())).withRel("apartments "));
         return resource;
     }
+
 
 
 

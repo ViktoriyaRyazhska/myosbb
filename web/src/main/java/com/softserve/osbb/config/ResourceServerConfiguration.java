@@ -38,6 +38,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .antMatchers("/forgotEmail").permitAll()
                 .antMatchers("/restful/report**").permitAll()
                 .antMatchers("/restful/report/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/restful/user/**").permitAll()
                 .antMatchers("/restful/**").authenticated();
 
     }
