@@ -4,6 +4,7 @@ import {Event} from "../../event/event.interface";
 import {TranslatePipe, TranslateService} from "ng2-translate/ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
 import {EventService} from "../../event/event.service";
+import moment from 'moment';
 
 @Component({
     selector: 'my-calendar',
@@ -68,7 +69,10 @@ export class UserCalendarComponent implements OnInit {
 
     handleDayClick(event) {
         this.event = new Event();
-        this.event.start = event.date.format();
+        this.event.start = <Date>moment(this.event.start).format("YYYY-MM-DDTHH:mm:ss");
+        var duration = moment.duration({'days' : 1});
+        this.event.end = <Date>moment(this.event.start).add(duration).format("YYYY-MM-DDTHH:mm:ss");
+        console.log(this.event.start);
         this.dialogVisible = true;
         //trigger detection manually as somehow only moving the mouse quickly after click triggers the automatic detection
         this.cd.detectChanges();
@@ -85,7 +89,6 @@ export class UserCalendarComponent implements OnInit {
         }
 
         if (end) {
-            // end.stripTime();
             this.event.end = end.format();
         }
 
@@ -113,7 +116,8 @@ export class UserCalendarComponent implements OnInit {
             this.eventService.addEvent(this.event);
             this.event = null;
         }
-        console.log("!!! " + this.event);
+        this.event.start = <Date>moment(this.event.start).format("YYYY-MM-DDTHH:mmZZ");
+        this.event.end = <Date>moment(this.event.end).format("YYYY-MM-DDTHH:mmZZ");
         this.dialogVisible = false;
     }
 

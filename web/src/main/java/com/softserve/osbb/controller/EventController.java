@@ -2,6 +2,7 @@ package com.softserve.osbb.controller;
 
 import com.softserve.osbb.model.Event;
 import com.softserve.osbb.model.Osbb;
+import com.softserve.osbb.repository.EventRepository;
 import com.softserve.osbb.service.EventService;
 import com.softserve.osbb.util.paging.PageDataObject;
 import org.slf4j.Logger;
@@ -65,6 +66,7 @@ public class EventController {
         Event event = eventService.getEventById(eventId);
         Resource<Event> eventResource = new Resource<>(event);
         eventResource.add(linkTo(methodOn(EventController.class).findEventById(eventId)).withSelfRel());
+        logger.info("Event user : " + eventResource.getContent().getAuthor());
         return new ResponseEntity<>(eventResource, HttpStatus.OK);
     }
 

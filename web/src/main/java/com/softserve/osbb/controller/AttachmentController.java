@@ -77,7 +77,7 @@ public class AttachmentController {
                 logger.info("Uploading file " + file.getOriginalFilename());
                 attachmentService.uploadFile(file);
                 return new ResponseEntity<>(attachmentService.downloadFile(file.getOriginalFilename()), HttpStatus.OK);
-            } catch (IOException | RuntimeException e) {
+            } catch (RuntimeException e) {
                 logger.warn("Cannot upload file " + file.getOriginalFilename());
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -121,7 +121,7 @@ public class AttachmentController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Attachment> deleteAttachmentEverywhere(@PathVariable("id") Integer attachmentId) throws IOException {
+    public ResponseEntity<Attachment> deleteAttachmentEverywhere(@PathVariable("id") Integer attachmentId) {
         logger.info("Removing attachment by id: " + attachmentId);
         attachmentService.deleteAttachmentEverywhere(attachmentId);
         return new ResponseEntity<>(HttpStatus.OK);

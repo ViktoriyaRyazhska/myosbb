@@ -5,6 +5,8 @@ import com.softserve.osbb.repository.AttachmentRepository;
 import com.softserve.osbb.service.AttachmentService;
 import com.softserve.osbb.utils.Constants;
 import liquibase.util.file.FilenameUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,27 +34,38 @@ public class AttachmentServiceImpl implements AttachmentService{
     @Autowired
     AttachmentRepository attachmentRepository;
 
+    private static Logger logger = LoggerFactory.getLogger(AttachmentServiceImpl.class);
+
     public static final String ROOT = "upload-dir";
 
     private static final int DEF_ROWS = 10;
 
     @Override
-    public Attachment uploadFile(MultipartFile file) throws IOException {
+    public Attachment uploadFile(MultipartFile file) {
         Path attachmentPath = saveFile(getFilePathWithSubDir(file), file);
         Attachment attachment = new Attachment();
         attachment.setPath(attachmentPath.toString().replaceFirst(ROOT, ""));
         return saveAttachment(attachment);
     }
 
-    private Path getFilePathWithSubDir(MultipartFile file) throws IOException {
+    private Path getFilePathWithSubDir(MultipartFile file) {
         Path path = Paths.get(ROOT + "/" + Constants.DATE_FORMATTER.format(new Date()));
-        Files.createDirectories(path);
+        try {
+            Files.createDirectories(path);
+        } catch (IOException e) {
+            logger.error("Could not create directory " + path.toString());
+        }
         return Paths.get(String.valueOf(path) + "/" + file.getOriginalFilename());
     }
 
-    private Path saveFile(Path newFilePath, MultipartFile file) throws IOException {
+    private Path saveFile(Path newFilePath, MultipartFile file) {
         if (!Files.exists(newFilePath)) {
-            Files.copy(file.getInputStream(), newFilePath);
+            try {
+                InputStream is = file.getInputStream();
+                Files.copy(is, newFilePath);
+            } catch (IOException e) {
+                logger.error("Could not save file " + file.getName());
+            }
             return newFilePath;
         } else {
             newFilePath = getFilePathForDuplicatedFile(newFilePath);
@@ -71,13 +85,20 @@ public class AttachmentServiceImpl implements AttachmentService{
     }
 
     @Override
-    public void deleteAttachmentEverywhere(Integer attachmentId) throws IOException {
-        File delFile = new File(ROOT + attachmentRepository.findOne(attachmentId).getPath());
-        String fileNameWithOutExt = FilenameUtils.removeExtension(delFile.getPath());
-        String extension = FilenameUtils.getExtension(delFile.getPath());
+    public void deleteAttachmentEverywhere(Integer attachmentId) {
+        renameFile(new File(ROOT + attachmentRepository.findOne(attachmentId).getPath()));
+        deleteAttachment(getAttachmentById(attachmentId));
+    }
+
+    private void renameFile(File file) {
+        String fileNameWithOutExt = FilenameUtils.removeExtension(file.getPath());
+        String extension = FilenameUtils.getExtension(file.getPath());
         File newDelFile = new File(fileNameWithOutExt + "_del." + extension);
-        Files.move(delFile.toPath(), newDelFile.toPath());
-        attachmentRepository.delete(attachmentRepository.findOne(attachmentId));
+        try {
+            Files.move(file.toPath(), newDelFile.toPath());
+        } catch (IOException e) {
+            logger.error("Could not rename file " + file.getName());
+        }
     }
 
     @Override

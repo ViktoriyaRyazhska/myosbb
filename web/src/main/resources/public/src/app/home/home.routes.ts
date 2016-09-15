@@ -30,7 +30,5 @@ export const homeRoutes: RouterConfig = [
             {path: 'house/:id', component: HouseShowComponent},
             {path: 'ticket/:id', component: TicketSingleAdminComponent},
         ]
-    },
-
-
-]
+    }
+];

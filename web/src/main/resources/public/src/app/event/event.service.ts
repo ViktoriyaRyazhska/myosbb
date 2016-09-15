@@ -24,17 +24,8 @@ export class EventService {
         return this._http.get(this.url)
             .toPromise()
             .then(res => <any[]> res.json())
-            .then(data => { console.log("service : " + data); return data; });
+            .then(data => { return data; });
     }
-
-    // getEvent(id:number)/*: Promise<Event>*/ {
-    //     let url = this.url + id;
-    //     console.log('get event by id: ' + id);
-    //     return this._http.get(url)
-    //         .toPromise()
-    //         // .then(res => res.json())
-    //         .catch((error)=>console.error(error));
-    // }
 
     getEvent(id:number): Observable<any> {
         console.log('get event by id: ' + id);

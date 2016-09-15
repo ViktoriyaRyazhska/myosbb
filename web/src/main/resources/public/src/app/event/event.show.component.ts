@@ -7,6 +7,9 @@ import {Subscription} from "rxjs/Subscription";
 import {CapitalizeFirstLetterPipe} from "../../shared/pipes/capitalize-first-letter";
 import {TranslatePipe} from "ng2-translate";
 import {Location} from '@angular/common';
+import moment from 'moment';
+import {DateTime} from "ng2-datetime-picker/dist/datetime";
+import {User} from "../../shared/models/User";
 
 @Component({
     selector: 'my-user-event',
@@ -24,6 +27,7 @@ export class EventShowComponent implements OnInit, OnDestroy {
 
     constructor(private _eventService: EventService, private _routeParams: ActivatedRoute, private _location: Location) {
         this.event = new Event();
+        this.event.author = new User();
     }
 
     ngOnInit(): any {
@@ -46,5 +50,20 @@ export class EventShowComponent implements OnInit, OnDestroy {
 
     backClicked() {
         this._location.back();
+    }
+
+    formatDate(date: DateTime) {
+        return moment(date).format("DD.MM.YYYY hh:mm A");
+    }
+
+    setStatus(event:Event) {
+        var now = moment();
+        if (moment().isAfter(event.end)) {
+            return "FINISHED";
+        }
+        if (moment(event.start).isAfter(moment(now))) {
+            return "FUTURE";
+        }
+        else return "IN PROGRESS";
     }
 }

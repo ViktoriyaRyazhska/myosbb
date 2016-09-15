@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface AttachmentService {
 
-    Attachment uploadFile(MultipartFile file) throws IOException;
+    Attachment uploadFile(MultipartFile file);
 
     Attachment downloadFile(String filename);
 
@@ -32,7 +32,7 @@ public interface AttachmentService {
 
     void deleteAttachment(Attachment attachment);
 
-    void deleteAttachmentEverywhere(Integer attachmentId) throws IOException;
+    void deleteAttachmentEverywhere(Integer attachmentId);
 
     void deleteAttachmentById(Integer id);
 

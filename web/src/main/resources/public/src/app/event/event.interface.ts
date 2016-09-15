@@ -1,4 +1,3 @@
-import {DateTime} from "ng2-datetime-picker/dist/datetime";
 import {User} from "../../shared/models/User";
 export class Event {
     id:number;
@@ -9,8 +8,9 @@ export class Event {
     end:Date;
     repeat:string;
     path:string;
+    status:string;
     constructor(eventItem?:{id:number, title:string, author:User, description:string, start:string,
-                            end:string, repeat:string, path:string}) {
+                            end:string, repeat:string, path:string, status:string}) {
     if(eventItem) {
         Object.assign(this,eventItem);
         }

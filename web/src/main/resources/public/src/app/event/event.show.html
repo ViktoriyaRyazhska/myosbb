@@ -22,21 +22,28 @@
                                 <b>{{ 'author' | translate | capitalize }}:</b>
                                 <br>
                                 <div class="task-title">
-                                    <!--<span class="task-title-sp">{{event.author.firstName + " " + event.author.lastName}}</span>-->
+                                    <span class="task-title-sp">{{event.author.firstName + " " + event.author.lastName}}</span>
+                                </div>
+                            </li>
+                            <li>
+                                <b>{{ 'status' | translate | capitalize }}:</b>
+                                <br>
+                                <div class="task-title">
+                                    <span class="task-title-sp">{{setStatus(event)}}</span>
                                 </div>
                             </li>
                             <li>
                                 <b>{{ 'dateStart' | translate | capitalize }}:</b>
                                 <br>
                                 <div class="task-title">
-                                    <span class="task-title-sp">{{event.start}}</span>
+                                    <span class="task-title-sp">{{formatDate(event.start)}}</span>
                                 </div>
                             </li>
                             <li>
                                 <b>{{ 'dateFinish' | translate | capitalize }}:</b>
                                 <br>
                                 <div class="task-title">
-                                    <span class="task-title-sp">{{event.end}}</span>
+                                    <span class="task-title-sp">{{formatDate(event.end)}}</span>
                                 </div>
                             </li>
                             <li>

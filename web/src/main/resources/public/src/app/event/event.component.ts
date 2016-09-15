@@ -60,24 +60,21 @@ export class EventComponent implements OnInit, OnDestroy {
     constructor(private _eventService:EventService, private currentUserService:CurrentUserService,
                 private _router: Router, private _toasterService: ToasterService) {
         this.currentUser = currentUserService.getUser();
+
     }
 
     ngOnInit():any {
         console.log("init event cmp");
-        console.log("repeat items:", PeriodicityItems);
-        for (let i=0; i<PeriodicityItems.length; i++){
+        for (let i = 0; i < PeriodicityItems.length; i++){
             this.repeat.push(PeriodicityItems[i]);
         }
         this.getRepeatTranslation();
-        console.log('readable repeat: ', this.repeat);
         this.getEventsByPageNum(this.pageNumber);
     }
 
     public onSelectRepeat(value:SelectItem):void {
-        console.log("value: ", value);
         this.newEvent.repeat = this.backToConst(value);
         this.selectedEvent.repeat = this.backToConst(value);
-        console.log("set repeat: ", this.newEvent.repeat);
     }
 
     getRepeatTranslation(){
@@ -86,7 +83,6 @@ export class EventComponent implements OnInit, OnDestroy {
             HeaderComponent.translateService.get(this.repeat[i].text)
                 .subscribe((data : string) => {
                     this.repeat[i].text = data;
-                    console.log("repeat =", this.repeat[i]);
                 })
         }
         console.log("repeat: ", this.repeat);
@@ -95,20 +91,30 @@ export class EventComponent implements OnInit, OnDestroy {
     backToConst(item: SelectItem): string{
         var items : SelectItem[] =
             [{id: 1, text: 'ONE_TIME'},
-                {id: 2, text: 'PERMANENT_DAYLY'},
-                {id: 3, text: 'PERMANENT_WEEKLY'},
-                {id: 4, text: 'PERMANENT_MONTHLY'},
-                {id: 5, text: 'PERMANENT_YEARLY'}];
+             {id: 2, text: 'PERMANENT_DAYLY'},
+             {id: 3, text: 'PERMANENT_WEEKLY'},
+             {id: 4, text: 'PERMANENT_MONTHLY'},
+             {id: 5, text: 'PERMANENT_YEARLY'}];
         for (let i=0; i<items.length; i++){
             if (item.id === items[i].id) {
-                console.log("const: ", items[i].text);
                 return items[i].text;
             }
         }
     }
 
+    setStatus(event:Event) {
+        var now = moment();
+        if (moment().isAfter(event.end)) {
+            return "FINISHED";
+        }
+        if (moment(event.start).isAfter(moment(now))) {
+            return "FUTURE";
+        }
+        else return "IN PROGRESS";
+    }
+
     isDateValid(start:Timestamp, end:Timestamp):boolean {
-        return end > start;
+        return moment(end).isAfter(moment(start));
     }
 
     formatDate(date: DateTime) {
@@ -122,8 +128,10 @@ export class EventComponent implements OnInit, OnDestroy {
 
     openEditModal(event:Event) {
         this.selectedEvent = event;
+        console.log(this.selectedEvent.start + "\n" + this.selectedEvent.end);
         this.selectedEvent.start = <Date>moment(this.selectedEvent.start).format("YYYY-MM-DDTHH:mm:ss");
         this.selectedEvent.end = <Date>moment(this.selectedEvent.end).format("YYYY-MM-DDTHH:mm:ss");
+        console.log(this.selectedEvent.start + "\n" + this.selectedEvent.end);
         console.log('selected event: ' + this.selectedEvent);
         this.editModal.show();
     }
@@ -152,11 +160,16 @@ export class EventComponent implements OnInit, OnDestroy {
         console.log('creating event');
         this.newEvent.author = this.currentUser;
         this.newEvent.start = <Date>moment(this.newEvent.start).format("YYYY-MM-DDTHH:mmZZ");
-        this.newEvent.end = <Date>moment(this.newEvent.end).format("YYYY-MM-DDTHH:mmZZ");
+        (this.newEvent.end == null)?this.newEvent.end =
+            <Date>moment(this.newEvent.start).hours(12).minute(0).format("YYYY-MM-DDTHH:mmZZ")
+            :this.newEvent.end = <Date>moment(this.newEvent.end).format("YYYY-MM-DDTHH:mmZZ");
+        (this.newEvent.repeat == null)?this.newEvent.repeat = "ONE_TIME": this.newEvent.repeat;
+        this.newEvent.status = this.setStatus(this.newEvent);
         this._eventService.addEvent(this.newEvent);
         this.createModal.hide();
         setTimeout(() => this.active = true, 0);
         this.events.push(this.newEvent);
+        this.newEvent = new Event();
     }
 
     closeCreateModal() {
@@ -173,6 +186,7 @@ export class EventComponent implements OnInit, OnDestroy {
     closeDelModal() {
         console.log('delete', this.id);
         this._eventService.deleteEventById(this.id);
+        // this.events.splice(this.id);
         this._eventService.getAllEvents(this.pageNumber);
         this.getEventsByPageNum(this.pageNumber);
         this.delModal.hide();
@@ -199,6 +213,9 @@ export class EventComponent implements OnInit, OnDestroy {
                     this.pageCreator = data;
                     this.pending = false;
                     this.events = data.rows;
+                    for (let i = 0; i < this.events.length; i++){
+                        this.events[i].status = this.setStatus(this.events[i]);
+                    }
                     this.preparePageList(+this.pageCreator.beginPage,
                         +this.pageCreator.endPage);
                     this.totalPages = +data.totalPages;
@@ -207,6 +224,14 @@ export class EventComponent implements OnInit, OnDestroy {
                     console.error(error)
                 });
     };
+
+    searchEventsByStatus(status:string) {
+        for (let i = 0; i < this.events.length; i++){
+            if (this.events[i].status == status) {
+                this.getEventsByPageNum(this.pageNumber);
+            }
+        }
+    }
 
     prevPage() {
         this.pageNumber = this.pageNumber - 1;

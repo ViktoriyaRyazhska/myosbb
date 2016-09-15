@@ -64,7 +64,7 @@ public class OsbbController {
                 osbb.setLogo(attachment);
                 osbbService.updateOsbb(osbb);
                 return new ResponseEntity<>(attachmentService.downloadFile(file.getOriginalFilename()), HttpStatus.OK);
-            } catch (IOException | RuntimeException e) {
+            } catch (RuntimeException e) {
                 logger.warn("Cannot upload file " + file.getOriginalFilename());
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
