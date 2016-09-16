@@ -8,6 +8,7 @@
   "date": "date",
   "author": "author",
   "additionalInformation": "add. information",
+  "all": "all",
   "deleteAll": "delete all",
   "confirmDeleteEvents": "Do you really want to delete all events?",
   "createEvent": "create event",

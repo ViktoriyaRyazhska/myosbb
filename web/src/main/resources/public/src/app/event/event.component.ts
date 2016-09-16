@@ -23,7 +23,6 @@ import {Router} from "@angular/router";
 import moment from 'moment';
 import {DateTime} from "ng2-datetime-picker/dist/datetime";
 
-
 @Component({
     selector: 'my-event',
     templateUrl: 'src/app/event/event.html',
@@ -52,6 +51,7 @@ export class EventComponent implements OnInit, OnDestroy {
     private pending: boolean = false;
     private currentUser:User;
     private showAllEvents: boolean = true;
+    private currentStatus: string = 'ALL';
     private admin: boolean;
 
     private id:number;
@@ -60,7 +60,6 @@ export class EventComponent implements OnInit, OnDestroy {
     constructor(private _eventService:EventService, private currentUserService:CurrentUserService,
                 private _router: Router, private _toasterService: ToasterService) {
         this.currentUser = currentUserService.getUser();
-
     }
 
     ngOnInit():any {
@@ -78,14 +77,13 @@ export class EventComponent implements OnInit, OnDestroy {
     }
 
     getRepeatTranslation(){
-        console.log("got lang",  HeaderComponent.translateService.currentLang);
-        for (let i=0; i < this.repeat.length; i++){
+        console.log("got lang ",  HeaderComponent.translateService.currentLang);
+        for (let i = 0; i < this.repeat.length; i++){
             HeaderComponent.translateService.get(this.repeat[i].text)
                 .subscribe((data : string) => {
                     this.repeat[i].text = data;
                 })
         }
-        console.log("repeat: ", this.repeat);
     }
 
     backToConst(item: SelectItem): string{
@@ -224,14 +222,6 @@ export class EventComponent implements OnInit, OnDestroy {
                     console.error(error)
                 });
     };
-
-    searchEventsByStatus(status:string) {
-        for (let i = 0; i < this.events.length; i++){
-            if (this.events[i].status == status) {
-                this.getEventsByPageNum(this.pageNumber);
-            }
-        }
-    }
 
     prevPage() {
         this.pageNumber = this.pageNumber - 1;
