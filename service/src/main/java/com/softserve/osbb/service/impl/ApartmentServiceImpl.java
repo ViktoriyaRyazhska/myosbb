@@ -84,10 +84,10 @@ public class ApartmentServiceImpl implements ApartmentService {
 
 
     @Override
-    public Page<Apartment> getAllApartment(Integer pageNumber, String sortBy, Boolean order, Integer number) {
+    public Page<Apartment> getAllApartment(Integer pageNumber, String sortBy, Boolean order, Integer number,Integer osbbId) {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, DEF_ROWS,
                 getSortingOrder(order), sortBy == null ? "number" : sortBy);
-        return number!=null?apartmentRepository.findByNumber(number,pageRequest): apartmentRepository.findAll(pageRequest);
+        return number!=null?apartmentRepository.findByNumber(pageRequest,number,osbbId): apartmentRepository.findAll(pageRequest,osbbId);
     }
 
 

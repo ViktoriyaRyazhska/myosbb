@@ -19,6 +19,7 @@
             <button (click)="openAddModal()" type="button" class="glyphicon glyphicon-plus btn btn-primary "></button>
 
         </div>
+        <input type="text" #numberAp (keyUp)="isApartmentNumberValid(numberAp.value)">
     </div>
 
     <div class="panel-body">
@@ -214,10 +215,12 @@
                             {{houseToAdd.street}}
                             <span class="caret"></span>
                         </button>
-                        <ul *ngFor="let house of allHouses" class="dropdown-menu from-control" aria-labelledby="selectHouseDropDown">
-                            <li><a style="cursor: pointer" (click)="chooseHouse(house)">{{ house.street }}</a></li>
+
+                            <ul class="dropdown-menu from-control" aria-labelledby="selectHouseDropDown">
+                            <li *ngFor="let house of allHouses"><a style="cursor: pointer" (click)="chooseHouse(house)">{{ house.street }}</a></li>
 
                         </ul>
+
                     </div>
 
                     </div>
@@ -225,11 +228,12 @@
                     <div class="form-group">
                         <label>Номер</label>
                         <input type="text" class="form-control"
-                               [ngClass]="isNumberValid ? valid:inValid"
                                #numberOfApartment
                                required    name="number"
                                pattern="[1-9]{1}[0-9]{0,2}" [(ngModel)]="emptyApartment.number"
-                               #number="ngModel" (keyup)="isApartmentNumberValid(numberOfApartment.value)" >
+                               #number="ngModel" (keyup)="isApartmentNumberValid(numberOfApartment.value)"
+
+                        >
                     </div>
 
                 <div class="form-group ">
@@ -247,7 +251,7 @@
                         Вийти
                     </button>
                     <button type="submit" class="btn btn-success"
-                            [disabled]="!addApartmentForm.form.valid">
+                            [disabled]="!addApartmentForm.form.valid && !isNumberValid">
                         Зберегти
                     </button>
 

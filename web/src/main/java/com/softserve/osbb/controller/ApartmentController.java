@@ -1,5 +1,9 @@
 package com.softserve.osbb.controller;
 
+
+import com.lowagie.text.pdf.PdfName;
+import com.softserve.osbb.dto.ApartmentDTO;
+
 import com.softserve.osbb.dto.UserDTO;
 import com.softserve.osbb.dto.mappers.UserDTOMapper;
 import com.softserve.osbb.model.Apartment;
@@ -59,10 +63,16 @@ public class ApartmentController {
             @RequestParam(value = "pageNumber", required = true) Integer pageNumber,
             @RequestParam(value = "sortedBy", required = false) String sortedBy,
             @RequestParam(value = "asc", required = false) Boolean ascOrder,
-            @RequestParam(value = "number" , required=false)Integer number ) {
+            @RequestParam(value = "number" , required=false)Integer number,
+            @RequestParam(value="osbbId", required = false)Integer osbbId) {
         logger.info("get all apartments by page number: " + pageNumber);
-        Page<Apartment> apartmentByPage = apartmentService.getAllApartment(pageNumber, sortedBy, ascOrder,number);
 
+        Page<Apartment> apartmentByPage=null;
+        try {
+            apartmentByPage = apartmentService.getAllApartment(pageNumber, sortedBy, ascOrder, number,osbbId);
+        }catch (Exception e){
+            logger.warn("Apartment wasn't found");
+        }
         int currentPage = apartmentByPage.getNumber() + 1;
         int begin = Math.max(1, currentPage - 5);
         int totalPages = apartmentByPage.getTotalPages();
@@ -118,7 +128,7 @@ public class ApartmentController {
 
     }
 
-    @RequestMapping(value="/owner{id}",method=RequestMethod.GET)
+    @RequestMapping(value="/owner/{id}",method=RequestMethod.GET)
     public ResponseEntity<Resource<UserDTO>> getOwnerInApartment(@PathVariable("id") Integer id) {
         Apartment apartment = apartmentService.findOneApartmentByID(id);
         UserDTO user;
@@ -135,8 +145,12 @@ public class ApartmentController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Resource<Apartment>> addApartment(@RequestBody Apartment apartment) {
         logger.info("saving apartment" + apartment);
-        apartmentService.saveApartment(apartment);
-        return new ResponseEntity<>(addResourceLinkToApartment(apartment), HttpStatus.OK);
+        try {
+            apartmentService.saveApartment(apartment);
+        }catch (Exception e){
+            logger.warn("Apartment was'n saved");
+        }
+            return new ResponseEntity<>(addResourceLinkToApartment(apartment), HttpStatus.OK);
 
     }
 
@@ -145,16 +159,25 @@ public class ApartmentController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource<Apartment>> findApartmentById(@PathVariable("id") Integer id) {
         logger.info("getting apartment by id:" + id);
-        Apartment apartment = apartmentService.findOneApartmentByID(id);
-        return new ResponseEntity<>(addResourceLinkToApartment(apartment), HttpStatus.OK);
+        Apartment apartment=null;
+        try {
+            apartment = apartmentService.findOneApartmentByID(id);
+        }catch (Exception e){
+            logger.warn("Aparatment not found");
+        }
+            return new ResponseEntity<>(addResourceLinkToApartment(apartment), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Resource<Apartment>> deleteAppartmentById(@PathVariable("id") Integer id) {
         logger.info("deleting ");
         Apartment apartment=apartmentService.findOneApartmentByID(id);
-        apartmentService.deleteApartmentByID(id);
-        return new ResponseEntity<>(addResourceLinkToApartment(apartment),HttpStatus.OK);
+        try {
+            apartmentService.deleteApartmentByID(id);
+        }catch (Exception e){
+            logger.warn("Apartment can't be deleted");
+        }
+            return new ResponseEntity<>(addResourceLinkToApartment(apartment),HttpStatus.OK);
 
     }
 

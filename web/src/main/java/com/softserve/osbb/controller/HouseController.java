@@ -164,6 +164,21 @@ public class HouseController {
     }
 
 
+    @RequestMapping(value="/{houseId}/{apartmentNumber}",method=RequestMethod.GET)
+public boolean isApartmentNumberValid (@PathVariable("houseId") Integer houseId,@PathVariable("apartmentNumber") Integer apartmentNumber){
+        boolean valid=true;
+        List<Apartment> apartments = houseService.findAllApartmentsByHouseId(houseId);
+        for (Apartment apartment:apartments){
+            if (apartment.getNumber()==apartmentNumber){
+                valid=false;
+                break;
+            }
+        }
+        return valid;
+    }
+
+
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource<HouseDTO>> getHouseById(@PathVariable("id") Integer houseId) {
         House house;

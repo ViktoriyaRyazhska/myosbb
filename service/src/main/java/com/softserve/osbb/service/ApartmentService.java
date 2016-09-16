@@ -33,6 +33,6 @@ public interface ApartmentService {
     Apartment updateApartment(Apartment apartment);
 
 
-    Page<Apartment> getAllApartment(Integer pageNumber, String sortedBy, Boolean ascOrder,Integer number);
+    Page<Apartment> getAllApartment(Integer pageNumber, String sortedBy, Boolean ascOrder,Integer number,Integer osbbID);
 
 }

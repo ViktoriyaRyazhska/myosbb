@@ -23,10 +23,10 @@ import {HousePageObject} from "../../house/house.page.object";
     inputs:['isAdmin']
 })
 export class UserApartmentComponent {
-    isAdmin:boolean=false;
+    isAdmin:boolean = false;
     Items:ApartmentModel[];
-    private selectedApartment:ApartmentModel={apartmentId:0,square:0,number:0,house:{street:''}};
-    private emptyApartment:ApartmentModel={square:0,number:0,house:{street:''}};
+    private selectedApartment:ApartmentModel = {apartmentId: 0, square: 0, number: 0, house: {street: ''}};
+    private emptyApartment:ApartmentModel = {square: 0, number: 0, house: {street: ''}};
     @ViewChild('deleteModal')
     public deleteModal:ModalDirective;
     @ViewChild('addModal')
@@ -39,111 +39,118 @@ export class UserApartmentComponent {
     private pageList:Array<number> = [];
     private totalPages:number;
     order:boolean = true;
-    private defaultSorter:string='number';
+    private defaultSorter:string = 'number';
     private currentUser:User;
-    private apartmentToDelete:ApartmentModel;
-    private allHouses:HousePageObject[];
-    private houseToAdd :HousePageObject={street:''};
-    private isNumberValid:boolean=false;
+
+    private apartmentToDelete:AprtmentModel;
+    private allHouses:HousePageObject[] = [];
+    private houseToAdd:HousePageObject = {street: ''};
+    private isNumberValid:boolean = false;
 
 
 
-
-    constructor( private apartmentService:ApartmentService,private currentUserService:CurrentUserService) {
-console.log("init items");
-        this.Items=[{square:'',number:'',house:{street:''}}];
-      //  this.allHouses=[];
+    constructor(private apartmentService:ApartmentService, private currentUserService:CurrentUserService) {
+        console.log("init items");
+        this.Items = [{square: '', number: '', house: {street: ''}}];
+        //  this.allHouses=[];
 
     }
 
 
-    ngOnInit(){
+    ngOnInit() {
+
+
+        this.currentUser = this.currentUserService.getUser();
+        this.apartmentService.getAllHouses().subscribe(res=> {
+            this.allHouses = res;
+        });
 
         this.getApartmentsByPageNum(this.pageNumber);
-        this.currentUser = this.currentUserService.getUser();
-
         //console.log("current user: "+this.currentUser.apartment.number);
 
     }
-    
+
 
     onDeleteClick() {
         this.Items.splice(this.Items.indexOf(this.apartmentToDelete, 0), 1);
         this.apartmentService.deleteApartment(this.apartmentToDelete)
-            .subscribe(res=>this.apartmentToDelete=res);
+            .subscribe(res=>this.apartmentToDelete = res);
         // .subscribe(res=>this.Items.splice(this.Items.indexOf(res, 0), 1));
 
-       // this.getApartmentsByPageNum(this.pageNumber);
-         this.active=false;
+        // this.getApartmentsByPageNum(this.pageNumber);
+        this.active = false;
         this.deleteModal.hide();
 
 
     }
+
     openDeleteModal(am) {
-        this.active=true;
-        this.apartmentToDelete=am;
+        this.active = true;
+        this.apartmentToDelete = am;
         this.deleteModal.show();
 
 
-
     }
 
-    
-    openEditModal(am){
-this.selectedApartment=am;
+
+    openEditModal(am) {
+        this.selectedApartment = am;
         this.editModal.show();
     }
-    
+
     onEditApartmentSubmit() {
 
         //console.log('saving Apartment: ' + this.selectedApartment.apartmentId);
-      this.apartmentService.editAndSave(this.selectedApartment).
-          subscribe(res=>{});
-      // this.getApartmentsByPageNum(this.pageNumber);
+        this.apartmentService.editAndSave(this.selectedApartment).subscribe(res=> {
+        });
+        // this.getApartmentsByPageNum(this.pageNumber);
         this.active = false;
         this.editModal.hide();
         setTimeout(() => this.active = true, 0);
     }
 
-    onAddApartmentSubmit(){
+    onAddApartmentSubmit() {
 
         this.addModal.hide();
-       this.apartmentService.addApartment(this.emptyApartment,this.houseToAdd.houseId)
-           .subscribe(/*res=>this.Items.push(res)*/);
-        this.emptyApartment={number:'',square:''};
-       // console.log(this.houseToAdd.houseId);
+        this.apartmentService.addApartment(this.emptyApartment, this.houseToAdd.houseId)
+            .subscribe(/*res=>this.Items.push(res)*/);
+        this.emptyApartment = {number: '', square: ''};
+        // console.log(this.houseToAdd.houseId);
 
     }
 
-    openAddModal(){
-        if(this.allHouses!=null) {
-            this.addModal.show();
-        }
-        else {
-            this.apartmentService.getAllHouses().subscribe(res=>{
-                this.allHouses = res;
-                this.addModal.show();
-            });
+    openAddModal() {
+
+        this.addModal.show();
 
 
-        }
     }
 
-    chooseHouse(house:HousePageObject){
-        this.houseToAdd=house;
+
+    chooseHouse(house:HousePageObject) {
+        this.houseToAdd = house;
     }
 
     isApartmentNumberValid(value):boolean {
-console.log("value from input"+value);
+        console.log("value from input" + value);
 
-        this.isNumberValid = true;
+        this.apartmentService.isApartmentExist(value,this.houseToAdd.houseId).
+            subscribe(res=> {
+            this.isNumberValid = res;
+            console.log("house id is:" + this.houseToAdd.houseId + "  valid is :" + this.isNumberValid);
+        }
+
+    );
+        setTimeout(() => this.showDelay(), 250);
+
+
     }
 
 
-    sortBy(value:string){
+    sortBy(value:string) {
         console.log('sorted by ', value);
         this.order = !this.order;
-        this.defaultSorter=value;
+        this.defaultSorter = value;
         console.log('order by asc', this.order);
         this.emptyArray();
         this.apartmentService.getSortedApartments(this.pageNumber, value, this.order)
@@ -156,22 +163,25 @@ console.log("value from input"+value);
                 },
                 (err) => {
                     console.error(err)
-                });   
+                });
     }
 
+    showDelay(){
+
+    }
 
     getApartmentsByPageNum(pageNumber:number) {
-        console.log("getApartmentssByPageNum"+ pageNumber);
+        console.log("getApartmentssByPageNum" + pageNumber);
         this.pageNumber = +pageNumber;
         this.emptyArray();
-        return this.apartmentService.getSortedApartments(this.pageNumber,this.defaultSorter,this.order)
+        return this.apartmentService.getSortedApartments(this.pageNumber, this.defaultSorter, this.order,1)
             .subscribe((data) => {
                     this.pageCreator = data;
                     this.Items = data.rows;
                     this.preparePageList(+this.pageCreator.beginPage,
                         +this.pageCreator.endPage);
                     this.totalPages = +data.totalPages;
-               // console.log("ITEM 0 =   "+Items[0]);
+                    // console.log("ITEM 0 =   "+Items[0]);
                 },
                 (err) => {
                     console.error(err)
@@ -199,11 +209,12 @@ console.log("value from input"+value);
             this.pageList.push(i);
         }
     }
-    getApartmentsByPageNumWithNumber(pageNumber:number,numberOfApartment:number) {
-        console.log("getApartmentssByPageNum"+ pageNumber+"with apartment number ="+numberOfApartment);
+
+    getApartmentsByPageNumWithNumber(pageNumber:number, numberOfApartment:number) {
+        console.log("getApartmentssByPageNum" + pageNumber + "with apartment number =" + numberOfApartment);
         this.pageNumber = +pageNumber;
         this.emptyArray();
-        return this.apartmentService.getSortedApartmentsWithNumber(this.pageNumber,this.defaultSorter,this.order,numberOfApartment)
+        return this.apartmentService.getSortedApartmentsWithNumber(this.pageNumber, this.defaultSorter, this.order, numberOfApartment)
             .subscribe((data) => {
                     this.pageCreator = data;
                     this.Items = data.rows;
@@ -217,12 +228,13 @@ console.log("value from input"+value);
                 });
     };
 
-    searchByNumber(searchTerm:number){
-        this.getApartmentsByPageNumWithNumber(this.pageNumber,searchTerm);
-        console.log("search"+searchTerm);
+    searchByNumber(searchTerm:number) {
+        this.getApartmentsByPageNumWithNumber(this.pageNumber, searchTerm);
+        console.log("search" + searchTerm);
     }
-    clearSearchBox(searchterm){
-        if(searchterm.value==='')
+
+    clearSearchBox(searchterm) {
+        if (searchterm.value === '')
             this.getApartmentsByPageNum(this.pageNumber);
 
     }
