@@ -20,7 +20,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +35,12 @@ public class AttachmentServiceImpl implements AttachmentService{
 
     private static Logger logger = LoggerFactory.getLogger(AttachmentServiceImpl.class);
 
-    public static final String ROOT = "upload-dir";
+    //public static final String ROOT = "c:\\Apache24\\htdocs";
+   //public static final String ROOT_2 = "http://localhost/";
+
+    public static final String ROOT = "var\\www\\html";
+    public static final String ROOT_2 = "http://192.168.195.250:80/";
+
 
     private static final int DEF_ROWS = 10;
 
@@ -44,7 +48,8 @@ public class AttachmentServiceImpl implements AttachmentService{
     public Attachment uploadFile(MultipartFile file) {
         Path attachmentPath = saveFile(getFilePathWithSubDir(file), file);
         Attachment attachment = new Attachment();
-        attachment.setPath(attachmentPath.toString().replaceFirst(ROOT, ""));
+        String path = attachmentPath.toString().replace(ROOT, ROOT_2);
+        attachment.setPath(path.replace("\\","/"));
         return saveAttachment(attachment);
     }
 

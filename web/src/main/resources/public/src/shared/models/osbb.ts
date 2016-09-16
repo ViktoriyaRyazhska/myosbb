@@ -1,4 +1,5 @@
 import { User } from './User';
+import {Attachment} from './attachment';
 export interface IOsbb {
     osbbId: number;
     name: string;
@@ -6,6 +7,7 @@ export interface IOsbb {
     creator:User;
     address: string;
     district:string;
+    logo: Attachment;
     creationDate: Date;
 }
 
@@ -16,5 +18,6 @@ export class Osbb implements IOsbb {
     creator: User;
     address: string;
     district:string;
+    logo: Attachment;
     creationDate: Date;
 }
