@@ -9,6 +9,7 @@
             <table class="table table-striped table-advance table-hover">
                 <thead>
                 <tr>
+                    <th>Preview</th>
                     <th class="sorting"><i class="fa fa-bookmark"></i> {{ 'attachments' | translate | capitalize}}
                         <a style="{cursor:pointer}" (click)="sortBy('path')"><span
                                 class="fa fa-fw fa-sort pull-right"></span></a></th>
@@ -19,18 +20,19 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let attachment of attachments">
-                    <td><a href="javascript:;" (click)="download(attachment.path)">{{attachment.path}}</a></td>
+                    <td><img src="{{attachment.url}}" alt="empty" height="50" width="60"></td>
+                    <td><a href="{{attachment.url}}" download>{{attachment.path}}</a></td>
                     <td>
                         <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            {{ 'options' | translate | capitalize }}
-                        <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a style="cursor: pointer" (click)="download(attachment.path)">{{ 'download' | translate | capitalize }}</a></li>
-                        <li><a style="cursor: pointer" (click)="openDelModal(attachment.attachmentId)">{{ 'delete' | translate | capitalize }}</a></li>
-                        </ul>
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                {{ 'options' | translate | capitalize }}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a style="cursor: pointer" href="{{attachment.url}}" download>{{ 'download' | translate | capitalize }}</a></li>
+                                <li><a style="cursor: pointer" (click)="openDelModal(attachment.attachmentId)">{{ 'delete' | translate | capitalize }}</a></li>
+                            </ul>
                         </div>
                     </td>
                 </tr>

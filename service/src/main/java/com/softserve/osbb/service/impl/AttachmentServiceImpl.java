@@ -23,6 +23,8 @@ import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 
+import static com.softserve.osbb.utils.Constants.FILE_UPLOAD_PATH;
+
 /**
  * Created by nataliia on 11.07.16.
  */
@@ -35,12 +37,6 @@ public class AttachmentServiceImpl implements AttachmentService{
 
     private static Logger logger = LoggerFactory.getLogger(AttachmentServiceImpl.class);
 
-    //public static final String ROOT = "c:\\Apache24\\htdocs";
-   //public static final String ROOT_2 = "http://localhost/";
-
-    public static final String ROOT = "var\\www\\html";
-    public static final String ROOT_2 = "http://192.168.195.250:80/";
-
 
     private static final int DEF_ROWS = 10;
 
@@ -48,19 +44,19 @@ public class AttachmentServiceImpl implements AttachmentService{
     public Attachment uploadFile(MultipartFile file) {
         Path attachmentPath = saveFile(getFilePathWithSubDir(file), file);
         Attachment attachment = new Attachment();
-        String path = attachmentPath.toString().replace(ROOT, ROOT_2);
-        attachment.setPath(path.replace("\\","/"));
+        String path = attachmentPath.toString();
+        attachment.setPath(path);
         return saveAttachment(attachment);
     }
 
     private Path getFilePathWithSubDir(MultipartFile file) {
-        Path path = Paths.get(ROOT + "/" + Constants.DATE_FORMATTER.format(new Date()));
+        Path path = Paths.get(FILE_UPLOAD_PATH + Constants.DATE_FORMATTER.format(new Date()));
         try {
             Files.createDirectories(path);
         } catch (IOException e) {
             logger.error("Could not create directory " + path.toString());
         }
-        return Paths.get(String.valueOf(path) + "/" + file.getOriginalFilename());
+        return Paths.get(String.valueOf(path) + File.separator + file.getOriginalFilename());
     }
 
     private Path saveFile(Path newFilePath, MultipartFile file) {
@@ -91,7 +87,8 @@ public class AttachmentServiceImpl implements AttachmentService{
 
     @Override
     public void deleteAttachmentEverywhere(Integer attachmentId) {
-        renameFile(new File(ROOT + attachmentRepository.findOne(attachmentId).getPath()));
+        renameFile(new File(attachmentRepository.findOne(attachmentId).getPath()));
+        logger.info("MY FILE: " + attachmentRepository.findOne(attachmentId).getPath());
         deleteAttachment(getAttachmentById(attachmentId));
     }
 

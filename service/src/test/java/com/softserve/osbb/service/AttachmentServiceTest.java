@@ -2,10 +2,8 @@ package com.softserve.osbb.service;
 
 import com.softserve.osbb.config.ServiceApplication;
 import com.softserve.osbb.model.Attachment;
-import com.softserve.osbb.service.impl.AttachmentServiceImpl;
 import com.softserve.osbb.utils.Constants;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +24,8 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
+
+import static com.softserve.osbb.utils.Constants.FILE_UPLOAD_PATH;
 
 /**
  * Created by nataliia on 18.07.16.
@@ -53,22 +53,21 @@ public class AttachmentServiceTest {
         attachment1.setPath("D://...");
     }
 
-    @Ignore
     @Test
     public void testUploadFile() throws IOException {
         MultipartFile file = new MockMultipartFile("file.txt", "file.txt", "text", "content of the file".getBytes());
         Attachment attachment = attachmentService.uploadFile(file);
-        File f = new File(AttachmentServiceImpl.ROOT + attachment.getPath());
+        File f = new File(attachment.getPath());
         assertTrue(f.exists());
         assertFalse(f.isDirectory());
 
         // clean up
         assertTrue(f.delete());
-        Path subDir = Paths.get(AttachmentServiceImpl.ROOT + "/" + Constants.DATE_FORMATTER.format(new Date()));
+        Path subDir = Paths.get(FILE_UPLOAD_PATH + File.separator + Constants.DATE_FORMATTER.format(new Date()));
         if (Files.isDirectory(subDir) && Files.list(subDir).count() == 0) {
             Files.delete(subDir);
         }
-        Path dir = Paths.get(AttachmentServiceImpl.ROOT);
+        Path dir = Paths.get(FILE_UPLOAD_PATH);
         if (Files.isDirectory(dir) && Files.list(dir).count() == 0) {
             Files.delete(dir);
         }

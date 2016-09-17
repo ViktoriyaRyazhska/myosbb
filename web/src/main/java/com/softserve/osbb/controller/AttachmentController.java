@@ -11,16 +11,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -40,34 +35,11 @@ public class AttachmentController {
     @Autowired
     private AttachmentService attachmentService;
 
-    public static final String ROOT = "upload-dir";
-
     private final ResourceLoader resourceLoader;
 
     @Autowired
     public AttachmentController(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
-    }
-
-    @RequestMapping(value = "//", method = RequestMethod.GET)
-    public void provideUploadInfo(Model model) throws IOException {
-        model.addAttribute("files", Files.walk(Paths.get(ROOT))
-                .filter(path -> !path.equals(Paths.get(ROOT)))
-                .map(path -> Paths.get(ROOT).relativize(path))
-                .collect(Collectors.toList()));
-    }
-
-    @RequestMapping(value = "/{subdir}/{filename:.+}", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<?> downloadFileFromServer(@PathVariable String subdir, @PathVariable String filename) {
-        try {
-            logger.info("Getting file " + filename);
-            return new ResponseEntity<>(resourceLoader.getResource(
-                    "file:" + ROOT + "/" + attachmentService.downloadFile("/" + subdir + "/" + filename).getPath()), HttpStatus.OK);
-        } catch (Exception e) {
-            logger.warn("File "+ filename + " not found.");
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)

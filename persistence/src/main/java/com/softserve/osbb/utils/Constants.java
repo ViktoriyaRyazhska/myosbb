@@ -1,10 +1,12 @@
 package com.softserve.osbb.utils;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 
 /**
  * Created by nazar.dovhyy on 20.08.2016.
  */
+
 public class Constants {
 
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
@@ -14,5 +16,6 @@ public class Constants {
     public static final String PDF_TYPE = "pdf";
     public static final String XLS_TYPE = "xls";
     public static final String CSV_TYPE = "csv";
-
+    public static final String FILE_UPLOAD_PATH = File.separator + "var" + File.separator + "www" +
+            File.separator + "html" + File.separator + "static" + File.separator;
 }

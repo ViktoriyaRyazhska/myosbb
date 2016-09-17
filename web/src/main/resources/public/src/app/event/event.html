@@ -320,7 +320,7 @@
                 {{'create' | translate | capitalize}}
             </button>
             <button type="button" class="btn btn-danger" (click)="openDelAllModal()"
-                    *ngIf="(currentUser.userId == 1) && showAllEvents">
+                    *ngIf="(currentUser.userId == 1) || showAllEvents">
                 {{'delete' | translate | capitalize}} {{'all' | translate}}
             </button>
         </div>

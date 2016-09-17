@@ -35,7 +35,7 @@ import {DateTime} from "ng2-datetime-picker/dist/datetime";
 })
 export class EventComponent implements OnInit, OnDestroy {
 
-    private events:Event[];
+    private events:Event[] = [];
     private selectedEvent:Event = new Event;
     private newEvent:Event = new Event;
     private pageCreator:PageCreator<Event>;
@@ -184,7 +184,6 @@ export class EventComponent implements OnInit, OnDestroy {
     closeDelModal() {
         console.log('delete', this.id);
         this._eventService.deleteEventById(this.id);
-        // this.events.splice(this.id);
         this._eventService.getAllEvents(this.pageNumber);
         this.getEventsByPageNum(this.pageNumber);
         this.delModal.hide();

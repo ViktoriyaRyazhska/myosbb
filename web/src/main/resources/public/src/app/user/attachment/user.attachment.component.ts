@@ -9,8 +9,11 @@ import {FileSelectDirective, FileDropDirective, FileUploader} from "ng2-file-upl
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
 import ApiService = require("../../../shared/services/api.service");
+import FileLocationPath = require("../../../shared/services/file.location.path");
 
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment/';
+const fileUploadPath = FileLocationPath.fileUploadPath;
+const fileDownloadPath = FileLocationPath.fileDownloadPath;
 declare var saveAs:any;
 
 @Component({
@@ -23,7 +26,8 @@ declare var saveAs:any;
 })
 export class UserAttachmentComponent implements OnInit, OnDestroy {
 
-    public uploader:FileUploader = new FileUploader({url: attachmentUploadUrl, authToken: 'Bearer ' + localStorage.getItem('access_token')});
+    public uploader:FileUploader = new FileUploader({url: attachmentUploadUrl, authToken: 'Bearer '
+                                                    + localStorage.getItem('access_token')});
     public hasDropZoneOver:boolean = false;
     public fileOverBase(e:any):void {
         this.hasDropZoneOver = e;
@@ -39,7 +43,6 @@ export class UserAttachmentComponent implements OnInit, OnDestroy {
     @ViewChild('uploadModal') public uploadModal:ModalDirective;
     order:boolean = true;
     private pending:boolean = false;
-
     private attachmentId:number;
 
     constructor(private _attachmentService:AttachmentService) {
@@ -63,31 +66,6 @@ export class UserAttachmentComponent implements OnInit, OnDestroy {
         this.getAttachmentsByPageNum(this.pageNumber);
         console.log('closing upload modal');
         this.uploadModal.hide();
-    }
-
-    public download(attachmentPath:string) {
-        let self = this;
-        this.pending = true;
-        let xhr = new XMLHttpRequest();
-        let url = attachmentUploadUrl + attachmentPath;
-        xhr.open('GET', url, true);
-        xhr.responseType = 'blob';
-        console.log('preparing download...');
-        xhr.setRequestHeader('Authorization', 'Bearer '+localStorage.getItem('access_token'));
-        xhr.onreadystatechange = function () {
-            setTimeout(() => {
-                console.log('inside service: ' + self.pending);
-            }, 0);
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var blob = new Blob([this.response]);
-                saveAs(blob, attachmentPath);
-                self.pending = false;
-            } else if (xhr.status === 404) {
-                console.error('could not find resource');
-                self.pending = true;
-            }
-        };
-        xhr.send();
     }
 
     openDelModal(id:number) {
@@ -120,13 +98,17 @@ export class UserAttachmentComponent implements OnInit, OnDestroy {
         this.getAttachmentsByPageNum(this.pageNumber);
     }
 
-    getAttachmentsByPageNum(pageNumber:number) {
+    getAttachmentsByPageNum(pageNumber:number,) {
         this.pageNumber = +pageNumber;
         this.emptyArray();
         return this._attachmentService.getAllAttachments(this.pageNumber)
             .subscribe((data) => {
                     this.pageCreator = data;
                     this.attachments = data.rows;
+                    for (let i = 0; i < this.attachments.length; i++){
+                        this.attachments[i].url = this.attachments[i].path.replace(String(fileUploadPath),String(fileDownloadPath));
+                    }
+                    console.log(fileUploadPath,fileDownloadPath);
                     this.preparePageList(+this.pageCreator.beginPage,
                         +this.pageCreator.endPage);
                     this.totalPages = +data.totalPages;
@@ -167,6 +149,10 @@ export class UserAttachmentComponent implements OnInit, OnDestroy {
             .subscribe((data) => {
                     this.pageCreator = data;
                     this.attachments = data.rows;
+                    for (let i = 0; i < this.attachments.length; i++){
+                        this.attachments[i].path = this.attachments[i].path.replace('/var/www/html/',attachmentUploadUrl);
+                    }
+                // this.loadImage(this.attachments[0].path);
                     this.preparePageList(+this.pageCreator.beginPage,
                         +this.pageCreator.endPage);
                     this.totalPages = +data.totalPages;
