@@ -4,8 +4,8 @@ import {Http, Headers} from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 
-import {IOsbb} from "../../../shared/models/osbb";
-import ApiService = require("../../../shared/services/api.service");
+import {IOsbb} from "../../../../shared/models/osbb";
+import ApiService = require("../../../../shared/services/api.service");
 
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment';
 

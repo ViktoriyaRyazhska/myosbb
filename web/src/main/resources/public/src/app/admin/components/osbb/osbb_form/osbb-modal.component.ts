@@ -1,17 +1,17 @@
 import { Component, Output, Input, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {FORM_DIRECTIVES, CORE_DIRECTIVES, FormBuilder, Control, ControlGroup, Validators} from '@angular/common';
-import {IOsbb, Osbb} from "../../../../shared/models/osbb";
+import {IOsbb, Osbb} from "../../../../../shared/models/osbb";
 import { OsbbDTO } from '../osbb';
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {TranslatePipe} from "ng2-translate";
 import {FILE_UPLOAD_DIRECTIVES, FileSelectDirective, FileDropDirective, FileUploader} from "ng2-file-upload/ng2-file-upload";
-import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
+import {CapitalizeFirstLetterPipe} from "../../../../../shared/pipes/capitalize-first-letter";
 
 @Component({
     selector: 'osbb-modal',
-    templateUrl: './src/app/user/osbb/osbb_form/osbb-modal.html',
-    styleUrls: ['./src/app/user/osbb/osbb_form/osbb-modal.css'],
+    templateUrl: './src/app/admin/components/osbb/osbb_form/osbb-modal.html',
+    styleUrls: ['./src/app/admin/components/osbb/osbb_form/osbb-modal.css'],
     directives:[FILE_UPLOAD_DIRECTIVES, MODAL_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES, FileSelectDirective, FileDropDirective],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]

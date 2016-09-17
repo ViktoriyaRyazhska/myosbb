@@ -34,7 +34,6 @@ export const userRoutes: RouterConfig = [
             {path: 'report', component: UserReportComponent},
             {path: 'users', component: UsersComponent},
             {path: 'profile', component: ProfileComponent},
-            {path: 'osbb', component: OsbbComponent},
             {path: 'provider', component: ProviderComponent},
             {path: 'provider/info/:id', component: ProviderInfoComponent},
             {path: 'provider/info', component: ProviderUserPageComponent},
