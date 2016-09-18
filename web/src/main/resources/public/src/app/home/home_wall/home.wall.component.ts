@@ -4,7 +4,7 @@ import {ROUTER_DIRECTIVES} from "@angular/router";
 import {VoteComponent} from "../voting/vote.component";
 
 import {IOsbb, Osbb} from "../../../shared/models/osbb";
-import { OsbbService } from '../../user/osbb/osbb.service';
+import { OsbbService } from '../../admin/components/osbb/osbb.service';
 import { UserCalendarComponent } from '../../user/calendar/user.calendar.component';
 import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";

@@ -1,6 +1,6 @@
 import {RouterConfig} from "@angular/router";
 import {HomeComponent} from "./home.component";
-import {OsbbComponent} from "../user/osbb/osbb.component";
+import {OsbbComponent} from "../admin/components/osbb/osbb.component";
 import {TicketAdminComponent} from "../user/ticket/ticket.component.admin";
 import {HouseTableComponent} from "../house/house.table.component";
 import {HouseShowComponent} from "../house/house.show.component";
