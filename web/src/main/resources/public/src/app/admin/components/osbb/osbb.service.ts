@@ -24,10 +24,12 @@ export class OsbbService {
                  .catch(this.handleError);
     }
 
-   /* uploadLogo(formData:FormData) {
-        console.log("try to upload file: " + formData);
-      this.http.post(attachmentUploadUrl, formData).map(res => res.json()).subscribe((data) => console.log(data));
-    }*/
+     getByAvailable(available:boolean): Promise<IOsbb[]> {
+        return this.http.get(this.url + '/status/' + available)
+                 .toPromise()
+                 .then(res => res.json())
+                 .catch(this.handleError);
+    }
     
     getAllOsbbByNameContaining(osbbName: string ):Promise<IOsbb[]> {
         let url = this.url + '/search/' + osbbName;

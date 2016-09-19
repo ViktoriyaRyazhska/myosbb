@@ -4,6 +4,14 @@
     </div>
     <div class="panel-body">
         <div class="content-panel">
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default" (click)="initOsbbArr('All')">All
+                    </button>
+                <button type="button" class="btn btn-default" (click)="initOsbbArr('Available')">Active
+                    </button>
+                <button type="button" class="btn btn-default" (click)="initOsbbArr('NotAvailable')">Not Active
+                    </button>
+            </div>
             <div class="ui segment form">
                 <osbb-modal (created)="createOsbb($event)" (update)="editOsbb($event)" #addForm></osbb-modal>
                 <osbb-del-form (delete)="deleteOsbb($event)" #delForm></osbb-del-form>
@@ -13,12 +21,12 @@
             </div>
             <div id="example_filter" class="pull-right dataTables_filter">
                 <input type="search" class="form-control input-sm" placeholder="{{'searchByName' | translate}}" aria-controls="example" (keyup.enter)="searchByNameOsbb(searchInput.value)"
-                    #searchInput>
+                    (keyup)="clearSearch(searchInput)" #searchInput>
             </div>
             <table class="table table-striped table-advance table-hover">
                 <thead>
                     <tr>
-                        <th>{{'logo' | translate | capitalize}}</th>
+                        <th><i class=" fa fa-home"></i> {{'logo' | translate | capitalize}}</th>
                         <th class="sorting"><i class="fa fa-bullhorn"> </i> {{'name' | translate | capitalize}}
                             <a style="{cursor:pointer}" (click)="sortBy('name')"><span
                                     class="fa fa-fw fa-sort pull-left"></span></a>
@@ -31,16 +39,21 @@
                         <th class="sorting"><i class=" fa fa-edit"></i> {{'creationDate' | translate | capitalize}}
                             <a style="{cursor:pointer}" (click)="sortBy('creationDate')"><span
                                     class="fa fa-fw fa-sort pull-left"></span></a></th>
+                        <th><i class="fa fa-check-square-o"></i> status
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let osbb of osbbArr">
-                       <td><img *ngIf="osbb.logo !== null" src="{{osbb.logo.path}}" alt="empty" height="50" width="60" /></td>
+                    <tr *ngFor="let osbb of osbbArr" [ngClass]="{'success': osbb.available? true:false,
+                    'danger': !osbb.available? true:false}">
+                        <td><img *ngIf="osbb.logo !== null" src="{{osbb.logo.path}}" alt="empty" height="50" width="60" /></td>
                         <td>{{osbb.name}}</td>
                         <td>{{osbb.description}}</td>
                         <td>{{osbb.address}}</td>
                         <td>{{osbb.district}}</td>
                         <td>{{getCreationDate(osbb.creationDate)}}</td>
+                        <td *ngIf="osbb.available"><span class="fa fa-check"></span></td>
+                        <td *ngIf="!osbb.available"><span class="fa fa-times"></span></td>
                         <td>
                             <div class="dropdown">
                                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"

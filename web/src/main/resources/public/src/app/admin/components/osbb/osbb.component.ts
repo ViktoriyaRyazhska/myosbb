@@ -38,11 +38,23 @@ export class OsbbComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.osbbService.getAllOsbb().then(osbbArr => this.osbbArr = osbbArr);
+        this.initOsbbArr("All");
     }
 
     private initUpdatedOsbb(osbb:IOsbb): void {
         this.updatedOsbb = osbb;
+    }
+
+    initOsbbArr(available: string) {
+         //this.osbbService.getAllOsbb().then(osbbArr => this.osbbArr = osbbArr);
+        if(available === "All") {
+            this.osbbService.getAllOsbb().then(osbbArr => this.osbbArr = osbbArr);
+        }
+        else if(available === "Available"){
+            this.osbbService.getByAvailable(true).then(osbbArr => this.osbbArr = osbbArr);
+        } else {
+            this.osbbService.getByAvailable(false).then(osbbArr => this.osbbArr = osbbArr);
+        }
     }
 
     createOsbb(osbbDTO:OsbbDTO): void {
@@ -68,7 +80,9 @@ export class OsbbComponent implements OnInit {
     }
 
     deleteOsbb(osbb:IOsbb): void {
-        this.osbbService.deleteOsbb(osbb).then(osbb => this.deleteOsbbFromArr(osbb));
+        osbb.available = false;
+        this.osbbService.editOsbb(osbb);
+        //this.osbbService.deleteOsbb(osbb).then(osbb => this.deleteOsbbFromArr(osbb));
     }
 
      private deleteOsbbFromArr(osbb: IOsbb): void {
@@ -101,5 +115,11 @@ export class OsbbComponent implements OnInit {
     sortBy(field:string): void {
         this.toggleOrder();
         this.osbbService.getAllOsbbByOrder(field, this.order).then(osbbArr => this.osbbArr = osbbArr);
+    }
+
+    clearSearch(searchInput) {
+        if(searchInput.value === '') {
+            this.initOsbbArr("All");
+        }
     }
 }

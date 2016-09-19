@@ -9,6 +9,7 @@ export interface IOsbb {
     district:string;
     logo: Attachment;
     creationDate: Date;
+    available: boolean;
 }
 
 export class Osbb implements IOsbb {
@@ -20,4 +21,5 @@ export class Osbb implements IOsbb {
     district:string;
     logo: Attachment;
     creationDate: Date;
+    available: boolean;
 }

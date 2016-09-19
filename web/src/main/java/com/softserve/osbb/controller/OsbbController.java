@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,12 +125,22 @@ public class OsbbController {
         return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "status/{available}",method = RequestMethod.GET)
+    public ResponseEntity<List<Resource<Osbb>>> getByActive(@PathVariable("available") Boolean available) {
+        logger.info("Get osbb by active: " + available);
+        List<Osbb> osbbList = osbbService.findByAvailable(available);
+        final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
+        for(Osbb o: osbbList) {
+            resourceOsbbList.add(addResourceLinkToOsbb(o));
+        }
+        return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "",method = RequestMethod.GET)
     public ResponseEntity<List<Resource<Osbb>>> getAllOsbb() {
         logger.info("Get all osbb.");
-        List<Osbb> osbbList = osbbService.getAllOsbb();
+        List<Osbb> osbbList = osbbService.findAllByOrderByAvailableDesc();
         final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
-
         for(Osbb o: osbbList) {
             resourceOsbbList.add(addResourceLinkToOsbb(o));
         }
@@ -160,5 +169,4 @@ public class OsbbController {
                 .withSelfRel());
         return osbbResource;
     }
-
 }

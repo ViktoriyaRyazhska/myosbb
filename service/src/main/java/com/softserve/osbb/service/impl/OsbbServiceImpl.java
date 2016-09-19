@@ -42,6 +42,16 @@ public class OsbbServiceImpl implements OsbbService {
     }
 
     @Override
+    public List<Osbb> findAllByOrderByAvailableDesc() {
+        return osbbRepository.findAllByOrderByAvailableDesc();
+    }
+
+    @Override
+    public List<Osbb> findByAvailable(Boolean available) {
+        return osbbRepository.findByAvailable(available);
+    }
+
+    @Override
     public List<Osbb> findByNameContaining(String name) {
         return osbbRepository.findByNameContainingIgnoreCase(name);
     }

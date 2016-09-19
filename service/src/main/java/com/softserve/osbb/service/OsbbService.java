@@ -20,6 +20,10 @@ public interface OsbbService {
 
     List<Osbb> getAllOsbb();
 
+    List<Osbb> findAllByOrderByAvailableDesc();
+
+    List<Osbb> findByAvailable(Boolean available);
+
     List<Osbb> findByNameContaining(String name);
 
     List<Osbb> findAllOrderByNameDesc();
