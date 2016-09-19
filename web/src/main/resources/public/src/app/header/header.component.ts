@@ -10,7 +10,7 @@ import {LoginService} from "../login/login.service";
 import {CurrentUserService} from "../../shared/services/current.user.service";
 import {CapitalizeFirstLetterPipe} from "../../shared/pipes/capitalize-first-letter";
 import { MODAL_DIRECTIVES } from 'ng2-bs3-modal';
-import {Notice} from './notice';
+import {Notice,NoticeType} from './notice';
 import {NoticeService} from './header.notice.service';
 import {User} from './../user/user';
 import {TimerWrapper} from '@angular/core/src/facade/async';
@@ -20,9 +20,9 @@ import {Router} from '@angular/router';
 @Component({
     selector: 'app-header',
     templateUrl: 'src/app/header/header.html',
-    providers: [LoginStat,LoginService,NoticeService,CurrentUserService],
+    providers: [LoginStat, LoginService, NoticeService, CurrentUserService],
     inputs: ['isLoggedIn'],
-    directives: [ROUTER_DIRECTIVES, DROPDOWN_DIRECTIVES,MODAL_DIRECTIVES,FORM_DIRECTIVES],
+    directives: [ROUTER_DIRECTIVES, DROPDOWN_DIRECTIVES, MODAL_DIRECTIVES, FORM_DIRECTIVES],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
     styleUrls: ['src/app/user/ticket/ticket.css']
 
@@ -30,43 +30,41 @@ import {Router} from '@angular/router';
 })
 
 export class HeaderComponent implements OnInit,OnDestroy {
-    
-    //@Output() notice:EventEmitter<Notice>
-    
-    static translateService : TranslateService;
+    static translateService:TranslateService;
     static currentUserService:CurrentUserService;
     isLoggedIn:boolean;
     sub:any;
-    
-    languages: Array<string> = ['en', 'uk'];
-    selectedLang : string = 'uk';
+    rrr:boolean = true;
+    languages:Array<string> = ['en', 'uk'];
+    selectedLang:string = 'uk';
 
-     noticeArr:Notice[] = [];
-     arrLength:number = 0;
+    noticeArr:Notice[] = [];
+    tLength:number = 0;
+    mLength:number = 0;
+
+    wordT:string = '';
+    wordM:string = '';
 
     constructor(private noticeService:NoticeService,
                 private _currentUserService:CurrentUserService,
                 private _loginService:LoginService,
                 private _loginStat:LoginStat,
-                private _route:ActivatedRoute, 
+                private _route:ActivatedRoute,
                 private router:Router,
-                private translate: TranslateService, 
+                private translate:TranslateService,
                 private http:Http,
-                private _loginservice: LoginService) {
+                private _loginservice:LoginService) {
 
         this._loginStat.loggedInObserver$ .subscribe(stat => {
-                this.isLoggedIn = stat;       });
+            this.isLoggedIn = stat;
+        });
 
         HeaderComponent.translateService = translate;
-        HeaderComponent.currentUserService=_currentUserService;
+        HeaderComponent.currentUserService = _currentUserService;
         var userLang = navigator.language.split('-')[1]; // use navigator lang if available
         userLang = /(en|uk)/gi.test(userLang) ? userLang : 'uk';
 
-       
-  
-        
-       
-         
+
         // this language will be used as a fallback when a translation isn't found in the current language
         translate.setDefaultLang('uk');
 
@@ -77,37 +75,29 @@ export class HeaderComponent implements OnInit,OnDestroy {
         console.log("default lang: ", translate.currentLang);
         console.log("shared sevice: ", HeaderComponent.translateService);
         console.log("shared sevice: ", HeaderComponent.currentUserService);
-    
-     //let timer = Observable.timer(2000,1000);
-  //  this.kk();
 
-                }
-
-    getNotice(){
-        TimerWrapper.setInterval(() => {  
-        console.log("get Notice");
-        if(this._loginService.checkLogin())   {
-         this.noticeService.getNotice().subscribe(
-                data => {this.noticeArr = data,
-               this.arrLength = this.noticeArr.length
-                    
-                }
-        )}
-        }, 7000)
-         
-      
     }
 
-    
+    getNotice() {
+        TimerWrapper.setInterval(() => {
+            if (this._loginService.checkLogin()) {
+                this.noticeService.getNotice().subscribe(
+                    data => {
+                        this.noticeArr = data,
+                            this.getLengthNotice();
+                        this.wordT = this.wordTNews();
+                        this.wordM = this.wordMNews();
+                    }
+                )
+            }
+        }, 7000)
+
+    }
+
     ngOnInit():any {
         this.sub = this._route.params.subscribe(params=>
             this.isLoggedIn = params['status']);
-
-
-      //TimerWrapper.setTimeout(() => {  
-    this.getNotice();
-//}, 1000);
-       
+        this.getNotice();
     }
 
 
@@ -115,48 +105,83 @@ export class HeaderComponent implements OnInit,OnDestroy {
         this.sub.unsubscribe();
     }
 
-    goToPage(path:string){
-        
-    }
 
-    onSelect(lang){
+    onSelect(lang) {
         this.selectedLang = lang;
         this.translate.use(lang);
         this.translate.currentLang = lang;
         console.log("current lang: ", this.translate.currentLang);
     }
 
-removeNotice(notice:Notice){
-     let index = this.noticeArr.indexOf(notice);
-         if (index > -1) {
+
+    getLengthNotice() {
+        let t = 0;
+        let m = 0;
+        for (let i = 0; i < this.noticeArr.length; i++) {
+            if (this.noticeArr[i].typeNotice == 'TO_CREATOR' ||
+                this.noticeArr[i].typeNotice == 'TO_ASSIGNED') {
+                t++;
+            }
+            if (this.noticeArr[i].typeNotice == 'MESSAGE' ||
+                this.noticeArr[i].typeNotice == 'ANSWER') {
+                m++;
+            }
+        }
+        this.mLength = m;
+        this.tLength = t;
+
+    }
+
+    removeLengthNotice(notice:Notice) {
+        if (notice.typeNotice == 'TO_CREATOR' ||
+            notice.typeNotice == 'TO_ASSIGNED') {
+            this.tLength--;
+        }
+        if (notice.typeNotice == 'MESSAGE' ||
+            notice.typeNotice == 'ANSWER') {
+            this.mLength--;
+        }
+
+    }
+
+    removeNotice(notice:Notice) {
+        let index = this.noticeArr.indexOf(notice);
+        if (index > -1) {
             console.log("deleting notice!!!");
             this.noticeArr.splice(index, 1);
-        
-        this.noticeService.deleteNotice(notice);
-        this.arrLength--;
-    }
-}
-
-    hideNotice(notice:Notice){
-        this.removeNotice(notice);        
-        this.router.navigate([''+notice.path]);
+            this.noticeService.deleteNotice(notice);
+            this.removeLengthNotice(notice);
+        }
     }
 
-    isArrLength(){
-        this.arrLength != 0?true:false;
+    hideNotice(notice:Notice) {
+        this.removeNotice(notice);
+        this.router.navigate(['' + notice.path]);
     }
 
-    wordNews():string{
-       let num = Math.abs((this.arrLength) % 100) % 10; 
-	console.log("num"+num);
-    
-	if (num >= 5 && num < 20) 
-		return "pending_task";
-	if (num > 1 && num < 5) 
-		return "pending_tasks";
-	if (num == 1) 
-		return "pending_task1";
-	return "pending_task1";
+    getTime(time:Date):string {
+        return new Date(time).toLocaleTimeString();
+    }
+
+    wordTNews():string {
+        let num = Math.abs((this.tLength) % 100) % 10;
+        if (num >= 5 && num < 20)
+            return "pending_task";
+        if (num > 1 && num < 5)
+            return "pending_tasks";
+        if (num == 1)
+            return "pending_task1";
+        return "pending_task1";
+
+    }
+
+    wordMNews():string {
+        let num = Math.abs((this.mLength) % 100) % 10;
+        if (num == 1)
+            return "noticeComment";
+        if (num > 1 && num < 5)
+            return "noticeComment3";
+        return "noticeComments";
 
     }
 

@@ -13,8 +13,8 @@ import {TranslatePipe} from "ng2-translate/ng2-translate";
 })
 export class TicketDelFormComponent {
     @Output() delete:EventEmitter<ITicket>;
-    private ticket:ITicket;
     @ViewChild('delModal') delModal:ModalDirective;
+    private ticket:ITicket;
 
     openDelModal(ticket:ITicket):void {
         this.ticket = ticket;

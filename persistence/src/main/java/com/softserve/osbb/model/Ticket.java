@@ -129,6 +129,7 @@ public class Ticket {
     }
 
     @OneToMany(mappedBy = "ticket", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     public Collection<Message> getMessages() {
         return messages;
     }

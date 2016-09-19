@@ -1,6 +1,7 @@
 package com.softserve.osbb.model;
 
 import com.softserve.osbb.model.enums.NoticeType;
+import java.sql.Timestamp;
 
 import javax.persistence.*;
 
@@ -12,22 +13,25 @@ import javax.persistence.*;
 public class Notice {
     private Integer noticeId;
     private User user;
+    private String name;
     private String description;
+    private Timestamp time;
     private String path;
     private NoticeType typeNotice;
 
     public Notice() {
     }
 
-    public Notice(User user, String description, String path) {
+    public Notice(User user, String description, String path, NoticeType typeNotice) {
         this.user = user;
         this.description = description;
         this.path = path;
+        this.typeNotice = typeNotice;
     }
 
-    public Notice(User user, String description, String path, NoticeType typeNotice) {
-        this(user, description, path);
-        this.typeNotice = typeNotice;
+    public Notice(User user,String name, String description, String path, NoticeType typeNotice) {
+        this(user, description, path, typeNotice);
+        this.name = name;
     }
 
     @Id
@@ -52,13 +56,34 @@ public class Notice {
     }
 
     @Basic
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Basic
     @Column(name = "description")
     public String getDescription() {
         return description;
     }
 
+
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Basic
+    @Column(name = "time")
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
     }
 
     @Basic

@@ -156,21 +156,40 @@ insert into bill(date, to_pay, paid, tariff, apartment_id, status, provider_id) 
 
 
 INSERT into ticket(assigned,user_id,name,description,state,"time",state_time)
-           VALUES(1,3,'Назва тікету1','Опис тікету1','NEW','2016-09-02','2016-12-12');
+           VALUES(2,3,'Зламаний ліфт','Скільки вже дзвонимо майстру, просимо, щоб налаштував ліфт. Він строїть його, але наступного дня ліфт знову не працює.
+           Давате вже наймемо іншого майстра! Бо це тільки гроші бере, а нічого не вміє робити.','NEW','2016-09-02','2016-09-02');
 INSERT into ticket(assigned,user_id,name,description,state,"time",state_time)
-           VALUES(1,5,'Назва тікету2','Опис тікету2','DONE','2016-10-02','2016-12-12');
+           VALUES(1,5,'Прибирання в під`їзді','Вже дістало це чургування в під`їзді. Хтось чесно виконує обов`язок, а хто навіть не береться за вінік.
+           Так не піде! Давайте наймено прибиральницю, і тоді в нас завжди буде чисто, і не буде отих сварок з-за прибирання.','DONE','2015-10-02','2015-12-12');
 INSERT into ticket(assigned,user_id,name,description,state,"time",state_time)
-           VALUES(1,2,'Назва тікету3','Опис тікету3','NEW','2016-11-02','2016-11-12');
+           VALUES(2,2,'Замок на вхідні двері','Учора, повертаючись пізно з роботи, зустрів сплячого чоловіка. В нас не нічліжка, тому пропоную поставити
+            двері з кодовим замком, щоб ніхто не вештався по під`їзді. ','NEW','2015-11-02','2015-11-02');
 INSERT into ticket(assigned,user_id,name,description,state,"time",state_time)
-           VALUES(1,2,'Назва тікету4','Опис тікету4','DONE','2016-04-02','2016-05-12');
+           VALUES(4,2,'Інтернет Воля','У вас добре працює інтернет? Бо я вже кілька днів не можу зайти на якийсь сайт! Воля, виправте, що це за перебої?','DONE','2016-04-02','2016-05-02');
 INSERT into ticket(assigned,user_id,name,description,state,"time",state_time)
-           VALUES(1,3,'Назва тікету5','Опис тікету5','NEW','2016-03-02','2016-05-12');
+           VALUES(2,2,'Допоможіть! Візьміть Рекса на пару днів!!!','Завтра терміново їдемо по справах і не встигаємо віддати собаку родичам. Будемо дуже вдячні,
+           якщо хто зможе виручити нас. Всі ж знаєте Рекса, це дуже весела собака, з ним не засумуєте! Заздалегіть, дякуємо! ','NEW','2016-09-08','2016-09-08');
 INSERT into ticket(assigned,user_id,name,description,state,"time",state_time)
-           VALUES(1,3,'Назва тікету6','Опис тікету6','DONE','2016-01-02','2016-02-12');
+           VALUES(6,3,'Назва тікету6','Опис тікету6','DONE','2015-01-02','2015-02-12');
 INSERT into ticket(assigned,user_id,name,description,state,"time",state_time)
-           VALUES(1,4,'Назва тікету7','Опис тікету7','NEW','2016-11-02','2016-12-12');
+           VALUES(4,4,'Назва тікету7','Опис тікету7','NEW','2015-11-02','2015-12-12');
 INSERT into ticket(assigned,user_id,name,description,state,"time",state_time)
-           VALUES(1,5,'Назва тікету8','Опис тікету8','IN_PROGRESS','2016-08-02','2016-09-12');
+           VALUES(1,5,'Назва тікету8','Опис тікету8','IN_PROGRESS','2015-08-02','2015-09-12');
 INSERT into ticket(assigned,user_id,name,description,state,"time",state_time)
-           VALUES(1,2,'Назва тікету9','Опис тікету9','NEW','2016-10-02','2016-12-12');
+           VALUES(5,2,'Назва тікету9','Опис тікету9','NEW','2015-10-02','2015-12-12');
+
+
+INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(1,TRUE,TRUE,TRUE,TRUE );
+INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(2,TRUE,TRUE,TRUE,TRUE );
+INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(3,TRUE,TRUE,TRUE,TRUE );
+INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(4,FALSE,FALSE,TRUE,TRUE );
+INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(5,TRUE,TRUE,TRUE,FALSE );
+INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(6,TRUE,FALSE,FALSE,TRUE );
+INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(7,FALSE,TRUE,TRUE,TRUE );
+INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(8,TRUE,TRUE,TRUE,FALSE );
+INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(9,TRUE,TRUE,FALSE,TRUE );
+INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(10,TRUE,TRUE,TRUE,TRUE );
+INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(11,FALSE,FALSE,FALSE,FALSE );
+INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(12,TRUE,FALSE,TRUE,TRUE );
+
 

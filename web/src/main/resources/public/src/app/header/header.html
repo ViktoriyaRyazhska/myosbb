@@ -3,123 +3,103 @@
         <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
     </div>
     <!--logo start-->
-    <a [routerLink]="[_loginService.checkLogin()?'home/wall':'login']" class="logo"><i class="fa fa-home fa-lg" aria-hidden="true"><b>
+    <a [routerLink]="[_loginService.checkLogin()?'home/wall':'login']" class="logo"><i class="fa fa-home fa-lg"
+                                                                                       aria-hidden="true"><b>
         {{ 'ourYard' | translate | capitalize }}</b></i></a>
     <!--logo end-->
 
     <!--   *****[ngStyle]="{'display': 'none'}"******   -->
 
-      <div class="nav notify-row"  *ngIf="_loginService.checkLogin()" style="padding:0px;" id="top_menu">
+    <div class="nav notify-row" *ngIf="_loginService.checkLogin()" style="padding:0px;" id="top_menu">
         <!--  notification start -->
-        <ul class="nav top-menu" >
+        <ul class="nav top-menu">
             <!-- settings start -->
             <li class="dropdown">
-                <a data-toggle="dropdown" class="dropdown-toggle" >
+                <a data-toggle="dropdown" class="dropdown-toggle">
                     <i class="fa fa-tasks"></i>
-                    <span *ngIf="arrLength!=0" class="badge bg-theme"  >{{arrLength}}</span>
+                    <span *ngIf="tLength!=0" class="badge bg-theme">{{tLength}}</span>
                 </a>
                 <ul class="dropdown-menu extended tasks-bar">
                     <div class="notify-arrow notify-arrow-green"></div>
                     <li>
-                        <p  *ngIf="arrLength != 0" class="green" style="font-size:100%;">
-                            {{'You_have' | translate | capitalize}} {{arrLength}} {{wordNews()| translate}} 
-                            </p>
-                        <p  *ngIf="arrLength == 0" class="green" style="font-size:100%;">{{'nothingToShow' | translate | capitalize}}  </p>
-                    
+                        <p *ngIf="tLength != 0" class="green" style="font-size:100%;">
+                            {{'You_have' | translate | capitalize}} {{tLength}} {{wordT| translate}}
+                        </p>
+                        <p *ngIf="tLength == 0" class="green" style="font-size:100%;">{{'nothingToShow' | translate |
+                            capitalize}} </p>
+
                     </li>
-                    <li *ngFor="let notice of noticeArr" (click)="hideNotice(notice)" >
-                        
-                            <div class="task-info"  >
-                               
-                                <div  *ngIf="notice.typeNotice == 'TICKET_ASSIGNED' " style="margin-bottom:0px"  class="notice alert-warning" >
-							         <button type="button" class="close" (click)="removeNotice(notice)">×</button>
-                                  <b>Ви відповідальні</b><br/> 
-                                     <div style="font-size:80%;"> {{notice.description}}</div>
-                                  </div>
-                                <div  *ngIf="notice.typeNotice == 'TICKET_CREATOR'  "   style="margin-bottom:0px" class="notice alert-info" >
-                                     <button type="button" class="close" (click)="removeNotice(notice)">×</button>
-                                  <b>Зміна статусу</b><br/> 
-                                  <div style="font-size:80%;"> {{notice.description}}</div>
-                                  </div>
-                                  <div  *ngIf="notice.typeNotice == 'MESSAGE' "  style="margin-bottom:0px;margin:-10px"  class="notice alert-success" >
-                                       <button type="button" class="close" (click)="removeNotice(notice)">×</button>
-                                  <b>Новий коментар</b><br/> 
-                                  <div style="font-size:100%;"> {{notice.description}}</div>
-                                  </div>
+                    <li *ngFor="let notice of noticeArr" (click)="hideNotice(notice)">
+
+                        <div class="task-info">
+
+                            <div *ngIf="notice.typeNotice == 'TO_ASSIGNED' " style="margin-bottom:0px"
+                                 class="notice alert-warning">
+                                <button type="button" class="close" (click)="removeNotice(notice)">×</button>
+                                <b>Ви відповідальні</b><br/>
+                                <div style="font-size:80%;"> {{notice.description}}</div>
                             </div>
-                                
-                            
+                            <div *ngIf="notice.typeNotice == 'TO_CREATOR'  " style="margin-bottom:0px"
+                                 class="notice alert-info">
+                                <button type="button" class="close" (click)="removeNotice(notice)">×</button>
+                                <b>Зміна статусу</b><br/>
+                                <div style="font-size:80%;"> {{notice.description}}</div>
+                            </div>
+
+                        </div>
+
+
                     </li>
-                    
+
                 </ul>
             </li>
 
             <!-- *****************************settings end -->
             <!-- inbox dropdown start-->
-            <li [ngStyle]="{'display': 'none'}" id="header_inbox_bar" class="dropdown">
-                <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+            <li id="header_inbox_bar" class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle">
                     <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-theme">5</span>
+                    <span class="badge bg-theme" *ngIf="mLength!=0">{{mLength}}</span>
                 </a>
                 <ul class="dropdown-menu extended inbox">
                     <div class="notify-arrow notify-arrow-green"></div>
                     <li>
-                        <p class="green">You have 5 new messages</p>
+
+                        <p *ngIf="mLength != 0" class="green" style="font-size:100%;">
+                            {{'You_have' | translate | capitalize}} {{mLength}} {{wordM| translate}}
+                        </p>
+                        <p *ngIf="mLength == 0" class="green" style="font-size:100%;">{{'noComments' | translate |
+                            capitalize}} </p>
                     </li>
-                    <li>
-                        <a href="index.html#">
-                            <span class="photo"><img alt="avatar" src="assets/img/ui-zac.jpg"></span>
+                    <li *ngFor="let message of noticeArr " (click)="hideNotice(message)">
+
+                        <a *ngIf="(message.typeNotice == 'MESSAGE' || message.typeNotice == 'ANSWER') ">
+                            <div *ngIf="message.typeNotice == 'ANSWER'  ">
+                                <b style="color:#EE9A49"> Відповідь на ваш коментар</b><br/>
+                            </div>
+                            <div *ngIf="message.typeNotice == 'MESSAGE' ">
+                                <b style="color:#1E90FF"> Коментар на ваш інциндент</b><br/>
+                            </div>
+                            <!--<span class="photo"><img alt="avatar" src="assets/img/ui-divya.jpg"></span>-->
                                     <span class="subject">
-                                    <span class="from">Zac Snider</span>
-                                    <span class="time">Just now</span>
+                                    <span class="from">{{message.name}}:</span>
+                                    <span class="time">{{getTime(message.time)}}</span>
                                     </span>
                                     <span class="message">
-                                        Hi mate, how is everything?
+                                    {{message.description}}
                                     </span>
                         </a>
+
+
                     </li>
-                    <li>
-                        <a href="index.html#">
-                            <span class="photo"><img alt="avatar" src="assets/img/ui-divya.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Divya Manian</span>
-                                    <span class="time">40 mins.</span>
-                                    </span>
-                                    <span class="message">
-                                     Hi, I need your help with this.
-                                    </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="index.html#">
-                            <span class="photo"><img alt="avatar" src="assets/img/ui-danro.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Dan Rogers</span>
-                                    <span class="time">2 hrs.</span>
-                                    </span>
-                                    <span class="message">
-                                        Love your new Dashboard.
-                                    </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="index.html#">
-                            <span class="photo"><img alt="avatar" src="assets/img/ui-sherman.jpg"></span>
-                                    <span class="subject">
-                                    <span class="from">Dj Sherman</span>
-                                    <span class="time">4 hrs.</span>
-                                    </span>
-                                    <span class="message">
-                                        Please, answer asap.
-                                    </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="index.html#">See all messages</a>
-                    </li>
+
+
+                    <!--<li>
+                        <a >See all messages</a>
+                    </li>-->
                 </ul>
             </li>
-            <!-- inbox dropdown end -->
+            <!--inbox dropdown end -->
         </ul>
         <!--  notification end -->
     </div>
@@ -129,7 +109,8 @@
 
     <div class="lang-nav">
         <div>
-            | <a class="lang-item" *ngFor="let lang of languages" (click)="onSelect(lang)" [class.selectedLang] = "lang == selectedLang">
+            | <a class="lang-item" *ngFor="let lang of languages" (click)="onSelect(lang)"
+                 [class.selectedLang]="lang == selectedLang">
             {{lang | uppercase}} |</a>
         </div>
     </div>
@@ -142,7 +123,7 @@
     </div>
     <div class="top-menu">
         <ul class="nav pull-right top-menu">
-            <li *ngIf="_loginService.checkLogin()"><a (click)="_loginService.logOut()"  [routerLink]="['']" class="top">
+            <li *ngIf="_loginService.checkLogin()"><a (click)="_loginService.logOut()" [routerLink]="['']" class="top">
                 <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i></a></li>
         </ul>
     </div>

@@ -77,6 +77,11 @@
     },
     {
       "includeAll": {
+        "path": "classpath:/db/changelog/settings/"
+      }
+    },
+    {
+      "includeAll": {
         "path": "classpath:/db/changelog/user/"
       }
     },

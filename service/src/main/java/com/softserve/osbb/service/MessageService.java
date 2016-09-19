@@ -2,6 +2,8 @@ package com.softserve.osbb.service;
 
 import com.softserve.osbb.model.Message;
 import com.softserve.osbb.model.Ticket;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +49,7 @@ public interface MessageService {
 
     Message update(Message message);
 
-    List<Message> findMessagesByTicket(Ticket ticket);
+    Page<Message> findMessagesByTicket(Ticket ticket, PageRequest pageRequest);
 
     List<Message> getAnswers(Integer parentId);
 

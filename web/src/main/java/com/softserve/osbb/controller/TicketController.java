@@ -4,16 +4,10 @@ package com.softserve.osbb.controller;
 import com.softserve.osbb.dto.PageParams;
 import com.softserve.osbb.dto.TicketDTO;
 import com.softserve.osbb.dto.mappers.TicketDTOMapper;
-import com.softserve.osbb.model.Mail;
-import com.softserve.osbb.model.Notice;
-import com.softserve.osbb.model.Ticket;
-import com.softserve.osbb.model.User;
+import com.softserve.osbb.model.*;
 import com.softserve.osbb.model.enums.NoticeType;
 import com.softserve.osbb.model.enums.TicketState;
-import com.softserve.osbb.service.MessageService;
-import com.softserve.osbb.service.NoticeService;
-import com.softserve.osbb.service.TicketService;
-import com.softserve.osbb.service.UserService;
+import com.softserve.osbb.service.*;
 import com.softserve.osbb.util.paging.PageDataUtil;
 import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
 import com.softserve.osbb.util.paging.impl.TicketPageDataObject;
@@ -67,30 +61,33 @@ public class TicketController {
     @Autowired
     private MailSenderImpl sender;
 
+    @Autowired
+    SettingsService settingsService;
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Resource<Ticket>> createTicket(@RequestBody Ticket ticket) {
         Resource<Ticket> ticketResource;
         try {
             User user = userService.findOne(ticket.getUser().getUserId());
-            user.getTickets().add(ticket);
             ticket.setUser(user);
 
             User assigned = userService.findOne(ticket.getAssigned().getUserId());
-            assigned.getTickets().add(ticket);
             ticket.setAssigned(assigned);
 
             ticket.setTime(new Timestamp(new Date().getTime()));
             ticket.setStateTime(new Timestamp(new Date().getTime()));
 
-
+            Settings settings = settingsService.findByUser(ticket.getUser());
+            if (settings.getAssigned()) {
+                Notice notice = new Notice(assigned, ticket.getName(), "home/user/ticket/" + ticket.getTicketId(), NoticeType.TO_ASSIGNED);
+                noticeService.save(notice);
+            }
             ticket = ticketService.save(ticket);
-            Notice notice = new Notice(assigned, ticket.getName(), "home/user/ticket/" + ticket.getTicketId(), NoticeType.TICKET_ASSIGNED);
-            noticeService.save(notice);
             logger.info("Saving ticket object " + ticket.toString());
             ticketResource = addResourceLinkToTicket(ticket);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(ticketResource, HttpStatus.OK);
     }
@@ -131,39 +128,21 @@ public class TicketController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource<Ticket>> getTicketById(@PathVariable("id") Integer ticketId) {
         Ticket ticket = ticketService.findOne(ticketId);
-        logger.info("Get ticketDTO by id: " + ticket);
+        if(ticket == null){
+            logger.info("Get ticket by id: " + ticket + " no exist");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        logger.info("Get ticket by id: " + ticket);
         return new ResponseEntity<>(addResourceLinkToTicket(ticket), HttpStatus.OK);
     }
 
-    /* @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Resource<Ticket>> getTicketById(@PathVariable("id") Integer ticketId) {
-
-
-        logger.info("Get ticket by id: " + ticketId);
-        Ticket ticket = ticketService.findOne(ticketId);
-        if(ticket == null){
-            logger.error("ticket was not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-      //  Ticket ticketDTO = new TicketDTOMapper().mapTicketEntityToDTO(ticket);
-        return new ResponseEntity<>(addResourceLinkToTicket(ticket), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/map/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Resource<TicketDTO>> getTicketByIdDTO(@PathVariable("id") Integer ticketId) {
-        logger.info("Get ticketDTO by id: " + ticketId);
-        Ticket ticket = ticketService.findOne(ticketId);
-        if(ticket == null){
-            logger.error("ticket was not found");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        TicketDTO ticketDTO = new TicketDTOMapper().mapTicketEntityToDTO(ticket);
-        return new ResponseEntity<>(addResourceLinkToTicketDTO(ticketDTO), HttpStatus.OK);
-    }*/
 
     @RequestMapping(value = "/map/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource<TicketDTO>> getTicketByIdDTO(@PathVariable("id") Integer ticketId) {
         Ticket ticket = ticketService.findOne(ticketId);
+        if(ticket == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         TicketDTO ticketDTO = new TicketDTOMapper().mapTicketEntityToDTO(ticket);
         logger.info("Get ticketDTO by id: " + ticket);
         return new ResponseEntity<>(addResourceLinkToTicketDTO(ticketDTO), HttpStatus.OK);
@@ -178,9 +157,11 @@ public class TicketController {
         ticketDB.setState(ticket.getState());
 
         ticket = ticketService.update(ticketDB);
-
-        Notice notice = new Notice(ticket.getUser(), ticket.getName(), "home/user/ticket/" + ticket.getTicketId(),NoticeType.TICKET_CREATOR);
-        noticeService.save(notice);
+        Settings settings = settingsService.findByUser(ticketDB.getUser());
+        if (settings.getCreator()) {
+            Notice notice = new Notice(ticket.getUser(), ticket.getName(), "home/user/ticket/" + ticket.getTicketId(), NoticeType.TO_CREATOR);
+            noticeService.save(notice);
+        }
         Resource<Ticket> ticketResource = new Resource<>(ticketDB);
         ticketResource.add(linkTo(methodOn(TicketController.class).getTicketById(ticket.getTicketId())).withSelfRel());
         return new ResponseEntity<>(ticketResource, HttpStatus.OK);
@@ -197,13 +178,19 @@ public class TicketController {
         ticket.setAssigned(assigned);
         ticket.setStateTime(ticketDB.getStateTime());
         if (ticket.getState() != ticketDB.getState()) {
-            Notice notice = new Notice(ticketDB.getUser(), ticket.getName(), "home/user/ticket/" + ticket.getTicketId(),NoticeType.TICKET_CREATOR);
-            ticket.setStateTime(new Timestamp(new Date().getTime()));
-            noticeService.save(notice);
+            Settings settings = settingsService.findByUser(ticketDB.getUser());
+            if (settings.getCreator()) {
+                Notice notice = new Notice(ticketDB.getUser(), ticket.getName(), "home/user/ticket/" + ticket.getTicketId(), NoticeType.TO_CREATOR);
+                ticket.setStateTime(new Timestamp(new Date().getTime()));
+                noticeService.save(notice);
+            }
         }
         if (ticket.getAssigned() != ticketDB.getAssigned()) {
-            Notice notice = new Notice(ticket.getAssigned(), ticket.getName(), "home/user/ticket/" + ticket.getTicketId(),NoticeType.TICKET_ASSIGNED);
-            noticeService.save(notice);
+            Settings settings = settingsService.findByUser(ticket.getAssigned());
+            if (settings.getAssigned()) {
+                Notice notice = new Notice(ticket.getAssigned(), ticket.getName(), "home/user/ticket/" + ticket.getTicketId(), NoticeType.TO_ASSIGNED);
+                noticeService.save(notice);
+            }
         }
         ticket = ticketService.update(ticket);
         Resource<Ticket> ticketResource = new Resource<>(ticket);
@@ -259,7 +246,7 @@ public class TicketController {
 
     @RequestMapping(value = "/findName", method = RequestMethod.POST)
     public ResponseEntity<TicketPageDataObject> listTicketsByName(@RequestBody PageRequestGenerator.PageRequestHolder requestHolder,
-                                                               @RequestParam(value = "find") String findName) {
+                                                                  @RequestParam(value = "find") String findName) {
         logger.info("get tickets by name: " + findName);
         final PageRequest pageRequest = new PageRequestGenerator(requestHolder)
                 .toPageRequest();
@@ -274,7 +261,7 @@ public class TicketController {
 
     @RequestMapping(value = "/state", method = RequestMethod.POST)
     public ResponseEntity<TicketPageDataObject> listTicketsByState(@RequestBody PageRequestGenerator.PageRequestHolder requestHolder,
-                                                                @RequestParam(value = "findName") TicketState ticketState) {
+                                                                   @RequestParam(value = "findName") TicketState ticketState) {
         logger.info("get tickets by state: " + ticketState);
         final PageRequest pageRequest = new PageRequestGenerator(requestHolder)
                 .toPageRequest();
@@ -289,10 +276,10 @@ public class TicketController {
 
     @RequestMapping(value = "/userEmail", method = RequestMethod.POST)
     public ResponseEntity<TicketPageDataObject> listTicketsByUser(@RequestBody PageRequestGenerator.PageRequestHolder requestHolder,
-                                                               @RequestParam(value = "user", required = false) String email,
-                                                               @RequestParam(value = "assign", required = false) String emailAssign,
-                                                               @RequestParam(value = "state", required = false) TicketState ticketState) {
-        logger.info("get tickets by user and state: " + email + "  " +emailAssign+  "  " + ticketState);
+                                                                  @RequestParam(value = "user", required = false) String email,
+                                                                  @RequestParam(value = "assign", required = false) String emailAssign,
+                                                                  @RequestParam(value = "state", required = false) TicketState ticketState) {
+        logger.info("get tickets by user and state: " + email + "  " + emailAssign + "  " + ticketState);
         final PageRequest pageRequest = new PageRequestGenerator(requestHolder)
                 .toPageRequest();
         Page<Ticket> ticketsByPage;

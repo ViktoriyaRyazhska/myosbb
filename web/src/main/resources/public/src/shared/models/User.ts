@@ -20,11 +20,11 @@ export class User {
     this.email=new String();
     this.phoneNumber=new String();
     this.gender=new String();
-    this.password=new Number();
+    // this.password=new Number();
     this.activated=new Boolean();
     this.role=new String();
   }
-    constructor(userItem?:{userId:number,firstName:string,lastName:string,birthDate:string,email:string,phoneNumber:string,gender:string,password:number,activated:boolean,role:string,apartment:any}) {
+    constructor(userItem?:{userId:number,firstName:string,lastName:string,birthDate:string,email:string,phoneNumber:string,gender:string,activated:boolean,role:string,apartment:any}) {
         if(userItem) {
             Object.assign(this,userItem);
         }

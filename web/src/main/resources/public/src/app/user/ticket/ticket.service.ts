@@ -5,7 +5,7 @@ import "rxjs/add/operator/toPromise";
 import ApiService = require("../../../shared/services/api.service");
 import {User} from './../user';
 import {ITicket,TicketState} from './ticket';
-import {PageRequest} from './generator';
+import {PageRequest} from './page.request';
 import {Observable} from "rxjs/Observable";
 import {Mail} from "../../../shared/models/mail.interface";
 
@@ -28,12 +28,13 @@ export class TicketService {
     private findTicketByUser:string = ApiService.serverUrl + '/restful/ticket/userEmail';
     private findTicketByAssigned:string = ApiService.serverUrl + '/restful/ticket/assigned';
 
-    
+
     private aaa:string = ApiService.serverUrl + '/sendEmailMail';
+
     constructor(private http:Http) {
     }
 
- sendMailAssign(mail : Mail){
+    sendMailAssign(mail:Mail) {
         console.log("sending http POST to " + this.sendEmailAssignUrl);
         console.log("json obj: ", JSON.stringify(mail));
         return this.http.post(this.sendEmailAssignUrl, JSON.stringify(mail))
@@ -55,19 +56,19 @@ export class TicketService {
     }
 
     findByNameDescription(pageRequest:PageRequest, findName:string):Observable<any> {
-        return this.http.post(this.findTicketByName + '?find=' + findName,JSON.stringify(pageRequest))
+        return this.http.post(this.findTicketByName + '?find=' + findName, JSON.stringify(pageRequest))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
 
-    findByUser(pageRequest:PageRequest, email:string,state:TicketState):Observable<any> {
-        return this.http.post(this.findTicketByUser + '?user=' + email+'&&state='+state, JSON.stringify(pageRequest))
+    findByUser(pageRequest:PageRequest, email:string, state:TicketState):Observable<any> {
+        return this.http.post(this.findTicketByUser + '?user=' + email + '&&state=' + state, JSON.stringify(pageRequest))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
 
-    findByAssigned(pageRequest:PageRequest, email:string,state:TicketState):Observable<any> {
-        return this.http.post(this.findTicketByUser + '?assign=' + email+'&&state='+state, JSON.stringify(pageRequest))
+    findByAssigned(pageRequest:PageRequest, email:string, state:TicketState):Observable<any> {
+        return this.http.post(this.findTicketByUser + '?assign=' + email + '&&state=' + state, JSON.stringify(pageRequest))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
@@ -130,21 +131,13 @@ export class TicketService {
             .catch(this.handleError);
     }
 
-    sendEmailAssign(ticketId:number){
+    sendEmailAssign(ticketId:number) {
         return this.http.post(this.sendEmailAssignUrl, JSON.stringify(ticketId))
             .toPromise()
             .then(() => (ticketId))
             .catch(this.handleError);
-    }/*
-sendMail(mail : Mail){
-        console.log("sending http POST to " + this.url);
-        console.log("json obj: ", JSON.stringify(mail));
-        return this.http.post(this.url, JSON.stringify(mail))
-            .toPromise()
-            .then(()=>mail)
-            .catch((err)=>console.error(err));
     }
-*/
+
     private handleError(error:any):Promise<any> {
         console.log('HandleError', error);
         return Promise.reject(error.message || error);

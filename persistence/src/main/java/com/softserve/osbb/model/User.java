@@ -275,6 +275,8 @@ public class User implements Serializable {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", roles='" + role + '\'' +
+                ", osbb='" + osbb + '\'' +
+
                 '}';
     }
 

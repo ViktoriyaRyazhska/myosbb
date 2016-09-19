@@ -2,7 +2,7 @@
   "databaseChangeLog": [
     {
       "changeSet": {
-        "id": "2016/09/06-24",
+        "id": "2016/09/15-24",
         "author": "krisrina",
         "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
         "changes": [
@@ -14,34 +14,10 @@
                     "autoIncrement": true,
                     "constraints": {
                       "primaryKey": true,
-                      "primaryKeyName": "notice_pkey"
+                      "primaryKeyName": "settings_pkey"
                     },
-                    "name": "notice_id",
+                    "name": "settings_id",
                     "type": "SERIAL"
-                  }
-                },
-                {
-                  "column": {
-                    "name": "name",
-                    "type": "VARCHAR(250)"
-                  }
-                },
-                {
-                  "column": {
-                    "name": "description",
-                    "type": "VARCHAR(250)"
-                  }
-                },
-                {
-                  "column": {
-                    "name": "time",
-                    "type": "TIMESTAMP(6) WITH TIME ZONE"
-                  }
-                },
-                {
-                  "column": {
-                    "name": "path",
-                    "type": "VARCHAR(250)"
                   }
                 },
                 {
@@ -52,12 +28,34 @@
                 },
                 {
                   "column": {
-                    "name": "type",
-                    "type": "VARCHAR(255)"
+                    "name": "assigned",
+                    "type": "boolean",
+                    "defaultValue": "true"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "creator",
+                    "type": "boolean",
+                    "defaultValue": "true"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "comment",
+                    "type": "boolean",
+                    "defaultValue": "true"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "answer",
+                    "type": "boolean",
+                    "defaultValue": "true"
                   }
                 }
               ],
-              "tableName": "notice"
+              "tableName": "settings"
             }
           }
         ]

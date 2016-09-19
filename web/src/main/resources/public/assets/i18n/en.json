@@ -174,7 +174,13 @@
   "pending_tasks" :"news",
   "pending_task":"news",
   "pending_task1":"news",
-  "nothingToShow":"no news"
+  "nothingToShow":"no news",
+  "noticeComment":"new comment",
+  "noticeComment3":"new comments",
+  "noticeComments":"new comments",
+  "noComments":"no comments",
+  "settings":"settings"
+
 }
 
 

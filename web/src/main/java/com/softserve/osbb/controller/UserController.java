@@ -1,6 +1,7 @@
 package com.softserve.osbb.controller;
 
 import com.softserve.osbb.model.User;
+import com.softserve.osbb.service.SettingsService;
 import com.softserve.osbb.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,6 @@ public class UserController {
 
     @Autowired
     UserService userService;
-
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<List<Resource<User>>> getAll() {

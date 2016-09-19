@@ -10,7 +10,6 @@ export interface ITicket {
     time:Date;
     user:User;
     assigned:User;
-    messages:Message[];
 }
 
 export class Ticket implements ITicket {
@@ -22,7 +21,6 @@ export class Ticket implements ITicket {
     time:Date;
     user:User;
     assigned:User;
-    messages:Message[];
 
 
     constructor(name:string, description:string, state:TicketState) {

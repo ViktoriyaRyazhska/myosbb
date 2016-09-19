@@ -5,6 +5,8 @@ import com.softserve.osbb.model.Ticket;
 import com.softserve.osbb.repository.MessageRepository;
 import com.softserve.osbb.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -115,13 +117,13 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> findMessagesByTicket(Ticket ticket) {
-        return messageRepository.findByTicketOrderByTimeAsc(ticket);
+    public Page<Message> findMessagesByTicket(Ticket ticket, PageRequest pageRequest) {
+        return messageRepository.findByTicketOrderByTimeDesc(ticket, pageRequest);
     }
 
     @Override
     public List<Message> getAnswers(Integer parentId) {
-        return messageRepository.findByParentId(parentId);
+        return messageRepository.findByParentIdOrderByTimeDesc(parentId);
     }
 
 }

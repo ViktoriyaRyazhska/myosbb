@@ -4,7 +4,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import {Ticket, ITicket} from './../ticket';
 import {IMessage} from './message';
-
+import {PageRequest} from './../page.request';
 import {Observable} from "rxjs/Observable";
 import ApiService = require("../../../../shared/services/api.service");
 
@@ -31,12 +31,19 @@ export class MessageService {
             .catch(this.handleError);
     }
 
-    getMessagesForTicket(ticket:number):Promise<IMessage[]> {
-        let url = `${this.getUrlCommentsForTicket}/${ticket}`;
-        return this.http.get(url)
-            .toPromise()
-            .then(res => res.json())
-            .catch(this.handleError);
+    // getMessagesForTicket(ticket:number):Promise<IMessage[]> {
+    //     let url = `${this.getUrlCommentsForTicket}/${ticket}`;
+    //     return this.http.get(url)
+    //         .toPromise()
+    //         .then(res => res.json())
+    //         .catch(this.handleError);
+    // }
+
+    getMessagesForTicket(pageRequest:PageRequest, ticketId:number):Observable<any> {
+        let url = `${this.getUrlCommentsForTicket}/${ticketId}`;
+        return this.http.post(url, JSON.stringify(pageRequest))
+            .map((response)=> response.json())
+            .catch((error)=>Observable.throw(error));
     }
 
     addMessage(message:IMessage):Promise<IMessage> {
@@ -87,7 +94,7 @@ export class MessageService {
     }
 
     editMessage(message:IMessage):Promise<IMessage> {
-        let url = `${this.putMess}/${message.idTicket}`;
+        let url = `${this.putMess}`;
         return this.http.put(url, JSON.stringify(message))
             .toPromise()
             .then(res => res.json())

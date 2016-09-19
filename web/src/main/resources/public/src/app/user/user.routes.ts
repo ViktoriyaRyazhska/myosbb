@@ -17,6 +17,9 @@ import {ProviderInfoComponent} from "./provider/provider-info";
 import {ProfileComponent} from "./profile/profile.component";
 import {ProviderUserPageComponent} from "./provider/provider_home/provider-user-page.component";
 import {OsbbBillComponent} from "./bills/osbb/osbb.bill.component";
+import {SettingsComponent} from "./settings/settings.component";
+
+
  
 export const userRoutes: RouterConfig = [
     {
@@ -38,7 +41,10 @@ export const userRoutes: RouterConfig = [
             {path: 'provider/info/:id', component: ProviderInfoComponent},
             {path: 'provider/info', component: ProviderUserPageComponent},
             {path: 'contract', component: ContractComponent},
-            {path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent}
+            {path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent},
+            {path: 'settings', component: SettingsComponent}
+            
+
         ],
         component: UserComponent,
     }

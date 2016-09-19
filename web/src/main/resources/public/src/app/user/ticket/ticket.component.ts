@@ -22,7 +22,7 @@ import {User} from './../user';
 import {CurrentUserService} from "./../../../shared/services/current.user.service";
 import {Notice} from './../../header/notice';
 import {NoticeService} from './../../header/header.notice.service';
-import {PageRequest} from './generator';
+import {PageRequest} from './page.request';
 import {HeaderComponent} from "../../header/header.component";
 import {ToasterContainerComponent, ToasterService} from "angular2-toaster/angular2-toaster";
 import {
@@ -32,7 +32,7 @@ import {
 @Component({
     selector: 'ticket',
     templateUrl: './src/app/user/ticket/ticket.component.html',
-    providers: [ TicketService, MessageComponent, ToasterService, MessageService],
+    providers: [TicketService, MessageComponent, ToasterService, MessageService],
     directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TranslatePipe],
@@ -61,21 +61,20 @@ export class TicketComponent implements OnInit {
     email:string = "";
     emailAssign:string = "";
     pageRequest:PageRequest;
-_currentUserService = null;
+    _currentUserService = null;
+
     constructor(private ticketService:TicketService,
                 private messageComponent:MessageComponent,
                 private currentUserService:CurrentUserService,
-                private _toasterService: ToasterService,
+                private _toasterService:ToasterService,
                 private router:Router) {
-         this._currentUserService=HeaderComponent.currentUserService;
+        this._currentUserService = HeaderComponent.currentUserService;
         this.currentUser = this._currentUserService.getUser();
-         
-        console.log("TICKET USER : "+ this.currentUser.firstName+"  "+this.currentUser.lastName);
-        
     }
 
     ngOnInit() {
         this.getTicketsByPageNum(this.pageNumber, this.selectedRow);
+
     }
 
     initUpdatedTicket(ticket:ITicket):void {
@@ -86,7 +85,7 @@ _currentUserService = null;
         this.ticketService.addTicket(ticket).then(ticket => this.addTicket(ticket));
     }
 
-     private handleErrors(error: any) {
+    private handleErrors(error:any) {
         if (error.status === 404 || error.status === 400) {
             console.log('server error 400');
             this._toasterService.pop(onErrorResourceNotFoundToastMsg);
@@ -99,28 +98,18 @@ _currentUserService = null;
             return;
         }
     }
+
     private addTicket(ticket:ITicket):void {
-       // this.ticketService.sendEmailAssign(ticket.ticketId);
         this.ticketArr.unshift(ticket);
     }
 
     editTicket(ticket:ITicket):void {
-        this.ticketService.editTicket(ticket); 
-       // .then( setTimeout => this.ticketArr[index] = this.ticketService.getTicketbyId(ticket.ticketId), 1000);
+        this.ticketService.editTicket(ticket);
         let index = this.ticketArr.indexOf(this.updatedTicket);
-             console.log("TICKET: "+JSON.stringify(this.updatedTicket));
-               
-               //   this.ticketService.getTicketbyId(ticket.ticketId);
         if (index > -1) {
-             console.log("НАШЕЛСЯ ТИКЕТ"+ticket.ticketId);
-
-          this.ticketArr[index]= ticket;
-         //  this.ticketService.getTicketbyId(ticket.ticketId).then(ticket => this.ticketArr[index] = ticket);
-          //  .then( setTimeout => this.ticketArr[index] = this.ticketService.getTicketbyId(ticket.ticketId), 1000);
+            this.ticketArr[index] = ticket;
         }
-      
     }
-
 
     deleteTicket(ticket:ITicket):void {
         this.ticketService.deleteTicket(ticket).then(ticket => this.deleteTicketFromArr(ticket));
@@ -133,10 +122,36 @@ _currentUserService = null;
             this.ticketArr.splice(index, 1);
         }
     }
-
-    findTicketByName(name:string) {
+    
+  getTicketsByPageNum(pageNumber:number, selectedRow:number) {
+        console.log("getTicketsByPageNum");
+        this.pageNumber = +pageNumber;
         this.pending = true;
-         this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow,this.nameSort,this.order);
+        this.selectedRow = +selectedRow;
+        this.email = '';
+        this.emailAssign = '';
+        this.status = '';
+        this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow, this.nameSort, this.order);
+        return this.ticketService.getTicketsByPage(this.pageRequest)
+            .subscribe((data) => {
+                    this.pending = false;
+                    this.pageCreator = data;
+                    this.ticketArr = data.rows;
+                    this.preparePageList(+this.pageCreator.beginPage,
+                        +this.pageCreator.endPage);
+                    this.totalPages = +data.totalPages;
+                    this.dates = data.dates;
+                },
+                (error) => {
+                    this.handleErrors(error);
+                    this.pending = false;
+                    console.error(error)
+                });
+    }
+    findTicketByName(name:string) {
+        console.log("findTicketByName"); 
+        this.pending = true;
+        this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow, this.nameSort, this.order);
         return this.ticketService.findByNameDescription(this.pageRequest, name)
             .subscribe((data) => {
                     this.pending = false;
@@ -153,63 +168,36 @@ _currentUserService = null;
                 });
     }
 
-  findMyTickets() {
+    findMyTickets() {
+        console.log("findMyTickets"); 
         this.pending = true;
-        this.emailAssign = '';        
+        this.emailAssign = '';
         this.email = this.currentUser.email;
-        this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow,this.nameSort,this.order);
+        this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow, this.nameSort, this.order);
         return this.ticketService.findByUser(this.pageRequest, this.email, this.status)
             .subscribe((data) => {
                     this.pending = false;
                     this.pageCreator = data;
                     this.ticketArr = data.rows;
                     this.preparePageList(+this.pageCreator.beginPage,
-                                         +this.pageCreator.endPage);
-                    this.totalPages = +data.totalPages;
-                    this.dates = data.dates;
-                 //   this.status="";
-                },
-                (error) => {
-                    this.pending = false;
-                    console.error(error)
-                });
-               
-    }
-
-    findMyAssigned() {
-        this.pending = true;
-        this.email = '';        
-        this.emailAssign = this.currentUser.email;
-        this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow,this.nameSort,this.order);
-        return this.ticketService.findByAssigned(this.pageRequest, this.emailAssign, this.status)
-           .subscribe((data) => {
-                    this.pending = false;
-                    this.pageCreator = data;
-                    this.ticketArr = data.rows;
-                    this.preparePageList(+this.pageCreator.beginPage,
                         +this.pageCreator.endPage);
                     this.totalPages = +data.totalPages;
                     this.dates = data.dates;
-                 //   this.status="";
                 },
                 (error) => {
                     this.pending = false;
                     console.error(error)
                 });
+
     }
 
-     findTicketByState(state:string) {
+    findMyAssigned() {
+        console.log("findMyAssigned"); 
         this.pending = true;
-        this.status = state;
-        if(this.email != ""){
-            this.findMyTickets();
-        }
-        else if(this.emailAssign != ""){
-            this.findMyAssigned();
-        }
-        else{
-        this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow,this.nameSort,this.order);
-        return this.ticketService.findByState(this.pageRequest, state)
+        this.email = '';
+        this.emailAssign = this.currentUser.email;
+        this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow, this.nameSort, this.order);
+        return this.ticketService.findByAssigned(this.pageRequest, this.emailAssign, this.status)
             .subscribe((data) => {
                     this.pending = false;
                     this.pageCreator = data;
@@ -223,11 +211,39 @@ _currentUserService = null;
                     this.pending = false;
                     console.error(error)
                 });
-     }
+    }
+
+    findTicketByState(state:string) {
+        console.log("findTicketByState");        
+        this.pending = true;
+        this.status = state;
+        if (this.email != "") {
+            this.findMyTickets();
+        }
+        else if (this.emailAssign != "") {
+            this.findMyAssigned();
+        }
+        else {
+            this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow, this.nameSort, this.order);
+            return this.ticketService.findByState(this.pageRequest, state)
+                .subscribe((data) => {
+                        this.pending = false;
+                        this.pageCreator = data;
+                        this.ticketArr = data.rows;
+                        this.preparePageList(+this.pageCreator.beginPage,
+                            +this.pageCreator.endPage);
+                        this.totalPages = +data.totalPages;
+                        this.dates = data.dates;
+                    },
+                    (error) => {
+                        this.pending = false;
+                        console.error(error)
+                    });
+        }
     }
 
     singleTicket(id:number) {
-        this.router.navigate(['home/user/ticket', id]);
+        this.router.navigate([this.router.url, id]);
     }
 
 
@@ -237,85 +253,57 @@ _currentUserService = null;
 
     selectRowNum(row:number) {
         console.log("selectRowNum");
-        
-        if(this.status != ""){
+
+        if (this.status != "") {
             this.findTicketByState(this.status);
         }
-        else if(this.email != ""){
+        else if (this.email != "") {
             this.findMyTickets();
         }
-        else {this.getTicketsByPageNum(this.pageNumber, row);
+        else {
+            this.getTicketsByPageNum(this.pageNumber, row);
         }
-       
+
     }
 
     prevPage() {
         console.log("prevPage");
-        
+
         this.pageNumber = this.pageNumber - 1;
-        if(this.status != ""){
+        if (this.status != "") {
             this.findTicketByState(this.status);
-        } else if(this.email != ""){
+        } else if (this.email != "") {
             this.findMyTickets();
-        } else if(this.emailAssign != ""){
+        } else if (this.emailAssign != "") {
             this.findMyAssigned();
-        } else {        
-       /// this.sortBy(this.nameSort);
-       this.getTicketsByPageNum(this.pageNumber,this.selectedRow);
-       
+        } else {
+            this.getTicketsByPageNum(this.pageNumber, this.selectedRow);
+
         }
     }
 
     nextPage() {
         console.log("nextPage");
-        
         this.pageNumber = this.pageNumber + 1;
-       // this.sortBy(this.nameSort);
-       this.getTicketsByPageNum(this.pageNumber,this.selectedRow);
-       
+        this.getTicketsByPageNum(this.pageNumber, this.selectedRow);
+
     }
 
     initPageNum(pageNumber:number, selectedRow:number) {
         console.log("initPageNum");
-        
+
         this.pageNumber = +pageNumber;
         this.selectedRow = +selectedRow;
 
-        if(this.status != ""){
+        if (this.status != "") {
             this.findTicketByState(this.status);
-        } else if(this.email != ""){
+        } else if (this.email != "") {
             this.findMyTickets();
-        } else if(this.emailAssign != ""){
+        } else if (this.emailAssign != "") {
             this.findMyAssigned();
-        } else{  
-       // this.sortBy(this.nameSort);
-       this.getTicketsByPageNum(pageNumber,selectedRow);
-         }
-    }
-
-    getTicketsByPageNum(pageNumber:number, selectedRow:number) {
-        console.log("getTicketsByPageNum");
-        this.pageNumber = +pageNumber;
-        this.pending = true;
-        this.selectedRow = +selectedRow;
-        this.email ='';
-        this.emailAssign =''; 
-        this.status='';       
-        this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow,this.nameSort,this.order);
-        return this.ticketService.getTicketsByPage(this.pageRequest)
-            .subscribe((data) => {
-                    this.pending = false;
-                    this.pageCreator = data;
-                    this.ticketArr = data.rows;
-                    this.preparePageList(+this.pageCreator.beginPage,
-                        +this.pageCreator.endPage);
-                    this.totalPages = +data.totalPages;
-                    this.dates = data.dates;
-                },
-                (error) => {
-                    this.pending = false;
-                    console.error(error)
-                });
+        } else {
+            this.getTicketsByPageNum(pageNumber, selectedRow);
+        }
     }
 
     emptyArray() {
@@ -335,14 +323,14 @@ _currentUserService = null;
         console.log("sortBy");
         this.emailAssign = '';
         this.email = '';
-        this.status ='';
+        this.status = '';
         if (name != '') {
             this.nameSort = name;
             this.order = !this.order;
         }
-        this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow,this.nameSort,this.order);
+        this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow, this.nameSort, this.order);
         return this.ticketService.getTicketsSorted(this.pageRequest)
-             .subscribe((data) => {
+            .subscribe((data) => {
                     this.pageCreator = data;
                     this.ticketArr = data.rows;
                     this.preparePageList(+this.pageCreator.beginPage,

@@ -1,10 +1,12 @@
 package com.softserve.osbb.controller;
 
 
+import com.softserve.osbb.model.Settings;
 import com.softserve.osbb.model.Ticket;
 
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.service.OsbbService;
+import com.softserve.osbb.service.SettingsService;
 import com.softserve.osbb.service.TicketService;
 import com.softserve.osbb.service.UserService;
 import com.softserve.osbb.service.impl.MailSenderImpl;
@@ -38,12 +40,17 @@ public class BasicController {
     @Value("${service.serverpath}")
     String serverUrl;
 
+    @Autowired
+    SettingsService settingsService;
+
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public User putUser(@RequestBody User user) {
         if (userService.findUserByEmail(user.getEmail()) != null)
             return userService.findUserByEmail(user.getEmail());
         logger.info("Saving user, sending to service");
-        return userService.save(user);
+        User newUser = userService.save(user);
+        settingsService.save(new Settings(newUser));
+        return newUser;
     }
 
     @RequestMapping(value = "/validEmail", method = RequestMethod.POST)
@@ -80,8 +87,8 @@ public class BasicController {
             Integer id = Integer.parseInt(requestParams.get("id"));
             String key = requestParams.get("key");
             return sha256Encoder.validateSecretKeyForEmail(id, key) ? HttpStatus.FOUND : HttpStatus.NOT_FOUND;
-        }catch(NumberFormatException e){
-          logger.warn("Validate.Forgot.Password.Key: Exception during parsing"+e.getMessage());
+        } catch (NumberFormatException e) {
+            logger.warn("Validate.Forgot.Password.Key: Exception during parsing" + e.getMessage());
             return HttpStatus.BAD_REQUEST;
         }
     }

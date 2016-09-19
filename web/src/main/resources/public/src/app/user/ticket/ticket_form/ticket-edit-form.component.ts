@@ -78,7 +78,7 @@ export class TicketEditFormComponent implements OnInit {
         if (this.getAssignedId(this.assignTicket) == null) {
             return false;
         }
-            return true;
+        return true;
     }
 
 
@@ -106,7 +106,7 @@ export class TicketEditFormComponent implements OnInit {
 
     onEditTicket() {
         if (this.nameInput.valid && this.descriptionInput.valid && this.assignInput.valid && this.isFindAssign()) {
-             console.log("TICKET: "+JSON.stringify(this.editTicket()));
+            console.log("TICKET: "+JSON.stringify(this.editTicket()));
             this.update.emit(this.editTicket());
             this.closeEditModal();
         }
@@ -114,15 +114,15 @@ export class TicketEditFormComponent implements OnInit {
 
     editState(state:string) {
         if (state == 'NEW') {
-           return TicketState.NEW;
+            return TicketState.NEW;
         }
         if (state == 'IN_PROGRESS') {
-           return TicketState.IN_PROGRESS;
+            return TicketState.IN_PROGRESS;
         }
         else if (state == 'DONE') {
             return TicketState.DONE;
         }
-        
+
     }
 
     initUpdatedTicket(ticket:Ticket) {
@@ -131,7 +131,6 @@ export class TicketEditFormComponent implements OnInit {
         this.nameTicket = ticket.name;
         this.descriptionTicket = ticket.description;
         this.assignTicket = ticket.assigned.firstName + " " + ticket.assigned.lastName;
-      //  this.stateTicket = ticket.state;
     }
 
     editTicket():Ticket {
@@ -155,4 +154,3 @@ export class TicketEditFormComponent implements OnInit {
     }
 
 }
-

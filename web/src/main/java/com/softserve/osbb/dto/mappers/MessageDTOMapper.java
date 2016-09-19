@@ -19,7 +19,7 @@ public class MessageDTOMapper {
             messageDTO.setParentId(message.getParentId());
             messageDTO.setTicket(message.getTicket());
             messageDTO.setMessage(message.getMessage());
-          //  messageDTO.setAnswer(answerList);
+            messageDTO.setAnswers(answerList);
             messageDTO.setTime(message.getTime());
             messageDTO.setUser(new UserDTOMapper().mapUserEntityToDTO(message.getUser()));
         }

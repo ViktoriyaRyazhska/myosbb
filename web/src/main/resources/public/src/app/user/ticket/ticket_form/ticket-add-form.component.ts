@@ -25,16 +25,16 @@ export class TicketAddFormComponent implements OnInit {
     addModal:ModalDirective;
     currentUser:User;
 
-    userAssignArr:User[] = [];
-    assign:User;
-    creatingForm:ControlGroup;
-    nameInput:Control;
-    descriptionInput:Control;
-    assignInput:Control;
-    submitAttempt:boolean;
-    nameTicket:string = '';
-    descriptionTicket:string = '';
-    assignTicket:string = '';
+    private userAssignArr:User[] = [];
+    private assign:User;
+    private creatingForm:ControlGroup;
+    private nameInput:Control;
+    private descriptionInput:Control;
+    private assignInput:Control;
+    private submitAttempt:boolean;
+    private nameTicket:string = '';
+    private descriptionTicket:string = '';
+    private assignTicket:string = '';
 
     constructor(private ticketService:TicketService,
                 private currentUserService:CurrentUserService,
@@ -42,8 +42,8 @@ export class TicketAddFormComponent implements OnInit {
         this.created = new EventEmitter<Ticket>();
 
         this.submitAttempt = false;
-        this.nameInput = new Control('', Validators.minLength(20));
-        this.descriptionInput = new Control('', Validators.minLength(60));
+        this.nameInput = new Control('', Validators.minLength(10));
+        this.descriptionInput = new Control('', Validators.minLength(30));
         this.assignInput = new Control('', Validators.required);
 
         this.creatingForm = builder.group({
@@ -55,7 +55,7 @@ export class TicketAddFormComponent implements OnInit {
     }
 
     ngOnInit() {
-      this.getAllUsers()
+        this.getAllUsers()
     }
 
     openAddModal() {
@@ -76,7 +76,7 @@ export class TicketAddFormComponent implements OnInit {
 
     getAllUsers() {
         return this.ticketService.getAllUsers()
-            .then(userAssignArr => this.userAssignArr = userAssignArr);  
+            .then(userAssignArr => this.userAssignArr = userAssignArr);
     }
 
     toggleSubmitAttempt() {
@@ -97,7 +97,7 @@ export class TicketAddFormComponent implements OnInit {
     }
 
     onCreateTicket() {
-        if (this.nameInput.valid && this.descriptionInput.valid && this.assignInput.valid ) {//&& this.isFindAssign()
+        if (this.nameInput.valid && this.descriptionInput.valid && this.assignInput.valid) {//&& this.isFindAssign()
             this.created.emit(this.createTicket());
             this.closeAddModal();
         }

@@ -1,5 +1,5 @@
 import {RouterConfig} from "@angular/router";
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit,HostListener} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
@@ -20,6 +20,7 @@ import {Router} from '@angular/router';
 import {Subscription} from "rxjs";
 import {CurrentUserService} from "./../../../../shared/services/current.user.service";
 import {User} from './../../user';
+import {PageCreator} from "../../../../shared/services/page.creator.interface";
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 import {HeaderComponent} from "../../../header/header.component";
 import {ToasterContainerComponent, ToasterService} from "angular2-toaster/angular2-toaster";
@@ -27,11 +28,12 @@ import {
     onErrorResourceNotFoundToastMsg,
     onErrorServerNoResponseToastMsg
 } from "../../../../shared/error/error.handler.component";
+import {PageRequest} from './../page.request';
 @Component({
     selector: 'ticket',
     templateUrl: './src/app/user/ticket/single_ticket/single.ticket.component.html',
-    providers: [ MessageService, TicketService,ToasterService],
-    directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent],
+    providers: [MessageService, TicketService, ToasterService],
+    directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, ToasterContainerComponent, CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     styleUrls: ['src/app/user/ticket/ticket.css'],
     pipes: [TranslatePipe]
@@ -39,6 +41,7 @@ import {
 
 export class MessageComponent implements OnInit {
     private message:IMessage;
+    private messages:Message[] = [];
     private ticket:Ticket;
     private ticketId:number;
     private sub:Subscription;
@@ -47,58 +50,101 @@ export class MessageComponent implements OnInit {
     private ticketState:string = 'new';
     private messDesc:string = "";
     private messText:string = "";
-
+    private pageCreator:PageCreator<Ticket>;
+    private pageNumber:number = 1;
+    private pageList:Array<number> = [];
+    private totalPages:number;
+    private pending = false;
+    private selectedRow:number = 2;
+    private order:boolean = false;
+    private answerText = '';
+    private dates:string[] = [];
+    private nameSort:string = "time";
+    private open:boolean = false;
+    private pageRequest:PageRequest;
 
     constructor(private routeParams:ActivatedRoute,
                 private ticketService:TicketService,
                 private messageService:MessageService,
                 private currentUserService:CurrentUserService,
-                 private _toasterService: ToasterService,
-                private router:Router) {
-         this.currentUserService=HeaderComponent.currentUserService;
+                private router:Router,
+                private toasterService:ToasterService) {
+        this.currentUserService = HeaderComponent.currentUserService;
         this.currentUser = this.currentUserService.getUser();
-        
-       
-        
+        this.message = new Message("");
+        this.message.answers = [];
         this.ticket = new Ticket("", "", TicketState.NEW);
         this.ticket.user = new User();
         this.ticket.assigned = new User();
-
         this.message = new Message("");
-        this.ticket.messages = [];
-        this.message.answers = [];
-         console.log("single ticket: "+this.currentUser.firstName+"  "+this.currentUser.lastName);
     }
 
     ngOnInit():any {
         this.sub = this.routeParams.params.subscribe((params)=> {
             this.ticketId = +params['id'];
             this.messageService.getTicketbyId(this.ticketId)
-                .subscribe((data) =>  this.ticket = data
-                ),
-                 (error)=> {
-                     console.log("pfguyguyfytrecsews123456789");
-                     
-                    this.handleErrors(error)
-                }
+                .subscribe((data) => {
+                        this.ticket = data,
+                            this.getComments();
+                    },
+                    (error)=> {
+                        this.handleErrors(error)
+                    }
+                )
         });
-        if(this.ticket == null){
-        this.router.navigate(['home/**']);
-            
-        }
 
     }
 
-    private handleErrors(error: any) {
-        if (error.status === 404 || error.status === 400) {
-            console.log('server error 400');
-            this._toasterService.pop(onErrorResourceNotFoundToastMsg);
+    getComments() {
+        this.pending = true;
+        this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow, this.nameSort, this.order);
+        return this.messageService.getMessagesForTicket(this.pageRequest, this.ticketId)
+            .subscribe((data) => {
+                    this.pending = false;
+                    this.pageCreator = data;
+                    for (let i = 0; i < data.rows; i++) {
+                        this.messages[i].answers = [];
+                    }
+                    this.addMessages(data.rows);
+                    this.preparePageList(+this.pageCreator.beginPage,
+                        +this.pageCreator.endPage);
+                    this.totalPages = +data.totalPages;
+                    this.dates = data.dates;
+                    this.pageNumber++;
+                },
+                (error) => {
+                    this.pending = false;
+                    console.error(error)
+                });
+    }
+
+    preparePageList(start:number, end:number) {
+        this.emptyArray();
+        for (let i = start; i <= end; i++) {
+            this.pageList.push(i);
+        }
+    }
+
+    emptyArray() {
+        while (this.pageList.length) {
+            this.pageList.pop();
+        }
+    }
+
+    private handleErrors(error:any) {
+        if (error.status === 404) {
+            console.log('server error 404');
+            this.router.navigate(['**']);
             return;
         }
-
+        if (error.status === 400) {
+            console.log('server error 400');
+            this.toasterService.pop(onErrorResourceNotFoundToastMsg);
+            return;
+        }
         if (error.status === 500) {
             console.log('server error 500');
-            this._toasterService.pop(onErrorServerNoResponseToastMsg);
+            this.toasterService.pop(onErrorServerNoResponseToastMsg);
             return;
         }
     }
@@ -114,54 +160,83 @@ export class MessageComponent implements OnInit {
 
     createMessage(text:string):void {
         if (this.message.messageId == null) {
-             this.message.message = text;
-            console.log("create");           
-              this.message.user = this.currentUserService.getUser();
-              this.message.idTicket = this.ticketId; 
-            this.messageService.addMessage(this.message).then(message => this.addMessage(message))
+            console.log("create");
+            this.message.message = text;
+            this.message.user = this.currentUserService.getUser();
+            this.message.idTicket = this.ticketId;
+            this.messageService.addMessage(this.message)
+                .then(message => this.addMessage(message))
                 .then(this.message.messageId = null);
         }
         else {
-            console.log("update");            
+            console.log("update");
             this.editMessage(text);
         }
     }
 
     editMessage(text:string) {
-        for (let i = 0; i < this.ticket.messages.length; i++) {
-            if (this.message.message == this.ticket.messages[i].message) {
-                console.log("find mess  " +this.message.message);
-                
-        this.message.idTicket = this.ticketId;
-                this.ticket.messages[i].message = text;
-                 console.log("find mess 1 " + this.ticket.messages[i].messageId );
-                this.messageService.editMessage(this.ticket.messages[i]);
-               this.message = new Message("");
+        for (let i = 0; i < this.messages.length; i++) {
+            if (this.message.message == this.messages[i].message) {
+                this.message.idTicket = this.ticketId;
+                this.messages[i].message = text;
+                this.messageService.editMessage(this.messages[i]);
+                this.message = new Message("");
+                this.toasterService.pop('success'
+                    , "Comment updated!");
             }
         }
-        
+
+    }
+
+    getAnswers(index:number):Message[] {
+        return this.messages[index].answers;
     }
 
     private addMessage(message:IMessage):void {
-        this.ticket.messages.push(message);
+        this.messages.unshift(message);
+        this.message.answers = [];
+
+    }
+
+    private addMessages(message:IMessage[]):void {
+        for (let i = 0; i < message.length; i++) {
+            this.messages.push(message[i]);
+        }
+    }
+
+    initEditAnswer(answer:Message, id:number) {
+        this.isAnswer(id);
+        this.message = answer;
+        this.answerText = this.message.message;
+        this.open = true;
     }
 
     deleteMessage(message:Message) {
-        console.log("id messss:  "+ message.messageId);
-        
         this.messageService.deleteMessage(message.messageId).then(this.delMessage(message))
-        .then(this.message.messageId = null);
+            .then(this.message.messageId = null);
     }
 
     private delMessage(message:Message) {
-        let index = this.ticket.messages.indexOf(message);
+        let index = this.messages.indexOf(message);
         if (index > -1) {
-            console.log("deleting !!!");
-            
-            this.ticket.messages.splice(index, 1);
+            this.messages.splice(index, 1);
         }
 
     }
+
+    deleteAnswer(i:number, message:Message) {
+        this.messageService.deleteMessage(message.messageId).then(this.delAnswer(i, message))
+
+    }
+
+    private delAnswer(i:number, message:Message) {
+        let index = this.messages[i].answers.indexOf(message);
+        if (index > -1) {
+            this.messages[i].answers.splice(index, 1);
+        }
+
+    }
+
 
     editState(state:string) {
         if (state == 'IN_PROGRESS') {
@@ -172,21 +247,15 @@ export class MessageComponent implements OnInit {
             this.ticket.state = TicketState.DONE;
             this.ticketState = 'DONE';
         }
-        console.log("STATE:  " + this.ticket.state);
-
         this.messageService.editState(this.ticket)
-        .then( setTimeout => this.ngOnInit(), 1000);
+            .then(setTimeout => this.ngOnInit(), 1000);
 
-        
-   // this.ticketService.sendEmailState(this.ticket.ticketId);
     }
 
 
     editTicket(ticket:ITicket):void {
-        console.log("SINGLE TICKET UPDATE");
-        
         this.ticketService.editTicket(ticket)
-        .then( setTimeout => this.ngOnInit(), 1000);
+            .then(setTimeout => this.ngOnInit(), 1000);
     }
 
     deleteTicket(ticket:ITicket):void {
@@ -200,27 +269,58 @@ export class MessageComponent implements OnInit {
     initAddAnswer(parentMessage:Message) {
         this.message = new Message("");
         this.message.parentId = parentMessage.messageId;
-        this.isAnswer(this.message.parentId);
         this.message.user = this.currentUser;
-        console.log("mess" + this.message.parentId);
     }
 
-    createAnswer( text:string) {
-        this.message.message = text;
-        this.messageService.addAnswer(this.message);
+    createAnswer(text:string) {
+        if (this.message.messageId == null) {
+            this.message.message = text;
+            console.log("create");
+            this.message.user = this.currentUserService.getUser();
+            this.messageService.addAnswer(this.message)
+                .then(message => this.addAnswerToMessage(message))
+                .then(this.message.parentId = null);
+        }
+        else {
+            console.log("update");
+            this.editAnswer(text);
+        }
+
+    }
+
+    editAnswer(text:string) {
+
+        for (let i = 0; i < this.messages.length; i++) {
+            if (this.message.parentId == this.messages[i].messageId) {
+                for (let j = 0; j < this.messages.length; j++) {
+                    if (this.messages[i].answers[j].message == this.message.message) {
+                        this.messages[i].answers[j].message = text;
+                        this.messageService.editMessage(this.messages[i].answers[j]);
+                        this.message = new Message("");
+                        this.toasterService.pop('success'
+                            , "Answer updated!");
+                    }
+                }
+            }
+        }
+    }
+
+    toClose() {
+        this.open = !this.open;
+        if (this.open == false) {
+            this.answerText = '';
+        }
     }
 
     addAnswerToMessage(message:Message) {
-        for (let i = 0; this.ticket.messages.length; i++) {
-            if (this.ticket.messages[i].messageId == message.parentId) {
-                this.ticket.messages[i].answers.push(message);
+        for (let i = 0; i < this.messages.length; i++) {
+            if (this.messages[i].messageId == message.parentId) {
+                this.messages[i].answers.unshift(message);
             }
         }
     }
 
     isAnswer(id:number):boolean {
-        console.log("parentID  "+ this.message.parentId);
-        
         return this.message.parentId == id ? true : false;
     }
 

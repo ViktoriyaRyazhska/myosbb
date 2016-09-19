@@ -1,14 +1,18 @@
 import {DatePipe} from '@angular/common' ;
 import {User} from './../user/user';
 export class Notice {
-    noticeId: number;
+    noticeId:number;
     user:User;
-    path: string;
-    description: string;
+    name:string;
+    description:string;
+    time:Date;
+    path:string;
     typeNotice:NoticeType;
+
 }
 export enum NoticeType{
-    TICKET_ASSIGNED,
-    TICKET_CREATOR,
-    MESSAGE
+    TO_ASSIGNED,
+    TO_CREATOR,
+    MESSAGE,
+    ANSWER
 }

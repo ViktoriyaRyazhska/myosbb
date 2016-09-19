@@ -9,7 +9,7 @@ import {MessageComponent} from "./single.ticket.component";
                 </ticket>       
     </div>
     `,
-   styleUrls: ['src/app/house/house.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
+    styleUrls: ['src/app/house/house.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
     directives: [MessageComponent]
 })
 export class TicketSingleAdminComponent {

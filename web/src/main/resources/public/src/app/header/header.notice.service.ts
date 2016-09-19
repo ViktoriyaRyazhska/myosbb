@@ -12,25 +12,13 @@ export class NoticeService {
 
     private getUrl:string = ApiService.serverUrl + '/restful/notice';
     private deleteUrl:string = ApiService.serverUrl + '/restful/notice';
-  //private getNoticesUrl:string = ApiService.serverUrl +"/rest"
 
-constructor(private http:Http) {
+    constructor(private http:Http) {
     }
 
-/*getNotice():Promise<Notice> {
-    
-        return this.http.get(this.getNoticesUrl)
-            .toPromise()
-            .then(res => res.json())
-            .catch(this.handleError);
-    }
-*/
-
-
-
-    getNotice():Observable<any>{
-  return this.http.get(this.getUrl)
-   .map((response)=> response.json())
+    getNotice():Observable<any> {
+        return this.http.get(this.getUrl)
+            .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
 
