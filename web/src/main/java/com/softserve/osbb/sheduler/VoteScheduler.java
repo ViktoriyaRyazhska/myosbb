@@ -23,7 +23,7 @@ public class VoteScheduler {
     @Autowired
     VoteService voteService;
 
-    @Scheduled(fixedRate = 120000)
+    @Scheduled(fixedRate = 3600000)
     public void checkVotingOnDate() {
         logger.info("Vote scheduler: update voting.");
         List<Vote> voteList = voteService.getAllAvailable();
