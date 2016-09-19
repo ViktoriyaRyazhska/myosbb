@@ -58,6 +58,15 @@
                 },
                 {
                   "column": {
+                    "name": "available",
+                    "type": "boolean",
+                    "constraints": {
+                      "defaultValue": "true"
+                    }
+                  }
+                },
+                {
+                  "column": {
                     "name": "logo_id",
                     "type": "INT"
                   }
@@ -130,6 +139,23 @@
               "onUpdate": "NO ACTION",
               "referencedColumnNames": "osbb_id",
               "referencedTableName": "osbb"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2016/09/17-12",
+        "author": "Roman",
+        "changes": [
+          {
+            "addDefaultValue": {
+              "columnDataType": "boolean",
+              "columnName": "available",
+              "defaultValueBoolean": true,
+              "schemaName": "public",
+              "tableName": "osbb"
             }
           }
         ]

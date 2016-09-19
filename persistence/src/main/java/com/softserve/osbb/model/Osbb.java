@@ -18,6 +18,7 @@ public class Osbb {
     private String description;
     private String address;
     private String district;
+    private Boolean available= true;
     private Attachment logo;
     private Timestamp creationDate;
     private User creator;
@@ -76,6 +77,15 @@ public class Osbb {
 
     public void setDistrict(String district) {
         this.district = district;
+    }
+
+    @Column(name = "available", columnDefinition = "boolean default true", nullable = false)
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
     }
 
     @OneToOne(optional=true)
