@@ -1,5 +1,5 @@
 import assign = require("core-js/library/fn/object/assign");
-import {Osbb} from "osbb.ts";
+import {Osbb} from "./osbb.ts";
 export class User {
     userId:number;
     firstName:string;

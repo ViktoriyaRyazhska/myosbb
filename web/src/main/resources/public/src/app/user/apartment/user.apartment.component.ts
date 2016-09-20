@@ -49,7 +49,7 @@ export class UserApartmentComponent {
     private allHouses:HousePageObject[] = [];
     private houseToAdd:HousePageObject = {street: ''};
     private isNumberValid:boolean = false;
-    private currentOsbbId:number=1;
+    private currentOsbbId:number;
     numberControl:Control;
     addApartmentForm:ControlGroup;
 
@@ -178,7 +178,7 @@ export class UserApartmentComponent {
         this.defaultSorter = value;
         console.log('order by asc', this.order);
         this.emptyArray();
-        this.apartmentService.getSortedApartments(this.pageNumber, value, this.order)
+        this.apartmentService.getSortedApartments(this.pageNumber, value, this.order,this.currentOsbbId)
             .subscribe((data) => {
                     this.pageCreator = data;
                     this.Items = data.rows;

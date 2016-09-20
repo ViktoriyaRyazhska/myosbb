@@ -204,7 +204,12 @@ public class ApartmentController {
     @RequestMapping(value = "", method = RequestMethod.PUT)
     public ResponseEntity<Resource<Apartment>> updateApartment(@RequestBody Apartment apartment) {
         logger.info("updating ");
-        Apartment uApartment = apartmentService.updateApartment(apartment);
+        apartment.setUsers(apartmentService.findOneApartmentByID(apartment.getApartmentId()).getUsers());
+        apartment.setBills(apartmentService.findOneApartmentByID(apartment.getApartmentId()).getBills());
+        Apartment uApartment=apartmentService.updateApartment(apartment);
+
+
+
         return new ResponseEntity<>(addResourceLinkToApartment(uApartment), HttpStatus.OK);
     }
 

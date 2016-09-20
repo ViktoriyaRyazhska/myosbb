@@ -2,7 +2,6 @@
 
 <div class="panel panel-default pos-top">
     <div class="panel-heading"><h4><i class="fa fa-angle-right"></i> {{ 'Apartments' | translate }}</h4>
-    <div *ngIf="isAdmin"><h1>Hello Admin</h1> </div>
         <div id="example_filter" class="pull-right dataTables_filter">
             <div style="display: inline-flex">
             <input type="search" id="searchBox" class="form-control input-sm" placeholder="пошук по номеру..." #searchterm aria-controls="example" (keyup.enter)="searchByNumber(searchterm.value)" (keyup)="clearSearchBox(searchterm)" >
@@ -15,7 +14,7 @@
                  [routerLink]="['apartmentprofile',currentUser.apartment.apartmentId]">
 
         </div>
-        <div *ngIf="!isAdmin">
+        <div *ngIf="isAdmin">
             <button (click)="openAddModal()" type="button" class="glyphicon glyphicon-plus btn btn-primary "></button>
 
         </div>
