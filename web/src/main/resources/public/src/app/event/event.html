@@ -1,17 +1,17 @@
 <div class="panel panel-default top-panel to-right">
-    <div class="panel-heading"><h4><i class="fa fa-angle-right"></i> {{'events' | translate}}</h4></div>
+    <div class="panel-heading"><h4><i class="fa fa-angle-right"></i>{{'events' | translate}}</h4></div>
     <div class="panel-body">
         <div class="content-panel">
             <div class="btn-group" role="group" aria-label="...">
                 <button type="button" class="btn btn-default"
                         [ngClass]="{'active': showAllEvents}"
-                        (click)="showAllEvents=true">
-                    {{'allEvents' | translate | capitalize}}
+                        (click)="getEventsByPageNum(pageNumber)">
+                        {{'allEvents' | translate | capitalize}}
                 </button>
                 <button type="button" class="btn btn-default"
                         [ngClass]="{'active': !showAllEvents}"
-                        (click)="showAllEvents=false">
-                    {{'myEvents' | translate | capitalize}}
+                        (click)="filterByAuthor()">
+                        {{'myEvents' | translate | capitalize}}
                 </button>
             </div>
             <div id="example_filter" class="pull-right dataTables_filter">
@@ -20,13 +20,13 @@
             </div>
             <div class="pull-right">
                 <span class="label btn-round label-default" id="all" style="cursor:pointer"
-                      (click)="currentStatus = 'ALL'">{{'all' | translate}}</span>
+                      (click)="getEventsByPageNum(pageNumber)">{{'all' | translate}}</span>
                 <span class="label btn-round label-danger" id="finished" style="cursor:pointer"
-                      (click)="currentStatus = 'FINISHED'">{{'finished' | translate}}</span>
+                      (click)="filterByStatus('FINISHED')">{{'finished' | translate}}</span>
                 <span class="label btn-round label-success" id="inProgress" style="cursor:pointer"
-                      (click)="currentStatus = 'IN PROGRESS'">{{'inProgress' | translate}}</span>
+                      (click)="filterByStatus('IN_PROGRESS')">{{'inProgress' | translate}}</span>
                 <span class="label btn-round label-info" id="future" style="cursor:pointer"
-                      (click)="currentStatus = 'FUTURE'">{{'future' | translate}}</span>
+                      (click)="filterByStatus('FUTURE')">{{'future' | translate}}</span>
             </div>
             <table class="table table-striped table-advance table-hover">
                 <thead>
@@ -46,15 +46,16 @@
                     <th class="sorting"><i class=" fa fa-user"></i> {{'author' | translate | capitalize}}
                         <a style="{cursor:pointer}" (click)="sortBy('author')">
                             <span class="fa fa-fw fa-sort pull-right"></span></a></th>
-                        <th class="sorting"><i class=" fa fa-meh-o"></i> {{'status' | translate | capitalize}}</th>
+                    <th class="sorting"><i class=" fa fa-meh-o"></i> {{'status' | translate | capitalize}}
+                        <a style="{cursor:pointer}" (click)="sortBy('status')">
+                            <span class="fa fa-fw fa-sort pull-right"></span></a></th>
                     <th class="sorting"><i class="fa fa-bookmark"></i> {{'homePage' | translate | capitalize}}</th>
                     <th class="sorting"><i class=" fa fa-edit"></i> {{'additionalInformation' | translate | capitalize}}</th>
                     <th><i class="fa fa-question-circle"></i> {{'details' | translate | capitalize}}</th>
                 </tr>
                 </thead>
                 <tbody *ngFor="let event of events">
-                <tr *ngIf="(showAllEvents || (event.author.userId == currentUser.userId))
-                        && (currentStatus == 'ALL' || event.status == currentStatus)">
+                <tr>
                     <td><a (click)="onNavigate(event.id)">{{event.title}}</a></td>
                     <td>{{formatDate(event.start)}}</td>
                     <td>{{formatDate(event.end)}}</td>
@@ -64,7 +65,7 @@
                         <div *ngIf ="event.status == 'FINISHED'">
                             <span class="label btn-round label-danger">{{event.status}}</span>
                         </div>
-                        <div *ngIf ="event.status == 'IN PROGRESS'">
+                        <div *ngIf ="event.status == 'IN_PROGRESS'">
                             <span class="label btn-round label-success">{{event.status}}</span>
                         </div>
                         <div *ngIf ="event.status == 'FUTURE'">

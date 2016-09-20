@@ -100,17 +100,6 @@ export class EventComponent implements OnInit, OnDestroy {
         }
     }
 
-    setStatus(event:Event) {
-        var now = moment();
-        if (moment().isAfter(event.end)) {
-            return "FINISHED";
-        }
-        if (moment(event.start).isAfter(moment(now))) {
-            return "FUTURE";
-        }
-        else return "IN PROGRESS";
-    }
-
     isDateValid(start:Timestamp, end:Timestamp):boolean {
         return moment(end).isAfter(moment(start));
     }
@@ -137,10 +126,9 @@ export class EventComponent implements OnInit, OnDestroy {
     onEditEventSubmit() {
         this.active = false;
         console.log('saving event: ' + this.selectedEvent);
-        this.selectedEvent.start = <Date>moment(this.selectedEvent.start).format("YYYY-MM-DDTHH:mmZZ");
-        this.selectedEvent.end = <Date>moment(this.selectedEvent.end).format("YYYY-MM-DDTHH:mmZZ");
         this._eventService.editAndSave(this.selectedEvent);
         this.editModal.hide();
+        this.refresh();
         setTimeout(() => this.active = true, 0);
     }
 
@@ -157,14 +145,15 @@ export class EventComponent implements OnInit, OnDestroy {
         this.active = false;
         console.log('creating event');
         this.newEvent.author = this.currentUser;
-        this.newEvent.start = <Date>moment(this.newEvent.start).format("YYYY-MM-DDTHH:mmZZ");
-        (this.newEvent.end == null)?this.newEvent.end =
-            <Date>moment(this.newEvent.start).hours(12).minute(0).format("YYYY-MM-DDTHH:mmZZ")
-            :this.newEvent.end = <Date>moment(this.newEvent.end).format("YYYY-MM-DDTHH:mmZZ");
-        (this.newEvent.repeat == null)?this.newEvent.repeat = "ONE_TIME": this.newEvent.repeat;
-        this.newEvent.status = this.setStatus(this.newEvent);
+        this.newEvent.end = this.newEvent.end
+            ? this.newEvent.end
+            : <Date>moment(this.newEvent.end).hours(12).minute(0);
+        this.newEvent.repeat = this.newEvent.repeat
+            ? this.newEvent.repeat
+            : this.newEvent.repeat = "ONE_TIME";
         this._eventService.addEvent(this.newEvent);
         this.createModal.hide();
+        this.refresh();
         setTimeout(() => this.active = true, 0);
         this.events.push(this.newEvent);
         this.newEvent = new Event();
@@ -202,6 +191,7 @@ export class EventComponent implements OnInit, OnDestroy {
     }
 
     getEventsByPageNum(pageNumber:number) {
+        this.showAllEvents = true;
         this.pageNumber = +pageNumber;
         this.emptyArray();
         this.pending = true;
@@ -210,9 +200,6 @@ export class EventComponent implements OnInit, OnDestroy {
                     this.pageCreator = data;
                     this.pending = false;
                     this.events = data.rows;
-                    for (let i = 0; i < this.events.length; i++){
-                        this.events[i].status = this.setStatus(this.events[i]);
-                    }
                     this.preparePageList(+this.pageCreator.beginPage,
                         +this.pageCreator.endPage);
                     this.totalPages = +data.totalPages;
@@ -271,6 +258,24 @@ export class EventComponent implements OnInit, OnDestroy {
         this._eventService.findEventsByNameOrAuthorOrDescription(search)
             .subscribe((events) => {
                 console.log("data: " + events);
+                this.events = events;
+            });
+    }
+
+    filterByStatus(status:string){
+        console.log("inside search: status is " + status);
+        this._eventService.findEventsByStatus(status)
+            .subscribe((events) => {
+                console.log("data: " + events);
+                this.events = events;
+            });
+    }
+
+    filterByAuthor() {
+        console.log("inside author filtering");
+        this.showAllEvents = false;
+        this._eventService.findEventsByAuthor()
+            .subscribe((events) => {
                 this.events = events;
             });
     }

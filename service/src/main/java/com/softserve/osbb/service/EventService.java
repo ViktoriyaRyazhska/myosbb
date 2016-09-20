@@ -1,6 +1,7 @@
 package com.softserve.osbb.service;
 
 import com.softserve.osbb.model.Event;
+import com.softserve.osbb.model.enums.EventStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,8 @@ import java.util.List;
 
 @Service
 public interface EventService {
+
+    List<Event> filterByStatus(EventStatus status);
 
     Event saveEvent(Event event);
 
@@ -46,4 +49,5 @@ public interface EventService {
 
     List<Event> findByInterval(Timestamp start, Timestamp end);
 
+    List<Event> findByAuthor(String user);
 }

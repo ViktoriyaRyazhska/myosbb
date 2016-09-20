@@ -1,20 +1,27 @@
-<div bsModal #delModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
-        aria-labelledby="mySmallModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" aria-label="Close" (click)="delModal.hide()">
+<div bsModal #delModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="delModal.hide();clearDelModal()">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                        <h4 class="modal-title">{{'title' | translate }}</h4>
+                <h4 class="modal-title">{{'title' | translate }}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{{'confirmDelete' | translate}}</p>
+                <span class="form-check-label"> {{'deleteOsbb' | translate}} </span>
+                <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !isNameEquals() }">
+                   
+                            <input class="form-control" type="text" name="name" placeholder="{{'name' | translate | capitalize}}" [(ngModel)]="name"
+                                ngControl="nameControl" required>
+                               
+                    <div class="alert alert-danger" *ngIf="submitAttempt && !isNameEquals()">{{'osbbNameError' | translate | capitalize}}</div>
                 </div>
-                <div class="modal-body">
-                    <h5>{{'confirmDelete' | translate}}</h5>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" (click)="delModal.hide()">{{'no' | translate | capitalize}}</button>
-                    <button type="button" class="btn btn-primary" (click)="delOsbb();delModal.hide()">{{'yes' | translate | capitalize}}</button>
-                </div>
-           </div>
-      </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="delModal.hide();clearDelModal()">{{'no' | translate | capitalize}}</button>
+                <button type="button" class="btn btn-primary" (click)="confirmDeleting()">{{'yes' | translate | capitalize}}</button>
+            </div>
+        </div>
+    </div>
 </div>

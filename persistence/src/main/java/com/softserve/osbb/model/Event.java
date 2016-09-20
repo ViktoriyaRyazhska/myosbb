@@ -1,12 +1,16 @@
 package com.softserve.osbb.model;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.softserve.osbb.model.enums.EventStatus;
 import com.softserve.osbb.model.enums.Periodicity;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +30,7 @@ public class Event {
     private Osbb osbb;
     private Periodicity repeat;
     private List<Attachment> attachments;
+    private EventStatus status;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -121,6 +126,22 @@ public class Event {
 
     public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
+    }
+
+    @Transient
+    public EventStatus getStatus() {
+        Timestamp now = new Timestamp(new Date().getTime());
+        if (now.compareTo(endTime) > 0) {
+            return EventStatus.FINISHED;
+        } else if (now.compareTo(startTime) < 0) {
+            return EventStatus.FUTURE;
+        } else {
+            return EventStatus.IN_PROGRESS;
+        }
+    }
+
+    public void setStatus(EventStatus status) {
+        this.status = status;
     }
 
     @Override

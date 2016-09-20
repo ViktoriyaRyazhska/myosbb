@@ -37,6 +37,11 @@
     },
     {
       "includeAll": {
+        "path": "classpath:/db/changelog/notice/"
+      }
+    },
+    {
+      "includeAll": {
         "path": "classpath:/db/changelog/option/"
       }
     },
@@ -68,11 +73,6 @@
     {
       "includeAll": {
         "path": "classpath:/db/changelog/ticket/"
-      }
-    },
-    {
-      "includeAll": {
-        "path": "classpath:/db/changelog/notice/"
       }
     },
     {

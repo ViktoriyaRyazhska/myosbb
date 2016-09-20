@@ -55,15 +55,4 @@ export class EventShowComponent implements OnInit, OnDestroy {
     formatDate(date: DateTime) {
         return moment(date).format("DD.MM.YYYY hh:mm A");
     }
-
-    setStatus(event:Event) {
-        var now = moment();
-        if (moment().isAfter(event.end)) {
-            return "FINISHED";
-        }
-        if (moment(event.start).isAfter(moment(now))) {
-            return "FUTURE";
-        }
-        else return "IN PROGRESS";
-    }
 }

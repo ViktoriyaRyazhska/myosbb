@@ -5,11 +5,11 @@
     <div class="panel-body">
         <div class="content-panel">
             <div class="btn-group" role="group" aria-label="...">
-                <button type="button" class="btn btn-default" (click)="initOsbbArr('All')">All
+                <button type="button" class="btn btn-default" (click)="initOsbbArr('All')">{{'osbb_active_all' | translate | capitalize}}
                     </button>
-                <button type="button" class="btn btn-default" (click)="initOsbbArr('Available')">Active
+                <button type="button" class="btn btn-default" (click)="initOsbbArr('Available')">{{'osbb_active' | translate | capitalize}}
                     </button>
-                <button type="button" class="btn btn-default" (click)="initOsbbArr('NotAvailable')">Not Active
+                <button type="button" class="btn btn-default" (click)="initOsbbArr('NotAvailable')">{{'osbb_not_active' | translate | capitalize}}
                     </button>
             </div>
             <div class="ui segment form">

@@ -21,4 +21,7 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     @Query("select event from Event event where event.startTime between :startTime and :endTime" +
             " or event.endTime between :startTime and :endTime")
     List<Event> findBetweenStartTimeAndEndTime(@Param("startTime") Timestamp startTime, @Param("endTime") Timestamp endTime);
+
+    @Query("select event from Event event where event.author = (select user.userId from User user where user.email = :email)")
+    List<Event> findByAuthor(@Param("email") String email);
 }
