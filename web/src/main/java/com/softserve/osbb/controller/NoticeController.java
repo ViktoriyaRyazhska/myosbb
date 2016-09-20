@@ -60,7 +60,6 @@ public class NoticeController {
             @AuthenticationPrincipal Principal user  ) {
 
         User currentUser=userService.findUserByEmail(user.getName());
-        logger.info("notice by User"+currentUser.getUserId());
 
         List<Notice> noticeList = noticeService.findNoticesOfUser(currentUser);
         List<Resource<Notice>> resourceNoticeList = new ArrayList<>();
@@ -71,7 +70,6 @@ public class NoticeController {
                     .withSelfRel());
             resourceNoticeList.add(resourceNotice);
         }
-        logger.info("notice by User"+ Arrays.toString(noticeList.toArray()));
 
         return new ResponseEntity<>(resourceNoticeList, HttpStatus.OK);
 
