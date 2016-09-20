@@ -35,6 +35,8 @@ export class TicketAddFormComponent implements OnInit {
     private nameTicket:string = '';
     private descriptionTicket:string = '';
     private assignTicket:string = '';
+    private submitName = false;
+    private submitDescription = false;
 
     constructor(private ticketService:TicketService,
                 private currentUserService:CurrentUserService,
@@ -42,8 +44,8 @@ export class TicketAddFormComponent implements OnInit {
         this.created = new EventEmitter<Ticket>();
 
         this.submitAttempt = false;
-        this.nameInput = new Control('', Validators.minLength(10));
-        this.descriptionInput = new Control('', Validators.minLength(30));
+        this.nameInput = new Control('', Validators.required);
+        this.descriptionInput = new Control('', Validators.required);
         this.assignInput = new Control('', Validators.required);
 
         this.creatingForm = builder.group({
@@ -63,11 +65,11 @@ export class TicketAddFormComponent implements OnInit {
     }
 
     isEmptyName():boolean {
-        return this.nameTicket == '' ? false : true;
+        return this.nameTicket.length >=10 ? false : true;
     }
 
     isEmptyDescription():boolean {
-        return this.descriptionTicket == '' ? false : true;
+        return this.descriptionTicket.length >= 20 ? false : true;
     }
 
     isFindAssign():boolean {
@@ -97,7 +99,8 @@ export class TicketAddFormComponent implements OnInit {
     }
 
     onCreateTicket() {
-        if (this.nameInput.valid && this.descriptionInput.valid && this.assignInput.valid) {//&& this.isFindAssign()
+        if (this.nameInput.valid && this.descriptionInput.valid && this.assignInput.valid&&
+            this.isEmptyDescription()&&this.isEmptyName()&&this.isFindAssign()) {
             this.created.emit(this.createTicket());
             this.closeAddModal();
         }

@@ -66,12 +66,12 @@ export class TicketEditFormComponent implements OnInit {
         this.getAllUsers();
     }
 
-    isEmptyName():boolean {
-        return this.nameTicket == '' ? false : true;
+     isEmptyName():boolean {
+        return this.nameTicket.length >=10 ? false : true;
     }
 
     isEmptyDescription():boolean {
-        return this.descriptionTicket == '' ? false : true;
+        return this.descriptionTicket.length >= 20 ? false : true;
     }
 
     isFindAssign():boolean {
@@ -105,8 +105,8 @@ export class TicketEditFormComponent implements OnInit {
     }
 
     onEditTicket() {
-        if (this.nameInput.valid && this.descriptionInput.valid && this.assignInput.valid && this.isFindAssign()) {
-            console.log("TICKET: "+JSON.stringify(this.editTicket()));
+        if (this.nameInput.valid && this.descriptionInput.valid && this.assignInput.valid&&
+            this.isEmptyDescription()&&this.isEmptyName()&&this.isFindAssign()) {
             this.update.emit(this.editTicket());
             this.closeEditModal();
         }

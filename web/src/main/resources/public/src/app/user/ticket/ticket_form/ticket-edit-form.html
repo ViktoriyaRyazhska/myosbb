@@ -12,17 +12,17 @@
             <div class="modal-body">
                 <div class="form-group" [ngClass]="{'has-error' : submitAttempt && !nameInput.valid }">
                     <textarea class="form-control" [(ngModel)]="nameTicket" type="text" name="name"
-                              placeholder="Enter name" ngControl="nameInput"></textarea>
+                              placeholder="Enter name" ngControl="nameInput" required></textarea>
                     <div class="alert alert-danger"
-                         *ngIf="submitAttempt && isEmptyName() && !nameInput.valid || submitAttempt && !isEmptyName() && nameInput.valid ">
+                         *ngIf="submitAttempt &&  !isEmptyName() ">
                         {{'nameErrorTicket'|translate}}
                     </div>
                 </div>
                 <div class="form-group" [ngClass]="{ 'has-error' :  submitAttempt && !descriptionInput.valid}">
                     <textarea class="form-control" style="min-height:150px; min-weight:300px"
                               [(ngModel)]="descriptionTicket" type="text" name="description"
-                              placeholder="Enter description " ngControl="descriptionInput"></textarea>
-                    <div class="alert alert-danger" *ngIf="submitAttempt && !descriptionInput.valid">
+                              placeholder="Enter description " ngControl="descriptionInput" required></textarea>
+                    <div class="alert alert-danger" *ngIf="submitAttempt &&  !isEmptyDescription() ">
                         {{'descrErrorTicket'|translate}}
                     </div>
                     <br>
