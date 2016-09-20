@@ -44,9 +44,7 @@ export class LoginComponent implements OnInit {
                             this._currentUserService.setUser(data);
                             this.model.username = "";
                             this.model.password = "";
-                            this.isLoggedIn = true;
-                           // this.headerComponent.getNotice();
-                          
+                            this.isLoggedIn = true;                          
                             this._toasterService.pop('success'
                                 , "Congratulation," + this._currentUserService.getUser().firstName + " !"
                                 , 'We glad to see you hare again');

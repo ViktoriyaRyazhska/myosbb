@@ -149,7 +149,7 @@
   "descriptionTicket":"Description",
   "authorTicket":"Author",
   "dateTicket":"Date",
-  "answer":"Assigned.",
+  "answer":"Assigned",
   "state":"State",
   "editTicket":"Edit",
   "deleteTicket":"Remove",
@@ -179,7 +179,27 @@
   "noticeComment3":"new comments",
   "noticeComments":"new comments",
   "noComments":"no comments",
-  "settings":"settings"
+  "settings":"settings",
+  "in_progress":"IN PROGRESS",
+  "done":"DONE",
+  "new":"NEW",
+  "my_tickets":"my tickets",
+  "my_assign":"My assign",
+  "answerComment":"answer",
+  "commentChangeStatus":"Ticket status changed",
+  "iAssigned":"Ticket assigned me",
+  "newCommentSetting":"New comment to my ticket",
+  "newAnswerForMyComment":"New answer to my comment",
+  "notice":"notice",
+  "otherSettings":"other settings",
+  "changeStatusN":"Status was changed",
+  "youAssigned":"You were assigned",
+  "answerNotice":"Answer to your comment",
+  "commentNotice":"Comment to your ticket"
+
+
+
+
 
 }
 

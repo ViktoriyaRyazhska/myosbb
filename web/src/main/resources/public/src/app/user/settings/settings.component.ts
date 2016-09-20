@@ -6,6 +6,7 @@ import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {TranslatePipe} from "ng2-translate";
 import {SettingsService} from './settings.service';
 import {HeaderComponent} from "../../header/header.component";
+import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
 import {User} from './../user';
 import {Settings} from './settings';
 import {CurrentUserService} from "./../../../shared/services/current.user.service";
@@ -18,7 +19,7 @@ import {ToasterContainerComponent, ToasterService, ToasterConfig} from 'angular2
     providers: [ SettingsService,ToasterService],
     directives: [RouterOutlet, ROUTER_DIRECTIVES, CORE_DIRECTIVES,ModalDirective,ToasterContainerComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
-    pipes: [TranslatePipe]
+    pipes: [TranslatePipe,CapitalizeFirstLetterPipe]
 })
 
 

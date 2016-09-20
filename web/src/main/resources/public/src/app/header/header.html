@@ -36,13 +36,13 @@
                             <div *ngIf="notice.typeNotice == 'TO_ASSIGNED' " style="margin-bottom:0px"
                                  class="notice alert-warning">
                                 <button type="button" class="close" (click)="removeNotice(notice)">×</button>
-                                <b>Ви відповідальні</b><br/>
+                                <b>{{'youAssigned'|translate}}</b><br/>
                                 <div style="font-size:80%;"> {{notice.description}}</div>
                             </div>
                             <div *ngIf="notice.typeNotice == 'TO_CREATOR'  " style="margin-bottom:0px"
                                  class="notice alert-info">
                                 <button type="button" class="close" (click)="removeNotice(notice)">×</button>
-                                <b>Зміна статусу</b><br/>
+                                <b>{{'changeStatusN'|translate}}</b><br/>
                                 <div style="font-size:80%;"> {{notice.description}}</div>
                             </div>
 
@@ -75,10 +75,10 @@
 
                         <a *ngIf="(message.typeNotice == 'MESSAGE' || message.typeNotice == 'ANSWER') ">
                             <div *ngIf="message.typeNotice == 'ANSWER'  ">
-                                <b style="color:#EE9A49"> Відповідь на ваш коментар</b><br/>
+                                <b style="color:#EE9A49">{{'answerNotice'|translate}}</b><br/>
                             </div>
                             <div *ngIf="message.typeNotice == 'MESSAGE' ">
-                                <b style="color:#1E90FF"> Коментар на ваш інциндент</b><br/>
+                                <b style="color:#1E90FF">{{'commentNotice'|translate}}</b><br/>
                             </div>
                             <!--<span class="photo"><img alt="avatar" src="assets/img/ui-divya.jpg"></span>-->
                                     <span class="subject">
@@ -109,7 +109,7 @@
 
     <div class="lang-nav">
         <div>
-            | <a class="lang-item" *ngFor="let lang of languages" (click)="onSelect(lang)"
+            | <a class="lang-item" *ngFor="let lang of languages" style="cursor:pointer" (click)="onSelect(lang)"
                  [class.selectedLang]="lang == selectedLang">
             {{lang | uppercase}} |</a>
         </div>

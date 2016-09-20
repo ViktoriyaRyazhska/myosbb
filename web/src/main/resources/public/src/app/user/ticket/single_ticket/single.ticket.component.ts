@@ -20,6 +20,7 @@ import {Router} from '@angular/router';
 import {Subscription} from "rxjs";
 import {CurrentUserService} from "./../../../../shared/services/current.user.service";
 import {User} from './../../user';
+import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
 import {PageCreator} from "../../../../shared/services/page.creator.interface";
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 import {HeaderComponent} from "../../../header/header.component";
@@ -36,7 +37,7 @@ import {PageRequest} from './../page.request';
     directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, ToasterContainerComponent, CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     styleUrls: ['src/app/user/ticket/ticket.css'],
-    pipes: [TranslatePipe]
+    pipes: [TranslatePipe,CapitalizeFirstLetterPipe]
 })
 
 export class MessageComponent implements OnInit {

@@ -151,7 +151,7 @@
   "descriptionTicket":"Опис",
   "authorTicket":"Автор",
   "dateTicket":"Дата",
-  "answer":"Відповід.",
+  "answer":"Призначено",
   "state":"Статус",
   "editTicket":"Редагувати",
   "deleteTicket":"Видалити",
@@ -179,9 +179,21 @@
   "noticeComment3":"нових коментаря",
   "noticeComments":"нових коментарів",
   "noComments":"немає коментарів",
-  "settings":"налаштування"
-  
-  
-  
+  "settings":"налаштування",
+  "in_progress":"В процесі",
+  "done":"Завершений",
+  "new":"Новий",
+  "my_tickets":"мої інцинденти",
+  "my_assign":"призначені мені",
+  "answerComment":"відповісти",
+  "commentChangeStatus":"Змінено статус інциденту",
+  "iAssigned":"Мене обрано відповідальним за інциндент",
+  "newCommentSetting":"Новий коментар до інцинденту",
+  "newAnswerForMyComment":"Відповідь на мій коментар",
+  "notice":"оповіщення",
+  "otherSettings":"інші налаштування",
+  "changeStatusN":"Статус змінено",
+  "youAssigned":"Ви відповідальні",
+  "answerNotice":"Відповідь на ваш коментар",
+  "commentNotice":"Коментар на ваш інциндент"
 }
-

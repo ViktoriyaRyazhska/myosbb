@@ -3,13 +3,14 @@ import {CORE_DIRECTIVES} from '@angular/common';
 import { ITicket, Ticket} from '../ticket';
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
+import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 @Component({
     selector: 'ticket-del-form',
     templateUrl: './src/app/user/ticket/ticket_form/ticket-del-form.html',
     directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES],
     viewProviders: [BS_VIEW_PROVIDERS],
-    pipes: [TranslatePipe]
+    pipes: [TranslatePipe,CapitalizeFirstLetterPipe]
 })
 export class TicketDelFormComponent {
     @Output() delete:EventEmitter<ITicket>;

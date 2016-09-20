@@ -17,17 +17,17 @@
 
                 <span class="label btn-round label-danger"
                       style="cursor:pointer;float:right;margin-left: 5px;margin-right:15px"
-                      (click)="findTicketByState('DONE')">DONE</span>
+                      (click)="findTicketByState('DONE')">{{ 'done' | translate | capitalize }}</span>
                 <span class="label btn-round label-success" style="cursor:pointer;float:right;margin-left: 5px;"
-                      (click)="findTicketByState('IN_PROGRESS')">IN_PROGRESS</span>
+                      (click)="findTicketByState('IN_PROGRESS')">{{ 'in_progress' | translate  }}</span>
                 <span class="label btn-round label-info" style="cursor:pointer;float:right;margin-left: 15px;"
-                      (click)="findTicketByState('NEW')">NEW</span>
+                      (click)="findTicketByState('NEW')">{{ 'new' | translate  }}</span>
                 <div class="btn-group" style="float:right;">
                     <button type="button" class="btn btn-default  btn-xs" style="background:#F0FFFF;"
-                            (click)="getTicketsByPageNum(1,10)">All
+                            (click)="getTicketsByPageNum(1,10)">{{ 'all' | translate | capitalize }}
                     </button>
-                    <button type="button" class="btn btn-default  btn-xs" (click)="findMyTickets()">My tickets</button>
-                    <button type="button" class="btn btn-default  btn-xs" (click)="findMyAssigned()">My assign</button>
+                    <button type="button" class="btn btn-default  btn-xs" (click)="findMyTickets()">{{'my_tickets'|translate |capitalize }}</button>
+                    <button type="button" class="btn btn-default  btn-xs" (click)="findMyAssigned()">{{'my_assign'|translate |capitalize }}</button>
                 </div>
             </div>
 
@@ -73,15 +73,15 @@
 
                         <div *ngIf=" item.state == 'NEW' || item.state == '0'  ">
                             <span class="label btn-round label-info " style="margin: 5px;"
-                                  list="assign">NEW</span>
+                                  list="assign">{{ 'new' | translate  }}</span>
                         </div>
                         <div *ngIf=" item.state == '1' || item.state == 'IN_PROGRESS'">
-                            <span class="label btn-round label-success" style=" text-align: center;margin: 5px;">IN_PROGRESS</span>
+                            <span class="label btn-round label-success" style=" text-align: center;margin: 5px;">{{ 'in_progress' | translate  }}</span>
 
                         </div>
                         <div *ngIf=" item.state == '2' || item.state == 'DONE'">
                             <span class="label btn-round label-danger"
-                                  style=" text-align: center;margin: 5px;">DONE</span>
+                                  style=" text-align: center;margin: 5px;">{{ 'done' | translate  }}</span>
                         </div>
                     </td>
                     <td>
@@ -96,9 +96,7 @@
                                     <li><a style="cursor: pointer"
                                            (click)=" initUpdatedTicket(item); editForm.initUpdatedTicket(item);editForm.openEditModal()">
                                         {{'editTicket' | translate}}</a></li>
-                                    <li><a style="cursor: pointer" (click)="delForm.openDelModal(item)">{{'deleteTicket'
-                                        |
-                                        translate}}</a></li>
+                                    <li><a style="cursor: pointer" (click)="delForm.openDelModal(item)">{{'deleteTicket'| translate}}</a></li>
                                 </ul>
                             </div>
                         </div>

@@ -24,7 +24,7 @@
 
 
                 <div *ngIf=" ticket.state == 'NEW' ">
-                    <div class="liniya"><span class="label btn-round label-info " list="assign">{{ticket.state}}</span>
+                    <div class="liniya"><span class="label btn-round label-info " list="assign">{{ 'new' | translate  }}</span>
                     </div>
                     <button type="button" class="btn btn-default btn-xs"
                             style="margin-top:-4px;margin-left:3px;margin-right:3px;"> {{ticket.assigned.firstName}}
@@ -36,15 +36,15 @@
                             {{'changeStatus'|translate}} <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a (click)="editState('IN_PROGRESS')">IN PROGRESS</a></li>
-                            <li><a (click)="editState('DONE')">DONE</a></li>
+                            <li><a (click)="editState('IN_PROGRESS')">{{ 'in_progress' | translate  }}</a></li>
+                            <li><a (click)="editState('DONE')">{{ 'done' | translate  }}</a></li>
                         </ul>
                     </div>
 
                 </div>
 
                 <div *ngIf=" ticket.state == '1' || ticket.state == 'IN_PROGRESS'">
-                    <div class="liniya"><span class="label btn-round label-success">IN_PROGRESS</span></div>
+                    <div class="liniya"><span class="label btn-round label-success">{{ 'in_progress' | translate  }}</span></div>
                     <button type="button" class="btn btn-default btn-xs"
                             style="margin-top:-4px;margin-left:3px;margin-right:3px;"> {{ticket.assigned.firstName}}
                         {{ticket.assigned.lastName}}
@@ -55,14 +55,14 @@
                             {{'changeStatus'|translate}} <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a (click)="editState('DONE')">DONE</a></li>
+                            <li><a (click)="editState('DONE')">{{ 'done' | translate  }}</a></li>
                         </ul>
                     </div>
 
                 </div>
 
                 <div *ngIf=" ticket.state == '2' || ticket.state == 'DONE'">
-                    <div class="liniya"><span class="label btn-round label-danger">DONE</span>
+                    <div class="liniya"><span class="label btn-round label-danger">{{ 'done' | translate  }}</span>
                     </div>
 
                     <button type="button" (click)="getComments()" class="btn btn-default btn-xs"
@@ -89,8 +89,7 @@
                                 <li><a style="cursor: pointer"
                                        (click)="editForm.initUpdatedTicket(ticket);editForm.openEditModal()">
                                     {{'editTicket' | translate}}</a></li>
-                                <li><a style="cursor: pointer" (click)="delForm.openDelModal(ticket)">{{'deleteTicket' |
-                                    translate}}</a></li>
+                                <li><a style="cursor: pointer" (click)="delForm.openDelModal(ticket)">{{'deleteTicket' | translate}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -118,7 +117,7 @@
             <ul>
                 <li *ngFor="let mess of messages let i=index">
                     <div class="comment-content"
-                         style="float: center;width:70%;height:90px;margin:5px; margin-left:10%; ">
+                         style="width:70%;height:90px;margin:5px; margin-left:10%; ">
                         <div class="nameUser" style="float: left; width: 25%;"><p style="color:green; font-size:12px;">
                             {{mess.user.firstName}} {{mess.user.lastName}} </p></div>
                         <div style="float: right; width: 180px;">{{getTime(mess.time)}}
@@ -137,14 +136,14 @@
 
                 <span class="badge bg-success"
                       style="cursor:pointer;float: right;margin-right:-12%; margin-top:55px"
-                      (click)="initAddAnswer(mess);"> {{'answer'|translate}} </span>
+                      (click)="initAddAnswer(mess);toClose()"> {{'answerComment'|translate|capitalize}} </span>
                         <br/>
                     </div>
                     <!--answers for comment-->
-                    <div *ngIf="isAnswer(mess.messageId)" style="margin-bottom:30px;">
-                        <textarea class="area smallArea comm form-control" style="margin-top:20px;" id="answer"
+                    <div *ngIf="isAnswer(mess.messageId)&&open" style="margin-bottom:30px;margin-left:-28%">
+                        <textarea class=" smallArea comm form-control" style="margin-top:20px;" id="answer"
                                   value="{{answerText}}" type="text" name="answer" #answer></textarea><br/><br/>
-                        <button class="btn btn-success btn1" style="margin-right: 30%"
+                        <button class="btn btn-success btn1" style="margin-left: 90%"
                                 (click)="createAnswer(answer.value); answer.value=''; ">
                             <a class="link">{{'send'|translate}} </a>
                         </button>
@@ -155,7 +154,7 @@
                     <ul>
                         <li *ngFor="let answer of getAnswers(i)">
                             <div class="comment-content"
-                                 style="background:#f0f0f0;float: center; width:60%;height:90px;margin-bottom:20px;margin-top:0px;margin-left:25%;">
+                                 style="background:#f0f0f0; width:60%;height:90px;margin-bottom:20px;margin-top:0px;margin-left:25%;">
                                 <div class="nameUser" style="float: left; width: 25%;"><p
                                         style="color:green; font-size:12px;">
                                     {{answer.user.firstName}} {{answer.user.lastName}} </p></div>

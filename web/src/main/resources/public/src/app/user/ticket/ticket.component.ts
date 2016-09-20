@@ -35,7 +35,7 @@ import {
     providers: [TicketService, MessageComponent, ToasterService, MessageService],
     directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
-    pipes: [TranslatePipe],
+    pipes: [TranslatePipe,CapitalizeFirstLetterPipe],
     styleUrls: ['src/app/user/ticket/ticket.css']
 })
 
