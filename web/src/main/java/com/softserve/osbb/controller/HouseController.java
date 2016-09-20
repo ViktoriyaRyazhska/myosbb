@@ -84,6 +84,29 @@ public class HouseController {
         return new ResponseEntity<>(houseDTOPageDataObject, HttpStatus.OK);
     }
 
+
+
+    @RequestMapping(value = "/all/{osbbId}", method = RequestMethod.GET)
+    public ResponseEntity<List<Resource<HouseDTO>>> allHousesByOsbb(
+
+            @PathVariable(value = "osbbId") Integer osbbId) {
+        logger.info("get all houses by OsbbId: " + osbbId);
+
+        List<House> houses = houseService.getAllHousesByOsbb(osbbId);
+       // PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(housesByPage);
+        EntityResourceList<HouseDTO> houseDTOEntityResourceList = new HouseResourceList();
+        houses.forEach(house -> {
+                    HouseDTO houseDTO = HouseDTOMapper.mapHouseEntityToDTO(house);
+                    logger.info("houseDTO created " + houseDTO.toString());
+                    houseDTOEntityResourceList.add(toResource(houseDTO));
+                }
+        );
+      //  PageDataObject<Resource<HouseDTO>> houseDTOPageDataObject = PageDataUtil.providePageData(HousePageDataObject.class, pageSelector, houseDTOEntityResourceList);
+
+        return new ResponseEntity<>(houseDTOEntityResourceList, HttpStatus.OK);
+    }
+
+
     @RequestMapping(value = "/{id}/apartments", method = RequestMethod.GET)
     public ResponseEntity<EntityResourceList<Apartment>> getAllApartmentsByHouseId(@PathVariable("id") Integer houseId) {
         logger.info("get all apartments by house id: " + houseId);

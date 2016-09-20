@@ -104,6 +104,10 @@ public class HouseServiceImpl implements HouseService {
     public Page<House> getAllHouses(Pageable pageable) {
         return houseRepository.findAll(pageable);
     }
+    @Override
+    public List<House> getAllHousesByOsbb(Integer osbbId){
+        return houseRepository.findByOsbb(osbbId);
+    }
 
 
 }

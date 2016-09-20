@@ -204,5 +204,7 @@
   "changeStatusN":"Статус змінено",
   "youAssigned":"Ви відповідальні",
   "answerNotice":"Відповідь на ваш коментар",
-  "commentNotice":"Коментар на ваш інциндент"
+  "commentNotice":"Коментар на ваш інциндент",
+  "apartmentIsAlreadyBusy":"Неправильний номер квартири",
+  "wrongSquareInput":"Невірна площа"
 }

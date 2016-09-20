@@ -43,7 +43,7 @@ public class User implements Serializable {
     private Collection<Option> options=new ArrayList<>();
     private Collection<Report> reports=new ArrayList<>();
 
-    public Boolean isOwner;
+    private Boolean isOwner;
 
     public User(User user) {
         this.userId = user.getUserId();
@@ -56,6 +56,7 @@ public class User implements Serializable {
         this.gender = user.getGender();
         this.role = user.getRole();
         this.apartment=user.apartment;
+        this.osbb=user.getOsbb();
     }
 
 
@@ -196,9 +197,10 @@ public class User implements Serializable {
         this.apartment = appartament;
     }
 
-    @JsonIgnore
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "osbb_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Osbb getOsbb() {
         return osbb;
     }

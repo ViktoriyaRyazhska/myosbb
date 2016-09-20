@@ -24,10 +24,14 @@ export class apartmentProfileService{
     }
 
     getOwnerInApartment(id:number):Observable<any>{
-        let url=ApiService.serverUrl+'/restful/apartment/owner'+id;
+        let url=ApiService.serverUrl+'/restful/apartment/owner/'+id.toString();
         return this.http.get(url)
             .map(res=>res.json());
-        
+
+    }
+    getAllBillsByApartment(apartmentId:number):Observable<any>{
+        return this.http.get(ApiService.serverUrl+'/restful/apartment/'+apartmentId+'/bills')
+            .map(res=>res.json());
     }
     
 

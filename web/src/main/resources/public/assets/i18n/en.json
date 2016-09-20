@@ -203,7 +203,10 @@
   "activeOsbb":"Active",
   "osbb_active_all":"All",
   "osbb_active":"Active",
-  "osbb_not_active":"Not active"
+  "osbb_not_active":"Not active",
+ "apartmentIsAlreadyBusy":"Wrong apartment number",
+  "wrongSquareInput":"Wrong square"
+
 }
 
 

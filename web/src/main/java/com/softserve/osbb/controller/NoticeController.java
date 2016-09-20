@@ -61,6 +61,7 @@ public class NoticeController {
 
         User currentUser=userService.findUserByEmail(user.getName());
 
+
         List<Notice> noticeList = noticeService.findNoticesOfUser(currentUser);
         List<Resource<Notice>> resourceNoticeList = new ArrayList<>();
         for (Notice e : noticeList) {
@@ -70,6 +71,7 @@ public class NoticeController {
                     .withSelfRel());
             resourceNoticeList.add(resourceNotice);
         }
+
 
         return new ResponseEntity<>(resourceNoticeList, HttpStatus.OK);
 

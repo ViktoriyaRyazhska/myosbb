@@ -4,13 +4,17 @@ package com.softserve.osbb.controller;
 import com.lowagie.text.pdf.PdfName;
 import com.softserve.osbb.dto.ApartmentDTO;
 
+import com.softserve.osbb.dto.BillDTO;
 import com.softserve.osbb.dto.UserDTO;
 import com.softserve.osbb.dto.mappers.UserDTOMapper;
 import com.softserve.osbb.model.Apartment;
+import com.softserve.osbb.model.Bill;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.service.ApartmentService;
+import com.softserve.osbb.service.BillService;
 import com.softserve.osbb.service.UserService;
 import com.softserve.osbb.util.paging.PageDataObject;
+import com.softserve.osbb.util.resources.impl.BillResourceList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +44,9 @@ public class ApartmentController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    BillService billService;
+
     private static Logger logger = LoggerFactory.getLogger(ApartmentController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -130,6 +137,7 @@ public class ApartmentController {
 
     @RequestMapping(value="/owner/{id}",method=RequestMethod.GET)
     public ResponseEntity<Resource<UserDTO>> getOwnerInApartment(@PathVariable("id") Integer id) {
+        logger.info("getting owner of apartment= "+id);
         Apartment apartment = apartmentService.findOneApartmentByID(id);
         UserDTO user;
         if(apartment.getOwner()!=null){
@@ -138,6 +146,18 @@ public class ApartmentController {
         return new ResponseEntity<>(addResourceLinkToApartment(user),HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/{id}/bills",method = RequestMethod.GET)
+    public ResponseEntity<List<Resource<Bill>>> getAllBils (@PathVariable("id") Integer Id){
+      List<Bill> bills = billService.getAllBillsByApartmentWithCurrentMonth(Id);
+        logger.info("size= "+bills.size());
+        final List<Resource<Bill>> resourceBillsList = new ArrayList<>();
+        BillResourceList billResourceList = new BillResourceList();
+        for (Bill bill : bills){
+            resourceBillsList.add(addResourceLinkToBill(bill));
+        }
+        return new ResponseEntity<>(resourceBillsList,HttpStatus.OK);
+
+    }
 
 
 
@@ -195,6 +215,15 @@ public class ApartmentController {
                 .findApartmentById(apartment.getApartmentId()))
                 .withSelfRel());
         return apartmentResource;
+    }
+
+    private Resource<Bill> addResourceLinkToBill(Bill bill) {
+        if (bill == null) return null;
+        Resource<Bill> billResource = new Resource<>(bill);
+        billResource.add(linkTo(methodOn(BillController.class)
+                .findOneBill(bill.getBillId()))
+                .withSelfRel());
+        return billResource;
     }
 
     private Resource<User> addResourceLinkToApartment(User user) {

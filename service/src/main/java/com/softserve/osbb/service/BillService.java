@@ -40,4 +40,5 @@ public interface BillService {
     long countBills();
 
     boolean existsBill(Integer id);
+    List<Bill> getAllBillsByApartmentWithCurrentMonth(Integer apartmentId);
 }

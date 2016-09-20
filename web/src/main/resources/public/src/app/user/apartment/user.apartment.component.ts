@@ -8,14 +8,18 @@ import "rxjs/add/operator/toPromise";
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {CORE_DIRECTIVES} from "@angular/common";
 import {TranslatePipe} from "ng2-translate/ng2-translate";
-import {User} from "../../../shared/shared/models/User";
+import {User} from "public/src/shared/models/User.ts";
+import {FORM_DIRECTIVES, CORE_DIRECTIVES, FormBuilder, Control, ControlGroup, Validators} from '@angular/common';
+import {HeaderComponent} from "../../header/header.component";
+
 import {CurrentUserService} from "../../../shared/services/current.user.service";
+import {CurrentOsbbService} from "../../../shared/services/current.osbb.service";
 import {PageCreator} from "../../../shared/services/page.creator.interface";
 import {HousePageObject} from "../../house/house.page.object";
 @Component({
     selector: 'my-user-apartment',
     templateUrl: 'src/app/user/apartment/apartment.html',
-    providers: [ApartmentService],
+    providers: [ApartmentService,CurrentOsbbService],
     directives: [ROUTER_DIRECTIVES,MODAL_DIRECTIVES, CORE_DIRECTIVES],
     styleUrls: ['src/app/user/apartment/styles.css'],
     viewProviders: [BS_VIEW_PROVIDERS],
@@ -41,33 +45,51 @@ export class UserApartmentComponent {
     order:boolean = true;
     private defaultSorter:string = 'number';
     private currentUser:User;
-
     private apartmentToDelete:AprtmentModel;
     private allHouses:HousePageObject[] = [];
     private houseToAdd:HousePageObject = {street: ''};
     private isNumberValid:boolean = false;
+    private currentOsbbId:number=1;
+    numberControl:Control;
+    addApartmentForm:ControlGroup;
 
 
 
-    constructor(private apartmentService:ApartmentService, private currentUserService:CurrentUserService) {
+    constructor(private apartmentService:ApartmentService,private builder:FormBuilder, private currentUserService:CurrentUserService,private currentOsbbService:CurrentOsbbService) {
         console.log("init items");
-        this.Items = [{square: '', number: '', house: {street: ''}}];
-        //  this.allHouses=[];
-
+        this.Items = [];//[{square: '', number: '', house: {street: ''}}];
+        this.numberControl=new Control('',this.numberValidator);
+        this.addApartmentForm=builder.group({
+            numberControl:this.numberControl
+        });
     }
 
 
     ngOnInit() {
-
-
+        this.currentUserService=HeaderComponent.currentUserService;
         this.currentUser = this.currentUserService.getUser();
-        this.apartmentService.getAllHouses().subscribe(res=> {
+
+
+       // this.currentUser = this.currentUserService.getUser();
+        //this.currentOsbbId=this.currentOsbbService.getCurrentOsbbId();
+        console.log("curr OSBB ID="+this.currentOsbbId);
+        this.getApartmentsByPageNum(this.pageNumber);
+        
+        this.apartmentService.getAllHouses(this.currentOsbbId).subscribe(res=> {
             this.allHouses = res;
+            console.log("house in subscribe"+this.allHouses.length);
         });
 
-        this.getApartmentsByPageNum(this.pageNumber);
-        //console.log("current user: "+this.currentUser.apartment.number);
+        
+    }
 
+    static numberValidator(control: Control): ValidationResult {
+
+        if (this.isNumberValid==true){
+            return { "numberValidator": true };
+        } else
+
+        return null;
     }
 
 
@@ -111,37 +133,43 @@ export class UserApartmentComponent {
 
     onAddApartmentSubmit() {
 
-        this.addModal.hide();
-        this.apartmentService.addApartment(this.emptyApartment, this.houseToAdd.houseId)
-            .subscribe(/*res=>this.Items.push(res)*/);
-        this.emptyApartment = {number: '', square: ''};
-        // console.log(this.houseToAdd.houseId);
-
+        if(! this.isNumberValid) {
+            alert("Apartment is busy");
+        } else {
+            this.addModal.hide();
+            this.apartmentService.addApartment(this.emptyApartment, this.houseToAdd.houseId)
+                .subscribe();
+            this.emptyApartment = {number: '', square: ''};
+        }
     }
 
     openAddModal() {
+       
+
+        
 
         this.addModal.show();
-
-
     }
 
 
-    chooseHouse(house:HousePageObject) {
+    chooseHouse(house:HousePageObject,number) {
         this.houseToAdd = house;
+
     }
 
     isApartmentNumberValid(value):boolean {
         console.log("value from input" + value);
 
+        if(value>=1){
         this.apartmentService.isApartmentExist(value,this.houseToAdd.houseId).
             subscribe(res=> {
             this.isNumberValid = res;
-            console.log("house id is:" + this.houseToAdd.houseId + "  valid is :" + this.isNumberValid);
+            console.log("house id is:  " + this.houseToAdd.houseId + "  valid is : " + this.isNumberValid);
         }
 
-    );
-        setTimeout(() => this.showDelay(), 250);
+    );}
+        else this.isNumberValid=false;
+
 
 
     }
@@ -166,22 +194,20 @@ export class UserApartmentComponent {
                 });
     }
 
-    showDelay(){
-
-    }
 
     getApartmentsByPageNum(pageNumber:number) {
         console.log("getApartmentssByPageNum" + pageNumber);
+
         this.pageNumber = +pageNumber;
         this.emptyArray();
-        return this.apartmentService.getSortedApartments(this.pageNumber, this.defaultSorter, this.order,1)
+        return this.apartmentService.getSortedApartments(this.pageNumber, this.defaultSorter, this.order,this.currentOsbbId)
             .subscribe((data) => {
                     this.pageCreator = data;
                     this.Items = data.rows;
                     this.preparePageList(+this.pageCreator.beginPage,
                         +this.pageCreator.endPage);
                     this.totalPages = +data.totalPages;
-                    // console.log("ITEM 0 =   "+Items[0]);
+
                 },
                 (err) => {
                     console.error(err)
@@ -214,7 +240,7 @@ export class UserApartmentComponent {
         console.log("getApartmentssByPageNum" + pageNumber + "with apartment number =" + numberOfApartment);
         this.pageNumber = +pageNumber;
         this.emptyArray();
-        return this.apartmentService.getSortedApartmentsWithNumber(this.pageNumber, this.defaultSorter, this.order, numberOfApartment)
+        return this.apartmentService.getSortedApartmentsWithNumber(this.pageNumber, this.defaultSorter, this.order, numberOfApartment,this.currentOsbbId)
             .subscribe((data) => {
                     this.pageCreator = data;
                     this.Items = data.rows;

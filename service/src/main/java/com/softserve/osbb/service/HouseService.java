@@ -36,4 +36,5 @@ public interface HouseService {
     void deleteAllHouses();
 
     Page<House> getAllHouses(Pageable pageable);
+    List<House> getAllHousesByOsbb(Integer osbbId);
 }

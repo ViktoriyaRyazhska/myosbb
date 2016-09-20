@@ -105,4 +105,8 @@ public class BillServiceImpl implements BillService {
     public boolean existsBill(Integer id) {
         return billRepository.exists(id);
     }
+
+    public List<Bill> getAllBillsByApartmentWithCurrentMonth(Integer apartmentId){
+        return billRepository.getAllBillsByApartmentWithCurrentMonth(apartmentId);
+    }
 }

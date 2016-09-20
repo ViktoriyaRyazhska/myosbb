@@ -60,6 +60,7 @@ public class UserController {
     @RequestMapping(value = "/user/getCurrent", method = RequestMethod.GET)
     public User getCurrent(@AuthenticationPrincipal Principal user) {
        User currentUser=userService.findUserByEmail(user.getName());
+        logger.info("current user ODBB"+currentUser.getOsbb());
             return currentUser;
     }
 
@@ -103,6 +104,18 @@ public class UserController {
         logger.warn("Deleting user with id:" + id);
         userService.delete(id);
         return true;
+    }
+
+    @RequestMapping(value = "/user/userOsbb/{id}",method = RequestMethod.GET)
+    public Integer getOsbbIdByUserId(@PathVariable("id")Integer userId){
+        logger.info("getting osbb with user id ="+userId);
+        Integer osbbid=0;
+        try {
+            osbbid = userService.getOne(userId).getOsbb().getOsbbId();
+        }catch (NullPointerException e){
+            logger.warn("user was not fined");
+        }
+        return  osbbid;
     }
 
 

@@ -1,8 +1,11 @@
 package com.softserve.osbb.repository;
 
 import com.softserve.osbb.model.House;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,6 +23,9 @@ public interface HouseRepository extends JpaRepository<House, Integer> {
             "OR LOWER(h.description) LIKE LOWER(CONCAT('%',?1,'%'))" +
             "OR LOWER(h.zipCode) LIKE LOWER(CONCAT('%',?1,'%'))")
     List<House> getAlReportsBySearchParameter(String searchTerm);
+
+    @Query("select h from House h join h.osbb o where o.osbbId=:osbbId")
+    List<House> findByOsbb(@Param("osbbId") Integer osbbId);
 
 
 }

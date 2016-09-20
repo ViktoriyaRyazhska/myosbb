@@ -32,4 +32,10 @@ public interface BillRepository extends JpaRepository<Bill, Integer> {
     List<Bill> getAllByYear(@Param("year") Integer year);
 
 
+   // @Query("select b from Bill ")
+
+    @Query(value = "select * from bill where DATE_PART('Year',date)=DATE_PART('Year',now()) " +
+            "AND DATE_PART('Month',date)=DATE_PART('Month',now()) AND apartment_id=:apartmentId ", nativeQuery = true)
+    List<Bill> getAllBillsByApartmentWithCurrentMonth(@Param("apartmentId")Integer apartmentId);
+
 }

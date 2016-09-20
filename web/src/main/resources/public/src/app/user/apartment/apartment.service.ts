@@ -28,11 +28,11 @@ export class ApartmentService{
             .catch((err)=>Observable.throw(err));
     }
 
-    getSortedApartmentsWithNumber(pageNumber:number, name:string, order:boolean,number:number):Observable<any> {
+    getSortedApartmentsWithNumber(pageNumber:number, name:string, order:boolean,number:number,osbbId:number):Observable<any> {
         let headers = new Headers({'Authorization': 'Bearer ' + localStorage.getItem('token')});
         headers.append('Content-Type', 'application/json');
 
-        return this.http.get(ApiService.serverUrl + "/restful/apartment?pageNumber=" + pageNumber + '&&sortedBy=' + name + '&&asc=' + order+'&&number='+number)
+        return this.http.get(ApiService.serverUrl + "/restful/apartment?pageNumber=" + pageNumber + '&&sortedBy=' + name + '&&asc=' + order+'&&number='+number+'&&osbbId='+osbbId)
             .map((res)=> res.json())
             .catch((err)=>Observable.throw(err));
     }
@@ -69,18 +69,22 @@ export class ApartmentService{
     }
 
     isApartmentExist(apartmentNumber:number,houseId:number):boolean{
-        let headers = new Headers({'Authorization': 'Bearer '+localStorage.getItem('token')});
-        headers.append('Content-Type', 'application/json');
+
         return this.http.get(ApiService.serverUrl + "/restful/house/"+houseId+"/"+apartmentNumber)
             .map(response => response.json());
     }
 
 
 
-    getAllHouses():Observable<any>{
-        return this.http.get(ApiService.serverUrl+'/restful/house/all').
+    getAllHouses(osbbId:number):Observable<any>{
+        return this.http.get(ApiService.serverUrl+'/restful/house/all/'+osbbId).
         map(res=>res.json());
 
+    }
+
+    getCurrentOsbbId(userId:number):Observable<any>{
+        return this.http.get(ApiService.serverUrl +"/restful/user/userOsbb/"+userId).
+        map(res=>res.json());
     }
 
 

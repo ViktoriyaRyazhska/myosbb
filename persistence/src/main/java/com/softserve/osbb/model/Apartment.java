@@ -15,7 +15,6 @@ import java.util.List;
  */
 @Entity
 @Table(name = "apartment")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Apartment implements Serializable {
     private Integer apartmentId;
     private Integer number;

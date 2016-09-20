@@ -29,7 +29,5 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Integer> {
    @Query("select ap from Apartment ap join ap.house h join h.osbb o where o.osbbId=:osbbId")
     Page<Apartment> findAll(Pageable pageable,@Param("osbbId") Integer osbbId);
 
-    @Query("select ap from Apartment ap where ap.number=1")
-    Page<Apartment> findByOsbbId(Integer osbbId,Pageable pageable);
 
 }

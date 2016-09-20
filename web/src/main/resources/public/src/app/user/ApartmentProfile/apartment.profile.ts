@@ -5,7 +5,7 @@ import{toPromise} from "rxjs/operator/toPromise";
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {apartmentProfileService} from './apartment.profile.service';
 import {DatePipe} from '@angular/common';
-
+import {Bill} from "../../../shared/models/bill.model";
 import {User} from "../../../shared/models/User";
 import{CurrentUserService} from "../../../shared/services/current.user.service";
 import{IApartment} from "../../../shared/models/apartment.interface";
@@ -31,7 +31,7 @@ export class ApartmentProfileComponent {
     private currentApartment:IApartment={apartmentId:0,square:0,number:0,owner:0,house:0,bills:[]};
    private usersInApartment:User[];
     private countOfUsers:number=2;
-    private owner:User={userId:0,phoneNumber:'',email:''};
+    private owner:User={userId:1,phoneNumber:'',email:''};
     active:boolean = true;
 
 
@@ -55,11 +55,12 @@ export class ApartmentProfileComponent {
                 });
 
         this.apartmentService.getOwnerInApartment(this.id)
-            .subscribe(res=>this.owner=res);
+            .subscribe(res=>{this.owner=res;console.log("user OWNER: "+res)});
         this.usersInApartment=[];
-        //console.log(this.currentApartment);
-       // console.log(this.usersInApartment[0].firstName);
-        //this.countOfUsers=this.usersInApartment.length;
+
+        this.apartmentService.getAllBillsByApartment(this.id)
+           .subscribe(res=>{this.billsOfApartment=res.rows;});
+
     }
 
    
@@ -73,7 +74,9 @@ export class ApartmentProfileComponent {
         this.userListModal.hide();
 
     }
-        ngOnDestroy(){
+        
+    
+    ngOnDestroy(){
             this.paramsSub.unsubscribe();
         }
 
