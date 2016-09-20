@@ -16,6 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,9 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
 
     @Autowired
+    PasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
+    @Autowired
     UserRepository userRepository;
-
     @Autowired
     RoleRepository userRoleRepository;
 
@@ -37,6 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -134,6 +137,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveAndFlush(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.saveAndFlush(user);
     }
 
@@ -143,6 +147,7 @@ public class UserServiceImpl implements UserService {
         List<User> encodedUsers = new ArrayList<User>();
         while (ite.hasNext()) {
             User temp = ite.next();
+            temp.setPassword(passwordEncoder.encode(temp.getPassword()));
             encodedUsers.add(temp);
         }
         return userRepository.save(encodedUsers);
