@@ -56,7 +56,6 @@ export class OsbbService {
     }
 
     addOsbb(osbb:IOsbb): Promise<IOsbb> {
-        //console.log("Service add osbb: " + osbb.logo.path + " type: " + osbb.logo.type);
         return this.http.post(this.url, JSON.stringify(osbb))
                         .toPromise()
                         .then(res => res.json())

@@ -11,7 +11,7 @@ import {CapitalizeFirstLetterPipe} from "../../../../../shared/pipes/capitalize-
 @Component({
     selector: 'osbb-modal',
     templateUrl: './src/app/admin/components/osbb/osbb_form/osbb-modal.html',
-    styleUrls: ['./src/app/admin/components/osbb/osbb_form/osbb-modal.css'],
+    styleUrls: ['./src/app/admin/components/osbb/osbb_form/osbb-modal.css', './src/shared/css/general.css'],
     directives:[FILE_UPLOAD_DIRECTIVES, MODAL_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES, FileSelectDirective, FileDropDirective],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
@@ -24,7 +24,7 @@ export class OsbbModalComponent implements OnInit{
     @ViewChild('modalWindow')
     modalWindow:ModalDirective;
 
-  public uploader:FileUploader = new FileUploader("");
+   public uploader:FileUploader = new FileUploader("");
 
     osbb:IOsbb;
     isEditing:boolean;
@@ -33,6 +33,7 @@ export class OsbbModalComponent implements OnInit{
     description: string;
     address: string;
     district: string;
+    available: boolean;
     
     submitAttempt:boolean = false;
     creatingForm: ControlGroup;
@@ -84,6 +85,7 @@ export class OsbbModalComponent implements OnInit{
         this.description = osbb.description;
         this.address = osbb.address;
         this.district = osbb.district;
+        this.available = osbb.available;
         this.modalWindow.show();
     }
     
@@ -101,7 +103,7 @@ export class OsbbModalComponent implements OnInit{
                this.created.emit(osbbDTO);
             }
             this.modalWindow.hide();
-            this.clearAddForm();
+            this.clearForm();
         }
     }
 
@@ -120,9 +122,10 @@ export class OsbbModalComponent implements OnInit{
            this.osbb.description = this.description;
            this.osbb.address = this.address;
            this.osbb.district = this.district;
+           this.osbb.available = this.available;
     }
 
-     clearAddForm(): void {
+     clearForm(): void {
         this.name='';
         this.description='';
         this.address='';

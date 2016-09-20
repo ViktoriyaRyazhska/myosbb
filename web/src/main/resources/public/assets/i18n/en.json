@@ -179,8 +179,14 @@
   "noticeComment3":"new comments",
   "noticeComments":"new comments",
   "noComments":"no comments",
-  "settings":"settings"
-
+  "settings":"settings",
+  "deleteOsbb":"Type name of the osbb to confirm",
+  "osbbNameError":"Wrong OSBB name",
+  "requiredField":"The field is required",
+  "activeOsbb":"Active",
+  "osbb_active_all":"All",
+  "osbb_active":"Active",
+  "osbb_not_active":"Not active"
 }
 
 

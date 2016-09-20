@@ -46,7 +46,6 @@ export class OsbbComponent implements OnInit {
     }
 
     initOsbbArr(available: string) {
-         //this.osbbService.getAllOsbb().then(osbbArr => this.osbbArr = osbbArr);
         if(available === "All") {
             this.osbbService.getAllOsbb().then(osbbArr => this.osbbArr = osbbArr);
         }
@@ -80,9 +79,7 @@ export class OsbbComponent implements OnInit {
     }
 
     deleteOsbb(osbb:IOsbb): void {
-        osbb.available = false;
-        this.osbbService.editOsbb(osbb);
-        //this.osbbService.deleteOsbb(osbb).then(osbb => this.deleteOsbbFromArr(osbb));
+        this.osbbService.deleteOsbb(osbb).then(osbb => this.deleteOsbbFromArr(osbb));
     }
 
      private deleteOsbbFromArr(osbb: IOsbb): void {

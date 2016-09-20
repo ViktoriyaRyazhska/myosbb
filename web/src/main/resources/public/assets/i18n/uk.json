@@ -179,9 +179,13 @@
   "noticeComment3":"нових коментаря",
   "noticeComments":"нових коментарів",
   "noComments":"немає коментарів",
-  "settings":"налаштування"
-  
-  
-  
+  "settings":"налаштування",
+  "deleteOsbb":"Введіть назву ОСББ для підтвердження",
+  "osbbNameError":"Неправильна назва ОСББ",
+  "requiredField":"Обов'язкове поле",
+  "activeOsbb":"Активне",
+  "osbb_active_all":"всі",
+  "osbb_active":"Активні",
+  "osbb_not_active":"Не активні"
 }
 

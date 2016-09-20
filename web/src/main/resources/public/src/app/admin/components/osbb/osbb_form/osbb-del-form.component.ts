@@ -9,26 +9,48 @@ import {CapitalizeFirstLetterPipe} from "../../../../../shared/pipes/capitalize-
 @Component({
     selector: 'osbb-del-form',
     templateUrl: './src/app/admin/components/osbb/osbb_form/osbb-del-form.html',
+    styleUrls: ['./src/shared/css/general.css'],
     directives:[MODAL_DIRECTIVES, CORE_DIRECTIVES],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
 })
 export class OsbbDelFormComponent {
     @Output() delete: EventEmitter<IOsbb>;
-    private osbb: IOsbb;
     @ViewChild('delModal')
     delModal:ModalDirective;
+
+    private osbb: IOsbb;
+    name:string;
+    submitAttempt:boolean = false;
 
     openDelModal(osbbId:IOsbb): void {
         this.osbb = osbbId;
         this.delModal.show();   
     }
 
+    isNameEquals():boolean {
+        return this.osbb.name === this.name;
+    }
+
+    hideDelModal(): void {
+        this.delModal.hide();   
+    }
+
     constructor() {
         this.delete = new EventEmitter<IOsbb>();
     }
 
-   delOsbb(): void {
-        this.delete.emit(this.osbb);
+    clearDelModal() {
+        this.name = '';
+        this.submitAttempt = false;
+    }
+   confirmDeleting(): void {
+       this.submitAttempt = true;
+       console.log("isNameEquals: " + this.isNameEquals());
+        if(this.isNameEquals()) {
+            this.delete.emit(this.osbb);
+             this.hideDelModal();
+             this.clearDelModal();
+         }
     }
 }
