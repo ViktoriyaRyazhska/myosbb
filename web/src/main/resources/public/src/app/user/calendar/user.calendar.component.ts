@@ -69,9 +69,9 @@ export class UserCalendarComponent implements OnInit {
 
     handleDayClick(event) {
         this.event = new Event();
-        this.event.start = <Date>moment(this.event.start).format("YYYY-MM-DDTHH:mm:ss");
+        this.event.start = <Date>moment(event.date).format("YYYY-MM-DDTHH:mm:ss");
         var duration = moment.duration({'days' : 1});
-        this.event.end = <Date>moment(this.event.start).add(duration).format("YYYY-MM-DDTHH:mm:ss");
+        this.event.end = <Date>moment(event.date).add(duration).format("YYYY-MM-DDTHH:mm:ss");
         console.log(this.event.start);
         this.dialogVisible = true;
         //trigger detection manually as somehow only moving the mouse quickly after click triggers the automatic detection
@@ -87,7 +87,6 @@ export class UserCalendarComponent implements OnInit {
         if (e.view.title === 'month') {
             start.stripTime();
         }
-
         if (end) {
             this.event.end = end.format();
         }
@@ -116,8 +115,6 @@ export class UserCalendarComponent implements OnInit {
             this.eventService.addEvent(this.event);
             this.event = null;
         }
-        this.event.start = <Date>moment(this.event.start).format("YYYY-MM-DDTHH:mmZZ");
-        this.event.end = <Date>moment(this.event.end).format("YYYY-MM-DDTHH:mmZZ");
         this.dialogVisible = false;
     }
 

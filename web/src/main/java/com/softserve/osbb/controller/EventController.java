@@ -2,7 +2,7 @@ package com.softserve.osbb.controller;
 
 import com.softserve.osbb.model.Event;
 import com.softserve.osbb.model.Osbb;
-import com.softserve.osbb.repository.EventRepository;
+import com.softserve.osbb.model.enums.EventStatus;
 import com.softserve.osbb.service.EventService;
 import com.softserve.osbb.util.paging.PageDataObject;
 import org.slf4j.Logger;
@@ -12,8 +12,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -153,6 +155,37 @@ public class EventController {
             @RequestParam(value = "title", required = true) String title) {
         logger.info("fetching event by search parameter: " + title);
         List<Event> eventsBySearchTerm = eventService.findEventsByNameOrAuthorOrDescription(title);
+        if (eventsBySearchTerm.isEmpty()) {
+            logger.warn("no events were found");
+        }
+        List<Resource<Event>> resourceEventList = new ArrayList<>();
+        eventsBySearchTerm.stream().forEach((event) -> {
+            resourceEventList.add(getLink(toResource(event)));
+        });
+        return new ResponseEntity<>(resourceEventList, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/status", method = RequestMethod.GET)
+    public ResponseEntity<List<Resource<Event>>> getEventsByStatus(
+            @RequestParam(value = "status", required = true) EventStatus status) {
+        logger.info("fetching event by status: " + status);
+        List<Event> eventsBySearchTerm = eventService.filterByStatus(status);
+        if (eventsBySearchTerm.isEmpty()) {
+            logger.warn("no events were found");
+        }
+        List<Resource<Event>> resourceEventList = new ArrayList<>();
+        eventsBySearchTerm.stream().forEach((event) -> {
+            resourceEventList.add(getLink(toResource(event)));
+        });
+        return new ResponseEntity<>(resourceEventList, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/author", method = RequestMethod.GET)
+    public ResponseEntity<List<Resource<Event>>> getEventsByUser(
+            @AuthenticationPrincipal Principal principal) {
+        logger.info("fetching event by author: " + principal.getName());
+        System.out.println("FIND BY AUTHOR " + principal.getName());
+        List<Event> eventsBySearchTerm = eventService.findByAuthor(principal.getName());
         if (eventsBySearchTerm.isEmpty()) {
             logger.warn("no events were found");
         }

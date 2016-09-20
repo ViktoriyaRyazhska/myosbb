@@ -1,6 +1,7 @@
 package com.softserve.osbb.service.impl;
 
 import com.softserve.osbb.model.Event;
+import com.softserve.osbb.model.enums.EventStatus;
 import com.softserve.osbb.repository.EventRepository;
 import com.softserve.osbb.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by nataliia on 10.07.16.
@@ -23,6 +25,15 @@ public class EventServiceImpl implements EventService {
     EventRepository eventRepository;
 
     private static final int DEF_ROWS = 10;
+
+    @Override
+    public List<Event> filterByStatus(EventStatus status) {
+        List<Event> list = eventRepository
+                .findAll().stream()
+                .filter(event -> status.equals(event.getStatus()))
+                .collect(Collectors.toList());
+        return list;
+    }
 
     @Override
     public Event saveEvent(Event event) {
@@ -105,12 +116,17 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> findEventsByNameOrAuthorOrDescription(String search) {
-      return eventRepository.findByNameOrAuthorOrDescription(search);
+        return eventRepository.findByNameOrAuthorOrDescription(search);
     }
 
     @Override
     public List<Event> findByInterval(Timestamp start, Timestamp end) {
         return eventRepository.findBetweenStartTimeAndEndTime(start, end);
+    }
+
+    @Override
+    public List<Event> findByAuthor(String user) {
+        return eventRepository.findByAuthor(user);
     }
 
 }
