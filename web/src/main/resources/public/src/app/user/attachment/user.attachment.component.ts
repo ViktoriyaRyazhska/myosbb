@@ -10,6 +10,7 @@ import {TranslatePipe} from "ng2-translate/ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
 import ApiService = require("../../../shared/services/api.service");
 import FileLocationPath = require("../../../shared/services/file.location.path");
+import {FileUploadComponent} from "./modals/file-upload-modal";
 
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment/';
 const fileUploadPath = FileLocationPath.fileUploadPath;
@@ -21,17 +22,10 @@ declare var saveAs:any;
     templateUrl: 'src/app/user/attachment/attachment.html',
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
     providers: [AttachmentService],
-    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, FileSelectDirective, FileDropDirective],
+    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, FileSelectDirective, FileDropDirective, FileUploadComponent],
     viewProviders: [BS_VIEW_PROVIDERS]
 })
 export class UserAttachmentComponent implements OnInit, OnDestroy {
-
-    public uploader:FileUploader = new FileUploader({url: attachmentUploadUrl, authToken: 'Bearer '
-                                                    + localStorage.getItem('access_token')});
-    public hasDropZoneOver:boolean = false;
-    public fileOverBase(e:any):void {
-        this.hasDropZoneOver = e;
-    }
 
     private attachments:Attachment[];
     private pageCreator:PageCreator<Attachment>;
@@ -46,26 +40,6 @@ export class UserAttachmentComponent implements OnInit, OnDestroy {
     private attachmentId:number;
 
     constructor(private _attachmentService:AttachmentService) {
-    }
-
-    transform(bytes) {
-        if(bytes == 0) return '0 Bytes';
-        var k = 1000;
-        var sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        var i = Math.floor(Math.log(bytes) / Math.log(k));
-        return (bytes / Math.pow(k, i)).toFixed(1) + ' ' + sizes[i];
-    }
-
-    openUploadModal() {
-        this.uploadModal.show();
-    }
-
-    closeUploadModal() {
-        console.log('closing upload modal');
-        this._attachmentService.getAllAttachments(this.pageNumber);
-        this.getAttachmentsByPageNum(this.pageNumber);
-        console.log('closing upload modal');
-        this.uploadModal.hide();
     }
 
     openDelModal(id:number) {
@@ -106,7 +80,8 @@ export class UserAttachmentComponent implements OnInit, OnDestroy {
                     this.pageCreator = data;
                     this.attachments = data.rows;
                     for (let i = 0; i < this.attachments.length; i++){
-                        this.attachments[i].url = this.attachments[i].path.replace(String(fileUploadPath),String(fileDownloadPath));
+                        this.attachments[i].url = this.attachments[i].path
+                            .replace(String(fileUploadPath),String(fileDownloadPath));
                     }
                     console.log(fileUploadPath,fileDownloadPath);
                     this.preparePageList(+this.pageCreator.beginPage,
@@ -152,7 +127,6 @@ export class UserAttachmentComponent implements OnInit, OnDestroy {
                     for (let i = 0; i < this.attachments.length; i++){
                         this.attachments[i].path = this.attachments[i].path.replace('/var/www/html/',attachmentUploadUrl);
                     }
-                // this.loadImage(this.attachments[0].path);
                     this.preparePageList(+this.pageCreator.beginPage,
                         +this.pageCreator.endPage);
                     this.totalPages = +data.totalPages;

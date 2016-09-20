@@ -1,17 +1,17 @@
 <div class="panel panel-default top-panel to-right">
-    <div class="panel-heading"><h4><i class="fa fa-angle-right"></i>{{'events' | translate}}</h4></div>
+    <div class="panel-heading"><h4><i class="fa fa-angle-right"></i> {{'events' | translate}}</h4></div>
     <div class="panel-body">
         <div class="content-panel">
             <div class="btn-group" role="group" aria-label="...">
                 <button type="button" class="btn btn-default"
                         [ngClass]="{'active': showAllEvents}"
                         (click)="getEventsByPageNum(pageNumber)">
-                        {{'allEvents' | translate | capitalize}}
+                    {{'allEvents' | translate | capitalize}}
                 </button>
                 <button type="button" class="btn btn-default"
                         [ngClass]="{'active': !showAllEvents}"
                         (click)="filterByAuthor()">
-                        {{'myEvents' | translate | capitalize}}
+                    {{'myEvents' | translate | capitalize}}
                 </button>
             </div>
             <div id="example_filter" class="pull-right dataTables_filter">
