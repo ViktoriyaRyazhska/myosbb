@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core'
-import {User} from '../../../shared/models/User.ts';
+import {User} from '../../../../shared/models/User';
 import {UsersService} from "./users.service";
 import {Router} from '@angular/router';
 import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators} from '@angular/forms';
@@ -7,9 +7,9 @@ import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators} from '@angular/forms'
 
 @Component({
     selector: 'my-users',
-    templateUrl: 'src/app/user/users/users.table.html',
+    templateUrl: 'src/app/admin/components/users/users.table.html',
     providers: [UsersService],
-    styleUrls: ['src/app/user/users/users.css'],
+    styleUrls: ['src/app/admin/components/users/users.css'],
     directives: [REACTIVE_FORM_DIRECTIVES]
 })
 export class UsersComponent implements OnInit {

@@ -2,3 +2,12 @@
     position:fixed;
 
 }
+.tbody{
+    height: 95%;
+}
+.panel-body{
+    height: 110%;
+}
+.usersmain{
+    margin-left: 210px;
+}

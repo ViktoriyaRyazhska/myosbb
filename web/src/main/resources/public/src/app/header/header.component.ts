@@ -20,7 +20,7 @@ import {Router} from '@angular/router';
 @Component({
     selector: 'app-header',
     templateUrl: 'src/app/header/header.html',
-    providers: [LoginStat, LoginService, NoticeService, CurrentUserService],
+    providers: [LoginStat, LoginService, NoticeService],
     inputs: ['isLoggedIn'],
     directives: [ROUTER_DIRECTIVES, DROPDOWN_DIRECTIVES, MODAL_DIRECTIVES, FORM_DIRECTIVES],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
@@ -96,6 +96,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
     ngOnInit():any {
         this.sub = this._route.params.subscribe(params=>
             this.isLoggedIn = params['status']);
+        HeaderComponent.currentUserService=this._currentUserService;
         // this.getNotice();
     }
 

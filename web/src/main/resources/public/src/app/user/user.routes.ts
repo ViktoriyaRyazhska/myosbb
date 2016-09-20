@@ -35,7 +35,6 @@ export const userRoutes: RouterConfig = [
             {path: 'ticket', component: TicketComponent},
             {path: 'ticket/:id', component: MessageComponent},
             {path: 'report', component: UserReportComponent},
-            {path: 'users', component: UsersComponent},
             {path: 'profile', component: ProfileComponent},
             {path: 'provider', component: ProviderComponent},
             {path: 'provider/info/:id', component: ProviderInfoComponent},

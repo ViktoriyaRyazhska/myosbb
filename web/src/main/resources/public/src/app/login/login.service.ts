@@ -57,7 +57,7 @@ export class LoginService {
     //erasing everything from  local storage
     logOut() {
             localStorage.clear();
-        
+            
     }
 
     //gets UserName from  localStorage

@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core'
-import {User} from "../../../shared/models/User";
+import {User} from "../../../../shared/models/User";
 import {HTTP_PROVIDERS, Http,Headers,Response} from "@angular/http";
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
-import ApiService = require("../../../shared/services/api.service");
+import ApiService = require("../../../../shared/services/api.service");
 
 @Injectable()
 export class UsersService {
