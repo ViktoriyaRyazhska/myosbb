@@ -16,19 +16,19 @@ import {CurrentUserService} from "../../../shared/services/current.user.service"
 })
 export class ProfileComponent implements OnInit {
     currentUser:User;
-    updateUser:User;
+    currentUserService:CurrentUserService;
+    updateUser:User=new User();
     private expToken:string;
     public emailMask = emailMask;
     public textmask=[/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/];
     public phoneMask=['(', /[0]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 
     constructor(private router:Router,private currentUserService:CurrentUserService) {
+        this.currentUser=HeaderComponent.currentUserService.currentUser;
         console.log('constructore');
-        this.currentUser=currentUserService.getUser();
         this.expToken = localStorage.getItem('expires_in');
         this.expToken = new Date(parseInt(this.expToken)).toLocaleString();
-        this.updateUser=new User(this.currentUser);
-        console.log(this.updateUser);
+        console.log(this.currentUser);
     }
     ngOnInit():any{
         this.currentUser.birthDate = new Date(this.currentUser.birthDate).toLocaleDateString();

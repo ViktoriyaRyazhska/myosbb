@@ -75,7 +75,6 @@ export class HeaderComponent implements OnInit,OnDestroy {
         console.log("default lang: ", translate.currentLang);
         console.log("shared sevice: ", HeaderComponent.translateService);
         console.log("shared sevice: ", HeaderComponent.currentUserService);
-
     }
 
     getNotice() {

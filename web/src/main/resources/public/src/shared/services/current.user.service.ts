@@ -12,7 +12,7 @@ export class CurrentUserService {
 
     private _pathUrl=ApiService.serverUrl ;
 
-    private currentUser: User
+    public currentUser: User
 
     constructor(private _loginservice: LoginService) {
         this.currentUser = new User();

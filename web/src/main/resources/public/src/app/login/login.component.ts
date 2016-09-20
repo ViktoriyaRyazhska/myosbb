@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     private logInError:boolean = false;
     public toasterconfig:ToasterConfig = new ToasterConfig({showCloseButton: true, tapToDismiss: true, timeout: 5000});
     forgotEmail = "";
-
+    private decodetToken:any;
     constructor(private _router:Router, private loginService:LoginService
         , private _currentUserService:CurrentUserService, private _toasterService:ToasterService) {
     }
@@ -44,17 +44,22 @@ export class LoginComponent implements OnInit {
                             this._currentUserService.setUser(data);
                             this.model.username = "";
                             this.model.password = "";
-                            this.isLoggedIn = true;                          
+                            this.isLoggedIn = true;
+                          this.decodetToken=LoginComponent.decodeAccessToken(localStorage.getItem("access_token"));
+                        if(this.decodetToken["authorities"][0]==="ROLE_USER") {
                             this._toasterService.pop('success'
                                 , "Congratulation," + this._currentUserService.getUser().firstName + " !"
                                 , 'We glad to see you hare again');
-                               
                             this._router.navigate(['home/wall']);
+                        }
+                            if(this.decodetToken["authorities"][0]==="ROLE_ADMIN"){
+                                this._toasterService.pop('success'
+                                    , "Hail Admin!");
+                                this._router.navigate(['admin']);
+                            }
                         }
                     )
                 }
-               
-
             },
             err => {
                 this.model.password = "";
@@ -65,6 +70,9 @@ export class LoginComponent implements OnInit {
         
  
         
+    }
+    public static decodeAccessToken(access_token:string) {
+        return JSON.parse(window.atob(access_token.split('.')[1]));
     }
 
     private handleErrors(error) {

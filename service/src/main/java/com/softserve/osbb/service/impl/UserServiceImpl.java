@@ -162,4 +162,9 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
+
+    @Override
+    public User update(User user) {
+        return null;
+    }
 }

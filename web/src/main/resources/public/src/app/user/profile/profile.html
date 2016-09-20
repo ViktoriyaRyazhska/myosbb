@@ -81,7 +81,8 @@
                 </div>
                 <div class="col-xs-12">
                     <label class="col-xs-6"><b>Емейл</b></label>
-                    <input [textMask]="{mask:emailMask}" class="form-control placeholder-no-fix" name="email" [(ngModel)]="updateUser.email" placeholder="Введіть свій Email"
+                    <input [textMask]="{mask:emailMask}" class="form-control placeholder-no-fix" name="email"
+                           [(ngModel)]="updateUser.email" placeholder="Введіть свій Email"
                            type="text" required>
                 </div>
                 <div class="col-xs-12">
@@ -92,7 +93,7 @@
                 </div>
                 <div class="col-xs-12">
                     <label for="sel1">Стать</label>
-                    <select class="form-control"  [(ngModel)]="updateUser.gender" id="sel1">
+                    <select class="form-control" [(ngModel)]="updateUser.gender" id="sel1">
                         <option>Чоловік</option>
                         <option>Жінка</option>
                     </select>
