@@ -68,10 +68,7 @@ export class UserApartmentComponent {
     ngOnInit() {
         this.currentUserService=HeaderComponent.currentUserService;
         this.currentUser = this.currentUserService.getUser();
-
-
-       // this.currentUser = this.currentUserService.getUser();
-        //this.currentOsbbId=this.currentOsbbService.getCurrentOsbbId();
+        this.currentOsbbId=this.currentOsbbService.getCurrentOsbbId();
         console.log("curr OSBB ID="+this.currentOsbbId);
         this.getApartmentsByPageNum(this.pageNumber);
         
