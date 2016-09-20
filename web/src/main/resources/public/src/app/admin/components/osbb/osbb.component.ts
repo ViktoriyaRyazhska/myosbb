@@ -5,24 +5,28 @@ import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 
-import {IOsbb, Osbb} from "../../../../shared/models/osbb";
 import { OsbbDTO } from './osbb';
 import { OsbbService } from './osbb.service';
 import { OsbbModalComponent } from './osbb_form/osbb-modal.component';
 import { OsbbDelFormComponent } from './osbb_form/osbb-del-form.component';
 import {CurrentUserService} from "../../../../shared/services/current.user.service";
+import {UrlParserService} from "../../../../shared/services/url.parser.service";
 import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
 import ApiService = require("../../../../shared/services/api.service");
 import {FILE_UPLOAD_DIRECTIVES, FileSelectDirective, FileDropDirective, FileUploader} from "ng2-file-upload/ng2-file-upload";
 
+import {IOsbb, Osbb} from "../../../../shared/models/osbb";
+import fileDownloadPath = require("../../../../shared/services/file.location.path");
+
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/osbb';
+const logoPath = fileDownloadPath.fileDownloadPath;
 
 @Component({
     selector: 'osbb',
     templateUrl: './src/app/admin/components/osbb/osbb.component.html',
     styleUrls: ['./src/app/admin/components/osbb/osbb.component.css', './src/shared/css/general.css'],
-    providers: [OsbbService],
+    providers: [OsbbService, UrlParserService],
     directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, OsbbModalComponent, OsbbDelFormComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
@@ -33,7 +37,7 @@ export class OsbbComponent implements OnInit {
     updatedOsbb:IOsbb;
     order: boolean;
 
-    constructor( private osbbService: OsbbService, private userService:CurrentUserService) { 
+    constructor( private osbbService: OsbbService, private urlParser:UrlParserService, private userService:CurrentUserService) { 
         this.osbbArr = [];
     }
 
@@ -91,6 +95,10 @@ export class OsbbComponent implements OnInit {
 
     getCreationDate(date:Date):string {
         return new Date(date).toLocaleString();
+    }
+
+     parseUrl(path: string): string {
+        return this.urlParser.parseUrl(path);
     }
 
     searchByNameOsbb(osbbName: string) {
