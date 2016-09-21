@@ -35,41 +35,47 @@ export class LoginComponent implements OnInit {
     }
 
     onSubmit() {
-            this.loginService.sendCredentials(this.model).subscribe(
-                data => {
-                    if (!this.loginService.checkLogin()) {
-                        this.tokenParseInLocalStorage(data.json());
-                        this.loginService.sendToken().subscribe(
-                            data=> {
-                                this._currentUserService.setUser(data);
-                                this.model.username = "";
-                                this.model.password = "";
-                                this.isLoggedIn = true;
-                                this._currentUserService.setRole();
-                                console.log(this._currentUserService.getRole());
-                                if (this._currentUserService.getRole() === "ROLE_USER") {
-                                    this._toasterService.pop('success'
-                                        , "Congratulation," + this._currentUserService.getUser().firstName + " !"
-                                        , 'We glad to see you hare again');
-                                    this._router.navigate(['home/wall']);
-                                }
-                                if (this._currentUserService.getRole() === "ROLE_ADMIN") {
-                                    this._toasterService.pop('success'
-                                        , "Hail Admin!");
-                                    this._router.navigate(['admin']);
-                                }
+        this.loginService.sendCredentials(this.model).subscribe(
+            data => {
+                if (!this.loginService.checkLogin()) {
+                    this.tokenParseInLocalStorage(data.json());
+                    this.loginService.sendToken().subscribe(
+                        data=> {
+                            this._currentUserService.setUser(data);
+                            this.model.username = "";
+                            this.model.password = "";
+                            this.isLoggedIn = true;
+                            this._currentUserService.setRole();
+                            console.log(this._currentUserService.getRole());
+                            if (this._currentUserService.getRole() === "ROLE_USER") {
+                                this._toasterService.pop('success'
+                                    , "Congratulation," + this._currentUserService.getUser().firstName + " !"
+                                    , 'We glad to see you hare again');
+                                this._router.navigate(['home/wall']);
                             }
-                        )
-                    }
-                },
-                err => {
-                    this.model.password = "";
-                    this.handleErrors(err);
-                },
-                () => console.log('Sending credentials completed')
-            )
-        }
+                            if (this._currentUserService.getRole() === "ROLE_ADMIN") {
+                                this._toasterService.pop('success'
+                                    , "Hail Admin!");
+                                this._router.navigate(['admin']);
+                            }
+                             if (this._currentUserService.getRole() === "ROLE_MANAGER") {
+                                this._toasterService.pop('success'
+                                    , "Hello manager!");
+                                this._router.navigate(['manager/ticket']);
+                            }
+                        }
+                    )
+                }
+            },
+            err => {
+                this.model.password = "";
+                this.handleErrors(err);
+            },
+            () => console.log('Sending credentials completed')
+        )
 
+
+    }
 
 
     private handleErrors(error) {

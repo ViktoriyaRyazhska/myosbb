@@ -3,12 +3,11 @@ import {CORE_DIRECTIVES,FORM_DIRECTIVES, FormBuilder, Control, ControlGroup, Val
 import { ITicket, Ticket,TicketState} from '../ticket';
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
-import {User} from './../../../../shared/models/user';
+import {User} from './../../user';
 import {CurrentUserService} from "./../../../../shared/services/current.user.service";
 import { TicketService } from './../ticket.service';
 import { TicketFilter } from './../ticket.filter';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
-import {HeaderComponent} from "../../../header/header.component";
 @Component({
     selector: 'ticket-add-form',
     templateUrl: './src/app/user/ticket/ticket_form/ticket-add-form.html',
@@ -38,14 +37,12 @@ export class TicketAddFormComponent implements OnInit {
     private assignTicket:string = '';
     private submitName = false;
     private submitDescription = false;
-    private _currentUserService = null;
 
     constructor(private ticketService:TicketService,
                 private currentUserService:CurrentUserService,
                 private builder:FormBuilder) {
         this.created = new EventEmitter<Ticket>();
-        this._currentUserService = HeaderComponent.currentUserService;
-        this.currentUser = this._currentUserService.getUser();
+
         this.submitAttempt = false;
         this.nameInput = new Control('', Validators.required);
         this.descriptionInput = new Control('', Validators.required);
@@ -60,12 +57,11 @@ export class TicketAddFormComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.getAllUsers()
     }
 
     openAddModal() {
         this.addModal.show();
-        this.getAllUsers();
-
     }
 
     isEmptyName():boolean {
@@ -81,7 +77,7 @@ export class TicketAddFormComponent implements OnInit {
     }
 
     getAllUsers() {
-        return this.ticketService.getAllUsers(this.currentUser.osbb.osbbId)
+        return this.ticketService.getAllUsers()
             .then(userAssignArr => this.userAssignArr = userAssignArr);
     }
 
@@ -112,7 +108,7 @@ export class TicketAddFormComponent implements OnInit {
 
     createTicket():Ticket {
         let ticket = new Ticket(this.nameTicket, this.descriptionTicket, TicketState.NEW);
-        ticket.user = this.currentUser;
+        ticket.user = this.currentUserService.getUser();
         ticket.assigned = this.getAssignedId(this.assignTicket);
         return ticket;
 

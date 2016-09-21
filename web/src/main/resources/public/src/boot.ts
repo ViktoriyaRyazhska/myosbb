@@ -10,11 +10,14 @@ import {CurrentUserService} from "./shared/services/current.user.service";
 import {LoginService}from "./app/login/login.service";
 import {HttpClient} from "./shared/services/HttpClient";
 import {AdminLoginGuard} from "./shared/guard/admin.login.guard";
+import {ManagerLoginGuard} from "./shared/guard/manager.login.guard";
+
  enableProdMode();
 bootstrap(AppComponent,
     [HTTP_PROVIDERS, APP_ROUTER_PROVIDERS,
         ROUTER_DIRECTIVES, CurrentUserService, LoginService,HttpClient,
         AdminLoginGuard,
+        ManagerLoginGuard,
         TranslateService,
         {
             provide: TranslateLoader,

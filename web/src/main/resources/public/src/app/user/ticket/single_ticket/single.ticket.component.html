@@ -113,6 +113,13 @@
                     <a class="link" (click)="createMessage(message.value); message.value='' ">{{'send'|translate}} </a>
                 </button>
             </div>
+
+            <b>{{ 'attachments' | translate | capitalize }}</b>
+                                <div>
+                                    <ul *ngFor="let attachment of ticket.attachments" class="list-inline">
+                                        <li><img src="{{attachment.url}}" alt="empty" height="50" width="60"></li>
+                                    </ul>
+                                </div>
             <!-- Comments -->
             <ul>
                 <li *ngFor="let mess of messages let i=index">

@@ -1,6 +1,8 @@
 import {DatePipe} from '@angular/common' ;
 import {Message} from './single_ticket/message' ;
 import {User} from './../user';
+import {Attachment} from "../../user/attachment/attachment.interface";
+
 export interface ITicket {
     ticketId: number;
     name: string;
@@ -10,6 +12,9 @@ export interface ITicket {
     time:Date;
     user:User;
     assigned:User;
+        attachments:Attachment[];
+
+    
 }
 
 export class Ticket implements ITicket {
@@ -21,6 +26,8 @@ export class Ticket implements ITicket {
     time:Date;
     user:User;
     assigned:User;
+        attachments:Attachment[];
+
 
 
     constructor(name:string, description:string, state:TicketState) {

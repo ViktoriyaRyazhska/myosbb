@@ -30,7 +30,7 @@
                 <div class="form-group"
                      [ngClass]="{'has-error' : isFindAssign() && submitAttempt && !assignInput.valid }">
                     <input class="form-control" type="text" name="assign" list="assign" [(ngModel)]="assignTicket"
-                           placeholder="Enter user name"  (keyup)="assign.value" #assign ngControl="assignInput">
+                           placeholder="Enter user name" (keyup)="assign.value" #assign ngControl="assignInput">
                     <div class="alert alert-danger" *ngIf="submitAttempt && !isFindAssign()">
                         {{'assignErrorTicket'|translate}}
                     </div>
@@ -59,4 +59,3 @@
         </div>
     </div>
 </div>
-
