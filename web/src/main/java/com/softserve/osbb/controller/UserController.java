@@ -90,6 +90,19 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(password));
         return userService.save(user);
     }
+    @RequestMapping(value = "/user/{id}/changeActivation", method = RequestMethod.POST)
+    public User changeUserActivation(@PathVariable Integer id) {
+        User user=userService.getOne(id);
+        if(user.getActivated()){
+            logger.info("Deactivating User with Id:" + id);
+            user.setActivated(false);
+           return userService.update(user);
+        }else{
+            logger.info("Activating User with Id:" + id);
+            user.setActivated(true);
+           return userService.update(user);
+        }
+    }
 
 
     @RequestMapping(value = "/user", method = RequestMethod.DELETE)

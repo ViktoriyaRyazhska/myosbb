@@ -11,3 +11,7 @@
 .usersmain{
     margin-left: 210px;
 }
+.activated:hover {
+    color:#FFD777;
+    text-shadow:0 0 2px #000;
+}

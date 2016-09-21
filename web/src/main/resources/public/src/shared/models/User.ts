@@ -25,5 +25,5 @@ export class User {
         this.password = new Number();
         this.activated = new Boolean();
         this.role = new String();
-    
+    }
 }

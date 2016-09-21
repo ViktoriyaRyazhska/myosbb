@@ -37,21 +37,26 @@ export class UsersComponent implements OnInit {
     }
 
     updateUser(user:User) {
-        this._userService.updateUser(user).subscribe(()=>this.router.navigate(['/users']));
+        this._userService.updateUser(user).subscribe(()=>this.router.navigate(['admin/users']));
     }
 
     deleteUser(user:User) {
-        this._userService.deleteUser(user).subscribe(()=>this.userList.splice(this.userList.indexOf(user,0),1));
+        this._userService.deleteUser(user).subscribe(()=>this.userList.splice(this.userList.indexOf(user, 0), 1));
     }
 
     saveUser() {
-     let user:User={firstName:this.userForm.value.firstName,
-            lastName:this.userForm.value.lastName ,
-            email:this.userForm.value.email ,
-            phoneNumber:this.userForm.value.phoneNumber,
-            gender:this.userForm.value.gender,
-            birthDate:this.userForm.value.birthDate,
-            password:this.userForm.value.password};
+        let user:User = this.userForm;
         this._userService.saveUser(user).subscribe((data)=>this.userList.push(data));
+    }
+
+    public changeActivation(user:User) {
+        this._userService.changeActivation(user).subscribe(
+            data=> {
+                user.activated?user.activated=false:user.activated=true
+            },
+            error=> {
+                console.log(error);
+            }
+        )
     }
 }
