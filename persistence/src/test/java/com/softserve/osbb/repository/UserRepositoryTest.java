@@ -15,7 +15,9 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -52,7 +54,7 @@ public class UserRepositoryTest extends Assert {
         user.setPassword("1111");
         user.setGender("JuniorJavaDev");
         user.setPhoneNumber("+380679167305");
-        user.setBirthDate(new java.util.Date(System.currentTimeMillis()));
+        user.setBirthDate(new Timestamp(new Date().getTime()));
 
         user2 = new User();
         user2.setFirstName("Oleg");
@@ -61,7 +63,7 @@ public class UserRepositoryTest extends Assert {
         user2.setPassword("1111");
         user2.setGender("JuniorJavaDev");
         user2.setPhoneNumber("+380679167305");
-        user2.setBirthDate(new java.util.Date(System.currentTimeMillis()));
+        user2.setBirthDate(new Timestamp(new Date().getTime()));
     }
 
     @Test

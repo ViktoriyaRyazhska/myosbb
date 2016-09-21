@@ -93,38 +93,7 @@ public class BasicController {
         }
     }
 
-    @Autowired
-    TicketService ticketService;
 
-    @RequestMapping(value = "/sendEmailAssign", method = RequestMethod.POST)
-    public HttpStatus sendEmailAssignTicket(@RequestBody Integer ticketId) throws MessagingException {
-        Ticket ticket = ticketService.findOne(ticketId);
-        logger.info("Send sendEmailAssignTicket " + ticket.getUser().getEmail());
-
-        if (ticket.getAssigned().getEmail() != null) {
-            sender.send(ticket.getAssigned().getEmail(), "My-osbb. You selected responsible.", "Name ticket: " + ticket.getName() +
-                    " To see more information, click on link: " + "\n"
-                    + serverUrl + "home/user/ticket" + ticket.getTicketId());
-            return HttpStatus.ACCEPTED;
-        }
-        return HttpStatus.NOT_FOUND;
-    }
-
-    @RequestMapping(value = "/sendEmailState", method = RequestMethod.POST)
-    public HttpStatus sendEmailStateTicket(@RequestBody Integer ticketId) throws MessagingException {
-
-        Ticket ticket = ticketService.findOne(ticketId);
-        logger.info("Send sendEmailStateTicket " + ticket.getUser().getEmail());
-        if (ticket.getUser().getEmail() != null) {
-            sender.send(ticket.getAssigned().getEmail(), "My-osbb. Change state of your ticket.", "Name ticket: " + ticket.getName() +
-                    " New status: " + ticket.getState() + "\n" +
-                    " To see more information, click on link: " + serverUrl +
-                    "home/user/ticket" + ticket.getTicketId());
-            return HttpStatus.ACCEPTED;
-        }
-        return HttpStatus.NOT_FOUND;
-
-    }
 }
 
 

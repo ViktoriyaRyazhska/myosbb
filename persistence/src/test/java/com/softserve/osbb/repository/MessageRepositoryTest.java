@@ -37,7 +37,7 @@ public class MessageRepositoryTest {
         message = new Message();
 
         user = new User();
-        user.setBirthDate(new Date());
+        user.setBirthDate(new Timestamp(new Date().getTime()));
         user.setEmail("blabla@gmail.com");
         user.setFirstName("Vanya");
         user.setLastName("Popov");

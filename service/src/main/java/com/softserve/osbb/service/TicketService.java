@@ -1,5 +1,6 @@
 package com.softserve.osbb.service;
 
+import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Report;
 import com.softserve.osbb.model.Ticket;
 import com.softserve.osbb.model.User;
@@ -61,9 +62,9 @@ public interface TicketService {
 
     Page<Ticket> getAllTickets(PageRequest pageRequest);
 
-    Page<Ticket> getTicketsByName(String name,PageRequest pageRequest);
+    Page<Ticket> getTicketsByName(String name, Integer osbbId,PageRequest pageRequest);
 
-    Page<Ticket> getTicketsByState(TicketState ticketState, PageRequest pageRequest);
+    Page<Ticket> getTicketsByState(User user,TicketState ticketState, PageRequest pageRequest);
 
     Page<Ticket> getTicketsByUser(User user, PageRequest pageRequest);
 
@@ -73,6 +74,7 @@ public interface TicketService {
 
     Page<Ticket> findTicketsByStateAndAssign(TicketState state, User user, PageRequest pageRequest);
 
+    Page<Ticket> findByOsbb(Integer osbbId,PageRequest pageRequest);
 
 
 

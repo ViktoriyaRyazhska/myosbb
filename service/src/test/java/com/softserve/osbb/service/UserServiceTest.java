@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
 
 
@@ -36,7 +39,7 @@ public class UserServiceTest {
         user.setPassword("1111");
         user.setGender("male");
         user.setPhoneNumber("+380679167305");
-        user.setBirthDate(new java.util.Date(System.currentTimeMillis()));
+        user.setBirthDate(new Timestamp(new Date().getTime()));
     }
 
 

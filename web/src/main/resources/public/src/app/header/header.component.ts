@@ -12,7 +12,7 @@ import {CapitalizeFirstLetterPipe} from "../../shared/pipes/capitalize-first-let
 import { MODAL_DIRECTIVES } from 'ng2-bs3-modal';
 import {Notice,NoticeType} from './notice';
 import {NoticeService} from './header.notice.service';
-import {User} from './../user/user';
+import {User} from "../../shared/models/User";
 import {TimerWrapper} from '@angular/core/src/facade/async';
 import {Observable} from "rxjs/Observable";
 import {Router} from '@angular/router';

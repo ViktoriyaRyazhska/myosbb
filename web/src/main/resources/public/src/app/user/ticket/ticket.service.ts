@@ -5,7 +5,7 @@ import "rxjs/add/operator/toPromise";
 import ApiService = require("../../../shared/services/api.service");
 import {User} from './../user';
 import {ITicket,TicketState} from './ticket';
-import {PageRequest} from './page.request';
+import {PageRequest} from '../../../shared/models/page.request';
 import {Observable} from "rxjs/Observable";
 import {Mail} from "../../../shared/models/mail.interface";
 
@@ -18,7 +18,7 @@ export class TicketService {
     private putUrl:string = ApiService.serverUrl + '/restful/ticket';
     private getUrl:string = ApiService.serverUrl + '/restful/ticket';
     private getOneUrl:string = ApiService.serverUrl + '/restful/ticket';
-    private getAssignUser:string = ApiService.serverUrl + '/restful/user/assigned';
+    private getAssignUser:string = ApiService.serverUrl + '/restful/user/osbb/';
     private getTicketByPage:string = ApiService.serverUrl + '/restful/ticket/page';
     private getUsers:string = ApiService.serverUrl + '/restful/user';
     private findTicketByName:string = ApiService.serverUrl + '/restful/ticket/findName';
@@ -35,16 +35,16 @@ export class TicketService {
     }
 
     sendMailAssign(mail:Mail) {
-        console.log("sending http POST to " + this.sendEmailAssignUrl);
-        console.log("json obj: ", JSON.stringify(mail));
         return this.http.post(this.sendEmailAssignUrl, JSON.stringify(mail))
             .toPromise()
             .then(()=>mail)
             .catch((err)=>console.error(err));
     }
 
-    getTicketsByPage(pageRequest:PageRequest):Observable<any> {
-        return this.http.post(this.getTicketByPage, JSON.stringify(pageRequest))
+    getTicketsByPage(osbbId:number,pageRequest:PageRequest):Observable<any> {
+        
+        let url = `${this.getTicketByPage}/${osbbId}`;
+        return this.http.post(url, JSON.stringify(pageRequest))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
@@ -55,8 +55,8 @@ export class TicketService {
             .catch((error)=>Observable.throw(error));
     }
 
-    findByNameDescription(pageRequest:PageRequest, findName:string):Observable<any> {
-        return this.http.post(this.findTicketByName + '?find=' + findName, JSON.stringify(pageRequest))
+    findByNameDescription(pageRequest:PageRequest, osbbId:number, findName:string):Observable<any> {
+        return this.http.post(`${this.findTicketByName}/${osbbId}` + '?find=' + findName, JSON.stringify(pageRequest))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
@@ -86,8 +86,8 @@ export class TicketService {
             .catch(this.handleError);
     }
 
-    getAllUsers():Promise<User[]> {
-        return this.http.get(this.getUsers)
+    getAllUsers(osbbId:number):Promise<User[]> {
+        return this.http.get(`${this.getUsers}/${osbbId}`)
             .toPromise()
             .then(res => res.json())
             .catch(this.handleError);

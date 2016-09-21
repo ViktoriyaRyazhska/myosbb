@@ -19,7 +19,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Router} from '@angular/router';
 import {Subscription} from "rxjs";
 import {CurrentUserService} from "./../../../../shared/services/current.user.service";
-import {User} from './../../user';
+import {User} from './../../../../shared/models/User';
 import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
 import {PageCreator} from "../../../../shared/services/page.creator.interface";
 import {TranslatePipe} from "ng2-translate/ng2-translate";
@@ -29,7 +29,8 @@ import {
     onErrorResourceNotFoundToastMsg,
     onErrorServerNoResponseToastMsg
 } from "../../../../shared/error/error.handler.component";
-import {PageRequest} from './../page.request';
+import {PageRequest} from '../../../../shared/models/page.request';
+
 @Component({
     selector: 'ticket',
     templateUrl: './src/app/user/ticket/single_ticket/single.ticket.component.html',
@@ -56,7 +57,7 @@ export class MessageComponent implements OnInit {
     private pageList:Array<number> = [];
     private totalPages:number;
     private pending = false;
-    private selectedRow:number = 2;
+    private selectedRow:number = 5;
     private order:boolean = false;
     private answerText = '';
     private dates:string[] = [];
@@ -160,6 +161,7 @@ export class MessageComponent implements OnInit {
     }
 
     createMessage(text:string):void {
+        if(text.length > 0){
         if (this.message.messageId == null) {
             console.log("create");
             this.message.message = text;
@@ -173,6 +175,7 @@ export class MessageComponent implements OnInit {
             console.log("update");
             this.editMessage(text);
         }
+    }
     }
 
     editMessage(text:string) {
@@ -271,6 +274,8 @@ export class MessageComponent implements OnInit {
         this.message = new Message("");
         this.message.parentId = parentMessage.messageId;
         this.message.user = this.currentUser;
+        console.log("ANSWER ID PARRENT"+ this.message.parentId);        
+        
     }
 
     createAnswer(text:string) {
@@ -279,8 +284,7 @@ export class MessageComponent implements OnInit {
             console.log("create");
             this.message.user = this.currentUserService.getUser();
             this.messageService.addAnswer(this.message)
-                .then(message => this.addAnswerToMessage(message))
-                .then(this.message.parentId = null);
+                .then(message => this.addAnswerToMessage(message));
         }
         else {
             console.log("update");
@@ -319,6 +323,7 @@ export class MessageComponent implements OnInit {
                 this.messages[i].answers.unshift(message);
             }
         }
+        this.message.parentId = null;
     }
 
     isAnswer(id:number):boolean {

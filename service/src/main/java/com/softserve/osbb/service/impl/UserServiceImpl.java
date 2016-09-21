@@ -1,5 +1,6 @@
 package com.softserve.osbb.service.impl;
 
+import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Role;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.repository.RoleRepository;
@@ -161,6 +162,11 @@ public class UserServiceImpl implements UserService {
         } catch (IndexOutOfBoundsException e) {
             return null;
         }
+    }
+
+    @Override
+    public List<User> getUsersByOsbb(Osbb osbb) {
+        return userRepository.findByOsbb(osbb);
     }
 
     @Override

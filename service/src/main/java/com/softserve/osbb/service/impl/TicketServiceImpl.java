@@ -1,5 +1,6 @@
 package com.softserve.osbb.service.impl;
 
+import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Ticket;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.model.enums.TicketState;
@@ -143,13 +144,13 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Page<Ticket> getTicketsByName(String name, PageRequest pageRequest) {
-        return ticketRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(name, name, pageRequest);
+    public Page<Ticket> getTicketsByName(String name, Integer osbbId, PageRequest pageRequest) {
+        return ticketRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(name, osbbId,pageRequest);
     }
 
     @Override
-    public Page<Ticket> getTicketsByState(TicketState ticketState, PageRequest pageRequest) {
-        return ticketRepository.findByState(ticketState, pageRequest);
+    public Page<Ticket> getTicketsByState(User user, TicketState ticketState, PageRequest pageRequest) {
+        return ticketRepository.findByState(user.getOsbb().getOsbbId(),ticketState, pageRequest);
 
     }
 
@@ -169,7 +170,7 @@ public class TicketServiceImpl implements TicketService {
             return ticketRepository.findTicketsByUser(user, pageRequest) ;
         }
         else{
-            return ticketRepository.findTicketsByStateAndUser(state, user, pageRequest) ;
+            return ticketRepository.findTicketsByStateAndUser(state, user.getUserId(), pageRequest) ;
 
         }
     }
@@ -180,9 +181,14 @@ public class TicketServiceImpl implements TicketService {
             return ticketRepository.findTicketsByAssigned(user, pageRequest) ;
         }
         else{
-            return ticketRepository.findTicketsByStateAndAssigned(state, user, pageRequest) ;
+            return ticketRepository.findTicketsByStateAndAssigned(state, user.getUserId(), pageRequest) ;
 
         }
+    }
+
+    @Override
+    public Page<Ticket> findByOsbb(Integer osbbId, PageRequest pageRequest) {
+        return ticketRepository.findByOsbb(osbbId,pageRequest);
     }
 
 

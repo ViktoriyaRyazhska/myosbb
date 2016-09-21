@@ -14,7 +14,7 @@
                     <textarea class="form-control" [(ngModel)]="nameTicket" type="text" name="name"
                               placeholder="Enter name" ngControl="nameInput" required></textarea>
                     <div class="alert alert-danger"
-                         *ngIf="submitAttempt &&  !isEmptyName() ">
+                         *ngIf="submitAttempt &&  isEmptyName() ">
                         {{'nameErrorTicket'|translate}}
                     </div>
                 </div>
@@ -22,7 +22,8 @@
                     <textarea class="form-control" style="min-height:150px; min-weight:300px"
                               [(ngModel)]="descriptionTicket" type="text" name="description"
                               placeholder="Enter description " ngControl="descriptionInput" required></textarea>
-                    <div class="alert alert-danger" *ngIf="submitAttempt &&  !isEmptyDescription() ">
+                    <div class="alert alert-danger" 
+                        *ngIf="submitAttempt &&  isEmptyDescription() ">
                         {{'descrErrorTicket'|translate}}
                     </div>
                     <br>
@@ -33,7 +34,7 @@
                 <div class="form-group"
                      [ngClass]="{'has-error' : isFindAssign() && submitAttempt && !assignInput.valid }">
                     <input class="form-control" type="text" name="assign" list="assign" [(ngModel)]="assignTicket"
-                           placeholder="Enter user name" (keyup)="assign.value" #assign ngControl="assignInput">
+                           placeholder="Enter user name" (click)="getAllUsers()" (keyup)="assign.value" #assign ngControl="assignInput">
                     <div class="alert alert-danger" *ngIf="submitAttempt && !isFindAssign()">
                         {{'assignErrorTicket'|translate}}
                     </div>

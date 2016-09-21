@@ -2,6 +2,7 @@ package com.softserve.osbb.dto;
 
 import com.softserve.osbb.model.Message;
 import com.softserve.osbb.model.Ticket;
+import com.softserve.osbb.model.User;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class MessageDTO {
     private String message;
     private Timestamp time;
     private Ticket ticket;
-    private UserDTO user;
+    private User user;
     private Collection<Message> answers = new ArrayList<>();
 
     public Integer getMessageId() {
@@ -59,11 +60,11 @@ public class MessageDTO {
         this.ticket = ticket;
     }
 
-    public UserDTO getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserDTO user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

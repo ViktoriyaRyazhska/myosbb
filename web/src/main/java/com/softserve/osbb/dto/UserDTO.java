@@ -1,5 +1,6 @@
 package com.softserve.osbb.dto;
 
+import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Role;
 import com.softserve.osbb.model.User;
 
@@ -16,6 +17,7 @@ public class UserDTO {
     private String email;
     private String phoneNumber;
     private String password;
+    private Osbb osbb;
     private String gender;
     private String role;
     private Boolean activated;
@@ -40,6 +42,7 @@ public class UserDTO {
         this.gender = user.getGender();
         this.role=user.getRole().getAuthority();
         this.activated=user.getActivated();
+        this.osbb = user.getOsbb();
     }
 
     public Integer getUserId() {
@@ -112,6 +115,14 @@ public class UserDTO {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Osbb getOsbb() {
+        return osbb;
+    }
+
+    public void setOsbb(Osbb osbb) {
+        this.osbb = osbb;
     }
 
     public Boolean getActivated() {

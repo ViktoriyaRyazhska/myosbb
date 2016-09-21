@@ -3,11 +3,12 @@ import {CORE_DIRECTIVES,FORM_DIRECTIVES, FormBuilder, Control, ControlGroup, Val
 import { ITicket,Ticket,TicketState} from '../ticket';
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
-import {User} from './../../user';
+import {User} from './../../../../shared/models/user';
 import {CurrentUserService} from "./../../../../shared/services/current.user.service";
 import { TicketService } from './../ticket.service';
 import { TicketFilter } from './../ticket.filter';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
+import {HeaderComponent} from "../../../header/header.component";
 @Component({
     selector: 'ticket-edit-form',
     templateUrl: './src/app/user/ticket/ticket_form/ticket-edit-form.html',
@@ -24,27 +25,29 @@ export class TicketEditFormComponent implements OnInit {
     editModal:ModalDirective;
     states:string[];
 
-    stateTicket = "NEW";
-    userAssignArr:User[] = [];
-    assign:User;
-    creatingForm:ControlGroup;
-    nameInput:Control;
-    descriptionInput:Control;
-    assignInput:Control;
-    submitAttempt:boolean;
-    nameTicket:string = '';
-    descriptionTicket:string = '';
-    assignTicket:string = '';
+    private stateTicket = "NEW";
+    private userAssignArr:User[] = [];
+    private assign:User;
+    private creatingForm:ControlGroup;
+    private nameInput:Control;
+    private descriptionInput:Control;
+    private assignInput:Control;
+    private submitAttempt:boolean = false;
+    private nameTicket:string = '';
+    private descriptionTicket:string = '';
+    private assignTicket:string = '';
+    private currentUser:User;
+    private _currentUserService = null;
 
     constructor(private ticketService:TicketService,
-                private currentUserService:CurrentUserService,
                 private builder:FormBuilder) {
+        this._currentUserService = HeaderComponent.currentUserService;
+        this.currentUser = this._currentUserService.getUser();
         this.ticket = new Ticket("", "", TicketState.NEW);
         this.update = new EventEmitter<Ticket>();
         this.states = ["NEW", "IN_PROGRESS", "DONE"];
         this.assign = new User();
         this.ticket.assigned = new User();
-        this.submitAttempt = false;
         this.nameInput = new Control('', Validators.minLength(20));
         this.descriptionInput = new Control('', Validators.minLength(60));
         this.assignInput = new Control('', Validators.required);
@@ -59,20 +62,21 @@ export class TicketEditFormComponent implements OnInit {
 
     openEditModal() {
         this.editModal.show();
+        this.getAllUsers();
     }
 
 
     ngOnInit() {
-        this.getAllUsers();
     }
 
-     isEmptyName():boolean {
+    isEmptyName():boolean {
         return this.nameTicket.length >=10 ? false : true;
     }
 
     isEmptyDescription():boolean {
         return this.descriptionTicket.length >= 20 ? false : true;
     }
+   
 
     isFindAssign():boolean {
         if (this.getAssignedId(this.assignTicket) == null) {
@@ -83,7 +87,7 @@ export class TicketEditFormComponent implements OnInit {
 
 
     getAllUsers() {
-        return this.ticketService.getAllUsers()
+        return this.ticketService.getAllUsers(this.currentUser.osbb.osbbId)
             .then(userAssignArr => this.userAssignArr = userAssignArr);
     }
 
@@ -137,7 +141,7 @@ export class TicketEditFormComponent implements OnInit {
         console.log("edit ticket");
         let ticket = new Ticket(this.nameTicket, this.descriptionTicket, TicketState.NEW);
         ticket.ticketId = this.ticket.ticketId;
-        ticket.user = this.currentUserService.getUser();
+        ticket.user = this.currentUser;
         ticket.assigned = this.getAssignedId(this.assignTicket);
         ticket.state = this.editState(this.stateTicket);
         console.log("edit state  "+ this.stateTicket);

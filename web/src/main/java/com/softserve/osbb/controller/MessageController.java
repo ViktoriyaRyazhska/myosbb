@@ -59,11 +59,9 @@ public class MessageController {
         try {
             User user = userService.findOne(message.getUser().getUserId());
             message.setUser(user);
-            logger.info("User mes " + user.getUserId());
 
             Ticket ticket = ticketService.findOne(ticketId);
             message.setTicket(ticket);
-            logger.info("Ticket mes " + ticket.getTicketId());
 
             Settings settings = settingsService.findByUser(ticket.getUser());
             if (settings.getComment()) {
@@ -77,10 +75,10 @@ public class MessageController {
             message = messageService.save(message);
 
             messageResource = addResourceLinkToMessage(message);
-            logger.info("Saving message object " + message.toString());
+            logger.info("Saving message object " + message.getMessageId());
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
         }
         return new ResponseEntity<>(messageResource, HttpStatus.OK);
     }
@@ -105,7 +103,7 @@ public class MessageController {
             logger.info("Saving answer object " + message.getMessageId());
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
         }
         return new ResponseEntity<>(messageResource, HttpStatus.OK);
     }
@@ -147,8 +145,10 @@ public class MessageController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Message> deleteMessageById(@PathVariable("id") Integer messageId) {
-        logger.info("Removing message by id: " + messageId);
+        logger.info("Removing answers and message by id: " + messageId);
+        List<Message> answers = messageService.getAnswers(messageId);
         messageService.delete(messageId);
+        messageService.delete(answers);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

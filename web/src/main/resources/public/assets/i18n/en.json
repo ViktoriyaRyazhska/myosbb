@@ -195,7 +195,7 @@
   "changeStatusN":"Status was changed",
   "youAssigned":"You were assigned",
   "answerNotice":"Answer to your comment",
-  "commentNotice":"Comment to your ticket"
+  "commentNotice":"Comment to your ticket",
   "settings":"settings",
   "deleteOsbb":"Type name of the osbb to confirm",
   "osbbNameError":"Wrong OSBB name",

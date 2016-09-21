@@ -1,5 +1,6 @@
 package com.softserve.osbb.service;
 
+import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,6 +58,8 @@ public interface UserService {
     public List<User> save(Iterable<User> iterable) ;
 
     public User findUserByEmail(String email);
+
+    public List<User> getUsersByOsbb(Osbb osbb);
 
     public User update(User user);
 

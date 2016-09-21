@@ -18,11 +18,11 @@ import {Router} from '@angular/router';
 import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
 import {RouteConfig, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
-import {User} from './../user';
+import {User} from "../../../shared/models/User";
 import {CurrentUserService} from "./../../../shared/services/current.user.service";
 import {Notice} from './../../header/notice';
 import {NoticeService} from './../../header/header.notice.service';
-import {PageRequest} from './page.request';
+import {PageRequest} from '../../../shared/models/page.request';
 import {HeaderComponent} from "../../header/header.component";
 import {ToasterContainerComponent, ToasterService} from "angular2-toaster/angular2-toaster";
 import {
@@ -65,16 +65,14 @@ export class TicketComponent implements OnInit {
 
     constructor(private ticketService:TicketService,
                 private messageComponent:MessageComponent,
-                private currentUserService:CurrentUserService,
                 private _toasterService:ToasterService,
                 private router:Router) {
         this._currentUserService = HeaderComponent.currentUserService;
-        this.currentUser = this._currentUserService.getUser();
+        this.currentUser = this._currentUserService.getUser();        
     }
 
     ngOnInit() {
         this.getTicketsByPageNum(this.pageNumber, this.selectedRow);
-
     }
 
     initUpdatedTicket(ticket:ITicket):void {
@@ -124,7 +122,7 @@ export class TicketComponent implements OnInit {
     }
     
   getTicketsByPageNum(pageNumber:number, selectedRow:number) {
-        console.log("getTicketsByPageNum");
+        console.log("getTicketsByPageNum " + this.pageNumber);
         this.pageNumber = +pageNumber;
         this.pending = true;
         this.selectedRow = +selectedRow;
@@ -132,7 +130,7 @@ export class TicketComponent implements OnInit {
         this.emailAssign = '';
         this.status = '';
         this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow, this.nameSort, this.order);
-        return this.ticketService.getTicketsByPage(this.pageRequest)
+        return this.ticketService.getTicketsByPage(this.currentUser.osbb.osbbId, this.pageRequest)
             .subscribe((data) => {
                     this.pending = false;
                     this.pageCreator = data;
@@ -152,7 +150,7 @@ export class TicketComponent implements OnInit {
         console.log("findTicketByName"); 
         this.pending = true;
         this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow, this.nameSort, this.order);
-        return this.ticketService.findByNameDescription(this.pageRequest, name)
+        return this.ticketService.findByNameDescription(this.pageRequest,this.currentUser.osbb.osbbId, name)
             .subscribe((data) => {
                     this.pending = false;
                     this.pageCreator = data;

@@ -22,9 +22,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -244,13 +246,14 @@ public class TicketController {
     }
 
 
-    @RequestMapping(value = "/findName", method = RequestMethod.POST)
+    @RequestMapping(value = "/findName/{id}", method = RequestMethod.POST)
     public ResponseEntity<TicketPageDataObject> listTicketsByName(@RequestBody PageRequestGenerator.PageRequestHolder requestHolder,
-                                                                  @RequestParam(value = "find") String findName) {
+                                                                  @RequestParam(value = "find") String findName,
+                                                                  @PathVariable("id") Integer osbbId) {
         logger.info("get tickets by name: " + findName);
         final PageRequest pageRequest = new PageRequestGenerator(requestHolder)
                 .toPageRequest();
-        Page<Ticket> ticketsByPage = ticketService.getTicketsByName(findName, pageRequest);
+        Page<Ticket> ticketsByPage = ticketService.getTicketsByName(findName,osbbId, pageRequest);
         PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(ticketsByPage);
         EntityResourceList<Ticket> ticketResourceLinkList = new TicketResourceList();
         ticketsByPage.forEach((ticket) -> ticketResourceLinkList.add(toResource(ticket)));
@@ -261,11 +264,13 @@ public class TicketController {
 
     @RequestMapping(value = "/state", method = RequestMethod.POST)
     public ResponseEntity<TicketPageDataObject> listTicketsByState(@RequestBody PageRequestGenerator.PageRequestHolder requestHolder,
-                                                                   @RequestParam(value = "findName") TicketState ticketState) {
+                                                                   @RequestParam(value = "findName") TicketState ticketState,
+                                                                   @AuthenticationPrincipal Principal user ) {
         logger.info("get tickets by state: " + ticketState);
         final PageRequest pageRequest = new PageRequestGenerator(requestHolder)
                 .toPageRequest();
-        Page<Ticket> ticketsByPage = ticketService.getTicketsByState(ticketState, pageRequest);
+        User currentUser=userService.findUserByEmail(user.getName());
+        Page<Ticket> ticketsByPage = ticketService.getTicketsByState(currentUser,ticketState, pageRequest);
         PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(ticketsByPage);
         EntityResourceList<Ticket> ticketResourceLinkList = new TicketResourceList();
         ticketsByPage.forEach((ticket) -> ticketResourceLinkList.add(toResource(ticket)));
@@ -295,18 +300,20 @@ public class TicketController {
         PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(ticketsByPage);
         EntityResourceList<Ticket> ticketResourceLinkList = new TicketResourceList();
         ticketsByPage.forEach((ticket) -> ticketResourceLinkList.add(toResource(ticket)));
+        logger.info("get tickets by user and state: " + ticketsByPage.getTotalElements());
 
         TicketPageDataObject pageCreator = (TicketPageDataObject) PageDataUtil.providePageData(TicketPageDataObject.class, pageSelector, ticketResourceLinkList);
         return new ResponseEntity<>(pageCreator, HttpStatus.OK);
     }
 
 
-    @RequestMapping(value = "/page", method = RequestMethod.POST)
-    public ResponseEntity<TicketPageDataObject> listAllTickets(@RequestBody PageRequestGenerator.PageRequestHolder requestHolder) {
+    @RequestMapping(value = "/page/{id}", method = RequestMethod.POST)
+    public ResponseEntity<TicketPageDataObject> listAllTickets(@RequestBody PageRequestGenerator.PageRequestHolder requestHolder,
+                                                               @PathVariable("id") Integer osbbId  ) {
         logger.info("get all tickets by page number: " + requestHolder.getPageNumber());
         final PageRequest pageRequest = new PageRequestGenerator(requestHolder)
                 .toPageRequest();
-        Page<Ticket> ticketsByPage = ticketService.getAllTickets(pageRequest);
+        Page<Ticket> ticketsByPage = ticketService.findByOsbb(osbbId, pageRequest);
         PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(ticketsByPage);
         EntityResourceList<Ticket> ticketResourceLinkList = new TicketResourceList();
         ticketsByPage.forEach((ticket) -> ticketResourceLinkList.add(toResource(ticket)));

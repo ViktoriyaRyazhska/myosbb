@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -23,7 +24,7 @@ public class User implements Serializable {
     private Integer userId;
     private String firstName;
     private String lastName;
-    private Date birthDate;
+    private Timestamp birthDate;
     private String email;
     private String phoneNumber;
     private String password;
@@ -96,11 +97,11 @@ public class User implements Serializable {
 
     @Basic
     @Column(name = "birth_date")
-    public Date getBirthDate() {
+    public Timestamp getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(Timestamp birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -155,7 +156,6 @@ public class User implements Serializable {
     }
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JsonIgnore
     public Role getRole() {
         return role;
     }

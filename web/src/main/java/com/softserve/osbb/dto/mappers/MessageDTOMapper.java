@@ -21,7 +21,7 @@ public class MessageDTOMapper {
             messageDTO.setMessage(message.getMessage());
             messageDTO.setAnswers(answerList);
             messageDTO.setTime(message.getTime());
-            messageDTO.setUser(new UserDTOMapper().mapUserEntityToDTO(message.getUser()));
+            messageDTO.setUser(message.getUser());
         }
         return messageDTO;
     }
