@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Http, Headers} from "@angular/http";
+import { OsbbDTO } from './osbb';
 
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
@@ -22,6 +23,26 @@ export class OsbbService {
                  .toPromise()
                  .then(res => res.json())
                  .catch(this.handleError);
+    }
+
+    public upload(file: File): Promise<Attachment> {
+        return new Promise((resolve, reject) => {
+            let formData: FormData = new FormData(),
+                xhr: XMLHttpRequest = new XMLHttpRequest();
+            formData.append("file", file, file.name);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        resolve(JSON.parse(xhr.response));
+                    } else {
+                        reject(xhr.response);
+                    }
+                }
+            };
+            xhr.open('POST', attachmentUploadUrl + '/logo', true);
+            xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem("access_token"));
+            xhr.send(formData);
+        });
     }
 
      getByAvailable(available:boolean): Promise<IOsbb[]> {

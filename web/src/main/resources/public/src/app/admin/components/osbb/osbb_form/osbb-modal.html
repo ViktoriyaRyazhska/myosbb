@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="logo"><img class="image" alt="empty" height="230" width="270" #img/></div>
-                        <input id="imgInp" type="file" accept='image/*' (change)="showLogo($event)" ng2FileSelect [uploader]="uploader" #inputLogo/>
+                        <input id="imgInp" type="file" accept='image/*' (change)="showLogo($event)" #inputLogo/>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6">
                         <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !nameControl.valid }">
@@ -47,7 +47,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" (click)="modalWindow.hide();clearForm()">{{'cancel' | translate | capitalize}}</button>
-                <button type="button" (click)="saveButtonAction();inputLogo.value='';img.src=''" class="btn btn-default">
+                <button type="button" (click)="saveButtonAction(inputLogo);inputLogo.value='';img.src=''" class="btn btn-default">
                     {{'save' | translate | capitalize}}
                 </button>
             </div>

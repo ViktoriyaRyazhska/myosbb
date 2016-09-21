@@ -5,14 +5,13 @@ import { OsbbDTO } from '../osbb';
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {TranslatePipe} from "ng2-translate";
-import {FILE_UPLOAD_DIRECTIVES, FileSelectDirective, FileDropDirective, FileUploader} from "ng2-file-upload/ng2-file-upload";
 import {CapitalizeFirstLetterPipe} from "../../../../../shared/pipes/capitalize-first-letter";
 
 @Component({
     selector: 'osbb-modal',
     templateUrl: './src/app/admin/components/osbb/osbb_form/osbb-modal.html',
     styleUrls: ['./src/app/admin/components/osbb/osbb_form/osbb-modal.css', './src/shared/css/general.css'],
-    directives:[FILE_UPLOAD_DIRECTIVES, MODAL_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES, FileSelectDirective, FileDropDirective],
+    directives:[MODAL_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
 })
@@ -23,8 +22,6 @@ export class OsbbModalComponent implements OnInit{
     
     @ViewChild('modalWindow')
     modalWindow:ModalDirective;
-
-   public uploader:FileUploader = new FileUploader("");
 
     osbb:IOsbb;
     isEditing:boolean;
@@ -89,7 +86,7 @@ export class OsbbModalComponent implements OnInit{
         this.modalWindow.show();
     }
     
-    saveButtonAction():void {
+    saveButtonAction(fileInput:any):void {
          this.submitAttempt = true;
          if(this.nameControl.valid && this.descriptionControl.valid 
                                 && this.addressControl.valid && this.districtControl.valid) {
@@ -99,7 +96,8 @@ export class OsbbModalComponent implements OnInit{
             } else {
                let osbbDTO = new OsbbDTO();
                osbbDTO.osbb = this.createOsbb();
-               osbbDTO.logo = this.uploader;
+               let fileList: FileList = fileInput.files;
+               osbbDTO.file =  fileList.item(0);
                this.created.emit(osbbDTO);
             }
             this.modalWindow.hide();

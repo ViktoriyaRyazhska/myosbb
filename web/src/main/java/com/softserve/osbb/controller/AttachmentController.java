@@ -1,6 +1,7 @@
 package com.softserve.osbb.controller;
 
 import com.softserve.osbb.model.Attachment;
+import com.softserve.osbb.model.enums.AttachmentType;
 import com.softserve.osbb.service.AttachmentService;
 import com.softserve.osbb.util.paging.PageDataObject;
 import org.slf4j.Logger;
@@ -54,6 +55,26 @@ public class AttachmentController {
             }
         } else {
             logger.warn("Cannot upload file " + file.getOriginalFilename() + " because it is empty.");
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @RequestMapping(value = "/logo", method = RequestMethod.POST)
+    public ResponseEntity<Resource<Attachment>> uploadLogo(@RequestParam("file") MultipartFile file) {
+        if (!file.isEmpty()) {
+            try {
+                logger.info("Uploading logo " + file.getOriginalFilename());
+                Attachment attachment = attachmentService.uploadFile(file);
+                attachment.setType(AttachmentType.IMAGE);
+                Resource<Attachment> attachmentResource = new Resource<>(attachment);
+                attachmentResource.add(linkTo(methodOn(AttachmentController.class).findAttachmentById(attachment.getAttachmentId())).withSelfRel());
+                return new ResponseEntity<>(attachmentResource, HttpStatus.OK);
+            } catch (RuntimeException e) {
+                logger.warn("Cannot upload logo " + file.getOriginalFilename());
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+        } else {
+            logger.warn("Cannot upload logo " + file.getOriginalFilename() + " because it is empty.");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }

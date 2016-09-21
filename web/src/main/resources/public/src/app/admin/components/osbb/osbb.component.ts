@@ -61,17 +61,20 @@ export class OsbbComponent implements OnInit {
     }
 
     createOsbb(osbbDTO:OsbbDTO): void {
-        this.osbbService.addOsbb(osbbDTO.osbb)
-        .then((osbb) => {
-            let fileUploader = osbbDTO.logo;
-             if(fileUploader.queue.length > 0) {
-                fileUploader.queue[0].url = attachmentUploadUrl + '/' +  osbb.osbbId;
-                fileUploader.authToken = 'Bearer ' + localStorage.getItem('access_token')
-                fileUploader.queue[0].upload();
-             }
-            fileUploader.onCompleteAll = () =>  fileUploader.clearQueue();
-            this.addOsbb(osbb);
-        })
+        //this.osbbService.upload(osbbDTO.file); //addOsbb(osbbDTO.osbb)
+       // let osbb = osbbDTO.osbb;
+      //  osbb.file = osbbDTO.file;
+         //this.osbbService.addOsbb(osbbDTO);
+
+        this.osbbService.upload(osbbDTO.file)         
+        .then((attachment)=> {
+            let osbb = osbbDTO.osbb;
+            osbb.logo = attachment;
+            this.osbbService.addOsbb(osbb).then((osbb)=> this.osbbArr.unshift(osbb));
+        });
+        /* this.osbbService.upload(osbbDTO.file)         // IT`S WORK!!!!!!!!!!!!
+        .then((attachment)=> console.log("response: " + attachment.attachmentId));*/
+      
     }
 
     private addOsbb(osbb: IOsbb): void {

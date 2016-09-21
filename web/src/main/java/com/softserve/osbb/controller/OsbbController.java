@@ -1,8 +1,6 @@
 package com.softserve.osbb.controller;
 
-import com.softserve.osbb.model.Attachment;
 import com.softserve.osbb.model.Osbb;
-import com.softserve.osbb.model.enums.AttachmentType;
 import com.softserve.osbb.service.AttachmentService;
 import com.softserve.osbb.service.OsbbService;
 import org.slf4j.Logger;
@@ -12,7 +10,6 @@ import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,40 +34,12 @@ public class OsbbController {
     @Autowired
     private AttachmentService attachmentService;
 
-
     @RequestMapping(value="",method = RequestMethod.POST)
     public ResponseEntity<Resource<Osbb>> createOsbb(@RequestBody Osbb osbb) {
         logger.info("Create osbb:  " + osbb);
-        // System.out.println(" ***************Osbb:" + osbb.getLogo().);
-
-        //Attachment logo = osbb.getLogo();
-        //logo.setType(AttachmentType.IMAGE);
-        // attachmentService.saveAttachment(logo);
-        //osbb.setLogo(logo);
-        osbb = osbbService.addOsbb(osbb);
-        return new ResponseEntity<>(addResourceLinkToOsbb(osbb), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/{osbbId}", method = RequestMethod.POST)
-    public ResponseEntity<?> addLogoToOsbb(@RequestParam("file") MultipartFile file, @PathVariable("osbbId") Integer osbbId) {
-        if (!file.isEmpty()) {
-            try {
-                logger.info("Uploading logo and add to osbb. File name: " +
-                        file.getOriginalFilename() + " osbbId: " + osbbId);
-                Attachment attachment = attachmentService.uploadFile(file);
-                attachment.setType(AttachmentType.IMAGE);
-                Osbb osbb = osbbService.getOsbb(osbbId);
-                osbb.setLogo(attachment);
-                osbbService.updateOsbb(osbb);
-                return new ResponseEntity<>(attachmentService.downloadFile(file.getOriginalFilename()), HttpStatus.OK);
-            } catch (RuntimeException e) {
-                logger.warn("Cannot upload file " + file.getOriginalFilename());
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-        } else {
-            logger.warn("Cannot upload file " + file.getOriginalFilename() + " because it is empty.");
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+        osbb.setLogo(osbb.getLogo());
+        Osbb savedOsbb = osbbService.addOsbb(osbb);
+        return new ResponseEntity<>(addResourceLinkToOsbb(savedOsbb), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
