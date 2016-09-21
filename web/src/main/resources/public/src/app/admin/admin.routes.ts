@@ -9,6 +9,10 @@ import {HouseShowAdminComponent} from "./components/house/house_show.admin.compo
 
 import {ApartmentProfileComponent} from "../../app/user/ApartmentProfile/apartment.profile"
 import {AdminLoginGuard} from "../../shared/guard/admin.login.guard";
+import {ApartmentProfileComponent} from "../../app/user/ApartmentProfile/apartment.profile";
+import {EventAdminComponent} from "./components/event/event.component";
+import {EventShowAdminComponent} from "./components/event/event.show.component";
+import {AttachmentAdminComponent} from "./components/attachment/attachment.component";
 
 export const adminRoutes: RouterConfig = [
     {
@@ -22,6 +26,9 @@ export const adminRoutes: RouterConfig = [
             {path: 'houses', component: HouseTableAdminComponent},
             {path: 'house/:id', component: HouseShowAdminComponent},
             {path: 'apartments', component: ApartmentTableAdminComponent},
+            {path: 'events', component: EventAdminComponent},
+            {path: 'event/:id', component: EventShowAdminComponent},
+            {path: 'attachments', component: AttachmentAdminComponent},
             {path: 'users', component: UsersComponent},
             {path: 'apartments/apartmentprofile/:id', component: ApartmentProfileComponent},
             {path: 'role', component: RoleComponent}

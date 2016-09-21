@@ -5,31 +5,43 @@
             <li class="sub-menu">
                 <a [routerLink]="['osbb']">
                     <i class="fa fa-home fa-fw fa-4x"></i>
-                    <span>ОСББ</span>
+                    <span>{{'osbb' | translate | capitalize}}</span>
                 </a>
             </li>
             <li class="sub-menu">
                 <a [routerLink]="['houses']">
                     <i class="fa fa-user"></i>
-                    <span>Будинки</span>
+                    <span>{{'houses' | translate | capitalize}}</span>
                 </a>
             </li>
             <li class="sub-menu">
                 <a [routerLink]="['apartments']">
                     <i class="fa fa-building-o"></i>
-                    <span>Квартири</span>
+                    <span>{{'apartments' | translate | capitalize}}</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+                <a [routerLink]="['events']">
+                    <i class="fa fa-building-o"></i>
+                    <span>{{'events' | translate | capitalize}}</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+                <a [routerLink]="['attachments']">
+                    <i class="fa fa-building-o"></i>
+                    <span>{{'attachments' | translate | capitalize}}</span>
                 </a>
             </li>
             <li class="sub-menu">
                 <a [routerLink]="['users']">
                     <i class="fa fa-building-o"></i>
-                    <span>Юзери</span>
+                    <span>{{'users' | translate | capitalize}}</span>
                 </a>
             </li>
             <li class="sub-menu">
                 <a [routerLink]="['role']">
                     <i class="fa fa-building-o"></i>
-                    <span>Ролі</span>
+                    <span>{{'roles' | translate | capitalize}}</span>
                 </a>
             </li>
         </ul>

@@ -3,8 +3,7 @@ import {UserComponent} from "../user/user.component";
 import {UserApartmentComponent} from "./apartment/user.apartment.component";
 import {UserBillComponent} from "./bills/user.bill.component";
 import {TicketComponent} from "./ticket/ticket.component";
-import {MessageComponent} from "./ticket/single_ticket/single.ticket.component";
-import {UserEventComponent} from "./event/user.event.component";
+import {MessageComponent} from "./ticket/single_ticket/single.ticket.component";\
 import {UserCalendarComponent} from "./calendar/user.calendar.component";
 import {UserAttachmentComponent} from "./attachment/user.attachment.component";
 import {UserReportComponent} from "./report/user.report.component";

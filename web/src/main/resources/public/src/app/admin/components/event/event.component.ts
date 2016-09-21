@@ -1,34 +1,34 @@
 import {Component, OnInit, OnDestroy, ViewChild} from "@angular/core";
 import {CORE_DIRECTIVES} from "@angular/common";
-import {Event} from "./event.interface";
-import {EventService} from "./event.service";
-import {PageCreator} from "../../shared/services/page.creator.interface";
+import {Event} from "../../../event/event.interface";
+import {EventService} from "../../../event/event.service";
+import {PageCreator} from "../../../../shared/services/page.creator.interface";
 import "rxjs/Rx";
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {TranslatePipe} from "ng2-translate/ng2-translate";
-import {CapitalizeFirstLetterPipe} from "../../shared/pipes/capitalize-first-letter";
+import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
 import {Timestamp} from "rxjs/operator/timestamp";
-import {SelectItem} from "../../shared/models/ng2-select-item.interface";
-import {PeriodicityItems} from "../../shared/models/periodicity.const";
-import {HeaderComponent} from "../header/header.component";
+import {SelectItem} from "../../../../shared/models/ng2-select-item.interface";
+import {PeriodicityItems} from "../../../../shared/models/periodicity.const";
+import {HeaderComponent} from "../../../header/header.component";
 import {DROPDOWN_DIRECTIVES} from "ng2-bs-dropdown/dropdown";
 import {SELECT_DIRECTIVES} from "ng2-select";
-import {ActiveFilter} from "../../shared/pipes/active.filter";
-import {User} from "../../shared/models/User";
-import {CurrentUserService} from "../../shared/services/current.user.service";
+import {ActiveFilter} from "../../../../shared/pipes/active.filter";
+import {User} from "../../../../shared/models/User";
+import {CurrentUserService} from "../../../../shared/services/current.user.service";
 import {ToasterContainerComponent, ToasterService} from "angular2-toaster/angular2-toaster";
 import {onErrorResourceNotFoundToastMsg, onErrorServerNoResponseToastMsg}
-        from "../../shared/error/error.handler.component";
+        from "../../../../shared/error/error.handler.component";
 import {Router} from "@angular/router";
 import moment from 'moment';
 import {DateTime} from "ng2-datetime-picker/dist/datetime";
 import {FileSelectDirective, FileDropDirective} from "ng2-file-upload";
-import {FileUploadComponent} from "../user/attachment/modals/file-upload-modal";
-import {Attachment} from "../user/attachment/attachment.interface";
+import {FileUploadComponent} from "../../../user/attachment/modals/file-upload-modal";
+import {Attachment} from "../../../user/attachment/attachment.interface";
 
 @Component({
     selector: 'my-event',
-    templateUrl: 'src/app/event/event.html',
+    templateUrl: 'src/app/admin/components/event/event.html',
     providers: [EventService, ToasterService],
     directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, DROPDOWN_DIRECTIVES, SELECT_DIRECTIVES, ToasterContainerComponent,
         FileSelectDirective, FileDropDirective, FileUploadComponent],
@@ -37,7 +37,7 @@ import {Attachment} from "../user/attachment/attachment.interface";
     styleUrls: ['src/app/event/event.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
     inputs: ['admin']
 })
-export class EventComponent implements OnInit, OnDestroy {
+export class EventAdminComponent implements OnInit, OnDestroy {
 
     private events:Event[] = [];
     private selectedEvent:Event = new Event;
@@ -295,7 +295,7 @@ export class EventComponent implements OnInit, OnDestroy {
 
     onNavigate(id: number) {
         console.log('navigating to event with id ', id);
-        this._router.navigate(['home/event', id]);
+        this._router.navigate(['admin/event', id]);
     }
 
     private handleErrors(error: any) {

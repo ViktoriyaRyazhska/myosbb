@@ -1,13 +1,13 @@
 import {Component, OnInit, OnDestroy, ViewChild} from "@angular/core";
 import {CORE_DIRECTIVES} from "@angular/common";
-import {Attachment} from "./attachment.interface";
-import {AttachmentService} from "./attachment.service";
-import {PageCreator} from "../../../shared/services/page.creator.interface";
+import {Attachment} from "../../../user/attachment/attachment.interface";
+import {AttachmentService} from "../../../user/attachment/attachment.service";
+import {PageCreator} from "../../../../shared/services/page.creator.interface";
 import "rxjs/Rx";
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {FileSelectDirective, FileDropDirective, FileUploader} from "ng2-file-upload/ng2-file-upload";
 import {TranslatePipe} from "ng2-translate/ng2-translate";
-import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
+import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
 import ApiService = require("../../../shared/services/api.service");
 import FileLocationPath = require("../../../shared/services/file.location.path");
 import {FileUploadComponent} from "./modals/file-upload-modal";
@@ -16,13 +16,14 @@ declare var saveAs:any;
 
 @Component({
     selector: 'my-attachment',
-    templateUrl: 'src/app/user/attachment/attachment.html',
+    templateUrl: 'src/app/admin/components/attachment/attachment.html',
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
     providers: [AttachmentService],
     directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, FileSelectDirective, FileDropDirective, FileUploadComponent],
-    viewProviders: [BS_VIEW_PROVIDERS]
+    viewProviders: [BS_VIEW_PROVIDERS],
+    styleUrls: ['src/app/admin/components/attachment/attachment.css']
 })
-export class UserAttachmentComponent implements OnInit, OnDestroy {
+export class AttachmentAdminComponent implements OnInit, OnDestroy {
 
     private attachments:Attachment[];
     private pageCreator:PageCreator<Attachment>;
