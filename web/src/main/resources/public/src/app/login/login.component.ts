@@ -29,52 +29,55 @@ export class LoginComponent implements OnInit {
     private logInError:boolean = false;
     public toasterconfig:ToasterConfig = new ToasterConfig({showCloseButton: true, tapToDismiss: true, timeout: 5000});
     forgotEmail = "";
-   
+
     constructor(private _router:Router, private loginService:LoginService
         , private _currentUserService:CurrentUserService, private _toasterService:ToasterService) {
     }
 
     onSubmit() {
-        this.loginService.sendCredentials(this.model).subscribe(
-            data => {
-                if (!this.loginService.checkLogin()) {
-                    this.tokenParseInLocalStorage(data.json());
-                    this.loginService.sendToken().subscribe(
-                        data=> {
-                            this._currentUserService.setUser(data);
-                            this.model.username = "";
-                            this.model.password = "";
-                            this.isLoggedIn = true;
-                            this._currentUserService.setRole();
-                            console.log(this._currentUserService.getRole());
-                            if (this._currentUserService.getRole() === "ROLE_USER") {
-                                this._toasterService.pop('success'
-                                    , "Congratulation," + this._currentUserService.getUser().firstName + " !"
-                                    , 'We glad to see you hare again');
-                                this._router.navigate(['home/wall']);
+            this.loginService.sendCredentials(this.model).subscribe(
+                data => {
+                    if (!this.loginService.checkLogin()) {
+                        this.tokenParseInLocalStorage(data.json());
+                        this.loginService.sendToken().subscribe(
+                            data=> {
+                                this._currentUserService.setUser(data);
+                                this.model.username = "";
+                                this.model.password = "";
+                                this.isLoggedIn = true;
+                                this._currentUserService.setRole();
+                                console.log(this._currentUserService.getRole());
+                                if (this._currentUserService.getRole() === "ROLE_USER") {
+                                    this._toasterService.pop('success'
+                                        , "Congratulation," + this._currentUserService.getUser().firstName + " !"
+                                        , 'We glad to see you hare again');
+                                    this._router.navigate(['home/wall']);
+                                }
+                                if (this._currentUserService.getRole() === "ROLE_ADMIN") {
+                                    this._toasterService.pop('success'
+                                        , "Hail Admin!");
+                                    this._router.navigate(['admin']);
+                                }
                             }
-                            if (this._currentUserService.getRole() === "ROLE_ADMIN") {
-                                this._toasterService.pop('success'
-                                    , "Hail Admin!");
-                                this._router.navigate(['admin']);
-                            }
-                        }
-                    )
-                }
-            },
-            err => {
-                this.model.password = "";
-                this.handleErrors(err);
-            },
-            () => console.log('Sending credentials completed')
-        )
+                        )
+                    }
+                },
+                err => {
+                    this.model.password = "";
+                    this.handleErrors(err);
+                },
+                () => console.log('Sending credentials completed')
+            )
+        }
 
-
-    }
 
 
     private handleErrors(error) {
-        this._toasterService.pop('error', "Try again...later", "Something vary bad happened.");
+        if (error.status === 400)
+            this._toasterService.pop('error', "Error: " + error.json()["error_description"] + ".");
+        if (error.status === 401)
+            this._toasterService.pop('error', "User not found.");
+
         return;
     }
 

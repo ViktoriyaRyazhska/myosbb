@@ -11,12 +11,13 @@ export class CurrentUserService {
 
 
     private _pathUrl = ApiService.serverUrl;
-    private role:string="";
+    private role:string = "";
     public currentUser:User
 
     constructor(private _loginservice:LoginService) {
         this.currentUser = new User();
         this.initUser();
+        this.setRole();
     }
 
     setUser(user:Response) {
@@ -39,11 +40,15 @@ export class CurrentUserService {
             })
         }
     }
-    getRole():string{
+
+    getRole():string {
         return this.role;
     }
-    setRole(){
-       this.role=this.decodeAccessToken(localStorage.getItem("access_token"))["authorities"][0];
+
+    setRole() {
+        if (this._loginservice.checkLogin()) {
+            this.role = this.decodeAccessToken(localStorage.getItem("access_token"))["authorities"][0];
+        }
     }
 
     public  decodeAccessToken(access_token:string) {

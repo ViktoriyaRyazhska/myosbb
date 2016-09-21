@@ -26,11 +26,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmail(username).get(0);
-        if (user == null) {
+        User user;
+        try {
+            user = userRepository.findUserByEmail(username).get(0);
+        }catch(Exception e){
+        user=null;
+        }
+            if (user == null) {
             throw new UsernameNotFoundException(String.format("User %s does not exist!", username));
         }
-
+        System.out.println(user.getActivated());
         return new UserRepositoryUserDetails(user);
     }
 
@@ -40,6 +45,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         private UserRepositoryUserDetails(User user) {
             super(user);
+            setActivated(user.getActivated());
         }
 
         @Override
@@ -61,7 +67,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         @Override
         public boolean isAccountNonLocked() {
-            return true;
+          return true;
         }
 
         @Override
@@ -71,9 +77,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         @Override
         public boolean isEnabled() {
-            return true;
+        return getActivated();
         }
-
     }
 
 }

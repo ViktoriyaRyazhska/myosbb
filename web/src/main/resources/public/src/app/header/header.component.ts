@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
     rrr:boolean = true;
     languages:Array<string> = ['en', 'uk'];
     selectedLang:string = 'uk';
-
+    reouterUrl:string='login';
     noticeArr:Notice[] = [];
     tLength:number = 0;
     mLength:number = 0;
@@ -63,8 +63,6 @@ export class HeaderComponent implements OnInit,OnDestroy {
         HeaderComponent.currentUserService = _currentUserService;
         var userLang = navigator.language.split('-')[1]; // use navigator lang if available
         userLang = /(en|uk)/gi.test(userLang) ? userLang : 'uk';
-
-
         // this language will be used as a fallback when a translation isn't found in the current language
         translate.setDefaultLang('uk');
 
@@ -182,6 +180,21 @@ export class HeaderComponent implements OnInit,OnDestroy {
         if (num > 1 && num < 5)
             return "noticeComment3";
         return "noticeComments";
+
+    }
+    routerNavigate(){
+        if(this._loginService.checkLogin()){
+            if(this._currentUserService.getRole()=="ROLE_ADMIN"){
+                this.router.navigate(['admin']);
+            }
+            if(this._currentUserService.getRole()=="ROLE_USER"){
+                this.router.navigate(['home/wall']);
+            } if(this._currentUserService.getRole()=="ROLE_MANAGER"){
+                this.router.navigate(['manager']);
+            }
+        }else{
+            this.router.navigate(['login']);
+        }
 
     }
 
