@@ -13,13 +13,13 @@ import {NoticeService} from './../header/header.notice.service';
     templateUrl: 'src/app/login/login.html',
     styleUrls: ['assets/css/login/login.css'],
     directives: [RegistrationComponent, ToasterContainerComponent, MaskedInput],
-    providers: [LoginService, ToasterService,NoticeService],
+    providers: [LoginService, ToasterService, NoticeService],
     outputs: ['isLoggedIn']
 })
 export class LoginComponent implements OnInit {
 
     ngOnInit():any {
-        this.isLoggedIn=this.loginService.checkLogin();
+        this.isLoggedIn = this.loginService.checkLogin();
     }
 
     public emailMask = emailMask;
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     private logInError:boolean = false;
     public toasterconfig:ToasterConfig = new ToasterConfig({showCloseButton: true, tapToDismiss: true, timeout: 5000});
     forgotEmail = "";
-    private decodetToken:any;
+   
     constructor(private _router:Router, private loginService:LoginService
         , private _currentUserService:CurrentUserService, private _toasterService:ToasterService) {
     }
@@ -45,14 +45,15 @@ export class LoginComponent implements OnInit {
                             this.model.username = "";
                             this.model.password = "";
                             this.isLoggedIn = true;
-                          this.decodetToken=LoginComponent.decodeAccessToken(localStorage.getItem("access_token"));
-                        if(this.decodetToken["authorities"][0]==="ROLE_USER") {
-                            this._toasterService.pop('success'
-                                , "Congratulation," + this._currentUserService.getUser().firstName + " !"
-                                , 'We glad to see you hare again');
-                            this._router.navigate(['home/wall']);
-                        }
-                            if(this.decodetToken["authorities"][0]==="ROLE_ADMIN"){
+                            this._currentUserService.setRole();
+                            console.log(this._currentUserService.getRole());
+                            if (this._currentUserService.getRole() === "ROLE_USER") {
+                                this._toasterService.pop('success'
+                                    , "Congratulation," + this._currentUserService.getUser().firstName + " !"
+                                    , 'We glad to see you hare again');
+                                this._router.navigate(['home/wall']);
+                            }
+                            if (this._currentUserService.getRole() === "ROLE_ADMIN") {
                                 this._toasterService.pop('success'
                                     , "Hail Admin!");
                                 this._router.navigate(['admin']);
@@ -66,14 +67,11 @@ export class LoginComponent implements OnInit {
                 this.handleErrors(err);
             },
             () => console.log('Sending credentials completed')
-        )  
-        
- 
-        
+        )
+
+
     }
-    public static decodeAccessToken(access_token:string) {
-        return JSON.parse(window.atob(access_token.split('.')[1]));
-    }
+
 
     private handleErrors(error) {
         this._toasterService.pop('error', "Try again...later", "Something vary bad happened.");
@@ -83,7 +81,7 @@ export class LoginComponent implements OnInit {
     tokenParseInLocalStorage(data:any) {
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("token_type", data.token_type);
-        localStorage.setItem("expires_in",new Date().setSeconds(data.expires_in));
+        localStorage.setItem("expires_in", new Date().setSeconds(data.expires_in));
         localStorage.setItem("scope", data.scope);
         localStorage.setItem("jti", data.jti);
         localStorage.setItem("refresh_token", data.refresh_token);
@@ -111,7 +109,7 @@ export class LoginComponent implements OnInit {
     sendEmail() {
         if (this.emailValid) {
             this.loginService.sendPassword(this.forgotEmail).subscribe(
-                data=>{
+                data=> {
                     this._toasterService.pop('success'
                         , "Congratulation!"
                         , 'Password was sendet on your email.Check it and get back soon.');
@@ -121,6 +119,7 @@ export class LoginComponent implements OnInit {
                     this.forgotEmail = "";
                     this.handleErrors(err);
                 }
-            )}
+            )
+        }
     }
 }

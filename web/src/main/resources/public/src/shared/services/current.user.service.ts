@@ -11,7 +11,7 @@ export class CurrentUserService {
 
 
     private _pathUrl = ApiService.serverUrl;
-
+    private role:string="";
     public currentUser:User
 
     constructor(private _loginservice:LoginService) {
@@ -38,6 +38,16 @@ export class CurrentUserService {
                 this.setUser(data);
             })
         }
+    }
+    getRole():string{
+        return this.role;
+    }
+    setRole(){
+       this.role=this.decodeAccessToken(localStorage.getItem("access_token"))["authorities"][0];
+    }
+
+    public  decodeAccessToken(access_token:string) {
+        return JSON.parse(window.atob(access_token.split('.')[1]));
     }
 
     refreshToken() {

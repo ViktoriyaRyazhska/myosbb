@@ -3,7 +3,7 @@ import {RouterConfig} from "@angular/router";
 import {OsbbComponent} from "./components/osbb/osbb.component";
 import {HouseTableAdminComponent} from "./components/house/house_table.admin.component";
 import {ApartmentTableAdminComponent} from "./components/apartment/apartment.table.admin.component";
-//import {UsersComponent} from "./components/users/users.component";
+import {UsersComponent} from "./components/users/users.component";
 import {RoleComponent} from "./components/role/role.component";
 import {HouseShowAdminComponent} from "./components/house/house_show.admin.component";
 
@@ -20,7 +20,7 @@ export const adminRoutes: RouterConfig = [
             {path: 'houses', component: HouseTableAdminComponent},
             {path: 'house/:id', component: HouseShowAdminComponent},
             {path: 'apartments', component: ApartmentTableAdminComponent},
-           // {path: 'users', component: UsersComponent},
+           {path: 'users', component: UsersComponent},
             {path:'apartments/apartmentprofile/:id', component:ApartmentProfileComponent},
             {path: 'role', component: RoleComponent}
         ]
