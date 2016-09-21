@@ -10,23 +10,20 @@ import { OsbbService } from './osbb.service';
 import { OsbbModalComponent } from './osbb_form/osbb-modal.component';
 import { OsbbDelFormComponent } from './osbb_form/osbb-del-form.component';
 import {CurrentUserService} from "../../../../shared/services/current.user.service";
-import {UrlParserService} from "../../../../shared/services/url.parser.service";
 import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
 import ApiService = require("../../../../shared/services/api.service");
 import {FILE_UPLOAD_DIRECTIVES, FileSelectDirective, FileDropDirective, FileUploader} from "ng2-file-upload/ng2-file-upload";
-
 import {IOsbb, Osbb} from "../../../../shared/models/osbb";
-import fileDownloadPath = require("../../../../shared/services/file.location.path");
 
-const attachmentUploadUrl = ApiService.serverUrl + '/restful/osbb';
-const logoPath = fileDownloadPath.fileDownloadPath;
+//const attachmentUploadUrl = ApiService.serverUrl + '/restful/osbb';
+
 
 @Component({
     selector: 'osbb',
     templateUrl: './src/app/admin/components/osbb/osbb.component.html',
     styleUrls: ['./src/app/admin/components/osbb/osbb.component.css', './src/shared/css/general.css'],
-    providers: [OsbbService, UrlParserService],
+    providers: [OsbbService],
     directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, OsbbModalComponent, OsbbDelFormComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
@@ -37,7 +34,7 @@ export class OsbbComponent implements OnInit {
     updatedOsbb:IOsbb;
     order: boolean;
 
-    constructor( private osbbService: OsbbService, private urlParser:UrlParserService, private userService:CurrentUserService) { 
+    constructor( private osbbService: OsbbService, private userService:CurrentUserService) { 
         this.osbbArr = [];
     }
 
@@ -61,20 +58,12 @@ export class OsbbComponent implements OnInit {
     }
 
     createOsbb(osbbDTO:OsbbDTO): void {
-        //this.osbbService.upload(osbbDTO.file); //addOsbb(osbbDTO.osbb)
-       // let osbb = osbbDTO.osbb;
-      //  osbb.file = osbbDTO.file;
-         //this.osbbService.addOsbb(osbbDTO);
-
         this.osbbService.upload(osbbDTO.file)         
         .then((attachment)=> {
             let osbb = osbbDTO.osbb;
             osbb.logo = attachment;
             this.osbbService.addOsbb(osbb).then((osbb)=> this.osbbArr.unshift(osbb));
         });
-        /* this.osbbService.upload(osbbDTO.file)         // IT`S WORK!!!!!!!!!!!!
-        .then((attachment)=> console.log("response: " + attachment.attachmentId));*/
-      
     }
 
     private addOsbb(osbb: IOsbb): void {
@@ -98,10 +87,6 @@ export class OsbbComponent implements OnInit {
 
     getCreationDate(date:Date):string {
         return new Date(date).toLocaleString();
-    }
-
-     parseUrl(path: string): string {
-        return this.urlParser.parseUrl(path);
     }
 
     searchByNameOsbb(osbbName: string) {

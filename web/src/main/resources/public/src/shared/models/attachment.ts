@@ -1,5 +1,6 @@
 export class Attachment {
     attachmentId:number;
-    path:string
+    path:string;
+    url:string;
     type:string;
 }
