@@ -28,7 +28,6 @@ import MaskedInput from 'angular2-text-mask';
 import {FileUploader, FileSelectDirective, FileDropDirective} from "ng2-file-upload";
 import ApiService = require("../../../shared/services/api.service");
 
-import {Attachment} from "../attachment/attachment.interface";
 import FileLocationPath = require("../../../shared/services/file.location.path");
 import {AttachmentComponent} from "../../attachment/attachment.component";
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment/';
@@ -45,7 +44,7 @@ declare var saveAs:any;
     directives: [DROPDOWN_DIRECTIVES],
     providers: [ProviderService, MailService],
     directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, ROUTER_DIRECTIVES, ProviderTypeComponent, AttachmentComponent,
-        SELECT_DIRECTIVES, NgClass, FORM_DIRECTIVES, BUTTON_DIRECTIVES, MaskedInput, FileSelectDirective, FileDropDirective ],
+        SELECT_DIRECTIVES, NgClass, FORM_DIRECTIVES, BUTTON_DIRECTIVES, MaskedInput, FileSelectDirective, FileDropDirective, DROPDOWN_DIRECTIVES ],
     viewProviders: [BS_VIEW_PROVIDERS],
     styleUrls: ['src/app/user/bills/bill.css', 'src/shared/css/loader.css', 'src/shared/css/general.css']
 })
@@ -61,7 +60,6 @@ export class ProviderComponent {
     private pageNumber:number = 1;
     private pageList:Array<number> = [];
     private totalPages:number;
-    private attachments:Attachment[] =[];
 
     @ViewChild('delModal') public delModal:ModalDirective;
     @ViewChild('editModal') public editModal:ModalDirective;
@@ -79,7 +77,6 @@ export class ProviderComponent {
     private mail : Mail = {to:'', subject: '', text: ''};
 
     public uploader:FileUploader = new FileUploader({url: attachmentUploadUrl, authToken: 'Bearer ' + localStorage.getItem('access_token')});
-    private attachments:Attachment[];
     public hasDropZoneOver:boolean = false;
     public fileOverBase(e:any):void {
         this.hasDropZoneOver = e;

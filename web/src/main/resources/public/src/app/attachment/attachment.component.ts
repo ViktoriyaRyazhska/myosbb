@@ -8,7 +8,7 @@ import ApiService = require("../../shared/services/api.service");
 import {CapitalizeFirstLetterPipe} from "../../shared/pipes/capitalize-first-letter";
 import FileLocationPath = require("../../shared/services/file.location.path");
 import {AttachmentService} from "../user/attachment/attachment.service";
-import {Attachment} from "attachment/attachment.interface";
+import {Attachment} from "../user/attachment/attachment.interface";
 
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment/';
 const fileUploadPath = FileLocationPath.fileUploadPath;
@@ -58,7 +58,7 @@ const fileDownloadPath = FileLocationPath.fileDownloadPath;
                                                         (click)="onRemove()">
                                                     <span class="glyphicon glyphicon-trash"></span> {{ 'remove' | translate | capitalize }}
                                                 </button>
-                                                 <button  *ngIf="enableLogoBtn" type="button" class="btn btn-warning btn-xs"
+                                                 <button  *ngIf="enableLogoBtn" [disabled]="disabledLogoBtn" type="button" class="btn btn-warning btn-xs"
                                                                                     (click)="onLogoChanged(item.file.name)">
                                                                                 <span class="glyphicon glyphicon-camera"></span> Logo
                                                  </button>
@@ -105,6 +105,7 @@ export class AttachmentComponent  {
     }
 
     private attachments:Attachment[] = [];
+    private disabledLogoBtn = true;
     @Input() private enableLogoBtn: boolean = false;
 
     @Output() attachmentChanged : EventEmitter<Attachment[]> = new EventEmitter();
@@ -126,6 +127,7 @@ export class AttachmentComponent  {
         console.log("logo", this.enableLogoBtn);
         let count: number = this.uploader.queue.length;
         this.uploader.uploadAll();
+        this.disabledLogoBtn = false;
         this._attachmentService.findLast(count).subscribe(
             (data) => {
                 this.attachments = data;

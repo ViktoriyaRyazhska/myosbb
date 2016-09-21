@@ -115,6 +115,16 @@ INSERT INTO osbb(  name, description, address, district, creation_date) VALUES (
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Моя Оселя','','м.Львів вул.Повітряна 17б','Залізничний','2013-10-12 08:46:43.221340');
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Сонечко','','м.Львів вул.Наукова 77','Франківський','2015-04-18 10:46:43.221270');
 
+INSERT INTO attachment(  path, type, file_name) VALUES ('http://itukraine.org.ua/sites/default/files/news/sserve.jpg', 'IMAGE', 'sserve.jpg');
+INSERT INTO attachment(  path, type, file_name) VALUES ('http://ua-ekonomist.com/uploads/posts/2013-08/1376494055_932378712.jpg', 'IMAGE', '1376494055_932378712.jpg');
+INSERT INTO attachment(  path, type, file_name) VALUES ('http://news.dks.ua/images/0915/i_08091517_1.jpg', 'IMAGE', 'i_08091517_1.jpg');
+INSERT INTO attachment(  path, type, file_name) VALUES ('http://www.abmk.com.ua/content/images/projects/138047835156_orig.jpg', 'IMAGE', '138047835156_orig.jpg');
+INSERT INTO attachment(  path, type, file_name) VALUES ('http://nomerodyn.com/public/img/big/main.jpg', 'IMAGE', 'main.jpg');
+INSERT INTO attachment(  path, type, file_name) VALUES ('http://archfest.com/web/images/139479223222_1.jpg', 'IMAGE', '139479223222_1.jpg');
+INSERT INTO attachment(  path, type, file_name) VALUES ('https://www.askideas.com/media/39/Awesome-Empire-State-Building-Picture.jpg', 'IMAGE', 'Awesome-Empire-State-Building-Picture.jpg');
+INSERT INTO attachment(  path, type, file_name) VALUES ('http://img1.globalinfo.ua/im/2014/02/12/TZA04E.jpg', 'IMAGE', 'TZA04E.jpg');
+INSERT INTO attachment(  path, type, file_name) VALUES ('http://kyiv.ridna.ua/wp-content/uploads/2015/06/Project2_0014.jpg', 'IMAGE', 'Project2_0014.jpg');
+
 UPDATE house SET osbb_id=1 WHERE house_id=1;
 
 UPDATE users SET osbb_id=1;

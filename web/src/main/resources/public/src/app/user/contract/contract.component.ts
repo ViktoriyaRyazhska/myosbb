@@ -21,9 +21,11 @@ import {MailService} from "../../../shared/services/mail.sender.service";
 import {Mail} from "../../../shared/models/mail.interface";
 import {ActiveFilter} from "../../../shared/pipes/active.filter";
 import clearImmediate = core.clearImmediate;
-import {Attachment} from "../attachment/attachment.interface";
 import {AttachmentComponent} from "../../attachment/attachment.component";
+import FileLocationPath = require("../../../shared/services/file.location.path");
 
+const fileUploadPath = FileLocationPath.fileUploadPath;
+const fileDownloadPath = FileLocationPath.fileDownloadPath;
 @Component({
     selector: 'myosbb-contract',
     templateUrl: 'src/app/user/contract/contract-table.html',
@@ -38,11 +40,11 @@ import {AttachmentComponent} from "../../attachment/attachment.component";
 export class ContractComponent implements OnInit{
     private contracts :  Contract[];
     private selected : Contract =  {contractId: null, dateStart:'', dateFinish:'', text: '', price:null, priceCurrency: 'UAH', attachments: null, osbb: null,  active: false, provider:
-    {providerId:null, name:'', description:'', logoUrl:'', periodicity:'', type:null, email:'',phone:'', address:'', schedule:'', active: false}};
+    {providerId:null, name:'', description:'', logoUrl:'', periodicity:'', type:null, email:'',phone:'', address:'', schedule:'', active: false, attachments: null}};
 
     private newContract : Contract =  {contractId: null, dateStart:'', dateFinish:'', text: '', price:null, priceCurrency: 'UAH',
-        attachments: [{attachmentId: null, path: null}], osbb: null,  active: true, provider:
-    {providerId:null, name:'', description:'', logoUrl:'', periodicity:'', type:null, email:'',phone:'', address:'', schedule:'', active: true}};
+        attachments: null, osbb: null,  active: true, provider:
+    {providerId:null, name:'', description:'', logoUrl:'', periodicity:'', type:null, email:'',phone:'', address:'', schedule:'', active: true, attachments: null}};
 
     private pageCreator:PageCreator<Contract>;
     private pageNumber:number = 1;
@@ -172,7 +174,8 @@ export class ContractComponent implements OnInit{
                     phone: '',
                     address: '',
                     schedule: '',
-                    active: true
+                    active: true,
+                    attachments: null
                 }
             };
 
@@ -296,4 +299,5 @@ export class ContractComponent implements OnInit{
         console.log("set attachments ", event);
         this.newContract.attachments = event;
     }
+
 }

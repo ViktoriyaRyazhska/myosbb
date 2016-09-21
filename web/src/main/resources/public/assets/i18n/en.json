@@ -205,8 +205,8 @@
   "osbb_active":"Active",
   "osbb_not_active":"Not active",
  "apartmentIsAlreadyBusy":"Wrong apartment number",
-  "wrongSquareInput":"Wrong square"
-
+  "wrongSquareInput":"Wrong square",
+  "docs":"documents"
 }
 
 

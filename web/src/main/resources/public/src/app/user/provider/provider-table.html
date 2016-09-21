@@ -35,16 +35,28 @@
                                 <i class=" fa fa-circle-o-description"></i> {{ 'description' | translate | capitalize }}
                             </th>
                             <th>
-                                <i class="fa fa-question-circle"></i> {{ 'details' | translate | capitalize }}
+                                <i class="fa fa-files-o"></i> {{ 'attachments' | translate | capitalize }}
                             </th>
+                           drop
                         </tr>
                         </thead>
                         <tbody>
                         <tr *ngFor="let provider of providers" [class.success]="provider.active" [class.danger]="!provider.active">
-                            <td >{{ provider.name }} <img style="max-height: 30px; max-width: 30px" src="{{provider.logoUrl}}"></td>
+                            <td >{{ provider.name }} <img style="max-height: 30px; max-width: 30px" src="{{provider.logoUrl}}">
+                            </td>
                             <td>{{ provider.type.providerTypeName }}</td>
                             <td>{{ provider.periodicity | translate }}</td>
                             <td> {{ provider.description }}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <span class=" dropdown-toggle" id="dropdownProviderDocs">  <i class="fa fa-cloud-download" *ngIf="provider.attachments.length>0"> </i>
+                                    </span>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownProviderDocs">
+                                        <a style="padding: 5px" class="dropdown-item" *ngFor="let doc of provider.attachments"  href="{{doc.path}}" download > {{doc.fileName}} </a>
+                                        <br>
+                                    </div>
+                                </div>
+                            </td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownProvider"
@@ -162,7 +174,7 @@
                                                                 #logo="ngModel">
                                                             <a (click)="showUploading()"> Download file </a>
 
-                                                      <div *ngIf="upload">
+                                                      <div *ngIf="upload"  class="task-panel tasks-widget">
                                                         <myosbb-attachment [enableLogoBtn]="true" (attachmentChanged)="setAttachments($event)" (logoChanged)="setLogo($event)"></myosbb-attachment>
                                                       </div> <!-- File uploading -->
                                                      </div> <!-- Logo -->
@@ -310,7 +322,7 @@
                                                                #logo="ngModel">
                                                         <a (click)="showUploading()"> Download file </a>
 
-                                                        <div *ngIf="upload">
+                                                        <div *ngIf="upload"  class="task-panel tasks-widget">
                                                             <myosbb-attachment [enableLogoBtn]="true" (attachmentChanged)="setNewProviderAttachments($event)" (logoChanged)="setNewProviderLogo($event)"></myosbb-attachment>
                                                         </div> <!-- File uploading -->
                                                 </div> <!-- Logo -->

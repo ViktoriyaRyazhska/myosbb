@@ -48,6 +48,7 @@ public class AttachmentServiceImpl implements AttachmentService{
         String path = attachmentPath.toString();
         attachment.setPath(path);
         attachment.setDate(LocalDate.now());
+        attachment.setFileName(file.getOriginalFilename());
         return saveAttachment(attachment);
     }
 
