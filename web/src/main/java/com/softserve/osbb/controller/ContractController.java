@@ -1,7 +1,9 @@
 package com.softserve.osbb.controller;
 
+import com.softserve.osbb.model.Attachment;
 import com.softserve.osbb.model.Contract;
 import com.softserve.osbb.model.Provider;
+import com.softserve.osbb.service.AttachmentService;
 import com.softserve.osbb.service.ContractService;
 import com.softserve.osbb.service.ProviderService;
 import com.softserve.osbb.util.paging.PageDataObject;
@@ -12,9 +14,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -35,6 +39,9 @@ public class ContractController {
 
     @Autowired
     ProviderService providerService;
+
+    @Autowired
+    AttachmentService attachmentService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Resource<Contract>> getAll() {
@@ -109,8 +116,13 @@ public class ContractController {
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public Contract putContract(@RequestBody Contract contract) {
-        logger.info("Saving contract, sending to service");
+        logger.info("Saving contract, sending to service" + contract);
         if (contract.getPriceCurrency() == null) contract.setPriceCurrency(Contract.DEFAULT_CURRENCY);
+        ArrayList<Attachment> list = new ArrayList<>();
+        for (int i = 0; i < contract.getAttachments().size(); i++) {
+            list.add(attachmentService.getAttachmentById(contract.getAttachments().get(i).getAttachmentId()));
+        }
+        contract.setAttachments(list); //tmp dirty solution PersistentObjectException, detached Attachment entity passed to persist
         Contract newContract =  contractService.save(contract);
         if (newContract != null) {
             Provider provider = providerService.findOneProviderById(newContract.getProvider().getProviderId());

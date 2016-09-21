@@ -1,4 +1,5 @@
 import {Provider} from "./provider.interface";
+import {Attachment} from "../../app/user/attachment/attachment.interface";
 /**
  * Created by Anastasiia Fedorak on 8/5/16.
  */
@@ -10,7 +11,7 @@ export interface Contract {
     text: String;
     price: number;
     priceCurrency: string
-    attachment: string;
+    attachments: Array<Attachment>;
     osbb: string;
     provider: Provider;
     active: boolean

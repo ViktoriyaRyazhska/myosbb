@@ -85,6 +85,12 @@
                       "defaultValue": false
                     }
                   }
+                },
+                {
+                  "column": {
+                    "name": "attachment_id",
+                    "type": "INT"
+                  }
                 }
               ],
               "tableName": "provider"
@@ -164,6 +170,106 @@
               "columnName": "periodicity",
               "defaultValue": "ONE_TIME",
               "tableName": "provider"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2016/09/21-1",
+        "author": "aska",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "createTable": {
+              "columns": [
+                {
+                  "column": {
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "name": "provider_id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "name": "attachment_id",
+                    "type": "INT"
+                  }
+                }
+              ],
+              "tableName": "provider_attachment"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2016/09/21-2",
+        "author": "aska",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "provider_id",
+              "baseTableName": "provider_attachment",
+              "constraintName": "fk_bi920n4vqcx1hpa2tw3k2eyq6",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "provider_id",
+              "referencedTableName": "provider"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2016/09/21-3",
+        "author": "aska",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "attachment_id",
+              "baseTableName": "provider_attachment",
+              "constraintName": "fk_leg4d0wo56vr3bj1wqxsybqcv",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "attachment_id",
+              "referencedTableName": "attachment"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2016/09/21-4",
+        "author": "aska",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "attachment_id",
+              "baseTableName": "provider",
+              "constraintName": "fk_rdqtdh5wqlwkiryfy8lsp44ee",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "attachment_id",
+              "referencedTableName": "attachment"
             }
           }
         ]

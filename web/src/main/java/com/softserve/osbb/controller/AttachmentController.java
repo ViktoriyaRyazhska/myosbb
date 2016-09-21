@@ -7,6 +7,7 @@ import com.softserve.osbb.util.paging.PageDataObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.integration.IntegrationAutoConfiguration;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.Resource;
@@ -93,6 +94,31 @@ public class AttachmentController {
         }
         return new ResponseEntity<>(resourceAttachmentList, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/last/{count}", method = RequestMethod.GET)
+    public List<Attachment> findLast(@PathVariable("count") Integer count) {
+        List<Attachment> allAttachments = attachmentService.getAllAttachments();
+        List<Attachment> lastAttachments = allAttachments.subList(allAttachments.size()-count, allAttachments.size());
+        List<Integer> lastAttachmentIds = new ArrayList<>();
+        return lastAttachments;
+    }
+
+//    @RequestMapping(value = "/last/{count}", method = RequestMethod.GET)
+//    public ResponseEntity<List<Resource<Attachment>>> findLast(@PathVariable("count") Integer count) {
+//        List<Attachment> allAttachments = attachmentService.getAllAttachments();
+//        List<Attachment> attachmentList = new ArrayList<>();
+//        attachmentList.addAll(allAttachments.subList(allAttachments.size()-count, allAttachments.size()));
+//        logger.info("Getting last attachments.");
+//        final List<Resource<Attachment>> resourceAttachmentList = new ArrayList<>();
+//        for (Attachment e : attachmentList) {
+//            Resource<Attachment> attachmentResource = new Resource<>(e);
+//            attachmentResource.add(linkTo(methodOn(AttachmentController.class)
+//                    .findAttachmentById(e.getAttachmentId()))
+//                    .withSelfRel());
+//            resourceAttachmentList.add(attachmentResource);
+//        }
+//        return new ResponseEntity<>(resourceAttachmentList, HttpStatus.OK);
+//    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource<Attachment>> findAttachmentById(@PathVariable("id") Integer attachmentId) {

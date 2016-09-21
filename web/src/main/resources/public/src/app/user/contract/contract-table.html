@@ -162,6 +162,9 @@
                                         <textarea  class="form-control" name="text" [(ngModel)]="selected.text" required
                                                #text="ngModel"></textarea>
                                     </div> <!-- text -->
+                                    <div>
+                                        <myosbb-attachment [enableLogoBtn]="false" (attachmentChanged)="setAttachments($event)"></myosbb-attachment>
+                                    </div> <!-- File uploading -->
                                 </div>
                                 <img src="assets/img/list.png" class="img-rounded" alt="contract" width="220"
                                      height="220">
@@ -240,6 +243,9 @@
                                         <textarea  class="form-control" name="text" [(ngModel)]="newContract.text" required
                                               #text="ngModel"></textarea>
                                     </div>
+                                    <div>
+                                        <myosbb-attachment [enableLogoBtn]="false" (attachmentChanged)="setNewContractAttachments($event)"></myosbb-attachment>
+                                    </div> <!-- File uploading -->
                                 </div>
                                 <img src="assets/img/list.png" class="img-rounded" alt="contract" width="220"
                                      height="220">
@@ -254,7 +260,6 @@
                     </div>
                 </div>
             </div>
-
         </div><!-- /content-panel -->
 
 

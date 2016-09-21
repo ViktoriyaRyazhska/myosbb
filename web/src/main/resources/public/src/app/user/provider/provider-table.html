@@ -120,14 +120,6 @@
                                                     </div> <!-- Company -->
                                                 </div>
 
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label> {{ 'logo' | translate | capitalize }}</label>
-                                                        <input type="text" class="form-control"
-                                                               name="logo" [(ngModel)]="selected.logoUrl"
-                                                               #logo="ngModel">
-                                                    </div>
-                                                </div> <!-- Logo -->
 
 
                                                 <div  *ngIf="selected.name != ''" >
@@ -162,6 +154,19 @@
                                             </div>
 
                                             <div  *ngIf="selected.periodicity != ''" >
+
+                                                    <div class="form-group">
+                                                         <label> {{ 'logo' | translate | capitalize }}</label>
+                                                             <input *ngIf="!upload" type="text" class="form-control"
+                                                                name="logo" [(ngModel)]="selected.logoUrl"
+                                                                #logo="ngModel">
+                                                            <a (click)="showUploading()"> Download file </a>
+
+                                                      <div *ngIf="upload">
+                                                        <myosbb-attachment [enableLogoBtn]="true" (attachmentChanged)="setAttachments($event)" (logoChanged)="setLogo($event)"></myosbb-attachment>
+                                                      </div> <!-- File uploading -->
+                                                     </div> <!-- Logo -->
+
                                                     <div class="form-group">
                                                         <label> {{ 'description' | translate | capitalize }}</label>
                                                         <textarea class="form-control" required
@@ -266,19 +271,11 @@
                                                     </div> <!-- Company -->
                                                 </div>
 
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label> {{ 'logo' | translate | capitalize }}</label>
-                                                        <input type="text" class="form-control"
-                                                               name="logo" [(ngModel)]="newProvider.logoUrl"
-                                                               #logo="ngModel">
-                                                    </div> <!-- Logo -->
-                                                </div>
 
                                                 <div  *ngIf="newProvider.name != ''" >
                                                     <div class="col-md-6">
-                                                        <provider-type [type]="newProvider.type" (typeChanged)="setType($event)"></provider-type> <!-- Type -->
-                                                    </div>
+                                                        <provider-type [type]="newProvider.type" (typeChanged)="setType($event)"></provider-type>
+                                                    </div><!-- Type -->
                                                 </div>
                                                 <div  *ngIf="newProvider.type.providerTypeId != null" >
                                                     <div class="col-md-6">
@@ -305,6 +302,18 @@
                                             </div>
 
                                             <div  *ngIf="newProvider.periodicity != ''" >
+
+                                                <div class="form-group">
+                                                        <label> {{ 'logo' | translate | capitalize }}</label>
+                                                        <input *ngIf="!upload" type="text" class="form-control"
+                                                               name="logo" [(ngModel)]="newProvider.logoUrl"
+                                                               #logo="ngModel">
+                                                        <a (click)="showUploading()"> Download file </a>
+
+                                                        <div *ngIf="upload">
+                                                            <myosbb-attachment [enableLogoBtn]="true" (attachmentChanged)="setNewProviderAttachments($event)" (logoChanged)="setNewProviderLogo($event)"></myosbb-attachment>
+                                                        </div> <!-- File uploading -->
+                                                </div> <!-- Logo -->
 
                                                 <div class="form-group">
                                                     <label> {{ 'description' | translate | capitalize }}</label>
@@ -378,7 +387,6 @@
                             </div>
                         </div>
                     </div>
-
 
 
                 </div><!-- /content-panel -->

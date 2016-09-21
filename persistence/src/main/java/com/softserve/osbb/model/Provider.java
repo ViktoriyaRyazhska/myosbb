@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Anastasiia Fedorak on 05.07.2016.
@@ -32,6 +33,8 @@ public class Provider implements Serializable {
     private String address;
     private String schedule;
     private boolean active;
+
+    private List<Attachment> attachments;
 
     public Provider() {
     }
@@ -166,6 +169,17 @@ public class Provider implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "provider_attachment",
+            joinColumns = { @JoinColumn(name = "provider_id") }, inverseJoinColumns = { @JoinColumn(name = "attachment_id") })
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
     }
 
     @Override

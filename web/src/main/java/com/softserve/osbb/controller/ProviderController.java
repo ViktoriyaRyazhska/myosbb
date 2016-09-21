@@ -1,8 +1,9 @@
 package com.softserve.osbb.controller;
 
-import com.softserve.osbb.dto.mappers.ProviderPageDTO;
+import com.softserve.osbb.dto.ProviderPageDTO;
 import com.softserve.osbb.dto.mappers.ProviderPageDtoMapper;
 import com.softserve.osbb.model.Provider;
+import com.softserve.osbb.service.AttachmentService;
 import com.softserve.osbb.service.ProviderService;
 import com.softserve.osbb.service.ProviderTypeService;
 import com.softserve.osbb.util.EntityNotFoundException;
@@ -37,6 +38,9 @@ public class ProviderController {
 
     @Autowired
     ProviderTypeService providerTypeService;
+
+    @Autowired
+    AttachmentService attachmentService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<List<Resource<ProviderPageDTO>>> listAllProviders() {
@@ -114,7 +118,7 @@ public class ProviderController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<Resource<ProviderPageDTO>> createProvider(@RequestBody ProviderPageDTO providerPageDTO) {
         Resource<ProviderPageDTO> providerPageDtoResource;
-        Provider provider = ProviderPageDtoMapper.getProviderEntityFromDto(providerService, providerTypeService, providerPageDTO);
+        Provider provider = ProviderPageDtoMapper.getProviderEntityFromDto(providerService, providerTypeService, attachmentService, providerPageDTO);
         try {
             providerService.saveProvider(provider);
             ProviderPageDTO providerPageDto =  ProviderPageDtoMapper.mapProviderEntityToDto(provider.getProviderId(), provider);
@@ -139,7 +143,7 @@ public class ProviderController {
                 Provider provider1 = providerService.findOneProviderById(providerId);
                 logger.info("updating provider by id: " + providerId);
                 provider = ProviderPageDtoMapper.
-                        getProviderEntityFromDto(providerService, providerTypeService, providerPageDTO);
+                        getProviderEntityFromDto(providerService, providerTypeService, attachmentService, providerPageDTO);
                 logger.info("id=" + provider.getProviderId() + "; name="+ provider.getName()
                 +"; desc=" + provider.getDescription()+"; per="+provider.getPeriodicity()
                 +"; add=" + provider.getAddress() + "; type=" + provider.getType()

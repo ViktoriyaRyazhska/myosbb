@@ -101,7 +101,7 @@
                     "constraints": {
                       "nullable": false
                     },
-                    "name": "contract",
+                    "name": "contract_id",
                     "type": "INT"
                   }
                 },
@@ -110,28 +110,12 @@
                     "constraints": {
                       "nullable": false
                     },
-                    "name": "attachments",
+                    "name": "attachment_id",
                     "type": "INT"
                   }
                 }
               ],
-              "tableName": "contract_attachments"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "changeSet": {
-        "id": "2016/08/31-2",
-        "author": "nataliia",
-        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
-        "changes": [
-          {
-            "addUniqueConstraint": {
-              "columnNames": "attachments",
-              "constraintName": "uk_leg4d0wt51vr3bj1wqxsybqcv",
-              "tableName": "contract_attachments"
+              "tableName": "contract_attachment"
             }
           }
         ]
@@ -145,8 +129,8 @@
         "changes": [
           {
             "addForeignKeyConstraint": {
-              "baseColumnNames": "contract",
-              "baseTableName": "contract_attachments",
+              "baseColumnNames": "contract_id",
+              "baseTableName": "contract_attachment",
               "constraintName": "fk_bi920n4vqcx1hpa2tw3k2eyq6",
               "deferrable": false,
               "initiallyDeferred": false,
@@ -167,8 +151,8 @@
         "changes": [
           {
             "addForeignKeyConstraint": {
-              "baseColumnNames": "attachments",
-              "baseTableName": "contract_attachments",
+              "baseColumnNames": "attachment_id",
+              "baseTableName": "contract_attachment",
               "constraintName": "fk_leg4d0wo56vr3bj1wqxsybqcv",
               "deferrable": false,
               "initiallyDeferred": false,

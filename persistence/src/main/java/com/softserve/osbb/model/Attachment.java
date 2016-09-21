@@ -14,7 +14,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 /**
- * Created by nataliia on 09.07.2016.
+ * Created by nataliia on git 09.07.2016.
  */
 
 @Entity
@@ -89,5 +89,14 @@ public class Attachment {
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Attachment{" +
+                "attachmentId=" + attachmentId +
+                ", path='" + path + '\'' +
+                ", type=" + type +
+                '}';
     }
 }

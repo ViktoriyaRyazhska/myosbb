@@ -21,6 +21,8 @@ import {MailService} from "../../../shared/services/mail.sender.service";
 import {Mail} from "../../../shared/models/mail.interface";
 import {ActiveFilter} from "../../../shared/pipes/active.filter";
 import clearImmediate = core.clearImmediate;
+import {Attachment} from "../attachment/attachment.interface";
+import {AttachmentComponent} from "../../attachment/attachment.component";
 
 @Component({
     selector: 'myosbb-contract',
@@ -29,16 +31,17 @@ import clearImmediate = core.clearImmediate;
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe, ActiveFilter],
     directives: [DROPDOWN_DIRECTIVES],
     providers: [ContractService, MailService],
-    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, ROUTER_DIRECTIVES, SelectProviderComponent, CurrencyComponent, NgClass, DROPDOWN_DIRECTIVES],
+    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, ROUTER_DIRECTIVES, SelectProviderComponent, CurrencyComponent, NgClass, DROPDOWN_DIRECTIVES, AttachmentComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     styleUrls: ['src/app/user/bills/bill.css', 'src/shared/css/loader.css', 'src/shared/css/general.css']
 })
 export class ContractComponent implements OnInit{
     private contracts :  Contract[];
-    private selected : Contract =  {contractId: null, dateStart:'', dateFinish:'', text: '', price:null, priceCurrency: 'UAH',attachment: null, osbb: null,  active: false, provider:
+    private selected : Contract =  {contractId: null, dateStart:'', dateFinish:'', text: '', price:null, priceCurrency: 'UAH', attachments: null, osbb: null,  active: false, provider:
     {providerId:null, name:'', description:'', logoUrl:'', periodicity:'', type:null, email:'',phone:'', address:'', schedule:'', active: false}};
 
-    private newContract : Contract =  {contractId: null, dateStart:'', dateFinish:'', text: '', price:null, priceCurrency: 'UAH',attachment: null, osbb: null,  active: true, provider:
+    private newContract : Contract =  {contractId: null, dateStart:'', dateFinish:'', text: '', price:null, priceCurrency: 'UAH',
+        attachments: [{attachmentId: null, path: null}], osbb: null,  active: true, provider:
     {providerId:null, name:'', description:'', logoUrl:'', periodicity:'', type:null, email:'',phone:'', address:'', schedule:'', active: true}};
 
     private pageCreator:PageCreator<Contract>;
@@ -48,7 +51,6 @@ export class ContractComponent implements OnInit{
     @ViewChild('delModal') public delModal:ModalDirective;
     @ViewChild('editModal') public editModal:ModalDirective;
     @ViewChild('createModal') public createModal:ModalDirective;
-
     active:boolean = true;
     order:boolean = true;
     validEndDate : boolean = true;
@@ -156,7 +158,7 @@ export class ContractComponent implements OnInit{
                 text: '',
                 price: null,
                 priceCurrency: 'UAH',
-                attachment: null,
+                attachments: null,
                 osbb: null,
                 active: true,
                 provider: {
@@ -285,5 +287,13 @@ export class ContractComponent implements OnInit{
         this.onlyActive = !this.onlyActive;
         console.log("change active filter, onlyActive=", this.onlyActive);
         this.refresh();
+    }
+    setAttachments(event){
+        console.log("set attachments ", event);
+        this.selected.attachments = event;
+    }
+    setNewContractAttachments(event){
+        console.log("set attachments ", event);
+        this.newContract.attachments = event;
     }
 }

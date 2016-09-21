@@ -1,5 +1,6 @@
 package com.softserve.osbb.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.softserve.osbb.model.enums.Currency;
@@ -11,6 +12,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Created by Roma on 05.07.2016.
  * Assigned to Anastasiia on 20.07.2016
@@ -26,10 +30,11 @@ public class Contract {
     private String text;
     private BigDecimal price;
     private Currency priceCurrency;
-    private Attachment attachment;
     private Osbb osbb;
     private Provider provider;
     private boolean active;
+
+    private List<Attachment> attachments;
 
     @Id
     @Column(name = "contract_id")
@@ -42,7 +47,7 @@ public class Contract {
         this.contractId = contractId;
     }
 
-    @Column(name = "dateStart")
+    @Column(name = "date_start")
     @JsonSerialize(using = CustomLocalDateSerializer.class)
     public LocalDate getDateStart() {
         return dateStart;
@@ -53,7 +58,7 @@ public class Contract {
         this.dateStart = dateStart;
     }
 
-    @Column(name = "dateFinish")
+    @Column(name = "date_finish")
     @JsonSerialize(using = CustomLocalDateSerializer.class)
     public LocalDate getDateFinish() {
         return dateFinish;
@@ -92,16 +97,6 @@ public class Contract {
         this.priceCurrency = priceCurrency;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "attachment_id", referencedColumnName = "attachment_id")
-    public Attachment getAttachment() {
-        return attachment;
-    }
-
-    public void setAttachment(Attachment attachment) {
-        this.attachment = attachment;
-    }
-
     @ManyToOne
     @JoinColumn(name = "osbb_id", referencedColumnName = "osbb_id")
     public Osbb getOsbb() {
@@ -131,6 +126,17 @@ public class Contract {
         this.active = active;
     }
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "contract_attachment",
+            joinColumns = { @JoinColumn(name = "contract_id") }, inverseJoinColumns = { @JoinColumn(name = "attachment_id") })
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
+    }
+
     @Override
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
@@ -139,5 +145,21 @@ public class Contract {
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "contractId=" + contractId +
+                ", dateStart=" + dateStart +
+                ", dateFinish=" + dateFinish +
+                ", text='" + text + '\'' +
+                ", price=" + price +
+                ", priceCurrency=" + priceCurrency +
+                ", osbb=" + osbb +
+                ", provider=" + provider +
+                ", active=" + active +
+                ", attachments=" + attachments +
+                '}';
     }
 }
