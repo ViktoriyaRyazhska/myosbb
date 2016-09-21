@@ -9,7 +9,7 @@ import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
-import {FileSelectDirective, FileDropDirective, FileUploader} from "ng2-file-upload";
+import {FileSelectDirective, FileDropDirective, FileUploader, FileItem} from "ng2-file-upload";
 import ApiService = require("../../../../shared/services/api.service");
 
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment/';
@@ -31,10 +31,19 @@ export class FileUploadComponent {
         this.hasDropZoneOver = e;
     }
 
-    @Output() upload: EventEmitter<Attachment>;
-    private attachment: Attachment;
+    @Output() upload: EventEmitter<any>;
+    private attachments: Attachment[];
     @ViewChild('uploadModal')
     uploadModal:ModalDirective;
+
+    constructor() {
+        this.upload = new EventEmitter<any>();
+        // let toReturn: {file: FileItem, response: string}[];
+        this.uploader.toReturn = [];
+        this.uploader.onCompleteItem = function(item, response) {
+            this.toReturn.push(JSON.parse(response));
+        }
+    }
 
     openUploadModal(attachmentId:Attachment): void {
         this.uploadModal.show();
@@ -42,6 +51,8 @@ export class FileUploadComponent {
 
     closeUploadModal() {
         console.log('closing upload modal');
+        this.upload.emit(this.uploader.toReturn);
+        this.uploader.clearQueue();
         this.uploadModal.hide();
     }
 

@@ -18,7 +18,7 @@
                     </th>
                     <th>{{'date' | translate | capitalize}}</th>
                     <th class="sorting"><i class="fa fa-bookmark"></i>{{'attachments' | translate | capitalize}}
-                        <a style="{cursor:pointer}" (click)="sortBy('path')"><span
+                        <a style="{cursor:pointer}" (click)="sortBy('url')"><span
                                 class="fa fa-fw fa-sort pull-right"></span></a></th>
                     <th>
                         <i class="fa fa-question-circle"></i>{{'details' | translate | capitalize}}
@@ -115,8 +115,10 @@
                 </li>
             </ul>
         </nav>
-        <button type="button" class="btn btn-success" (click)="uploadForm.openUploadModal()">{{'upload' | translate | capitalize}} {{'file' | translate}}</button>
-        <button type="button" class="btn btn-danger" (click)="openDelAllModal()">{{'delete' | translate | capitalize}} {{'all' | translate}}</button>
+        <button type="button" class="btn btn-success" (click)="uploadForm.openUploadModal()">
+            {{'upload' | translate | capitalize}} {{'file' | translate}}</button>
+        <button type="button" class="btn btn-danger" (click)="openDelAllModal()">
+            {{'delete' | translate | capitalize}} {{'all' | translate}}</button>
 
     </div>
 </div>

@@ -28,6 +28,12 @@
                 },
                 {
                   "column": {
+                    "name": "url",
+                    "type": "VARCHAR(255)"
+                  }
+                },
+                {
+                  "column": {
                     "name": "type",
                     "type": "VARCHAR(255)",
                     "defaultValue": "DATA"

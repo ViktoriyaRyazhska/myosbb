@@ -22,12 +22,16 @@ import {onErrorResourceNotFoundToastMsg, onErrorServerNoResponseToastMsg}
 import {Router} from "@angular/router";
 import moment from 'moment';
 import {DateTime} from "ng2-datetime-picker/dist/datetime";
+import {FileSelectDirective, FileDropDirective} from "ng2-file-upload";
+import {FileUploadComponent} from "../user/attachment/modals/file-upload-modal";
+import {Attachment} from "../user/attachment/attachment.interface";
 
 @Component({
     selector: 'my-event',
     templateUrl: 'src/app/event/event.html',
     providers: [EventService, ToasterService],
-    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, DROPDOWN_DIRECTIVES, SELECT_DIRECTIVES, ToasterContainerComponent],
+    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, DROPDOWN_DIRECTIVES, SELECT_DIRECTIVES, ToasterContainerComponent,
+        FileSelectDirective, FileDropDirective, FileUploadComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe, ActiveFilter],
     styleUrls: ['src/app/event/event.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
@@ -71,13 +75,22 @@ export class EventComponent implements OnInit, OnDestroy {
         this.getEventsByPageNum(this.pageNumber);
     }
 
+    public onUpload(attachments:Attachment[]) {
+        if (this.createModal.isShown) {
+            this.newEvent.attachments = attachments;
+        }
+        if (this.editModal.isShown) {
+            this.selectedEvent.attachments = attachments;
+        }
+    }
+
     public onSelectRepeat(value:SelectItem):void {
         this.newEvent.repeat = this.backToConst(value);
         this.selectedEvent.repeat = this.backToConst(value);
     }
 
     getRepeatTranslation(){
-        console.log("got lang ",  HeaderComponent.translateService.currentLang);
+        console.log("got lang ", HeaderComponent.translateService.currentLang);
         for (let i = 0; i < this.repeat.length; i++){
             HeaderComponent.translateService.get(this.repeat[i].text)
                 .subscribe((data : string) => {

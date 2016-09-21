@@ -47,8 +47,7 @@ public class AttachmentController {
         if (!file.isEmpty()) {
             try {
                 logger.info("Uploading file " + file.getOriginalFilename());
-                attachmentService.uploadFile(file);
-                return new ResponseEntity<>(attachmentService.downloadFile(file.getOriginalFilename()), HttpStatus.OK);
+                return ResponseEntity.status(HttpStatus.OK).body(attachmentService.uploadFile(file));
             } catch (RuntimeException e) {
                 logger.warn("Cannot upload file " + file.getOriginalFilename());
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);

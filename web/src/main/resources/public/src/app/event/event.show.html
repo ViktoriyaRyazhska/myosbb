@@ -60,6 +60,14 @@
                                     <span class="task-title-sp">{{event.description}}</span>
                                 </div>
                             </li>
+                            <li>
+                                <b>{{ 'attachments' | translate | capitalize }}</b>
+                                <div>
+                                    <ul *ngFor="let attachment of event.attachments" class="list-inline">
+                                        <li><img src="{{attachment.url}}" alt="empty" height="50" width="60"></li>
+                                    </ul>
+                                </div>
+                            </li>
                             <button class="btn btn-primary btn-lg" value="Back" (click)="backClicked()" style="margin-top: 40px">
                                 <span class="glyphicon glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
                                 {{ 'go_back' | translate | capitalize }}

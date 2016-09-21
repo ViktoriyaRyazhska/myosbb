@@ -12,7 +12,6 @@ import ApiService = require("../../../shared/services/api.service");
 import FileLocationPath = require("../../../shared/services/file.location.path");
 import {FileUploadComponent} from "./modals/file-upload-modal";
 
-const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment/';
 const fileUploadPath = FileLocationPath.fileUploadPath;
 const fileDownloadPath = FileLocationPath.fileDownloadPath;
 declare var saveAs:any;
@@ -34,7 +33,6 @@ export class UserAttachmentComponent implements OnInit, OnDestroy {
     private totalPages:number;
     @ViewChild('delModal') public delModal:ModalDirective;
     @ViewChild('delAllModal') public delAllModal:ModalDirective;
-    @ViewChild('uploadModal') public uploadModal:ModalDirective;
     order:boolean = true;
     private pending:boolean = false;
     private attachmentId:number;
@@ -124,9 +122,6 @@ export class UserAttachmentComponent implements OnInit, OnDestroy {
             .subscribe((data) => {
                     this.pageCreator = data;
                     this.attachments = data.rows;
-                    for (let i = 0; i < this.attachments.length; i++){
-                        this.attachments[i].path = this.attachments[i].path.replace('/var/www/html/',attachmentUploadUrl);
-                    }
                     this.preparePageList(+this.pageCreator.beginPage,
                         +this.pageCreator.endPage);
                     this.totalPages = +data.totalPages;

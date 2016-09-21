@@ -2,6 +2,9 @@
     <div class="panel-heading"><h4><i class="fa fa-angle-right"></i> {{'events' | translate}}</h4></div>
     <div class="panel-body">
         <div class="content-panel">
+            <div class="ui segment form">
+                <file-upload-modal (upload)='onUpload($event)' #uploadForm></file-upload-modal>
+            </div>
             <div class="btn-group" role="group" aria-label="...">
                 <button type="button" class="btn btn-default"
                         [ngClass]="{'active': showAllEvents}"
@@ -286,6 +289,16 @@
                                 <input type="text" class="form-control"
                                        name="description" [(ngModel)]="newEvent.description"
                                        #description="ngModel">
+                            </div>
+
+                            <div>
+                                <label>{{'attachments' | translate | capitalize}}</label><br>
+                                <button type="button" class="btn btn-success"
+                                        (click)="uploadForm.openUploadModal()">
+                                    {{'upload' | translate | capitalize}} {{'file' | translate}}</button>
+                                <span *ngFor="let attachment of newEvent.attachments" class="list-inline">
+                                        <li><img src="{{attachment.url}}" alt="empty" height="50" width="60"></li>
+                                    </span>
                             </div>
                         </div>
                         <div class="modal-footer">

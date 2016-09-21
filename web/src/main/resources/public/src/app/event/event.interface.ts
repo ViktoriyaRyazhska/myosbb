@@ -1,4 +1,5 @@
 import {User} from "../../shared/models/User";
+import {Attachment} from "../user/attachment/attachment.interface";
 export class Event {
     id:number;
     title:string;
@@ -7,10 +8,10 @@ export class Event {
     start:Date;
     end:Date;
     repeat:string;
-    path:string;
+    attachments:Attachment[];
     status:string;
     constructor(eventItem?:{id:number, title:string, author:User, description:string, start:string,
-                            end:string, repeat:string, path:string, status:string}) {
+                            end:string, repeat:string, attachments:Attachment[], status:string}) {
     if(eventItem) {
         Object.assign(this,eventItem);
         }
