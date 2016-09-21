@@ -1,5 +1,5 @@
 import {bootstrap} from '@angular/platform-browser-dynamic';
-import {HTTP_PROVIDERS, Http, Request, RequestOptionsArgs, XHRBackend, RequestOptions,} from '@angular/http';
+import {HTTP_PROVIDERS, Http,  XHRBackend, RequestOptions,} from '@angular/http';
 import {ROUTER_DIRECTIVES,Router} from '@angular/router';
 import {APP_ROUTER_PROVIDERS} from "./app/app.routes";
 import {AppComponent} from "./app/app.component";
@@ -9,10 +9,12 @@ import {CurrentUserService} from "./shared/services/current.user.service";
  import {enableProdMode} from "@angular/core";
 import {LoginService}from "./app/login/login.service";
 import {HttpClient} from "./shared/services/HttpClient";
+import {AdminLoginGuard} from "./shared/guard/admin.login.guard";
  enableProdMode();
 bootstrap(AppComponent,
     [HTTP_PROVIDERS, APP_ROUTER_PROVIDERS,
         ROUTER_DIRECTIVES, CurrentUserService, LoginService,HttpClient,
+        AdminLoginGuard,
         TranslateService,
         {
             provide: TranslateLoader,
