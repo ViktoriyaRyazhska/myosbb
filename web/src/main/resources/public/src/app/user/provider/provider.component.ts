@@ -25,6 +25,16 @@ import {HeaderComponent} from "../../header/header.component";
 import {PeriodicityItems} from "../../../shared/models/periodicity.const";
 import {FORM_DIRECTIVES} from "@angular/forms";
 import MaskedInput from 'angular2-text-mask';
+import {FileUploader, FileSelectDirective, FileDropDirective} from "ng2-file-upload";
+import ApiService = require("../../../shared/services/api.service");
+
+import FileLocationPath = require("../../../shared/services/file.location.path");
+import {AttachmentComponent} from "../../attachment/attachment.component";
+const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment/';
+
+const fileUploadPath = FileLocationPath.fileUploadPath;
+const fileDownloadPath = FileLocationPath.fileDownloadPath;
+declare var saveAs:any;
 
 
 @Component({
@@ -33,8 +43,8 @@ import MaskedInput from 'angular2-text-mask';
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
     directives: [DROPDOWN_DIRECTIVES],
     providers: [ProviderService, MailService],
-    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, ROUTER_DIRECTIVES, ProviderTypeComponent,
-        SELECT_DIRECTIVES, NgClass, FORM_DIRECTIVES, BUTTON_DIRECTIVES, MaskedInput ],
+    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, ROUTER_DIRECTIVES, ProviderTypeComponent, AttachmentComponent,
+        SELECT_DIRECTIVES, NgClass, FORM_DIRECTIVES, BUTTON_DIRECTIVES, MaskedInput, FileSelectDirective, FileDropDirective, DROPDOWN_DIRECTIVES ],
     viewProviders: [BS_VIEW_PROVIDERS],
     styleUrls: ['src/app/user/bills/bill.css', 'src/shared/css/loader.css', 'src/shared/css/general.css']
 })
@@ -43,13 +53,14 @@ export class ProviderComponent {
     public textMask=[/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/];
     private providers :  Provider[];
     private selected : Provider =  {providerId:null, name:'', description:'', logoUrl:'', periodicity:'', type:{providerTypeId: null, providerTypeName: ''},
-        email:'',phone:'', address:'', schedule: '', active: false};
+        email:'',phone:'', address:'', schedule: '', active: false, attachments: null};
     private newProvider : Provider =  {providerId:null, name:'', description:'', logoUrl:'', periodicity:'', type:{providerTypeId: null, providerTypeName: ''},
-        email:'',phone:'', address:'', schedule: '', active: false};
+        email:'',phone:'', address:'', schedule: '', active: false, attachments: null};
     private pageCreator:PageCreator<Provider>;
     private pageNumber:number = 1;
     private pageList:Array<number> = [];
     private totalPages:number;
+
     @ViewChild('delModal') public delModal:ModalDirective;
     @ViewChild('editModal') public editModal:ModalDirective;
     @ViewChild('createModal') public createModal:ModalDirective;
@@ -57,13 +68,20 @@ export class ProviderComponent {
     order:boolean = true;
     onlyActive: boolean = true;
 
-
     private shouldRun: boolean = true;
+    private upload: boolean = false;
 
     private providerId:number;
     private periodicities: SelectItem[] = [];
 
     private mail : Mail = {to:'', subject: '', text: ''};
+
+    public uploader:FileUploader = new FileUploader({url: attachmentUploadUrl, authToken: 'Bearer ' + localStorage.getItem('access_token')});
+    public hasDropZoneOver:boolean = false;
+    public fileOverBase(e:any):void {
+        this.hasDropZoneOver = e;
+    }
+
     constructor(private _providerService:ProviderService, private _mailService: MailService){
     }
 
@@ -105,6 +123,7 @@ export class ProviderComponent {
 
     openEditModal(provider:Provider) {
         this.selected = provider;
+        this.upload = false;
         console.log('selected provider: ' + this.selected);
         this.editModal.show();
     }
@@ -267,8 +286,10 @@ export class ProviderComponent {
     closeCreateModal() {
         console.log('closing create modal');
         this.createModal.hide();
+
     }
     openCreateModal() {
+        this.upload = false;
         this.createModal.show();
     }
 
@@ -311,5 +332,36 @@ export class ProviderComponent {
             email:'',phone:'', address:'', schedule: '', active: false};
     }
 
+    showUploading(){
+        this.upload = !this.upload;
+        console.log("uploading", this.upload);
+    }
+
+    transform(bytes) {
+        if(bytes == 0) return '0 Bytes';
+        var k = 1000;
+        var sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        var i = Math.floor(Math.log(bytes) / Math.log(k));
+        return (bytes / Math.pow(k, i)).toFixed(1) + ' ' + sizes[i];
+    }
+
+    setAttachments(event){
+        console.log("set attachments ", event);
+        this.selected.attachments = event;
+    }
+    setNewProviderAttachments(event){
+        console.log("set attachments ", event);
+        this.newProvider.attachments = event;
+    }
+
+    setLogo(event){
+        console.log("Setting logo to provider " + this.selected.providerId, event);
+        this.selected.logoUrl = event;
+    }
+
+    setNewProviderLogo(event){
+        console.log("Setting logo to new provider", event);
+        this.newProvider.logoUrl = event;
+    }
 }
 

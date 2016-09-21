@@ -70,8 +70,21 @@ export class OsbbComponent implements OnInit {
         this.osbbArr.unshift(osbb);
     }
 
-    editOsbb(osbb:IOsbb): void {
-        this.osbbService.editOsbb(osbb);
+    editOsbb(osbbDTO:OsbbDTO): void {
+        console.log("osbbIndex: " + this.osbbArr.indexOf(osbbDTO.osbb));
+        
+        if(osbbDTO.isChanged){
+            console.log("edit osbb with logo");
+            this.osbbService.upload(osbbDTO.file)         
+            .then((attachment)=> {
+                let osbb = osbbDTO.osbb;
+                osbb.logo = attachment;
+                this.osbbService.editOsbb(osbb);
+            });
+        } else {
+            console.log("edit osbb without logo");
+            this.osbbService.editOsbb(osbbDTO.osbb);
+        }
     }
 
     deleteOsbb(osbb:IOsbb): void {

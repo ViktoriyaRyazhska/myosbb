@@ -76,4 +76,10 @@ export class AttachmentService {
             .map(res => res.json())
             .catch((err)=>Observable.throw(err));
     }
+
+    findLast(count: number): Observable<any>{
+        return  this._http.get(this.url + "last/" + count)
+            .map(res => res.json())
+            .catch((err)=>Observable.throw(err));
+    }
 }

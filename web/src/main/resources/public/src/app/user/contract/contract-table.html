@@ -42,6 +42,12 @@
                         <a style="{cursor:pointer}" (click)="sortBy('price')"><span
                                 class="fa fa-fw fa-sort pull-right"></span></a>
                     </th>
+                    <th>
+                        <i class="fa fa-files-o"></i> {{ 'attachments' | translate | capitalize }}
+                    </th>
+                    <th>
+                        <i class="fa fa-question-circle"></i> {{ 'details' | translate | capitalize }}
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -52,6 +58,16 @@
                     <td>{{ contract.dateFinish }}</td>
                     <td> {{ contract.text }}</td>
                     <td> {{contract.price | currency: contract.priceCurrency : true :'2.2-2'}} </td>
+                    <td>
+                        <div class="dropdown">
+                             <span class=" dropdown-toggle" id="dropdownDocs">  <i class="fa fa-cloud-download" *ngIf="contract.attachments.length>0"> </i>
+                             </span>
+                            <div class="dropdown-menu" aria-labelledby="dropdownDocs">
+                                <a style="padding: 5px" class="dropdown-item" *ngFor="let doc of contract.attachments"  href="{{doc.path}}" download > {{doc.fileName}}</a>
+                                <br>
+                            </div>
+                        </div>
+                    </td>
                     <td>
                         <div class="dropdown">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownContract"
@@ -162,6 +178,14 @@
                                         <textarea  class="form-control" name="text" [(ngModel)]="selected.text" required
                                                #text="ngModel"></textarea>
                                     </div> <!-- text -->
+
+
+                                    <div class="form-group">
+                                        <label> {{ 'attachments' | translate | capitalize }}</label>
+                                        <div  class="task-panel tasks-widget">
+                                            <myosbb-attachment [enableLogoBtn]="false" (attachmentChanged)="setAttachments($event)"></myosbb-attachment>
+                                        </div> <!-- File uploading -->
+                                    </div>
                                 </div>
                                 <img src="assets/img/list.png" class="img-rounded" alt="contract" width="220"
                                      height="220">
@@ -240,6 +264,12 @@
                                         <textarea  class="form-control" name="text" [(ngModel)]="newContract.text" required
                                               #text="ngModel"></textarea>
                                     </div>
+                                    <div class="form-group">
+                                        <label> {{ 'docs' | translate | capitalize }}</label>
+                                    <div  class="task-panel tasks-widget">
+                                        <myosbb-attachment [enableLogoBtn]="false" (attachmentChanged)="setNewContractAttachments($event)"></myosbb-attachment>
+                                    </div> <!-- File uploading -->
+                                    </div>
                                 </div>
                                 <img src="assets/img/list.png" class="img-rounded" alt="contract" width="220"
                                      height="220">
@@ -254,7 +284,6 @@
                     </div>
                 </div>
             </div>
-
         </div><!-- /content-panel -->
 
 

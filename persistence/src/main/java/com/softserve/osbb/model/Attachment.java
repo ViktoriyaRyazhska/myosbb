@@ -9,12 +9,13 @@ import com.softserve.osbb.utils.CustomLocalDateDeserializer;
 import com.softserve.osbb.utils.CustomLocalDateSerializer;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.text.StrBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 /**
- * Created by nataliia on 09.07.2016.
+ * Created by nataliia on git 09.07.2016.
  */
 
 @Entity
@@ -26,6 +27,7 @@ public class Attachment {
     private String url;
     private AttachmentType type;
     private LocalDate date;
+    private String fileName;
 
     @Id
     @Column(name = "attachment_id")
@@ -81,6 +83,15 @@ public class Attachment {
         this.date = date;
     }
 
+    @Column(name = "file_name")
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     @Override
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
@@ -89,5 +100,15 @@ public class Attachment {
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+        return "Attachment{" +
+                "attachmentId=" + attachmentId +
+                ", path=" + path +
+                ", type=" + type +
+                ", fileName=" + fileName +
+                '}';
     }
 }

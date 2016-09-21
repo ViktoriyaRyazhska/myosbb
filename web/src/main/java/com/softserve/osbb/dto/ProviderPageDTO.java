@@ -1,7 +1,11 @@
-package com.softserve.osbb.dto.mappers;
+package com.softserve.osbb.dto;
 
+import com.softserve.osbb.model.Attachment;
 import com.softserve.osbb.model.ProviderType;
 import com.softserve.osbb.model.enums.Periodicity;
+
+import java.util.List;
+
 /**
  * Created by Anastasiia Fedorak on 8/2/16.
  */
@@ -17,6 +21,7 @@ public class ProviderPageDTO {
     private String address;
     private boolean active = false;
     private String schedule;
+    private List<Attachment> attachments;
 
     public ProviderPageDTO() {
     }
@@ -129,5 +134,13 @@ public class ProviderPageDTO {
 
     public void setSchedule(String schedule) {
         this.schedule = schedule;
+    }
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
     }
 }

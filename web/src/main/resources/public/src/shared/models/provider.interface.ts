@@ -1,4 +1,5 @@
 import {ProviderType} from "./provider.type.interface";
+import {Attachment} from "../../app/user/attachment/attachment.interface";
 export interface Provider {
     providerId:number;
     name:string,
@@ -10,5 +11,6 @@ export interface Provider {
     phone:string,
     address:string,
     schedule: string,
-    active: boolean
+    active: boolean,
+    attachments: Array<Attachment>;
 }

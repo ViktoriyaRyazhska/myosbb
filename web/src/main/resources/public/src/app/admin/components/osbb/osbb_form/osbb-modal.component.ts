@@ -1,6 +1,7 @@
 import { Component, Output, Input, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {FORM_DIRECTIVES, CORE_DIRECTIVES, FormBuilder, Control, ControlGroup, Validators} from '@angular/common';
 import {IOsbb, Osbb} from "../../../../../shared/models/osbb";
+import {Attachment} from "../../../../../shared/models/attachment";
 import { OsbbDTO } from '../osbb';
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
@@ -18,10 +19,13 @@ import {CapitalizeFirstLetterPipe} from "../../../../../shared/pipes/capitalize-
 export class OsbbModalComponent implements OnInit{
 
     @Output() created: EventEmitter<OsbbDTO>;
-    @Output() update: EventEmitter<Osbb>;
+    @Output() update: EventEmitter<OsbbDTO>;
     
     @ViewChild('modalWindow')
     modalWindow:ModalDirective;
+
+    @ViewChild('inputLogo') 
+    inputLogo: HTMLInputElement;
 
     osbb:IOsbb;
     isEditing:boolean;
@@ -31,6 +35,8 @@ export class OsbbModalComponent implements OnInit{
     address: string;
     district: string;
     available: boolean;
+
+    osbbDTO: OsbbDTO;
     
     submitAttempt:boolean = false;
     creatingForm: ControlGroup;
@@ -40,8 +46,9 @@ export class OsbbModalComponent implements OnInit{
     districtControl: Control;
 
      constructor(private builder: FormBuilder, private element: ElementRef) {
+        this.osbbDTO = new OsbbDTO();
         this.created = new EventEmitter<OsbbDTO>();
-        this.update = new EventEmitter<Osbb>();
+        this.update = new EventEmitter<OsbbDTO>();
         this.nameControl = new Control('', Validators.required);
         this.descriptionControl = new Control('', Validators.required);
         this.addressControl = new Control('', Validators.required);
@@ -61,12 +68,14 @@ export class OsbbModalComponent implements OnInit{
     }
 
     showLogo(event) {
+        console.log("invoke.showLogo()");
         var reader = new FileReader();
         var image = this.element.nativeElement.querySelector('.image');
         reader.onload = function(e) {
             var src = e.target.result;
             image.src = src;
         };
+        
         reader.readAsDataURL(event.target.files[0]);
     }
 
@@ -83,6 +92,7 @@ export class OsbbModalComponent implements OnInit{
         this.address = osbb.address;
         this.district = osbb.district;
         this.available = osbb.available;
+        this.logoUrl = osbb.logo.url;
         this.modalWindow.show();
     }
     
@@ -90,15 +100,19 @@ export class OsbbModalComponent implements OnInit{
          this.submitAttempt = true;
          if(this.nameControl.valid && this.descriptionControl.valid 
                                 && this.addressControl.valid && this.districtControl.valid) {
+            let fileList: FileList = fileInput.files;
+            if(this.osbbDTO.isChanged) {
+                console.log("file was changed");
+                 this.osbbDTO.file =  fileList.item(0);
+            }
             if(this.isEditing) {
                 this.editOsbb();
-                this.update.emit(this.osbb);
+                this.osbbDTO.osbb = this.osbb;
+                this.update.emit(this.osbbDTO);
+                
             } else {
-               let osbbDTO = new OsbbDTO();
-               osbbDTO.osbb = this.createOsbb();
-               let fileList: FileList = fileInput.files;
-               osbbDTO.file =  fileList.item(0);
-               this.created.emit(osbbDTO);
+               this.osbbDTO.osbb = this.createOsbb();
+               this.created.emit(this.osbbDTO);
             }
             this.modalWindow.hide();
             this.clearForm();
@@ -115,6 +129,10 @@ export class OsbbModalComponent implements OnInit{
         return osbb;
     }
 
+    toggleChangeLogo() {
+        this.osbbDTO.isChanged = true;
+    }
+
     editOsbb(): void {
            this.osbb.name = this.name;
            this.osbb.description = this.description;
@@ -124,10 +142,12 @@ export class OsbbModalComponent implements OnInit{
     }
 
      clearForm(): void {
+        // this.inputLogo.value ='';
         this.name='';
         this.description='';
         this.address='';
         this.district='';
+        this.logoUrl='';
         this.submitAttempt = false;
     }
 }

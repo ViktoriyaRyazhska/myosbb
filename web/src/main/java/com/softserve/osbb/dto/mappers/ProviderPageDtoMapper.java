@@ -1,11 +1,16 @@
 package com.softserve.osbb.dto.mappers;
 
+import com.softserve.osbb.dto.ProviderPageDTO;
+import com.softserve.osbb.model.Attachment;
 import com.softserve.osbb.model.Provider;
 import com.softserve.osbb.model.ProviderType;
 import com.softserve.osbb.model.enums.Periodicity;
+import com.softserve.osbb.service.AttachmentService;
 import com.softserve.osbb.service.ProviderService;
 import com.softserve.osbb.service.ProviderTypeService;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 
 /**
  * Created by Anastasiia Fedorak on 8/2/16.
@@ -29,13 +34,14 @@ public class ProviderPageDtoMapper {
             providerPageDTO.setAddress(provider.getAddress());
             providerPageDTO.setSchedule(provider.getSchedule());
             providerPageDTO.setActive(provider.isActive());
+            providerPageDTO.setAttachments(provider.getAttachments());
         } else {
             logger.error("provider is null");
         }
         return providerPageDTO;
     }
 
-    public  static Provider getProviderEntityFromDto(ProviderService providerService, ProviderTypeService providerTypeService, ProviderPageDTO providerPageDTO) {
+    public  static Provider getProviderEntityFromDto(ProviderService providerService, ProviderTypeService providerTypeService, AttachmentService attachmentService, ProviderPageDTO providerPageDTO) {
         if (providerPageDTO == null) logger.debug("empty request");
         Provider provider;
         Integer providerId = providerPageDTO.getProviderId();
@@ -68,6 +74,11 @@ public class ProviderPageDtoMapper {
         provider.setAddress(providerPageDTO.getAddress());
         provider.setActive(providerPageDTO.isActive());
         provider.setSchedule(providerPageDTO.getSchedule());
+        ArrayList<Attachment> list = new ArrayList<>();
+        for (int i = 0; i < providerPageDTO.getAttachments().size(); i++) {
+            list.add(attachmentService.getAttachmentById(providerPageDTO.getAttachments().get(i).getAttachmentId()));
+        }
+        provider.setAttachments(list); //tmp dirty solution PersistentObjectException, detached Attachment entity passed to persist
         if (providerId==null) {
             logger.info("saving provider");
           providerService.saveProvider(provider);

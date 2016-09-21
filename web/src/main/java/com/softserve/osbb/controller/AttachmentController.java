@@ -7,6 +7,7 @@ import com.softserve.osbb.util.paging.PageDataObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.integration.IntegrationAutoConfiguration;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.Resource;
@@ -92,6 +93,12 @@ public class AttachmentController {
             resourceAttachmentList.add(attachmentResource);
         }
         return new ResponseEntity<>(resourceAttachmentList, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/last/{count}", method = RequestMethod.GET)
+    public List<Attachment> findLast(@PathVariable("count") Integer count) {
+        List<Attachment> allAttachments = attachmentService.getAllAttachments();
+        return allAttachments.subList(allAttachments.size()-count, allAttachments.size());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

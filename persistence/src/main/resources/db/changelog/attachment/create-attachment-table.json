@@ -44,6 +44,12 @@
                     "name": "date",
                     "type": "date"
                   }
+                },
+                {
+                  "column": {
+                    "name": "file_name",
+                    "type": "VARCHAR(255)"
+                  }
                 }
               ],
               "tableName": "attachment"
