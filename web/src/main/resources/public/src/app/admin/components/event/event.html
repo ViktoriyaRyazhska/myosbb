@@ -53,7 +53,8 @@
                         <a style="{cursor:pointer}" (click)="sortBy('status')">
                             <span class="fa fa-fw fa-sort pull-right"></span></a></th>
                     <th class="sorting"><i class="fa fa-bookmark"></i> {{'homePage' | translate | capitalize}}</th>
-                    <th class="sorting"><i class=" fa fa-edit"></i> {{'additionalInformation' | translate | capitalize}}</th>
+                    <th class="sorting"><i class=" fa fa-edit"></i> {{'additionalInformation' | translate | capitalize}}
+                    </th>
                     <th><i class="fa fa-question-circle"></i> {{'details' | translate | capitalize}}</th>
                 </tr>
                 </thead>
@@ -65,13 +66,13 @@
                     <td>{{event.repeat | translate}}</td>
                     <td>{{event.author.firstName + " " + event.author.lastName}}</td>
                     <td>
-                        <div *ngIf ="event.status == 'FINISHED'">
+                        <div *ngIf="event.status == 'FINISHED'">
                             <span class="label btn-round label-danger">{{event.status}}</span>
                         </div>
-                        <div *ngIf ="event.status == 'IN_PROGRESS'">
+                        <div *ngIf="event.status == 'IN_PROGRESS'">
                             <span class="label btn-round label-success">{{event.status}}</span>
                         </div>
-                        <div *ngIf ="event.status == 'FUTURE'">
+                        <div *ngIf="event.status == 'FUTURE'">
                             <span class="label btn-round label-info">{{event.status}}</span>
                         </div>
                     <td>
@@ -187,9 +188,9 @@
                                     <label>{{'dateFinish' | translate | capitalize}}</label>
                                     <input type="datetime-local" value="yyyy-MM-dd hh:mm" class="form-control"
                                            [disabled]="!start.valid" name="end"
-                                            [(ngModel)]="selectedEvent.end" #end="ngModel">
+                                           [(ngModel)]="selectedEvent.end" #end="ngModel">
                                     <!--<div (keyup)="isDateValid(newEvent.start, newEvent.end)" class="alert alert-danger">-->
-                                        <!--{{'invalid' | translate | capitalize}}-->
+                                    <!--{{'invalid' | translate | capitalize}}-->
                                     <!--</div>-->
                                 </div>
 
@@ -220,7 +221,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-default"
-                                    [disabled]="!eventForm.form.valid && !isDateValid(selectedEvent.start, selectedEvent.end)">
+                                        [disabled]="!eventForm.form.valid && !isDateValid(selectedEvent.start, selectedEvent.end)">
                                     {{'save' | translate | capitalize}}
                                 </button>
                             </div>
@@ -232,7 +233,7 @@
         </div>
 
         <!--Create Modal -->
-        <div bsModal #createModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+        <div bsModal #createModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-y: scroll"
              aria-labelledby="mySmallModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -295,13 +296,18 @@
                                 <label>{{'attachments' | translate | capitalize}}</label><br>
                                 <button type="button" class="btn btn-success"
                                         (click)="uploadForm.openUploadModal()">
-                                    {{'upload' | translate | capitalize}} {{'file' | translate}}</button>
+                                    {{'upload' | translate | capitalize}} {{'file' | translate}}
+                                </button>
                             </div>
 
-                            <div>
-                                <span *ngFor="let attachment of newEvent.attachments" class="list-inline">
-                                    <img src="{{attachment.url}}" alt="empty" height="50" width="60">
-                                </span>
+                            <div class="row" style="margin-top: 20px">
+                                <div *ngFor="let attachment of newEvent.attachments" class="col-sm-3">
+                                    <div class="thumbnail"><i class="close col-sm-2"
+                                                              (click)="removeAttachment(attachment)">×</i>
+                                        <img src="{{attachment.url}}" class="img-responsive"
+                                             style="width:100px;height:80px">
+                                    </div>
+                                </div>
                             </div>
 
                         </div>

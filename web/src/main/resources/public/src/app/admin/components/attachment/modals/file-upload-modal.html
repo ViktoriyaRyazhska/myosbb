@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" aria-label="Close"
-                        (click)="uploadModal.hide()">
+                        (click)="closeUploadModal()">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 class="modal-title">{{ 'upload' | translate | capitalize }} {{ 'file' | translate }}</h4>
@@ -67,10 +67,6 @@
                             <button type="button" class="btn btn-success btn-s"
                                     (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
                                 <span class="glyphicon glyphicon-upload"></span> {{ 'upload' | translate | capitalize }} {{ 'all' | translate }}
-                            </button>
-                            <button type="button" class="btn btn-warning btn-s"
-                                    (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
-                                <span class="glyphicon glyphicon-ban-circle"></span> {{ 'cancel' | translate | capitalize }} {{ 'all' | translate }}
                             </button>
                             <button type="button" class="btn btn-danger btn-s"
                                     (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">

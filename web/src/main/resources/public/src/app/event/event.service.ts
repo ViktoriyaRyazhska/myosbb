@@ -67,7 +67,7 @@ export class EventService {
     editAndSave(event:Event) {
         if (event.id) {
             console.log('updating event with id: ' + event.id);
-            this.put(event);
+            return this.put(event);
         }
     }
 

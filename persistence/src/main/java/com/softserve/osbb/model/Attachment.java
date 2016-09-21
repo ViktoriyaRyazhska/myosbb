@@ -60,7 +60,6 @@ public class Attachment {
         this.url = url;
     }
 
-    @JsonIgnore
     @Enumerated(EnumType.STRING)
     @Column(name = "type", columnDefinition = "varchar(255) default 'DATA'")
     public AttachmentType getType() {

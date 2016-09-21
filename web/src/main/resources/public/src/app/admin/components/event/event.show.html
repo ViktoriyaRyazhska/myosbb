@@ -62,11 +62,13 @@
                             </li>
                             <li>
                                 <b>{{ 'attachments' | translate | capitalize }}</b>
-                                <div>
-                                    <span *ngFor="let attachment of event.attachments" class="list-inline">
-                                        <img src="{{attachment.url}}" alt="empty" height="50" width="60">
-                                    </span>
-                                </div>
+                                <ul class="row thumbnails" *ngFor="let attachment of event.attachments">
+                                    <li class="col-md-3 list-inline">
+                                        <span class="thumbnail">
+                                            <img src="{{attachment.url}}" class="img-responsive" height="50" width="50">
+                                        </span>
+                                    </li>
+                                </ul>
                             </li>
                             <button class="btn btn-primary btn-lg" value="Back" (click)="backClicked()" style="margin-top: 40px">
                                 <span class="glyphicon glyphicon glyphicon-arrow-left" aria-hidden="true"></span>

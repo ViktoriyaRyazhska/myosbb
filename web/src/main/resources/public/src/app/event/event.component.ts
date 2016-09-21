@@ -84,6 +84,17 @@ export class EventComponent implements OnInit, OnDestroy {
         }
     }
 
+    public removeAttachment(attachment) {
+        if (this.createModal.isShown) {
+            let index = this.newEvent.attachments.indexOf(attachment);
+            this.newEvent.attachments.splice(index, 1);
+        }
+        if (this.editModal.isShown) {
+            let index = this.selectedEvent.attachments.indexOf(attachment);
+            this.selectedEvent.attachments.splice(index, 1);
+        }
+    }
+
     public onSelectRepeat(value:SelectItem):void {
         this.newEvent.repeat = this.backToConst(value);
         this.selectedEvent.repeat = this.backToConst(value);
@@ -121,11 +132,6 @@ export class EventComponent implements OnInit, OnDestroy {
         return moment(date).format("DD.MM.YYYY hh:mm A");
     }
 
-    refresh() {
-        console.log('refreshing...');
-        this.getEventsByPageNum(this.pageNumber);
-    }
-
     openEditModal(event:Event) {
         this.selectedEvent = event;
         console.log(this.selectedEvent.start + "\n" + this.selectedEvent.end);
@@ -139,9 +145,8 @@ export class EventComponent implements OnInit, OnDestroy {
     onEditEventSubmit() {
         this.active = false;
         console.log('saving event: ' + this.selectedEvent);
-        this._eventService.editAndSave(this.selectedEvent);
+        this._eventService.editAndSave(this.selectedEvent).then(() => this.getEventsByPageNum(this.pageNumber));
         this.editModal.hide();
-        this.refresh();
         setTimeout(() => this.active = true, 0);
     }
 
@@ -164,11 +169,9 @@ export class EventComponent implements OnInit, OnDestroy {
         this.newEvent.repeat = this.newEvent.repeat
             ? this.newEvent.repeat
             : this.newEvent.repeat = "ONE_TIME";
-        this._eventService.addEvent(this.newEvent);
+        this._eventService.addEvent(this.newEvent).then(() => this.getEventsByPageNum(this.pageNumber));
         this.createModal.hide();
-        this.refresh();
         setTimeout(() => this.active = true, 0);
-        this.events.push(this.newEvent);
         this.newEvent = new Event();
     }
 
@@ -185,9 +188,7 @@ export class EventComponent implements OnInit, OnDestroy {
 
     closeDelModal() {
         console.log('delete', this.id);
-        this._eventService.deleteEventById(this.id);
-        this._eventService.getAllEvents(this.pageNumber);
-        this.getEventsByPageNum(this.pageNumber);
+        this._eventService.deleteEventById(this.id).then(() => this.getEventsByPageNum(this.pageNumber));
         this.delModal.hide();
     }
 
@@ -197,9 +198,7 @@ export class EventComponent implements OnInit, OnDestroy {
 
     closeDelAllModal() {
         console.log('delete all');
-        this._eventService.deleteAllEvents();
-        this._eventService.getAllEvents(this.pageNumber);
-        this.getEventsByPageNum(this.pageNumber);
+        this._eventService.deleteAllEvents().then(() => this.getEventsByPageNum(this.pageNumber));
         this.delAllModal.hide();
     }
 

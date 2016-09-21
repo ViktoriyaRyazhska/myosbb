@@ -39,6 +39,20 @@ export class AttachmentAdminComponent implements OnInit, OnDestroy {
     constructor(private _attachmentService:AttachmentService) {
     }
 
+    public onUploadAttachment(attachments: Attachment[]) {
+        attachments.forEach(a => this.attachments.push(a));
+    }
+
+    getPreview(attachment: Attachment): string {
+        switch (attachment.type) {
+            case "DATA": return "assets/img/attachment_type/data.png"; break;
+            case "TEXT": return "assets/img/attachment_type/text.png"; break;
+            case "AUDIO": return "assets/img/attachment_type/audio.png"; break;
+            case "VIDEO": return "assets/img/attachment_type/video.png"; break;
+            default: return attachment.url;
+        }
+    }
+
     openDelModal(id:number) {
         this.attachmentId = id;
         console.log('show', this.attachmentId);
@@ -47,9 +61,8 @@ export class AttachmentAdminComponent implements OnInit, OnDestroy {
 
     closeDelModal() {
         console.log('delete', this.attachmentId);
-        this._attachmentService.deleteAttachmentById(this.attachmentId);
-        this._attachmentService.getAllAttachments(this.pageNumber);
-        this.getAttachmentsByPageNum(this.pageNumber);
+        this._attachmentService.deleteAttachmentById(this.attachmentId)
+            .then(() => this.getAttachmentsByPageNum(this.pageNumber));
         this.delModal.hide();
     }
 
@@ -59,9 +72,8 @@ export class AttachmentAdminComponent implements OnInit, OnDestroy {
 
     closeDelAllModal() {
         console.log('delete all');
-        this._attachmentService.deleteAllAttachments();
-        this._attachmentService.getAllAttachments(this.pageNumber);
-        this.getAttachmentsByPageNum(this.pageNumber);
+        this._attachmentService.deleteAllAttachments()
+            .then(() => this.getAttachmentsByPageNum(this.pageNumber));
         this.delAllModal.hide();
     }
 
