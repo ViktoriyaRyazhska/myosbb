@@ -23,8 +23,8 @@ import {Router} from "@angular/router";
 import moment from 'moment';
 import {DateTime} from "ng2-datetime-picker/dist/datetime";
 import {FileSelectDirective, FileDropDirective} from "ng2-file-upload";
-import {FileUploadComponent} from "../../../user/attachment/modals/file-upload-modal";
-import {Attachment} from "../../../user/attachment/attachment.interface";
+import {FileUploadComponent} from "../../components/attachment/modals/file-upload-modal";
+import {Attachment} from "../../components/attachment/attachment.interface";
 
 @Component({
     selector: 'my-event',
