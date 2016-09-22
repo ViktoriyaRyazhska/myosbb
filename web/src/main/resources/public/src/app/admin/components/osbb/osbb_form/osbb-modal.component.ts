@@ -1,12 +1,12 @@
 import { Component, Output, Input, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {FORM_DIRECTIVES, CORE_DIRECTIVES, FormBuilder, Control, ControlGroup, Validators} from '@angular/common';
+import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from 'ng2-bootstrap/ng2-bootstrap';
+import {TranslatePipe} from "ng2-translate";
+
+import {CapitalizeFirstLetterPipe} from "../../../../../shared/pipes/capitalize-first-letter";
 import {IOsbb, Osbb} from "../../../../../shared/models/osbb";
 import {Attachment} from "../../../../../shared/models/attachment";
 import { OsbbDTO } from '../osbb';
-import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
-import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
-import {TranslatePipe} from "ng2-translate";
-import {CapitalizeFirstLetterPipe} from "../../../../../shared/pipes/capitalize-first-letter";
 
 @Component({
     selector: 'osbb-modal',
@@ -25,8 +25,9 @@ export class OsbbModalComponent implements OnInit{
     modalWindow:ModalDirective;
 
     @ViewChild('inputLogo') 
-    inputLogo: HTMLInputElement;
+    inputLogo: any;
 
+    osbbDTO: OsbbDTO;
     osbb:IOsbb;
     isEditing:boolean;
     logoUrl:string;
@@ -35,8 +36,6 @@ export class OsbbModalComponent implements OnInit{
     address: string;
     district: string;
     available: boolean;
-
-    osbbDTO: OsbbDTO;
     
     submitAttempt:boolean = false;
     creatingForm: ControlGroup;
@@ -68,18 +67,17 @@ export class OsbbModalComponent implements OnInit{
     }
 
     showLogo(event) {
-        console.log("invoke.showLogo()");
         var reader = new FileReader();
         var image = this.element.nativeElement.querySelector('.image');
         reader.onload = function(e) {
             var src = e.target.result;
             image.src = src;
         };
-        
         reader.readAsDataURL(event.target.files[0]);
     }
 
     openAddModal() {
+        this.logoUrl = null;
         this.isEditing = false;
         this.modalWindow.show();  
     }
@@ -92,7 +90,11 @@ export class OsbbModalComponent implements OnInit{
         this.address = osbb.address;
         this.district = osbb.district;
         this.available = osbb.available;
-        this.logoUrl = osbb.logo.url;
+        if(osbb.logo !== null ) {
+            this.logoUrl = osbb.logo.url;
+        } else {
+             this.logoUrl = '';
+        }
         this.modalWindow.show();
     }
     
@@ -102,7 +104,6 @@ export class OsbbModalComponent implements OnInit{
                                 && this.addressControl.valid && this.districtControl.valid) {
             let fileList: FileList = fileInput.files;
             if(this.osbbDTO.isChanged) {
-                console.log("file was changed");
                  this.osbbDTO.file =  fileList.item(0);
             }
             if(this.isEditing) {
@@ -142,11 +143,11 @@ export class OsbbModalComponent implements OnInit{
     }
 
      clearForm(): void {
-        // this.inputLogo.value ='';
         this.name='';
         this.description='';
         this.address='';
         this.district='';
+        this.inputLogo.nativeElement.value = '';
         this.logoUrl='';
         this.submitAttempt = false;
     }

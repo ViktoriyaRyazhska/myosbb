@@ -1,10 +1,10 @@
 import { Component, Output, Input, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
-import {IOsbb, Osbb} from "../../../../../shared/models/osbb";
-import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
-import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
+import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from 'ng2-bootstrap/ng2-bootstrap';
 import {TranslatePipe} from "ng2-translate";
+
 import {CapitalizeFirstLetterPipe} from "../../../../../shared/pipes/capitalize-first-letter";
+import {IOsbb, Osbb} from "../../../../../shared/models/osbb";
 
 @Component({
     selector: 'osbb-del-form',
@@ -15,6 +15,7 @@ import {CapitalizeFirstLetterPipe} from "../../../../../shared/pipes/capitalize-
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
 })
 export class OsbbDelFormComponent {
+
     @Output() delete: EventEmitter<IOsbb>;
     @ViewChild('delModal')
     delModal:ModalDirective;
@@ -22,6 +23,10 @@ export class OsbbDelFormComponent {
     private osbb: IOsbb;
     name:string;
     submitAttempt:boolean = false;
+
+    constructor() {
+        this.delete = new EventEmitter<IOsbb>();
+    }
 
     openDelModal(osbbId:IOsbb): void {
         this.osbb = osbbId;
@@ -36,21 +41,17 @@ export class OsbbDelFormComponent {
         this.delModal.hide();   
     }
 
-    constructor() {
-        this.delete = new EventEmitter<IOsbb>();
-    }
-
     clearDelModal() {
         this.name = '';
         this.submitAttempt = false;
     }
-   confirmDeleting(): void {
-       this.submitAttempt = true;
-       console.log("isNameEquals: " + this.isNameEquals());
-        if(this.isNameEquals()) {
+
+    confirmDeleting(): void {
+        this.submitAttempt = true;
+        if (this.isNameEquals()) {
             this.delete.emit(this.osbb);
-             this.hideDelModal();
-             this.clearDelModal();
-         }
+            this.hideDelModal();
+            this.clearDelModal();
+        }
     }
 }
