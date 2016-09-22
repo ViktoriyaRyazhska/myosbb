@@ -25,11 +25,12 @@ import {DateTime} from "ng2-datetime-picker/dist/datetime";
 import {FileSelectDirective, FileDropDirective} from "ng2-file-upload";
 import {FileUploadComponent} from "../admin/components/attachment/modals/file-upload-modal";
 import {Attachment} from "../admin/components/attachment/attachment.interface";
+import {AttachmentService} from "../admin/components/attachment/attachment.service";
 
 @Component({
     selector: 'my-event',
     templateUrl: 'src/app/event/event.html',
-    providers: [EventService, ToasterService],
+    providers: [EventService, ToasterService, AttachmentService],
     directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, DROPDOWN_DIRECTIVES, SELECT_DIRECTIVES, ToasterContainerComponent,
         FileSelectDirective, FileDropDirective, FileUploadComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
@@ -62,7 +63,8 @@ export class EventComponent implements OnInit, OnDestroy {
     private repeat: SelectItem[] = [];
 
     constructor(private _eventService:EventService, private currentUserService:CurrentUserService,
-                private _router: Router, private _toasterService: ToasterService) {
+                private _router: Router, private _toasterService: ToasterService,
+                private _attachmentService: AttachmentService) {
         this.currentUser = currentUserService.getUser();
     }
 
@@ -77,10 +79,10 @@ export class EventComponent implements OnInit, OnDestroy {
 
     public onUpload(attachments:Attachment[]) {
         if (this.createModal.isShown) {
-            this.newEvent.attachments = attachments;
+            this.newEvent.attachments.push(attachments);
         }
         if (this.editModal.isShown) {
-            this.selectedEvent.attachments = attachments;
+            this.selectedEvent.attachments.push(attachments);
         }
     }
 
@@ -93,6 +95,10 @@ export class EventComponent implements OnInit, OnDestroy {
             let index = this.selectedEvent.attachments.indexOf(attachment);
             this.selectedEvent.attachments.splice(index, 1);
         }
+    }
+
+    public getPreview(attachment: Attachment) {
+        return this._attachmentService.getPreview(attachment);
     }
 
     public onSelectRepeat(value:SelectItem):void {

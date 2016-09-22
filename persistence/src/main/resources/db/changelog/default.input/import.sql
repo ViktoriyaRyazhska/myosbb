@@ -28,6 +28,7 @@ INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,ph
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1992-12-30','butaroman1@gmail.com','Roman1','male','Buta1','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0632571119','1',8,TRUE );
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1992-12-30','butaroman2@gmail.com','Roman2','male','Buta2','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0632571119','1',8,TRUE );
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1992-12-30','butaroman3@gmail.com','Roman3','male','Buta3','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0632571119','1',8,TRUE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1994-08-18','nkharabaruk@gmail.com','Nataliia','female','Kharabaruk','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0638142706','1',4,TRUE );
 
 
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1994-12-16','svitlanaKoval@gmail.com','Svitlana','male','Koval','$2a$08$wIri8hT4wjBAM5Ssfz3N/ueLbSy80mO4hsVhTsdS67YR9wbjCBy2C','095729666','1',8,FALSE );
@@ -176,4 +177,19 @@ INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(10,TRUE,TRUE
 INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(11,FALSE,FALSE,FALSE,FALSE );
 INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(12,TRUE,FALSE,TRUE,TRUE );
 
+
+INSERT into event(title, author, start_time, end_time, description, repeat, osbb_id) VALUES(
+'Процес пішов: три будинки передадуть з ЖЕКу до ОСББ',6,'2016-09-30 07:00:00+03','2016-10-10 07:00:00+03',
+'Зокрема, на баланс ОСББ «Центр – Ч» передадуть два житлових будинки, а саме № 15 по вулиці Чернишевського та № 15-А по вулиці Чернишевського.
+На баланс ОСББ «Реконструкція» планується передати житловий будинок № 18 по вулиці Мстиславській.','ONE_TIME',2);
+INSERT into event(title, author, start_time, end_time, description, repeat, osbb_id) VALUES(
+'В Києві відбудуться безкоштовні семінари із створення ОСББ',9,'2017-01-20 10:00:00+03','2017-01-20 12:30:00+03',
+'20 та 23 січня в Києві стартує цикл безкоштовних семінарів з питань створення та організації ефективної роботи ОСББ.','PERMANENT_WEEKLY',6);
+INSERT into event(title, author, start_time, end_time, description, repeat, osbb_id) VALUES(
+'У Броварах відбувся Форум ОСББ',2,'2016-06-11 09:00:00+03','2016-06-11 24:00:00+03',
+'11 червня в Броварах відбулася унікальна подія – масштабний Форум ОСББ, який зібрав експертів з усієї країни, ' ||
+'які впродовж 7 годин розповідали про всі нюанси створення та функціонування об’єднання співвласників.','ONE_TIME',1);
+INSERT into event(title, author, start_time, end_time, description, repeat, osbb_id) VALUES(
+'Мешканців міста знайомлять з порядком створення ОСББ',4,'2016-01-01 08:00:00+03','2017-01-01 08:00:00+03',
+'1 липня 2015 р. набрав чинності Закон України «Про особливості здійснення права власності в багатоквартирному будинку».','ONE_TIME',4);
 

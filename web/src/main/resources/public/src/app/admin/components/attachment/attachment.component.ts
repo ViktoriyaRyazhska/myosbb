@@ -44,13 +44,7 @@ export class AttachmentAdminComponent implements OnInit, OnDestroy {
     }
 
     getPreview(attachment: Attachment): string {
-        switch (attachment.type) {
-            case "DATA": return "assets/img/attachment_type/data.png"; break;
-            case "TEXT": return "assets/img/attachment_type/text.png"; break;
-            case "AUDIO": return "assets/img/attachment_type/audio.png"; break;
-            case "VIDEO": return "assets/img/attachment_type/video.png"; break;
-            default: return attachment.url;
-        }
+        return this._attachmentService.getPreview(attachment);
     }
 
     openDelModal(id:number) {
