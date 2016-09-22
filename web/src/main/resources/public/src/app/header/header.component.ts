@@ -46,7 +46,6 @@ export class HeaderComponent implements OnInit,OnDestroy {
     wordM:string = '';
 
     constructor(private noticeService:NoticeService,
-                private _currentUserService:CurrentUserService,
                 private _loginService:LoginService,
                 private _loginStat:LoginStat,
                 private _route:ActivatedRoute,
