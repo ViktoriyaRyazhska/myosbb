@@ -1,6 +1,7 @@
 package com.softserve.osbb.service.impl;
 
 import com.softserve.osbb.model.Attachment;
+import com.softserve.osbb.model.enums.AttachmentType;
 import com.softserve.osbb.repository.AttachmentRepository;
 import com.softserve.osbb.service.AttachmentService;
 import com.softserve.osbb.utils.Constants;
@@ -31,7 +32,7 @@ import static com.softserve.osbb.utils.Constants.FILE_UPLOAD_PATH;
  */
 
 @Service
-public class AttachmentServiceImpl implements AttachmentService{
+public class AttachmentServiceImpl implements AttachmentService {
 
     @Autowired
     AttachmentRepository attachmentRepository;
@@ -49,7 +50,26 @@ public class AttachmentServiceImpl implements AttachmentService{
         attachment.setPath(path);
         attachment.setDate(LocalDate.now());
         attachment.setFileName(file.getOriginalFilename());
+        attachment.setType(getAttachmentType(attachment));
         return saveAttachment(attachment);
+    }
+
+    private AttachmentType getAttachmentType(Attachment attachment) {
+        try {
+            String type = Files.probeContentType(Paths.get(attachment.getFileName()));
+            if (type.contains("image")) {
+                return AttachmentType.IMAGE;
+            } else if (type.contains("audio")) {
+                return AttachmentType.AUDIO;
+            } else if (type.contains("video")) {
+                return AttachmentType.VIDEO;
+            } else if (type.contains("text")) {
+                return AttachmentType.TEXT;
+            }
+        } catch (IOException e) {
+            logger.error("Cannot set Attachment type.");
+        }
+        return AttachmentType.DATA;
     }
 
     private Path getFilePathWithSubDir(MultipartFile file) {
@@ -168,7 +188,7 @@ public class AttachmentServiceImpl implements AttachmentService{
 
     @Override
     public void deleteAllAttachments() {
-        attachmentRepository.deleteAll();
+        attachmentRepository.findAll().forEach(a -> deleteAttachmentEverywhere(a.getAttachmentId()));
     }
 
     @Override

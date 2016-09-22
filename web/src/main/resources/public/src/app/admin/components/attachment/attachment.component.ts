@@ -1,11 +1,11 @@
 import {Component, OnInit, OnDestroy, ViewChild} from "@angular/core";
 import {CORE_DIRECTIVES} from "@angular/common";
-import {Attachment} from "../../../user/attachment/attachment.interface";
-import {AttachmentService} from "../../../user/attachment/attachment.service";
+import {Attachment} from "./attachment.interface";
+import {AttachmentService} from "./attachment.service";
 import {PageCreator} from "../../../../shared/services/page.creator.interface";
 import "rxjs/Rx";
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
-import {FileSelectDirective, FileDropDirective, FileUploader} from "ng2-file-upload/ng2-file-upload";
+import {FileSelectDirective, FileDropDirective} from "ng2-file-upload/ng2-file-upload";
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
 import ApiService = require("../../../shared/services/api.service");
@@ -44,13 +44,7 @@ export class AttachmentAdminComponent implements OnInit, OnDestroy {
     }
 
     getPreview(attachment: Attachment): string {
-        switch (attachment.type) {
-            case "DATA": return "assets/img/attachment_type/data.png"; break;
-            case "TEXT": return "assets/img/attachment_type/text.png"; break;
-            case "AUDIO": return "assets/img/attachment_type/audio.png"; break;
-            case "VIDEO": return "assets/img/attachment_type/video.png"; break;
-            default: return attachment.url;
-        }
+        return this._attachmentService.getPreview(attachment);
     }
 
     openDelModal(id:number) {

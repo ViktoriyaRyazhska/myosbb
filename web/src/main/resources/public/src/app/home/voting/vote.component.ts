@@ -10,6 +10,7 @@ import {User} from './user';
 import {CurrentUserService} from "../../../shared/services/current.user.service";
 import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
+import moment from 'moment';
 
 @Component({
     selector: 'vote',
@@ -57,7 +58,6 @@ export class VoteComponent implements OnInit {
     }
 
     openModalWindow(): void {
-        console.log("currentUserId: " + this.currentUserService.getUser().userId);
         this.voteAddForm.openAddModal();
     }
 
@@ -100,12 +100,8 @@ export class VoteComponent implements OnInit {
         }
     }
 
-    getStartTime(startTime:Date):string {
-        return new Date(startTime).toLocaleString();
-    }
-
-    getEndTime(endTime: Date):string {
-        return new Date(endTime).toLocaleString();
+    getFormatDate(date:Date):string {
+      return moment(date).format("DD.MM.YYYY HH:mm");
     }
 
     deleteVote(vote: Vote): void {

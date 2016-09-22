@@ -7,8 +7,8 @@ import {TranslatePipe} from "ng2-translate/ng2-translate";
 import ApiService = require("../../shared/services/api.service");
 import {CapitalizeFirstLetterPipe} from "../../shared/pipes/capitalize-first-letter";
 import FileLocationPath = require("../../shared/services/file.location.path");
-import {AttachmentService} from "../user/attachment/attachment.service";
-import {Attachment} from "../user/attachment/attachment.interface";
+import {AttachmentService} from "../admin/components/attachment/attachment.service";
+import {Attachment} from "../admin/components/attachment/attachment.interface";
 
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment/';
 const fileUploadPath = FileLocationPath.fileUploadPath;

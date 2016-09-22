@@ -26,7 +26,7 @@
                     <div>
                         <ul>
                             <li *ngFor="let option of optionArr">
-                                <button type="button" aria-label="Close" (click)="deleteOption(option)">&times;</button>{{option.description}}
+                                <button type="button" class="btn-danger" aria-label="Close" (click)="deleteOption(option)"><i class="fa fa-times" aria-hidden="true"></i></button> {{ option.description}}
                             </li>
                         </ul>
                     </div>

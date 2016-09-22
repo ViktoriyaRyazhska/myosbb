@@ -2,7 +2,6 @@ package com.softserve.osbb.repository;
 
 import com.softserve.osbb.PersistenceConfiguration;
 import com.softserve.osbb.model.Osbb;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +10,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -63,14 +59,6 @@ public class OsbbRepositoryTest {
     }
 
     @Test
-    public void testGetAllOsbb() {
-        List<Osbb> list = Arrays.asList(new Osbb(), new Osbb(), new Osbb());
-        osbbRepository.deleteAll();
-        osbbRepository.save(list);
-        assertTrue(list.size() == osbbRepository.findAll().size());
-    }
-
-    @Test
     public void testDeleteOsbbById() {
         Osbb osbb = osbbRepository.save(this.osbb);
         osbbRepository.delete(osbb.getOsbbId());
@@ -83,12 +71,4 @@ public class OsbbRepositoryTest {
         osbbRepository.delete(osbb);
         assertFalse(osbbRepository.exists(osbb.getOsbbId()));
     }
-
-    @Test
-    public void testDeleteAllOsbb() {
-        Assert.assertNotEquals(0, osbbRepository.findAll().size());
-        osbbRepository.deleteAll();
-        assertEquals(0, osbbRepository.findAll().size());
-    }
-
 }

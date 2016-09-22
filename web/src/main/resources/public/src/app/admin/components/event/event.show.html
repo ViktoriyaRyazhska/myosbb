@@ -62,13 +62,14 @@
                             </li>
                             <li>
                                 <b>{{ 'attachments' | translate | capitalize }}</b>
-                                <ul class="row thumbnails" *ngFor="let attachment of event.attachments">
-                                    <li class="col-md-3 list-inline">
-                                        <span class="thumbnail">
-                                            <img src="{{attachment.url}}" class="img-responsive" height="50" width="50">
-                                        </span>
-                                    </li>
-                                </ul>
+                                <div class="row" style="margin-top: 20px">
+                                    <div *ngFor="let attachment of event.attachments" class="col-sm-3">
+                                        <div class="thumbnail">
+                                            <img [src]="getPreview(attachment)"  class="img-responsive"
+                                                 style="width:100px;height:80px" (click)="openPreviewModal(attachment)">
+                                        </div>
+                                    </div>
+                                </div>
                             </li>
                             <button class="btn btn-primary btn-lg" value="Back" (click)="backClicked()" style="margin-top: 40px">
                                 <span class="glyphicon glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
@@ -77,6 +78,28 @@
                         </ul>
                     </div>
                 </div>
+
+                <!-- Preview -->
+                <div bsModal #previewModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+                     aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" aria-label="Close"
+                                        (click)="previewModal.hide()">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h6 class="modal-name">{{attachment.fileName}}</h6>
+                            </div>
+                            <div class="modal-body">
+                                <div class="thumbnail">
+                                    <img [src]="getPreview(attachment)" class="img-responsive">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

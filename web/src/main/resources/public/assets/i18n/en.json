@@ -141,7 +141,7 @@
   "descrErrorTicket":"Description should be longer than 60 characters",
   "assignErrorTicket":"To choose user from list",
   "createTickModal":"Create",
-  "cancelTickModal":"Cancel",
+  "cancel":"Cancel",
   "editTickModal":"Update ticket",
   "confirmDelTicket":"To remove this ticket?",
   "removingTicket":"Removing",

@@ -3,12 +3,9 @@ import {UserComponent} from "../user/user.component";
 import {UserApartmentComponent} from "./apartment/user.apartment.component";
 import {UserBillComponent} from "./bills/user.bill.component";
 import {TicketComponent} from "./ticket/ticket.component";
-import {MessageComponent} from "./ticket/single_ticket/single.ticket.component";\
+import {MessageComponent} from "./ticket/single_ticket/single.ticket.component";
 import {UserCalendarComponent} from "./calendar/user.calendar.component";
-import {UserAttachmentComponent} from "./attachment/user.attachment.component";
 import {UserReportComponent} from "./report/user.report.component";
-import {UsersComponent} from "./users/users.component";
-import {OsbbComponent} from "./osbb/osbb.component";
 import {ProviderComponent} from "./provider/provider.component";
 import {ContractComponent} from "./contract/contract.component";
 import {ApartmentProfileComponent} from "./ApartmentProfile/apartment.profile";
@@ -28,7 +25,6 @@ export const userRoutes: RouterConfig = [
             {path: '', redirectTo: 'main', pathMatch: 'full'},
             {path: 'apartment', component: UserApartmentComponent},
             {path: 'calendar', component: UserCalendarComponent},
-            {path: 'attachment', component: UserAttachmentComponent},
             {path: 'bill', component: UserBillComponent},
             {path: 'osbb/bill', component: OsbbBillComponent},
             {path: 'ticket', component: TicketComponent},

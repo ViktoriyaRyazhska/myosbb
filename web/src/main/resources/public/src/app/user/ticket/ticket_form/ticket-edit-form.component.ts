@@ -3,7 +3,7 @@ import {CORE_DIRECTIVES,FORM_DIRECTIVES, FormBuilder, Control, ControlGroup, Val
 import { ITicket,Ticket,TicketState} from '../ticket';
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
-import {User} from './../../../../shared/models/user';
+import {User} from './../../../../shared/models/User';
 import {CurrentUserService} from "./../../../../shared/services/current.user.service";
 import { TicketService } from './../ticket.service';
 import { TicketFilter } from './../ticket.filter';

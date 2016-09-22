@@ -4,7 +4,7 @@ import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import {Attachment} from "./attachment.interface";
 import "rxjs/add/operator/toPromise";
-import ApiService = require("../../../shared/services/api.service");
+import ApiService = require("../../../../shared/services/api.service");
 
 @Injectable()
 export class AttachmentService {
@@ -81,5 +81,15 @@ export class AttachmentService {
         return  this._http.get(this.url + "last/" + count)
             .map(res => res.json())
             .catch((err)=>Observable.throw(err));
+    }
+
+    getPreview(attachment: Attachment): string {
+        switch (attachment.type) {
+            case "DATA": return "assets/img/attachment_type/data.png"; break;
+            case "TEXT": return "assets/img/attachment_type/text.png"; break;
+            case "AUDIO": return "assets/img/attachment_type/audio.png"; break;
+            case "VIDEO": return "assets/img/attachment_type/video.png"; break;
+            default: return attachment.url;
+        }
     }
 }

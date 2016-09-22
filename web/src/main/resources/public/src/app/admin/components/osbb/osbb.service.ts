@@ -1,11 +1,11 @@
 import {Injectable} from "@angular/core";
 import {Http, Headers} from "@angular/http";
-import { OsbbDTO } from './osbb';
 
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 
 import {IOsbb} from "../../../../shared/models/osbb";
+import {OsbbDTO} from "../../../../shared/models/osbbDTO";
 import ApiService = require("../../../../shared/services/api.service");
 
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment';
@@ -63,6 +63,14 @@ export class OsbbService {
     getAllOsbbByOrder(field: string, order: boolean) {
         let url = this.url + '/order/' + field + ',' + order;
         return this.http.get(url)
+                 .toPromise()
+                 .then(res => res.json())
+                 .catch(this.handleError);
+    }
+
+    getDTOOsbbById(osbbId: number): Promise<OsbbDTO> {
+         let url = this.url + "/dto/" + osbbId;
+         return this.http.get(url)
                  .toPromise()
                  .then(res => res.json())
                  .catch(this.handleError);

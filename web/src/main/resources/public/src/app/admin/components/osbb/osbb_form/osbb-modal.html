@@ -10,7 +10,6 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6">
-                        <span>{{logoUrl}}</span>
                         <div class="logo"><img class="image" [src]="logoUrl" alt="empty" height="230" width="270" #img/></div>
                         <input id="imgInp" type="file" accept='image/*' (change)="showLogo($event);toggleChangeLogo()" #inputLogo/>
                     </div>
@@ -47,7 +46,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" (click)="modalWindow.hide();clearForm()">{{'cancel' | translate | capitalize}}</button>
+                <button type="button" class="btn btn-default" (click)="clearForm();modalWindow.hide()">{{'cancel' | translate | capitalize}}</button>
                 <button type="button" (click)="saveButtonAction(inputLogo)" class="btn btn-default">
                     {{'save' | translate | capitalize}}
                 </button>

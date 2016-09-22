@@ -7,6 +7,7 @@ import {User} from '../user';
 import {Option} from '../option';
 import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
+import moment from 'moment';
 
 @Component({
     selector: 'vote-add-form',
@@ -93,9 +94,7 @@ export class VoteAddFormComponent {
     }
 
     castEndTimeStringToDate(): Date {
-        let endTime = new Date(this.endTimeStr);
-        endTime.setHours(endTime.getHours()-3);
-        return endTime;
+        return moment(this.endTimeStr).toDate();
     }
 
     isEndTimeCorrect():boolean {

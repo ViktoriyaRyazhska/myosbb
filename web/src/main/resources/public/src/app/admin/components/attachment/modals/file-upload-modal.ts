@@ -4,7 +4,7 @@
 
 import {Component, Output, EventEmitter, ViewChild } from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
-import {Attachment} from "../../../../user/attachment/attachment.interface";
+import {Attachment} from "../attachment.interface";
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {TranslatePipe} from "ng2-translate";
@@ -16,7 +16,7 @@ const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment/';
 
 @Component({
     selector: 'file-upload-modal',
-    templateUrl: 'src/app/user/attachment/modals/file-upload-modal.html',
+    templateUrl: 'src/app/admin/components/attachment/modals/file-upload-modal.html',
     directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, FileSelectDirective, FileDropDirective],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
@@ -38,7 +38,6 @@ export class FileUploadComponent {
 
     constructor() {
         this.upload = new EventEmitter<any>();
-        // let toReturn: {file: FileItem, response: string}[];
         this.uploader.toReturn = [];
         this.uploader.onCompleteItem = function(item, response) {
             this.toReturn.push(JSON.parse(response));

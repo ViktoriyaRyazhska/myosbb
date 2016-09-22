@@ -19,6 +19,12 @@ public class Role implements GrantedAuthority,Serializable {
     private String name;
     private Collection<User> users;
 
+    public Role(){}
+
+    public Role(String role_name) {
+        this.name = role_name;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
