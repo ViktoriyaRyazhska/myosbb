@@ -3,17 +3,10 @@ import {HousePageObject} from '../../house/house.page.object';
 export class ApartmentModel implements IApartment{
 
     apartmentId:number;
-
     square:number;
-
     number:number;
-
     house:HousePageObject;
-
     owner:number;
-
-    users:any[];
-    bills:any[];
 
     constructor(apartmentId:number,square:number,number:number,house:HousePageObject,owner:number,
         users:any[],bills:any[]) {

@@ -17,7 +17,7 @@ public class UserDTOMapper {
             userDTO.setFirstName(user.getFirstName());
             userDTO.setLastName(user.getLastName());
             userDTO.setEmail(user.getEmail());
-            userDTO.setOsbb(user.getOsbb());
+            userDTO.setOsbbId(user.getOsbb().getOsbbId());
         }
         return userDTO;
     }

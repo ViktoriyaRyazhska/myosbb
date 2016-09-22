@@ -1,10 +1,6 @@
 package com.softserve.osbb.controller;
 
 
-import com.lowagie.text.pdf.PdfName;
-import com.softserve.osbb.dto.ApartmentDTO;
-
-import com.softserve.osbb.dto.BillDTO;
 import com.softserve.osbb.dto.UserDTO;
 import com.softserve.osbb.dto.mappers.UserDTOMapper;
 import com.softserve.osbb.model.Apartment;
@@ -127,7 +123,7 @@ public class ApartmentController {
 
         final List<Resource<UserDTO>> resourceUserList = new ArrayList<>();
         for (UserDTO u : userList) {
-            resourceUserList.add(addResourceLinkToApartment(u));
+            resourceUserList.add(addResourceLinkToUserDTO(u));
 
         }
         return new ResponseEntity<>(resourceUserList, HttpStatus.OK);
@@ -143,7 +139,7 @@ public class ApartmentController {
         if(apartment.getOwner()!=null){
          user = UserDTOMapper.mapUserEntityToDTO(userService.findOne(apartment.getOwner()));
     } else user =new UserDTO();
-        return new ResponseEntity<>(addResourceLinkToApartment(user),HttpStatus.OK);
+        return new ResponseEntity<>(addResourceLinkToUserDTO(user),HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/bills",method = RequestMethod.GET)
@@ -240,13 +236,13 @@ public class ApartmentController {
         return apartmentResource;
     }
 
-    private Resource<UserDTO> addResourceLinkToApartment(UserDTO user) {
+    private Resource<UserDTO> addResourceLinkToUserDTO(UserDTO user) {
         if (user == null) return null;
-        Resource<UserDTO> apartmentResource = new Resource<>(user);
-        apartmentResource.add(linkTo(methodOn(UserController.class)
+        Resource<UserDTO> userResource = new Resource<>(user);
+        userResource.add(linkTo(methodOn(UserController.class)
                 .getUser(user.getUserId().toString()))
                 .withSelfRel());
-        return apartmentResource;
+        return userResource;
     }
 
 

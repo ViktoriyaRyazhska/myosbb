@@ -18,6 +18,7 @@ public class ApartmentDTOMapper {
                 apartmentDTO.setOwner(apartment.getOwner());
 
             }
+            apartmentDTO.setHouse(apartment.getHouse());
         }
         return apartmentDTO;
 

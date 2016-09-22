@@ -21,8 +21,8 @@ export class CurrentOsbbService{
 
 
 
-       console.log("osbb id ffrom service="+JSON.stringify(this.currentUser.osbb));
-        this.setOsbbId(this.currentUser.osbb.osbbId);
+     // console.log("osbb id ffrom service="+JSON.stringify(this.currentUser.osbbId));
+        this.setOsbbId(this.currentUser.osbbId);
           }
 
     setOsbbId(id:number){

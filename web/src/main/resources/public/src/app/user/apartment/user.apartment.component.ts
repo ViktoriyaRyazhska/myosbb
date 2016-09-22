@@ -1,7 +1,7 @@
 ///<reference path="../../../../node_modules/@angular/http/src/http.d.ts"/>
 import {Component, ViewChild,Input} from '@angular/core'
 import {HTTP_PROVIDERS, Http, Headers, RequestOptions} from "@angular/http";
-import {ApartmentModel} from "./Apartment.model";
+import {Apartment} from "../../../shared/models/apartment.interface";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {ApartmentService} from './apartment.service'
 import "rxjs/add/operator/toPromise";
@@ -28,9 +28,9 @@ import {HousePageObject} from "../../house/house.page.object";
 })
 export class UserApartmentComponent {
     isAdmin:boolean = false;
-    Items:ApartmentModel[];
-    private selectedApartment:ApartmentModel = {apartmentId: 0, square: 0, number: 0, house: {street: ''}};
-    private emptyApartment:ApartmentModel = {square: 0, number: 0, house: {street: ''}};
+    Items: Apartment[];
+    private selectedApartment:Apartment = {apartmentId: 0, square: 0, number: 0, house: {street: ''}};
+    private emptyApartment:Apartment = {square: 0, number: 0, house: {street: ''}};
     @ViewChild('deleteModal')
     public deleteModal:ModalDirective;
     @ViewChild('addModal')
@@ -38,14 +38,14 @@ export class UserApartmentComponent {
     @ViewChild('editModal')
     public editModal:ModalDirective;
     active:boolean = true;
-    private pageCreator:PageCreator<ApartmentModel>;
+    private pageCreator:PageCreator<Apartment>;
     private pageNumber:number = 1;
     private pageList:Array<number> = [];
     private totalPages:number;
     order:boolean = true;
     private defaultSorter:string = 'number';
     private currentUser:User;
-    private apartmentToDelete:AprtmentModel;
+    private apartmentToDelete:Aprtment;
     private allHouses:HousePageObject[] = [];
     private houseToAdd:HousePageObject = {street: ''};
     private isNumberValid:boolean = false;
@@ -55,21 +55,18 @@ export class UserApartmentComponent {
 
 
 
-    constructor(private apartmentService:ApartmentService,private builder:FormBuilder, private currentUserService:CurrentUserService,private currentOsbbService:CurrentOsbbService) {
+    constructor(private apartmentService:ApartmentService, private currentUserService:CurrentUserService,private currentOsbbService:CurrentOsbbService) {
         console.log("init items");
-        this.Items = [];//[{square: '', number: '', house: {street: ''}}];
-        this.numberControl=new Control('',this.numberValidator);
-        this.addApartmentForm=builder.group({
-            numberControl:this.numberControl
-        });
+        this.Items =[];
     }
 
 
     ngOnInit() {
         this.currentUserService=HeaderComponent.currentUserService;
         this.currentUser = this.currentUserService.getUser();
-        this.currentOsbbId=this.currentOsbbService.getCurrentOsbbId();
+      this.currentOsbbId=this.currentUser.osbbId;
         console.log("curr OSBB ID="+this.currentOsbbId);
+        console.log("curr User="+JSON.stringify(this.currentUser));
         this.getApartmentsByPageNum(this.pageNumber);
         
         this.apartmentService.getAllHouses(this.currentOsbbId).subscribe(res=> {
@@ -77,16 +74,9 @@ export class UserApartmentComponent {
             console.log("house in subscribe"+this.allHouses.length);
         });
 
+
+        console.log("log apartments..."+JSON.stringify(this.Items));
         
-    }
-
-    static numberValidator(control: Control): ValidationResult {
-
-        if (this.isNumberValid==true){
-            return { "numberValidator": true };
-        } else
-
-        return null;
     }
 
 

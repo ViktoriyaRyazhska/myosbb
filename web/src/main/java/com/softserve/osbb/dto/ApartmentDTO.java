@@ -11,12 +11,14 @@ public class ApartmentDTO {
     private Integer number;
     private Integer square;
     private Integer owner;
+    private House house;
 public ApartmentDTO(){}
-    public ApartmentDTO(Integer apartmentId, Integer number, Integer square, Integer owner) {
+    public ApartmentDTO(Integer apartmentId, Integer number, Integer square, Integer owner,House house) {
         this.apartmentId = apartmentId;
         this.number = number;
         this.square = square;
         this.owner = owner;
+        this.house=house;
     }
 
     public Integer getApartmentId() {
@@ -49,5 +51,12 @@ public ApartmentDTO(){}
 
     public void setOwner(Integer owner) {
         this.owner = owner;
+    }
+    public House getHouse() {
+        return house;
+    }
+
+    public void setHouse(House house) {
+        this.house = house;
     }
 }

@@ -1,5 +1,5 @@
 import assign = require("core-js/library/fn/object/assign");
-import {Osbb} from "./osbb.ts";
+import {Apartment} from "./apartment.interface.ts";
 export class User {
     userId:number;
     firstName:string;
@@ -10,9 +10,9 @@ export class User {
     gender:string;
     password:number;
     activated:boolean;
-    apartment:any;
     role:string;
-    osbb:Osbb;
+    osbbId:number;
+    apartment:Apartment;
 
     constructor() {
         this.userId = new Number();
@@ -25,5 +25,6 @@ export class User {
         this.password = new Number();
         this.activated = new Boolean();
         this.role = new String();
+        this.osbbId= new Number();
     }
 }

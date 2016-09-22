@@ -64,11 +64,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/getCurrent", method = RequestMethod.GET)
-    public UserDTO getCurrent(@AuthenticationPrincipal Principal user) {
+    public ResponseEntity<Resource<UserDTO>>  getCurrent(@AuthenticationPrincipal Principal user) {
         User currentUser=userService.findUserByEmail(user.getName());
         UserDTO userDTO=new UserDTO(currentUser);
-        logger.info("current user ODBB"+currentUser.getOsbb());
-        return userDTO;
+        return new ResponseEntity<>(addResourceLinkToUserDTO(userDTO),HttpStatus.OK);
     }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
@@ -133,7 +132,7 @@ public class UserController {
         try {
             osbbid = userService.getOne(userId).getOsbb().getOsbbId();
         }catch (NullPointerException e){
-            logger.warn("user was not fined");
+            logger.warn("user not found");
         }
         return  osbbid;
     }
@@ -161,6 +160,14 @@ public class UserController {
         return resource;
     }
 
+    private Resource<UserDTO> addResourceLinkToUserDTO(UserDTO user) {
+        if (user == null) return null;
+        Resource<UserDTO> userResource = new Resource<>(user);
+        userResource.add(linkTo(methodOn(UserController.class)
+                .getUser(user.getUserId().toString()))
+                .withSelfRel());
+        return userResource;
+    }
 
 
 

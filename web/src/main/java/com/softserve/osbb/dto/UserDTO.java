@@ -1,5 +1,7 @@
 package com.softserve.osbb.dto;
 
+import com.softserve.osbb.dto.mappers.ApartmentDTOMapper;
+import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Role;
 import com.softserve.osbb.model.User;
@@ -17,18 +19,21 @@ public class UserDTO {
     private String email;
     private String phoneNumber;
     private String password;
-    private Osbb osbb;
+    private Integer osbbId;
     private String gender;
     private String role;
     private Boolean activated;
+    private ApartmentDTO apartment;
 
     public UserDTO() {}
 
-    public UserDTO(Integer userId, String firstName, String lastName, String email) {
+    public UserDTO(Integer userId, String firstName, String lastName, String email, Integer osbbId,Apartment apartment) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.osbbId=osbbId;
+        this.apartment= ApartmentDTOMapper.mapApartmentEntityToDTO(apartment);
     }
 
     public UserDTO(User user) {
@@ -42,7 +47,8 @@ public class UserDTO {
         this.gender = user.getGender();
         this.role=user.getRole().getAuthority();
         this.activated=user.getActivated();
-        this.osbb = user.getOsbb();
+        this.osbbId = user.getOsbb().getOsbbId();
+        this.apartment= ApartmentDTOMapper.mapApartmentEntityToDTO(user.getApartment());
     }
 
     public Integer getUserId() {
@@ -117,12 +123,13 @@ public class UserDTO {
         this.role = role;
     }
 
-    public Osbb getOsbb() {
-        return osbb;
+
+    public Integer getOsbbId() {
+        return osbbId;
     }
 
-    public void setOsbb(Osbb osbb) {
-        this.osbb = osbb;
+    public void setOsbbId(Integer osbbId) {
+        this.osbbId = osbbId;
     }
 
     public Boolean getActivated() {
@@ -131,5 +138,13 @@ public class UserDTO {
 
     public void setActivated(Boolean activated) {
         this.activated = activated;
+    }
+
+    public ApartmentDTO getApartment() {
+        return apartment;
+    }
+
+    public void setApartment(ApartmentDTO apartment) {
+        this.apartment = apartment;
     }
 }
