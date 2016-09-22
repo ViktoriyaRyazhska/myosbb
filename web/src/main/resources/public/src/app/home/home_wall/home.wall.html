@@ -2,7 +2,7 @@
     <div class="panel panel-default pos-top">
         <div *ngIf ="currentOsbb !== null" class="row top-box">
             <div class="col-lg-4 col-md-4 col-sm-4 logo">
-               <!-- <img  src="{{currentOsbb.logo.path}}" alt="empty"/>-->
+                <img  src="{{getLogoUrl()}}" alt="empty"/>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 osbb-info-box">
                 <div class="header-info">
@@ -11,7 +11,11 @@
                 </div>
                 <div class="osbb-info-row">
                     <div class="left">{{'headmaster' | translate | capitalize}}:</div>
-                    <div class="right"> </div>
+                    <div class="right">{{getCreatorInfo()}}</div>
+                </div>
+                <div class="osbb-info-row">
+                    <div class="left">{{'creationDate' | translate | capitalize}}:</div>
+                    <div class="right">{{getCreationTime()}}</div>
                 </div>
                 <div class="osbb-info-row">
                     <div class="left">{{'adress' | translate | capitalize}}:</div>
@@ -23,11 +27,11 @@
                 </div>
                 <div class="osbb-info-row">
                     <div class="left">{{'houses' | translate | capitalize}}:</div>
-                    <div class="right">0</div>
+                    <div class="right">{{currentOsbb.countOfHouses}}</div>
                 </div>
                 <div class="osbb-info-row">
                     <div class="left">{{'inhabitants' | translate | capitalize}}:</div>
-                    <div class="right"> 0 </div>
+                    <div class="right">{{currentOsbb.countOfUsers}}</div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4">

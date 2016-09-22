@@ -34,7 +34,7 @@ export class OsbbComponent implements OnInit {
     updatedOsbb:IOsbb;
     order: boolean;
 
-    constructor( private osbbService: OsbbService, private userService:CurrentUserService) { 
+    constructor( private osbbService: OsbbService, private currentUserService:CurrentUserService) { 
         this.osbbArr = [];
     }
 
@@ -58,12 +58,17 @@ export class OsbbComponent implements OnInit {
     }
 
     createOsbb(osbbDTO:OsbbDTO): void {
-        this.osbbService.upload(osbbDTO.file)         
-        .then((attachment)=> {
-            let osbb = osbbDTO.osbb;
-            osbb.logo = attachment;
+        let osbb = osbbDTO.osbb;
+        osbb.creator = this.currentUserService.getUser();
+        if(osbbDTO.file !== null){
+            this.osbbService.upload(osbbDTO.file)         
+            .then((attachment)=> {
+                osbb.logo = attachment;
+                this.osbbService.addOsbb(osbb).then((osbb)=> this.osbbArr.unshift(osbb));
+            });
+        } else {
             this.osbbService.addOsbb(osbb).then((osbb)=> this.osbbArr.unshift(osbb));
-        });
+        }
     }
 
     private addOsbb(osbb: IOsbb): void {
@@ -71,10 +76,7 @@ export class OsbbComponent implements OnInit {
     }
 
     editOsbb(osbbDTO:OsbbDTO): void {
-        console.log("osbbIndex: " + this.osbbArr.indexOf(osbbDTO.osbb));
-        
-        if(osbbDTO.isChanged){
-            console.log("edit osbb with logo");
+        if(osbbDTO.file !== null){
             this.osbbService.upload(osbbDTO.file)         
             .then((attachment)=> {
                 let osbb = osbbDTO.osbb;
@@ -82,7 +84,6 @@ export class OsbbComponent implements OnInit {
                 this.osbbService.editOsbb(osbb);
             });
         } else {
-            console.log("edit osbb without logo");
             this.osbbService.editOsbb(osbbDTO.osbb);
         }
     }

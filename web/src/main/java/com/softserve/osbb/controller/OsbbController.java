@@ -1,5 +1,7 @@
 package com.softserve.osbb.controller;
 
+import com.softserve.osbb.dto.OsbbDTO;
+import com.softserve.osbb.dto.mappers.OsbbDTOMapper;
 import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.service.AttachmentService;
 import com.softserve.osbb.service.OsbbService;
@@ -40,6 +42,13 @@ public class OsbbController {
         osbb.setLogo(osbb.getLogo());
         Osbb savedOsbb = osbbService.addOsbb(osbb);
         return new ResponseEntity<>(addResourceLinkToOsbb(savedOsbb), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/dto/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Resource<OsbbDTO>> getOsbbDTOById(@PathVariable("id") Integer osbbId) {
+        logger.info("Get one osbbDto by id: " + osbbId);
+        Osbb osbb = osbbService.getOsbb(osbbId);
+        return new ResponseEntity<>(addResourceLinkToOsbb(OsbbDTOMapper.mapOsbbEntityToDTO(osbb)), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -133,6 +142,15 @@ public class OsbbController {
     private Resource<Osbb> addResourceLinkToOsbb(Osbb osbb) {
         if (osbb == null) return null;
         Resource<Osbb> osbbResource = new Resource<>(osbb);
+        osbbResource.add(linkTo(methodOn(OsbbController.class)
+                .getOsbbById(osbb.getOsbbId()))
+                .withSelfRel());
+        return osbbResource;
+    }
+
+    private Resource<OsbbDTO> addResourceLinkToOsbb(OsbbDTO osbb) {
+        if (osbb == null) return null;
+        Resource<OsbbDTO> osbbResource = new Resource<>(osbb);
         osbbResource.add(linkTo(methodOn(OsbbController.class)
                 .getOsbbById(osbb.getOsbbId()))
                 .withSelfRel());
