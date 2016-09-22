@@ -15,25 +15,22 @@ export class JoinOsbbService{
     constructor(private http:Http){
     }
 
-    getAllOsbb(): Promise<IOsbb[]> {
+    getAllOsbb(): Observable<any> {
         return this.http.get(this.osbbURL)
-                 .toPromise()
-                 .then(res => res.json())
-                 .catch(this.handleError);
+                .map((response)=> response.json())
+            .catch((error)=>Observable.throw(error));
     }
 
-    listAllHouses(): Promise<IHouse[]> {
+    getAllHouses(): Observable<any> {
         return this.http.get(this.houseURL)
-            .toPromise()
-            .then(res => res.json())
-            .catch(this.handleError);
+                .map((response)=> response.json())
+            .catch((error)=>Observable.throw(error));
     }
 
-    getAllAppartments(): Promise<IApartment[]> {
+    getAllApartments(): Observable<any> {
         return this.http.get(this.apartmentURL)
-            .toPromise()
-            .then(res => res.json())
-            .catch(this.handleError);
+                .map((response)=> response.json())
+            .catch((error)=>Observable.throw(error));
     }
 
     
