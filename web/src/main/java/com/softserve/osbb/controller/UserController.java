@@ -1,5 +1,6 @@
 package com.softserve.osbb.controller;
 
+import com.softserve.osbb.dto.UserDTO;
 import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.service.OsbbService;
@@ -63,10 +64,11 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/getCurrent", method = RequestMethod.GET)
-    public User getCurrent(@AuthenticationPrincipal Principal user) {
-       User currentUser=userService.findUserByEmail(user.getName());
+    public UserDTO getCurrent(@AuthenticationPrincipal Principal user) {
+        User currentUser=userService.findUserByEmail(user.getName());
+        UserDTO userDTO=new UserDTO(currentUser);
         logger.info("current user ODBB"+currentUser.getOsbb());
-            return currentUser;
+        return userDTO;
     }
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)

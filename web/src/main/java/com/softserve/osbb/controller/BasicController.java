@@ -1,6 +1,7 @@
 package com.softserve.osbb.controller;
 
 
+import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Settings;
 import com.softserve.osbb.model.Ticket;
 
@@ -51,6 +52,17 @@ public class BasicController {
         User newUser = userService.save(user);
         settingsService.save(new Settings(newUser));
         return newUser;
+    }
+
+
+    @RequestMapping(value = "/registration/osbb", method = RequestMethod.POST)
+    public Osbb putUser(@RequestBody Osbb osbb) {
+        logger.info("Saving osbb, sending to service");
+        Osbb newOsbb = osbbService.addOsbb(osbb);
+        User user= userService.getOne(osbb.getCreator().getUserId());
+        user.setOsbb(newOsbb);
+        userService.update(user);
+        return newOsbb;
     }
 
     @RequestMapping(value = "/validEmail", method = RequestMethod.POST)
