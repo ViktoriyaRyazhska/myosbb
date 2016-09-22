@@ -1,3 +1,4 @@
+<toaster-container></toaster-container>
 <div class="panel panel-default pos-top">
     <div class="panel-heading"><h4><i class="fa fa-angle-right"></i>{{'tickets' | translate}}</h4>
         <div id="example_filter" class="pull-right dataTables_filter" style="margin-top:-25px;margin-right:10px">
@@ -11,8 +12,7 @@
                 <button class="btn btn-success" (click)="addForm.openAddModal()"
                         style="margin-left:5px;margin-bottom:15px;"><i>{{'create_ticket' | translate}}</i>
                 </button>
-                                <file-upload-modal (upload)='onUpload($event)' #uploadForm></file-upload-modal>
-
+                <file-upload-modal (upload)='onUpload($event)' #uploadForm></file-upload-modal>
                 <ticket-add-form (created)="createTicket($event)" #addForm></ticket-add-form>
                 <ticket-edit-form [ticket]="updatedTicket" (update)="editTicket($event)" #editForm></ticket-edit-form>
                 <ticket-del-form (delete)="deleteTicket($event)" #delForm></ticket-del-form>
@@ -28,8 +28,12 @@
                     <button type="button" class="btn btn-default  btn-xs" style="background:#F0FFFF;"
                             (click)="getTicketsByPageNum(1,10)">{{ 'all' | translate | capitalize }}
                     </button>
-                    <button type="button" class="btn btn-default  btn-xs" (click)="findMyTickets()">{{'my_tickets'|translate |capitalize }}</button>
-                    <button type="button" class="btn btn-default  btn-xs" (click)="findMyAssigned()">{{'my_assign'|translate |capitalize }}</button>
+                    <button type="button" class="btn btn-default  btn-xs" (click)="findMyTickets()">
+                        {{'my_tickets'|translate |capitalize }}
+                    </button>
+                    <button type="button" class="btn btn-default  btn-xs" (click)="findMyAssigned()">
+                        {{'my_assign'|translate |capitalize }}
+                    </button>
                 </div>
             </div>
 
@@ -98,7 +102,8 @@
                                     <li><a style="cursor: pointer"
                                            (click)=" initUpdatedTicket(item); editForm.initUpdatedTicket(item);editForm.openEditModal()">
                                         {{'editTicket' | translate}}</a></li>
-                                    <li><a style="cursor: pointer" (click)="delForm.openDelModal(item)">{{'deleteTicket'| translate}}</a></li>
+                                    <li><a style="cursor: pointer" (click)="delForm.openDelModal(item)">{{'deleteTicket'|
+                                        translate}}</a></li>
                                 </ul>
                             </div>
                         </div>

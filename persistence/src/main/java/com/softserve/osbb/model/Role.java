@@ -14,15 +14,15 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "role")
-public class Role implements GrantedAuthority,Serializable {
+public class Role implements GrantedAuthority, Serializable {
     private Integer roleId;
     private String name;
     private Collection<User> users;
 
     public Role(){}
 
-    public Role(String role_name) {
-        this.name = role_name;
+    public Role(String name) {
+        this.name = name;
     }
 
     @Id
@@ -46,7 +46,7 @@ public class Role implements GrantedAuthority,Serializable {
         this.name = name;
     }
 
-    @OneToMany(mappedBy ="role",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     @JsonIgnore
     public Collection<User> getUsers() {
         return users;

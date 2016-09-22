@@ -26,7 +26,7 @@ public class Ticket {
     private User user;
     private User assigned;
     private Collection<Message> messages = new ArrayList<>();
-    private Collection<Attachment> attachments;
+    private Collection<Attachment> attachments=new ArrayList<>();
 
     public Ticket() {
     }
@@ -138,8 +138,7 @@ public class Ticket {
         this.messages = messages;
     }
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     public Collection<Attachment> getAttachments() {
         return attachments;
     }
@@ -167,6 +166,7 @@ public class Ticket {
                 ", state=" + state +
                 ", stateTime=" + stateTime +
                 ", time=" + time +
+                ",attachments=" + attachments +
                 '}';
     }
 }

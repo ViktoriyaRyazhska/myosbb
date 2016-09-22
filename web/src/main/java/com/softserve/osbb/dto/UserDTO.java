@@ -147,4 +147,21 @@ public class UserDTO {
     public void setApartment(ApartmentDTO apartment) {
         this.apartment = apartment;
     }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthDate=" + birthDate +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                ", osbbId=" + osbbId +
+                ", gender='" + gender + '\'' +
+                ", role='" + role + '\'' +
+                ", activated=" + activated +
+                '}';
+    }
 }

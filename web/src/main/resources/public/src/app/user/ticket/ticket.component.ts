@@ -25,15 +25,17 @@ import {NoticeService} from './../../header/header.notice.service';
 import {PageRequest} from '../../../shared/models/page.request';
 import {HeaderComponent} from "../../header/header.component";
 import {ToasterContainerComponent, ToasterService} from "angular2-toaster/angular2-toaster";
-import {
-    onErrorResourceNotFoundToastMsg,
-    onErrorServerNoResponseToastMsg
-} from "../../../shared/error/error.handler.component";
+import {onErrorResourceNotFoundToastMsg, onErrorServerNoResponseToastMsg} from "../../../shared/error/error.handler.component";
+import {FileSelectDirective, FileDropDirective} from "ng2-file-upload";
+import {FileUploadComponent} from "../../admin/components/attachment/modals/file-upload-modal";
+import {Attachment} from "../../admin/components/attachment/attachment.interface";
 @Component({
     selector: 'ticket',
     templateUrl: './src/app/user/ticket/ticket.component.html',
     providers: [TicketService, MessageComponent, ToasterService, MessageService],
-    directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent],
+    directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, CORE_DIRECTIVES,
+             TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent,
+        FileSelectDirective, FileDropDirective, FileUploadComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TranslatePipe,CapitalizeFirstLetterPipe],
     styleUrls: ['src/app/user/ticket/ticket.css']
@@ -69,6 +71,8 @@ export class TicketComponent implements OnInit {
                 private router:Router) {
         this._currentUserService = HeaderComponent.currentUserService;
         this.currentUser = this._currentUserService.getUser();        
+        console.log("ticket. curr "+JSON.stringify(this.currentUser));
+        
     }
 
     ngOnInit() {
@@ -80,6 +84,7 @@ export class TicketComponent implements OnInit {
     }
 
     createTicket(ticket:ITicket):void {
+        
         this.ticketService.addTicket(ticket).then(ticket => this.addTicket(ticket));
     }
 
@@ -130,7 +135,7 @@ export class TicketComponent implements OnInit {
         this.emailAssign = '';
         this.status = '';
         this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow, this.nameSort, this.order);
-        return this.ticketService.getTicketsByPage(this.currentUser.osbb.osbbId, this.pageRequest)
+        return this.ticketService.getTicketsByPage(this.currentUser.osbbId, this.pageRequest)
             .subscribe((data) => {
                     this.pending = false;
                     this.pageCreator = data;
@@ -150,7 +155,7 @@ export class TicketComponent implements OnInit {
         console.log("findTicketByName"); 
         this.pending = true;
         this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow, this.nameSort, this.order);
-        return this.ticketService.findByNameDescription(this.pageRequest,this.currentUser.osbb.osbbId, name)
+        return this.ticketService.findByNameDescription(this.pageRequest,this.currentUser.osbbId, name)
             .subscribe((data) => {
                     this.pending = false;
                     this.pageCreator = data;

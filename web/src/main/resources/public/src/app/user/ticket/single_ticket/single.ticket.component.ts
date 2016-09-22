@@ -1,5 +1,5 @@
 import {RouterConfig} from "@angular/router";
-import {Component, OnInit,HostListener} from '@angular/core';
+import {Component, OnInit,AfterViewInit,HostListener,ElementRef,ViewChild} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
@@ -30,6 +30,9 @@ import {
     onErrorServerNoResponseToastMsg
 } from "../../../../shared/error/error.handler.component";
 import {PageRequest} from '../../../../shared/models/page.request';
+import {FileUploadComponent} from "../../../admin/components/attachment/modals/file-upload-modal";
+import {Attachment} from "../../../admin/components/attachment/attachment.interface";
+
 
 @Component({
     selector: 'ticket',
@@ -41,7 +44,9 @@ import {PageRequest} from '../../../../shared/models/page.request';
     pipes: [TranslatePipe,CapitalizeFirstLetterPipe]
 })
 
-export class MessageComponent implements OnInit {
+export class MessageComponent implements OnInit {   
+     @ViewChild('gallery') gallery:ModalDirective;
+
     private message:IMessage;
     private messages:Message[] = [];
     private ticket:Ticket;
@@ -64,7 +69,8 @@ export class MessageComponent implements OnInit {
     private nameSort:string = "time";
     private open:boolean = false;
     private pageRequest:PageRequest;
-
+private currentAttachment:Attachment;
+private index:number;
     constructor(private routeParams:ActivatedRoute,
                 private ticketService:TicketService,
                 private messageService:MessageService,
@@ -79,6 +85,8 @@ export class MessageComponent implements OnInit {
         this.ticket.user = new User();
         this.ticket.assigned = new User();
         this.message = new Message("");
+        this.currentAttachment = new Attachment();
+
     }
 
     ngOnInit():any {
@@ -215,6 +223,10 @@ export class MessageComponent implements OnInit {
         this.open = true;
     }
 
+ isMessageCreator(message:Message):boolean {
+        return (message.user.firstName == this.currentUser.firstName && message.user.lastName == this.currentUser.lastName);
+    }
+
     deleteMessage(message:Message) {
         this.messageService.deleteMessage(message.messageId).then(this.delMessage(message))
             .then(this.message.messageId = null);
@@ -251,15 +263,15 @@ export class MessageComponent implements OnInit {
             this.ticket.state = TicketState.DONE;
             this.ticketState = 'DONE';
         }
-        this.messageService.editState(this.ticket)
-            .then(setTimeout => this.ngOnInit(), 1000);
+        this.messageService.editState(this.ticket);
+            // .then(this.ngOnInit());
 
     }
 
 
     editTicket(ticket:ITicket):void {
         this.ticketService.editTicket(ticket)
-            .then(setTimeout => this.ngOnInit(), 1000);
+            .then( this.ngOnInit());
     }
 
     deleteTicket(ticket:ITicket):void {
@@ -338,8 +350,33 @@ export class MessageComponent implements OnInit {
         return (this.ticket.user.firstName == this.currentUser.firstName && this.ticket.user.lastName == this.currentUser.lastName);
     }
 
-    isMessageCreator(message:Message):boolean {
-        return (message.user.firstName == this.currentUser.firstName && message.user.lastName == this.currentUser.lastName);
+   
+
+
+// gallery
+    next(){
+        if(this.index == this.ticket.attachments.length){
+            this.index = 0;    
+    }
+        this.currentAttachment = this.ticket.attachments[this.index++];
     }
 
+    prev(){
+        if(this.index == 0){
+            this.index = this.ticket.attachments.length-1;    
+    }
+
+        this.currentAttachment = this.ticket.attachments[this.index--];
+        
+    }
+
+    showGallery(attachment:Attachment){
+        this.gallery.show();
+         this.index = this.ticket.attachments.indexOf(attachment);
+         this.currentAttachment = this.ticket.attachments[this.index];
+    }
+
+closeGallery(){
+    this.gallery.hide();
+}
 }

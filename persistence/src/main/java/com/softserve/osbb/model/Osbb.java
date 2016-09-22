@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
 
@@ -14,7 +15,7 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "osbb")
-public class Osbb {
+public class Osbb implements Serializable {
     private Integer osbbId;
     private String name;
     private String description;

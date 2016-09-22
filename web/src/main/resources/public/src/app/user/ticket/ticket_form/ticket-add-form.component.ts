@@ -3,18 +3,25 @@ import {CORE_DIRECTIVES,FORM_DIRECTIVES, FormBuilder, Control, ControlGroup, Val
 import { ITicket, Ticket,TicketState} from '../ticket';
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
-import {User} from './../../user';
+import {User} from './../../../../shared/models/User';
 import {CurrentUserService} from "./../../../../shared/services/current.user.service";
 import { TicketService } from './../ticket.service';
 import { TicketFilter } from './../ticket.filter';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
+import {FileSelectDirective, FileDropDirective} from "ng2-file-upload";
+import {AttachmentService} from "../../../admin/components/attachment/attachment.service";
+import {Attachment} from "../../../admin/components/attachment/attachment.interface";
+import {HeaderComponent} from "../../../header/header.component";
+import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
+import {FileUploadComponent} from "../../../admin/components/attachment/modals/file-upload-modal";
 @Component({
     selector: 'ticket-add-form',
     templateUrl: './src/app/user/ticket/ticket_form/ticket-add-form.html',
     providers: [TicketService],
-    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES],
+    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES,
+            FileSelectDirective, FileDropDirective, FileUploadComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
-    pipes: [TicketFilter, TranslatePipe],
+    pipes: [TicketFilter, TranslatePipe,CapitalizeFirstLetterPipe],
     styleUrls: ['src/app/user/ticket/ticket.css']
 })
 
@@ -37,12 +44,14 @@ export class TicketAddFormComponent implements OnInit {
     private assignTicket:string = '';
     private submitName = false;
     private submitDescription = false;
-
+    private attachments:Attachment[] = [];
+    _currentUserService = null;
     constructor(private ticketService:TicketService,
-                private currentUserService:CurrentUserService,
                 private builder:FormBuilder) {
+                     this._currentUserService = HeaderComponent.currentUserService;
+        this.currentUser = this._currentUserService.getUser();  
         this.created = new EventEmitter<Ticket>();
-
+        this.ticket = new Ticket("","",TicketState.NEW);
         this.submitAttempt = false;
         this.nameInput = new Control('', Validators.required);
         this.descriptionInput = new Control('', Validators.required);
@@ -57,12 +66,21 @@ export class TicketAddFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getAllUsers()
     }
 
     openAddModal() {
         this.addModal.show();
+        this.getAllUsers();
+        
     }
+
+    deleteAttachmet(attachment:Attachment){
+    let index = this.attachments.indexOf(attachment);
+        if (index > -1) {
+            this.attachments.splice(index,1);
+        }
+        
+ }
 
     isEmptyName():boolean {
         return this.nameTicket.length >=10 ? false : true;
@@ -77,7 +95,7 @@ export class TicketAddFormComponent implements OnInit {
     }
 
     getAllUsers() {
-        return this.ticketService.getAllUsers()
+        return this.ticketService.getAllUsers(this.currentUser.osbbId)
             .then(userAssignArr => this.userAssignArr = userAssignArr);
     }
 
@@ -92,6 +110,7 @@ export class TicketAddFormComponent implements OnInit {
     }
 
     clearAddModal() {
+        this.attachments = [];
         this.nameTicket = '';
         this.descriptionTicket = '';
         this.assignTicket = '';
@@ -99,8 +118,8 @@ export class TicketAddFormComponent implements OnInit {
     }
 
     onCreateTicket() {
-        if (this.nameInput.valid && this.descriptionInput.valid && this.assignInput.valid&&
-            this.isEmptyDescription()&&this.isEmptyName()&&this.isFindAssign()) {
+         if (this.nameInput.valid && this.descriptionInput.valid && this.assignInput.valid&&
+             !this.isEmptyDescription()&&!this.isEmptyName()&&this.isFindAssign()) {
             this.created.emit(this.createTicket());
             this.closeAddModal();
         }
@@ -108,7 +127,8 @@ export class TicketAddFormComponent implements OnInit {
 
     createTicket():Ticket {
         let ticket = new Ticket(this.nameTicket, this.descriptionTicket, TicketState.NEW);
-        ticket.user = this.currentUserService.getUser();
+        ticket.user = this.currentUser;
+        ticket.attachments = this.attachments;
         ticket.assigned = this.getAssignedId(this.assignTicket);
         return ticket;
 
@@ -129,5 +149,19 @@ export class TicketAddFormComponent implements OnInit {
             }
         }
     }
+    public onUpload(attachments:Attachment[]) {
+        if (this.addModal.isShown) {
+            for(let i=0;i<attachments.length;i++){
+                this.attachments.unshift(attachments[i]);
+        }       
+     }   
+  }
+           
 
+    public removeAttachment(attachments) {
+        if (this.addModal.isShown) {
+            let index = this.ticket.attachments.indexOf(attachments);
+            this.ticket.attachments.splice(index, 1);
+        }
+    }
 }

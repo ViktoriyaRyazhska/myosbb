@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
         console.log(this.currentUser);
     }
     ngOnInit():any{
-        this.currentUser.birthDate = new Date(this.currentUser.birthDate).toLocaleDateString();
+        // this.currentUser.birthDate = new Date(this.currentUser.birthDate).toLocaleDateString();
     }
 
     refreshToken() {
@@ -42,6 +42,8 @@ export class ProfileComponent implements OnInit {
     }
  
 
-  
+   getTime(time:Date):string {
+        return new Date(time).toLocaleString();
+    }
 
 }

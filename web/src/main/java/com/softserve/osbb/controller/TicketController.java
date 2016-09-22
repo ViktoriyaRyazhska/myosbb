@@ -49,27 +49,26 @@ public class TicketController {
     private static Logger logger = LoggerFactory.getLogger(TicketController.class);
 
     @Autowired
-    TicketService ticketService;
+    private TicketService ticketService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    MessageService messageService;
-
-    @Autowired
-    NoticeService noticeService;
+    private NoticeService noticeService;
 
     @Autowired
     private MailSenderImpl sender;
 
     @Autowired
-    SettingsService settingsService;
+    private SettingsService settingsService;
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Resource<Ticket>> createTicket(@RequestBody Ticket ticket) {
         Resource<Ticket> ticketResource;
         try {
+            logger.info("Saving ticket object att" + ticket.getAttachments());
+
             User user = userService.findOne(ticket.getUser().getUserId());
             ticket.setUser(user);
 
@@ -172,7 +171,7 @@ public class TicketController {
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Resource<Ticket>> updateTicket(@RequestBody Ticket ticket) {
 
-        logger.info("Updating ticket by id: " + ticket.getTicketId() + " state " + ticket.getStateTime());
+        logger.info("Updating ticket by id: " + ticket);
         Ticket ticketDB = ticketService.findOne(ticket.getTicketId());
         ticket.setTime(ticketDB.getTime());
 

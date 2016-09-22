@@ -7,7 +7,7 @@ export class Role implements IRole {
     roleId: number;
     name: string;
 
-    constructor( name:string) {
+    constructor(name:string) {
         this.name = name;
     }
 }

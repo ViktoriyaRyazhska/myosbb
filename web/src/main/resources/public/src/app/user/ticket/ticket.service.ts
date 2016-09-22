@@ -3,7 +3,7 @@ import {Http, Headers} from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import ApiService = require("../../../shared/services/api.service");
-import {User} from './../user';
+import {User} from './../../../shared/models/User';
 import {ITicket,TicketState} from './ticket';
 import {PageRequest} from '../../../shared/models/page.request';
 import {Observable} from "rxjs/Observable";
@@ -20,7 +20,7 @@ export class TicketService {
     private getOneUrl:string = ApiService.serverUrl + '/restful/ticket';
     private getAssignUser:string = ApiService.serverUrl + '/restful/user/osbb/';
     private getTicketByPage:string = ApiService.serverUrl + '/restful/ticket/page';
-    private getUsers:string = ApiService.serverUrl + '/restful/user';
+    private getUsers:string = ApiService.serverUrl + '/restful/user/osbb';
     private findTicketByName:string = ApiService.serverUrl + '/restful/ticket/findName';
     private sendEmailAssignUrl:string = ApiService.serverUrl + '/restful/ticket/sendEmailAssign';
     private sendEmailStateUrl:string = ApiService.serverUrl + '/restful/ticket/sendEmailState';
@@ -102,6 +102,8 @@ export class TicketService {
     }
 
     addTicket(ticket:ITicket):Promise<ITicket> {
+                console.log(JSON.stringify(ticket));
+
         return this.http.post(this.postUrl, JSON.stringify(ticket))
             .toPromise()
             .then(res => res.json())

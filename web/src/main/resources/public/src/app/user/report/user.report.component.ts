@@ -219,7 +219,7 @@ export class UserReportComponent implements OnInit, OnDestroy {
 
 
     ngOnDestroy(): any {
-        //this.subscriber.unsubscribe();
+        // this.subscriber.unsubscribe();
     }
 
     private getDistinctDates(): string[] {

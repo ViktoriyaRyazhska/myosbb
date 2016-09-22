@@ -9,10 +9,14 @@ import { TicketService } from './../ticket.service';
 import { TicketFilter } from './../ticket.filter';
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 import {HeaderComponent} from "../../../header/header.component";
+import {FileSelectDirective, FileDropDirective} from "ng2-file-upload";
+import {FileUploadComponent} from "../../../admin/components/attachment/modals/file-upload-modal";
+import {Attachment} from "../../../admin/components/attachment/attachment.interface";
 @Component({
     selector: 'ticket-edit-form',
     templateUrl: './src/app/user/ticket/ticket_form/ticket-edit-form.html',
-    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES],
+    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES,
+        FileSelectDirective, FileDropDirective, FileUploadComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TicketFilter, TranslatePipe],
     styleUrls: ['src/app/user/ticket/ticket.css']
@@ -38,18 +42,21 @@ export class TicketEditFormComponent implements OnInit {
     private assignTicket:string = '';
     private currentUser:User;
     private _currentUserService = null;
+    private attachments:Attachment[] = [];
 
     constructor(private ticketService:TicketService,
                 private builder:FormBuilder) {
         this._currentUserService = HeaderComponent.currentUserService;
         this.currentUser = this._currentUserService.getUser();
         this.ticket = new Ticket("", "", TicketState.NEW);
+        this.ticket.attachments = [];
+        this.attachments = this.ticket.attachments;
         this.update = new EventEmitter<Ticket>();
         this.states = ["NEW", "IN_PROGRESS", "DONE"];
         this.assign = new User();
         this.ticket.assigned = new User();
-        this.nameInput = new Control('', Validators.minLength(20));
-        this.descriptionInput = new Control('', Validators.minLength(60));
+        this.nameInput = new Control('', Validators.required);
+        this.descriptionInput = new Control('', Validators.required);
         this.assignInput = new Control('', Validators.required);
         this.creatingForm = builder.group({
             nameInput: this.nameInput,
@@ -62,6 +69,7 @@ export class TicketEditFormComponent implements OnInit {
 
     openEditModal() {
         this.editModal.show();
+        this.attachments = this.ticket.attachments;        
         this.getAllUsers();
     }
 
@@ -87,13 +95,28 @@ export class TicketEditFormComponent implements OnInit {
 
 
     getAllUsers() {
-        return this.ticketService.getAllUsers(this.currentUser.osbb.osbbId)
+        return this.ticketService.getAllUsers(this.currentUser.osbbId)
             .then(userAssignArr => this.userAssignArr = userAssignArr);
     }
 
     toggleSubmitAttempt() {
         this.submitAttempt = true;
     }
+deleteAttachmet(attachment:Attachment){
+    let index = this.ticket.attachments.indexOf(attachment);
+        if (index > -1) {
+            this.ticket.attachments.splice(index,1);
+        }
+        
+ }
+
+  public onUpload(attachments:Attachment[]) {
+        if (this.editModal.isShown) {
+            for(let i=0;i<attachments.length;i++){
+                this.attachments.unshift(attachments[i]);
+        }
+            
+  }}
 
     closeEditModal() {
         this.submitAttempt = false;
@@ -102,6 +125,8 @@ export class TicketEditFormComponent implements OnInit {
     }
 
     clearEditModal() {
+        this.ticket.attachments = [];
+        this.attachments = [];
         this.nameTicket = '';
         this.descriptionTicket = '';
         this.assignTicket = '';
@@ -110,13 +135,14 @@ export class TicketEditFormComponent implements OnInit {
 
     onEditTicket() {
         if (this.nameInput.valid && this.descriptionInput.valid && this.assignInput.valid&&
-            this.isEmptyDescription()&&this.isEmptyName()&&this.isFindAssign()) {
-            this.update.emit(this.editTicket());
+            !this.isEmptyDescription()&&!this.isEmptyName()&&this.isFindAssign()) {
+            let ticket = this.editTicket();
+            this.update.emit(ticket);            
             this.closeEditModal();
         }
     }
 
-    editState(state:string) {
+    editState(state:string):TicketState{
         if (state == 'NEW') {
             return TicketState.NEW;
         }
@@ -143,9 +169,20 @@ export class TicketEditFormComponent implements OnInit {
         ticket.ticketId = this.ticket.ticketId;
         ticket.user = this.currentUser;
         ticket.assigned = this.getAssignedId(this.assignTicket);
-        ticket.state = this.editState(this.stateTicket);
+        ticket.state  = this.editState(this.stateTicket);
+        ticket.attachments = this.attachments;
         console.log("edit state  "+ this.stateTicket);
         return ticket;
+    }
+
+    getAttachments():Attachment[]{
+        for(let i=0;i<this.ticket.attachments.length;i++){
+        this.attachments.push(this.ticket.attachments[i]);
+        }
+        console.log("getAttachments "+JSON.stringify(this.attachments));
+        
+        return this.attachments;
+
     }
 
     getAssignedId(assign:string):User {

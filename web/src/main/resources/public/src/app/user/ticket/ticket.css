@@ -297,3 +297,35 @@ a.button31:focus:before {
 @keyframes rotate31 {
   100% {transform: rotate(360deg);}*/
 /*}*/
+
+
+.attachmetTicket{
+    width:110px; 
+        height:110px; 
+        float:left; 
+        margin-left:15px;
+        }
+
+.galleryPrev{
+    position	: absolute;
+	left		: 0;
+	height: 100%;
+    width:40%;
+    /*background-color:RED;*/
+    
+        /*margin-left:15px;*/
+        }    
+.galleryNext{
+    /*background-color:green;*/
+    position	: absolute;
+	right		: 0;
+	height: 100%;
+    width:40%;
+        /*margin-left:15px;*/
+        }                
+.attachmetTicketEdit{
+width:55px; 
+        height:55px; 
+        float:left; 
+        margin-left:15px;
+}        
