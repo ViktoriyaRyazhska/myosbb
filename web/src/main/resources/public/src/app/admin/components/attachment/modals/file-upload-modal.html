@@ -8,19 +8,19 @@
                         (click)="closeUploadModal()">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">{{ 'upload' | translate | capitalize }} {{ 'file' | translate }}</h4>
+                <h4 class="modal-title">{{'upload' | translate | capitalize}} {{'file' | translate}}</h4>
             </div>
             <div class="modal-body well well-lg">
                 <div class="row">
                     <div class="col-md-3">
-                        <h3>{{ 'selectFiles' | translate | capitalize }}</h3>
+                        <h3>{{'selectFiles' | translate | capitalize}}</h3>
                         <input type="file" ng2FileSelect [uploader]="uploader" multiple  /><br/>
                         <div ng2FileDrop
                              [ngClass]="{'nv-file-over': hasDropZoneOver}"
                              (fileOver)="fileOverBase($event)"
                              [uploader]="uploader"
                              class="well my-drop-zone">
-                            {{ 'dropZone' | translate | capitalize }}
+                            {{'dropZone' | translate | capitalize}}
                         </div>
                     </div>
 
@@ -28,16 +28,16 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th width="30%">{{ 'name' | translate | capitalize }}</th>
-                                <th>{{ 'size' | translate | capitalize }}</th>
-                                <th>{{ 'status' | translate | capitalize }}</th>
-                                <th width="40%">{{ 'actions' | translate | capitalize }}</th>
+                                <th width="30%">{{'name' | translate | capitalize}}</th>
+                                <th>{{'size' | translate | capitalize}}</th>
+                                <th>{{'status' | translate | capitalize}}</th>
+                                <th width="40%">{{'actions' | translate | capitalize}}</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr *ngFor="let item of uploader.queue">
-                                <td><strong>{{ item.file.name }}</strong></td>
-                                <td nowrap>{{ transform(item.file.size) }}</td>
+                                <td><strong>{{item.file.name}}</strong></td>
+                                <td nowrap>{{transform(item.file.size)}}</td>
                                 <td class="text-center">
                                     <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
                                     <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
@@ -46,11 +46,11 @@
                                 <td nowrap>
                                     <button type="button" class="btn btn-success btn-xs"
                                             (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                                        <span class="glyphicon glyphicon-upload"></span> {{ 'upload' | translate | capitalize }}
+                                        <span class="glyphicon glyphicon-upload"></span> {{'upload' | translate | capitalize}}
                                     </button>
                                     <button type="button" class="btn btn-danger btn-xs"
                                             (click)="item.remove()">
-                                        <span class="glyphicon glyphicon-trash"></span> {{ 'remove' | translate | capitalize }}
+                                        <span class="glyphicon glyphicon-trash"></span> {{'remove' | translate | capitalize}}
                                     </button>
                                 </td>
                             </tr>
@@ -59,18 +59,18 @@
 
                         <div>
                             <div>
-                                {{ 'progress' | translate | capitalize }}:
+                                {{'progress' | translate | capitalize}}:
                                 <div class="progress" style="">
                                     <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
                                 </div>
                             </div>
                             <button type="button" class="btn btn-success btn-s"
                                     (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-                                <span class="glyphicon glyphicon-upload"></span> {{ 'upload' | translate | capitalize }} {{ 'all' | translate }}
+                                <span class="glyphicon glyphicon-upload"></span> {{'upload' | translate | capitalize}} {{'all' | translate}}
                             </button>
                             <button type="button" class="btn btn-danger btn-s"
                                     (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-                                <span class="glyphicon glyphicon-trash"></span> {{ 'remove' | translate | capitalize }} {{ 'all' | translate }}
+                                <span class="glyphicon glyphicon-trash"></span> {{'remove' | translate | capitalize}} {{'all' | translate}}
                             </button>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-default" (click)="closeUploadModal()">
-                    {{ 'save' | translate | capitalize }}
+                    {{'save' | translate | capitalize}}
                 </button>
             </div>
         </div>

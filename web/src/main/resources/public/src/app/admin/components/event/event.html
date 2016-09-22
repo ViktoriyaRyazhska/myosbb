@@ -157,7 +157,7 @@
             </div>
 
             <!--Edit Modal -->
-            <div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+            <div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" style="overflow-y: scroll"
                  aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -218,6 +218,25 @@
                                            name="description" [(ngModel)]="selectedEvent.description"
                                            #description="ngModel">
                                 </div>
+
+                                <div>
+                                    <label>{{'attachments' | translate | capitalize}}</label><br>
+                                    <button type="button" class="btn btn-success"
+                                            (click)="uploadForm.openUploadModal()">
+                                        {{'upload' | translate | capitalize}} {{'file' | translate}}
+                                    </button>
+                                </div>
+
+                                <div class="row" style="margin-top: 20px">
+                                    <div *ngFor="let attachment of selectedEvent.attachments" class="col-sm-3">
+                                        <div class="thumbnail"><i class="close col-sm-2"
+                                                                  (click)="removeAttachment(attachment)">×</i>
+                                            <img src="{{attachment.url}}" class="img-responsive"
+                                                 style="width:100px;height:80px">
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-default"
@@ -304,7 +323,7 @@
                                 <div *ngFor="let attachment of newEvent.attachments" class="col-sm-3">
                                     <div class="thumbnail"><i class="close col-sm-2"
                                                               (click)="removeAttachment(attachment)">×</i>
-                                        <img src="{{attachment.url}}" class="img-responsive"
+                                        <img [src]="getPreview(attachment)" class="img-responsive"
                                              style="width:100px;height:80px">
                                     </div>
                                 </div>

@@ -38,7 +38,6 @@ export class FileUploadComponent {
 
     constructor() {
         this.upload = new EventEmitter<any>();
-        // let toReturn: {file: FileItem, response: string}[];
         this.uploader.toReturn = [];
         this.uploader.onCompleteItem = function(item, response) {
             this.toReturn.push(JSON.parse(response));

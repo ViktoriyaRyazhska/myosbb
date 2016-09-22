@@ -188,7 +188,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public void deleteAllAttachments() {
-        attachmentRepository.deleteAll();
+        attachmentRepository.findAll().forEach(a -> deleteAttachmentEverywhere(a.getAttachmentId()));
     }
 
     @Override
