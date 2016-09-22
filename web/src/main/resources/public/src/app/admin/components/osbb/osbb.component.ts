@@ -4,6 +4,7 @@ import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
+import moment from 'moment';
 
 import { OsbbDTO } from './osbb';
 import { OsbbService } from './osbb.service';
@@ -15,9 +16,6 @@ import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-fir
 import ApiService = require("../../../../shared/services/api.service");
 import {FILE_UPLOAD_DIRECTIVES, FileSelectDirective, FileDropDirective, FileUploader} from "ng2-file-upload/ng2-file-upload";
 import {IOsbb, Osbb} from "../../../../shared/models/osbb";
-
-//const attachmentUploadUrl = ApiService.serverUrl + '/restful/osbb';
-
 
 @Component({
     selector: 'osbb',
@@ -99,10 +97,6 @@ export class OsbbComponent implements OnInit {
          }
     }
 
-    getCreationDate(date:Date):string {
-        return new Date(date).toLocaleString();
-    }
-
     searchByNameOsbb(osbbName: string) {
         if(osbbName.trim()!=='') {
             this.osbbService.getAllOsbbByNameContaining(osbbName).then(osbbArr => this.osbbArr = osbbArr);
@@ -128,5 +122,9 @@ export class OsbbComponent implements OnInit {
         if(searchInput.value === '') {
             this.initOsbbArr("All");
         }
+    }
+
+     getFormatDate(date:Date):string {
+      return moment(date).format("DD.MM.YYYY");
     }
 }

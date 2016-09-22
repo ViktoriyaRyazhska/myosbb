@@ -1,5 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {ROUTER_DIRECTIVES} from "@angular/router";
+import moment from 'moment';
 
 import {VoteComponent} from "../voting/vote.component";
 import {IOsbb, Osbb} from "../../../shared/models/osbb";
@@ -32,8 +33,8 @@ export class HomeWallComponent implements OnInit {
         //setTimeout(()=> {this.headerComponent.getNotice();}, 2000);
     }
 
-    getCreationTime():string {
-        return new Date(this.currentOsbb.creationDate).toLocaleString();
+     getFormatDate():string {
+      return moment(this.currentOsbb.creationDate).format("DD.MM.YYYY");
     }
 
     getLogoUrl(): string {
