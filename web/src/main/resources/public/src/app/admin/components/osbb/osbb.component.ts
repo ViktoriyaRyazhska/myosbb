@@ -58,7 +58,7 @@ export class OsbbComponent implements OnInit {
     createOsbb(osbbDTO:OsbbDTO): void {
         let osbb = osbbDTO.osbb;
         osbb.creator = this.currentUserService.getUser();
-        if(osbbDTO.file !== null){
+        if(osbbDTO.file !== null && osbbDTO.file !== undefined){
             this.osbbService.upload(osbbDTO.file)         
             .then((attachment)=> {
                 osbb.logo = attachment;
@@ -74,7 +74,7 @@ export class OsbbComponent implements OnInit {
     }
 
     editOsbb(osbbDTO:OsbbDTO): void {
-        if(osbbDTO.file !== null){
+        if(osbbDTO.file !== null && osbbDTO.file !== undefined){
             this.osbbService.upload(osbbDTO.file)         
             .then((attachment)=> {
                 let osbb = osbbDTO.osbb;
@@ -125,6 +125,6 @@ export class OsbbComponent implements OnInit {
     }
 
      getFormatDate(date:Date):string {
-      return moment(date).format("DD.MM.YYYY");
+       return moment(date).format("DD.MM.YYYY");
     }
 }

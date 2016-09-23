@@ -104,9 +104,11 @@ export class OsbbModalComponent implements OnInit{
                                 && this.addressControl.valid && this.districtControl.valid) {
             let fileList: FileList = fileInput.files;
             if(this.osbbDTO.isChanged) {
+                console.log("file was changed");
                  this.osbbDTO.file =  fileList.item(0);
             }
             if(this.isEditing) {
+                console.log("isEditing");
                 this.editOsbb();
                 this.osbbDTO.osbb = this.osbb;
                 this.update.emit(this.osbbDTO);

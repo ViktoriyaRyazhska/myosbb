@@ -28,8 +28,8 @@ export class OsbbService {
     public upload(file: File): Promise<Attachment> {
         return new Promise((resolve, reject) => {
             let formData: FormData = new FormData(),
-                xhr: XMLHttpRequest = new XMLHttpRequest();
-            formData.append("file", file, file.name);
+            xhr: XMLHttpRequest = new XMLHttpRequest();
+            formData.append("file", file, file.name);  
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
