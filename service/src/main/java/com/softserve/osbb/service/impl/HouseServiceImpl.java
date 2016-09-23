@@ -2,6 +2,7 @@ package com.softserve.osbb.service.impl;
 
 import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.House;
+import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.repository.HouseRepository;
 import com.softserve.osbb.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,10 +105,14 @@ public class HouseServiceImpl implements HouseService {
     public Page<House> getAllHouses(Pageable pageable) {
         return houseRepository.findAll(pageable);
     }
+
     @Override
     public List<House> getAllHousesByOsbb(Integer osbbId){
         return houseRepository.findByOsbb(osbbId);
     }
 
-
+    @Override
+    public Page<House> getAllHousesByOsbb(Osbb osbb, Pageable pageable) {
+        return houseRepository.findByOsbb(osbb, pageable);
+    }
 }

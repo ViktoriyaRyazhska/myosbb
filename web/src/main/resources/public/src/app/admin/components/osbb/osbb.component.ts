@@ -3,11 +3,13 @@ import {CORE_DIRECTIVES} from '@angular/common';
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {Observable} from 'rxjs/Observable';
+import {Router} from '@angular/router';
 import 'rxjs/Rx';
 import moment from 'moment';
 
 import { OsbbDTO } from './osbb';
 import { OsbbService } from './osbb.service';
+import {LoginService} from "../../../login/login.service";
 import { OsbbModalComponent } from './osbb_form/osbb-modal.component';
 import { OsbbDelFormComponent } from './osbb_form/osbb-del-form.component';
 import {CurrentUserService} from "../../../../shared/services/current.user.service";
@@ -32,7 +34,7 @@ export class OsbbComponent implements OnInit {
     updatedOsbb:IOsbb;
     order: boolean;
 
-    constructor( private osbbService: OsbbService, private currentUserService:CurrentUserService) { 
+    constructor( private osbbService: OsbbService, private currentUserService:CurrentUserService, private router:Router,private loginService:LoginService) { 
         this.osbbArr = [];
     }
 
@@ -126,5 +128,13 @@ export class OsbbComponent implements OnInit {
 
      getFormatDate(date:Date):string {
        return moment(date).format("DD.MM.YYYY");
+    }
+
+    redirectToHouseTable(osbbId: number) {
+        if(this.loginService.checkLogin()){
+             this.router.navigate(['admin/houses/' + osbbId]); 
+        } else {
+            this.router.navigate(['login']);
+        }
     }
 }
