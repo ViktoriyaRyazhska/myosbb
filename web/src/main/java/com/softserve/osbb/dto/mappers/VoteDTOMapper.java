@@ -27,6 +27,14 @@ public class VoteDTOMapper {
         return voteDTO;
     }
 
+    public static List<VoteDTO> mapAllVoteEntityToDTO(List<Vote> voteList) {
+        List<VoteDTO> voteDTOList = new ArrayList<>();
+        for(Vote v: voteList) {
+            voteDTOList.add(mapVoteEntityToDTO(v));
+        }
+        return voteDTOList;
+    }
+
     private static List<Integer> getALLUsersIdFromVote(List<Option> options) {
         List<Integer> usersId = new ArrayList<>();
         for(Option option: options) {

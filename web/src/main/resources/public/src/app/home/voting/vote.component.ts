@@ -6,7 +6,7 @@ import {OptionService} from './option.service';
 import {VoteAddFormComponent} from './vote_form/vote-add-form.component';
 import {VoteDelFormComponent} from './vote_form/vote-del-form.component';
 import {VoteCloseFormComponent}  from './vote_form/vote-close-form.component';
-import {User} from './user';
+import {User} from '../../../shared/models/User';
 import {CurrentUserService} from "../../../shared/services/current.user.service";
 import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
@@ -30,12 +30,13 @@ export class VoteComponent implements OnInit {
 
     constructor(private voteService:VoteService, private optionService:OptionService, private currentUserService:CurrentUserService) {
         this.voteArr = [];
+        this.currentUser = this.currentUserService.getUser();
+         //.then(()=> this.currentUser = this.currentUserService.getUser())
     }
 
     ngOnInit() {
-        this.voteService.getAllVotes()
+        this.voteService.getAllVotes(this.currentUser.osbbId)
                         .then(voteArr => this.voteArr = voteArr)
-                        .then(()=> this.currentUser = this.currentUserService.getUser())
                         .then(()=> this.checkForUserId())
                         .then(()=> this.countNumberOfRespondents())
                         .then(()=> this.calculateProgress());

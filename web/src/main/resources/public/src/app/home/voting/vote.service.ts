@@ -16,8 +16,8 @@ export class VoteService {
     constructor(private http: Http) {
      }
 
-    getAllVotes(): Promise<Vote[]> {
-        return this.http.get(this.url)
+    getAllVotes(osbbId: number): Promise<Vote[]> {
+        return this.http.get(this.url + '/all/' + osbbId)
                  .toPromise()
                  .then(res => res.json())
                  .catch(this.handleError);
