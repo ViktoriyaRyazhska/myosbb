@@ -1,0 +1,45 @@
+<section class="profile col-xs-12 ">
+    <div class="top-label">
+        <h3 class="">{{'pageUser'|translate|capitalize}}</h3>
+    </div>
+    <div class="task-panel tasks-widget col-xs-3  left" style="height:300px">
+        <div class="image">
+            <img src="assets/img/ui-sam.jpg" class="center-block img-circle">
+        </div>
+        <button class="col-xs-12 btn btn-primary" >
+            <i class="glyphicon glyphicon-pensil"></i>
+            <span> {{ 'write' | translate | capitalize }}</span>
+        </button>
+    </div>
+    <div class="row col-xs-7">
+        <div class="task-panel tasks-widget col-xs-12 right ">
+            <div class="col-xs-12">
+                <label class="col-xs-6"><b>{{'nameUser'|translate|capitalize}}</b></label>
+                <h5 class="col-xs-6">{{user.firstName}}</h5>
+            </div>
+            <div class="col-xs-12">
+                <label class="col-xs-6"><b>{{'surname'|translate|capitalize}}</b></label>
+                <h5 class="col-xs-6">{{user.lastName}}</h5>
+            </div>
+            <div class="col-xs-12">
+                <label class="col-xs-6"><b>{{'birthday'|translate|capitalize}}</b></label>
+                <h5 class="col-xs-6">{{getTime(user.birthDate)}}</h5>
+            </div>
+            <div class="col-xs-12">
+                <label class="col-xs-6"><b>{{'email'|translate|capitalize}}</b></label>
+                <h5 class="col-xs-6">{{user.email}}</h5>
+            </div>
+            <div class="col-xs-12">
+                <label class="col-xs-6"><b>{{'phoneNumber'|translate|capitalize}}</b></label>
+                <h5 class="col-xs-6">{{user.phoneNumber}}</h5>
+            </div>
+            <div class="col-xs-12">
+                <label class="col-xs-6"><b>{{'activeUser'|translate|capitalize}}</b></label>
+                <h5 class="col-xs-6">{{user.activated}}</h5>
+            </div>
+            <div class="col-xs-12">
+            </div>
+        </div>
+       
+    </div>
+</section>

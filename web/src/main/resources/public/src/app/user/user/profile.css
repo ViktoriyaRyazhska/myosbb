@@ -1,0 +1,34 @@
+.profile{
+    width: 100%;
+    height:100%;
+    position:fixed;
+    top: 60px;
+    background-color:#f2f2f2;
+    overflow-y:hidden;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+}
+.top-label{
+    margin:5px;
+    text-align:left;
+}
+.image{
+    pading-bottom:29px;
+}
+.images{
+    height:23.5%;
+}
+.task-panel{
+    padding: 20px 10px 20px 10px;
+}
+.btn{
+    margin-top: 10px;
+}
+.left{
+    height:75%;
+}
+
+.right label{
+    margin-top: 20px;
+}
