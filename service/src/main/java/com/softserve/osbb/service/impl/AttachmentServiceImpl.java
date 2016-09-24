@@ -6,7 +6,6 @@ import com.softserve.osbb.repository.AttachmentRepository;
 import com.softserve.osbb.service.AttachmentService;
 import com.softserve.osbb.utils.Constants;
 import liquibase.util.file.FilenameUtils;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -27,6 +25,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import static com.softserve.osbb.utils.Constants.DATE_FORMATTER;
 import static com.softserve.osbb.utils.Constants.FILE_UPLOAD_PATH;
 
 /**
@@ -163,7 +162,7 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     private Path getFilePathWithSubDir(MultipartFile file) {
-        Path path = Paths.get(FILE_UPLOAD_PATH + Constants.DATE_FORMATTER.format(new Date()));
+        Path path = Paths.get(FILE_UPLOAD_PATH + DATE_FORMATTER.format(new Date()));
         try {
             Files.createDirectories(path);
         } catch (IOException e) {
