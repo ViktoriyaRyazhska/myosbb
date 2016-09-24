@@ -10,8 +10,8 @@ import {TicketAdminComponent} from "./components/ticket/ticket.component.admin";
 import {TicketSingleAdminComponent} from "./components/ticket/single.ticket.component.admin";
 import {ApartmentProfileComponent} from "../../app/user/ApartmentProfile/apartment.profile"
 import {AdminLoginGuard} from "../../shared/guard/admin.login.guard";
-import {EventAdminComponent} from "./components/event/event.component";
-import {EventShowAdminComponent} from "./components/event/event.show.component";
+import {EventAdminComponent} from "./components/event/event.admin.component";
+import {EventShowAdminComponent} from "./components/event/event.show.admin.component";
 import {AttachmentAdminComponent} from "./components/attachment/attachment.component";
 
 export const adminRoutes: RouterConfig = [

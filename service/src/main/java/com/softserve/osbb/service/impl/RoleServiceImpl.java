@@ -3,6 +3,7 @@ package com.softserve.osbb.service.impl;
 import com.softserve.osbb.model.Role;
 import com.softserve.osbb.repository.RoleRepository;
 import com.softserve.osbb.service.RoleService;
+import com.softserve.osbb.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,14 +15,12 @@ import java.util.List;
 /**
  * Created by Roma on 13/07/2016.
  */
+
 @Service
 public class RoleServiceImpl implements RoleService {
 
-    private static final int DEF_ROWS = 10;
-
     @Autowired
     RoleRepository roleRepository;
-
 
     @Override
     public Role addRole(Role role) {
@@ -83,7 +82,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Page<Role> getAllRole(Integer pageNumber, String sortBy, Boolean order) {
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, DEF_ROWS,
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, Constants.DEF_ROWS,
                 getSortingOrder(order), sortBy == null ? "name" : sortBy);
         return roleRepository.findAll(pageRequest);
     }

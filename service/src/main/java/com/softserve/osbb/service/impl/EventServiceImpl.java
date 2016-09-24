@@ -4,6 +4,7 @@ import com.softserve.osbb.model.Event;
 import com.softserve.osbb.model.enums.EventStatus;
 import com.softserve.osbb.repository.EventRepository;
 import com.softserve.osbb.service.EventService;
+import com.softserve.osbb.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,17 +24,6 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     EventRepository eventRepository;
-
-    private static final int DEF_ROWS = 10;
-
-    @Override
-    public List<Event> filterByStatus(EventStatus status) {
-        List<Event> list = eventRepository
-                .findAll().stream()
-                .filter(event -> status.equals(event.getStatus()))
-                .collect(Collectors.toList());
-        return list;
-    }
 
     @Override
     public Event saveEvent(Event event) {
@@ -102,26 +92,9 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Page<Event> getAllEvents(Integer pageNumber, String sortBy, Boolean order) {
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, DEF_ROWS,
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, Constants.DEF_ROWS,
                 getSortingOrder(order), sortBy == null ? "startTime" : sortBy);
         return eventRepository.findAll(pageRequest);
-    }
-
-    public Sort.Direction getSortingOrder(Boolean order) {
-        if (order == null) {
-            return Sort.Direction.DESC;
-        }
-        return order == true ? Sort.Direction.ASC : Sort.Direction.DESC;
-    }
-
-    @Override
-    public List<Event> findEventsByNameOrAuthorOrDescription(String search) {
-        return eventRepository.findByNameOrAuthorOrDescription(search);
-    }
-
-    @Override
-    public List<Event> findByInterval(Timestamp start, Timestamp end) {
-        return eventRepository.findBetweenStartTimeAndEndTime(start, end);
     }
 
     @Override
@@ -129,4 +102,28 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findByAuthor(user);
     }
 
+    @Override
+    public List<Event> findByStatus(EventStatus status) {
+        return eventRepository.findAll()
+                .stream()
+                .filter(event -> status.equals(event.getStatus()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Event> findEventsByTitleOrAuthorOrDescription(String search) {
+        return eventRepository.findByTitleOrAuthorOrDescription(search);
+    }
+
+    @Override
+    public List<Event> findByInterval(Timestamp start, Timestamp end) {
+        return eventRepository.findBetweenStartTimeAndEndTime(start, end);
+    }
+
+    private Sort.Direction getSortingOrder(Boolean order) {
+        if (order == null) {
+            return Sort.Direction.DESC;
+        }
+        return order ? Sort.Direction.ASC : Sort.Direction.DESC;
+    }
 }

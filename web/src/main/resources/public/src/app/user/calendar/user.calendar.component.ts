@@ -4,6 +4,8 @@ import {Event} from "../../event/event.interface";
 import {TranslatePipe, TranslateService} from "ng2-translate/ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
 import {EventService} from "../../event/event.service";
+import {User} from "../../../shared/models/User";
+import {CurrentUserService} from "../../../shared/services/current.user.service";
 import moment from 'moment';
 
 @Component({
@@ -24,9 +26,11 @@ export class UserCalendarComponent implements OnInit {
     idGen: number = 100;
     uk: any;
     lang: string = "uk";
+    private currentUser:User;
 
     constructor(private eventService: EventService, private cd: ChangeDetectorRef,
-                private translate: TranslateService) {
+                private translate: TranslateService, private currentUserService:CurrentUserService) {
+        this.currentUser = currentUserService.getUser();
     }
 
     getLang() {
@@ -99,6 +103,7 @@ export class UserCalendarComponent implements OnInit {
     }
 
     saveEvent(event: Event) {
+        this.event.author = this.currentUser;
         //update
         if (this.event.id) {
             this.eventService.editAndSave(event);

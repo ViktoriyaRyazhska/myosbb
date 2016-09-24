@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 public class ReportServiceImpl implements ReportService {
 
     private static final List<Report> EMPTY_LIST = new ArrayList<>(0);
-    private static final int DEF_ROWS = 10;
 
     @Autowired
     private ReportRepository reportRepository;

@@ -38,46 +38,47 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @RequestMapping(value="", method = RequestMethod.POST)
-    public ResponseEntity<Resource<Event>> createEvent(@RequestBody Event event) {
-        logger.info("Saving event " + event);
-        event = eventService.saveEvent(event);
-        Resource<Event> eventResource = new Resource<>(event);
-        eventResource.add(linkTo(methodOn(EventController.class).findEventById(event.getEventId())).withSelfRel());
-        return new ResponseEntity<>(eventResource, HttpStatus.OK);
-    }
-
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<List<Resource<Event>>> findAllEvents() {
         List<Event> eventList = eventService.getAllEvents();
         logger.info("Getting all events.");
-        final List<Resource<Event>> resourceEventList = new ArrayList<>();
-        for (Event e : eventList) {
-            Resource<Event> eventResource = new Resource<>(e);
-            eventResource.add(linkTo(methodOn(EventController.class)
-                    .findEventById(e.getEventId()))
-                    .withSelfRel());
-            resourceEventList.add(eventResource);
-        }
+        List<Resource<Event>> resourceEventList = new ArrayList<>();
+        eventList.forEach((event) -> resourceEventList.add(getResourceWithLink(toResource(event))));
         return new ResponseEntity<>(resourceEventList, HttpStatus.OK);
     }
-
+    
+    @RequestMapping(value = "",  method = RequestMethod.DELETE)
+    public ResponseEntity<Event> deleteAllEvents() {
+        logger.info("Removing all events.");
+        eventService.deleteAllEvents();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource<Event>> findEventById(@PathVariable("id") Integer eventId) {
         logger.info("Getting event by id: " + eventId);
         Event event = eventService.getEventById(eventId);
         Resource<Event> eventResource = new Resource<>(event);
-        eventResource.add(linkTo(methodOn(EventController.class).findEventById(eventId)).withSelfRel());
+        eventResource = getResourceWithLink(eventResource);
         logger.info("Event user : " + eventResource.getContent().getAuthor());
         return new ResponseEntity<>(eventResource, HttpStatus.OK);
     }
 
+    @RequestMapping(value="", method = RequestMethod.POST)
+    public ResponseEntity<Resource<Event>> createEvent(@RequestBody Event event) {
+        logger.info("Saving event " + event);
+        event = eventService.saveEvent(event);
+        Resource<Event> eventResource = new Resource<>(event);
+        eventResource = getResourceWithLink(eventResource);
+        return new ResponseEntity<>(eventResource, HttpStatus.OK);
+    }
+    
     @RequestMapping(value = "/", method = RequestMethod.PUT)
     public ResponseEntity<Resource<Event>> updateEvent(@RequestBody Event event) {
         logger.info("Updating event by id: " + event.getEventId());
         event = eventService.updateEvent(event.getEventId(), event);
         Resource<Event> eventResource = new Resource<>(event);
-        eventResource.add(linkTo(methodOn(EventController.class).findEventById(event.getEventId())).withSelfRel());
+        eventResource = getResourceWithLink(eventResource);
         return new ResponseEntity<>(eventResource, HttpStatus.OK);
     }
 
@@ -88,50 +89,28 @@ public class EventController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "",  method = RequestMethod.DELETE)
-    public ResponseEntity<Event> deleteAllEvents() {
-        logger.info("Removing all events.");
-        eventService.deleteAllEvents();
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    private Resource<Event> getLink(Resource<Event> eventResource) {
-        //adding self-link
-        eventResource.add(linkTo(methodOn(EventController.class)
-                .findEventById(eventResource.getContent().getEventId()))
-                .withSelfRel());
-        //adding link to osbb
-        final Osbb osbbFromResource = eventResource.getContent().getOsbb();
-        if (osbbFromResource != null) {
-            eventResource.add(linkTo(methodOn(OsbbController.class)
-                    .getOsbbById(osbbFromResource
-                            .getOsbbId())).withRel("osbb"));
-        }
-        return eventResource;
-    }
-
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ResponseEntity<PageDataObject<Resource<Event>>> listAllEvents(
-            @RequestParam(value = "pageNumber", required = true) Integer pageNumber,
+            @RequestParam(value = "pageNumber") Integer pageNumber,
             @RequestParam(value = "sortedBy", required = false) String sortedBy,
             @RequestParam(value = "asc", required = false) Boolean ascOrder) {
         logger.info("get all event by page number: " + pageNumber);
         Page<Event> eventsByPage = eventService.getAllEvents(pageNumber, sortedBy, ascOrder);
 
-        int currentPage = eventsByPage.getNumber() + 1;
-        int begin = Math.max(1, currentPage - 5);
-        int totalPages = eventsByPage.getTotalPages();
-        int end = Math.min(currentPage + 5, totalPages);
+        Integer currentPage = eventsByPage.getNumber() + 1;
+        Integer begin = Math.max(1, currentPage - 5);
+        Integer totalPages = eventsByPage.getTotalPages();
+        Integer end = Math.min(currentPage + 5, totalPages);
 
         List<Resource<Event>> resourceList = new ArrayList<>();
-        eventsByPage.forEach((event) -> resourceList.add(getLink(toResource(event))));
+        eventsByPage.forEach((event) -> resourceList.add(getResourceWithLink(toResource(event))));
 
         PageDataObject<Resource<Event>> pageDataObject = new PageDataObject<>();
         pageDataObject.setRows(resourceList);
-        pageDataObject.setCurrentPage(Integer.valueOf(currentPage).toString());
-        pageDataObject.setBeginPage(Integer.valueOf(begin).toString());
-        pageDataObject.setEndPage(Integer.valueOf(end).toString());
-        pageDataObject.setTotalPages(Integer.valueOf(totalPages).toString());
+        pageDataObject.setCurrentPage(currentPage.toString());
+        pageDataObject.setBeginPage(begin.toString());
+        pageDataObject.setEndPage(end.toString());
+        pageDataObject.setTotalPages(totalPages.toString());
 
         return new ResponseEntity<>(pageDataObject, HttpStatus.OK);
     }
@@ -143,40 +122,34 @@ public class EventController {
         List<Event> events = eventService.findByInterval(new Timestamp(start), new Timestamp(end));
 
         List<Resource<Event>> resourceEventList = new ArrayList<>();
-        events.stream().forEach((event) -> {
-            resourceEventList.add(getLink(toResource(event)));
-        });
+        events.forEach((event) -> resourceEventList.add(getResourceWithLink(toResource(event))));
 
         return new ResponseEntity<>(resourceEventList, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/find", method = RequestMethod.GET)
     public ResponseEntity<List<Resource<Event>>> getEventsByTitle(
-            @RequestParam(value = "title", required = true) String title) {
+            @RequestParam(value = "title") String title) {
         logger.info("fetching event by search parameter: " + title);
-        List<Event> eventsBySearchTerm = eventService.findEventsByNameOrAuthorOrDescription(title);
+        List<Event> eventsBySearchTerm = eventService.findEventsByTitleOrAuthorOrDescription(title);
         if (eventsBySearchTerm.isEmpty()) {
             logger.warn("no events were found");
         }
         List<Resource<Event>> resourceEventList = new ArrayList<>();
-        eventsBySearchTerm.stream().forEach((event) -> {
-            resourceEventList.add(getLink(toResource(event)));
-        });
+        eventsBySearchTerm.forEach((event) -> resourceEventList.add(getResourceWithLink(toResource(event))));
         return new ResponseEntity<>(resourceEventList, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/status", method = RequestMethod.GET)
     public ResponseEntity<List<Resource<Event>>> getEventsByStatus(
-            @RequestParam(value = "status", required = true) EventStatus status) {
+            @RequestParam(value = "status") EventStatus status) {
         logger.info("fetching event by status: " + status);
-        List<Event> eventsBySearchTerm = eventService.filterByStatus(status);
+        List<Event> eventsBySearchTerm = eventService.findByStatus(status);
         if (eventsBySearchTerm.isEmpty()) {
             logger.warn("no events were found");
         }
         List<Resource<Event>> resourceEventList = new ArrayList<>();
-        eventsBySearchTerm.stream().forEach((event) -> {
-            resourceEventList.add(getLink(toResource(event)));
-        });
+        eventsBySearchTerm.forEach((event) -> resourceEventList.add(getResourceWithLink(toResource(event))));
         return new ResponseEntity<>(resourceEventList, HttpStatus.OK);
     }
 
@@ -190,10 +163,22 @@ public class EventController {
             logger.warn("no events were found");
         }
         List<Resource<Event>> resourceEventList = new ArrayList<>();
-        eventsBySearchTerm.stream().forEach((event) -> {
-            resourceEventList.add(getLink(toResource(event)));
-        });
+        eventsBySearchTerm.forEach((event) -> resourceEventList.add(getResourceWithLink(toResource(event))));
         return new ResponseEntity<>(resourceEventList, HttpStatus.OK);
     }
-}
 
+    private Resource<Event> getResourceWithLink(Resource<Event> eventResource) {
+        //adding self-link
+        eventResource.add(linkTo(methodOn(EventController.class)
+                .findEventById(eventResource.getContent().getEventId()))
+                .withSelfRel());
+        //adding link to osbb
+        final Osbb osbbFromResource = eventResource.getContent().getOsbb();
+        if (osbbFromResource != null) {
+            eventResource.add(linkTo(methodOn(OsbbController.class)
+                    .getOsbbById(osbbFromResource
+                            .getOsbbId())).withRel("osbb"));
+        }
+        return eventResource;
+    }
+}

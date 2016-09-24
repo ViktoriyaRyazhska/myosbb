@@ -39,9 +39,6 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     private static Logger logger = LoggerFactory.getLogger(AttachmentServiceImpl.class);
 
-
-    private static final int DEF_ROWS = 10;
-
     @Override
     public Attachment uploadFile(MultipartFile file) {
         Path attachmentPath = saveFile(getFilePathWithSubDir(file), file);
@@ -203,7 +200,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public Page<Attachment> getAllAttachments(Integer pageNumber, String sortBy, Boolean order) {
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, DEF_ROWS,
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, Constants.DEF_ROWS,
                 getSortingOrder(order), sortBy == null ? "path" : sortBy);
         return attachmentRepository.findAll(pageRequest);
     }

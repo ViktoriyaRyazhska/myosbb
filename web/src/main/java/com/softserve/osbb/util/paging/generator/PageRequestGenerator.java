@@ -1,6 +1,7 @@
 package com.softserve.osbb.util.paging.generator;
 
 import com.softserve.osbb.dto.PageParams;
+import com.softserve.osbb.utils.Constants;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -10,7 +11,6 @@ import org.springframework.data.domain.Sort;
  */
 public class PageRequestGenerator {
 
-    private static final int DEF_ROWS = 10;
     private PageRequestHolder pageRequestHolder;
     private String defaultSortingFiled = "";
 
@@ -167,7 +167,7 @@ public class PageRequestGenerator {
     }
 
     private int addRowNum() {
-        return this.pageRequestHolder.rowNum == null ? DEF_ROWS : this.pageRequestHolder.rowNum;
+        return this.pageRequestHolder.rowNum == null ? Constants.DEF_ROWS : this.pageRequestHolder.rowNum;
     }
 
     private Sort.Direction getSortingOrder(Boolean order) {

@@ -3,6 +3,7 @@ package com.softserve.osbb.service.impl;
 import com.softserve.osbb.model.Contract;
 import com.softserve.osbb.repository.ContractRepository;
 import com.softserve.osbb.service.ContractService;
+import com.softserve.osbb.utils.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,10 @@ import java.util.List;
 /**
  * Created by Roma on 13/07/2016.
  */
+
 @Service
 public class ContractServiceImpl implements ContractService {
-    private static final int DEF_ROWS = 10;
+
     private static Logger logger = LoggerFactory.getLogger(ContractServiceImpl.class);
 
     @Autowired
@@ -129,7 +131,7 @@ public class ContractServiceImpl implements ContractService {
     public Page<Contract> getContracts(Integer pageNumber, String sortBy, Boolean order) {
         logger.info("contract service: getting contracts...");
         logger.info("params: pageNum=" + pageNumber + ", sort=" + sortBy + "order=" + order);
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, DEF_ROWS,
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, Constants.DEF_ROWS,
                 getSortingOrder(order), sortBy == null ? "dateStart" : sortBy);
         return contractRepository.findAll(pageRequest);
     }
@@ -138,7 +140,7 @@ public class ContractServiceImpl implements ContractService {
     public Page<Contract> findByActiveTrue(Integer pageNumber, String sortBy, Boolean order) {
         logger.info("contract service: getting active contracts...");
         logger.info("params: pageNum=" + pageNumber + ", sort=" + sortBy + "order=" + order);
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, DEF_ROWS,
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, Constants.DEF_ROWS,
                 getSortingOrder(order), sortBy == null ? "dateStart" : sortBy);
         return contractRepository.findByActiveTrue(pageRequest);
     }
