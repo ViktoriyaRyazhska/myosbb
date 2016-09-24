@@ -13,7 +13,7 @@ import {Mail} from "../../../shared/models/mail.interface";
 @Injectable()
 export class TicketService {
 
-    private url:string = ApiService.serverUrl + '/restful/ticket';    
+    private url:string = ApiService.serverUrl + '/restful/ticket';
     private getAssignUser:string = ApiService.serverUrl + '/restful/user/osbb/';
     private getTicketByPage:string = ApiService.serverUrl + '/restful/ticket/page';
     private getUsers:string = ApiService.serverUrl + '/restful/user/osbb';
@@ -38,7 +38,7 @@ export class TicketService {
     }
 
     findByNameDescription(pageRequest:PageRequest, osbbId:number, findName:string):Observable<any> {
-        return this.http.post(this.findTicketByName + '?name=' + findName +'&&osbbId='+osbbId, JSON.stringify(pageRequest))
+        return this.http.post(this.findTicketByName + '?name=' + findName + '&&osbbId=' + osbbId, JSON.stringify(pageRequest))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }

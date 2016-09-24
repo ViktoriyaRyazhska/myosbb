@@ -31,11 +31,11 @@ import {Attachment} from "../../admin/components/attachment/attachment.interface
     templateUrl: './src/app/user/ticket/ticket.component.html',
     providers: [TicketService, ToasterService],
     directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, CORE_DIRECTIVES,
-              TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent,
-              FileSelectDirective, FileDropDirective, FileUploadComponent],
+        TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent,
+        FileSelectDirective, FileDropDirective, FileUploadComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
-    pipes: [TranslatePipe,CapitalizeFirstLetterPipe],
-    styleUrls: ['src/app/user/ticket/ticket.css','src/shared/css/loader.css', 'src/shared/css/general.css']
+    pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
+    styleUrls: ['src/app/user/ticket/ticket.css', 'src/shared/css/loader.css', 'src/shared/css/general.css']
 })
 
 
@@ -63,8 +63,8 @@ export class TicketComponent implements OnInit {
                 private _toasterService:ToasterService,
                 private router:Router) {
         this._currentUserService = HeaderComponent.currentUserService;
-        this.currentUser = this._currentUserService.getUser();     
-        
+        this.currentUser = this._currentUserService.getUser();
+
     }
 
     ngOnInit() {
@@ -77,8 +77,8 @@ export class TicketComponent implements OnInit {
 
     createTicket(ticket:ITicket):void {
         this.ticketService.addTicket(ticket)
-        .then(ticket => this.addTicket(ticket));
-    }    
+            .then(ticket => this.addTicket(ticket));
+    }
 
 
     private addTicket(ticket:ITicket):void {
@@ -104,8 +104,8 @@ export class TicketComponent implements OnInit {
             this.ticketArr.splice(index, 1);
         }
     }
-    
-  getTicketsByPageNum(pageNumber:number, selectedRow:number) {
+
+    getTicketsByPageNum(pageNumber:number, selectedRow:number) {
         console.log("getTicketsByPageNum " + this.pageNumber);
         this.pageNumber = +pageNumber;
         this.pending = true;
@@ -130,11 +130,12 @@ export class TicketComponent implements OnInit {
                     console.error(error)
                 });
     }
+
     findTicketByName(name:string) {
-        console.log("findTicketByName"); 
+        console.log("findTicketByName");
         this.pending = true;
         this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow, this.nameSort, this.order);
-        return this.ticketService.findByNameDescription(this.pageRequest,this.currentUser.osbbId, name)
+        return this.ticketService.findByNameDescription(this.pageRequest, this.currentUser.osbbId, name)
             .subscribe((data) => {
                     this.pending = false;
                     this.pageCreator = data;
@@ -151,7 +152,7 @@ export class TicketComponent implements OnInit {
     }
 
     findMyTickets() {
-        console.log("findMyTickets"); 
+        console.log("findMyTickets");
         this.pending = true;
         this.emailAssign = '';
         this.email = this.currentUser.email;
@@ -174,7 +175,7 @@ export class TicketComponent implements OnInit {
     }
 
     findMyAssigned() {
-        console.log("findMyAssigned"); 
+        console.log("findMyAssigned");
         this.pending = true;
         this.email = '';
         this.emailAssign = this.currentUser.email;
@@ -196,7 +197,7 @@ export class TicketComponent implements OnInit {
     }
 
     findTicketByState(state:string) {
-        console.log("findTicketByState");        
+        console.log("findTicketByState");
         this.pending = true;
         this.status = state;
         if (this.email != "") {
@@ -232,10 +233,12 @@ export class TicketComponent implements OnInit {
     getTime(time:Date):string {
         return new Date(time).toLocaleString();
     }
-isCreator():boolean{
-return  this.currentUser.role == 'ROLE_ADMIN'||this.currentUser.role == 'ROLE_MANAGER';
 
-}
+    isCreator():boolean {
+        return this.currentUser.role == 'ROLE_ADMIN' || this.currentUser.role == 'ROLE_MANAGER';
+
+    }
+
     selectRowNum(row:number) {
         console.log("selectRowNum");
 
@@ -326,7 +329,8 @@ return  this.currentUser.role == 'ROLE_ADMIN'||this.currentUser.role == 'ROLE_MA
                     console.error(error)
                 });
     }
-private handleErrors(error:any) {
+
+    private handleErrors(error:any) {
         if (error.status === 404 || error.status === 400) {
             console.log('server error 400');
             this._toasterService.pop(onErrorResourceNotFoundToastMsg);

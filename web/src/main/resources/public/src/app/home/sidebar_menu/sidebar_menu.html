@@ -15,6 +15,12 @@
                 </a>
             </li>
             <li class="sub-menu">
+                <a [routerLink]="['calendar']">
+                    <i class="fa fa-calendar"></i>
+                    <span>{{ 'calendar' | translate | capitalize }}</span>
+                </a>
+            </li>
+            <li class="sub-menu">
                 <a [routerLink]="['provider/info']">
                     <i class="fa fa-building-o"></i>
                     <span>{{ 'providers' | translate | capitalize }}</span>
@@ -26,6 +32,7 @@
                     <span>{{ 'tickets' | translate | capitalize }}</span>
                 </a>
             </li>
+
         </ul>
         <!-- sidebar menu end-->
     </div>

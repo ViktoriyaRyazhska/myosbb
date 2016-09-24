@@ -6,7 +6,9 @@ import {UserBillComponent} from "../user.bill.component";
 @Component({
     selector:'osbb-bill',
     templateUrl:'src/app/user/bills/osbb/osbb.bill.html',
-    directives:[UserBillComponent]
+    directives:[UserBillComponent],
+    styleUrls: [ 'src/shared/css/loader.css', 'src/shared/css/general.css'],
+
 })
 export class OsbbBillComponent{
 

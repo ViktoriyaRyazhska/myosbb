@@ -1,7 +1,7 @@
-import {Component, OnInit, ViewChild, Input} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {HousePageObject} from "./house.page.object";
 import {HouseService} from "./house.service";
-import {Router, ActivatedRoute} from "@angular/router";
+import {Router} from "@angular/router";
 import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../shared/pipes/capitalize-first-letter";
 import {ToasterContainerComponent, ToasterService} from "angular2-toaster/angular2-toaster";
@@ -14,7 +14,6 @@ import {FORM_DIRECTIVES} from "@angular/forms";
 import {CORE_DIRECTIVES} from "@angular/common";
 import {PageParams} from "../../shared/models/search.model";
 import Regex = require('../../shared/services/regex.all.text');
-import {Subscription} from "rxjs";
 
 @Component({
     selector: 'house-table',
@@ -37,8 +36,6 @@ export class HouseTableComponent implements OnInit {
     private rows: number[] = [10, 20, 50];
     private onSearch: boolean = false;
     private admin: boolean;
-    private sub: Subscription;
-    private osbbId: number;
     private selectedHouse: HousePageObject = {
         houseId: null, city: '', street: '', zipCode: '', description: '',
         osbbName: '', apartmentCount: null, numberOfInhabitants: null
@@ -49,27 +46,16 @@ export class HouseTableComponent implements OnInit {
 
     constructor(private _houseService: HouseService,
                 private _router: Router,
-                private _toasterService: ToasterService,
-                private _routeParams: ActivatedRoute) {
+                private _toasterService: ToasterService) {
     }
 
     ngOnInit(): any {
-        this.initHousesArr();
+        this.findAllHousesByPage();
+
     }
 
     refresh() {
-       this.initHousesArr();
-    }
-
-    initHousesArr() {
-         this.sub = this._routeParams.params.subscribe((params)=> {
-            this.osbbId = +params['id'];
-            if(this.osbbId > 0) {
-                this.findAllHousesByOsbb();
-            } else {
-                this.findAllHousesByPage();
-            } 
-        })
+        this.findAllHousesByPage();
     }
 
 
@@ -116,6 +102,7 @@ export class HouseTableComponent implements OnInit {
                     this.refresh();
                 },
                 (error)=> this.handleErrors(error))
+
     }
 
     matches(value: string): boolean {
@@ -148,22 +135,6 @@ export class HouseTableComponent implements OnInit {
                 });
     }
 
-    findAllHousesByOsbb() {
-        console.log("find All houses by osbb: " + this.osbbId);
-        this.emptyPageList();
-        this.pending = true;
-        this._houseService.getAllHousesByOsbb(this.pageParams, this.osbbId)
-            .subscribe((data)=> {
-                    this.pending = false;
-                    this.houses = data.rows;
-                    this.totalPages = data.totalPages;
-                    this.fillPageList(+data.beginPage, +data.endPage)
-                },
-                (error)=> {
-                    this.handleErrors(error);
-                });
-    }
-
     fillPageList(beginIndex, endIndex) {
         for (let pageNum = beginIndex; pageNum <= endIndex; pageNum++) {
             this.pageList.push(pageNum);
@@ -171,7 +142,6 @@ export class HouseTableComponent implements OnInit {
     }
 
     emptyPageList() {
-        if(this.pageList !== undefined)
         while (this.pageList.length) {
             this.pageList.pop();
         }

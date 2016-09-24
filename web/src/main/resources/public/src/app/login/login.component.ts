@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
                              if (this._currentUserService.getRole() === "ROLE_MANAGER") {
                                 this._toasterService.pop('success'
                                     , "Hello manager!");
-                                this._router.navigate(['manager/ticket']);
+                                this._router.navigate(['manager/wall']);
                             }
                         }
                     )

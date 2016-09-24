@@ -23,12 +23,6 @@ export class HouseService {
             .catch((error)=>Observable.throw(error));
     }
 
-    getAllHousesByOsbb(pageParams: PageParams, osbbId: number): Observable<any> {
-        return this._http.post(this.houseURL + 'all/' + osbbId, JSON.stringify(pageParams))
-            .map((response) => response.json())
-            .catch((error) => Observable.throw(error));
-    }
-
     deleteHouseById(houseId: number): Observable<any> {
         return this._http.delete(this.houseURL + houseId)
             .catch((error)=>Observable.throw(error));

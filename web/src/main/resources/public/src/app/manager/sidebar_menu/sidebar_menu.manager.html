@@ -2,11 +2,47 @@
     <div id="sidebar" class="nav-collapse">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-         
+            <li class="sub-menu">
+                <a [routerLink]="['wall']">
+                    <i class="fa fa-user"></i>
+                    <span>{{ 'homePage' | translate | capitalize }}</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+                <a [routerLink]="['calendar']">
+                    <i class="fa fa-calendar"></i>
+                    <span>{{ 'calendar' | translate | capitalize }}</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+                <a [routerLink]="['events']">
+                    <i class="fa fa-user"></i>
+                    <span>{{ 'events' | translate | capitalize }}</span>
+                </a>
+            </li>
             <li class="sub-menu">
                 <a [routerLink]="['ticket']">
                     <i class="fa fa-building-o"></i>
                     <span>{{'tickets' | translate | capitalize}}</span>
+                </a>
+            </li>
+
+            <li class="sub-menu">
+                <a [routerLink]="['osbb/bill']">
+                    <i class="fa fa-credit-card-alt"></i>
+                    <span>{{'bills_osbb' | translate | capitalize}}</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+                <a [routerLink]="['provider']">
+                    <i class="fa fa-building-o"></i>
+                    <span>{{ 'providers' | translate | capitalize }}</span>
+                </a>
+            </li>
+            <li>
+                <a [routerLink]="['contract']">
+                    <i class="fa fa-bookmark"></i>
+                    <span> {{ 'contracts' | translate | capitalize }}</span>
                 </a>
             </li>
         </ul>

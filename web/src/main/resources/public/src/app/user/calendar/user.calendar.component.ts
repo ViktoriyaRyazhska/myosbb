@@ -11,7 +11,8 @@ import moment from 'moment';
     templateUrl: 'src/app/user/calendar/calendar.html',
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
     providers: [EventService],
-    directives: [Schedule, Dialog, Button, InputText, Calendar, ToggleButton]
+    directives: [Schedule, Dialog, Button, InputText, Calendar, ToggleButton],
+    styleUrls: [ 'src/shared/css/loader.css', 'src/shared/css/general.css']
 })
 
 export class UserCalendarComponent implements OnInit {
@@ -74,6 +75,7 @@ export class UserCalendarComponent implements OnInit {
         this.event.end = <Date>moment(event.date).add(duration).format("YYYY-MM-DDTHH:mm:ss");
         console.log(this.event.start);
         this.dialogVisible = true;
+        //trigger detection manually as somehow only moving the mouse quickly after click triggers the automatic detection
         this.cd.detectChanges();
     }
 
@@ -91,8 +93,8 @@ export class UserCalendarComponent implements OnInit {
         }
 
         this.event.id = e.calEvent.id;
-        this.event.start = <Date>moment(start).format("YYYY-MM-DDTHH:mm:ss");
-        this.event.end = <Date>moment(end).format("YYYY-MM-DDTHH:mm:ss");
+        this.event.start = start.format();
+        this.event.end = end.format();
         this.dialogVisible = true;
     }
 
