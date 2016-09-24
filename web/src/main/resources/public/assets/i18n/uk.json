@@ -27,6 +27,7 @@
   "removing": "видалення",
   "options": "опції",
   "logo": "лого",
+  "phoneNumber":"номер телефону",
   "create": "створити ",
   "invalid": "невірний формат",
   "dateStart": "початок",
@@ -37,6 +38,9 @@
   "allEvents": "всі події",
   "myEvents": "мої події",
   "name": "назва",
+  "nameUser": "Ім`я",
+  "name": "назва",
+
   "date": "дата",
   "author": "автор",
   "additionalInformation": " Дод. інформація",
@@ -103,6 +107,10 @@
   "searchByName": "пошук по імені",
   "logoUrl": "URL логотипу",
   "addVoting": "створити голосування",
+  "pageUser":"сторінка користувача",
+  "surname": "прізвище",
+  "birthday": "дата народження",
+"activeUser":"активований",
   "enterQuestion": "введіть тему опитування",
   "enterAnswer": "введіть варіант відповіді",
   "addMinTwoAnswer": "введіть мінімум два варіанти відповіді",
@@ -206,5 +214,7 @@
   "commentNotice":"Коментар на ваш інциндент",
   "apartmentIsAlreadyBusy":"Неправильний номер квартири",
   "wrongSquareInput":"Невірна площа",
-  "docs":"документи"
+  "docs":"документи",
+  "write":"написати"
+
 }

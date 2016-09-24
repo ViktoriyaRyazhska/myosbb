@@ -164,7 +164,10 @@ private index:number;
         this.router.navigate(['home/user/ticket']);
     }
 
-    initEditMessage(message:Message) {
+    toUser(id:number) {
+        console.log("toUser");
+        this.router.navigate(['home/user/friend', id]);
+    }    initEditMessage(message:Message) {
         this.message = message;
         this.messText = this.message.message;
     }

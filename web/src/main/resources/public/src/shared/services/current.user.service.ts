@@ -4,17 +4,19 @@ import {Response} from "@angular/http";
 import {LoginService} from "../../app/login/login.service";
 import {Http, Headers}  from "@angular/http";
 import ApiService = require("../services/api.service");
+import {Observable} from "rxjs/Observable";
 
 
 @Injectable()
 export class CurrentUserService {
 
-
+    private getUrl:string = ApiService.serverUrl + '/restful/user';
     private _pathUrl = ApiService.serverUrl;
     private role:string = "";
     public currentUser:User
 
-    constructor(private _loginservice:LoginService) {
+    constructor(private _loginservice:LoginService,
+    private http:Http) {
         this.currentUser = new User();
         this.initUser();
         this.setRole();
@@ -84,4 +86,10 @@ export class CurrentUserService {
         localStorage.setItem("refresh_token", data.refresh_token);
     }
 
+    getUserById(id:number):Observable<any> {
+          let url = `${this.getUrl}/${id}`;
+        return this.http.get(url)
+            .map((response)=> response.json())
+            .catch((error)=>Observable.throw(error));
+    }
 }

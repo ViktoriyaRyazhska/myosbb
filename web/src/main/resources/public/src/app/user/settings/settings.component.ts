@@ -4,9 +4,9 @@ import {CORE_DIRECTIVES} from '@angular/common';
 import {RouteConfig, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {TranslatePipe} from "ng2-translate";
+import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter"
 import {SettingsService} from './settings.service';
 import {HeaderComponent} from "../../header/header.component";
-import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
 import {User} from './../user';
 import {Settings} from './settings';
 import {CurrentUserService} from "./../../../shared/services/current.user.service";

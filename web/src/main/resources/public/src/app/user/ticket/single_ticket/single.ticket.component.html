@@ -4,7 +4,7 @@
         <div style="float:right;margin-top:-30px;margin-right:20px;">
             <div style="float: bottom;">
                 {{'authorTicket'|translate}}
-                <button type="button" class="btn btn-default btn-xs">{{ticket.user.firstName}}
+                <button type="button" (click)="toUser(ticket.user.userId)" class="btn btn-default btn-xs">{{ticket.user.firstName}}
                     {{ticket.user.lastName}}
                 </button>
             </div>
@@ -21,14 +21,14 @@
                 <ticket-del-form (delete)="deleteTicket($event)" #delForm></ticket-del-form>
             </div>
             <div style="margin-bottom:20px">
-                <div style="float: left;  margin-left: 10px;font-size:22px;"> {{ticket.name}}</div>
+                <div style="float: left;  margin-left: 10px;font-size:22px;" > {{ticket.name}}</div>
 
 
                 <div *ngIf=" ticket.state == 'NEW' ">
                     <div class="liniya"><span class="label btn-round label-info "
                                               list="assign">{{ 'new' | translate  }}</span>
                     </div>
-                    <button type="button" class="btn btn-default btn-xs"
+                    <button type="button" (click)="toUser(ticket.assigned.userId)" class="btn btn-default btn-xs"
                             style="margin-top:-4px;margin-left:3px;margin-right:3px;"> {{ticket.assigned.firstName}}
                         {{ticket.assigned.lastName}}
                     </button>
@@ -48,7 +48,7 @@
                 <div *ngIf=" ticket.state == '1' || ticket.state == 'IN_PROGRESS'">
                     <div class="liniya"><span
                             class="label btn-round label-success">{{ 'in_progress' | translate  }}</span></div>
-                    <button type="button" class="btn btn-default btn-xs"
+                    <button type="button" (click)="toUser(ticket.assigned.userId)" class="btn btn-default btn-xs"
                             style="margin-top:-4px;margin-left:3px;margin-right:3px;"> {{ticket.assigned.firstName}}
                         {{ticket.assigned.lastName}}
                     </button>
@@ -68,7 +68,7 @@
                     <div class="liniya"><span class="label btn-round label-danger">{{ 'done' | translate  }}</span>
                     </div>
 
-                    <button type="button" (click)="getComments()" class="btn btn-default btn-xs"
+                    <button type="button"  class="btn btn-default btn-xs"
                             style="margin-top:-4px">
                         {{ticket.assigned.firstName}} {{ticket.assigned.lastName}}
                     </button>
@@ -136,7 +136,7 @@
                     <div class="comment-content"
                          style="width:70%;height:90px;margin:5px; margin-left:10%; ">
                         <div class="nameUser" style="float: left; width: 25%;"><p
-                                style="color:#7A378B; font-size:14px;">
+                                style="color:#7A378B; font-size:14px;" (click)="toUser(mess.user.userId)">
                             {{mess.user.firstName}} {{mess.user.lastName}} </p></div>
                         <div style="float: right; width: 180px;">{{getTime(mess.time)}}
                             <div style="float: right; width: 40px;margin-left:10px;" *ngIf="isMessageCreator(mess)">
@@ -175,7 +175,7 @@
                         <li *ngFor="let answer of getAnswers(i)">
                             <div class="comment-content"
                                  style="background:#f0f0f0; width:60%;height:90px;margin-bottom:20px;margin-top:0px;margin-left:25%;">
-                                <div class="nameUser" style="float: left; width: 25%;"><p
+                                <div class="nameUser" (click)="toUser(answer.user.userId)" style="float: left; width: 25%;"><p
                                         style="color:green; font-size:12px;">
                                     {{answer.user.firstName}} {{answer.user.lastName}} </p></div>
                                 <div style="float: right; width: 180px;">{{getTime(answer.time)}}

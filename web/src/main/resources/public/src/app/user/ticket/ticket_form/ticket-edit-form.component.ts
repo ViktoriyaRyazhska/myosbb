@@ -24,7 +24,6 @@ import {Attachment} from "../../../admin/components/attachment/attachment.interf
 export class TicketEditFormComponent implements OnInit {
     @Output() update:EventEmitter<Ticket>;
     @Input() ticket:ITicket;
-    @Input() state:TicketState;
     @ViewChild('editModal')
     editModal:ModalDirective;
     states:string[];

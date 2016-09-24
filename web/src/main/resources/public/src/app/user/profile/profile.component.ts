@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core'
 import {User} from '../../../shared/models/User';
-import {Router} from '@angular/router';
+import {Router,ROUTER_DIRECTIVES} from '@angular/router';
 import {REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
-
+import {TranslatePipe} from "ng2-translate";
+import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter"
 import MaskedInput from 'angular2-text-mask';
 import emailMask from 'node_modules/text-mask-addons/dist/emailMask.js';
 import {HeaderComponent} from "../../header/header.component";
@@ -10,8 +11,9 @@ import {CurrentUserService} from "../../../shared/services/current.user.service"
 @Component({
     selector: 'my-user-profile',
     templateUrl: 'src/app/user/profile/profile.html',
-    directives: [REACTIVE_FORM_DIRECTIVES,MaskedInput,HeaderComponent],
+    directives: [REACTIVE_FORM_DIRECTIVES,MaskedInput,HeaderComponent,ROUTER_DIRECTIVES],
     styleUrls: ['src/app/user/profile/profile.css'],
+    pipes: [TranslatePipe,CapitalizeFirstLetterPipe]
 
 })
 export class ProfileComponent implements OnInit {

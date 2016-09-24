@@ -8,10 +8,13 @@
         </div>
 
         <button type="button" class="col-xs-12 btn btn-primary" data-toggle="modal" data-target="#modal">
-            Редагувати   <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+            <i class="fa fa-pencil-square-o" aria-hidden="true">  </i>Редагувати
         </button>
         <button class="col-xs-12 btn btn-primary">Рахунки</button>
-        <button class="col-xs-12 btn btn-primary">Просто</button>
+        <button class="col-xs-12 btn btn-primary" [routerLink]="['settings']">
+            <i class="glyphicon glyphicon-pencil"></i>
+            <span> {{ 'settings' | translate | capitalize }}</span>
+        </button>
     </div>
     <div class="row col-xs-7">
         <div class="task-panel tasks-widget col-xs-12 right ">
