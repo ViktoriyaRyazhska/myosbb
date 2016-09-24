@@ -4,6 +4,7 @@ import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
+import {TranslatePipe} from "ng2-translate";
 import 'rxjs/Rx';
 import moment from 'moment';
 
@@ -13,10 +14,8 @@ import {LoginService} from "../../../login/login.service";
 import { OsbbModalComponent } from './osbb_form/osbb-modal.component';
 import { OsbbDelFormComponent } from './osbb_form/osbb-del-form.component';
 import {CurrentUserService} from "../../../../shared/services/current.user.service";
-import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
 import ApiService = require("../../../../shared/services/api.service");
-import {FILE_UPLOAD_DIRECTIVES, FileSelectDirective, FileDropDirective, FileUploader} from "ng2-file-upload/ng2-file-upload";
 import {IOsbb, Osbb} from "../../../../shared/models/osbb";
 
 @Component({

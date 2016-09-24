@@ -2,12 +2,13 @@ import { Component, Output, Input, EventEmitter, ViewChild } from '@angular/core
 import {FORM_DIRECTIVES, CORE_DIRECTIVES, FormBuilder, Control, ControlGroup, Validators} from '@angular/common';
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
-import {Vote} from '../vote';
-import {User} from '../../../user/user';
-import {Option} from '../option';
 import {TranslatePipe} from "ng2-translate";
-import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
 import moment from 'moment';
+
+import {Vote} from '../vote';
+import {User} from '../../../../shared/models/User';
+import {Option} from '../option';
+import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
 
 @Component({
     selector: 'vote-add-form',

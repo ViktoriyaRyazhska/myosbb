@@ -10,11 +10,18 @@ import java.util.List;
  */
 @Service
 public interface OptionService {
+
     Option addOption(Option option);
+
     Option getOption(Integer id);
+
     List<Option> getAllOption();
+
     Option updateOption(Option option);
+
     void deleteOption(Integer id);
+
     void deleteOption(Option option);
+
     void deleteAllOption();
 }

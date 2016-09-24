@@ -132,6 +132,7 @@ INSERT INTO attachment(  path, type, file_name) VALUES ('http://kyiv.ridna.ua/wp
 UPDATE house SET osbb_id=1 WHERE house_id=1;
 
 UPDATE users SET osbb_id=1;
+UPDATE users SET osbb_id=2 WHERE email='butaroman2@gmail.com';
 
 insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id)VALUES('2016-06-28', 240.5,0, 2.5, 1, 1);
 insert into bill(date, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-06-28', 356,356, 4.5, 1, 'PAID', 1);

@@ -1,4 +1,7 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
+import {TranslatePipe} from "ng2-translate";
+import moment from 'moment';
+
 import {Vote} from './vote';
 import {Option} from './option';
 import {VoteService} from './vote.service';
@@ -8,9 +11,7 @@ import {VoteDelFormComponent} from './vote_form/vote-del-form.component';
 import {VoteCloseFormComponent}  from './vote_form/vote-close-form.component';
 import {User} from '../../../shared/models/User';
 import {CurrentUserService} from "../../../shared/services/current.user.service";
-import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
-import moment from 'moment';
 
 @Component({
     selector: 'vote',
@@ -109,7 +110,8 @@ export class VoteComponent implements OnInit {
     }
 
     closeVote(vote: Vote):void {
-        this.voteService.closeVote(vote.voteId);
+        vote.available = false;
+        this.voteService.closeVote(vote);
     }
 
     private deleteVoteFromArr(vote: Vote): void {

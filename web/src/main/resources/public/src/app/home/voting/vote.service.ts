@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {Http, Headers} from "@angular/http";
-
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 
@@ -38,8 +37,8 @@ export class VoteService {
                     .catch(this.handleError);
     }
 
-    closeVote(voteId:number):Promise<Vote>  {
-        return this.http.get(this.url + '/close/' + voteId)
+    closeVote(vote: Vote):Promise<Vote>  {
+        return this.http.put(this.url, JSON.stringify(vote))
                         .toPromise()
                         .then(res => res.json())
                         .catch(this.handleError);

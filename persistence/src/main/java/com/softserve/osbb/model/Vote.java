@@ -71,7 +71,6 @@ public class Vote {
         this.endTime = endTime;
     }
 
-    //@JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     public User getUser() {
@@ -82,8 +81,6 @@ public class Vote {
         this.user = user;
     }
 
-    // @JsonIgnore
-    //@JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "vote", cascade = CascadeType.ALL)
     public List<Option> getOptions() {
         return options;

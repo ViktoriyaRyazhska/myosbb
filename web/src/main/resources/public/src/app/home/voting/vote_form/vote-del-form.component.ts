@@ -1,10 +1,10 @@
 import { Component, Output, Input, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
-import {Vote} from "../vote";
-import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
-import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
+import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from 'ng2-bootstrap/ng2-bootstrap';
 import {TranslatePipe} from "ng2-translate";
+
 import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
+import {Vote} from "../vote";
 
 @Component({
     selector: 'vote-del-form',
@@ -17,8 +17,8 @@ export class VoteDelFormComponent {
 
     @Output() delete: EventEmitter<Vote>;
     private vote: Vote;
-    @ViewChild('delModal')
 
+    @ViewChild('delModal')
     delModal:ModalDirective;
 
     openDelModal(vote:Vote): void {

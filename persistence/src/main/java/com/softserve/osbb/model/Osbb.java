@@ -1,7 +1,6 @@
 package com.softserve.osbb.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -139,7 +138,7 @@ public class Osbb implements Serializable {
         this.events = events;
     }
 
-    @OneToMany(mappedBy = "osbb", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE)
     public Collection<House> getHouses() {
         return houses;
     }
