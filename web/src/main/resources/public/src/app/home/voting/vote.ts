@@ -1,5 +1,5 @@
 import {Option} from './option';
-import {User} from './user';
+import {User} from '../../user/user';
 
 export class Vote {
     voteId: number;

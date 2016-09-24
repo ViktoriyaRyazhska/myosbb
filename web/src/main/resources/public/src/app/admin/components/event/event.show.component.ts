@@ -13,7 +13,6 @@ import {User} from "../../../../shared/models/User";
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {Attachment} from "../attachment/attachment.interface";
 import {AttachmentService} from "../attachment/attachment.service";
-import {Attachment} from "../attachment/attachment.interface";
 
 @Component({
     selector: 'my-user-event',

@@ -61,16 +61,6 @@
         </dependency>
     </dependencies>
 
-    <!--<build>-->
-        <!--<resources>-->
-            <!--<resource>-->
-                <!--<directory>persistence/src/main/resources</directory>-->
-                <!--<filtering>true</filtering>-->
-            <!--</resource>-->
-        <!--</resources>-->
-    <!--</build>-->
-
-
     <profiles>
         <profile>
             <id>main</id>
@@ -106,7 +96,7 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>${maven-surefire-plugin}</version>
                         <configuration>
-                            <skipTests>true</skipTests>
+                            <skipTests>false</skipTests>
                         </configuration>
                     </plugin>
                 </plugins>

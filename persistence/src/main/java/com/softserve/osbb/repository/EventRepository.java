@@ -9,19 +9,24 @@ import org.springframework.stereotype.Repository;
 import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * Created by nataliia on 05.07.16.
+ */
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Integer> {
 
-    @Query("Select event From Event event where LOWER(event.title) LIKE LOWER(CONCAT('%',:search,'%'))" +
-            " or LOWER(event.author) LIKE LOWER(CONCAT('%',:search,'%'))" +
-            " or LOWER(event.description) LIKE LOWER(CONCAT('%',:search,'%'))")
+    @Query("select e from Event e where lower(e.title) like lower(concat('%',:search,'%'))" +
+            " or e.author in (select u.userId from User u " +
+            " where lower(u.firstName) like lower(concat('%',:search,'%')) " +
+            " or lower(u.lastName) like lower(concat('%',:search,'%')))" +
+            " or lower(e.description) like lower(concat('%',:search,'%'))")
     List<Event> findByNameOrAuthorOrDescription(@Param("search") String search);
 
-    @Query("select event from Event event where event.startTime between :startTime and :endTime" +
-            " or event.endTime between :startTime and :endTime")
+    @Query("select e from Event e where e.startTime between :startTime and :endTime" +
+            " or e.endTime between :startTime and :endTime")
     List<Event> findBetweenStartTimeAndEndTime(@Param("startTime") Timestamp startTime, @Param("endTime") Timestamp endTime);
 
-    @Query("select event from Event event where event.author = (select user.userId from User user where user.email = :email)")
+    @Query("select e from Event e where e.author = (select u.userId from User u where u.email = :email)")
     List<Event> findByAuthor(@Param("email") String email);
 }

@@ -168,20 +168,4 @@ public class Event {
         clone.attachments = this.attachments;
         return clone;
     }
-
-    @Override
-    public String toString() {
-        return "Event{" +
-                "eventId=" + eventId +
-                ", title='" + title + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", description='" + description + '\'' +
-                ", author=" + author +
-                ", osbb=" + osbb +
-                ", repeat=" + repeat +
-                ", attachments=" + attachments +
-                ", status=" + status +
-                '}';
-    }
 }

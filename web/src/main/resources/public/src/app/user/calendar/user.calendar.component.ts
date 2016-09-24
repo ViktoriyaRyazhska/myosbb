@@ -74,7 +74,6 @@ export class UserCalendarComponent implements OnInit {
         this.event.end = <Date>moment(event.date).add(duration).format("YYYY-MM-DDTHH:mm:ss");
         console.log(this.event.start);
         this.dialogVisible = true;
-        //trigger detection manually as somehow only moving the mouse quickly after click triggers the automatic detection
         this.cd.detectChanges();
     }
 
@@ -92,8 +91,8 @@ export class UserCalendarComponent implements OnInit {
         }
 
         this.event.id = e.calEvent.id;
-        this.event.start = start.format();
-        this.event.end = end.format();
+        this.event.start = <Date>moment(start).format("YYYY-MM-DDTHH:mm:ss");
+        this.event.end = <Date>moment(end).format("YYYY-MM-DDTHH:mm:ss");
         this.dialogVisible = true;
     }
 

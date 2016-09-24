@@ -11,11 +11,12 @@ import java.util.List;
 /**
  * Created by nataliia on 10.07.16.
  */
+
 @Repository
 public interface AttachmentRepository extends JpaRepository<Attachment, Integer> {
 
     Attachment findByPath(String path);
 
-    @Query("Select attachment From Attachment attachment where LOWER(attachment.path) LIKE LOWER(CONCAT('%',:search,'%'))")
+    @Query("select a from Attachment a where lower(a.path) like lower(concat('%',:search,'%'))")
     List<Attachment> findAttachmentByPath(@Param("search") String path);
 }

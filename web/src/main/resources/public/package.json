@@ -42,7 +42,7 @@
     "ng2-datetime": "^1.1.4",
     "ng2-datetime-picker": "0.5.4",
     "ng2-file-upload": "1.0.3",
-    "ng2-select": "^1.0.3",
+    "ng2-select": "1.0.3",
     "ng2-timer": "^0.3.0",
     "primeng": "1.0.0-beta.11",
     "primeui": "4.1.14",

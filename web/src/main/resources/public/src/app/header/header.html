@@ -2,18 +2,16 @@
     <div class="sidebar-toggle-box" [ngStyle]="{'display': 'none'}">
         <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
     </div>
-    <!--logo start-->
-    <a (click)="routerNavigate()" class="logo"><i class="fa fa-home fa-lg"
-                                                                                       aria-hidden="true"><b>
-        {{ 'ourYard' | translate | capitalize }}</b></i></a>
-    <!--logo end-->
 
-    <!--   *****[ngStyle]="{'display': 'none'}"******   -->
+    <!-- logo -->
+    <a (click)="routerNavigate()" class="logo">
+        <i class="fa fa-home fa-lg" aria-hidden="true" style="cursor: pointer">
+        <b>{{ 'ourYard' | translate | capitalize }}</b></i>
+    </a>
 
+    <!-- notification -->
     <div class="nav notify-row" *ngIf="_loginService.checkLogin()" style="padding:0px;" id="top_menu">
-        <!--  notification start -->
         <ul class="nav top-menu">
-            <!-- settings start -->
             <li class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle">
                     <i class="fa fa-tasks"></i>
@@ -23,39 +21,31 @@
                     <div class="notify-arrow notify-arrow-green"></div>
                     <li>
                         <p *ngIf="tLength != 0" class="green" style="font-size:100%;">
-                            {{'You_have' | translate | capitalize}} {{tLength}} {{wordT| translate}}
+                            {{'You_have' | translate | capitalize}} {{tLength}} {{wordT | translate}}
                         </p>
-                        <p *ngIf="tLength == 0" class="green" style="font-size:100%;">{{'nothingToShow' | translate |
-                            capitalize}} </p>
-
+                        <p *ngIf="tLength == 0" class="green" style="font-size:100%;">
+                            {{'nothingToShow' | translate |capitalize}}
+                        </p>
                     </li>
                     <li *ngFor="let notice of noticeArr" (click)="hideNotice(notice)">
-
                         <div class="task-info">
-
                             <div *ngIf="notice.typeNotice == 'TO_ASSIGNED' " style="margin-bottom:0px"
                                  class="notice alert-warning">
                                 <button type="button" class="close" (click)="removeNotice(notice)">×</button>
                                 <b>{{'youAssigned'|translate}}</b><br/>
                                 <div style="font-size:80%;"> {{notice.description}}</div>
                             </div>
-                            <div *ngIf="notice.typeNotice == 'TO_CREATOR'  " style="margin-bottom:0px"
-                                 class="notice alert-info">
+                            <div *ngIf="notice.typeNotice == 'TO_CREATOR'"
+                                 style="margin-bottom:0px" class="notice alert-info">
                                 <button type="button" class="close" (click)="removeNotice(notice)">×</button>
                                 <b>{{'changeStatusN'|translate}}</b><br/>
                                 <div style="font-size:80%;"> {{notice.description}}</div>
                             </div>
-
                         </div>
-
-
                     </li>
-
                 </ul>
             </li>
 
-            <!-- *****************************settings end -->
-            <!-- inbox dropdown start-->
             <li id="header_inbox_bar" class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle">
                     <i class="fa fa-envelope-o"></i>
@@ -64,67 +54,59 @@
                 <ul class="dropdown-menu extended inbox">
                     <div class="notify-arrow notify-arrow-green"></div>
                     <li>
-
                         <p *ngIf="mLength != 0" class="green" style="font-size:100%;">
                             {{'You_have' | translate | capitalize}} {{mLength}} {{wordM| translate}}
                         </p>
-                        <p *ngIf="mLength == 0" class="green" style="font-size:100%;">{{'noComments' | translate |
-                            capitalize}} </p>
+                        <p *ngIf="mLength == 0" class="green" style="font-size:100%;">
+                            {{'noComments' | translate |capitalize}}
+                        </p>
                     </li>
                     <li *ngFor="let message of noticeArr " (click)="hideNotice(message)">
-
-                        <a *ngIf="(message.typeNotice == 'MESSAGE' || message.typeNotice == 'ANSWER') ">
+                        <a *ngIf="(message.typeNotice == 'MESSAGE' || message.typeNotice == 'ANSWER')">
                             <div *ngIf="message.typeNotice == 'ANSWER'  ">
                                 <b style="color:#EE9A49">{{'answerNotice'|translate}}</b><br/>
                             </div>
                             <div *ngIf="message.typeNotice == 'MESSAGE' ">
                                 <b style="color:#1E90FF">{{'commentNotice'|translate}}</b><br/>
                             </div>
-                            <!--<span class="photo"><img alt="avatar" src="assets/img/ui-divya.jpg"></span>-->
-                                    <span class="subject">
-                                    <span class="from">{{message.name}}:</span>
-                                    <span class="time">{{getTime(message.time)}}</span>
-                                    </span>
-                                    <span class="message">
-                                    {{message.description}}
-                                    </span>
+                            <span class="subject">
+                                <span class="from">{{message.name}}:</span>
+                                <span class="time">{{getTime(message.time)}}</span>
+                            </span>
+                            <span class="message">
+                                {{message.description}}
+                            </span>
                         </a>
-
-
                     </li>
-
-
-                    <!--<li>
-                        <a >See all messages</a>
-                    </li>-->
                 </ul>
             </li>
-            <!--inbox dropdown end -->
         </ul>
-        <!--  notification end -->
     </div>
 
-    <!--  **************  -->
-
-
     <div class="lang-nav">
-        <div>
-            | <a class="lang-item" *ngFor="let lang of languages" style="cursor:pointer" (click)="onSelect(lang)"
-                 [class.selectedLang]="lang == selectedLang">
-            {{lang | uppercase}} |</a>
+        <div>|
+            <a class="lang-item" *ngFor="let lang of languages" style="cursor:pointer" (click)="onSelect(lang)"
+                 [class.selectedLang]="lang == selectedLang">{{lang | uppercase}} |
+            </a>
         </div>
     </div>
 
     <div class="top-menu">
         <ul class="nav pull-right top-menu">
-            <li *ngIf="_loginService.checkLogin()"><a [routerLink]="['home/user/main']" class="top">
-                <i class="fa fa-user fa-lg" aria-hidden="true"></i></a></li>
+            <li *ngIf="_loginService.checkLogin()">
+                <a [routerLink]="['home/user/main']" class="top">
+                    <i class="fa fa-user fa-lg" aria-hidden="true"></i>
+                </a>
+            </li>
         </ul>
     </div>
     <div class="top-menu">
         <ul class="nav pull-right top-menu">
-            <li *ngIf="_loginService.checkLogin()"><a (click)="_loginService.logOut()" [routerLink]="['']" class="top">
-                <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i></a></li>
+            <li *ngIf="_loginService.checkLogin()">
+                <a (click)="_loginService.logOut()" [routerLink]="['']" class="top">
+                    <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>
+                </a>
+            </li>
         </ul>
     </div>
 </header>
