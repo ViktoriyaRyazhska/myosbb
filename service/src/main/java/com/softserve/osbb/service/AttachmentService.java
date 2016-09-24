@@ -14,8 +14,6 @@ public interface AttachmentService {
 
     Attachment uploadFile(MultipartFile file);
 
-    Attachment downloadFile(String filename);
-
     Attachment saveAttachment(Attachment attachment);
 
     List<Attachment> saveAttachments(List<Attachment> list);

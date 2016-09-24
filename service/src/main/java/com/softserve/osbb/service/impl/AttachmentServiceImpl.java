@@ -6,6 +6,7 @@ import com.softserve.osbb.repository.AttachmentRepository;
 import com.softserve.osbb.service.AttachmentService;
 import com.softserve.osbb.utils.Constants;
 import liquibase.util.file.FilenameUtils;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -41,6 +43,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public Attachment uploadFile(MultipartFile file) {
+        logger.info("Uploading file " + file.getName());
         Path attachmentPath = saveFile(getFilePathWithSubDir(file), file);
         Attachment attachment = new Attachment();
         String path = attachmentPath.toString();
@@ -51,81 +54,10 @@ public class AttachmentServiceImpl implements AttachmentService {
         return saveAttachment(attachment);
     }
 
-    private AttachmentType getAttachmentType(Attachment attachment) {
-        try {
-            String type = Files.probeContentType(Paths.get(attachment.getFileName()));
-            if (type.contains("image")) {
-                return AttachmentType.IMAGE;
-            } else if (type.contains("audio")) {
-                return AttachmentType.AUDIO;
-            } else if (type.contains("video")) {
-                return AttachmentType.VIDEO;
-            } else if (type.contains("text")) {
-                return AttachmentType.TEXT;
-            }
-        } catch (IOException e) {
-            logger.error("Cannot set Attachment type.");
-        }
-        return AttachmentType.DATA;
-    }
-
-    private Path getFilePathWithSubDir(MultipartFile file) {
-        Path path = Paths.get(FILE_UPLOAD_PATH + Constants.DATE_FORMATTER.format(new Date()));
-        try {
-            Files.createDirectories(path);
-        } catch (IOException e) {
-            logger.error("Could not create directory " + path.toString());
-        }
-        return Paths.get(String.valueOf(path) + File.separator + file.getOriginalFilename());
-    }
-
-    private Path saveFile(Path newFilePath, MultipartFile file) {
-        if (!Files.exists(newFilePath)) {
-            try {
-                InputStream is = file.getInputStream();
-                Files.copy(is, newFilePath);
-            } catch (IOException e) {
-                logger.error("Could not save file " + file.getName());
-            }
-            return newFilePath;
-        } else {
-            newFilePath = getFilePathForDuplicatedFile(newFilePath);
-            return saveFile(newFilePath, file);
-        }
-    }
-
-    private Path getFilePathForDuplicatedFile(Path existingFilePath) {
-        int i = 0;
-        Path tempPath = existingFilePath;
-        while (Files.exists(tempPath)) {
-            String filePathWithoutExtension = existingFilePath.toString().substring(0, existingFilePath.toString().lastIndexOf("."));
-            String fileExtension = existingFilePath.toString().substring(existingFilePath.toString().lastIndexOf("."));
-            tempPath = Paths.get(filePathWithoutExtension + "(" + ++i + ")" + fileExtension);
-        }
-        return tempPath;
-    }
-
     @Override
     public void deleteAttachmentEverywhere(Integer attachmentId) {
         renameFile(new File(attachmentRepository.findOne(attachmentId).getPath()));
-        logger.info("MY FILE: " + attachmentRepository.findOne(attachmentId).getPath());
         deleteAttachment(getAttachmentById(attachmentId));
-    }
-
-    private void renameFile(File file) {
-        String fileNameWithOutExt = FilenameUtils.removeExtension(file.getPath());
-        String extension = FilenameUtils.getExtension(file.getPath());
-        File newDelFile = new File(fileNameWithOutExt + "_del." + extension);
-        try {
-            Files.move(file.toPath(), newDelFile.toPath());
-        } catch (IOException e) {
-            logger.error("Could not rename file " + file.getName());
-        }
-    }
-
-    @Override
-    public Attachment downloadFile(String filename) {
-        return attachmentRepository.findByPath(filename);
     }
 
     @Override
@@ -205,10 +137,75 @@ public class AttachmentServiceImpl implements AttachmentService {
         return attachmentRepository.findAll(pageRequest);
     }
 
-    public Sort.Direction getSortingOrder(Boolean order) {
+    private Sort.Direction getSortingOrder(Boolean order) {
         if (order == null) {
             return Sort.Direction.DESC;
         }
-        return order == true ? Sort.Direction.ASC : Sort.Direction.DESC;
+        return order ? Sort.Direction.ASC : Sort.Direction.DESC;
+    }
+
+    private AttachmentType getAttachmentType(Attachment attachment) {
+        try {
+            String type = Files.probeContentType(Paths.get(attachment.getFileName()));
+            if (type.contains("image")) {
+                return AttachmentType.IMAGE;
+            } else if (type.contains("audio")) {
+                return AttachmentType.AUDIO;
+            } else if (type.contains("video")) {
+                return AttachmentType.VIDEO;
+            } else if (type.contains("text")) {
+                return AttachmentType.TEXT;
+            }
+        } catch (IOException e) {
+            logger.error("Could not set Attachment type.");
+        }
+        return AttachmentType.DATA;
+    }
+
+    private Path getFilePathWithSubDir(MultipartFile file) {
+        Path path = Paths.get(FILE_UPLOAD_PATH + Constants.DATE_FORMATTER.format(new Date()));
+        try {
+            Files.createDirectories(path);
+        } catch (IOException e) {
+            logger.error("Could not create directory " + path.toString());
+        }
+        return Paths.get(String.valueOf(path) + File.separator + file.getOriginalFilename());
+    }
+
+    private Path saveFile(Path newFilePath, MultipartFile file) {
+        if (!Files.exists(newFilePath)) {
+            try {
+                InputStream is = file.getInputStream();
+                Files.copy(is, newFilePath);
+            } catch (IOException e) {
+                logger.error("Could not save file " + file.getName());
+            }
+            return newFilePath;
+        } else {
+            newFilePath = getFilePathForDuplicatedFile(newFilePath);
+            return saveFile(newFilePath, file);
+        }
+    }
+
+    private Path getFilePathForDuplicatedFile(Path existingFilePath) {
+        int i = 0;
+        Path tempPath = existingFilePath;
+        while (Files.exists(tempPath)) {
+            String filePathWithoutExtension = FilenameUtils.removeExtension(String.valueOf(existingFilePath));
+            String fileExtension = FilenameUtils.getExtension(String.valueOf(existingFilePath));
+            tempPath = Paths.get(filePathWithoutExtension + "(" + ++i + ")" + fileExtension);
+        }
+        return tempPath;
+    }
+
+    private void renameFile(File file) {
+        String filePathWithoutExtension = FilenameUtils.removeExtension(file.getPath());
+        String fileExtension = FilenameUtils.getExtension(file.getPath());
+        File delFile = new File(filePathWithoutExtension + "_del." + fileExtension);
+        try {
+            Files.move(file.toPath(), delFile.toPath());
+        } catch (IOException e) {
+            logger.error("Could not rename file " + file.getName());
+        }
     }
 }

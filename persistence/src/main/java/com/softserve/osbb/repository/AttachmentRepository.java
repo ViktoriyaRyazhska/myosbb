@@ -15,8 +15,6 @@ import java.util.List;
 @Repository
 public interface AttachmentRepository extends JpaRepository<Attachment, Integer> {
 
-    Attachment findByPath(String path);
-
     @Query("select a from Attachment a where lower(a.path) like lower(concat('%',:search,'%'))")
     List<Attachment> findAttachmentByPath(@Param("search") String path);
 }
