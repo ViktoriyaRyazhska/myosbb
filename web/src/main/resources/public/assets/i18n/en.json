@@ -9,6 +9,7 @@
   "author": "author",
   "additionalInformation": "add. information",
   "all": "all",
+  "allCapitalize": "ALL",
   "deleteAll": "delete all",
   "confirmDeleteEvents": "Do you really want to delete all events?",
   "createEvent": "create event",

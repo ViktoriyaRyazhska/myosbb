@@ -300,6 +300,10 @@ export class EventComponent implements OnInit, OnDestroy {
 
     onNavigate(id: number) {
         console.log('navigating to event with id ', id);
+        if (this.admin) {
+            this._router.navigate(['admin/event', id]);
+            return;
+        }
         this._router.navigate(['home/event', id]);
     }
 
@@ -309,7 +313,6 @@ export class EventComponent implements OnInit, OnDestroy {
             this._toasterService.pop(onErrorResourceNotFoundToastMsg);
             return;
         }
-
         if (error.status === 500) {
             console.log('server error 500');
             this._toasterService.pop(onErrorServerNoResponseToastMsg);

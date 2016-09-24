@@ -1,17 +1,15 @@
-import {Component, OnInit, Output} from '@angular/core'
-import {EventEmitter} from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {User} from "../../../shared/models/User";
 import {Osbb, IOsbb} from "../../../shared/models/osbb";
 import {RegisterService} from "./register.service";
 import {ROUTER_DIRECTIVES, Router} from "@angular/router";
-import MaskedInput from 'angular2-text-mask';
-import emailMask from 'node_modules/text-mask-addons/dist/emailMask.js';
+import MaskedInput from "angular2-text-mask";
+import emailMask from "node_modules/text-mask-addons/dist/emailMask.js";
 import {GoogleplaceDirective} from "./googleplace.directive";
-import {TimerWrapper} from '@angular/core/src/facade/async';
-import {JoinOsbbComponent} from '../join/join.osbb.component';
 import {SELECT_DIRECTIVES} from "ng2-select";
-import {IHouse,House} from "../../../shared/models/House";
+import {IHouse} from "../../../shared/models/House";
 import {IApartment} from "../../../shared/models/apartment.interface";
+// import {JoinOsbbComponent} from '../join/join.osbb.component';
 
 
 @Component({
@@ -19,7 +17,7 @@ import {IApartment} from "../../../shared/models/apartment.interface";
     templateUrl: 'src/app/registration/registration_user/registration.html',
     styleUrls: ['assets/css/registration/registration.css'],
     providers: [RegisterService],
-    directives: [ROUTER_DIRECTIVES, MaskedInput, GoogleplaceDirective,SELECT_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES, MaskedInput, GoogleplaceDirective, SELECT_DIRECTIVES]
 })
 export class RegistrationComponent implements OnInit {
     options = ['Приєднатись до існуючого ОСББ', 'Створити нове ОСББ'];
@@ -48,24 +46,26 @@ export class RegistrationComponent implements OnInit {
     public address: Object;
 
     constructor(private registerService: RegisterService, private _router: Router) {
-        this.newUser.password="";
-         this.newUser.activated = true;
-         this.newOsbb.creationDate = new Date;
-         this.osbbList = [];
-         this.houseList = [];
-         this.apartmentList = [];
+        this.newUser.password = "";
+        this.newUser.activated = true;
+        this.newOsbb.creationDate = new Date;
+        this.osbbList = [];
+        this.houseList = [];
+        this.apartmentList = [];
     }
+
     ngOnInit() {
         this.listAllOsbb();
         this.IsRegistered = true;
 
     }
-    onSubmitUser(status){
-         if (status == this.options[1]) {
+
+    onSubmitUser(status) {
+        if (status == this.options[1]) {
             console.log('CreateNew');
-           this.IsRegistered = false;
-           this.IsRegisteredOsbb = true;
-           this.isJoinedOsbb = false;
+            this.IsRegistered = false;
+            this.IsRegisteredOsbb = true;
+            this.isJoinedOsbb = false;
         }
         else if (status == this.options[0]) {
             console.log('JoinToExist');
@@ -75,38 +75,41 @@ export class RegistrationComponent implements OnInit {
         }
     }
 
-    onSubmitOsbb(){
+    onSubmitOsbb() {
         this.SenderOsbbAndUser();
         setTimeout(() => {
-        this._router.navigate(['/login']);
-        },2000);
+            this._router.navigate(['/login']);
+        }, 2000);
     }
-    onSubmitJoin(){
+
+    onSubmitJoin() {
         this.SenderJoin();
         setTimeout(() => {
-        this._router.navigate(['/login']);
-        },2000);
+            this._router.navigate(['/login']);
+        }, 2000);
     }
-    SenderJoin(value: any){
+
+    SenderJoin(value: any) {
         this.registerService.addUser(this.newUser).subscribe(
-            data =>{
+            data => {
                 this.newUser = data;
                 console.log(data);
             }
         )
     }
-    SenderOsbbAndUser (){
+
+    SenderOsbbAndUser() {
         this.registerService.addUser(this.newUser).subscribe(
-                data => {
-                    this.newUser=data;  
-                    this.newOsbb.creator = this.newUser; 
-                    this.registerService.addOSBB(this.newOsbb).subscribe(data=>{
-                        console.log(data)
-                    });
-                    console.log(data);
+            data => {
+                this.newUser = data;
+                this.newOsbb.creator = this.newUser;
+                this.registerService.addOSBB(this.newOsbb).subscribe(data=> {
+                    console.log(data)
+                });
+                console.log(data);
                 error => console.log("Error HTTP Post Service");
                 () => console.log("Job Done Osbb!");
-                });        
+            });
     }
 
     getAddress(place: Object) {
@@ -116,6 +119,7 @@ export class RegistrationComponent implements OnInit {
         var lng = location.lng();
         console.log("Address Object", place);
     }
+
     confirmPass() {
         this.error = false;
         var password = this.confirmPassword;
@@ -136,12 +140,14 @@ export class RegistrationComponent implements OnInit {
             this.errorConfirm = false;
         }
     }
-    Back(){
+
+    Back() {
         this.isJoinedOsbb = false;
         this.IsRegisteredOsbb = false;
         this.IsRegistered = true;
     }
-    listAllOsbb(){
+
+    listAllOsbb() {
         this.registerService.getAllOsbb()
             .subscribe((data)=> {
                 this.osbbList = data;
@@ -151,8 +157,9 @@ export class RegistrationComponent implements OnInit {
                 this.handleErrors(error)
             });
     }
-    listAllHouses(){
-       this.registerService.getAllHouses()
+
+    listAllHouses() {
+        this.registerService.getAllHouses()
             .subscribe((data)=> {
                 this.houseList = data;
                 this.houses = this.fillHouses();
@@ -161,8 +168,9 @@ export class RegistrationComponent implements OnInit {
                 this.handleErrors(error)
             });
     }
-    listAllApartments(){
-       this.registerService.getAllApartments()
+
+    listAllApartments() {
+        this.registerService.getAllApartments()
             .subscribe((data)=> {
                 this.apartmentList = data;
                 this.apartment = this.fillApartment();
@@ -177,48 +185,53 @@ export class RegistrationComponent implements OnInit {
         this.isSelectedOsbb = true;
         console.log('select osbb: ', value);
     }
-    handleErrors(error){
+
+    handleErrors(error) {
         return error;
     }
 
     selectedHouse(value: any) {
         this.listAllApartments();
-         this.isSelectedHouse = true;
+        this.isSelectedHouse = true;
         console.log('select house: ', value);
     }
+
     selectedApartment(value: any) {
         this.isSelectedApartment = true;
         console.log('select apartment: ', value);
     }
 
-    fillOsbb(): string[]{
+    fillOsbb(): string[] {
         let tempArr: string[] = [];
         for (let osbbObject of this.osbbList) {
             tempArr.push(osbbObject.name);
         }
-         console.log(tempArr)
+        console.log(tempArr)
         return tempArr;
     }
-    fillOsbbById(): number[]{
+
+    fillOsbbById(): number[] {
         let tempArr: number[] = [];
         for (let osbbObject of this.osbbList) {
             tempArr.push(osbbObject.osbbId);
         }
-         console.log(tempArr)
+        console.log(tempArr)
         return tempArr;
     }
-    fillHouses(): string[]{
+
+    fillHouses(): string[] {
         let tempArr: string[] = [];
         for (let houseObject of this.houseList) {
-            tempArr.push(''+houseObject.houseId);
+            tempArr.push('' + houseObject.houseId);
         }
         console.log(tempArr)
         return tempArr;
     }
+
     fillApartment(): string[] {
         let tempArr: string[] = [];
-        for (let apartmentObject of this.apartmentList){
-            tempArr.push(''+apartmentObject.number)   
+        for (let apartmentObject of this.apartmentList) {
+            tempArr.push('' + apartmentObject.number)
         }
         console.log(tempArr)
         return tempArr;

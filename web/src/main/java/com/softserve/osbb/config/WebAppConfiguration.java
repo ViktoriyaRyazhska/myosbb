@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.*;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -18,20 +16,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @PropertySource("classpath:/config.properties")
 @Configuration
 @SpringBootApplication
-@Import({ServiceApplication.class/*,SecurityConfiguration.class*/})
+@Import({ServiceApplication.class})
 @ComponentScan(basePackages = {"com.softserve.osbb"})
 @EnableScheduling
 public class WebAppConfiguration extends WebMvcConfigurerAdapter {
 
     public static void main(String[] args) {
-        SpringApplication.run(new Object[]{WebAppConfiguration.class
-        }, args);
+        SpringApplication.run(new Object[]{WebAppConfiguration.class}, args);
     }
 
-    private static final String[] STATIC_RESOURCE_LOCATIONS = {"classpath:/META-INF/resources/",
+    private static final String[] STATIC_RESOURCE_LOCATIONS = {
+            "classpath:/META-INF/resources/",
             "classpath:/resources/",
             "classpath:/static/",
-            "classpath:/public/"};
+            "classpath:/public/"
+    };
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

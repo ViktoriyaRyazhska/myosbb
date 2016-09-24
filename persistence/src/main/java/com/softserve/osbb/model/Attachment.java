@@ -1,6 +1,5 @@
 package com.softserve.osbb.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.softserve.osbb.model.enums.AttachmentType;
@@ -9,7 +8,6 @@ import com.softserve.osbb.utils.CustomLocalDateDeserializer;
 import com.softserve.osbb.utils.CustomLocalDateSerializer;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.text.StrBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -53,7 +51,7 @@ public class Attachment {
     @Basic
     @Column(name = "url")
     public String getUrl() {
-        return path.replace(Constants.FILE_UPLOAD_PATH, Constants.FILE_DOWNLOAD_PATH);
+        return path.replace(Constants.FILE_UPLOAD_PATH, Constants.FILE_DOWNLOAD_URL);
     }
 
     public void setUrl(String url) {
@@ -61,7 +59,7 @@ public class Attachment {
     }
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type", columnDefinition = "varchar(255) default 'DATA'")
+    @Column(name = "type")
     public AttachmentType getType() {
         return type;
     }
@@ -99,15 +97,5 @@ public class Attachment {
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
-    }
-
-    @Override
-    public java.lang.String toString() {
-        return "Attachment{" +
-                "attachmentId=" + attachmentId +
-                ", path=" + path +
-                ", type=" + type +
-                ", fileName=" + fileName +
-                '}';
     }
 }

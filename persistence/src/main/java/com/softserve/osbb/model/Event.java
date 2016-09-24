@@ -110,7 +110,7 @@ public class Event {
     }
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "repeat", columnDefinition = "varchar(45) default 'ONE_TIME'")
+    @Column(name = "repeat")
     public Periodicity getRepeat() {
         return repeat;
     }
@@ -130,7 +130,7 @@ public class Event {
 
     @Transient
     public EventStatus getStatus() {
-        Timestamp now = new Timestamp(new Date().getTime());
+        Timestamp now = new Timestamp(System.currentTimeMillis());
         if (now.compareTo(endTime) > 0) {
             return EventStatus.FINISHED;
         } else if (now.compareTo(startTime) < 0) {
@@ -152,20 +152,5 @@ public class Event {
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
-    }
-
-    @Override
-    public Event clone() {
-        Event clone = new Event();
-        clone.eventId = this.eventId;
-        clone.title = this.title;
-        clone.startTime = this.startTime;
-        clone.endTime = this.endTime;
-        clone.description = this.description;
-        clone.author = this.author;
-        clone.osbb = this.osbb;
-        clone.repeat = this.repeat;
-        clone.attachments = this.attachments;
-        return clone;
     }
 }

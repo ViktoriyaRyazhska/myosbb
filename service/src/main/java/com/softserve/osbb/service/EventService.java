@@ -15,8 +15,6 @@ import java.util.List;
 @Service
 public interface EventService {
 
-    List<Event> filterByStatus(EventStatus status);
-
     Event saveEvent(Event event);
 
     List<Event> saveEvents(List<Event> list);
@@ -45,9 +43,12 @@ public interface EventService {
 
     Page<Event> getAllEvents(Integer pageNumber, String sortedBy, Boolean ascOrder);
 
-    List<Event> findEventsByNameOrAuthorOrDescription(String search);
+    List<Event> findByAuthor(String user);
+
+    List<Event> findByStatus(EventStatus status);
+
+    List<Event> findEventsByTitleOrAuthorOrDescription(String search);
 
     List<Event> findByInterval(Timestamp start, Timestamp end);
 
-    List<Event> findByAuthor(String user);
 }

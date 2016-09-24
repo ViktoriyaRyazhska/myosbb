@@ -6,6 +6,7 @@ import com.softserve.osbb.model.User;
 import com.softserve.osbb.model.enums.TicketState;
 import com.softserve.osbb.repository.TicketRepository;
 import com.softserve.osbb.service.TicketService;
+import com.softserve.osbb.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -21,7 +21,7 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
             " where lower(u.firstName) like lower(concat('%',:search,'%')) " +
             " or lower(u.lastName) like lower(concat('%',:search,'%')))" +
             " or lower(e.description) like lower(concat('%',:search,'%'))")
-    List<Event> findByNameOrAuthorOrDescription(@Param("search") String search);
+    List<Event> findByTitleOrAuthorOrDescription(@Param("search") String search);
 
     @Query("select e from Event e where e.startTime between :startTime and :endTime" +
             " or e.endTime between :startTime and :endTime")

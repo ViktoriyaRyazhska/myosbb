@@ -18,6 +18,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -88,9 +89,7 @@ public class EventRepositoryTest {
 
     @Test
     public void testSaveList() {
-        List<Event> list = new ArrayList<>();
-        list.add(event);
-        list.add(event1);
+        List<Event> list = Arrays.asList(event, event1);
         eventRepository.save(list);
         assertTrue(eventRepository.findAll().containsAll(list));
     }
@@ -103,9 +102,7 @@ public class EventRepositoryTest {
 
     @Test
     public void testFindAllByIDs() {
-        List<Event> list = new ArrayList<>();
-        list.add(event1);
-        list.add(event);
+        List<Event> list = Arrays.asList(event, event1);
         eventRepository.save(list);
         List<Integer> ids = new ArrayList<>();
         ids.add(event.getEventId());
@@ -115,9 +112,7 @@ public class EventRepositoryTest {
 
     @Test
     public void testFindAll() {
-        List<Event> list = new ArrayList<>();
-        list.add(event);
-        list.add(event1);
+        List<Event> list = Arrays.asList(event, event1);
         eventRepository.save(event);
         eventRepository.save(event1);
         assertTrue(eventRepository.findAll().containsAll(list));
@@ -139,9 +134,7 @@ public class EventRepositoryTest {
 
     @Test
     public void testDeleteList() {
-        List<Event> list = new ArrayList<>();
-        list.add(event);
-        list.add(event1);
+        List<Event> list = Arrays.asList(event, event1);
         eventRepository.save(list);
         eventRepository.delete(list);
         assertFalse(eventRepository.exists(event.getEventId()));
@@ -172,12 +165,26 @@ public class EventRepositoryTest {
 
     @Test
     public void testFindByStartTimeBetweenOrEndTimeBetween() {
-        List<Event> list = new ArrayList<>();
-        list.add(event);
-        list.add(event1);
+        List<Event> list = Arrays.asList(event, event1);
         eventRepository.save(list);
         assertTrue(eventRepository.findBetweenStartTimeAndEndTime(t1,t4).containsAll(list));
         assertTrue(eventRepository.findBetweenStartTimeAndEndTime(t1,t2).contains(event));
         assertFalse(eventRepository.findBetweenStartTimeAndEndTime(t1,t2).contains(event1));
+    }
+
+    @Test
+    public void testFindByTitleOrAuthorOrDescription() {
+        List<Event> list = Arrays.asList(event, event1);
+        eventRepository.save(list);
+        assertTrue(eventRepository.findByTitleOrAuthorOrDescription("admin").containsAll(list));
+        assertTrue(eventRepository.findByTitleOrAuthorOrDescription("festival").contains(event1));
+        assertTrue(eventRepository.findByTitleOrAuthorOrDescription("trash recycling").contains(event));
+    }
+
+    @Test
+    public void testFindByAuthor() {
+        List<Event> list = Arrays.asList(event, event1);
+        eventRepository.save(list);
+        assertTrue(eventRepository.findByAuthor(userRepository.findOne(1).getEmail()).containsAll(list));
     }
 }

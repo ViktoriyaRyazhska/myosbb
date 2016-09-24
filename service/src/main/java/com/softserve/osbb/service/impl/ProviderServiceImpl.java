@@ -3,6 +3,7 @@ package com.softserve.osbb.service.impl;
 import com.softserve.osbb.model.Provider;
 import com.softserve.osbb.repository.ProviderRepository;
 import com.softserve.osbb.service.ProviderService;
+import com.softserve.osbb.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,9 +16,9 @@ import java.util.List;
 /**
  * Created by Aska on 12.07.2016.
  */
+
 @Service
 public class ProviderServiceImpl implements ProviderService {
-    private static final int DEF_ROWS = 10;
 
     @Autowired
     ProviderRepository providerRepository;
@@ -95,14 +96,14 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Override
     public Page<Provider> getProviders(Integer pageNumber, String sortBy, Boolean order) {
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, DEF_ROWS,
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, Constants.DEF_ROWS,
                 getSortingOrder(order), sortBy == null ? "name" : sortBy);
         return providerRepository.findAll(pageRequest);
     }
 
     @Override
     public Page<Provider> findByActiveTrue(Integer pageNumber, String sortBy, Boolean order) {
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, DEF_ROWS,
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, Constants.DEF_ROWS,
                 getSortingOrder(order), sortBy == null ? "name" : sortBy);
         return providerRepository.findByActiveTrue(pageRequest);
     }
