@@ -1,6 +1,6 @@
 <div class="container">
-    <div class="registration-form  center-block" *ngIf="!registered">
-        <form class="ui form " (ngSubmit)="onSubmitUser()" #registerForm="ngForm">
+    <div class="registration-form  center-block" *ngIf="IsRegistered">
+        <form class="ui form " (ngSubmit)="onSubmitUser(newUser.status)" #registerForm="ngForm">
             <div class="form-header">
                 <h3>Реєстрація користувача </h3>
             </div>
@@ -61,17 +61,16 @@
                     </div>
                     <div class="col-xs-12">
                         <label>Підтвердіть пароль</label> <input class="form-control placeholder-no-fix col-xs-6" [(ngModel)]="confirmPassword"
-                            name="confirmPassword" (blur)="confirmPass()" placeholder='Повторіть пароль' type="password" required>
+                            name="confirmPassword" (blur)="confirmPass()" placeholder='Підтвердіть пароль' type="password" required>
                         <div class="col-xs-12 centered">
                             <label *ngIf='errorConfirm' class="error" disabled=true>{{errorMsg}}</label>
                         </div>
                     </div>
-
+                        <br>
                 </div>
-                <br>
+                
 
             </div>
-
             <div class="row form-footer">
                 <hr>
                 <br>
@@ -79,15 +78,15 @@
                     <a class="btn btn-danger col-xs-12" href="javascript:history.back()">Назад</a>
                 </div>
                 <div class="col-xs-6">
-                    <button class="btn btn-primary col-xs-12" type='submit' (click)="onUserClick(newUser.status)" [disabled]="!registerForm.form.valid">Вперед</button>
+                    <button class="btn btn-primary col-xs-12" type='submit'  [disabled]="!registerForm.form.valid">Вперед</button>
                 </div>
             </div>
 
         </form>
     </div>
+<!--------------------------------------Registration Osbb------------------------------------------------------>
 
-
-    <div class="registration-form  center-block" *ngIf="registered">
+    <div class="registration-form  center-block" *ngIf="IsRegisteredOsbb">
         <form class="ui form" (ngSubmit)="onSubmitOsbb()" #registerOsbbForm="ngForm">
             <div class="form-header">
                 <h3>Реєстрація ОСББ </h3>
@@ -137,7 +136,7 @@
             <div class="row form-footer">
                 <br>
                 <div class="col-xs-6">
-                    <a class="btn btn-danger col-xs-12" href="javascript:history.back()">Назад</a>
+                    <a class="btn btn-danger col-xs-12" (click)="Back()">Назад</a>
                 </div>
                 <div class="col-xs-6">
                     <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!registerOsbbForm.form.valid">Вперед</button>
@@ -146,4 +145,50 @@
 
         </form>
     </div>
+    <!--------------------------------------Join Osbb------------------------------------------------------>
+
+
+     <div class="registration-form  center-block" *ngIf="isJoinedOsbb">
+        <form class="ui form" (ngSubmit)="onSubmitJoin()" #joinOsbbForm="ngForm">
+            <div class="form-header">
+                <h3>Приєднатись до ОСББ </h3>
+            </div>
+            <div class="form-container">
+                    <div class="form-group"><label>Виберіть ваше ОСББ</label>
+                                        <ng-select [allowClear]="true"
+                                                   [items]="osbb"
+                                                   (selected)="selectedOsbb($event)"
+                                                   placeholder="Вибрати">
+                                        </ng-select>
+                                    </div>
+                                    <div *ngIf="isSelectedOsbb" class="form-group"><label>Виберіть ваш будинок</label>
+                                        <ng-select [allowClear]="true"
+                                                   [items]="houses"
+                                                   (selected)="selectedHouse($event)"
+                                                   placeholder="Вибрати">
+                                        </ng-select>
+                                    </div>
+                                    <div *ngIf="isSelectedHouse" class="form-group"><label>Виберіть вашу квартиру</label>
+                                        <ng-select [allowClear]="true"
+                                                   [items]="apartment"
+                                                   (selected)="selectedApartment($event)"
+                                                   placeholder="Вибрати">
+                                        </ng-select>
+                                    </div>
+                                    <br>
+                    <hr>
+            </div>
+            <div class="row form-footer">
+                <br>
+                <div class="col-xs-6">
+                    <a class="btn btn-danger col-xs-12" (click)="Back()">Назад</a>
+                </div>
+                <div class="col-xs-6">
+                    <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!joinOsbbForm.form.valid" >Вперед</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
 </div>

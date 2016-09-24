@@ -12,6 +12,9 @@ export class RegisterService {
 
     public _pathUrlForOsbb = ApiService.serverUrl + '/registration/osbb';
     public _pathUrlForUser = ApiService.serverUrl + '/registration/';
+     private osbbURL=ApiService.serverUrl + '/restful/osbb';
+    public houseURL: string = ApiService.serverUrl + '/restful/house/all';
+    public apartmentURL: string = ApiService.serverUrl + '/restful/apartment/';
 
     constructor(private http: Http) {
         
@@ -26,6 +29,24 @@ export class RegisterService {
         let headers = new Headers({ 'Content-Type': 'application/json' }); 
         let options = new RequestOptions({ headers: headers });
         return  this.http.post(this._pathUrlForUser,user, options).map((res: Response) => res.json());
+    }
+
+     getAllOsbb(): Observable<any> {
+        return this.http.get(this.osbbURL)
+                .map((response)=> response.json())
+            .catch((error)=>Observable.throw(error));
+    }
+
+    getAllHouses(): Observable<any> {
+        return this.http.get(this.houseURL)
+                .map((response)=> response.json())
+            .catch((error)=>Observable.throw(error));
+    }
+
+    getAllApartments(): Observable<any> {
+        return this.http.get(this.apartmentURL)
+                .map((response)=> response.json())
+            .catch((error)=>Observable.throw(error));
     }
 
 }
