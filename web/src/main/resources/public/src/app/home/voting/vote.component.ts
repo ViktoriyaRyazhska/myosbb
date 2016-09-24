@@ -31,7 +31,6 @@ export class VoteComponent implements OnInit {
     constructor(private voteService:VoteService, private optionService:OptionService, private currentUserService:CurrentUserService) {
         this.voteArr = [];
         this.currentUser = this.currentUserService.getUser();
-         //.then(()=> this.currentUser = this.currentUserService.getUser())
     }
 
     ngOnInit() {
@@ -110,9 +109,7 @@ export class VoteComponent implements OnInit {
     }
 
     closeVote(vote: Vote):void {
-        console.log("closeVote");
-        vote.available = false;
-        this.voteService.updateVote(vote);
+        this.voteService.closeVote(vote.voteId);
     }
 
     private deleteVoteFromArr(vote: Vote): void {

@@ -31,7 +31,7 @@ public class VoteScheduler {
             if(vote.getEndTime() != null) {
                 if(LocalDateTime.now().isAfter(vote.getEndTime().toLocalDateTime())){
                     vote.setAvailable(false);
-                    voteService.updateVote(vote);
+                    voteService.addVote(vote);
                 }
             }
         }

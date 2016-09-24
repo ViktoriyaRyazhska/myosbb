@@ -38,8 +38,8 @@ export class VoteService {
                     .catch(this.handleError);
     }
 
-    updateVote(vote:Vote):Promise<Vote>  {
-        return this.http.put(this.url, JSON.stringify(vote))
+    closeVote(voteId:number):Promise<Vote>  {
+        return this.http.get(this.url + '/close/' + voteId)
                         .toPromise()
                         .then(res => res.json())
                         .catch(this.handleError);

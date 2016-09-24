@@ -73,13 +73,12 @@ public class VoteController {
        return new ResponseEntity<>(resourceVoteList, HttpStatus.OK);
    }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Resource<Vote>> updateVote(@RequestBody Vote vote) {
-        logger.info("Update vote with id: " + vote.getVoteId());
-        for(Option option: vote.getOptions()) {
-            option.setVote(vote);
-        }
-        Vote updatedVote = voteService.updateVote(vote);
+    @RequestMapping(value="/close/{voteId}", method = RequestMethod.GET)
+    public ResponseEntity<Resource<Vote>> closeVote(@PathVariable("voteId") Integer voteId) {
+        logger.info("Close vote with id: " + voteId);
+        Vote v = voteService.getVoteById(voteId);
+        v.setAvailable(false);
+        Vote updatedVote = voteService.addVote(v);
         return new ResponseEntity<>(addResourceLinkToVote(updatedVote), HttpStatus.OK);
     }
 

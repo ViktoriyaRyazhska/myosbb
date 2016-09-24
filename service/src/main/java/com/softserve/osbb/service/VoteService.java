@@ -17,21 +17,14 @@ public interface VoteService {
 
     Vote getVoteById(Integer id);
 
-    List<Vote> getAllVotes();
-
     List<Vote> getAllAvailable();
 
     List<Vote> getAllVotesByDateOfCreation();
 
     boolean existsVote(Integer id);
 
-    Vote updateVote(Vote vote);
-
     void deleteVote(Integer id);
 
     void deleteVote(Vote vote);
 
-    void deleteAllVotes();
-
-    long countVotes();
 }
