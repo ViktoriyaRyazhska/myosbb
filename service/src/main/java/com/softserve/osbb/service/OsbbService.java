@@ -20,23 +20,11 @@ public interface OsbbService {
 
     List<Osbb> getAllOsbb();
 
-    List<Osbb> findAllByOrderByAvailableDesc();
+    List<Osbb> getAllByOrder(String sortedBy, Boolean ascOrder);
 
     List<Osbb> findByAvailable(Boolean available);
 
     List<Osbb> findByNameContaining(String name);
-
-    List<Osbb> findAllOrderByNameDesc();
-
-    List<Osbb> findAllOrderByNameAsc();
-
-    List<Osbb> findAllOrderByDistrictDesc();
-
-    List<Osbb> findAllOrderByDistrictAsc();
-
-    List<Osbb> findAllOrderByCreationDateDesc();
-
-    List<Osbb> findAllOrderByCreationDateAsc();
 
     long countOsbb();
 
@@ -47,7 +35,5 @@ public interface OsbbService {
     void deleteOsbb(Integer id);
 
     void deleteOsbb(Osbb osbb);
-
-    void deleteAllOsbb();
 
 }

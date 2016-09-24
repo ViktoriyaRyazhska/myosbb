@@ -3,7 +3,6 @@ package com.softserve.osbb.controller;
 import com.softserve.osbb.dto.OsbbDTO;
 import com.softserve.osbb.dto.mappers.OsbbDTOMapper;
 import com.softserve.osbb.model.Osbb;
-import com.softserve.osbb.service.AttachmentService;
 import com.softserve.osbb.service.OsbbService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +32,7 @@ public class OsbbController {
     @Autowired
     private OsbbService osbbService;
 
-    @Autowired
-    private AttachmentService attachmentService;
-
-    @RequestMapping(value="",method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Resource<Osbb>> createOsbb(@RequestBody Osbb osbb) {
         logger.info("Create osbb:  " + osbb);
         osbb.setLogo(osbb.getLogo());
@@ -69,33 +65,13 @@ public class OsbbController {
         return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/order/{field},{order}", method = RequestMethod.GET)
-    public ResponseEntity<List<Resource<Osbb>>> getAllOsbbByOrder(@PathVariable("field") String field,
-                                                                        @PathVariable("order") Boolean order) {
-        logger.info("Get all osbb by order : " +  field);
-        List<Osbb> osbbList;
-        if(field.equals("name")) {
-            if(order) {
-                osbbList = osbbService.findAllOrderByNameAsc();
-            } else {
-                osbbList = osbbService.findAllOrderByNameDesc();
-            }
-        } else if(field.equals("district")) {
-            if(order) {
-                osbbList = osbbService.findAllOrderByDistrictAsc();
-            } else {
-                osbbList = osbbService.findAllOrderByDistrictDesc();
-            }
-        } else if(field.equals("creationDate")) {
-            if(order) {
-                osbbList = osbbService.findAllOrderByCreationDateAsc();
-            } else {
-                osbbList = osbbService.findAllOrderByCreationDateDesc();
-            }
-        } else {
-            osbbList = new ArrayList<>();
-        }
-
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<Resource<Osbb>>> getAllOsbbByOrder(
+            @RequestParam(value = "sortedBy", required = false) String sortedBy,
+            @RequestParam(value = "asc", required = false) Boolean ascOrder
+    ) {
+        logger.info("Get all osbb by order: '" + sortedBy + "'. AscOrder: '" + ascOrder + "'.");
+        List<Osbb> osbbList = osbbService.getAllByOrder(sortedBy, ascOrder);
         final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
         for(Osbb o: osbbList) {
             resourceOsbbList.add(addResourceLinkToOsbb(o));
@@ -107,17 +83,6 @@ public class OsbbController {
     public ResponseEntity<List<Resource<Osbb>>> getByActive(@PathVariable("available") Boolean available) {
         logger.info("Get osbb by active: " + available);
         List<Osbb> osbbList = osbbService.findByAvailable(available);
-        final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
-        for(Osbb o: osbbList) {
-            resourceOsbbList.add(addResourceLinkToOsbb(o));
-        }
-        return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "",method = RequestMethod.GET)
-    public ResponseEntity<List<Resource<Osbb>>> getAllOsbb() {
-        logger.info("Get all osbb.");
-        List<Osbb> osbbList = osbbService.findAllByOrderByAvailableDesc();
         final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
         for(Osbb o: osbbList) {
             resourceOsbbList.add(addResourceLinkToOsbb(o));

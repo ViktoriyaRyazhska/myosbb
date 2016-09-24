@@ -4,6 +4,7 @@ import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.repository.OsbbRepository;
 import com.softserve.osbb.service.OsbbService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,9 +43,19 @@ public class OsbbServiceImpl implements OsbbService {
     }
 
     @Override
-    public List<Osbb> findAllByOrderByAvailableDesc() {
-        return osbbRepository.findAllByOrderByAvailableDesc();
+    public List<Osbb> getAllByOrder(String sortedBy, Boolean ascOrder) {
+        if(sortedBy == null || ascOrder == null) {
+            return osbbRepository.findAll();
+        } else {
+            Sort sort = new Sort(getSortDirection(ascOrder), sortedBy);
+            return osbbRepository.findAll(sort);
+        }
     }
+
+    private Sort.Direction getSortDirection(Boolean order) {
+        return order == true ? Sort.Direction.DESC : Sort.Direction.ASC;
+    }
+
 
     @Override
     public List<Osbb> findByAvailable(Boolean available) {
@@ -54,36 +65,6 @@ public class OsbbServiceImpl implements OsbbService {
     @Override
     public List<Osbb> findByNameContaining(String name) {
         return osbbRepository.findByNameContainingIgnoreCase(name);
-    }
-
-    @Override
-    public List<Osbb> findAllOrderByNameAsc() {
-        return osbbRepository.findAllByOrderByNameAsc();
-    }
-
-    @Override
-    public List<Osbb> findAllOrderByNameDesc() {
-        return osbbRepository.findAllByOrderByNameDesc();
-    }
-
-    @Override
-    public List<Osbb> findAllOrderByDistrictAsc() {
-        return osbbRepository.findAllByOrderByDistrictAsc();
-    }
-
-    @Override
-    public List<Osbb> findAllOrderByDistrictDesc() {
-        return osbbRepository.findAllByOrderByDistrictDesc();
-    }
-
-    @Override
-    public List<Osbb> findAllOrderByCreationDateAsc(){
-        return osbbRepository.findAllByOrderByCreationDateAsc();
-    }
-
-    @Override
-    public List<Osbb> findAllOrderByCreationDateDesc(){
-        return osbbRepository.findAllByOrderByCreationDateDesc();
     }
 
     @Override
@@ -116,8 +97,4 @@ public class OsbbServiceImpl implements OsbbService {
         osbbRepository.delete(osbb);
     }
 
-    @Override
-    public void deleteAllOsbb() {
-        osbbRepository.deleteAll();
-    }
 }

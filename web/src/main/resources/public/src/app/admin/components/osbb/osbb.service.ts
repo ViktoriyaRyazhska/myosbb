@@ -60,8 +60,8 @@ export class OsbbService {
                  .catch(this.handleError);
     }
 
-    getAllOsbbByOrder(field: string, order: boolean) {
-        let url = this.url + '/order/' + field + ',' + order;
+   getAllOsbbByOrder(sortedBy: string, asc: boolean) {
+        let url = this.url + '?sortedBy=' + sortedBy + '&&asc=' + asc;
         return this.http.get(url)
                  .toPromise()
                  .then(res => res.json())
