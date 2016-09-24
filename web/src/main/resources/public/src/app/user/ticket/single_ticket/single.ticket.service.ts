@@ -11,45 +11,32 @@ import ApiService = require("../../../../shared/services/api.service");
 
 @Injectable()
 export class MessageService {
-    private addMessageUrl:string = ApiService.serverUrl + '/restful/message/ticket';
-    private showUrl:string = ApiService.serverUrl + '/restful/message';
     private getOneUrl:string = ApiService.serverUrl + '/restful/ticket';
     private getUrlCommentsForTicket:string = ApiService.serverUrl + '/restful/message/comments';
     private putState:string = ApiService.serverUrl + '/restful/ticket/state';
-    private deleteMes:string = ApiService.serverUrl + '/restful/message';
-    private putMess:string = ApiService.serverUrl + '/restful/message';
+    private url:string = ApiService.serverUrl + '/restful/message';
     private addAnswerUrl:string = ApiService.serverUrl + '/restful/message/answer';
 
     constructor(private http:Http) {
     }
 
     getAllMessages(ticket:number):Promise<IMessage[]> {
-        let url = `${this.showUrl}/${ticket}`;
+        let url = `${this.url}/${ticket}`;
         return this.http.get(url)
             .toPromise()
             .then(res => res.json())
             .catch(this.handleError);
     }
 
-    // getMessagesForTicket(ticket:number):Promise<IMessage[]> {
-    //     let url = `${this.getUrlCommentsForTicket}/${ticket}`;
-    //     return this.http.get(url)
-    //         .toPromise()
-    //         .then(res => res.json())
-    //         .catch(this.handleError);
-    // }
-
     getMessagesForTicket(pageRequest:PageRequest, ticketId:number):Observable<any> {
-        let url = `${this.getUrlCommentsForTicket}/${ticketId}`;
-        return this.http.post(url, JSON.stringify(pageRequest))
+        return this.http.post(this.getUrlCommentsForTicket+"?ticket="+ticketId, JSON.stringify(pageRequest))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
 
-    addMessage(message:IMessage):Promise<IMessage> {
-        let url = `${this.addMessageUrl}/${message.idTicket}`;
-        return this.http.post(url, JSON.stringify(message))
-            .toPromise()
+    addMessage(message:IMessage,ticket:number):Promise<IMessage> {
+        return this.http.post(this.url +"?ticket="+ticket, JSON.stringify(message))
+           .toPromise()
             .then(res => res.json())
             .catch(this.handleError);
     }
@@ -86,7 +73,7 @@ export class MessageService {
     }
 
     deleteMessage(messageId:number):Promise<IMessage> {
-        let url = `${this.deleteMes}/${messageId}`;
+        let url = `${this.url}/${messageId}`;
         return this.http.delete(url)
             .toPromise()
             .then(res => messageId)
@@ -94,7 +81,7 @@ export class MessageService {
     }
 
     editMessage(message:IMessage):Promise<IMessage> {
-        let url = `${this.putMess}`;
+        let url = `${this.url}`;
         return this.http.put(url, JSON.stringify(message))
             .toPromise()
             .then(res => res.json())

@@ -38,9 +38,10 @@ import {Attachment} from "../../../admin/components/attachment/attachment.interf
     selector: 'ticket',
     templateUrl: './src/app/user/ticket/single_ticket/single.ticket.component.html',
     providers: [MessageService, TicketService, ToasterService],
-    directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, ToasterContainerComponent, CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent],
+    directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, ToasterContainerComponent,
+        CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
-    styleUrls: ['src/app/user/ticket/ticket.css'],
+    styleUrls: ['src/app/user/ticket/ticket.css','src/shared/css/loader.css', 'src/shared/css/general.css'],
     pipes: [TranslatePipe,CapitalizeFirstLetterPipe]
 })
 
@@ -175,7 +176,7 @@ private index:number;
             this.message.message = text;
             this.message.user = this.currentUserService.getUser();
             this.message.idTicket = this.ticketId;
-            this.messageService.addMessage(this.message)
+            this.messageService.addMessage(this.message,this.ticketId)
                 .then(message => this.addMessage(message))
                 .then(this.message.messageId = null);
         }
@@ -224,7 +225,8 @@ private index:number;
     }
 
  isMessageCreator(message:Message):boolean {
-        return (message.user.firstName == this.currentUser.firstName && message.user.lastName == this.currentUser.lastName);
+        return (message.user.firstName == this.currentUser.firstName && message.user.lastName == this.currentUser.lastName
+                ||this.currentUser.role == 'ROLE_ADMIN'||this.currentUser.role == 'ROLE_MANAGER');
     }
 
     deleteMessage(message:Message) {
@@ -347,7 +349,8 @@ private index:number;
     }
 
     isCreator():boolean {
-        return (this.ticket.user.firstName == this.currentUser.firstName && this.ticket.user.lastName == this.currentUser.lastName);
+        return (this.ticket.user.firstName == this.currentUser.firstName && this.ticket.user.lastName == this.currentUser.lastName||
+                this.currentUser.role == 'ROLE_ADMIN'||this.currentUser.role == 'ROLE_MANAGER');
     }
 
    

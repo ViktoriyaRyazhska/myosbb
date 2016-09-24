@@ -57,10 +57,8 @@ public class NoticeController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Resource<Notice>>>  getNoticeByUser(
-            @AuthenticationPrincipal Principal user  ) {
-
+                        @AuthenticationPrincipal Principal user  ) {
         User currentUser=userService.findUserByEmail(user.getName());
-
 
         List<Notice> noticeList = noticeService.findNoticesOfUser(currentUser);
         List<Resource<Notice>> resourceNoticeList = new ArrayList<>();
@@ -71,7 +69,6 @@ public class NoticeController {
                     .withSelfRel());
             resourceNoticeList.add(resourceNotice);
         }
-
 
         return new ResponseEntity<>(resourceNoticeList, HttpStatus.OK);
 

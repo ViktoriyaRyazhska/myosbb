@@ -30,21 +30,11 @@ public interface TicketService {
 
     boolean exists(Integer id);
 
-    List<Ticket> findAll();
-
-    List<Ticket> findAll(Sort sort);
-
-    Page<Ticket> findAll(Pageable pageable);
-
-    List<Ticket> findAll(Iterable<Integer> iterable);
-
     long count();
 
     boolean delete(Integer id);
 
     boolean delete(Ticket ticket);
-
-    boolean delete(Iterable<? extends Ticket> iterable);
 
     boolean deleteAll();
 
@@ -56,26 +46,17 @@ public interface TicketService {
 
     Ticket update(Ticket ticket);
 
-    Page<Ticket> getAllTickets(Integer pageNumber, String sortBy, Boolean order);
-
     List<Ticket> getAllTicketsByTime();
 
-    Page<Ticket> getAllTickets(PageRequest pageRequest);
+    Page<Ticket> getTicketsByName(String name, User user, PageRequest pageRequest);
 
-    Page<Ticket> getTicketsByName(String name, Integer osbbId,PageRequest pageRequest);
-
-    Page<Ticket> getTicketsByState(User user,TicketState ticketState, PageRequest pageRequest);
-
-    Page<Ticket> getTicketsByUser(User user, PageRequest pageRequest);
-
-    Page<Ticket> getTicketsByAssigned(User user, PageRequest pageRequest);
+    Page<Ticket> getTicketsByState(User user, TicketState ticketState, PageRequest pageRequest);
 
     Page<Ticket> findTicketsByStateAndUser(TicketState state, User user, PageRequest pageRequest);
 
     Page<Ticket> findTicketsByStateAndAssign(TicketState state, User user, PageRequest pageRequest);
 
-    Page<Ticket> findByOsbb(Integer osbbId,PageRequest pageRequest);
-
+    Page<Ticket> findAllTickets(User user, PageRequest pageRequest);
 
 
 }

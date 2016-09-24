@@ -6,7 +6,8 @@ import {ApartmentTableAdminComponent} from "./components/apartment/apartment.tab
 import {UsersComponent} from "./components/users/users.component";
 import {RoleComponent} from "./components/role/role.component";
 import {HouseShowAdminComponent} from "./components/house/house_show.admin.component";
-
+import {TicketAdminComponent} from "./components/ticket/ticket.component.admin";
+import {TicketSingleAdminComponent} from "./components/ticket/single.ticket.component.admin";
 import {ApartmentProfileComponent} from "../../app/user/ApartmentProfile/apartment.profile"
 import {AdminLoginGuard} from "../../shared/guard/admin.login.guard";
 import {EventAdminComponent} from "./components/event/event.component";
@@ -22,7 +23,6 @@ export const adminRoutes: RouterConfig = [
         children: [
             {path: 'osbb', component: OsbbComponent},
             {path: '', redirectTo: 'osbb', pathMatch: 'full'},
-            {path: 'houses/:id', component: HouseTableAdminComponent},
             {path: 'houses', component: HouseTableAdminComponent},
             {path: 'house/:id', component: HouseShowAdminComponent},
             {path: 'apartments', component: ApartmentTableAdminComponent},
@@ -30,6 +30,8 @@ export const adminRoutes: RouterConfig = [
             {path: 'event/:id', component: EventShowAdminComponent},
             {path: 'attachments', component: AttachmentAdminComponent},
             {path: 'users', component: UsersComponent},
+            {path: 'ticket', component: TicketAdminComponent},
+            {path: 'ticket/:id', component: TicketSingleAdminComponent},
             {path: 'apartments/apartmentprofile/:id', component: ApartmentProfileComponent},
             {path: 'role', component: RoleComponent}
         ]

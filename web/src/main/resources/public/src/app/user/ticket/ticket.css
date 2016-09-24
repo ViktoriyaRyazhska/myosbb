@@ -24,7 +24,8 @@
     margin-left: 90px;
     width: 84%;
     padding: 10px;
-    border: solid 2px #390;
+    border: solid 2px #009ACD
+;
     box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
 }
 
@@ -32,7 +33,7 @@
     margin-left: 30%;
     width: 54%;
     padding: 10px;
-    border: solid 2px #390;
+    border: solid 2px #009ACD;
     box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
 }
 
@@ -66,7 +67,7 @@
 
 ​
 .nameUser {
-    color: #390;
+    color: #7A378B;
 }
 
 .wrapper-dropdown-5 {

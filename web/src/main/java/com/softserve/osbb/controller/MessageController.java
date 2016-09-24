@@ -52,14 +52,11 @@ public class MessageController {
     @Autowired
     SettingsService settingsService;
 
-    @RequestMapping(value = "/ticket/{id}", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Resource<Message>> createMessage(@RequestBody Message message,
-                                                           @PathVariable("id") Integer ticketId) {
+                                                           @RequestParam(value = "ticket") Integer ticketId) {
         Resource<Message> messageResource;
         try {
-            User user = userService.findOne(message.getUser().getUserId());
-            message.setUser(user);
-
             Ticket ticket = ticketService.findOne(ticketId);
             message.setTicket(ticket);
 
@@ -97,8 +94,6 @@ public class MessageController {
                 noticeService.save(notice);
             }
             message = messageService.save(message);
-
-
             messageResource = addResourceLinkToMessage(message);
             logger.info("Saving answer object " + message.getMessageId());
         } catch (Exception e) {
@@ -123,7 +118,6 @@ public class MessageController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource<Message>> getMessageById(@PathVariable("id") Integer messageId) {
-
         logger.info("Get message by id: " + messageId);
         Message message = messageService.findOne(messageId);
         Resource<Message> messageResource = addResourceLinkToMessage(message);
@@ -134,7 +128,6 @@ public class MessageController {
 
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Resource<Message>> updateMessage(@RequestBody Message message) {
-
         logger.info("Updating message by id: " + message);
         message = messageService.update(message);
         Resource<Message> messageResource = new Resource<>(message);
@@ -159,34 +152,15 @@ public class MessageController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @RequestMapping(value = "/comments/{id}", method = RequestMethod.GET)
-//    public ResponseEntity<List<Resource<Message>>>  getMessageByTicketId(@PathVariable("id")Integer ticketId) {
-//
-//        logger.info("message by ticket: " + ticketId);
-//        Ticket ticket = ticketService.findOne(ticketId);
-//        List<Message> messages = messageService.findMessagesByTicket(ticket);
-//        List<Resource<Message>> resourceMessageList = new ArrayList<>();
-//        for (Message e : messages) {
-//            Resource<Message> messageResource = new Resource<>(e);
-//            messageResource.add(linkTo(methodOn(MessageController.class)
-//                    .getMessageById(e.getMessageId()))
-//                    .withSelfRel());
-//            resourceMessageList.add(messageResource);
-//        }
-//        return new ResponseEntity<>(resourceMessageList, HttpStatus.OK);
-//
-//    }
-
-    @RequestMapping(value = "/comments/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/comments", method = RequestMethod.POST)
     public ResponseEntity<MessagePageDataObject> getMessagesByTicketId(@RequestBody PageRequestGenerator.PageRequestHolder requestHolder,
-                                                                       @PathVariable("id") Integer ticketId) {
-        logger.info("get all messages by page: " + requestHolder.getPageNumber());
+                                                                       @RequestParam(value = "ticket") Integer ticketId) {
+        logger.info("get comments for ticket: " + ticketId);
         final PageRequest pageRequest = new PageRequestGenerator(requestHolder)
                 .toPageRequest();
         Ticket ticket = ticketService.findOne(ticketId);
         List<MessageDTO> messageDTO = new ArrayList<>();
         Page<Message> messagesByPage = messageService.findMessagesByTicket(ticket, pageRequest);
-        logger.info("get all messages by page: " + messagesByPage.getTotalElements());
 
         Iterator iter = messagesByPage.iterator();
         while (iter.hasNext()) {
@@ -199,8 +173,6 @@ public class MessageController {
         EntityResourceList<MessageDTO> messageResourceList = new MessageResourceList();
         messagesDTOByPage.forEach((message) -> messageResourceList.add(toResource(message)));
         MessagePageDataObject pageCreator = setUpPageCreator(pageSelector, messageResourceList);
-        logger.info("get all messages by page: " + messagesDTOByPage.getContent().toString());
-
         return new ResponseEntity<>(pageCreator, HttpStatus.OK);
     }
 

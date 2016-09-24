@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -74,6 +76,15 @@ public class SettingsController {
         return settingsResource;
     }
 
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<Resource<Settings>> getSettingsByUser(@AuthenticationPrincipal Principal user) {
+        User currentUser = userService.findUserByEmail(user.getName());
+        Settings setting = settingsService.findByUser(currentUser);
+        logger.info("Get setting by id: " + setting);
+        return new ResponseEntity<>(addResourceLinkToSettings(setting), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource<Settings>> getSettingsById(@PathVariable("id") Integer settingsId) {
         Settings setting = settingsService.findOne(settingsId);
@@ -81,11 +92,4 @@ public class SettingsController {
         return new ResponseEntity<>(addResourceLinkToSettings(setting), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "user/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Resource<Settings>> getSettingsByUser(@PathVariable("id") Integer userId) {
-        User user = userService.findOne(userId);
-        Settings setting = settingsService.findByUser(user);
-        logger.info("Get setting by id: " + setting);
-        return new ResponseEntity<>(addResourceLinkToSettings(setting), HttpStatus.OK);
-    }
 }

@@ -21,6 +21,12 @@
                 </a>
             </li>
             <li class="sub-menu">
+                <a [routerLink]="['ticket']">
+                    <i class="fa fa-comments"></i>
+                    <span>{{ 'tickets' | translate | capitalize }}</span>
+                </a>
+            </li>
+            <li class="sub-menu">
                 <a [routerLink]="['events']">
                     <i class="fa fa-calendar"></i>
                     <span>{{'events' | translate | capitalize}}</span>

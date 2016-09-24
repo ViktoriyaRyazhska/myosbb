@@ -22,12 +22,12 @@ export const homeRoutes: RouterConfig = [
             {path: '', redirectTo: 'wall', pathMatch: 'full'},
             {path: 'events', component: EventComponent},
             {path: 'event/:id', component: EventShowComponent},
-            {path: 'ticket', component: TicketAdminComponent},
             {path: 'osbb', component: OsbbComponent},
             {path: 'provider/info', component: ProviderUserPageWrapperComponent},
             {path: 'provider/info/:id', component: ProviderInfoPageWrapperComponent},
             {path: 'houses', component: HouseTableComponent},
             {path: 'house/:id', component: HouseShowComponent},
+            {path: 'ticket', component: TicketAdminComponent},
             {path: 'ticket/:id', component: TicketSingleAdminComponent},
         ]
     }

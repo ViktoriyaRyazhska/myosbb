@@ -21,7 +21,6 @@ import java.util.List;
 @Service
 public class TicketServiceImpl implements TicketService {
 
-    private static final int DEF_ROWS = 10;
 
     @Autowired
     TicketRepository ticketRepository;
@@ -57,26 +56,6 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public List<Ticket> findAll() {
-        return ticketRepository.findAll();
-    }
-
-    @Override
-    public List<Ticket> findAll(Sort sort) {
-        return ticketRepository.findAll(sort);
-    }
-
-    @Override
-    public Page<Ticket> findAll(Pageable pageable) {
-        return ticketRepository.findAll(pageable);
-    }
-
-    @Override
-    public List<Ticket> findAll(Iterable<Integer> iterable) {
-        return ticketRepository.findAll(iterable);
-    }
-
-    @Override
     public long count() {
         return ticketRepository.count();
     }
@@ -94,17 +73,10 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public boolean delete(Iterable<? extends Ticket> iterable) {
-        ticketRepository.delete(iterable);
-        return true;
-    }
-
-    @Override
     public boolean deleteAll() {
         ticketRepository.deleteAll();
         return true;
     }
-
 
     @Override
     public void flush() {
@@ -127,75 +99,55 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Page<Ticket> getAllTickets(Integer pageNumber, String sortBy, Boolean order) {
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, DEF_ROWS,
-                getSortingOrder(order), sortBy == null ? "date" : sortBy);
-        return ticketRepository.findAll(pageRequest);
-    }
-
-    @Override
     public List<Ticket> getAllTicketsByTime() {
         return ticketRepository.findByOrderByTimeDesc();
     }
 
     @Override
-    public Page<Ticket> getAllTickets(PageRequest pageRequest) {
-        return ticketRepository.findAll(pageRequest);
-    }
+    public Page<Ticket> getTicketsByName(String name, User user , PageRequest pageRequest) {
+        if (user.getRole().getName().equals("ROLE_ADMIN")) {
+            return ticketRepository.findByName(name, pageRequest);
 
-    @Override
-    public Page<Ticket> getTicketsByName(String name, Integer osbbId, PageRequest pageRequest) {
-        return ticketRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(name, osbbId,pageRequest);
+        }
+        return ticketRepository.findByNameByOsbb(name, user.getOsbb().getOsbbId(), pageRequest);
     }
 
     @Override
     public Page<Ticket> getTicketsByState(User user, TicketState ticketState, PageRequest pageRequest) {
-        return ticketRepository.findByState(user.getOsbb().getOsbbId(),ticketState, pageRequest);
+        if (user.getRole().getName().equals("ROLE_ADMIN")) {
+            return ticketRepository.findByState(ticketState, pageRequest);
+        }
+        return ticketRepository.findByStateByOsbb(user.getOsbb().getOsbbId(), ticketState, pageRequest);
 
-    }
-
-    @Override
-    public Page<Ticket> getTicketsByUser(User user, PageRequest pageRequest) {
-        return ticketRepository.findTicketsByUser(user, pageRequest) ;
-    }
-
-    @Override
-    public Page<Ticket> getTicketsByAssigned(User user, PageRequest pageRequest) {
-        return ticketRepository.findTicketsByAssigned(user, pageRequest) ;
     }
 
     @Override
     public Page<Ticket> findTicketsByStateAndUser(TicketState state, User user, PageRequest pageRequest) {
-        if(state == null){
-            return ticketRepository.findTicketsByUser(user, pageRequest) ;
-        }
-        else{
-            return ticketRepository.findTicketsByStateAndUser(state, user.getUserId(), pageRequest) ;
+        if (state == null) {
+            return ticketRepository.findTicketsByUser(user, pageRequest);
+        } else {
+            return ticketRepository.findTicketsByStateAndUser(state, user.getUserId(), pageRequest);
 
         }
     }
 
     @Override
     public Page<Ticket> findTicketsByStateAndAssign(TicketState state, User user, PageRequest pageRequest) {
-        if(state == null){
-            return ticketRepository.findTicketsByAssigned(user, pageRequest) ;
-        }
-        else{
-            return ticketRepository.findTicketsByStateAndAssigned(state, user.getUserId(), pageRequest) ;
+        if (state == null) {
+            return ticketRepository.findTicketsByAssigned(user, pageRequest);
+        } else {
+            return ticketRepository.findTicketsByStateAndAssigned(state, user.getUserId(), pageRequest);
 
         }
     }
 
     @Override
-    public Page<Ticket> findByOsbb(Integer osbbId, PageRequest pageRequest) {
-        return ticketRepository.findByOsbb(osbbId,pageRequest);
-    }
-
-
-    public Sort.Direction getSortingOrder(Boolean order) {
-        if (order == null) {
-            return Sort.Direction.DESC;
+    public Page<Ticket> findAllTickets(User user, PageRequest pageRequest) {
+        if (user.getRole().getName().equals("ROLE_ADMIN")) {
+            return ticketRepository.findAll(pageRequest);
+        }else{
+        return ticketRepository.findByOsbb(user.getOsbb().getOsbbId(), pageRequest);
         }
-        return order == true ? Sort.Direction.ASC : Sort.Direction.DESC;
     }
+
 }

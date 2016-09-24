@@ -1,5 +1,6 @@
 package com.softserve.osbb.util.paging.generator;
 
+import com.softserve.osbb.dto.PageParams;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -70,10 +71,11 @@ public class PageRequestGenerator {
             this.rowNum = rowNum;
         }
 
-        public PageRequestHolder(Integer pageNumber, Integer rowNum, String sortedBy, boolean order) {
-            this(pageNumber, rowNum);
-            this.sortedBy = sortedBy;
-            this.order = order;
+        public PageRequestHolder (PageParams pageParams){
+            this.pageNumber=pageParams.getPageNumber();
+            this.rowNum = pageParams.getRowNum();
+            this.sortedBy = pageParams.getSortedBy();
+            this.order =  pageParams.getOrderType();
         }
 
         public int getPageNumber() {
@@ -111,6 +113,10 @@ public class PageRequestGenerator {
 
     public PageRequestGenerator(PageRequestHolder pageRequestHolder) {
         this.pageRequestHolder = pageRequestHolder;
+    }
+
+    public PageRequestGenerator(PageParams pageParams) {
+        this.pageRequestHolder = new PageRequestHolder(pageParams);
     }
 
     public static PageRequestGenerator generatePageRequest(Integer pageNumber) {

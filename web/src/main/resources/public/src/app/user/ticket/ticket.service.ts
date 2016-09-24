@@ -13,38 +13,20 @@ import {Mail} from "../../../shared/models/mail.interface";
 @Injectable()
 export class TicketService {
 
-    private deleteUrl:string = ApiService.serverUrl + '/restful/ticket';
-    private postUrl:string = ApiService.serverUrl + '/restful/ticket';
-    private putUrl:string = ApiService.serverUrl + '/restful/ticket';
-    private getUrl:string = ApiService.serverUrl + '/restful/ticket';
-    private getOneUrl:string = ApiService.serverUrl + '/restful/ticket';
+    private url:string = ApiService.serverUrl + '/restful/ticket';    
     private getAssignUser:string = ApiService.serverUrl + '/restful/user/osbb/';
     private getTicketByPage:string = ApiService.serverUrl + '/restful/ticket/page';
     private getUsers:string = ApiService.serverUrl + '/restful/user/osbb';
     private findTicketByName:string = ApiService.serverUrl + '/restful/ticket/findName';
-    private sendEmailAssignUrl:string = ApiService.serverUrl + '/restful/ticket/sendEmailAssign';
-    private sendEmailStateUrl:string = ApiService.serverUrl + '/restful/ticket/sendEmailState';
     private findTicketByState:string = ApiService.serverUrl + '/restful/ticket/state';
-    private findTicketByUser:string = ApiService.serverUrl + '/restful/ticket/userEmail';
-    private findTicketByAssigned:string = ApiService.serverUrl + '/restful/ticket/assigned';
+    private findTicketByUser:string = ApiService.serverUrl + '/restful/ticket/user';
 
-
-    private aaa:string = ApiService.serverUrl + '/sendEmailMail';
 
     constructor(private http:Http) {
     }
 
-    sendMailAssign(mail:Mail) {
-        return this.http.post(this.sendEmailAssignUrl, JSON.stringify(mail))
-            .toPromise()
-            .then(()=>mail)
-            .catch((err)=>console.error(err));
-    }
-
-    getTicketsByPage(osbbId:number,pageRequest:PageRequest):Observable<any> {
-        
-        let url = `${this.getTicketByPage}/${osbbId}`;
-        return this.http.post(url, JSON.stringify(pageRequest))
+    getTicketsByPage(pageRequest:PageRequest):Observable<any> {
+        return this.http.post(this.getTicketByPage, JSON.stringify(pageRequest))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
@@ -56,7 +38,7 @@ export class TicketService {
     }
 
     findByNameDescription(pageRequest:PageRequest, osbbId:number, findName:string):Observable<any> {
-        return this.http.post(`${this.findTicketByName}/${osbbId}` + '?find=' + findName, JSON.stringify(pageRequest))
+        return this.http.post(this.findTicketByName + '?name=' + findName +'&&osbbId='+osbbId, JSON.stringify(pageRequest))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
@@ -73,14 +55,14 @@ export class TicketService {
             .catch((error)=>Observable.throw(error));
     }
 
-    findByState(pageRequest:PageRequest, findName:TicketState):Observable<any> {
-        return this.http.post(this.findTicketByState + '?findName=' + findName, JSON.stringify(pageRequest))
+    findByState(pageRequest:PageRequest, state:TicketState):Observable<any> {
+        return this.http.post(this.findTicketByState + '?state=' + state, JSON.stringify(pageRequest))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
 
     getAllTicket():Promise<ITicket[]> {
-        return this.http.get(this.getUrl)
+        return this.http.get(this.url)
             .toPromise()
             .then(res => res.json())
             .catch(this.handleError);
@@ -94,7 +76,7 @@ export class TicketService {
     }
 
     getTicketbyId(ticketId:number):Promise<ITicket> {
-        let url = `${this.getOneUrl}/${ticketId}`;
+        let url = `${this.url}/${ticketId}`;
         return this.http.get(url)
             .toPromise()
             .then(res => res.json())
@@ -102,48 +84,31 @@ export class TicketService {
     }
 
     addTicket(ticket:ITicket):Promise<ITicket> {
-                console.log(JSON.stringify(ticket));
-
-        return this.http.post(this.postUrl, JSON.stringify(ticket))
+        return this.http.post(this.url, JSON.stringify(ticket))
             .toPromise()
             .then(res => res.json())
             .catch(this.handleError);
     }
 
     editTicket(ticket:ITicket):Promise<ITicket> {
-        return this.http.put(this.putUrl, JSON.stringify(ticket))
+        return this.http.put(this.url, JSON.stringify(ticket))
             .toPromise()
             .then(res => res.json())
             .catch(this.handleError);
     }
 
     deleteTicket(ticket:ITicket):Promise<ITicket> {
-        let url = `${this.deleteUrl}/${ticket.ticketId}`;
+        let url = `${this.url}/${ticket.ticketId}`;
         return this.http.delete(url)
             .toPromise()
             .then(res => ticket)
             .catch(this.handleError);
     }
 
-    findAssignUser(name:string) {
-        let url = `${this.getAssignUser}/${name}`;
-        return this.http.get(url)
-            .toPromise()
-            .then(res => res.json())
-            .catch(this.handleError);
-    }
-
-    sendEmailAssign(ticketId:number) {
-        return this.http.post(this.sendEmailAssignUrl, JSON.stringify(ticketId))
-            .toPromise()
-            .then(() => (ticketId))
-            .catch(this.handleError);
-    }
 
     private handleError(error:any):Promise<any> {
         console.log('HandleError', error);
         return Promise.reject(error.message || error);
     }
-
 
 }

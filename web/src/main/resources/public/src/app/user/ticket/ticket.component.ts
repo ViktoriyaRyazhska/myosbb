@@ -6,14 +6,11 @@ import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 import {PageCreator} from "../../../shared/services/page.creator.interface";
-import {IMessage,Message} from './single_ticket/message'
 import {Ticket, ITicket,TicketState} from './ticket';
 import { TicketService } from './ticket.service';
 import { TicketAddFormComponent } from './ticket_form/ticket-add-form.component';
 import { TicketEditFormComponent } from './ticket_form/ticket-edit-form.component';
 import { TicketDelFormComponent } from './ticket_form/ticket-del-form.component';
-import { MessageComponent } from './single_ticket/single.ticket.component';
-import { MessageService } from './single_ticket/single.ticket.service';
 import {Router} from '@angular/router';
 import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
@@ -32,23 +29,20 @@ import {Attachment} from "../../admin/components/attachment/attachment.interface
 @Component({
     selector: 'ticket',
     templateUrl: './src/app/user/ticket/ticket.component.html',
-    providers: [TicketService, MessageComponent, ToasterService, MessageService],
+    providers: [TicketService, ToasterService],
     directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, CORE_DIRECTIVES,
-             TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent,
-        FileSelectDirective, FileDropDirective, FileUploadComponent],
+              TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent,
+              FileSelectDirective, FileDropDirective, FileUploadComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TranslatePipe,CapitalizeFirstLetterPipe],
-    styleUrls: ['src/app/user/ticket/ticket.css']
+    styleUrls: ['src/app/user/ticket/ticket.css','src/shared/css/loader.css', 'src/shared/css/general.css']
 })
 
 
 export class TicketComponent implements OnInit {
 
-    private messageService:MessageService;
     private ticketArr:ITicket[] = [];
     private updatedTicket:ITicket;
-    private messageArr:IMessage[] = [];
-    private message:Message;
     private currentUser:User;
     private dates:string[] = [];
     private pageCreator:PageCreator<Ticket>;
@@ -58,20 +52,18 @@ export class TicketComponent implements OnInit {
     private pending = false;
     private selectedRow:number = 10;
     private order:boolean = false;
-    nameSort:string = "time";
-    status:string = "";
-    email:string = "";
-    emailAssign:string = "";
-    pageRequest:PageRequest;
-    _currentUserService = null;
+    private nameSort:string = "time";
+    private status:string = "";
+    private email:string = "";
+    private emailAssign:string = "";
+    private pageRequest:PageRequest;
+    private _currentUserService = null;
 
     constructor(private ticketService:TicketService,
-                private messageComponent:MessageComponent,
                 private _toasterService:ToasterService,
                 private router:Router) {
         this._currentUserService = HeaderComponent.currentUserService;
-        this.currentUser = this._currentUserService.getUser();        
-        console.log("ticket. curr "+JSON.stringify(this.currentUser));
+        this.currentUser = this._currentUserService.getUser();     
         
     }
 
@@ -84,23 +76,10 @@ export class TicketComponent implements OnInit {
     }
 
     createTicket(ticket:ITicket):void {
-        
-        this.ticketService.addTicket(ticket).then(ticket => this.addTicket(ticket));
-    }
+        this.ticketService.addTicket(ticket)
+        .then(ticket => this.addTicket(ticket));
+    }    
 
-    private handleErrors(error:any) {
-        if (error.status === 404 || error.status === 400) {
-            console.log('server error 400');
-            this._toasterService.pop(onErrorResourceNotFoundToastMsg);
-            return;
-        }
-
-        if (error.status === 500) {
-            console.log('server error 500');
-            this._toasterService.pop(onErrorServerNoResponseToastMsg);
-            return;
-        }
-    }
 
     private addTicket(ticket:ITicket):void {
         this.ticketArr.unshift(ticket);
@@ -135,7 +114,7 @@ export class TicketComponent implements OnInit {
         this.emailAssign = '';
         this.status = '';
         this.pageRequest = new PageRequest(this.pageNumber, this.selectedRow, this.nameSort, this.order);
-        return this.ticketService.getTicketsByPage(this.currentUser.osbbId, this.pageRequest)
+        return this.ticketService.getTicketsByPage(this.pageRequest)
             .subscribe((data) => {
                     this.pending = false;
                     this.pageCreator = data;
@@ -253,7 +232,10 @@ export class TicketComponent implements OnInit {
     getTime(time:Date):string {
         return new Date(time).toLocaleString();
     }
+isCreator():boolean{
+return  this.currentUser.role == 'ROLE_ADMIN'||this.currentUser.role == 'ROLE_MANAGER';
 
+}
     selectRowNum(row:number) {
         console.log("selectRowNum");
 
@@ -344,4 +326,18 @@ export class TicketComponent implements OnInit {
                     console.error(error)
                 });
     }
+private handleErrors(error:any) {
+        if (error.status === 404 || error.status === 400) {
+            console.log('server error 400');
+            this._toasterService.pop(onErrorResourceNotFoundToastMsg);
+            return;
+        }
+
+        if (error.status === 500) {
+            console.log('server error 500');
+            this._toasterService.pop(onErrorServerNoResponseToastMsg);
+            return;
+        }
+    }
+
 }

@@ -11,7 +11,7 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class SettingsService {
 
-    private getUrl:string = ApiService.serverUrl + '/restful/settings/user';
+    private getUrl:string = ApiService.serverUrl + '/restful/settings';
     private url:string = ApiService.serverUrl + '/restful/settings';
 
     constructor(private http:Http) {
@@ -30,9 +30,8 @@ export class SettingsService {
             .then(res => res.json())
             .catch(this.handleError);
     }
-    getSettingsForUser(userId:number):Promise<Settings> {
-        let url = `${this.getUrl}/${userId}`;
-        return this.http.get(url)
+    getSettingsForUser():Promise<Settings> {
+        return this.http.get(this.getUrl)
             .toPromise()
             .then(res => res.json())
             .catch(this.handleError);
