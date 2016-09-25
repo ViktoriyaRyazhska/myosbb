@@ -30,7 +30,6 @@ export class HomeWallComponent implements OnInit {
 
     ngOnInit():any {
         this.osbbService.getDTOOsbbById(this.currentUserService.getUser().osbbId).then( osbb =>  this.currentOsbb = osbb );
-        //setTimeout(()=> {this.headerComponent.getNotice();}, 2000);
     }
 
      getFormatDate():string {

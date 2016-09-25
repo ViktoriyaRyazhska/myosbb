@@ -120,7 +120,7 @@ public class Osbb implements Serializable {
         this.creator = creator;
     }
 
-    @OneToMany(mappedBy = "osbb")
+    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE)
     public Collection<Contract> getContracts() {
         return contracts;
     }
@@ -129,7 +129,7 @@ public class Osbb implements Serializable {
         this.contracts = contracts;
     }
 
-    @OneToMany(mappedBy = "osbb")
+    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE)
     public Collection<Event> getEvents() {
         return events;
     }
@@ -147,7 +147,7 @@ public class Osbb implements Serializable {
         this.houses = houses;
     }
 
-    @OneToMany(mappedBy = "osbb")
+    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE)
     public Collection<Report> getReports() {
         return reports;
     }
@@ -156,7 +156,7 @@ public class Osbb implements Serializable {
         this.reports = reports;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "osbb")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "osbb", cascade = CascadeType.REMOVE)
     @JsonIgnore
     public Collection<User> getUsers() {
         return users;

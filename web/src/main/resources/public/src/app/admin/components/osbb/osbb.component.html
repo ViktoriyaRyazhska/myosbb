@@ -17,7 +17,7 @@
                 <osbb-del-form (delete)="deleteOsbb($event)" #delForm></osbb-del-form>
             </div>
             <div class="pull-left">
-                <button class="btn btn-success" (click)="addForm.openAddModal()"><i>{{'add' | translate}}</i></button>
+                <button (click)="addForm.openAddModal()" type="button" class="glyphicon glyphicon-plus btn btn-primary "></button>
             </div>
             <div id="example_filter" class="pull-right dataTables_filter">
                 <input type="search" class="form-control input-sm" placeholder="{{'searchByName' | translate}}" aria-controls="example" (keyup.enter)="searchByNameOsbb(searchInput.value)"

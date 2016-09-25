@@ -38,18 +38,13 @@
                 <my-calendar></my-calendar>
             </div>
         </div>
-        <div class="row">
+        <div class="row main-btn ">
             <div class="col-lg-12">
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="true">
-                    {{'options' | translate}}
-                    <span class="caret"></span>
-                </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a style="cursor: pointer" (click)="voteVar.openModalWindow()">{{'addVoting' | translate}}</a></li>
-                    </ul>
-                </div>
+                 <button class="btn btn-info" (click)="voteVar.openModalWindow()">{{'addVoting' | translate}} </button>
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-lg-12">
                 <vote #voteVar></vote>
             </div>
         </div>

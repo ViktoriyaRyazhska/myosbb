@@ -109,14 +109,14 @@ insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id, status) 
 insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-08-28', 120, 120, 4.5, 6, 6, 'PAID');
 insert into bill(date, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-08-28', 150.5,150.5, 4, 7, 'PAID', 1);
 
-INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Мій Дім','осбб для людей','м.Львів вул.Городоцька 147а','Залізничний','2016-09-01 10:46:43.221000');
-INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Червона Калина','найкраще осбб','м.Львів вул.В.Великого 99','Франківський','2014-09-05 10:46:43.221220');
+INSERT INTO osbb(  name, description, address, district, creation_date, creator_id) VALUES ('Мій Дім','осбб для людей','м.Львів вул.Городоцька 147а','Залізничний','2016-09-01 10:46:43.221000',5);
+INSERT INTO osbb(  name, description, address, district, creation_date, creator_id) VALUES ('Червона Калина','найкраще осбб','м.Львів вул.В.Великого 99','Франківський','2014-09-05 10:46:43.221220',10);
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Двір','рівні права','м.Львів вул.Б.Хмельницького 77','Франківський','2012-05-27 08:20:43.221000');
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Район','осбб','м.Львів вул.Сихівськаа 33','Сихів','2015-10-15 10:46:43.221000');
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Надія','файне осбб','м.Львів вул.Гната Хоткевича 47а','Сихів','2010-08-01 10:46:43.221000');
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Весна',' ','м.Львів вул.Проспект Червоної Калини 11','Сихів','2016-05-10 12:46:43.221000');
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Мрія',' ','м.Львів вул.Городоцька 147а','Залізничний','2016-09-01 10:46:43.221000');
-INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Моя Оселя','','м.Львів вул.Повітряна 17б','Залізничний','2013-10-12 08:46:43.221340');
+INSERT INTO osbb(  name, description, address, district, creation_date, creator_id) VALUES ('Моя Оселя','','м.Львів вул.Повітряна 17б','Залізничний','2013-10-12 08:46:43.221340', 11);
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Сонечко','','м.Львів вул.Наукова 77','Франківський','2015-04-18 10:46:43.221270');
 
 INSERT INTO attachment(  path, type, file_name) VALUES ('http://itukraine.org.ua/sites/default/files/news/sserve.jpg', 'IMAGE', 'sserve.jpg');
@@ -133,6 +133,7 @@ UPDATE house SET osbb_id=1 WHERE house_id=1;
 
 UPDATE users SET osbb_id=1;
 UPDATE users SET osbb_id=2 WHERE email='butaroman2@gmail.com';
+UPDATE users SET osbb_id=8 WHERE email='butaroman3@gmail.com';
 
 insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id)VALUES('2016-06-28', 240.5,0, 2.5, 1, 1);
 insert into bill(date, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-06-28', 356,356, 4.5, 1, 'PAID', 1);

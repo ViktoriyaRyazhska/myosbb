@@ -12,7 +12,6 @@ ul {
 }
 
 .content {
-    background: #777;
     margin-left: 210px;
 }
 
@@ -59,8 +58,10 @@ h2 {
    width:100%;
 }
 
-.dropdown {
-    margin-bottom: 20px;
+.main-btn {
+    margin:20px 0 20px 0;
+    padding: 10px;
+    border-top:1px solid slategray;
     border-bottom:1px solid slategray;
 }
 
