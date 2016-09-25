@@ -39,7 +39,7 @@ export class SettingsComponent implements OnInit {
             }
 
    ngOnInit() {
-       this.settingsService.getSettingsForUser(this.currentUser.userId)
+       this.settingsService.getSettingsForUser()
        .then(settings => this.settings = settings);
     }
 
