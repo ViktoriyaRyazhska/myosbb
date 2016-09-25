@@ -25,6 +25,7 @@ export const adminRoutes: RouterConfig = [
             {path: 'osbb', component: OsbbComponent},
             {path: '', redirectTo: 'osbb', pathMatch: 'full'},
             {path: 'houses', component: HouseTableAdminComponent},
+            {path: 'houses/:id', component: HouseTableAdminComponent},
             {path: 'house/:id', component: HouseShowAdminComponent},
             {path: 'apartments', component: ApartmentTableAdminComponent},
             {path: 'events', component: EventAdminComponent},
