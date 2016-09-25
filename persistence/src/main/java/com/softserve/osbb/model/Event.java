@@ -119,7 +119,7 @@ public class Event {
         this.repeat = repeat;
     }
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH )
     public List<Attachment> getAttachments() {
         return attachments;
     }

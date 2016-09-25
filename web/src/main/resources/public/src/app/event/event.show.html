@@ -1,4 +1,4 @@
-<section class="task-panel tasks-widget block-center">
+<section class="task-panel tasks-widget block-center" style="margin-left: 210px; margin-top: -40px">
     <div class="panel-heading top-panel">
         <div class="panel-body">
             <div class="row">
@@ -12,49 +12,49 @@
                     <div class="task-content">
                         <ul class="task-list">
                             <li>
-                                <b>{{ 'name' | translate | capitalize }}:</b><br>
+                                <b>{{'name' | translate | capitalize}}:</b><br>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{event.title}}</span>
                                 </div>
                             </li>
                             <li>
-                                <b>{{ 'author' | translate | capitalize }}:</b><br>
+                                <b>{{'author' | translate | capitalize}}:</b><br>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{event.author.firstName + " " + event.author.lastName}}</span>
                                 </div>
                             </li>
                             <li>
-                                <b>{{ 'status' | translate | capitalize }}:</b><br>
+                                <b>{{'status' | translate | capitalize}}:</b><br>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{event.status}}</span>
                                 </div>
                             </li>
                             <li>
-                                <b>{{ 'dateStart' | translate | capitalize }}:</b><br>
+                                <b>{{'dateStart' | translate | capitalize}}:</b><br>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{formatDate(event.start)}}</span>
                                 </div>
                             </li>
                             <li>
-                                <b>{{ 'dateFinish' | translate | capitalize }}:</b><br>
+                                <b>{{'dateFinish' | translate | capitalize}}:</b><br>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{formatDate(event.end)}}</span>
                                 </div>
                             </li>
                             <li>
-                                <b>{{ 'repeat' | translate | capitalize }}:</b><br>
+                                <b>{{'repeat' | translate | capitalize}}:</b><br>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{event.repeat}}</span>
                                 </div>
                             </li>
                             <li>
-                                <b>{{ 'additionalInformation' | translate | capitalize }}:</b><br>
+                                <b>{{'additionalInformation' | translate | capitalize}}:</b><br>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{event.description}}</span>
                                 </div>
                             </li>
                             <li>
-                                <b>{{ 'attachments' | translate | capitalize }}</b>
+                                <b>{{'attachments' | translate | capitalize}}</b>
                                 <div class="row" style="margin-top: 20px">
                                     <div *ngFor="let attachment of event.attachments" class="col-sm-3">
                                         <div class="thumbnail">
@@ -66,7 +66,7 @@
                             </li>
                             <button class="btn btn-primary btn-lg" value="Back" (click)="backClicked()" style="margin-top: 40px">
                                 <span class="glyphicon glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-                                {{ 'go_back' | translate | capitalize }}
+                                {{'go_back' | translate | capitalize}}
                             </button>
                         </ul>
                     </div>
@@ -88,6 +88,11 @@
                                 <div class="thumbnail">
                                     <img [src]="getPreview(attachment)" class="img-responsive">
                                 </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="{{attachment.url}}" download>
+                                    <button type="button" class="btn btn-default">{{'download' | translate | capitalize}}</button>
+                                </a>
                             </div>
                         </div>
                     </div>

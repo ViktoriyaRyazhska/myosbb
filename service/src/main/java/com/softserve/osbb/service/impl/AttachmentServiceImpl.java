@@ -192,7 +192,7 @@ public class AttachmentServiceImpl implements AttachmentService {
         while (Files.exists(tempPath)) {
             String filePathWithoutExtension = FilenameUtils.removeExtension(String.valueOf(existingFilePath));
             String fileExtension = FilenameUtils.getExtension(String.valueOf(existingFilePath));
-            tempPath = Paths.get(filePathWithoutExtension + "(" + ++i + ")" + fileExtension);
+            tempPath = Paths.get(filePathWithoutExtension + "(" + ++i + ")." + fileExtension);
         }
         return tempPath;
     }
