@@ -114,7 +114,7 @@ public class TicketController {
         if (ticket.getAssigned() != ticketDB.getAssigned()) {
             Settings settings = settingsService.findByUser(ticket.getAssigned());
             if (settings.getAssigned()) {
-                Notice notice = new Notice(ticket.getAssigned(), ticket.getName(), "home/ticket/" + ticket.getTicketId(), NoticeType.TO_ASSIGNED);
+                Notice notice = new Notice(ticket.getAssigned(), ticket.getName(), "ticket/" + ticket.getTicketId(), NoticeType.TO_ASSIGNED);
                 noticeService.save(notice);
             }
         }
@@ -135,7 +135,7 @@ public class TicketController {
         ticket = ticketService.update(ticketDB);
         Settings settings = settingsService.findByUser(ticketDB.getUser());
         if (settings.getCreator()) {
-            Notice notice = new Notice(ticket.getUser(), ticket.getName(), "home/ticket/" + ticket.getTicketId(), NoticeType.TO_CREATOR);
+            Notice notice = new Notice(ticket.getUser(), ticket.getName(), "ticket/" + ticket.getTicketId(), NoticeType.TO_CREATOR);
             noticeService.save(notice);
         }
         Resource<Ticket> ticketResource = new Resource<>(ticketDB);
