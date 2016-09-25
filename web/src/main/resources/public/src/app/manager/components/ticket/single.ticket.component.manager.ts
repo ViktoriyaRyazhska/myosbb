@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {MessageComponent} from "./../../../user/ticket/single_ticket/single.ticket.component.ts";
+import {MessageComponent} from "./../../../user/ticket/single_ticket/single.ticket.component";
 
 @Component({
     selector: 'ticket-manager',
