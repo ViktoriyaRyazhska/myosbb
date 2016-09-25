@@ -145,7 +145,7 @@ public class TicketController {
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Resource<TicketDTO>>> listAllTickets() {
-        logger.info("Get all tickets" );
+        logger.info("Get all tickets");
 
         List<Ticket> ticketList = ticketService.getAllTicketsByTime();
         List<TicketDTO> ticketDTOList = new ArrayList<>();
@@ -164,7 +164,7 @@ public class TicketController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource<Ticket>> getTicketById(@PathVariable("id") Integer ticketId) {
         Ticket ticket = ticketService.findOne(ticketId);
-        if(ticket == null){
+        if (ticket == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         logger.info("Get ticket by id: " + ticket);
@@ -189,12 +189,12 @@ public class TicketController {
     @RequestMapping(value = "/findName", method = RequestMethod.POST)
     public ResponseEntity<TicketPageDataObject> listTicketsByName(@RequestBody PageParams pageParams,
                                                                   @RequestParam(value = "name") String findName,
-                                                                  @AuthenticationPrincipal Principal user ) {
+                                                                  @AuthenticationPrincipal Principal user) {
         logger.info("get tickets by name: " + findName);
         final PageRequest pageRequest = new PageRequestGenerator(pageParams)
                 .toPageRequest();
-        User currentUser=userService.findUserByEmail(user.getName());
-        Page<Ticket> ticketsByPage = ticketService.getTicketsByName(findName,currentUser, pageRequest);
+        User currentUser = userService.findUserByEmail(user.getName());
+        Page<Ticket> ticketsByPage = ticketService.getTicketsByName(findName, currentUser, pageRequest);
 
         PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(ticketsByPage);
         EntityResourceList<Ticket> ticketResourceLinkList = new TicketResourceList();
@@ -207,12 +207,12 @@ public class TicketController {
     @RequestMapping(value = "/state", method = RequestMethod.POST)
     public ResponseEntity<TicketPageDataObject> listTicketsByState(@RequestBody PageParams pageParams,
                                                                    @RequestParam(value = "state") TicketState ticketState,
-                                                                   @AuthenticationPrincipal Principal user ) {
+                                                                   @AuthenticationPrincipal Principal user) {
         logger.info("get tickets by state: " + ticketState);
         final PageRequest pageRequest = new PageRequestGenerator(pageParams)
                 .toPageRequest();
-        User currentUser=userService.findUserByEmail(user.getName());
-        Page<Ticket> ticketsByPage = ticketService.getTicketsByState(currentUser,ticketState, pageRequest);
+        User currentUser = userService.findUserByEmail(user.getName());
+        Page<Ticket> ticketsByPage = ticketService.getTicketsByState(currentUser, ticketState, pageRequest);
 
         PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(ticketsByPage);
         EntityResourceList<Ticket> ticketResourceLinkList = new TicketResourceList();
@@ -225,7 +225,7 @@ public class TicketController {
     public ResponseEntity<TicketPageDataObject> listTicketsByUser(@RequestBody PageParams pageParams,
                                                                   @RequestParam(value = "user", required = false) String email,
                                                                   @RequestParam(value = "assign", required = false) String emailAssign,
-                                                                  @RequestParam(value = "state", required = false) TicketState ticketState){
+                                                                  @RequestParam(value = "state", required = false) TicketState ticketState) {
         logger.info("get tickets by user,assigned or state: " + email + "  " + emailAssign + "  " + ticketState);
         final PageRequest pageRequest = new PageRequestGenerator(pageParams)
                 .toPageRequest();
@@ -251,7 +251,7 @@ public class TicketController {
         logger.info("get all tickets by page: " + pageParams.getPageNumber());
         final PageRequest pageRequest = new PageRequestGenerator(pageParams)
                 .toPageRequest();
-        User currentUser=userService.findUserByEmail(user.getName());
+        User currentUser = userService.findUserByEmail(user.getName());
         Page<Ticket> ticketsByPage = ticketService.findAllTickets(currentUser, pageRequest);
 
         PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(ticketsByPage);
@@ -270,6 +270,7 @@ public class TicketController {
         pageCreator.setTotalPages(Integer.valueOf(pageSelector.getTotalPages()).toString());
         return pageCreator;
     }
+
     private Resource<TicketDTO> addResourceLinkToTicketDTO(com.softserve.osbb.dto.TicketDTO ticket) {
         Resource<com.softserve.osbb.dto.TicketDTO> ticketResource = new Resource<>(ticket);
         ticketResource.add(linkTo(methodOn(TicketController.class)

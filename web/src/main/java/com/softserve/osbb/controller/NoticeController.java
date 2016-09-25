@@ -38,7 +38,7 @@ public class NoticeController {
     private UserService userService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Resource<Notice>> createNotice(@RequestBody Notice notice){
+    public ResponseEntity<Resource<Notice>> createNotice(@RequestBody Notice notice) {
         Resource<Notice> noticeResource;
         try {
             User user = userService.findOne(notice.getUser().getUserId());
@@ -49,16 +49,16 @@ public class NoticeController {
             logger.info("Saving notice object " + notice.toString());
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(noticeResource, HttpStatus.OK);
-}
+    }
 
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<Resource<Notice>>>  getNoticeByUser(
-                        @AuthenticationPrincipal Principal user  ) {
-        User currentUser=userService.findUserByEmail(user.getName());
+    public ResponseEntity<List<Resource<Notice>>> getNoticeByUser(
+            @AuthenticationPrincipal Principal user) {
+        User currentUser = userService.findUserByEmail(user.getName());
 
         List<Notice> noticeList = noticeService.findNoticesOfUser(currentUser);
         List<Resource<Notice>> resourceNoticeList = new ArrayList<>();

@@ -75,7 +75,7 @@ public class MessageController {
             logger.info("Saving message object " + message.getMessageId());
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(messageResource, HttpStatus.OK);
     }
@@ -98,58 +98,9 @@ public class MessageController {
             logger.info("Saving answer object " + message.getMessageId());
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(messageResource, HttpStatus.OK);
-    }
-
-
-    private Resource<Message> addResourceLinkToMessage(Message message) {
-        if (message == null) {
-            return null;
-        }
-        Resource<Message> messageResource = new Resource<>(message);
-
-        messageResource.add(linkTo(methodOn(MessageController.class)
-                .getMessageById(message.getMessageId()))
-                .withSelfRel());
-        return messageResource;
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Resource<Message>> getMessageById(@PathVariable("id") Integer messageId) {
-        logger.info("Get message by id: " + messageId);
-        Message message = messageService.findOne(messageId);
-        Resource<Message> messageResource = addResourceLinkToMessage(message);
-        messageResource.add(linkTo(methodOn(MessageController.class).getMessageById(messageId)).withSelfRel());
-        return new ResponseEntity<>(messageResource, HttpStatus.OK);
-    }
-
-
-    @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Resource<Message>> updateMessage(@RequestBody Message message) {
-        logger.info("Updating message by id: " + message);
-        message = messageService.update(message);
-        Resource<Message> messageResource = new Resource<>(message);
-        messageResource.add(linkTo(methodOn(MessageController.class).getMessageById(message.getMessageId())).withSelfRel());
-        return new ResponseEntity<>(messageResource, HttpStatus.OK);
-    }
-
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Message> deleteMessageById(@PathVariable("id") Integer messageId) {
-        logger.info("Removing answers and message by id: " + messageId);
-        List<Message> answers = messageService.getAnswers(messageId);
-        messageService.delete(messageId);
-        messageService.delete(answers);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.DELETE)
-    public ResponseEntity<Message> deleteAll() {
-        logger.info("Removing all messages");
-        messageService.deleteAll();
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/comments", method = RequestMethod.POST)
@@ -174,6 +125,52 @@ public class MessageController {
         messagesDTOByPage.forEach((message) -> messageResourceList.add(toResource(message)));
         MessagePageDataObject pageCreator = setUpPageCreator(pageSelector, messageResourceList);
         return new ResponseEntity<>(pageCreator, HttpStatus.OK);
+    }
+
+    private Resource<Message> addResourceLinkToMessage(Message message) {
+        if (message == null) {
+            return null;
+        }
+        Resource<Message> messageResource = new Resource<>(message);
+
+        messageResource.add(linkTo(methodOn(MessageController.class)
+                .getMessageById(message.getMessageId()))
+                .withSelfRel());
+        return messageResource;
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<Resource<Message>> updateMessage(@RequestBody Message message) {
+        logger.info("Updating message by id: " + message);
+        message = messageService.update(message);
+        Resource<Message> messageResource = new Resource<>(message);
+        messageResource.add(linkTo(methodOn(MessageController.class).getMessageById(message.getMessageId())).withSelfRel());
+        return new ResponseEntity<>(messageResource, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Resource<Message>> getMessageById(@PathVariable("id") Integer messageId) {
+        logger.info("Get message by id: " + messageId);
+        Message message = messageService.findOne(messageId);
+        Resource<Message> messageResource = addResourceLinkToMessage(message);
+        messageResource.add(linkTo(methodOn(MessageController.class).getMessageById(messageId)).withSelfRel());
+        return new ResponseEntity<>(messageResource, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Message> deleteMessageById(@PathVariable("id") Integer messageId) {
+        logger.info("Removing answers and message by id: " + messageId);
+        List<Message> answers = messageService.getAnswers(messageId);
+        messageService.delete(messageId);
+        messageService.delete(answers);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity<Message> deleteAll() {
+        logger.info("Removing all messages");
+        messageService.deleteAll();
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private MessagePageDataObject setUpPageCreator(PageRequestGenerator.PageSelector pageSelector, List<Resource<MessageDTO>> resourceList) {

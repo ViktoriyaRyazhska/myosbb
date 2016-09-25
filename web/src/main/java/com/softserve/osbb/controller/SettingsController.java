@@ -48,7 +48,7 @@ public class SettingsController {
             logger.info("Saving settings object " + setting.toString());
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(addResourceLinkToSettings(setting), HttpStatus.OK);
     }
@@ -63,7 +63,7 @@ public class SettingsController {
                     .getSettingsById(settings.getSettingsId())).withSelfRel());
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(settingsResource, HttpStatus.OK);
     }
