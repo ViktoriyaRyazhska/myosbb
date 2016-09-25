@@ -11,28 +11,29 @@ import {CurrentUserService} from "../../../shared/services/current.user.service"
 @Component({
     selector: 'my-user-profile',
     templateUrl: 'src/app/user/profile/profile.html',
-    directives: [REACTIVE_FORM_DIRECTIVES,MaskedInput,HeaderComponent,ROUTER_DIRECTIVES],
+    directives: [REACTIVE_FORM_DIRECTIVES, MaskedInput, HeaderComponent, ROUTER_DIRECTIVES],
     styleUrls: ['src/app/user/profile/profile.css'],
-    pipes: [TranslatePipe,CapitalizeFirstLetterPipe]
+    pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
 
 })
 export class ProfileComponent implements OnInit {
     currentUser:User;
     currentUserService:CurrentUserService;
-    updateUser:User=new User();
+    updateUser:User = new User();
     private expToken:string;
     public emailMask = emailMask;
-    public textmask=[/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/,/[A-zА-яІ-і]/];
-    public phoneMask=['(', /[0]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+    public textmask = [/[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/];
+    public phoneMask = ['(', /[0]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 
-    constructor(private router:Router,private currentUserService:CurrentUserService) {
-        this.currentUser=HeaderComponent.currentUserService.currentUser;
+    constructor(private router:Router, private currentUserService:CurrentUserService) {
+        this.currentUser = HeaderComponent.currentUserService.currentUser;
         console.log('constructore');
         this.expToken = localStorage.getItem('expires_in');
         this.expToken = new Date(parseInt(this.expToken)).toLocaleString();
         console.log(this.currentUser);
     }
-    ngOnInit():any{
+
+    ngOnInit():any {
         // this.currentUser.birthDate = new Date(this.currentUser.birthDate).toLocaleDateString();
     }
 
@@ -42,9 +43,9 @@ export class ProfileComponent implements OnInit {
         this.expToken = new Date(parseInt(this.expToken)).toLocaleString();
 
     }
- 
 
-   getTime(time:Date):string {
+
+    getTime(time:Date):string {
         return new Date(time).toLocaleString();
     }
 

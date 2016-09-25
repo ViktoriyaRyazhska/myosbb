@@ -11,6 +11,8 @@ import {ProviderInfoPageWrapperComponent} from "../user/provider/provider-info-p
 import {EventComponent} from "../event/event.component";
 import {EventShowComponent} from "../event/event.show.component";
 import {CalendarHomeComponent} from "./calendar/calendar.home.component";
+import {UserProfileComponent} from "./user/user.profile.component";
+import {HomeProfileUser} from "./user/home.profile.component";
 export const homeRoutes: RouterConfig = [
     {
         path: 'home',
@@ -30,6 +32,9 @@ export const homeRoutes: RouterConfig = [
             {path: 'house/:id', component: HouseShowComponent},
             {path: 'ticket', component: TicketAdminComponent},
             {path: 'ticket/:id', component: TicketSingleAdminComponent},
+            {path: 'user/:id', component: UserProfileComponent},
+            {path: 'main', component: HomeProfileUser},
+
 
         ]
     }

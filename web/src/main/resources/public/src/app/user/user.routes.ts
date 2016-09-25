@@ -10,7 +10,6 @@ import {ProviderComponent} from "./provider/provider.component";
 import {ContractComponent} from "./contract/contract.component";
 import {ApartmentProfileComponent} from "./ApartmentProfile/apartment.profile";
 import {ProfileComponent} from "./profile/profile.component";
-import {UserProfileComponent} from "./user/user.profile.component";
 import {SettingsComponent} from "./settings/settings.component";
 
 
@@ -26,9 +25,7 @@ export const userRoutes: RouterConfig = [
             {path: 'bill', component: UserBillComponent},
             {path: 'report', component: UserReportComponent},
             {path: 'profile', component: ProfileComponent},
-            {path: 'main/settings', component: SettingsComponent},
-            {path: 'friend/:id', component: UserProfileComponent},
-
+            {path: 'main/settings', component: SettingsComponent}
 
         ],
         component: UserComponent,

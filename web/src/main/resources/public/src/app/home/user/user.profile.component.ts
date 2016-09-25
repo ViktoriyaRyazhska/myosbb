@@ -12,9 +12,9 @@ import {ActivatedRoute} from "@angular/router";
 
 @Component({
     selector: 'friend',
-    templateUrl: 'src/app/user/user/user.profile.html',
+    templateUrl: 'src/app/home/user/user.profile.html',
     directives: [REACTIVE_FORM_DIRECTIVES, MaskedInput, HeaderComponent, ROUTER_DIRECTIVES],
-    styleUrls: ['src/app/user/user/profile.css'],
+    styleUrls: ['src/app/home/user/profile.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
 
 })
@@ -22,11 +22,14 @@ export class UserProfileComponent implements OnInit {
     private user:User = new User();
     private sub:Subscription;
     private userId:number;
+    currentUser:User;
+    _currentUserService = null;
 
     constructor(private router:Router,
                 private routeParams:ActivatedRoute,
                 private userService:CurrentUserService) {
-
+        this._currentUserService = HeaderComponent.currentUserService;
+        this.currentUser = this._currentUserService.getUser();
     }
 
     ngOnInit():any {

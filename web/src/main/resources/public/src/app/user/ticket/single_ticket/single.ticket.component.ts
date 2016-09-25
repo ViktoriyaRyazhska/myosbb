@@ -41,12 +41,12 @@ import {Attachment} from "../../../admin/components/attachment/attachment.interf
     directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, ToasterContainerComponent,
         CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
-    styleUrls: ['src/app/user/ticket/ticket.css','src/shared/css/loader.css', 'src/shared/css/general.css'],
-    pipes: [TranslatePipe,CapitalizeFirstLetterPipe]
+    styleUrls: ['src/app/user/ticket/ticket.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
+    pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
 })
 
-export class MessageComponent implements OnInit {   
-     @ViewChild('gallery') gallery:ModalDirective;
+export class MessageComponent implements OnInit {
+    @ViewChild('gallery') gallery:ModalDirective;
 
     private message:IMessage;
     private messages:Message[] = [];
@@ -68,8 +68,9 @@ export class MessageComponent implements OnInit {
     private nameSort:string = "time";
     private open:boolean = false;
     private pageRequest:PageRequest;
-private currentAttachment:Attachment;
-private index:number;
+    private currentAttachment:Attachment;
+    private index:number;
+
     constructor(private routeParams:ActivatedRoute,
                 private ticketService:TicketService,
                 private messageService:MessageService,
@@ -146,7 +147,7 @@ private index:number;
         //    this.router.navigate(['**']);
         //    return;
         //}
-        if (error.status === 400||error.status === 404) {
+        if (error.status === 400 || error.status === 404) {
             console.log('server error 400');
             this.toasterService.pop(onErrorResourceNotFoundToastMsg);
             return;
@@ -163,30 +164,35 @@ private index:number;
     }
 
     toUser(id:number) {
-        console.log("toUser");
-        this.router.navigate(['home/user/friend', id]);
+        console.log("toUser" + id + " " + this.currentUser.userId);
+        if (id == this.currentUser.userId) {
+            this.router.navigate(['home/main'])
+        } else {
+            this.router.navigate(['home/user', id]);
+        }
+    }
 
-    }    initEditMessage(message:Message) {
+    initEditMessage(message:Message) {
         this.message = message;
         this.messText = this.message.message;
     }
 
     createMessage(text:string):void {
-        if(text.length > 0){
-        if (this.message.messageId == null) {
-            console.log("create");
-            this.message.message = text;
-            this.message.user = this.currentUserService.getUser();
-            this.message.idTicket = this.ticketId;
-            this.messageService.addMessage(this.message,this.ticketId)
-                .then(message => this.addMessage(message))
-                .then(this.message.messageId = null);
+        if (text.length > 0) {
+            if (this.message.messageId == null) {
+                console.log("create");
+                this.message.message = text;
+                this.message.user = this.currentUserService.getUser();
+                this.message.idTicket = this.ticketId;
+                this.messageService.addMessage(this.message, this.ticketId)
+                    .then(message => this.addMessage(message))
+                    .then(this.message.messageId = null);
+            }
+            else {
+                console.log("update");
+                this.editMessage(text);
+            }
         }
-        else {
-            console.log("update");
-            this.editMessage(text);
-        }
-    }
     }
 
     editMessage(text:string) {
@@ -226,9 +232,9 @@ private index:number;
         this.open = true;
     }
 
- isMessageCreator(message:Message):boolean {
+    isMessageCreator(message:Message):boolean {
         return (message.user.firstName == this.currentUser.firstName && message.user.lastName == this.currentUser.lastName
-                ||this.currentUser.role == 'ROLE_ADMIN'||this.currentUser.role == 'ROLE_MANAGER');
+        || this.currentUser.role == 'ROLE_ADMIN' || this.currentUser.role == 'ROLE_MANAGER');
     }
 
     deleteMessage(message:Message) {
@@ -268,14 +274,14 @@ private index:number;
             this.ticketState = 'DONE';
         }
         this.messageService.editState(this.ticket);
-            // .then(this.ngOnInit());
+        // .then(this.ngOnInit());
 
     }
 
 
     editTicket(ticket:ITicket):void {
         this.ticketService.editTicket(ticket)
-            .then( this.ngOnInit());
+            .then(this.ngOnInit());
     }
 
     deleteTicket(ticket:ITicket):void {
@@ -291,8 +297,7 @@ private index:number;
         this.message = new Message("");
         this.message.parentId = parentMessage.messageId;
         this.message.user = this.currentUser;
-        console.log("ANSWER ID PARRENT"+ this.message.parentId);        
-        
+
     }
 
     createAnswer(text:string) {
@@ -352,37 +357,35 @@ private index:number;
     }
 
     isCreator():boolean {
-        return (this.ticket.user.firstName == this.currentUser.firstName && this.ticket.user.lastName == this.currentUser.lastName||
-                this.currentUser.role == 'ROLE_ADMIN'||this.currentUser.role == 'ROLE_MANAGER');
+        return (this.ticket.user.firstName == this.currentUser.firstName && this.ticket.user.lastName == this.currentUser.lastName ||
+        this.currentUser.role == 'ROLE_ADMIN' || this.currentUser.role == 'ROLE_MANAGER');
     }
-
-   
 
 
 // gallery
-    next(){
-        if(this.index == this.ticket.attachments.length){
-            this.index = 0;    
-    }
+    next() {
+        if (this.index == this.ticket.attachments.length) {
+            this.index = 0;
+        }
         this.currentAttachment = this.ticket.attachments[this.index++];
     }
 
-    prev(){
-        if(this.index == 0){
-            this.index = this.ticket.attachments.length-1;    
-    }
+    prev() {
+        if (this.index == 0) {
+            this.index = this.ticket.attachments.length - 1;
+        }
 
         this.currentAttachment = this.ticket.attachments[this.index--];
-        
+
     }
 
-    showGallery(attachment:Attachment){
+    showGallery(attachment:Attachment) {
         this.gallery.show();
-         this.index = this.ticket.attachments.indexOf(attachment);
-         this.currentAttachment = this.ticket.attachments[this.index];
+        this.index = this.ticket.attachments.indexOf(attachment);
+        this.currentAttachment = this.ticket.attachments[this.index];
     }
 
-closeGallery(){
-    this.gallery.hide();
-}
+    closeGallery() {
+        this.gallery.hide();
+    }
 }

@@ -48,7 +48,7 @@
             </thead>
             <tbody class="tbody">
             <tr *ngFor="let item of userList" [class.success]="item.activated" [class.danger]="!item.activated">
-                <td><a href="basic_table.html">{{item.firstName}}</a></td>
+                <td><a href="{{router.url}}/{{item.userId}}">{{item.firstName}}</a></td>
                 <td class="hidden-phone">{{item.lastName}}</td>
                 <td class="hidden-phone">{{item.phoneNumber}}</td>
                 <td class="hidden-phone">{{item.email}}</td>

@@ -84,7 +84,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
         this.sub = this._route.params.subscribe(params=>
             this.isLoggedIn = params['status']);
         HeaderComponent.currentUserService = this._currentUserService;
-        this.getNotice();
+        //this.getNotice();
     }
 
 
