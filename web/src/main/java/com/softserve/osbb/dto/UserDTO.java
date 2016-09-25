@@ -2,8 +2,6 @@ package com.softserve.osbb.dto;
 
 import com.softserve.osbb.dto.mappers.ApartmentDTOMapper;
 import com.softserve.osbb.model.Apartment;
-import com.softserve.osbb.model.Osbb;
-import com.softserve.osbb.model.Role;
 import com.softserve.osbb.model.User;
 
 import java.util.Date;
@@ -47,7 +45,9 @@ public class UserDTO {
         this.gender = user.getGender();
         this.role=user.getRole().getAuthority();
         this.activated=user.getActivated();
-        this.osbbId = user.getOsbb().getOsbbId();
+        if(user.getOsbb() != null) {
+            this.osbbId = user.getOsbb().getOsbbId();
+        }
         this.apartment= ApartmentDTOMapper.mapApartmentEntityToDTO(user.getApartment());
     }
 

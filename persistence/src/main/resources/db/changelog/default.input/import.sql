@@ -119,6 +119,11 @@ INSERT INTO osbb(  name, description, address, district, creation_date) VALUES (
 INSERT INTO osbb(  name, description, address, district, creation_date, creator_id) VALUES ('Моя Оселя','','м.Львів вул.Повітряна 17б','Залізничний','2013-10-12 08:46:43.221340', 11);
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Сонечко','','м.Львів вул.Наукова 77','Франківський','2015-04-18 10:46:43.221270');
 
+INSERT INTO house(city, street, zip_code, description, osbb_id) VALUES('Львів', 'Широка 9', '79045', 'опис1', 8);
+INSERT INTO house(city, street, zip_code, description, osbb_id) VALUES('Львів', 'Сяйво 16', '79049', 'опис2', 2);
+INSERT INTO house(city, street, zip_code, description, osbb_id) VALUES('Львів', 'Сяйво 24', '79053', 'опис3', 2);
+INSERT INTO house(city, street, zip_code, description, osbb_id) VALUES('Львів', 'Сяйво 26', '79056', 'опис4', 1);
+
 INSERT INTO attachment(path, type, date, file_name) VALUES ('http://itukraine.org.ua/sites/default/files/news/sserve.jpg', 'IMAGE', '2016-09-20', 'sserve.jpg');
 INSERT INTO attachment(path, type, date, file_name) VALUES ('http://ua-ekonomist.com/uploads/posts/2013-08/1376494055_932378712.jpg', 'IMAGE', '2016-08-01', '1376494055_932378712.jpg');
 INSERT INTO attachment(path, type, date, file_name) VALUES ('http://news.dks.ua/images/0915/i_08091517_1.jpg', 'IMAGE', '2015-09-09', 'i_08091517_1.jpg');

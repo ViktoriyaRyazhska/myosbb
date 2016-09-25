@@ -19,8 +19,7 @@
         <ul>
             <li class="question"> {{vote.description}}</li>
             <li *ngFor="let option of vote.options">
-                <p>{{option.description}}</p>
-                 <p>{{option.description}}</p>
+                {{option.description}}
                 <div class="progress">
                     <span class="progress-value">{{option.progress}}%</span>
                     <div class="progress-bar" aria-valuemin="0" aria-valuemax="100" [style.width]="option.progress + '%'"></div>
