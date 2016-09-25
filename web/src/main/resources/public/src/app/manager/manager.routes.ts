@@ -1,7 +1,7 @@
 import {ManagerComponent} from "./manager.component";
 import {RouterConfig} from "@angular/router";
-import {TicketManagerComponent} from "./components/ticket/ticket.component.manager";
-import {TicketSingleManagerComponent} from "./components/ticket/single.ticket.component.manager";
+import {TicketManagerComponent} from "./components/ticket/ticket.component.manager.ts";
+import {TicketSingleManagerComponent} from "./components/ticket/single.ticket.component.manager.ts";
 import {ManagerLoginGuard} from "../../shared/guard/manager.login.guard";
 import {OsbbBillComponent} from "./../user/bills/osbb/osbb.bill.component";
 import {ProviderComponent} from "../user/provider/provider.component";
@@ -11,6 +11,7 @@ import {EventShowComponent} from "../event/event.show.component";
 import {HomeWallComponent} from "./../home/home_wall/home.wall.component";
 import {ContractComponent} from "./../user/contract/contract.component";
 import {CalendarHomeComponent} from "../home/calendar/calendar.home.component";
+import {UserProfileManagerComponent} from "./components/user/user.profile.manager.component.ts";
 
 export const managerRoutes:RouterConfig = [
     {
@@ -30,6 +31,8 @@ export const managerRoutes:RouterConfig = [
             {path: 'event/:id', component: EventShowComponent},
             {path: 'calendar', component: CalendarHomeComponent},
             {path: 'contract', component: ContractComponent},
+            {path: 'user/:id', component: UserProfileManagerComponent},
+
 
 
         ]

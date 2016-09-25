@@ -13,7 +13,7 @@ import {AdminLoginGuard} from "../../shared/guard/admin.login.guard";
 import {EventAdminComponent} from "./components/event/event.admin.component";
 import {EventShowAdminComponent} from "./components/event/event.show.admin.component";
 import {AttachmentAdminComponent} from "./components/attachment/attachment.component";
-import {UserProfileComponent} from "./../home/user/user.profile.component";
+import {UserProfileAdminComponent} from "./components/user/user.profile.admin.component";
 
 export const adminRoutes: RouterConfig = [
     {
@@ -35,7 +35,7 @@ export const adminRoutes: RouterConfig = [
             {path: 'ticket/:id', component: TicketSingleAdminComponent},
             {path: 'apartments/apartmentprofile/:id', component: ApartmentProfileComponent},
             {path: 'role', component: RoleComponent},
-            {path: 'users/:id', component: UserProfileComponent}
+            {path: 'user/:id', component: UserProfileAdminComponent},
 
 ]
     },

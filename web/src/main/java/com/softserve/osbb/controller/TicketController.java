@@ -77,13 +77,13 @@ public class TicketController {
 
             ticket.setTime(new Timestamp(new Date().getTime()));
             ticket.setStateTime(new Timestamp(new Date().getTime()));
+            ticket = ticketService.save(ticket);
 
             Settings settings = settingsService.findByUser(ticket.getUser());
             if (settings.getAssigned()) {
-                Notice notice = new Notice(assigned, ticket.getName(), "home/ticket/" + ticket.getTicketId(), NoticeType.TO_ASSIGNED);
+                Notice notice = new Notice(assigned, ticket.getName(), "ticket/" + ticket.getTicketId(), NoticeType.TO_ASSIGNED);
                 noticeService.save(notice);
             }
-            ticket = ticketService.save(ticket);
             logger.info("Saving ticket object " + ticket.getTicketId());
             ticketResource = addResourceLinkToTicket(ticket);
         } catch (Exception e) {
@@ -106,7 +106,7 @@ public class TicketController {
         if (ticket.getState() != ticketDB.getState()) {
             Settings settings = settingsService.findByUser(ticketDB.getUser());
             if (settings.getCreator()) {
-                Notice notice = new Notice(ticketDB.getUser(), ticket.getName(), "home/ticket/" + ticket.getTicketId(), NoticeType.TO_CREATOR);
+                Notice notice = new Notice(ticketDB.getUser(), ticket.getName(), "ticket/" + ticket.getTicketId(), NoticeType.TO_CREATOR);
                 ticket.setStateTime(new Timestamp(new Date().getTime()));
                 noticeService.save(notice);
             }

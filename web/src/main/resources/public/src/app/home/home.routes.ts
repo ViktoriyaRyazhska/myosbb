@@ -32,7 +32,7 @@ export const homeRoutes: RouterConfig = [
             {path: 'house/:id', component: HouseShowComponent},
             {path: 'ticket', component: TicketAdminComponent},
             {path: 'ticket/:id', component: TicketSingleAdminComponent},
-            {path: 'friend/:id', component: UserProfileComponent},
+            {path: 'user/:id', component: UserProfileComponent},
             {path: 'apartment', component: UserApartmentComponent},
 
 

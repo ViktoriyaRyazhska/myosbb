@@ -142,11 +142,6 @@ export class MessageComponent implements OnInit {
     }
 
     private handleErrors(error:any) {
-        //if (error.status === 404) {
-        //    console.log('server error 404');
-        //    this.router.navigate(['**']);
-        //    return;
-        //}
         if (error.status === 400 || error.status === 404) {
             console.log('server error 400');
             this.toasterService.pop(onErrorResourceNotFoundToastMsg);
@@ -163,13 +158,22 @@ export class MessageComponent implements OnInit {
         this.router.navigate(['home/ticket']);
     }
 
+
     toUser(id:number) {
-        console.log("toUser" + id + " " + this.currentUser.userId);
-        if (id == this.currentUser.userId) {
-            this.router.navigate(['home/user/main'])
-        } else {
-            this.router.navigate(['home/friend', id]);
-        }
+        // if (id == this.currentUser.userId) {
+        //     this.router.navigate(['home/user/main'])
+        // }
+        // else {
+        //     if (this.currentUser.role == "ROLE_ADMIN") {
+        //     }
+        //     if (this.currentUser.role == "ROLE_USER") {
+        //         this.router.navigate(['home/friend', id]);
+        //     }
+        //     if (this.currentUser.role == "ROLE_MANAGER") {
+        //         this.router.navigate(['manager/user', id]);
+        //     }
+                this.currentUserService.toUser(id);
+        
     }
 
     initEditMessage(message:Message) {
@@ -273,8 +277,8 @@ export class MessageComponent implements OnInit {
             this.ticket.state = TicketState.DONE;
             this.ticketState = 'DONE';
         }
-        this.messageService.editState(this.ticket);
-        // .then(this.ngOnInit());
+        this.messageService.editState(this.ticket)
+            .then(this.ngOnInit());
 
     }
 

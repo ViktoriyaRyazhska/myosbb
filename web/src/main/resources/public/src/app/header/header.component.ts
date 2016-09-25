@@ -41,9 +41,10 @@ export class HeaderComponent implements OnInit,OnDestroy {
     selectedLang:string = 'uk';
     reouterUrl:string = 'login';
     noticeArr:Notice[] = [];
-    tLength:number = 0;
-    mLength:number = 0;
-
+    ticketNoticeLength:number = 0;
+    commentNoticeLength:number = 0;
+    ticketNotice:Notice[] = [];
+        commentNotice:Notice[] = [];
     wordT:string = '';
     wordM:string = '';
 
@@ -84,7 +85,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
         this.sub = this._route.params.subscribe(params=>
             this.isLoggedIn = params['status']);
         HeaderComponent.currentUserService = this._currentUserService;
-        //this.getNotice();
+        this.getNotice();
     }
 
 
@@ -92,7 +93,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
         this.sub.unsubscribe();
     }
 
-    getNotice() {
+   getNotice() {
         this.settingsService.getSettingsForUser()
             .then(settings =>this.settings = settings);
         TimerWrapper.setInterval(() => {
@@ -100,9 +101,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
                 this.noticeService.getNotice().subscribe(
                     data => {
                         this.noticeArr = data,
-                            this.getLengthNotice();
-                        this.wordT = this.wordTNews();
-                        this.wordM = this.wordMNews();
+                        this.devideNotice();
                     }
                 )
             }
@@ -110,7 +109,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
 
     }
 
-    isSettings():boolean {
+isSettings():boolean {
         if (this.settings.answer == true ||
             this.settings.comment == true ||
             this.settings.creator == true ||
@@ -120,65 +119,76 @@ export class HeaderComponent implements OnInit,OnDestroy {
         return false;
     }
 
-    onSelect(lang) {
-        this.selectedLang = lang;
-        this.translate.use(lang);
-        this.translate.currentLang = lang;
-        console.log("current lang: ", this.translate.currentLang);
-    }
 
-
-    getLengthNotice() {
-        let t = 0;
-        let m = 0;
+    devideNotice(){
+        this.ticketNotice = [];
+        this.commentNotice = [];
+        
         for (let i = 0; i < this.noticeArr.length; i++) {
             if (this.noticeArr[i].typeNotice == 'TO_CREATOR' ||
                 this.noticeArr[i].typeNotice == 'TO_ASSIGNED') {
-                t++;
+        this.ticketNotice.push(this.noticeArr[i]);
+                
             }
             if (this.noticeArr[i].typeNotice == 'MESSAGE' ||
                 this.noticeArr[i].typeNotice == 'ANSWER') {
-                m++;
-            }
-        }
-        this.mLength = m;
-        this.tLength = t;
-
-    }
-
-    removeLengthNotice(notice:Notice) {
-        if (notice.typeNotice == 'TO_CREATOR' ||
-            notice.typeNotice == 'TO_ASSIGNED') {
-            this.tLength--;
-        }
-        if (notice.typeNotice == 'MESSAGE' ||
-            notice.typeNotice == 'ANSWER') {
-            this.mLength--;
+            
+        this.commentNotice.push(this.noticeArr[i]);
+                
+            }           
+            this.ticketNoticeLength = this.ticketNotice.length;
+            this.commentNoticeLength = this.commentNotice.length;
+            
+            this.wordT = this.wordTNews();
+            this.wordM = this.wordMNews();
         }
 
     }
 
-    removeNotice(notice:Notice) {
-        let index = this.noticeArr.indexOf(notice);
+  removeCommentNotice(notice:Notice) {
+        let index = this.commentNotice.indexOf(notice);
+        this.hideNotice(notice);
+        
         if (index > -1) {
             console.log("deleting notice!!!");
-            this.noticeArr.splice(index, 1);
+            this.commentNotice.splice(index, 1);
             this.noticeService.deleteNotice(notice);
-            this.removeLengthNotice(notice);
+            this.commentNoticeLength--;
         }
     }
 
-    hideNotice(notice:Notice) {
-        this.removeNotice(notice);
-        this.router.navigate(['' + notice.path]);
+        removeTicketNotice(notice:Notice) {
+        let index = this.ticketNotice.indexOf(notice);
+        this.hideNotice(notice);
+        
+        if (index > -1) {
+            console.log("deleting notice!!!");
+            this.ticketNotice.splice(index, 1);
+            this.noticeService.deleteNotice(notice);
+            this.ticketNoticeLength--;            
+        }
     }
 
-    getTime(time:Date):string {
-        return new Date(time).toLocaleTimeString();
+     hideNotice(notice:Notice) {
+        // this.removeNotice(notice);
+        // this.router.navigate(['' + notice.path]);
+        
+            if (this._currentUserService.getRole() == "ROLE_ADMIN") {
+                this.router.navigate(['admin/'+notice.path]);
+            }
+            if (this._currentUserService.getRole() == "ROLE_MANAGER") {
+                this.router.navigate(['manager/'+notice.path]);
+            }
+            else{
+                this.router.navigate(['home/'+notice.path]);
+                
+            }
+
     }
 
-    wordTNews():string {
-        let num = Math.abs((this.tLength) % 100) % 10;
+
+ wordTNews():string {
+        let num = Math.abs((this.ticketNotice.length) % 100) % 10;
         if (num >= 5 && num < 20)
             return "pending_task";
         if (num > 1 && num < 5)
@@ -190,13 +200,19 @@ export class HeaderComponent implements OnInit,OnDestroy {
     }
 
     wordMNews():string {
-        let num = Math.abs((this.mLength) % 100) % 10;
+        let num = Math.abs((this.commentNotice.length) % 100) % 10;
         if (num == 1)
             return "noticeComment";
         if (num > 1 && num < 5)
             return "noticeComment3";
         return "noticeComments";
 
+    }
+
+
+
+ getTime(time:Date):string {
+        return new Date(time).toLocaleTimeString();
     }
 
     routerNavigate() {

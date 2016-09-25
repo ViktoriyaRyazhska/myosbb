@@ -5,6 +5,7 @@ import {LoginService} from "../../app/login/login.service";
 import {Http, Headers}  from "@angular/http";
 import ApiService = require("../services/api.service");
 import {Observable} from "rxjs/Observable";
+import {Router} from '@angular/router';
 
 
 @Injectable()
@@ -16,7 +17,9 @@ export class CurrentUserService {
     public currentUser:User
 
     constructor(private _loginservice:LoginService,
-    private http:Http) {
+    private http:Http,
+    private router:Router
+    ) { 
         this.currentUser = new User();
         this.initUser();
         this.setRole();
@@ -91,5 +94,24 @@ export class CurrentUserService {
         return this.http.get(url)
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
+    }
+
+    toUser(id:number) {
+        console.log("toUser"+id);
+        
+        if (id == this.currentUser.userId) {
+            this.router.navigate(['home/user/main'])
+        }
+        else {
+            if (this.currentUser.role == "ROLE_ADMIN") {
+                this.router.navigate(['admin/user', id]);
+            }
+            if (this.currentUser.role == "ROLE_USER") {
+                this.router.navigate(['home/user', id]);
+            }
+            if (this.currentUser.role == "ROLE_MANAGER") {
+                this.router.navigate(['manager/user', id]);
+            }
+        }
     }
 }

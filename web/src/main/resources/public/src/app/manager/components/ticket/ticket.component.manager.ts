@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {TicketComponent} from "./../../../user/ticket/ticket.component";
+import {TicketComponent} from "./../../../user/ticket/ticket.component.ts";
 
 @Component({
     selector: 'ticket-manager',

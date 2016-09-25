@@ -53,7 +53,7 @@
                             <span class="fa fa-fw fa-sort pull-left"></span></a>
                     </th>
                     <th class="sorting" style="width:25%;min-width:25%"><i class=" fa fa-edit"></i>
-                        {{'descriptionTicket' | translate}}+
+                        {{'descriptionTicket' | translate}}
                     <th class="sorting" style="width:12%;min-width:3%"><i class=" fa fa-edit"></i>
                         {{'authorTicket'|translate}}
                         <a style="{cursor:pointer}" (click)="sortBy('user')">
@@ -108,7 +108,7 @@
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                     <li><a style="cursor: pointer"
-                                           (click)=" initUpdatedTicket(item); editForm.initUpdatedTicket(item);editForm.openEditModal()">
+                                           (click)=" initUpdatedTicket(item); editForm.initUpdatedTicket(item);">
                                         {{'editTicket' | translate}}</a></li>
                                     <li><a style="cursor: pointer" (click)="delForm.openDelModal(item)">{{'deleteTicket'|
                                         translate}}</a></li>

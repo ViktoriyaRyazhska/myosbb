@@ -63,7 +63,7 @@ public class MessageController {
             Settings settings = settingsService.findByUser(ticket.getUser());
             if (settings.getComment()) {
                 Notice notice = new Notice(ticket.getUser(), message.getUser().getFirstName() + " " + message.getUser().getLastName(),
-                        message.getMessage(), "home/user/ticket/" + ticketId, NoticeType.MESSAGE);
+                        message.getMessage(), "ticket/" + ticketId, NoticeType.MESSAGE);
                 notice.setTime(new Timestamp(new Date().getTime()));
                 noticeService.save(notice);
             }
@@ -89,7 +89,7 @@ public class MessageController {
             Settings settings = settingsService.findByUser(message.getUser());
             if (settings.getAnswer()) {
                 Notice notice = new Notice(parentMessage.getUser(), message.getUser().getFirstName() + " " + message.getUser().getLastName(),
-                        message.getMessage(), "home/user/ticket/" + parentMessage.getTicket().getTicketId(), NoticeType.ANSWER);
+                        message.getMessage(), "ticket/" + parentMessage.getTicket().getTicketId(), NoticeType.ANSWER);
                 notice.setTime(new Timestamp(new Date().getTime()));
                 noticeService.save(notice);
             }

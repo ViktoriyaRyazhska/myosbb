@@ -69,11 +69,12 @@ export class TicketEditFormComponent implements OnInit {
     openEditModal() {
         this.editModal.show();
         this.attachments = this.ticket.attachments;        
-        this.getAllUsers();
     }
 
 
     ngOnInit() {
+         return this.ticketService.getAllUsers(this.currentUser.osbbId)
+            .then(userAssignArr => this.userAssignArr = userAssignArr);      
     }
 
     isEmptyName():boolean {
@@ -160,6 +161,8 @@ deleteAttachmet(attachment:Attachment){
         this.nameTicket = ticket.name;
         this.descriptionTicket = ticket.description;
         this.assignTicket = ticket.assigned.firstName + " " + ticket.assigned.lastName;
+this.openEditModal();
+        
     }
 
     editTicket():Ticket {

@@ -138,7 +138,7 @@
   "create_ticket": "Create ticket",
   "createTicket": "Create ticket",
   "nameErrorTicket": "The name should be longer than 10 characters",
-  "descrErrorTicket": "Description should be longer than 60 characters",
+  "descrErrorTicket": "Description should be longer than 20 characters",
   "assignErrorTicket": "To choose user from list",
   "createTickModal": "Create",
   "cancel": "Cancel",

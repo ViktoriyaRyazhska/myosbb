@@ -17,32 +17,32 @@
             <li class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle">
                     <i class="fa fa-tasks"></i>
-                    <span *ngIf="tLength!=0" class="badge bg-theme">{{tLength}}</span>
+                    <span *ngIf="ticketNoticeLength!=0" class="badge bg-warning">{{ticketNoticeLength}}</span>
                 </a>
                 <ul class="dropdown-menu extended tasks-bar">
                     <div class="notify-arrow notify-arrow-green"></div>
                     <li>
-                        <p *ngIf="tLength != 0" class="green" style="font-size:100%;">
-                            {{'You_have' | translate | capitalize}} {{tLength}} {{wordT| translate}}
+                        <p *ngIf="ticketNoticeLength != 0" class="green" style="font-size:100%;">
+                            {{'You_have' | translate | capitalize}} {{ticketNoticeLength}} {{wordT| translate}}
                         </p>
-                        <p *ngIf="tLength == 0" class="green" style="font-size:100%;">
+                        <p *ngIf="ticketNoticeLength == 0" class="green" style="font-size:100%;">
                             {{'nothingToShow' | translate | capitalize}}
                         </p>
 
                     </li>
-                    <li *ngFor="let notice of noticeArr" (click)="hideNotice(notice)">
+                    <li *ngFor="let notice of ticketNotice" (click)="removeTicketNotice(notice)">
 
                         <div class="task-info">
 
                             <div *ngIf="notice.typeNotice == 'TO_ASSIGNED' " style="margin-bottom:0px"
                                  class="notice alert-warning">
-                                <button type="button" class="close" (click)="removeNotice(notice)">×</button>
+                                <!--<button type="button" class="close" (click)="removeTicketNotice(notice)">×</button>-->
                                 <b>{{'youAssigned'|translate}}</b><br/>
                                 <div style="font-size:80%;"> {{notice.description}}</div>
                             </div>
                             <div *ngIf="notice.typeNotice == 'TO_CREATOR'  " style="margin-bottom:0px"
                                  class="notice alert-info">
-                                <button type="button" class="close" (click)="removeNotice(notice)">×</button>
+                                <!--<button type="button" class="close" (click)="removeNotice(notice)">×</button>-->
                                 <b>{{'changeStatusN'|translate}}</b><br/>
                                 <div style="font-size:80%;"> {{notice.description}}</div>
                             </div>
@@ -60,19 +60,19 @@
             <li id="header_inbox_bar" class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle">
                     <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-theme" *ngIf="mLength!=0">{{mLength}}</span>
+                    <span class="badge bg-warning" *ngIf="commentNoticeLength!=0">{{commentNoticeLength}}</span>
                 </a>
                 <ul class="dropdown-menu extended inbox">
                     <div class="notify-arrow notify-arrow-green"></div>
                     <li>
 
-                        <p *ngIf="mLength != 0" class="green" style="font-size:100%;">
-                            {{'You_have' | translate | capitalize}} {{mLength}} {{wordM| translate}}
+                        <p *ngIf="commentNoticeLength != 0" class="green" style="font-size:100%;">
+                            {{'You_have' | translate | capitalize}} {{commentNoticeLength}} {{wordM| translate}}
                         </p>
-                        <p *ngIf="mLength == 0" class="green" style="font-size:100%;">
+                        <p *ngIf="commentNoticeLength == 0" class="green" style="font-size:100%;">
                             {{'noComments' | translate | capitalize}} </p>
                     </li>
-                    <li *ngFor="let message of noticeArr " (click)="hideNotice(message)">
+                    <li *ngFor="let message of commentNotice " (click)="removeCommentNotice(message)">
 
                         <a *ngIf="(message.typeNotice == 'MESSAGE' || message.typeNotice == 'ANSWER') ">
                             <div *ngIf="message.typeNotice == 'ANSWER'  ">

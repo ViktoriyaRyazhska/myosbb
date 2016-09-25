@@ -49,6 +49,7 @@ export class UsersComponent implements OnInit {
         this._userService.saveUser(user).subscribe((data)=>this.userList.push(data));
     }
 
+
     public changeActivation(user:User) {
         this._userService.changeActivation(user).subscribe(
             data=> {
@@ -59,4 +60,8 @@ export class UsersComponent implements OnInit {
             }
         )
     }
+    toUser(id:number){
+        this.router.navigate(['admin/user', id]);
+    }
+
 }
