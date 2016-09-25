@@ -8,9 +8,9 @@ import {ProviderComponent} from "../user/provider/provider.component";
 import {ProviderInfoComponent} from "./../user/provider/provider-info";
 import {EventComponent} from "../event/event.component";
 import {EventShowComponent} from "../event/event.show.component";
-import {UserCalendarComponent} from "./../user/calendar/user.calendar.component";
 import {HomeWallComponent} from "./../home/home_wall/home.wall.component";
 import {ContractComponent} from "./../user/contract/contract.component";
+import {CalendarHomeComponent} from "../home/calendar/calendar.home.component";
 
 export const managerRoutes:RouterConfig = [
     {
@@ -28,7 +28,7 @@ export const managerRoutes:RouterConfig = [
             {path: 'provider/info/:id', component: ProviderInfoComponent},
             {path: 'events', component: EventComponent},
             {path: 'event/:id', component: EventShowComponent},
-            {path: 'calendar', component: UserCalendarComponent},
+            {path: 'calendar', component: CalendarHomeComponent},
             {path: 'contract', component: ContractComponent},
 
 

@@ -4,7 +4,8 @@
         <div style="float:right;margin-top:-30px;margin-right:20px;">
             <div style="float: bottom;">
                 {{'authorTicket'|translate}}
-                <button type="button" (click)="toUser(ticket.user.userId)" class="btn btn-default btn-xs">{{ticket.user.firstName}}
+                <button type="button" (click)="toUser(ticket.user.userId)" class="btn btn-default btn-xs">
+                    {{ticket.user.firstName}}
                     {{ticket.user.lastName}}
                 </button>
             </div>
@@ -21,7 +22,7 @@
                 <ticket-del-form (delete)="deleteTicket($event)" #delForm></ticket-del-form>
             </div>
             <div style="margin-bottom:20px">
-                <div style="float: left;  margin-left: 10px;font-size:22px;" > {{ticket.name}}</div>
+                <div style="float: left;  margin-left: 10px;font-size:22px;"> {{ticket.name}}</div>
 
 
                 <div *ngIf=" ticket.state == 'NEW' ">
@@ -68,7 +69,7 @@
                     <div class="liniya"><span class="label btn-round label-danger">{{ 'done' | translate  }}</span>
                     </div>
 
-                    <button type="button"  class="btn btn-default btn-xs"
+                    <button type="button" class="btn btn-default btn-xs"
                             style="margin-top:-4px">
                         {{ticket.assigned.firstName}} {{ticket.assigned.lastName}}
                     </button>
@@ -111,8 +112,13 @@
         <div style=" width:100%; height:1px; clear:both;"></div>
         <div>
             <div class="attachmetTicket" *ngFor="let attachment of ticket.attachments">
-                <img src="{{attachment.url}}" (click)="showGallery(attachment)" alt="{{attachment.fileName}}"
-                     height="100" width="100">
+                <div *ngIf="attachment.type =='IMAGE'">
+                    <img src="{{attachment.url}}" style="cursor: pointer;" (click)="showGallery(attachment)" alt="{{attachment.fileName}}"
+                         height="100" width="100">
+                </div>
+                <div *ngIf="attachment.type !='IMAGE'">
+                    <a style="cursor: pointer" href="{{attachment.url}}">{{'file'|translate}}</a>
+                </div>
             </div>
         </div>
         <div style=" margin-bottom:20px;width:100%; height:1px; clear:both;"></div>
@@ -175,7 +181,8 @@
                         <li *ngFor="let answer of getAnswers(i)">
                             <div class="comment-content"
                                  style="background:#f0f0f0; width:60%;height:90px;margin-bottom:20px;margin-top:0px;margin-left:25%;">
-                                <div class="nameUser" (click)="toUser(answer.user.userId)" style="float: left; width: 25%;"><p
+                                <div class="nameUser" (click)="toUser(answer.user.userId)"
+                                     style="float: left; width: 25%;"><p
                                         style="color:green; font-size:12px;">
                                     {{answer.user.firstName}} {{answer.user.lastName}} </p></div>
                                 <div style="float: right; width: 180px;">{{getTime(answer.time)}}
@@ -207,7 +214,7 @@
 
         <div bsModal #gallery="bs-modal" class="modal fade" tabindex="-1" role="dialog"
              aria-labelledby="mySmallModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" style="background-color:LightGray;height:90%; width:70%">
+            <div class="modal-dialog modal-lg" style="background:none;height:90%; width:70%">
 
                 <div class="galleryPrev" (click)="prev()"></div>
                 <div class="galleryNext" (click)="next()"></div>
@@ -216,12 +223,6 @@
                 </button>
                 <img src="{{currentAttachment.url}}" (click)="next()" alt="{{currentAttachment.fileName}}"
                      height="100%" width="100%">
-
-
-                <!--<h4 class="modal-title">t,jkfd oir j</h4>-->
-
-
-                <!--(click)="gallery.hide()"-->
             </div>
         </div>
 

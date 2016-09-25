@@ -166,9 +166,9 @@ export class MessageComponent implements OnInit {
     toUser(id:number) {
         console.log("toUser" + id + " " + this.currentUser.userId);
         if (id == this.currentUser.userId) {
-            this.router.navigate(['home/main'])
+            this.router.navigate(['home/user/main'])
         } else {
-            this.router.navigate(['home/user', id]);
+            this.router.navigate(['home/friend', id]);
         }
     }
 
