@@ -5,6 +5,7 @@ import com.softserve.osbb.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class UserDTOMapper {
             user.setUserId(userDTO.getUserId());
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
-            user.setBirthDate(userDTO.getBirthDate());
+            user.setBirthDate(new Timestamp(userDTO.getBirthDate().getTime()));
             user.setEmail(userDTO.getEmail());
             user.setPhoneNumber(userDTO.getPhoneNumber());
             user.setGender(userDTO.getGender());
