@@ -138,7 +138,7 @@ public class Ticket {
         this.messages = messages;
     }
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     public Collection<Attachment> getAttachments() {
         return attachments;
     }
