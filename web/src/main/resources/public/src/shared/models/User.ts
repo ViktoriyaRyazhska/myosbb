@@ -7,11 +7,10 @@ export class User {
     birthDate:string;
     email:string;
     phoneNumber:string;
-    gender:string;
-    password:number;
-    activated:boolean;
-    role:string;
     osbbId:number;
+    gender:string;
+    role:string;
+    activated:boolean;
     apartment:Apartment;
 
     constructor() {
@@ -22,7 +21,6 @@ export class User {
         this.email = new String();
         this.phoneNumber = new String();
         this.gender = new String();
-        this.password = new Number();
         this.activated = new Boolean();
         this.role = new String();
         this.osbbId= new Number();

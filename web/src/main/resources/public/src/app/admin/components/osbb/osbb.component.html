@@ -1,8 +1,12 @@
-<div class="panel panel-default pos-top sb-backdown">
+<div class="ui segment form">
+    <osbb-modal (created)="createOsbb($event)" (update)="editOsbb($event)" #addForm></osbb-modal>
+    <osbb-del-form (delete)="deleteOsbb($event)" #delForm></osbb-del-form>
+</div>
+<div class="panel panel-default pos-top sb-backdown animated slideInRight ">
     <div class="panel-heading">
         <h4>{{'osbb' | translate}}</h4>
     </div>
-    <div class="panel-body">
+    <div class="panel-body animated slideInRight">
         <div class="content-panel">
             <div class="btn-group" role="group" aria-label="...">
                 <button type="button" class="btn btn-default" (click)="initOsbbArr('All')">{{'osbb_active_all' | translate | capitalize}}
@@ -12,10 +16,7 @@
                 <button type="button" class="btn btn-default" (click)="initOsbbArr('NotAvailable')">{{'osbb_not_active' | translate | capitalize}}
                     </button>
             </div>
-            <div class="ui segment form">
-                <osbb-modal (created)="createOsbb($event)" (update)="editOsbb($event)" #addForm></osbb-modal>
-                <osbb-del-form (delete)="deleteOsbb($event)" #delForm></osbb-del-form>
-            </div>
+
             <div class="pull-left">
                 <button (click)="addForm.openAddModal()" type="button" class="glyphicon glyphicon-plus btn btn-primary "></button>
             </div>

@@ -1,4 +1,4 @@
-<section class="profile col-xs-12 ">
+<section class="profile col-xs-12 animated  slideInRight">
     <div class="top-label">
         <h3 class="">Personal information</h3>
     </div>
@@ -10,49 +10,48 @@
         <button type="button" class="col-xs-12 btn btn-primary" data-toggle="modal" data-target="#modal">
             <i class="fa fa-pencil-square-o" aria-hidden="true">  </i>Редагувати
         </button>
-        <button class="col-xs-12 btn btn-primary">Рахунки</button>
+        <button class="col-xs-12 btn btn-primary">Змінити пароль</button>
         <button class="col-xs-12 btn btn-primary" [routerLink]="['settings']">
             <i class="glyphicon glyphicon-cog"></i>
             <span> {{ 'settings' | translate | capitalize }}</span>
         </button>
     </div>
-    <div class="row col-xs-7">
-        <div class="task-panel tasks-widget col-xs-12 right ">
+    <div class="row col-xs-7 right">
+        <div class="task-panel tasks-widget col-xs-12 right-user-data">
             <div class="col-xs-12">
                 <label class="col-xs-6"><b>ім'я</b></label>
                 <h5 class="col-xs-6">{{currentUser.firstName}}</h5>
             </div>
+
             <div class="col-xs-12">
                 <label class="col-xs-6"><b>Фамілія</b></label>
                 <h5 class="col-xs-6">{{currentUser.lastName}}</h5>
+
             </div>
             <div class="col-xs-12">
                 <label class="col-xs-6"><b>Дата народження</b></label>
                 <h5 class="col-xs-6">{{getTime(currentUser.birthDate)}}</h5>
+
             </div>
             <div class="col-xs-12">
                 <label class="col-xs-6"><b>Емейл</b></label>
                 <h5 class="col-xs-6">{{currentUser.email}}</h5>
+
             </div>
             <div class="col-xs-12">
                 <label class="col-xs-6"><b>Номер телефону</b></label>
                 <h5 class="col-xs-6">{{currentUser.phoneNumber}}</h5>
+
             </div>
             <div class="col-xs-12">
-                <label class="col-xs-6"><b>Активований</b></label>
-                <h5 class="col-xs-6">{{currentUser.activated}}</h5>
+                <label class="col-xs-6"><b>Гендер</b></label>
+                <h5 class="col-xs-6">{{currentUser.gender}}</h5>
             </div>
+
             <div class="col-xs-12">
             </div>
         </div>
-        <div class="col-xs-12 task-panel tasks-widget images">
-            <div class="col-xs-9 ">
-                <label><b>Вхід дійсний до</b></label>
-                <h2>{{expToken}}</h2>
-            </div>
-            <div class="col-xs-3">
-                <button class="btn btn-primary" (click)="refreshToken()"><i class="fa fa-refresh fa-5x"></i></button>
-            </div>
+        <div class="col-xs-12 task-panel tasks-widget images right-user-panel">
         </div>
     </div>
 </section>
@@ -106,7 +105,7 @@
             </div>
             <div class="modal-footer">
                 <button data-dismiss="modal" class="col-xs-3 btn btn-danger">Закрити</button>
-                <button data-dismiss="modal" class="col-xs-3  btn btn-primary">Зберегти</button>
+                <button (click)="changeUser()" class="col-xs-3  btn btn-primary">Зберегти</button>
             </div>
         </div>
     </div>

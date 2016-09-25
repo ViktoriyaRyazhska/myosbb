@@ -28,7 +28,15 @@
 .left{
     height:75%;
 }
-
+.right{
+    height:75%;
+}
 .right label{
     margin-top: 20px;
+}
+.right-user-data{
+    height:70%;
+}
+.right-user-panel{
+    height: 28%;
 }
