@@ -111,7 +111,7 @@ export class VoteComponent implements OnInit {
 
     closeVote(vote: Vote):void {
         vote.available = false;
-        this.voteService.closeVote(vote);
+        this.voteService.closeVote(vote.voteId);
     }
 
     private deleteVoteFromArr(vote: Vote): void {
