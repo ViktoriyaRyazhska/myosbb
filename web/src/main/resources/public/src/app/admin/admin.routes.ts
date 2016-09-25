@@ -40,8 +40,8 @@ export const adminRoutes:RouterConfig = [
             {path: 'role', component: RoleComponent},
             {path: 'friend/:id', component: UserProfileComponent},
             {path: 'apartments/apartmentprofile/:id', component: ApartmentProfileAdminComponent},
-            {path: 'role', component: RoleComponent}
-            {path: 'user/:id', component: UserProfileAdminComponent}
+            {path: 'role', component: RoleComponent},
+            {path: 'friend/:id', component: UserProfileAdminComponent}
 
 ]
     },

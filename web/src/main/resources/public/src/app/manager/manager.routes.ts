@@ -31,7 +31,7 @@ export const managerRoutes:RouterConfig = [
             {path: 'event/:id', component: EventShowComponent},
             {path: 'calendar', component: CalendarHomeComponent},
             {path: 'contract', component: ContractComponent},
-            {path: 'user/:id', component: UserProfileManagerComponent},
+            {path: 'friend/:id', component: UserProfileManagerComponent},
 
 
 

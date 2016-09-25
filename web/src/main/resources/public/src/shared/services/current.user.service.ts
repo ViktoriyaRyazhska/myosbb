@@ -104,13 +104,13 @@ export class CurrentUserService {
         }
         else {
             if (this.currentUser.role == "ROLE_ADMIN") {
-                this.router.navigate(['admin/user', id]);
+                this.router.navigate(['admin/friend', id]);
             }
             if (this.currentUser.role == "ROLE_USER") {
-                this.router.navigate(['home/user', id]);
+                this.router.navigate(['home/friend', id]);
             }
             if (this.currentUser.role == "ROLE_MANAGER") {
-                this.router.navigate(['manager/user', id]);
+                this.router.navigate(['manager/friend', id]);
             }
         }
     }
