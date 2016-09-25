@@ -9,6 +9,12 @@
                 </a>
             </li>
             <li class="sub-menu">
+                <a [routerLink]="['apartment']">
+                    <i class="fa fa-home fa-fw fa-4x"></i>
+                    <span>{{ 'apartments' | translate | capitalize }}</span>
+                </a>
+            </li>
+            <li class="sub-menu">
                 <a [routerLink]="['events']">
                     <i class="fa fa-user"></i>
                     <span>{{ 'events' | translate | capitalize }}</span>

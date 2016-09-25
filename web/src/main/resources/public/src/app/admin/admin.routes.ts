@@ -8,7 +8,7 @@ import {RoleComponent} from "./components/role/role.component";
 import {HouseShowAdminComponent} from "./components/house/house_show.admin.component";
 import {TicketAdminComponent} from "./components/ticket/ticket.component.admin";
 import {TicketSingleAdminComponent} from "./components/ticket/single.ticket.component.admin";
-import {ApartmentProfileComponent} from "../../app/user/ApartmentProfile/apartment.profile"
+import {ApartmentProfileAdminComponent} from  "./components/apartment/apartment.profile.admin.component";
 import {AdminLoginGuard} from "../../shared/guard/admin.login.guard";
 import {EventAdminComponent} from "./components/event/event.admin.component";
 import {EventShowAdminComponent} from "./components/event/event.show.admin.component";
@@ -16,7 +16,7 @@ import {AttachmentAdminComponent} from "./components/attachment/attachment.compo
 import {UserProfileComponent} from "./../home/user/user.profile.component";
 import {CalendarAdminComponent} from "./components/calendar/calendar.admin.component";
 
-export const adminRoutes: RouterConfig = [
+export const adminRoutes:RouterConfig = [
     {
         path: 'admin',
         component: AdminComponent,
@@ -36,11 +36,14 @@ export const adminRoutes: RouterConfig = [
             {path: 'users', component: UsersComponent},
             {path: 'ticket', component: TicketAdminComponent},
             {path: 'ticket/:id', component: TicketSingleAdminComponent},
-            {path: 'apartments/apartmentprofile/:id', component: ApartmentProfileComponent},
             {path: 'role', component: RoleComponent},
             {path: 'users/:id', component: UserProfileComponent},
             {path: 'friend/:id', component: UserProfileComponent},
-]
+            {path: 'apartments/apartmentprofile/:id', component: ApartmentProfileAdminComponent},
+            {path: 'role', component: RoleComponent}
+        ]
+
+
     },
 
 

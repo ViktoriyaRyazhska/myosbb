@@ -31,10 +31,10 @@ INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,ph
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1994-08-18','nkharabaruk@gmail.com','Nataliia','female','Kharabaruk','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0638142706','1',4,TRUE );
 
 
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1994-12-16','svitlanaKoval@gmail.com','Svitlana','male','Koval','$2a$08$wIri8hT4wjBAM5Ssfz3N/ueLbSy80mO4hsVhTsdS67YR9wbjCBy2C','095729666','1',8,FALSE );
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1994-12-16','oleg2koval@gmail.com','Ruslan','male','Koval','$2a$08$wIri8hT4wjBAM5Ssfz3N/ueLbSy80mO4hsVhTsdS67YR9wbjCBy2C','095729666','1',8,FALSE );
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1994-12-16','oleg1koval@gmail.com','Sergiy','male','Koval','$2a$08$wIri8hT4wjBAM5Ssfz3N/ueLbSy80mO4hsVhTsdS67YR9wbjCBy2C','095729666','1',8,FALSE );
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1994-12-16','oleg11koval@gmail.com','Andriy','male','Koval','$2a$08$wIri8hT4wjBAM5Ssfz3N/ueLbSy80mO4hsVhTsdS67YR9wbjCBy2C','095729666','1',8,FALSE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1994-12-16','svitlanaKoval@gmail.com','Svitlana','male','Koval','$2a$08$wIri8hT4wjBAM5Ssfz3N/ueLbSy80mO4hsVhTsdS67YR9wbjCBy2C','095729666','1',8,FALSE,TRUE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1994-12-16','oleg2koval@gmail.com','Ruslan','male','Koval','$2a$08$wIri8hT4wjBAM5Ssfz3N/ueLbSy80mO4hsVhTsdS67YR9wbjCBy2C','095729666','1',8,FALSE,TRUE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1994-12-16','oleg1koval@gmail.com','Sergiy','male','Koval','$2a$08$wIri8hT4wjBAM5Ssfz3N/ueLbSy80mO4hsVhTsdS67YR9wbjCBy2C','095729666','1',8,FALSE ,TRUE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1994-12-16','oleg11koval@gmail.com','Andriy','male','Koval','$2a$08$wIri8hT4wjBAM5Ssfz3N/ueLbSy80mO4hsVhTsdS67YR9wbjCBy2C','095729666','1',8,FALSE ,TRUE );
 
 
 INSERT INTO provider_type ( type_name) VALUES ('Internet');

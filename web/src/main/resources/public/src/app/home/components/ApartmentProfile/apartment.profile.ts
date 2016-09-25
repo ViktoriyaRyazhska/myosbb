@@ -7,16 +7,16 @@ import {apartmentProfileService} from './apartment.profile.service';
 import {DatePipe} from '@angular/common';
 import {Bill} from "../../../shared/models/bill.model";
 import {User} from "../../../shared/models/User";
-import{CurrentUserService} from "../../../shared/services/current.user.service";
-import{IApartment} from "../../../shared/models/apartment.interface";
+import{CurrentUserService} from "../../../../shared/services/current.user.service";
+import{Apartment} from "../../../shared/models/apartment.interface";
 
 @Component({
-    selector:'app-profile',
-    templateUrl:'src/app/user/ApartmentProfile/apartment.profile.html',
+    selector:'apartment-profile',
+    templateUrl:'src/app/home/components/ApartmentProfile/apartment.profile.html',
     providers: [ apartmentProfileService],
     directives:[MODAL_DIRECTIVES],
     viewProviders: [BS_VIEW_PROVIDERS],
-    styleUrls: ['src/app/user/ApartmentProfile/apartmentStyle.css']
+    styleUrls: ['src/app/home/components/ApartmentProfile/apartmentStyle.css']
 })
 
 
@@ -28,10 +28,10 @@ export class ApartmentProfileComponent {
     paramsSub:any;
     isUser:boolean = false;
     private currentUser:User;
-    private currentApartment:IApartment={apartmentId:0,square:0,number:0,owner:0,house:0,bills:[]};
+    private currentApartment:Apartment={apartmentId:0,square:0,number:0,owner:0,house:0,bills:[]};
    private usersInApartment:User[];
     private countOfUsers:number=2;
-    private owner:User={userId:1,phoneNumber:'',email:''};
+    private owner:User={userId:0,phoneNumber:'відсутній',email:''};
     active:boolean = true;
 
 

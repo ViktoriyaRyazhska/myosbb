@@ -21,13 +21,12 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Integer> {
 
     Apartment findByOwner(Integer owner);//do not delete this!!!
 
+    @Query("select ap from Apartment ap where ap.number=:number")
+    Page<Apartment> findByNumberToAdmin(Pageable pageable,@Param("number") Integer number);
 
-   // @Query("select ap from Apartment ap where ap.number=:osbbId")
-   // @Query(value = "SELECT  FROM Apartment  JOIN house ON apartment.house_id=house.house_id\n" +
-           // "WHERE house.osbb_id=:osbbId",nativeQuery = true)
-    //@Query("select ap from Apartment ap where ap.number=:osbbId")
    @Query("select ap from Apartment ap join ap.house h join h.osbb o where o.osbbId=:osbbId")
-    Page<Apartment> findAll(Pageable pageable,@Param("osbbId") Integer osbbId);
+    Page<Apartment> findAllForUser(Pageable pageable,@Param("osbbId") Integer osbbId);
+    Page<Apartment> findAll(Pageable pageable);
 
 
 }

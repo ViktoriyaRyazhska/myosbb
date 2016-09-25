@@ -24,15 +24,10 @@ public interface ApartmentService {
 
     void deleteApartmentByID(Integer id);
 
-    void deleteAllApartmnets();
-
-    long countApartments();
-
-    boolean existsApartment(Integer id);
-
     Apartment updateApartment(Apartment apartment);
 
-
     Page<Apartment> getAllApartment(Integer pageNumber, String sortedBy, Boolean ascOrder,Integer number,Integer osbbID);
+
+    Page<Apartment> getAllApartmentsToAdmin(Integer pageNumber, String sortedBy, Boolean ascOrder,Integer number);
 
 }

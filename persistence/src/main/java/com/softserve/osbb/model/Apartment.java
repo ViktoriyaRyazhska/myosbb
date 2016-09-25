@@ -65,7 +65,7 @@ public class Apartment implements Serializable {
         return HashCodeBuilder.reflectionHashCode(this);
     }
 
-    @ManyToOne( fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "house_id", referencedColumnName = "house_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public House getHouse() {
@@ -85,8 +85,9 @@ public class Apartment implements Serializable {
     public void setUsers(List<User> users) {
         this.users = users;
     }
+
     @Basic
-    @Column(name="owner_id")
+    @Column(name = "owner_id")
     public Integer getOwner() {
         return owner;
     }
@@ -95,7 +96,7 @@ public class Apartment implements Serializable {
         this.owner = owner;
     }
 
-    @OneToMany(mappedBy = "apartment",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "apartment", cascade = CascadeType.ALL)
     @JsonIgnore
     public Collection<Bill> getBills() {
         return bills;

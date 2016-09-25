@@ -2,7 +2,7 @@ import {Http, Headers,RequestOptions} from '@angular/http';
 import {Injectable} from "@angular/core";
 import {Observable} from 'rxjs/observable';
 import 'rxjs/add/operator/map';
-import ApiService = require("../../../shared/services/api.service");
+import ApiService = require("../../../../shared/services/api.service");
 
 @Injectable ()
 export class apartmentProfileService{

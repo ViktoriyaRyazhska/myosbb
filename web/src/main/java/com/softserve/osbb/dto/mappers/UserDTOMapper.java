@@ -18,6 +18,7 @@ public class UserDTOMapper {
             userDTO.setLastName(user.getLastName());
             userDTO.setEmail(user.getEmail());
             userDTO.setOsbbId(user.getOsbb().getOsbbId());
+            userDTO.setPhoneNumber(user.getPhoneNumber());
         }
         return userDTO;
     }

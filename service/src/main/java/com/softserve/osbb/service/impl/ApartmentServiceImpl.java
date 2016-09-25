@@ -56,36 +56,25 @@ public class ApartmentServiceImpl implements ApartmentService {
 
 
     @Override
-    public void deleteAllApartmnets() {
-
-        apartmentRepository.deleteAll();
-    }
-
-    @Override
     public Apartment updateApartment(Apartment apartment) {
         return
 
                 apartmentRepository.saveAndFlush(apartment);
     }
 
-    @Override
-    public long countApartments() {
-
-        return apartmentRepository.count();
-    }
 
     @Override
-    public boolean existsApartment(Integer id) {
-
-        return apartmentRepository.exists(id);
-    }
-
-
-    @Override
-    public Page<Apartment> getAllApartment(Integer pageNumber, String sortBy, Boolean order, Integer number,Integer osbbId) {
+    public Page<Apartment> getAllApartment(Integer pageNumber, String sortBy, Boolean order, Integer number, Integer osbbId) {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, Constants.DEF_ROWS,
                 getSortingOrder(order), sortBy == null ? "number" : sortBy);
-        return number!=null?apartmentRepository.findByNumber(pageRequest,number,osbbId): apartmentRepository.findAll(pageRequest,osbbId);
+        return number != null ? apartmentRepository.findByNumber(pageRequest, number, osbbId) : apartmentRepository.findAllForUser(pageRequest, osbbId);
+    }
+
+    @Override
+    public Page<Apartment> getAllApartmentsToAdmin(Integer pageNumber, String sortBy, Boolean order, Integer number) {
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, Constants.DEF_ROWS,
+                getSortingOrder(order), sortBy == null ? "number" : sortBy);
+        return number != null ? apartmentRepository.findByNumberToAdmin(pageRequest, number) : apartmentRepository.findAll(pageRequest);
     }
 
 
