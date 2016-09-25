@@ -63,7 +63,7 @@
                     <td>{{formatDate(event.start)}}</td>
                     <td>{{formatDate(event.end)}}</td>
                     <td>{{event.repeat | translate}}</td>
-                    <td>{{event.author.firstName + " " + event.author.lastName}}</td>
+                    <td><a (click)="toUser(event.author.userId)">{{event.author.firstName + " " + event.author.lastName}}</a></td>
                     <td>
                         <div *ngIf="event.status == 'FINISHED'">
                             <span class="label btn-round label-danger">{{event.status.toLowerCase() | translate | capitalize}}</span>

@@ -77,11 +77,9 @@ export class UserCalendarComponent implements OnInit {
     handleDayClick(event) {
         this.event = new Event();
         this.event.start = <Date>moment(event.date).format("YYYY-MM-DDTHH:mm:ss");
-        var duration = moment.duration({'days' : 1});
-        this.event.end = <Date>moment(event.date).add(duration).format("YYYY-MM-DDTHH:mm:ss");
+        this.event.end = <Date>moment(event.date).hours(12).minute(0).format("YYYY-MM-DDTHH:mm:ss");
         console.log(this.event.start);
         this.dialogVisible = true;
-        //trigger detection manually as somehow only moving the mouse quickly after click triggers the automatic detection
         this.cd.detectChanges();
     }
 

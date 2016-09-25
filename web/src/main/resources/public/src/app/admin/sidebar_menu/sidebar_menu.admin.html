@@ -27,6 +27,12 @@
                 </a>
             </li>
             <li class="sub-menu">
+                <a [routerLink]="['calendar']">
+                    <i class="fa fa-calendar"></i>
+                    <span>{{'calendar' | translate | capitalize}}</span>
+                </a>
+            </li>
+            <li class="sub-menu">
                 <a [routerLink]="['events']">
                     <i class="fa fa-calendar"></i>
                     <span>{{'events' | translate | capitalize}}</span>

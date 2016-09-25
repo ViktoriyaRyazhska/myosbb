@@ -14,6 +14,7 @@ import {EventAdminComponent} from "./components/event/event.admin.component";
 import {EventShowAdminComponent} from "./components/event/event.show.admin.component";
 import {AttachmentAdminComponent} from "./components/attachment/attachment.component";
 import {UserProfileComponent} from "./../home/user/user.profile.component";
+import {CalendarAdminComponent} from "./components/calendar/calendar.admin.component";
 
 export const adminRoutes: RouterConfig = [
     {
@@ -30,14 +31,15 @@ export const adminRoutes: RouterConfig = [
             {path: 'apartments', component: ApartmentTableAdminComponent},
             {path: 'events', component: EventAdminComponent},
             {path: 'event/:id', component: EventShowAdminComponent},
+            {path: 'calendar', component: CalendarAdminComponent},
             {path: 'attachments', component: AttachmentAdminComponent},
             {path: 'users', component: UsersComponent},
             {path: 'ticket', component: TicketAdminComponent},
             {path: 'ticket/:id', component: TicketSingleAdminComponent},
             {path: 'apartments/apartmentprofile/:id', component: ApartmentProfileComponent},
             {path: 'role', component: RoleComponent},
-            {path: 'users/:id', component: UserProfileComponent}
-
+            {path: 'users/:id', component: UserProfileComponent},
+            {path: 'friend/:id', component: UserProfileComponent},
 ]
     },
 
