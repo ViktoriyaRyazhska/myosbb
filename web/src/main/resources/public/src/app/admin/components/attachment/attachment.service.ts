@@ -9,31 +9,26 @@ import ApiService = require("../../../../shared/services/api.service");
 @Injectable()
 export class AttachmentService {
 
-    private url = ApiService.serverUrl + '/restful/attachment/';
-
-    private getAttachmentUrl = ApiService.serverUrl + '/restful/attachment?pageNumber=';
-    private delAttachmentUrl = ApiService.serverUrl + '/restful/attachment/';
-    private delAllAttachmentUrl = ApiService.serverUrl + '/restful/attachment/';
-    private updateAttachmentUrl = ApiService.serverUrl + '/restful/attachment/';
-    private downloadAttachmentUrl = ApiService.serverUrl + '/restful/attachment/';
+    private attachmentUrl = ApiService.serverUrl + '/restful/attachment/';
+    private getAttachmentPageUrl = ApiService.serverUrl + '/restful/attachment?pageNumber=';
 
     constructor(private _http:Http) {
     }
 
     getAllAttachments(pageNumber:number):Observable<any> {
-        return this._http.get(this.getAttachmentUrl + pageNumber)
+        return this._http.get(this.getAttachmentPageUrl + pageNumber)
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
 
     getAllAttachmentsSorted(pageNumber:number, name:string, order:boolean):Observable<any> {
-        return this._http.get(this.getAttachmentUrl + pageNumber + '&&sortedBy=' + name + '&&asc=' + order)
+        return this._http.get(this.getAttachmentPageUrl + pageNumber + '&&sortedBy=' + name + '&&asc=' + order)
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
 
     deleteAttachmentById(attachmentId:number) {
-        let url = this.delAttachmentUrl + attachmentId;
+        let url = this.attachmentUrl + attachmentId;
         console.log('delete attachment by id: ' + attachmentId);
         return this._http.delete(url)
             .toPromise()
@@ -43,7 +38,7 @@ export class AttachmentService {
 
     deleteAllAttachments() {
         console.log('delete all attachments');
-        return this._http.delete(this.delAllAttachmentUrl)
+        return this._http.delete(this.attachmentUrl)
             .toPromise()
             .catch((error)=>console.error(error));
     }
@@ -56,14 +51,14 @@ export class AttachmentService {
     }
 
     put(attachment:Attachment) {
-        return this._http.put(this.updateAttachmentUrl, JSON.stringify(attachment))
+        return this._http.put(this.attachmentUrl, JSON.stringify(attachment))
             .toPromise()
             .then(()=>attachment)
             .catch((error)=>console.error(error));
     }
 
     uploadAttachment(attachment:Attachment): Promise<Attachment> {
-        return this._http.post(this.downloadAttachmentUrl, attachment)
+        return this._http.post(this.attachmentUrl, attachment)
             .toPromise()
             .then(()=>attachment)
             .catch((error)=>console.error(error));
@@ -72,13 +67,13 @@ export class AttachmentService {
     findAttachmentByPath(search: string) :  Observable<any>{
         console.log("searching attachments");
         console.log("param is" + search);
-        return  this._http.get(this.url + "find?path="+search)
+        return  this._http.get(this.attachmentUrl + "find?path="+search)
             .map(res => res.json())
             .catch((err)=>Observable.throw(err));
     }
 
     findLast(count: number): Observable<any>{
-        return  this._http.get(this.url + "last/" + count)
+        return  this._http.get(this.attachmentUrl + "last/" + count)
             .map(res => res.json())
             .catch((err)=>Observable.throw(err));
     }

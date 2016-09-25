@@ -227,7 +227,7 @@
                                     <div *ngFor="let attachment of selectedEvent.attachments" class="col-sm-3">
                                         <div class="thumbnail">
                                             <i class="close col-sm-2" (click)="removeAttachment(attachment)">×</i>
-                                            <img src="{{attachment.url}}" class="img-responsive"
+                                            <img [src]="getPreview(attachment)" class="img-responsive"
                                                  style="width:100px;height:80px">
                                         </div>
                                     </div>

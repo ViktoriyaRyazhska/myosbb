@@ -69,6 +69,7 @@ export class EventComponent implements OnInit, OnDestroy {
             this.repeat.push(PeriodicityItems[i]);
         }
         this.getRepeatTranslation();
+        this.newEvent.attachments = [];
         this.getEventsByPageNum(this.pageNumber);
     }
 
@@ -224,10 +225,10 @@ export class EventComponent implements OnInit, OnDestroy {
 
     public onUpload(attachments:Attachment[]) {
         if (this.createModal.isShown) {
-            this.newEvent.attachments.push(attachments);
+            this.newEvent.attachments = this.newEvent.attachments.concat(attachments);
         }
         if (this.editModal.isShown) {
-            this.selectedEvent.attachments.push(attachments);
+            this.selectedEvent.attachments = this.selectedEvent.attachments.concat(attachments);
         }
     }
 

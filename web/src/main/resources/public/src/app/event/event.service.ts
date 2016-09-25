@@ -10,20 +10,16 @@ import ApiService = require("../../shared/services/api.service");
 @Injectable()
 export class EventService {
 
-    private url = ApiService.serverUrl + '/restful/event/';
-    private getEventUrl = ApiService.serverUrl + '/restful/event?pageNumber=';
-    private getEventStatusUrl = ApiService.serverUrl + '/restful/event/status?status=';
+    private eventUrl = ApiService.serverUrl + '/restful/event/';
+    private getEventPageUrl = ApiService.serverUrl + '/restful/event?pageNumber=';
+    private getEventsByStatusUrl = ApiService.serverUrl + '/restful/event/status?status=';
     private getEventsByAuthorUrl = ApiService.serverUrl + '/restful/event/author';
-    private delEventUrl = ApiService.serverUrl + '/restful/event/';
-    private delAllEventUrl = ApiService.serverUrl + '/restful/event/';
-    private updateEventUrl = ApiService.serverUrl + '/restful/event/';
-    private postEventUrl = ApiService.serverUrl + '/restful/event';
 
     constructor(private _http:Http) {
     }
 
     getEvents() {
-        return this._http.get(this.url)
+        return this._http.get(this.eventUrl)
             .toPromise()
             .then(res => <any[]> res.json())
             .then(data => { return data; });
@@ -31,25 +27,25 @@ export class EventService {
 
     getEvent(id:number): Observable<any> {
         console.log('get event by id: ' + id);
-        return this._http.get(this.url + id)
+        return this._http.get(this.eventUrl + id)
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
 
     getAllEvents(pageNumber:number):Observable<any> {
-        return this._http.get(this.getEventUrl + pageNumber)
+        return this._http.get(this.getEventPageUrl + pageNumber)
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
 
     getAllEventsSorted(pageNumber:number, title:string, order:boolean):Observable<any> {
-        return this._http.get(this.getEventUrl + pageNumber + '&&sortedBy=' + title + '&&asc=' + order)
+        return this._http.get(this.getEventPageUrl + pageNumber + '&&sortedBy=' + title + '&&asc=' + order)
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
 
     deleteEventById(id:number) {
-        let url = this.delEventUrl + id;
+        let url = this.eventUrl + id;
         console.log('delete event by id: ' + id);
         return this._http.delete(url)
             .toPromise()
@@ -58,7 +54,7 @@ export class EventService {
 
     deleteAllEvents() {
         console.log('delete all events');
-        return this._http.delete(this.delAllEventUrl)
+        return this._http.delete(this.eventUrl)
             .toPromise()
             .catch((error)=>console.error(error));
     }
@@ -73,7 +69,7 @@ export class EventService {
     put(event:Event) {
         event.start = <Date>moment(event.start).format("YYYY-MM-DDTHH:mmZZ");
         event.end = <Date>moment(event.end).format("YYYY-MM-DDTHH:mmZZ");
-        return this._http.put(this.updateEventUrl, JSON.stringify(event))
+        return this._http.put(this.eventUrl, JSON.stringify(event))
             .toPromise()
             .then(()=>event)
             .catch((error)=>console.error(error));
@@ -82,7 +78,7 @@ export class EventService {
     addEvent(event:Event): Promise<Event> {
         event.start = <Date>moment(event.start).format("YYYY-MM-DDTHH:mmZZ");
         event.end = <Date>moment(event.end).format("YYYY-MM-DDTHH:mmZZ");
-        return this._http.post(this.postEventUrl, JSON.stringify(event))
+        return this._http.post(this.eventUrl, JSON.stringify(event))
             .toPromise()
             .then(()=>event)
             .catch((error)=>console.error(error));
@@ -91,14 +87,14 @@ export class EventService {
     findEventsByNameOrAuthorOrDescription(search: string): Observable<any>{
         console.log("searching events");
         console.log("param is" + search);
-        return  this._http.get(this.url + "find?title=" + search)
+        return  this._http.get(this.eventUrl + "find?title=" + search)
             .map(res => res.json())
             .catch((err)=>Observable.throw(err));
     }
 
     findEventsByStatus(status: string): Observable<any>{
         console.log("searching events by status - " + status);
-        return  this._http.get(this.getEventStatusUrl + status)
+        return  this._http.get(this.getEventsByStatusUrl + status)
             .map(res => res.json())
             .catch((err)=>Observable.throw(err));
     }

@@ -12,63 +12,29 @@ import ApiService = require("../../../shared/services/api.service");
 import FileLocationPath = require("../../../shared/services/file.location.path");
 import {FileUploadComponent} from "./modals/file-upload-modal";
 
-declare var saveAs:any;
-
 @Component({
     selector: 'my-attachment',
     templateUrl: 'src/app/admin/components/attachment/attachment.html',
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
     providers: [AttachmentService],
     directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, FileSelectDirective, FileDropDirective, FileUploadComponent],
-    viewProviders: [BS_VIEW_PROVIDERS],
-    styleUrls: ['src/app/admin/components/attachment/attachment.css']
+    viewProviders: [BS_VIEW_PROVIDERS]
 })
 export class AttachmentAdminComponent implements OnInit, OnDestroy {
+
+    @ViewChild('delModal') public delModal:ModalDirective;
+    @ViewChild('delAllModal') public delAllModal:ModalDirective;
 
     private attachments:Attachment[];
     private pageCreator:PageCreator<Attachment>;
     private pageNumber:number = 1;
     private pageList:Array<number> = [];
     private totalPages:number;
-    @ViewChild('delModal') public delModal:ModalDirective;
-    @ViewChild('delAllModal') public delAllModal:ModalDirective;
-    order:boolean = true;
+    private order:boolean = true;
     private pending:boolean = false;
     private attachmentId:number;
 
     constructor(private _attachmentService:AttachmentService) {
-    }
-
-    public onUploadAttachment(attachments: Attachment[]) {
-        attachments.forEach(a => this.attachments.push(a));
-    }
-
-    getPreview(attachment: Attachment): string {
-        return this._attachmentService.getPreview(attachment);
-    }
-
-    openDelModal(id:number) {
-        this.attachmentId = id;
-        console.log('show', this.attachmentId);
-        this.delModal.show();
-    }
-
-    closeDelModal() {
-        console.log('delete', this.attachmentId);
-        this._attachmentService.deleteAttachmentById(this.attachmentId)
-            .then(() => this.getAttachmentsByPageNum(this.pageNumber));
-        this.delModal.hide();
-    }
-
-    openDelAllModal() {
-        this.delAllModal.show();
-    }
-
-    closeDelAllModal() {
-        console.log('delete all');
-        this._attachmentService.deleteAllAttachments()
-            .then(() => this.getAttachmentsByPageNum(this.pageNumber));
-        this.delAllModal.hide();
     }
 
     ngOnInit():any {
@@ -131,10 +97,6 @@ export class AttachmentAdminComponent implements OnInit, OnDestroy {
                 });
     }
 
-    ngOnDestroy():any {
-        //this.subscriber.unsubscribe();
-    }
-
     onSearch(search:string){
         console.log("inside search: search param" + search);
         this._attachmentService.findAttachmentByPath(search)
@@ -142,5 +104,41 @@ export class AttachmentAdminComponent implements OnInit, OnDestroy {
                 console.log("data: " + attachments);
                 this.attachments = attachments;
             });
+    }
+
+    openDelModal(id:number) {
+        this.attachmentId = id;
+        console.log('show', this.attachmentId);
+        this.delModal.show();
+    }
+
+    closeDelModal() {
+        console.log('delete', this.attachmentId);
+        this._attachmentService.deleteAttachmentById(this.attachmentId)
+            .then(() => this.getAttachmentsByPageNum(this.pageNumber));
+        this.delModal.hide();
+    }
+
+    openDelAllModal() {
+        this.delAllModal.show();
+    }
+
+    closeDelAllModal() {
+        console.log('delete all');
+        this._attachmentService.deleteAllAttachments()
+            .then(() => this.getAttachmentsByPageNum(this.pageNumber));
+        this.delAllModal.hide();
+    }
+
+    public onUploadAttachment(attachments: Attachment[]) {
+        attachments.forEach(a => this.attachments.push(a));
+    }
+
+    getPreview(attachment: Attachment): string {
+        return this._attachmentService.getPreview(attachment);
+    }
+
+    ngOnDestroy():any {
+
     }
 }

@@ -51,6 +51,7 @@ export class FileUploadComponent {
     closeUploadModal() {
         console.log('closing upload modal');
         this.upload.emit(this.uploader.toReturn);
+        this.uploader.toReturn = [];
         this.uploader.clearQueue();
         this.uploadModal.hide();
     }
