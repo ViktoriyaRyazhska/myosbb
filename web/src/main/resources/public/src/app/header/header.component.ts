@@ -93,6 +93,13 @@ export class HeaderComponent implements OnInit,OnDestroy {
         this.sub.unsubscribe();
     }
 
+    onSelect(lang) {
+        this.selectedLang = lang;
+        this.translate.use(lang);
+        this.translate.currentLang = lang;
+        console.log("current lang: ", this.translate.currentLang);
+    }
+
    getNotice() {
         this.settingsService.getSettingsForUser()
             .then(settings =>this.settings = settings);
@@ -156,6 +163,7 @@ isSettings():boolean {
             this.commentNoticeLength--;
         }
     }
+
 
         removeTicketNotice(notice:Notice) {
         let index = this.ticketNotice.indexOf(notice);
