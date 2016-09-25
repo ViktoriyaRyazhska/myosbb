@@ -20,16 +20,16 @@ import {Attachment} from "../admin/components/attachment/attachment.interface";
     directives: [HeaderComponent, MODAL_DIRECTIVES],
     providers: [EventService, AttachmentService],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
-    viewProviders: [BS_VIEW_PROVIDERS, CORE_DIRECTIVES],
-    styleUrls: ['src/app/event/event.css']
+    viewProviders: [BS_VIEW_PROVIDERS, CORE_DIRECTIVES]
 })
 export class EventShowComponent implements OnInit, OnDestroy {
 
+    @ViewChild('previewModal')
+
+    public previewModal:ModalDirective;
     private event: Event;
     private eventId: number;
     private sub: Subscription;
-    @ViewChild('previewModal')
-    public previewModal:ModalDirective;
     private attachment: Attachment = <Attachment>{fileName: "", url: ""};
 
     constructor(private _eventService: EventService, private _routeParams: ActivatedRoute,
@@ -60,20 +60,16 @@ export class EventShowComponent implements OnInit, OnDestroy {
         this._location.back();
     }
 
-    formatDate(date: DateTime) {
-        return moment(date).format("DD.MM.YYYY hh:mm A");
-    }
-
     openPreviewModal(attachment: Attachment) {
         this.attachment = attachment;
         this.previewModal.show();
     }
 
-    formatDate(date: DateTime) {
-        return moment(date).format("DD.MM.YYYY hh:mm A");
-    }
-
     getPreview(attachment: Attachment) {
         return this._attachmentService.getPreview(attachment);
+    }
+
+    formatDate(date: DateTime) {
+        return moment(date).format("DD.MM.YYYY hh:mm A");
     }
 }

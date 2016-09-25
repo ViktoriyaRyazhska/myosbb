@@ -6,6 +6,6 @@ package com.softserve.osbb.model.enums;
 
 public enum EventStatus {
     FINISHED,
-    IN_PROGRESS,
+    IN_PROCESS,
     FUTURE
 }

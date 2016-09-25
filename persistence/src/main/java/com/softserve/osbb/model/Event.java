@@ -136,7 +136,7 @@ public class Event {
         } else if (now.compareTo(startTime) < 0) {
             return EventStatus.FUTURE;
         } else {
-            return EventStatus.IN_PROGRESS;
+            return EventStatus.IN_PROCESS;
         }
     }
 

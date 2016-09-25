@@ -12,50 +12,43 @@
                     <div class="task-content">
                         <ul class="task-list">
                             <li>
-                                <b>{{ 'name' | translate | capitalize }}:</b>
-                                <br>
+                                <b>{{ 'name' | translate | capitalize }}:</b><br>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{event.title}}</span>
                                 </div>
                             </li>
                             <li>
-                                <b>{{ 'author' | translate | capitalize }}:</b>
-                                <br>
+                                <b>{{ 'author' | translate | capitalize }}:</b><br>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{event.author.firstName + " " + event.author.lastName}}</span>
                                 </div>
                             </li>
                             <li>
-                                <b>{{ 'status' | translate | capitalize }}:</b>
-                                <br>
+                                <b>{{ 'status' | translate | capitalize }}:</b><br>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{event.status}}</span>
                                 </div>
                             </li>
                             <li>
-                                <b>{{ 'dateStart' | translate | capitalize }}:</b>
-                                <br>
+                                <b>{{ 'dateStart' | translate | capitalize }}:</b><br>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{formatDate(event.start)}}</span>
                                 </div>
                             </li>
                             <li>
-                                <b>{{ 'dateFinish' | translate | capitalize }}:</b>
-                                <br>
+                                <b>{{ 'dateFinish' | translate | capitalize }}:</b><br>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{formatDate(event.end)}}</span>
                                 </div>
                             </li>
                             <li>
-                                <b>{{ 'repeat' | translate | capitalize }}:</b>
-                                <br>
+                                <b>{{ 'repeat' | translate | capitalize }}:</b><br>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{event.repeat}}</span>
                                 </div>
                             </li>
                             <li>
-                                <b>{{ 'additionalInformation' | translate | capitalize }}:</b>
-                                <br>
+                                <b>{{ 'additionalInformation' | translate | capitalize }}:</b><br>
                                 <div class="task-title">
                                     <span class="task-title-sp">{{event.description}}</span>
                                 </div>

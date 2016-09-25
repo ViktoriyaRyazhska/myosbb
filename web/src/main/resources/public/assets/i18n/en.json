@@ -1,4 +1,4 @@
-{
+  {
   "HELLO": "privet",
   "ourYard": "OUR YARD",
   "events": "events",
@@ -9,7 +9,6 @@
   "author": "author",
   "additionalInformation": "add. information",
   "all": "all",
-  "allCapitalize": "ALL",
   "deleteAll": "delete all",
   "confirmDeleteEvents": "Do you really want to delete all events?",
   "createEvent": "create event",
@@ -18,9 +17,9 @@
   "title": "title",
   "start": "start",
   "end": "end",
-  "future": "FUTURE",
-  "inProgress": "IN PROGRESS",
-  "finished": "FINISHED",
+  "future": "future",
+  "in_process": "in process",
+  "finished": "finished",
   "optional": "optional",
   "allDay": "all day",
   "repeat": "repeat",

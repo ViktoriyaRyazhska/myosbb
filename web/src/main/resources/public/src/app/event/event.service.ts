@@ -11,7 +11,6 @@ import ApiService = require("../../shared/services/api.service");
 export class EventService {
 
     private url = ApiService.serverUrl + '/restful/event/';
-
     private getEventUrl = ApiService.serverUrl + '/restful/event?pageNumber=';
     private getEventStatusUrl = ApiService.serverUrl + '/restful/event/status?status=';
     private getEventsByAuthorUrl = ApiService.serverUrl + '/restful/event/author';
