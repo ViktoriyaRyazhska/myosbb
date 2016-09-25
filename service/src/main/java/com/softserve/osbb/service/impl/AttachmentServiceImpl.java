@@ -9,6 +9,7 @@ import liquibase.util.file.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -26,7 +27,6 @@ import java.util.Date;
 import java.util.List;
 
 import static com.softserve.osbb.utils.Constants.DATE_FORMATTER;
-import static com.softserve.osbb.utils.Constants.FILE_UPLOAD_PATH;
 
 /**
  * Created by nataliia on 11.07.16.
@@ -36,6 +36,12 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Autowired
     AttachmentRepository attachmentRepository;
+
+    @Value("${file.upload.path}")
+    private String FILE_UPLOAD_PATH;
+
+    @Value("${file.download.url}")
+    private String FILE_DOWNLOAD_URL;
 
     private static Logger logger = LoggerFactory.getLogger(AttachmentServiceImpl.class);
 
@@ -65,7 +71,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public Attachment saveAttachment(Attachment attachment) {
-        return attachmentRepository.save(attachment);
+        return attachmentRepository.save(getAttachmentWithUrl(attachment));
     }
 
     @Override
@@ -205,5 +211,10 @@ public class AttachmentServiceImpl implements AttachmentService {
         } catch (IOException e) {
             logger.error("Could not rename file " + file.getName());
         }
+    }
+
+    private Attachment getAttachmentWithUrl(Attachment attachment) {
+        attachment.setUrl(attachment.getPath().replace(FILE_UPLOAD_PATH, FILE_DOWNLOAD_URL));
+        return attachment;
     }
 }

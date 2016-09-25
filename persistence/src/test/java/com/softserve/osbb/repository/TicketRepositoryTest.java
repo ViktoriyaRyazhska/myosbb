@@ -6,7 +6,6 @@ import com.softserve.osbb.model.Attachment;
 import com.softserve.osbb.model.Ticket;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.model.enums.TicketState;
-import com.softserve.osbb.utils.Constants;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,9 +45,9 @@ public class TicketRepositoryTest {
         ticket.setTime(new Timestamp(new Date().getTime()));
         ticket.setUser(new User());
         Attachment attachment1 = new Attachment();
-        attachment1.setPath(Constants.FILE_UPLOAD_PATH + "someFile.txt");
+        attachment1.setPath("/var/www/html/static/someFile.txt");
         Attachment attachment2 = new Attachment();
-        attachment2.setPath(Constants.FILE_UPLOAD_PATH + "anotherFile.jpg");
+        attachment2.setPath("/var/www/html/static/anotherFile.jpg");
         ticket.setAttachments(Arrays.asList(attachment1, attachment2));
     }
 
