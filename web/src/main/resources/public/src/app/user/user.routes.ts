@@ -20,15 +20,15 @@ export const userRoutes: RouterConfig = [
         path: 'home/user',
         children: [
             {path: 'main', component: ProfileComponent},
-            {path: '', redirectTo: 'friend', pathMatch: 'full'},
+            {path: '', redirectTo: 'main', pathMatch: 'full'},
             {path: 'apartment', component: UserApartmentComponent},
             {path: 'calendar', component: UserCalendarComponent},
             {path: 'bill', component: UserBillComponent},
             {path: 'report', component: UserReportComponent},
             {path: 'profile', component: ProfileComponent},
             {path: 'main/settings', component: SettingsComponent},
-            {path: 'friend/:id', component: UserProfileComponent}
-            
+            {path: 'friend/:id', component: UserProfileComponent},
+
 
         ],
         component: UserComponent,

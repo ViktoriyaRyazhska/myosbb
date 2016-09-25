@@ -16,6 +16,7 @@ import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
 import {RouteConfig, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 import {User} from "../../../shared/models/User";
+import {UserProfileComponent} from "./../user/profile/user.profile.component"
 import {CurrentUserService} from "./../../../shared/services/current.user.service";
 import {Notice} from './../../header/notice';
 import {NoticeService} from './../../header/header.notice.service';

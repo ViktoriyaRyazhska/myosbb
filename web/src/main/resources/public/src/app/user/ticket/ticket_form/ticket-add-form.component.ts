@@ -30,10 +30,8 @@ export class TicketAddFormComponent implements OnInit {
     @Input() ticket:ITicket;
     @ViewChild('addModal')
     addModal:ModalDirective;
-    currentUser:User;
-
+    private currentUser:User;
     private userAssignArr:User[] = [];
-    private assign:User;
     private creatingForm:ControlGroup;
     private nameInput:Control;
     private descriptionInput:Control;
@@ -42,10 +40,9 @@ export class TicketAddFormComponent implements OnInit {
     private nameTicket:string = '';
     private descriptionTicket:string = '';
     private assignTicket:string = '';
-    private submitName = false;
-    private submitDescription = false;
     private attachments:Attachment[] = [];
     _currentUserService = null;
+
     constructor(private ticketService:TicketService,
                 private builder:FormBuilder) {
                      this._currentUserService = HeaderComponent.currentUserService;

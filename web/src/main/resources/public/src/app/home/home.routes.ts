@@ -10,7 +10,7 @@ import {ProviderUserPageWrapperComponent} from "../user/provider/provider_home/p
 import {ProviderInfoPageWrapperComponent} from "../user/provider/provider-info-page-wrapper.component";
 import {EventComponent} from "../event/event.component";
 import {EventShowComponent} from "../event/event.show.component";
-import {UserCalendarComponent} from "./../user/calendar/user.calendar.component";
+import {CalendarHomeComponent} from "./calendar/calendar.home.component";
 export const homeRoutes: RouterConfig = [
     {
         path: 'home',
@@ -22,7 +22,7 @@ export const homeRoutes: RouterConfig = [
             {path: '', redirectTo: 'wall', pathMatch: 'full'},
             {path: 'events', component: EventComponent},
             {path: 'event/:id', component: EventShowComponent},
-            {path: 'calendar', component: UserCalendarComponent},
+            {path: 'calendar', component: CalendarHomeComponent},
             {path: 'osbb', component: OsbbComponent},
             {path: 'provider/info', component: ProviderUserPageWrapperComponent},
             {path: 'provider/info/:id', component: ProviderInfoPageWrapperComponent},

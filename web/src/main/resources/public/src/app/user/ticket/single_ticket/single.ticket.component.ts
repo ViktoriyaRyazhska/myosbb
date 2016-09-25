@@ -54,9 +54,7 @@ export class MessageComponent implements OnInit {
     private ticketId:number;
     private sub:Subscription;
     private currentUser:User;
-    private updatedTicket:ITicket;
     private ticketState:string = 'new';
-    private messDesc:string = "";
     private messText:string = "";
     private pageCreator:PageCreator<Ticket>;
     private pageNumber:number = 1;
@@ -143,12 +141,12 @@ private index:number;
     }
 
     private handleErrors(error:any) {
-        if (error.status === 404) {
-            console.log('server error 404');
-            this.router.navigate(['**']);
-            return;
-        }
-        if (error.status === 400) {
+        //if (error.status === 404) {
+        //    console.log('server error 404');
+        //    this.router.navigate(['**']);
+        //    return;
+        //}
+        if (error.status === 400||error.status === 404) {
             console.log('server error 400');
             this.toasterService.pop(onErrorResourceNotFoundToastMsg);
             return;
@@ -161,12 +159,13 @@ private index:number;
     }
 
     private toTableTicket() {
-        this.router.navigate(['home/user/ticket']);
+        this.router.navigate(['home/ticket']);
     }
 
     toUser(id:number) {
         console.log("toUser");
         this.router.navigate(['home/user/friend', id]);
+
     }    initEditMessage(message:Message) {
         this.message = message;
         this.messText = this.message.message;
@@ -280,7 +279,8 @@ private index:number;
     }
 
     deleteTicket(ticket:ITicket):void {
-        this.ticketService.deleteTicket(ticket).then(this.toTableTicket());
+        this.ticketService.deleteTicket(ticket)
+            .then(this.toTableTicket());
     }
 
     getTime(time:Date):string {
