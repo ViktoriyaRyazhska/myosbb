@@ -101,16 +101,18 @@ export class CurrentUserService {
         
         if (id == this.currentUser.userId) {
             this.router.navigate(['home/user/main'])
-        }
-        if (this.currentUser.role == "ROLE_ADMIN") {
+        }else{
+
+             if (this.currentUser.role == "ROLE_ADMIN") {
                 this.router.navigate(['admin/friend', id]);
-        }
-        if (this.currentUser.role == "ROLE_MANAGER") {
+            }
+            if (this.currentUser.role == "ROLE_MANAGER") {
                 this.router.navigate(['manager/friend', id]);
-        }
-        else {
+            }
+            else {
                 this.router.navigate(['home/friend', id]);
             }
-        }
+    }
+}
     
 }
