@@ -97,21 +97,20 @@ export class CurrentUserService {
     }
 
     toUser(id:number) {
-        console.log("toUser"+id);
+        console.log("toUser:"+id);
         
         if (id == this.currentUser.userId) {
             this.router.navigate(['home/user/main'])
         }
-        else {
-            if (this.currentUser.role == "ROLE_ADMIN") {
+        if (this.currentUser.role == "ROLE_ADMIN") {
                 this.router.navigate(['admin/friend', id]);
-            }
-            if (this.currentUser.role == "ROLE_USER") {
+        }
+        if (this.currentUser.role == "ROLE_MANAGER") {
+                this.router.navigate(['manager/friend', id]);
+        }
+        else {
                 this.router.navigate(['home/friend', id]);
             }
-            if (this.currentUser.role == "ROLE_MANAGER") {
-                this.router.navigate(['manager/friend', id]);
-            }
         }
-    }
+    
 }
