@@ -215,7 +215,13 @@
   "write": "write",
   "apartment": "Apartment",
   "residents": "Residents",
-  "contacts":"Contacts"
+  "contacts":"Contacts",
+  "profile":"Profile",
+  "gender":"Gender",
+  "close":"Close",
+  "emptylist":"List is empthy...",
+  "createUser":"Create user",
+  "password":"Password"
 }
 
 

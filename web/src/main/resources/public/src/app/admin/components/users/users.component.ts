@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core'
 import {User} from '../../../../shared/models/User';
 import {UsersService} from "./users.service";
+import {TranslatePipe} from "ng2-translate";
+import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
 import {Router} from '@angular/router';
 import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators} from '@angular/forms';
 
@@ -10,6 +12,7 @@ import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators} from '@angular/forms'
     templateUrl: 'src/app/admin/components/users/users.table.html',
     providers: [UsersService],
     styleUrls: ['src/app/admin/components/users/users.css'],
+    pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
     directives: [REACTIVE_FORM_DIRECTIVES]
 })
 export class UsersComponent implements OnInit {

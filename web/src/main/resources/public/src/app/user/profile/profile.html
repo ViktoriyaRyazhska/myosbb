@@ -1,6 +1,6 @@
 <section class="profile col-xs-12 animated  slideInRight">
     <div class="top-label">
-        <h3 class="">Personal information</h3>
+        <h3 class="">{{ 'profile' | translate | capitalize }}</h3>
     </div>
     <div class="task-panel tasks-widget col-xs-3  left">
         <div class="image">
@@ -8,9 +8,8 @@
         </div>
 
         <button type="button" class="col-xs-12 btn btn-primary" data-toggle="modal" data-target="#modal">
-            <i class="fa fa-pencil-square-o" aria-hidden="true">  </i>Редагувати
+            <i class="fa fa-pencil-square-o" aria-hidden="true">  </i> {{ 'editTicket' | translate | capitalize }}
         </button>
-        <button class="col-xs-12 btn btn-primary">Змінити пароль</button>
         <button class="col-xs-12 btn btn-primary" [routerLink]="['settings']">
             <i class="glyphicon glyphicon-cog"></i>
             <span> {{ 'settings' | translate | capitalize }}</span>
@@ -19,32 +18,32 @@
     <div class="row col-xs-7 right">
         <div class="task-panel tasks-widget col-xs-12 right-user-data">
             <div class="col-xs-12">
-                <label class="col-xs-6"><b>ім'я</b></label>
+                <label class="col-xs-6"><b>{{ 'nameUser' | translate | capitalize }}</b></label>
                 <h5 class="col-xs-6">{{currentUser.firstName}}</h5>
             </div>
 
             <div class="col-xs-12">
-                <label class="col-xs-6"><b>Фамілія</b></label>
+                <label class="col-xs-6"><b>{{ 'surname' | translate | capitalize }}</b></label>
                 <h5 class="col-xs-6">{{currentUser.lastName}}</h5>
 
             </div>
             <div class="col-xs-12">
-                <label class="col-xs-6"><b>Дата народження</b></label>
+                <label class="col-xs-6"><b>{{ 'birthday' | translate | capitalize }}</b></label>
                 <h5 class="col-xs-6">{{getTime(currentUser.birthDate)}}</h5>
 
             </div>
             <div class="col-xs-12">
-                <label class="col-xs-6"><b>Емейл</b></label>
+                <label class="col-xs-6"><b>{{ 'email' | translate | capitalize }}</b></label>
                 <h5 class="col-xs-6">{{currentUser.email}}</h5>
 
             </div>
             <div class="col-xs-12">
-                <label class="col-xs-6"><b>Номер телефону</b></label>
+                <label class="col-xs-6"><b>{{ 'phone' | translate | capitalize }}</b></label>
                 <h5 class="col-xs-6">{{currentUser.phoneNumber}}</h5>
 
             </div>
             <div class="col-xs-12">
-                <label class="col-xs-6"><b>Гендер</b></label>
+                <label class="col-xs-6"><b>{{ 'gender' | translate | capitalize }}</b></label>
                 <h5 class="col-xs-6">{{currentUser.gender}}</h5>
             </div>
 
@@ -66,35 +65,35 @@
             </div>
             <div class="modal-body row">
                 <div class="col-xs-12">
-                    <label class="col-xs-6"><b>ім'я</b></label>
+                    <label class="col-xs-6"><b>{{ 'nameUser' | translate | capitalize }}</b></label>
                     <input class="form-control" name="birthDate" [(ngModel)]="updateUser.firstName" type="text"
                            required>
                 </div>
                 <div class="col-xs-12">
-                    <label class="col-xs-6"><b>Фамілія</b></label>
+                    <label class="col-xs-6"><b>{{ 'surname' | translate | capitalize }}</b></label>
                     <input class="form-control" name="birthDate" [(ngModel)]="updateUser.lastName" type="text"
                            required>
 
                 </div>
                 <div class="col-xs-12">
-                    <label class="col-xs-6"><b>Дата народження</b></label>
+                    <label class="col-xs-6"><b>{{ 'birthday' | translate | capitalize }}</b></label>
                     <input class="form-control" name="birthDate" [(ngModel)]="updateUser.birthDate" type="date"
                            required>
                 </div>
                 <div class="col-xs-12">
-                    <label class="col-xs-6"><b>Емейл</b></label>
+                    <label class="col-xs-6"><b>{{ 'email' | translate | capitalize }}</b></label>
                     <input [textMask]="{mask:emailMask}" class="form-control placeholder-no-fix" name="email"
                            [(ngModel)]="updateUser.email" placeholder="Введіть свій Email"
                            type="text" required>
                 </div>
                 <div class="col-xs-12">
-                    <label class="col-xs-6"><b>Номер телефону</b></label>
+                    <label class="col-xs-6"><b>{{ 'phone' | translate | capitalize }}</b></label>
                     <input [textMask]="{mask:phoneMask}" class="form-control" name="phoneNumber"
                            [(ngModel)]="updateUser.phoneNumber" type="text"
                            placeholder="(___) ___-____" required>
                 </div>
                 <div class="col-xs-12">
-                    <label for="sel1">Стать</label>
+                    <label for="sel1">{{ 'gender' | translate | capitalize }}</label>
                     <select class="form-control" [(ngModel)]="updateUser.gender" id="sel1">
                         <option>Чоловік</option>
                         <option>Жінка</option>
@@ -104,8 +103,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button data-dismiss="modal" class="col-xs-3 btn btn-danger">Закрити</button>
-                <button (click)="changeUser()" class="col-xs-3  btn btn-primary">Зберегти</button>
+                <button data-dismiss="modal" class="col-xs-3 btn btn-danger">{{ 'close' | translate | capitalize }}</button>
+                <button (click)="changeUser()" class="col-xs-3  btn btn-primary">{{ 'save' | translate | capitalize }}</button>
             </div>
         </div>
     </div>
