@@ -7,6 +7,7 @@ import {EventService} from "../../event/event.service";
 import {User} from "../../../shared/models/User";
 import {CurrentUserService} from "../../../shared/services/current.user.service";
 import moment from 'moment';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'my-calendar',
@@ -29,7 +30,8 @@ export class UserCalendarComponent implements OnInit {
     private currentUser:User;
 
     constructor(private eventService: EventService, private cd: ChangeDetectorRef,
-                private translate: TranslateService, private currentUserService:CurrentUserService) {
+                private translate: TranslateService, private currentUserService:CurrentUserService,
+                private router: Router) {
         this.currentUser = currentUserService.getUser();
     }
 
@@ -75,11 +77,9 @@ export class UserCalendarComponent implements OnInit {
     handleDayClick(event) {
         this.event = new Event();
         this.event.start = <Date>moment(event.date).format("YYYY-MM-DDTHH:mm:ss");
-        var duration = moment.duration({'days' : 1});
-        this.event.end = <Date>moment(event.date).add(duration).format("YYYY-MM-DDTHH:mm:ss");
+        this.event.end = <Date>moment(event.date).hours(12).minute(0).format("YYYY-MM-DDTHH:mm:ss");
         console.log(this.event.start);
         this.dialogVisible = true;
-        //trigger detection manually as somehow only moving the mouse quickly after click triggers the automatic detection
         this.cd.detectChanges();
     }
 
@@ -97,8 +97,8 @@ export class UserCalendarComponent implements OnInit {
         }
 
         this.event.id = e.calEvent.id;
-        this.event.start = start.format();
-        this.event.end = end.format();
+        this.event.start = <Date>moment(start).format("YYYY-MM-DDTHH:mm:ss");
+        this.event.end = <Date>moment(end).format("YYYY-MM-DDTHH:mm:ss");
         this.dialogVisible = true;
     }
 
@@ -142,5 +142,13 @@ export class UserCalendarComponent implements OnInit {
             }
         }
         return index;
+    }
+
+    getHeight() {
+        if (this.router.url.includes("calendar")) {
+            return 600;
+        } else {
+            return 300;
+        }
     }
 }

@@ -1,34 +1,29 @@
 ///<reference path="../../../../node_modules/@angular/http/src/http.d.ts"/>
-import {Component, ViewChild,Input} from '@angular/core'
-import {HTTP_PROVIDERS, Http, Headers, RequestOptions} from "@angular/http";
+import {Component, ViewChild, Input} from '@angular/core'
 import {Apartment} from "../../../shared/models/apartment.interface";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 import {ApartmentService} from './apartment.service'
 import "rxjs/add/operator/toPromise";
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
-import {CORE_DIRECTIVES} from "@angular/common";
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 import {User} from "public/src/shared/models/User.ts";
-import {FORM_DIRECTIVES, CORE_DIRECTIVES, FormBuilder, Control, ControlGroup, Validators} from '@angular/common';
-import {HeaderComponent} from "../../header/header.component";
-
-import {CurrentUserService} from "../../../shared/services/current.user.service";
-import {CurrentOsbbService} from "../../../shared/services/current.osbb.service";
-import {PageCreator} from "../../../shared/services/page.creator.interface";
-import {HousePageObject} from "../../house/house.page.object";
+import {FORM_DIRECTIVES, CORE_DIRECTIVES} from '@angular/common';
+import {HeaderComponent} from "../../../header/header.component";
+import {CurrentUserService} from "../../../../shared/services/current.user.service";
+import {PageCreator} from "../../../../shared/services/page.creator.interface";
+import {HousePageObject} from "../../../house/house.page.object";
 @Component({
     selector: 'my-user-apartment',
-    templateUrl: 'src/app/user/apartment/apartment.html',
-    providers: [ApartmentService,CurrentOsbbService],
-    directives: [ROUTER_DIRECTIVES,MODAL_DIRECTIVES, CORE_DIRECTIVES],
-    styleUrls: ['src/app/user/apartment/styles.css'],
+    templateUrl: 'src/app/home/components/apartment/apartment.html',
+    providers: [ApartmentService],
+    directives: [ROUTER_DIRECTIVES, MODAL_DIRECTIVES, CORE_DIRECTIVES],
+    styleUrls: ['src/app/home/components/apartment/styles.css'],
     viewProviders: [BS_VIEW_PROVIDERS],
-    pipes:[TranslatePipe],
-    inputs:['isAdmin']
+    pipes: [TranslatePipe]
 })
 export class UserApartmentComponent {
-    isAdmin:boolean = false;
-    Items: Apartment[];
+    role:String = "ROLE_USER";
+    Items:Apartment[];
     private selectedApartment:Apartment = {apartmentId: 0, square: 0, number: 0, house: {street: ''}};
     private emptyApartment:Apartment = {square: 0, number: 0, house: {street: ''}};
     @ViewChild('deleteModal')
@@ -50,33 +45,23 @@ export class UserApartmentComponent {
     private houseToAdd:HousePageObject = {street: ''};
     private isNumberValid:boolean = false;
     private currentOsbbId:number;
-    numberControl:Control;
-    addApartmentForm:ControlGroup;
 
 
-
-    constructor(private apartmentService:ApartmentService, private currentUserService:CurrentUserService,private currentOsbbService:CurrentOsbbService) {
-        console.log("init items");
-        this.Items =[];
+    constructor(private apartmentService:ApartmentService, private currentUserService:CurrentUserService) {
+        this.Items = [];
     }
 
 
     ngOnInit() {
-        this.currentUserService=HeaderComponent.currentUserService;
+        this.currentUserService = HeaderComponent.currentUserService;
         this.currentUser = this.currentUserService.getUser();
-      this.currentOsbbId=this.currentUser.osbbId;
-        console.log("curr OSBB ID="+this.currentOsbbId);
-        console.log("curr User="+JSON.stringify(this.currentUser));
+        this.currentOsbbId = this.currentUser.osbbId;
+        this.role = this.currentUser.role;
         this.getApartmentsByPageNum(this.pageNumber);
-        
+
         this.apartmentService.getAllHouses(this.currentOsbbId).subscribe(res=> {
             this.allHouses = res;
-            console.log("house in subscribe"+this.allHouses.length);
         });
-
-
-        console.log("log apartments..."+JSON.stringify(this.Items));
-        
     }
 
 
@@ -108,11 +93,8 @@ export class UserApartmentComponent {
     }
 
     onEditApartmentSubmit() {
-
-        //console.log('saving Apartment: ' + this.selectedApartment.apartmentId);
         this.apartmentService.editAndSave(this.selectedApartment).subscribe(res=> {
         });
-        // this.getApartmentsByPageNum(this.pageNumber);
         this.active = false;
         this.editModal.hide();
         setTimeout(() => this.active = true, 0);
@@ -120,7 +102,7 @@ export class UserApartmentComponent {
 
     onAddApartmentSubmit() {
 
-        if(! this.isNumberValid) {
+        if (!this.isNumberValid) {
             alert("Apartment is busy");
         } else {
             this.addModal.hide();
@@ -131,15 +113,11 @@ export class UserApartmentComponent {
     }
 
     openAddModal() {
-       
-
-        
-
         this.addModal.show();
     }
 
 
-    chooseHouse(house:HousePageObject,number) {
+    chooseHouse(house:HousePageObject, number) {
         this.houseToAdd = house;
 
     }
@@ -147,16 +125,14 @@ export class UserApartmentComponent {
     isApartmentNumberValid(value):boolean {
         console.log("value from input" + value);
 
-        if(value>=1){
-        this.apartmentService.isApartmentExist(value,this.houseToAdd.houseId).
-            subscribe(res=> {
-            this.isNumberValid = res;
-            console.log("house id is:  " + this.houseToAdd.houseId + "  valid is : " + this.isNumberValid);
+        if (value >= 1) {
+            this.apartmentService.isApartmentExist(value, this.houseToAdd.houseId).subscribe(res=> {
+                    this.isNumberValid = res;
+                    console.log("house id is:  " + this.houseToAdd.houseId + "  valid is : " + this.isNumberValid);
+                }
+            );
         }
-
-    );}
-        else this.isNumberValid=false;
-
+        else this.isNumberValid = false;
 
 
     }
@@ -168,7 +144,7 @@ export class UserApartmentComponent {
         this.defaultSorter = value;
         console.log('order by asc', this.order);
         this.emptyArray();
-        this.apartmentService.getSortedApartments(this.pageNumber, value, this.order,this.currentOsbbId)
+        this.apartmentService.getSortedApartments(this.pageNumber, value, this.order, this.currentOsbbId)
             .subscribe((data) => {
                     this.pageCreator = data;
                     this.Items = data.rows;
@@ -187,7 +163,7 @@ export class UserApartmentComponent {
 
         this.pageNumber = +pageNumber;
         this.emptyArray();
-        return this.apartmentService.getSortedApartments(this.pageNumber, this.defaultSorter, this.order,this.currentOsbbId)
+        return this.apartmentService.getSortedApartments(this.pageNumber, this.defaultSorter, this.order, this.currentOsbbId, this.role)
             .subscribe((data) => {
                     this.pageCreator = data;
                     this.Items = data.rows;
@@ -227,7 +203,7 @@ export class UserApartmentComponent {
         console.log("getApartmentssByPageNum" + pageNumber + "with apartment number =" + numberOfApartment);
         this.pageNumber = +pageNumber;
         this.emptyArray();
-        return this.apartmentService.getSortedApartmentsWithNumber(this.pageNumber, this.defaultSorter, this.order, numberOfApartment,this.currentOsbbId)
+        return this.apartmentService.getSortedApartmentsWithNumber(this.pageNumber, this.defaultSorter, this.order, numberOfApartment, this.currentOsbbId, this.role)
             .subscribe((data) => {
                     this.pageCreator = data;
                     this.Items = data.rows;

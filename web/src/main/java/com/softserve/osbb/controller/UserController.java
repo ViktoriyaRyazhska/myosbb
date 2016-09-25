@@ -1,6 +1,7 @@
 package com.softserve.osbb.controller;
 
 import com.softserve.osbb.dto.UserDTO;
+import com.softserve.osbb.dto.mappers.UserDTOMapper;
 import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.service.OsbbService;
@@ -39,6 +40,9 @@ public class UserController {
 
     @Autowired
     OsbbService osbbService;
+
+    @Autowired
+    UserDTOMapper userDTOMapper;
 
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
     private static final List<Resource<User>> EMPTY_LIST = new ArrayList<>(0);
@@ -83,10 +87,12 @@ public class UserController {
         return userService.save(user);
     }
 
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.POST)
-    public User updateUser(@PathVariable Integer id, @RequestBody User user) {
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
+    public User updateUser(@PathVariable Integer id, @RequestBody UserDTO user) {
         logger.info("Updating user id:" + id);
-        return userService.save(user);
+        User oldUser= userService.getOne(user.getUserId());
+        User newUser= userDTOMapper.mapUserDtoToEntity(oldUser,user);
+        return userService.update(newUser);
     }
     @RequestMapping(value = "/user/{id}/password", method = RequestMethod.POST)
     public User updateUserPassword(@PathVariable Integer id, @RequestBody String password) {

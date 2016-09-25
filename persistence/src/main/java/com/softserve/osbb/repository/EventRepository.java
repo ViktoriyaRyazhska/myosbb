@@ -12,7 +12,6 @@ import java.util.List;
 /**
  * Created by nataliia on 05.07.16.
  */
-
 @Repository
 public interface EventRepository extends JpaRepository<Event, Integer> {
 

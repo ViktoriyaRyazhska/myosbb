@@ -264,6 +264,17 @@ export class EventComponent implements OnInit, OnDestroy {
         this._router.navigate(['home/event', id]);
     }
 
+    toUser(id:number) {
+        console.log("toUser" + id + " " + this.currentUser.userId);
+        if (id == this.currentUser.userId) {
+            this._router.navigate(['home/user/main']);
+        } else if (this.admin) {
+            this._router.navigate(['admin/friend/', id])
+        } else {
+            this._router.navigate(['home/friend', id]);
+        }
+    }
+
     emptyArray() {
         while (this.pageList.length) {
             this.pageList.pop();

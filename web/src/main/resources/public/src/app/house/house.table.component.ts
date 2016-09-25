@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {HousePageObject} from "./house.page.object";
 import {HouseService} from "./house.service";
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../shared/pipes/capitalize-first-letter";
 import {ToasterContainerComponent, ToasterService} from "angular2-toaster/angular2-toaster";
@@ -12,6 +12,7 @@ import {
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from "ng2-bootstrap";
 import {FORM_DIRECTIVES} from "@angular/forms";
 import {CORE_DIRECTIVES} from "@angular/common";
+import {Subscription} from "rxjs";
 import {PageParams} from "../../shared/models/search.model";
 import Regex = require('../../shared/services/regex.all.text');
 
@@ -27,6 +28,8 @@ import Regex = require('../../shared/services/regex.all.text');
 })
 export class HouseTableComponent implements OnInit {
 
+    private sub: Subscription;
+    private osbbId: number;
     private houses: HousePageObject[] = [];
     private houseId: number;
     private pageParams: PageParams = {pageNumber: 1, sortedBy: null, orderType: false, rowNum: 10};
@@ -46,16 +49,17 @@ export class HouseTableComponent implements OnInit {
 
     constructor(private _houseService: HouseService,
                 private _router: Router,
-                private _toasterService: ToasterService) {
+                private _toasterService: ToasterService,
+                private _routeParams: ActivatedRoute) {
     }
 
     ngOnInit(): any {
-        this.findAllHousesByPage();
+        this.initHousesArr();
 
     }
 
     refresh() {
-        this.findAllHousesByPage();
+        this.initHousesArr();
     }
 
 
@@ -63,6 +67,17 @@ export class HouseTableComponent implements OnInit {
         this.houseId = houseId;
         this.delModal.show();
     }
+
+    initHousesArr() {
+          this.sub = this._routeParams.params.subscribe((params)=> {
+             this.osbbId = +params['id'];
+             if(this.osbbId > 0) {
+                 this.findAllHousesByOsbb();
+             } else {
+                 this.findAllHousesByPage();
+             } 
+         })
+      }
 
     closeDelModal() {
         console.log("delete: " + this.houseId);
@@ -134,6 +149,22 @@ export class HouseTableComponent implements OnInit {
                     this.handleErrors(error);
                 });
     }
+
+    findAllHousesByOsbb() {
+        console.log("find All houses by osbb: " + this.osbbId);
+         this.emptyPageList();
+         this.pending = true;
+         this._houseService.getAllHousesByOsbb(this.pageParams, this.osbbId)
+             .subscribe((data)=> {
+                    this.pending = false;
+                    this.houses = data.rows;
+                    this.totalPages = data.totalPages;
+                    this.fillPageList(+data.beginPage, +data.endPage)
+                },
+                 (error)=> {
+                     this.handleErrors(error);
+                 });
+     }
 
     fillPageList(beginIndex, endIndex) {
         for (let pageNum = beginIndex; pageNum <= endIndex; pageNum++) {

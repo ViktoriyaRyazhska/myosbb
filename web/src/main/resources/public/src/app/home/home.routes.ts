@@ -12,7 +12,9 @@ import {EventComponent} from "../event/event.component";
 import {EventShowComponent} from "../event/event.show.component";
 import {CalendarHomeComponent} from "./calendar/calendar.home.component";
 import {UserProfileComponent} from "./user/user.profile.component";
-import {UserApartmentComponent} from "../user/apartment/user.apartment.component";
+import {ApartmentProfileComponent} from "../home/components/ApartmentProfile/apartment.profile";
+import {UserApartmentComponent} from "../home/components/apartment/user.apartment.component";
+
 export const homeRoutes: RouterConfig = [
     {
         path: 'home',
@@ -34,6 +36,8 @@ export const homeRoutes: RouterConfig = [
             {path: 'ticket/:id', component: TicketSingleAdminComponent},
             {path: 'user/:id', component: UserProfileComponent},
             {path: 'apartment', component: UserApartmentComponent},
+            {path: 'apartment', component: UserApartmentComponent},
+            {path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent}
 
 
         ]

@@ -38,9 +38,12 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button"  (click)="closeAddModal()" class="btn btn-default">
+                     {{'cancel' | translate | capitalize}}
+                </button>
                 <button type="button"  (click)="toggleSubmitAttempt(); onCreateVoting()" class="btn btn-default">
-                        {{'create' | translate | capitalize}}
-                    </button>
+                    {{'create' | translate | capitalize}}
+                </button>
             </div>
         </div>
     </div>

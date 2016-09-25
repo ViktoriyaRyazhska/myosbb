@@ -2,7 +2,7 @@ import {Component, OnInit, OnDestroy, ViewChild} from "@angular/core";
 import {EventService} from "./event.service";
 import {Event} from "./event.interface";
 import {HeaderComponent} from "../header/header.component";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, RouterOutlet, RouterLink, ROUTER_DIRECTIVES} from "@angular/router";
 import {Subscription} from "rxjs/Subscription";
 import {CapitalizeFirstLetterPipe} from "../../shared/pipes/capitalize-first-letter";
 import {TranslatePipe} from "ng2-translate";
@@ -17,7 +17,7 @@ import {Attachment} from "../admin/components/attachment/attachment.interface";
 @Component({
     selector: 'my-user-event',
     templateUrl: 'src/app/event/event.show.html',
-    directives: [HeaderComponent, MODAL_DIRECTIVES],
+    directives: [HeaderComponent, MODAL_DIRECTIVES, RouterOutlet, RouterLink, ROUTER_DIRECTIVES],
     providers: [EventService, AttachmentService],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
     viewProviders: [BS_VIEW_PROVIDERS, CORE_DIRECTIVES]

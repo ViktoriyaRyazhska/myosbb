@@ -2,14 +2,13 @@ package com.softserve.osbb.dto;
 
 import com.softserve.osbb.dto.mappers.ApartmentDTOMapper;
 import com.softserve.osbb.model.Apartment;
-import com.softserve.osbb.model.Osbb;
-import com.softserve.osbb.model.Role;
 import com.softserve.osbb.model.User;
 
 import java.util.Date;
 
 /**
  * Created by Roman on 16.08.2016.
+ * modified by cavayman 23.09.2016
  */
 public class UserDTO {
     private Integer userId;
@@ -18,11 +17,8 @@ public class UserDTO {
     private Date birthDate;
     private String email;
     private String phoneNumber;
-    private String password;
     private Integer osbbId;
     private String gender;
-    private String role;
-    private Boolean activated;
     private ApartmentDTO apartment;
 
     public UserDTO() {}
@@ -34,6 +30,7 @@ public class UserDTO {
         this.email = email;
         this.osbbId=osbbId;
         this.apartment= ApartmentDTOMapper.mapApartmentEntityToDTO(apartment);
+
     }
 
     public UserDTO(User user) {
@@ -43,11 +40,10 @@ public class UserDTO {
         this.birthDate = user.getBirthDate();
         this.email = user.getEmail();
         this.phoneNumber = user.getPhoneNumber();
-        this.password = user.getPassword();
         this.gender = user.getGender();
-        this.role=user.getRole().getAuthority();
-        this.activated=user.getActivated();
-        this.osbbId = user.getOsbb().getOsbbId();
+        if(user.getOsbb() != null) {
+            this.osbbId = user.getOsbb().getOsbbId();
+        }
         this.apartment= ApartmentDTOMapper.mapApartmentEntityToDTO(user.getApartment());
     }
 
@@ -99,14 +95,6 @@ public class UserDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getGender() {
         return gender;
     }
@@ -115,29 +103,12 @@ public class UserDTO {
         this.gender = gender;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-
     public Integer getOsbbId() {
         return osbbId;
     }
 
     public void setOsbbId(Integer osbbId) {
         this.osbbId = osbbId;
-    }
-
-    public Boolean getActivated() {
-        return activated;
-    }
-
-    public void setActivated(Boolean activated) {
-        this.activated = activated;
     }
 
     public ApartmentDTO getApartment() {
@@ -157,11 +128,8 @@ public class UserDTO {
                 ", birthDate=" + birthDate +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", password='" + password + '\'' +
                 ", osbbId=" + osbbId +
                 ", gender='" + gender + '\'' +
-                ", role='" + role + '\'' +
-                ", activated=" + activated +
                 '}';
     }
 }

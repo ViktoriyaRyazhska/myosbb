@@ -6,6 +6,7 @@
     border: rgba(12, 60, 88, 0.91);
     margin-top: 0pt;
     display: flex;
+    position: inherit;
 }
 .image{
 
@@ -57,4 +58,8 @@ img{
 }
 .bill-block:hover{
     opacity: 1;
+}
+
+.to-right {
+    margin-left: 210px;
 }

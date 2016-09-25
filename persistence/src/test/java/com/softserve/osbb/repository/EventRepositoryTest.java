@@ -26,7 +26,6 @@ import static org.junit.Assert.*;
 /**
  * Created by nataliia on 06.07.16.
  */
-
 @Rollback
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = PersistenceConfiguration.class)

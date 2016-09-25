@@ -7,10 +7,12 @@ import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-
 import MaskedInput from 'angular2-text-mask';
 import emailMask from 'node_modules/text-mask-addons/dist/emailMask.js';
 import {HeaderComponent} from "../../header/header.component";
-import {CurrentUserService} from "../../../shared/services/current.user.service"
+import {CurrentUserService} from "../../../shared/services/current.user.service";
+import {ProfileService} from "./profile.service";
 @Component({
     selector: 'my-user-profile',
     templateUrl: 'src/app/user/profile/profile.html',
+    providers: [ProfileService],
     directives: [REACTIVE_FORM_DIRECTIVES, MaskedInput, HeaderComponent, ROUTER_DIRECTIVES],
     styleUrls: ['src/app/user/profile/profile.css'],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
@@ -25,8 +27,9 @@ export class ProfileComponent implements OnInit {
     public textmask = [/[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/];
     public phoneMask = ['(', /[0]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 
-    constructor(private router:Router, private currentUserService:CurrentUserService) {
+    constructor(private router:Router, private currentUserService:CurrentUserService, private profileService:ProfileService) {
         this.currentUser = HeaderComponent.currentUserService.currentUser;
+        this.updateUser = Object.assign({}, this.currentUser);
         console.log('constructore');
         this.expToken = localStorage.getItem('expires_in');
         this.expToken = new Date(parseInt(this.expToken)).toLocaleString();
@@ -37,16 +40,16 @@ export class ProfileComponent implements OnInit {
         // this.currentUser.birthDate = new Date(this.currentUser.birthDate).toLocaleDateString();
     }
 
-    refreshToken() {
-        this.currentUserService.refreshToken();
-        this.expToken = localStorage.getItem('expires_in');
-        this.expToken = new Date(parseInt(this.expToken)).toLocaleString();
-
-    }
-
-
     getTime(time:Date):string {
-        return new Date(time).toLocaleString();
+        return new Date(time).toLocaleDateString();
     }
 
+     changeUser() {
+        this.profileService.updateUser(this.updateUser).subscribe((data)=>{
+            this.currentUserService.setUser(data);
+            this.currentUser=HeaderComponent.currentUserService.currentUser;
+            this.updateUser = Object.assign({}, this.currentUser);
+        });
+    }
+    
 }

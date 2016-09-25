@@ -10,13 +10,11 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 /**
  * Created by nataliia on 05.07.2016.
  */
-
 @Entity
 @Table(name = "event")
 public class Event {
@@ -119,7 +117,7 @@ public class Event {
         this.repeat = repeat;
     }
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH )
     public List<Attachment> getAttachments() {
         return attachments;
     }

@@ -30,3 +30,13 @@ cursor: pointer;
 .valid {
     border-color: green;
 }
+#linktoApartmentProfile{
+    cursor: pointer;
+}
+tr#linktoApartmentProfile:hover td{
+    background-color:rgba(51, 153, 255,.6) ;
+    color:#7a00cc ;
+}
+.to-right {
+    margin-left: 210px;
+}

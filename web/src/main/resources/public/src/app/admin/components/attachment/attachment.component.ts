@@ -8,9 +8,9 @@ import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from "ng2-bootstrap
 import {FileSelectDirective, FileDropDirective} from "ng2-file-upload/ng2-file-upload";
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
+import {FileUploadComponent} from "./modals/file-upload-modal";
 import ApiService = require("../../../shared/services/api.service");
 import FileLocationPath = require("../../../shared/services/file.location.path");
-import {FileUploadComponent} from "./modals/file-upload-modal";
 
 @Component({
     selector: 'my-attachment',
@@ -22,26 +22,26 @@ import {FileUploadComponent} from "./modals/file-upload-modal";
 })
 export class AttachmentAdminComponent implements OnInit, OnDestroy {
 
-    @ViewChild('delModal') public delModal:ModalDirective;
-    @ViewChild('delAllModal') public delAllModal:ModalDirective;
+    @ViewChild('delModal') public delModal: ModalDirective;
+    @ViewChild('delAllModal') public delAllModal: ModalDirective;
 
-    private attachments:Attachment[];
-    private pageCreator:PageCreator<Attachment>;
-    private pageNumber:number = 1;
-    private pageList:Array<number> = [];
-    private totalPages:number;
-    private order:boolean = true;
-    private pending:boolean = false;
-    private attachmentId:number;
+    private attachments: Attachment[];
+    private pageCreator: PageCreator<Attachment>;
+    private pageNumber: number = 1;
+    private pageList: Array<number> = [];
+    private totalPages: number;
+    private order: boolean = true;
+    private pending: boolean = false;
+    private attachmentId: number;
 
-    constructor(private _attachmentService:AttachmentService) {
+    constructor(private _attachmentService: AttachmentService) {
     }
 
-    ngOnInit():any {
+    ngOnInit(): any {
         this.getAttachmentsByPageNum(this.pageNumber);
     }
 
-    getAttachmentsByPageNum(pageNumber:number,) {
+    getAttachmentsByPageNum(pageNumber: number,) {
         this.pageNumber = +pageNumber;
         this.emptyArray();
         return this._attachmentService.getAllAttachments(this.pageNumber)
@@ -73,13 +73,13 @@ export class AttachmentAdminComponent implements OnInit, OnDestroy {
         }
     }
 
-    preparePageList(start:number, end:number) {
+    preparePageList(start: number, end: number) {
         for (let i = start; i <= end; i++) {
             this.pageList.push(i);
         }
     }
 
-    sortBy(name:string) {
+    sortBy(name: string) {
         console.log('sorted by ', name);
         this.order = !this.order;
         console.log('order by asc', this.order);
@@ -97,7 +97,7 @@ export class AttachmentAdminComponent implements OnInit, OnDestroy {
                 });
     }
 
-    onSearch(search:string){
+    onSearch(search: string) {
         console.log("inside search: search param" + search);
         this._attachmentService.findAttachmentByPath(search)
             .subscribe((attachments) => {
@@ -106,7 +106,7 @@ export class AttachmentAdminComponent implements OnInit, OnDestroy {
             });
     }
 
-    openDelModal(id:number) {
+    openDelModal(id: number) {
         this.attachmentId = id;
         console.log('show', this.attachmentId);
         this.delModal.show();
@@ -138,7 +138,7 @@ export class AttachmentAdminComponent implements OnInit, OnDestroy {
         return this._attachmentService.getPreview(attachment);
     }
 
-    ngOnDestroy():any {
+    ngOnDestroy(): any {
 
     }
 }

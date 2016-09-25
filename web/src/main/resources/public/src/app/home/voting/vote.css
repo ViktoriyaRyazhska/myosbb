@@ -6,6 +6,7 @@
     border-top:1px solid slategray;
     border-bottom:1px solid slategray;
     margin-bottom: 20px;
+    overflow: hidden;
 }
 
 .question {

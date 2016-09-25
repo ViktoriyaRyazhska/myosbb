@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 /**
  * Created by nataliia on 10.07.16.
  */
-
 @Service
 public class EventServiceImpl implements EventService {
 

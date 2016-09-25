@@ -212,6 +212,10 @@
   "apartmentIsAlreadyBusy":"Неправильний номер квартири",
   "wrongSquareInput":"Невірна площа",
   "docs":"документи",
-  "write":"написати"
+  "write":"написати",
+  "cancel": "відмінити",
+  "apartment":"Квартира",
+  "residents":"Мешканці",
+  "contacts":"Контакти"
 
 }

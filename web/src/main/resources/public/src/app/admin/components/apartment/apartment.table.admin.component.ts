@@ -1,18 +1,14 @@
 import {Component,onInit} from "@angular/core";
-import {UserApartmentComponent} from "../../../../app/user/apartment/user.apartment.component";
-import {CurrentOsbbService} from "../../../../shared/services/current.osbb.service";
+import {UserApartmentComponent} from "../../../home/components/apartment/user.apartment.component";
+import {ROUTER_DIRECTIVES} from "@angular/router";
 @Component(
     {
         selector: 'admin-apartment-table',
         templateUrl: 'src/app/admin/components/apartment/apartment_table.admin.html',
-        directives:[UserApartmentComponent],
+       // styleUrls: ['src/app/home/components/apartment/styles.css'],
+        directives:[UserApartmentComponent,ROUTER_DIRECTIVES]
     }
 )
 export class ApartmentTableAdminComponent {
 
-    constructor(){
-
-    }
-    ngOnInit(){
-    }
 }

@@ -3,7 +3,6 @@ package com.softserve.osbb.model;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.softserve.osbb.model.enums.AttachmentType;
-import com.softserve.osbb.utils.Constants;
 import com.softserve.osbb.utils.CustomLocalDateDeserializer;
 import com.softserve.osbb.utils.CustomLocalDateSerializer;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -15,7 +14,6 @@ import java.time.LocalDate;
 /**
  * Created by nataliia on git 09.07.2016.
  */
-
 @Entity
 @Table(name = "attachment")
 public class Attachment {
@@ -51,7 +49,7 @@ public class Attachment {
     @Basic
     @Column(name = "url")
     public String getUrl() {
-        return path.replace(Constants.FILE_UPLOAD_PATH, Constants.FILE_DOWNLOAD_URL);
+        return url;
     }
 
     public void setUrl(String url) {
