@@ -27,7 +27,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 /**
  * Created by nataliia on 10.07.16.
  */
-
 @CrossOrigin
 @RestController
 @RequestMapping("/restful/event")

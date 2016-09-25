@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * Created by nataliia on 10.07.16.
  */
-
 @Repository
 public interface AttachmentRepository extends JpaRepository<Attachment, Integer> {
 

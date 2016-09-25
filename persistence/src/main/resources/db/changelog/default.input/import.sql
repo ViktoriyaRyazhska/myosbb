@@ -119,15 +119,15 @@ INSERT INTO osbb(  name, description, address, district, creation_date) VALUES (
 INSERT INTO osbb(  name, description, address, district, creation_date, creator_id) VALUES ('Моя Оселя','','м.Львів вул.Повітряна 17б','Залізничний','2013-10-12 08:46:43.221340', 11);
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Сонечко','','м.Львів вул.Наукова 77','Франківський','2015-04-18 10:46:43.221270');
 
-INSERT INTO attachment(  path, type, file_name) VALUES ('http://itukraine.org.ua/sites/default/files/news/sserve.jpg', 'IMAGE', 'sserve.jpg');
-INSERT INTO attachment(  path, type, file_name) VALUES ('http://ua-ekonomist.com/uploads/posts/2013-08/1376494055_932378712.jpg', 'IMAGE', '1376494055_932378712.jpg');
-INSERT INTO attachment(  path, type, file_name) VALUES ('http://news.dks.ua/images/0915/i_08091517_1.jpg', 'IMAGE', 'i_08091517_1.jpg');
-INSERT INTO attachment(  path, type, file_name) VALUES ('http://www.abmk.com.ua/content/images/projects/138047835156_orig.jpg', 'IMAGE', '138047835156_orig.jpg');
-INSERT INTO attachment(  path, type, file_name) VALUES ('http://nomerodyn.com/public/img/big/main.jpg', 'IMAGE', 'main.jpg');
-INSERT INTO attachment(  path, type, file_name) VALUES ('http://archfest.com/web/images/139479223222_1.jpg', 'IMAGE', '139479223222_1.jpg');
-INSERT INTO attachment(  path, type, file_name) VALUES ('https://www.askideas.com/media/39/Awesome-Empire-State-Building-Picture.jpg', 'IMAGE', 'Awesome-Empire-State-Building-Picture.jpg');
-INSERT INTO attachment(  path, type, file_name) VALUES ('http://img1.globalinfo.ua/im/2014/02/12/TZA04E.jpg', 'IMAGE', 'TZA04E.jpg');
-INSERT INTO attachment(  path, type, file_name) VALUES ('http://kyiv.ridna.ua/wp-content/uploads/2015/06/Project2_0014.jpg', 'IMAGE', 'Project2_0014.jpg');
+INSERT INTO attachment(path, type, date, file_name) VALUES ('http://itukraine.org.ua/sites/default/files/news/sserve.jpg', 'IMAGE', '2016-09-20', 'sserve.jpg');
+INSERT INTO attachment(path, type, date, file_name) VALUES ('http://ua-ekonomist.com/uploads/posts/2013-08/1376494055_932378712.jpg', 'IMAGE', '2016-08-01', '1376494055_932378712.jpg');
+INSERT INTO attachment(path, type, date, file_name) VALUES ('http://news.dks.ua/images/0915/i_08091517_1.jpg', 'IMAGE', '2015-09-09', 'i_08091517_1.jpg');
+INSERT INTO attachment(path, type, date, file_name) VALUES ('http://www.abmk.com.ua/content/images/projects/138047835156_orig.jpg', 'IMAGE', '2016-09-22', '138047835156_orig.jpg');
+INSERT INTO attachment(path, type, date, file_name) VALUES ('http://nomerodyn.com/public/img/big/main.jpg', 'IMAGE', '2016-06-19', 'main.jpg');
+INSERT INTO attachment(path, type, date, file_name) VALUES ('http://archfest.com/web/images/139479223222_1.jpg', 'IMAGE', '2014-12-20', '139479223222_1.jpg');
+INSERT INTO attachment(path, type, date, file_name) VALUES ('https://www.askideas.com/media/39/Awesome-Empire-State-Building-Picture.jpg', 'IMAGE', '2016-07-27', 'Awesome-Empire-State-Building-Picture.jpg');
+INSERT INTO attachment(path, type, date, file_name) VALUES ('http://img1.globalinfo.ua/im/2014/02/12/TZA04E.jpg', 'IMAGE', '2016-09-21', 'TZA04E.jpg');
+INSERT INTO attachment(path, type, date, file_name) VALUES ('http://kyiv.ridna.ua/wp-content/uploads/2015/06/Project2_0014.jpg', 'IMAGE', '2016-09-25', 'Project2_0014.jpg');
 
 UPDATE house SET osbb_id=1 WHERE house_id=1;
 
@@ -181,17 +181,16 @@ INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(12,TRUE,FALS
 
 
 INSERT into event(title, author, start_time, end_time, description, repeat, osbb_id) VALUES(
-'Процес пішов: три будинки передадуть з ЖЕКу до ОСББ',6,'2016-09-30 07:00:00+03','2016-10-10 07:00:00+03',
-'Зокрема, на баланс ОСББ «Центр – Ч» передадуть два житлових будинки, а саме № 15 по вулиці Чернишевського та № 15-А по вулиці Чернишевського.
-На баланс ОСББ «Реконструкція» планується передати житловий будинок № 18 по вулиці Мстиславській.','ONE_TIME',2);
+'Загальні збори всіх ОСББ',6,'2016-09-30 10:00:00+03','2016-10-30 10:00:00+03',
+'У звязку із зростанням популярності на ОСББ відбудуться збори мешканців кожного ОСББ у своєму окрузі.' ||
+'Метою заходу є відкрити очі населення на новомодні ОСББ. Показати всі недоліки та переваги.','ONE_TIME',2);
 INSERT into event(title, author, start_time, end_time, description, repeat, osbb_id) VALUES(
-'В Києві відбудуться безкоштовні семінари із створення ОСББ',9,'2017-01-20 10:00:00+03','2017-01-20 12:30:00+03',
-'20 та 23 січня в Києві стартує цикл безкоштовних семінарів з питань створення та організації ефективної роботи ОСББ.','PERMANENT_WEEKLY',6);
+'Заміна каналізації по вул.Городоцькій',9,'2016-06-01 07:00:00+03','2017-09-01 07:00:00+03',
+'Було зібрано достатню суму, щоб здійснити часткову заміну каналізаційних труб та провести реогранізацію старих.','PERMANENT_WEEKLY',6);
 INSERT into event(title, author, start_time, end_time, description, repeat, osbb_id) VALUES(
 'У Броварах відбувся Форум ОСББ',2,'2016-06-11 09:00:00+03','2016-06-11 24:00:00+03',
-'11 червня в Броварах відбулася унікальна подія – масштабний Форум ОСББ, який зібрав експертів з усієї країни, ' ||
-'які впродовж 7 годин розповідали про всі нюанси створення та функціонування об’єднання співвласників.','ONE_TIME',1);
+'11 червня в Броварах відбулася унікальна подія – масштабний Форум ОСББ, який зібрав експертів з усієї країни.','ONE_TIME',1);
 INSERT into event(title, author, start_time, end_time, description, repeat, osbb_id) VALUES(
-'Мешканців міста знайомлять з порядком створення ОСББ',4,'2016-01-01 08:00:00+03','2017-01-01 08:00:00+03',
-'1 липня 2015 р. набрав чинності Закон України «Про особливості здійснення права власності в багатоквартирному будинку».','ONE_TIME',4);
+'Вибори голови ОСББ',4,'2016-11-30 08:00:00+03','2016-11-30 22:00:00+03',
+'Через зростання кількості ОСББ виникає необхідність в більшість к-сті влади.','ONE_TIME',4);
 

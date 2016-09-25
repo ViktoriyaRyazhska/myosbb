@@ -15,7 +15,6 @@ import java.time.LocalDate;
 /**
  * Created by nataliia on git 09.07.2016.
  */
-
 @Entity
 @Table(name = "attachment")
 public class Attachment {

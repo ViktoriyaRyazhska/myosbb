@@ -31,7 +31,6 @@ import static com.softserve.osbb.utils.Constants.FILE_UPLOAD_PATH;
 /**
  * Created by nataliia on 11.07.16.
  */
-
 @Service
 public class AttachmentServiceImpl implements AttachmentService {
 

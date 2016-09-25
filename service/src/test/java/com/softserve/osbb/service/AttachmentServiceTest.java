@@ -30,7 +30,6 @@ import static com.softserve.osbb.utils.Constants.FILE_UPLOAD_PATH;
 /**
  * Created by nataliia on 18.07.16.
  */
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ServiceApplication.class)
 @Rollback
