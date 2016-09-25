@@ -1,9 +1,9 @@
 
-    <div class="myheader to-right " >
+    <div class="myheader to-right" >
     <div class="image">
         <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ9R8oeXNOBq-d89Z77UZ_Z6m_6cvOpTWeyEPe7Y5XY-z-aFuDF">
     </div>
-        <div class="text-info-header">Apartment# {{currentApartment.number}}
+        <div class="text-info-header">{{'apartment' | translate}} # {{currentApartment.number}}
         </div>
 
 
@@ -12,20 +12,20 @@
     <div class="row col-xs-7">
        <!-- <div class="task-panel tasks-widget col-xs-12 right ">-->
             <div class="col-xs-12">
-                <label class="col-xs-6"><b>Вулиця</b></label>
+                <label class="col-xs-6"><b>{{'street' | translate}}:</b></label>
                 <h5 class="col-xs-6">{{currentApartment.house.street}}</h5>
             </div>
             <div class="col-xs-12">
-                <label class="col-xs-6"><b>Площа</b></label>
+                <label class="col-xs-6"><b>{{'square' | translate}}:</b></label>
                 <h5 class="col-xs-6">{{currentApartment.square}}</h5>
             </div>
             <div class="col-xs-12">
-                <label class="col-xs-6"><b>Мешканці: <span style="cursor: pointer" class="glyphicon glyphicon-eye-open" (click)="openUserListModal()"></span></b></label>
+                <label class="col-xs-6"><b>{{'residents' | translate}}: <span style="cursor: pointer" class="glyphicon glyphicon-eye-open" (click)="openUserListModal()"aria-label="Show all" ></span></b></label>
                 <h5 class="col-xs-6">{{countOfUsers}}</h5>
             </div>
             <div class="col-xs-12">
-                <label class="col-xs-6"><b>Контакти</b></label>
-                <h5 class="col-xs-6">{{owner.phoneNumber}}-{{owner.firstName}}</h5>
+                <label class="col-xs-6"><b>{{'contacts'| translate}}:</b></label>
+                <h5 class="col-xs-6"> {{owner.phoneNumber}} - {{owner.firstName}}</h5>
            <!-- </div>-->
         </div>
         </div>

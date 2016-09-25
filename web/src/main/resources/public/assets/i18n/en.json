@@ -1,4 +1,4 @@
-  {
+{
   "HELLO": "privet",
   "ourYard": "OUR YARD",
   "events": "events",
@@ -211,10 +211,11 @@
   "activeUser": "activate",
   "nameUser": "name",
   "phoneNumber": "phone number",
-  "pageUser":"user page",
-  "write":"write"
-
-
+  "pageUser": "user page",
+  "write": "write",
+  "apartment": "Apartment",
+  "residents": "Residents",
+  "contacts":"Contacts"
 }
 
 

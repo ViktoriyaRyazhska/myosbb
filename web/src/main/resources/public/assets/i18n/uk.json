@@ -213,5 +213,9 @@
   "wrongSquareInput":"Невірна площа",
   "docs":"документи",
   "write":"написати",
-  "cancel": "відмінити"
+  "cancel": "відмінити",
+  "apartment":"Квартира",
+  "residents":"Мешканці",
+  "contacts":"Контакти"
+
 }

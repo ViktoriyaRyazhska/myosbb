@@ -9,6 +9,7 @@ import {Bill} from "../../../shared/models/bill.model";
 import {User} from "../../../shared/models/User";
 import{CurrentUserService} from "../../../../shared/services/current.user.service";
 import{Apartment} from "../../../shared/models/apartment.interface";
+import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 @Component({
     selector:'apartment-profile',
@@ -16,7 +17,8 @@ import{Apartment} from "../../../shared/models/apartment.interface";
     providers: [ apartmentProfileService],
     directives:[MODAL_DIRECTIVES],
     viewProviders: [BS_VIEW_PROVIDERS],
-    styleUrls: ['src/app/home/components/ApartmentProfile/apartmentStyle.css']
+    styleUrls: ['src/app/home/components/ApartmentProfile/apartmentStyle.css'],
+    pipes: [TranslatePipe]
 })
 
 
