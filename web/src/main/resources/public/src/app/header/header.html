@@ -23,7 +23,7 @@
                     <div class="notify-arrow notify-arrow-green"></div>
                     <li>
                         <p *ngIf="ticketNoticeLength != 0" class="green" style="font-size:100%;">
-                            {{'You_have' | translate | capitalize}} {{ticketNoticeLength}} {{wordT| translate}}
+                            {{'You_have' | translate | capitalize}} {{ticketNoticeLength}} {{wordT | translate}}
                         </p>
                         <p *ngIf="ticketNoticeLength == 0" class="green" style="font-size:100%;">
                             {{'nothingToShow' | translate | capitalize}}
@@ -67,7 +67,7 @@
                     <li>
 
                         <p *ngIf="commentNoticeLength != 0" class="green" style="font-size:100%;">
-                            {{'You_have' | translate | capitalize}} {{commentNoticeLength}} {{wordM| translate}}
+                            {{'You_have' | translate | capitalize}} {{commentNoticeLength}} {{wordM | translate}}
                         </p>
                         <p *ngIf="commentNoticeLength == 0" class="green" style="font-size:100%;">
                             {{'noComments' | translate | capitalize}} </p>
