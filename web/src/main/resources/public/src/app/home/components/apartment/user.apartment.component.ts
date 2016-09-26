@@ -56,7 +56,7 @@ export class UserApartmentComponent {
         this.currentUserService = HeaderComponent.currentUserService;
         this.currentUser = this.currentUserService.getUser();
         this.currentOsbbId = this.currentUser.osbbId;
-        this.role = this.currentUser.role;
+        this.role = this.currentUserService.getRole();
         this.getApartmentsByPageNum(this.pageNumber);
 
         this.apartmentService.getAllHouses(this.currentOsbbId).subscribe(res=> {
