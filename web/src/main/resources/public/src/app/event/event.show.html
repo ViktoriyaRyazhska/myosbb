@@ -26,7 +26,7 @@
                             <li>
                                 <b>{{'status' | translate | capitalize}}:</b><br>
                                 <div class="task-title">
-                                    <span class="task-title-sp">{{event.status}}</span>
+                                    <span class="task-title-sp">{{getStatus(event.status) | translate}}</span>
                                 </div>
                             </li>
                             <li>
@@ -44,7 +44,7 @@
                             <li>
                                 <b>{{'repeat' | translate | capitalize}}:</b><br>
                                 <div class="task-title">
-                                    <span class="task-title-sp">{{event.repeat}}</span>
+                                    <span class="task-title-sp">{{event.repeat | translate}}</span>
                                 </div>
                             </li>
                             <li>

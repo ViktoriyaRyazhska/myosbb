@@ -41,14 +41,14 @@ export class EventShowComponent implements OnInit, OnDestroy {
     ngOnInit(): any {
         this.sub = this._routeParams.params.subscribe((params)=> {
             this.eventId = +params['id'];
-        this._eventService.getEvent(this.eventId)
-            .subscribe((data) => {
+            this._eventService.getEvent(this.eventId)
+                .subscribe((data) => {
                     this.event = data;
                 },
                 (error) => {
                     console.error(error)
                 });
-    })
+        })
     }
 
     ngOnDestroy(): any {
@@ -71,5 +71,13 @@ export class EventShowComponent implements OnInit, OnDestroy {
 
     formatDate(date: DateTime) {
         return moment(date).format("DD.MM.YYYY hh:mm A");
+    }
+
+    getStatus(status: string) {
+        switch (status) {
+            case "FUTURE": return "future"; break;
+            case "IN_PROCESS": return "in_process"; break;
+            case "FINISHED": return "finished"; break;
+        }
     }
 }
