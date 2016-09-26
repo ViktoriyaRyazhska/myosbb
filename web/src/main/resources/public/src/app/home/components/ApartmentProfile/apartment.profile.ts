@@ -5,10 +5,9 @@ import{toPromise} from "rxjs/operator/toPromise";
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {apartmentProfileService} from './apartment.profile.service';
 import {DatePipe} from '@angular/common';
-import {Bill} from "../../../shared/models/bill.model";
-import {User} from "../../../shared/models/User";
+import {User} from "../../../../shared/models/User";
 import{CurrentUserService} from "../../../../shared/services/current.user.service";
-import{Apartment} from "../../../shared/models/apartment.interface";
+import{Apartment} from "../../../../shared/models/apartment.interface";
 import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 @Component({

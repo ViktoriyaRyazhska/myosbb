@@ -79,6 +79,7 @@ export class MessageComponent implements OnInit {
                 private toasterService:ToasterService) {
         this.currentUserService = HeaderComponent.currentUserService;
         this.currentUser = this.currentUserService.getUser();
+        this.currentUser.role = this.currentUserService.getRole();
         this.message = new Message("");
         this.message.answers = [];
         this.ticket = new Ticket("", "", TicketState.NEW);

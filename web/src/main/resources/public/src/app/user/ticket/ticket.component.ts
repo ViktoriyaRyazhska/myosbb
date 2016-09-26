@@ -57,13 +57,16 @@ export class TicketComponent implements OnInit {
     private email:string = "";
     private emailAssign:string = "";
     private pageRequest:PageRequest;
-    private _currentUserService = null;
 
     constructor(private ticketService:TicketService,
                 private _toasterService:ToasterService,
+                private _currentUserService:CurrentUserService,
                 private router:Router) {
         this._currentUserService = HeaderComponent.currentUserService;
         this.currentUser = this._currentUserService.getUser();
+        this.currentUser.role = this._currentUserService.getRole();
+
+        console.log("name"+this.currentUser.role);
 
     }
 
@@ -235,7 +238,11 @@ export class TicketComponent implements OnInit {
     }
 
     isCreator():boolean {
-        return this.currentUser.role == 'ROLE_ADMIN' || this.currentUser.role == 'ROLE_MANAGER';
+
+        if (this.currentUser.role == 'ROLE_ADMIN' || this.currentUser.role == 'ROLE_MANAGER') {
+            return true;
+        }
+        return false;
 
     }
 
