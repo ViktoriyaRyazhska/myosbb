@@ -6,6 +6,8 @@ import com.softserve.osbb.service.OsbbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,30 +20,34 @@ public class OsbbServiceImpl implements OsbbService {
     @Autowired
     private OsbbRepository osbbRepository;
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public Osbb addOsbb(Osbb osbb) {
-
         if(osbb == null) {
             return null;
         }
         return osbbRepository.saveAndFlush(osbb);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public Osbb getOsbb(Integer id) {
         return osbbRepository.findOne(id);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public Osbb getOsbb(String name) {
         return osbbRepository.findByName(name);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Osbb> getAllOsbb() {
         return osbbRepository.findAll();
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Osbb> getAllByOrder(String sortedBy, Boolean ascOrder) {
         if(sortedBy == null || ascOrder == null) {
@@ -56,27 +62,31 @@ public class OsbbServiceImpl implements OsbbService {
         return order == true ? Sort.Direction.DESC : Sort.Direction.ASC;
     }
 
-
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Osbb> findByAvailable(Boolean available) {
         return osbbRepository.findByAvailable(available);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Osbb> findByNameContaining(String name) {
         return osbbRepository.findByNameContainingIgnoreCase(name);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public long countOsbb() {
         return osbbRepository.count();
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public boolean existsOsbb(Integer id) {
         return osbbRepository.exists(id);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public Osbb updateOsbb(Osbb osbb){
         if(osbbRepository.exists(osbb.getOsbbId())) {
@@ -87,11 +97,13 @@ public class OsbbServiceImpl implements OsbbService {
         }
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public void deleteOsbb(Integer id) {
         osbbRepository.delete(id);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public void deleteOsbb(Osbb osbb) {
         osbbRepository.delete(osbb);

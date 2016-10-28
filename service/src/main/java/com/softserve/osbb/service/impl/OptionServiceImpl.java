@@ -5,6 +5,8 @@ import com.softserve.osbb.repository.OptionRepository;
 import com.softserve.osbb.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,21 +19,25 @@ public class OptionServiceImpl implements OptionService{
     @Autowired
     private OptionRepository optionRepository;
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public Option addOption(Option option) {
         return optionRepository.saveAndFlush(option);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public Option getOption(Integer id) {
         return optionRepository.findOne(id);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Option> getAllOption() {
         return optionRepository.findAll();
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public Option updateOption(Option option) {
 
@@ -42,17 +48,19 @@ public class OptionServiceImpl implements OptionService{
                     + " doesn't exist. First try to add this option.");
         }
     }
-
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public void deleteOption(Integer id) {
         optionRepository.delete(id);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public void deleteOption(Option option) {
         optionRepository.delete(option);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public void deleteAllOption() {
         optionRepository.deleteAll();

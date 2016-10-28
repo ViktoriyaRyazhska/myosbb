@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -45,6 +47,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     private static Logger logger = LoggerFactory.getLogger(AttachmentServiceImpl.class);
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public Attachment uploadFile(MultipartFile file) {
         logger.info("Uploading file " + file.getName());
@@ -58,82 +61,98 @@ public class AttachmentServiceImpl implements AttachmentService {
         return saveAttachment(attachment);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public void deleteAttachmentEverywhere(Integer attachmentId) {
         renameFile(new File(attachmentRepository.findOne(attachmentId).getPath()));
         deleteAttachment(getAttachmentById(attachmentId));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Attachment> findAttachmentByPath(String path) {
         return attachmentRepository.findAttachmentByPath(path);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public Attachment saveAttachment(Attachment attachment) {
         return attachmentRepository.save(getAttachmentWithUrl(attachment));
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public List<Attachment> saveAttachments(List<Attachment> list) {
         return attachmentRepository.save(list);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Attachment> getAttachments(List<Attachment> list) {
         return attachmentRepository.save(list);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public Attachment getAttachmentById(Integer id) {
         return attachmentRepository.findOne(id);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Attachment> getAttachmentsByIds(List<Integer> ids) {
         return attachmentRepository.findAll(ids);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Attachment> getAllAttachments() {
         return attachmentRepository.findAll();
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public Attachment updateAttachment(Integer id, Attachment attachment) {
         return attachmentRepository.exists(id) ? attachmentRepository.save(attachment) : null;
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public void deleteAttachment(Attachment attachment) {
         attachmentRepository.delete(attachment);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public void deleteAttachmentById(Integer id) {
         attachmentRepository.delete(id);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public void deleteAttachments(List<Attachment> list) {
         attachmentRepository.delete(list);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public void deleteAllAttachments() {
         attachmentRepository.findAll().forEach(a -> deleteAttachmentEverywhere(a.getAttachmentId()));
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public long countAttachments() {
         return attachmentRepository.count();
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public boolean existsAttachment(Integer id) {
         return attachmentRepository.exists(id);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public Page<Attachment> getAllAttachments(Integer pageNumber, String sortBy, Boolean order) {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, Constants.DEF_ROWS,

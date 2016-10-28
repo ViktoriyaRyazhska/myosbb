@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ public class BillChartServiceImpl implements BillChartService {
     @Autowired
     private BillRepository billRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public BillChartData getBillChartData() {
         List<Bill> bills = billRepository.findAll();
@@ -57,6 +59,7 @@ public class BillChartServiceImpl implements BillChartService {
         return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public BarChartData getBarChartData(Integer year) {
         List<Bill> bills = billRepository.getAllByYear(year);
