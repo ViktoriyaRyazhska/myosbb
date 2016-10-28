@@ -1,6 +1,8 @@
 package com.softserve.osbb.controller;
 
 
+import com.softserve.osbb.dto.UserRegistrationDTO;
+import com.softserve.osbb.dto.UserRegistrationDTOMapper;
 import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Settings;
 import com.softserve.osbb.model.Ticket;
@@ -20,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
@@ -44,12 +47,17 @@ public class BasicController {
     @Autowired
     SettingsService settingsService;
 
+    @Autowired
+    private UserRegistrationDTOMapper userRegistrationDTOMapper;
+
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public User putUser(@RequestBody User user) {
-        if (userService.findUserByEmail(user.getEmail()) != null)
-            return userService.findUserByEmail(user.getEmail());
+    public User putUser(@RequestBody UserRegistrationDTO userRegistrationDTO) throws ServletException {
+        User foundUser = userService.findUserByEmail(userRegistrationDTO.getEmail());
+        if (foundUser != null)
+            throw new ServletException("user already exists");
         logger.info("Saving user, sending to service");
-        User newUser = userService.save(user);
+        User newUser = userRegistrationDTOMapper.mapDTOToEntity(userRegistrationDTO);
+        newUser = userService.save(newUser);
         settingsService.save(new Settings(newUser));
         return newUser;
     }
@@ -59,7 +67,7 @@ public class BasicController {
     public Osbb putUser(@RequestBody Osbb osbb) {
         logger.info("Saving osbb, sending to service");
         Osbb newOsbb = osbbService.addOsbb(osbb);
-        User user= userService.getOne(osbb.getCreator().getUserId());
+        User user = userService.getOne(osbb.getCreator().getUserId());
         user.setOsbb(newOsbb);
         userService.update(user);
         return newOsbb;

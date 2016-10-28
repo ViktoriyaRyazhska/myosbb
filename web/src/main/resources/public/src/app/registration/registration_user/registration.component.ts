@@ -9,6 +9,12 @@ import {GoogleplaceDirective} from "./googleplace.directive";
 import {SELECT_DIRECTIVES} from "ng2-select";
 import {IHouse} from "../../../shared/models/House";
 import {IApartment} from "../../../shared/models/apartment.interface";
+import {UserRegistration} from "../../../shared/models/user_registration";
+import {ToasterContainerComponent, ToasterService, ToasterConfig} from "angular2-toaster/angular2-toaster";
+import {
+    onErrorServerNoResponseToastMsg,
+    onErrorNewUserAlreadyExists
+} from "../../../shared/error/error.handler.component";
 // import {JoinOsbbComponent} from '../join/join.osbb.component';
 
 
@@ -16,17 +22,18 @@ import {IApartment} from "../../../shared/models/apartment.interface";
     selector: 'app-register',
     templateUrl: 'src/app/registration/registration_user/registration.html',
     styleUrls: ['assets/css/registration/registration.css'],
-    providers: [RegisterService],
-    directives: [ROUTER_DIRECTIVES, MaskedInput, GoogleplaceDirective, SELECT_DIRECTIVES]
+    providers: [RegisterService, ToasterService],
+    directives: [ROUTER_DIRECTIVES, MaskedInput, GoogleplaceDirective, SELECT_DIRECTIVES, ToasterContainerComponent]
 })
 export class RegistrationComponent implements OnInit {
     options = ['Приєднатись до існуючого ОСББ', 'Створити нове ОСББ'];
-    newUser: User = new User();
+    newUser: UserRegistration = new UserRegistration();
     newOsbb: Osbb = new Osbb();
+    public toasterconfig: ToasterConfig = new ToasterConfig({showCloseButton: true, tapToDismiss: true, timeout: 5000});
     public emailMask = emailMask;
     public textmask = [/[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/];
     public phoneMask = ['(', /[0]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
-    confirmPassword: number = "";
+    confirmPassword: string = "";
     error: boolean = false;
     errorConfirm: boolean = false;
     errorMsg = "";
@@ -45,7 +52,9 @@ export class RegistrationComponent implements OnInit {
     private isJoinedOsbb: boolean;
     public address: Object;
 
-    constructor(private registerService: RegisterService, private _router: Router) {
+    constructor(private registerService: RegisterService,
+                private _router: Router,
+                private _toasterService: ToasterService) {
         this.newUser.password = "";
         this.newUser.activated = true;
         this.newOsbb.creationDate = new Date;
@@ -77,32 +86,49 @@ export class RegistrationComponent implements OnInit {
 
     onSubmitOsbb() {
         this.SenderOsbbAndUser();
-        setTimeout(() => {
-            this._router.navigate(['/login']);
-        }, 2000);
     }
 
     onSubmitJoin() {
         this.SenderJoin();
+    }
+
+    SenderJoin(): any {
+        let isSuccessful: boolean = false;
+        this.registerService.addUser(this.newUser)
+            .subscribe(
+                data => {
+                    isSuccessful = true;
+                    this.newUser = data;
+                    console.log(data);
+                    this.toLoginPageRedirect();
+                },
+                error => {
+                    isSuccessful = false;
+                    this.handleErrors(error);
+
+                }
+            )
+
+        setTimeout(()=> {
+            if (isSuccessful)
+                this._toasterService.pop('success', "Дякуємо за реєстрацію!")
+            else
+                this._toasterService.pop(onErrorNewUserAlreadyExists);
+
+        }, 1000)
+    }
+
+    private toLoginPageRedirect() {
         setTimeout(() => {
             this._router.navigate(['/login']);
         }, 2000);
-    }
-
-    SenderJoin(value: any) {
-        this.registerService.addUser(this.newUser).subscribe(
-            data => {
-                this.newUser = data;
-                console.log(data);
-            }
-        )
     }
 
     SenderOsbbAndUser() {
         this.registerService.addUser(this.newUser).subscribe(
             data => {
-                this.newUser = data;
-                this.newOsbb.creator = this.newUser;
+                let newUser: User = data;
+                this.newOsbb.creator = newUser;
                 this.registerService.addOSBB(this.newOsbb).subscribe(data=> {
                     console.log(data)
                 });
@@ -122,8 +148,8 @@ export class RegistrationComponent implements OnInit {
 
     confirmPass() {
         this.error = false;
-        var password = this.confirmPassword;
-        var password2 = this.newUser.password;
+        let password: string = this.confirmPassword;
+        let password2: string = this.newUser.password;
         if (password.length != 0) {
             if (password != password2) {
                 this.errorMsg = "Passwords don't match. Please try again";
@@ -147,6 +173,33 @@ export class RegistrationComponent implements OnInit {
         this.IsRegistered = true;
     }
 
+
+    selectedOsbb(value: any) {
+        this.isSelectedOsbb = true;
+        console.log('select osbb: ', value);
+        let selectedOsbb: Osbb = this.getOsbbByName(value.text);
+        this.newUser.osbbId = selectedOsbb.osbbId;
+        this.listAllHousesByOsbb(this.newUser.osbbId);
+    }
+
+
+    selectedHouse(value: any) {
+        console.log('select house: ' + value);
+        this.isSelectedHouse = true;
+        let houseId = this.getHouseIdByName(value.text);
+        console.log('select houseId: ' + houseId);
+        this.listAllApartmentsByHouse(houseId);
+    }
+
+
+    selectedApartment(value: any) {
+        this.isSelectedApartment = true;
+        let selectedApartmentID: number = this.getApartmentByApartmentNumber(value.text);
+        this.newUser.apartmentId = selectedApartmentID;
+        console.log('select apartment: ' + selectedApartmentID);
+        console.log(JSON.stringify(this.newUser));
+    }
+
     listAllOsbb() {
         this.registerService.getAllOsbb()
             .subscribe((data)=> {
@@ -158,19 +211,47 @@ export class RegistrationComponent implements OnInit {
             });
     }
 
-    listAllHouses() {
-        this.registerService.getAllHouses()
+    // listAllHouses() {
+    //     this.registerService.getAllHouses()
+    //         .subscribe((data)=> {
+    //             this.houseList = data;
+    //             this.houses = this.fillHouses();
+    //             console.log('all houses', this.houses);
+    //         }, (error)=> {
+    //             this.handleErrors(error)
+    //         });
+    // }
+
+
+    listAllHousesByOsbb(id: number) {
+
+        this.registerService.getAllHousesByOsbb(id)
             .subscribe((data)=> {
-                this.houseList = data;
-                this.houses = this.fillHouses();
-                console.log('all houses', this.houses);
-            }, (error)=> {
-                this.handleErrors(error)
-            });
+                    this.houseList = data;
+                    this.houses = this.fillHouses();
+                    console.log('all houses', this.houses);
+                },
+
+                (error)=> {
+                    this.handleErrors(error)
+                })
+
     }
 
-    listAllApartments() {
-        this.registerService.getAllApartments()
+    // listAllApartments() {
+    //     this.registerService.getAllApartments()
+    //         .subscribe((data)=> {
+    //             this.apartmentList = data;
+    //             this.apartment = this.fillApartment();
+    //             console.log('all apartment', this.apartment);
+    //         }, (error)=> {
+    //             this.handleErrors(error)
+    //         });
+    // }
+
+
+    listAllApartmentsByHouse(houseId: number) {
+        this.registerService.getAllApartmentsByHouse(houseId)
             .subscribe((data)=> {
                 this.apartmentList = data;
                 this.apartment = this.fillApartment();
@@ -180,26 +261,42 @@ export class RegistrationComponent implements OnInit {
             });
     }
 
-    selectedOsbb(value: any) {
-        this.listAllHouses();
-        this.isSelectedOsbb = true;
-        console.log('select osbb: ', value);
+    getOsbbByName(name: string): Osbb {
+        let selectedOsbb: Osbb = new Osbb();
+        for (let osbb of this.osbbList) {
+            if (osbb.name.match(name)) {
+                selectedOsbb = osbb;
+                break;
+            }
+        }
+        return selectedOsbb;
     }
 
-    handleErrors(error) {
-        return error;
+    getHouseIdByName(name: string): number {
+        let houseId = 0;
+        for (let house of this.houseList) {
+            if (house.street.match(name)) {
+                houseId = house.houseId;
+                break;
+            }
+        }
+        return houseId;
     }
 
-    selectedHouse(value: any) {
-        this.listAllApartments();
-        this.isSelectedHouse = true;
-        console.log('select house: ', value);
+
+    getApartmentByApartmentNumber(apartmentNumber: string): number {
+        let apartmentID: number = 0;
+        let apNumber = +apartmentNumber;
+        for (let ap of this.apartmentList) {
+            if (ap.number === apNumber) {
+                apartmentID = ap.apartmentId
+                break;
+            }
+        }
+
+        return apartmentID;
     }
 
-    selectedApartment(value: any) {
-        this.isSelectedApartment = true;
-        console.log('select apartment: ', value);
-    }
 
     fillOsbb(): string[] {
         let tempArr: string[] = [];
@@ -222,7 +319,7 @@ export class RegistrationComponent implements OnInit {
     fillHouses(): string[] {
         let tempArr: string[] = [];
         for (let houseObject of this.houseList) {
-            tempArr.push('' + houseObject.houseId);
+            tempArr.push('' + houseObject.street);
         }
         console.log(tempArr)
         return tempArr;
@@ -235,5 +332,12 @@ export class RegistrationComponent implements OnInit {
         }
         console.log(tempArr)
         return tempArr;
+    }
+
+    handleErrors(error) {
+        if (error.status === 500) {
+            this._toasterService.pop(onErrorNewUserAlreadyExists);
+        }
+        console.log('error msg' + error)
     }
 }

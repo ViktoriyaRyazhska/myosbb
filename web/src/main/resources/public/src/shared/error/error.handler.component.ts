@@ -18,6 +18,14 @@ export let onErrorServerNoResponseToastMsg: Toast = {
     bodyOutputType: BodyOutputType.TrustedHtml
 };
 
+export let onErrorNewUserAlreadyExists: Toast = {
+    type: 'error',
+    title: '',
+    body: '<h5>Юзер зтаким е-мейлом вже зареєстрований в системі</h5>',
+    showCloseButton: true,
+    bodyOutputType: BodyOutputType.TrustedHtml
+};
+
 @Component({
     selector: 'my-error',
     templateUrl: 'src/shared/error/404.html',
