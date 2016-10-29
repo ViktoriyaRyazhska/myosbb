@@ -1,17 +1,16 @@
 package com.softserve.osbb.controller;
 
 
+import com.softserve.osbb.dto.OsbbRegistrationDTO;
+import com.softserve.osbb.dto.UserDTO;
 import com.softserve.osbb.dto.UserRegistrationDTO;
-import com.softserve.osbb.dto.UserRegistrationDTOMapper;
+import com.softserve.osbb.dto.mappers.OsbbRegistrationDTOMapper;
+import com.softserve.osbb.dto.mappers.UserRegistrationDTOMapper;
+import com.softserve.osbb.dto.mappers.UserDTOMapper;
 import com.softserve.osbb.model.Osbb;
-import com.softserve.osbb.model.Settings;
-import com.softserve.osbb.model.Ticket;
 
 import com.softserve.osbb.model.User;
-import com.softserve.osbb.service.OsbbService;
-import com.softserve.osbb.service.SettingsService;
-import com.softserve.osbb.service.TicketService;
-import com.softserve.osbb.service.UserService;
+import com.softserve.osbb.service.*;
 import com.softserve.osbb.service.impl.MailSenderImpl;
 import com.softserve.osbb.service.utils.Sha256Encoder;
 import org.slf4j.Logger;
@@ -19,13 +18,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.DatatypeConverter;
-import java.security.MessageDigest;
 import java.util.HashMap;
 
 /**
@@ -38,11 +35,15 @@ public class BasicController {
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    UserService userService;
+    private UserService userService;
+
     @Autowired
-    OsbbService osbbService;
+    private RegistrationService registrationService;
+
+    @Autowired
+    private OsbbService osbbService;
     @Value("${service.serverpath}")
-    String serverUrl;
+    private String serverUrl;
 
     @Autowired
     SettingsService settingsService;
@@ -50,27 +51,28 @@ public class BasicController {
     @Autowired
     private UserRegistrationDTOMapper userRegistrationDTOMapper;
 
+    @Autowired
+    private OsbbRegistrationDTOMapper osbbRegistrationDTOMapper;
+
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public User putUser(@RequestBody UserRegistrationDTO userRegistrationDTO) throws ServletException {
+    public ResponseEntity<UserDTO> putUser(@RequestBody UserRegistrationDTO userRegistrationDTO)
+            throws ServletException {
         User foundUser = userService.findUserByEmail(userRegistrationDTO.getEmail());
-        if (foundUser != null)
-            throw new ServletException("user already exists");
-        logger.info("Saving user, sending to service");
-        User newUser = userRegistrationDTOMapper.mapDTOToEntity(userRegistrationDTO);
-        newUser = userService.save(newUser);
-        settingsService.save(new Settings(newUser));
-        return newUser;
+        if (foundUser != null) throw new ServletException("user already exists");
+        User registeredUser = registrationService.registrate(
+                userRegistrationDTOMapper.mapDTOToEntity(userRegistrationDTO)
+                );
+        return new ResponseEntity<>(UserDTOMapper.mapUserEntityToDTO(registeredUser), HttpStatus.OK);
     }
 
 
     @RequestMapping(value = "/registration/osbb", method = RequestMethod.POST)
-    public Osbb putUser(@RequestBody Osbb osbb) {
-        logger.info("Saving osbb, sending to service");
-        Osbb newOsbb = osbbService.addOsbb(osbb);
-        User user = userService.getOne(osbb.getCreator().getUserId());
-        user.setOsbb(newOsbb);
-        userService.update(user);
-        return newOsbb;
+    public ResponseEntity<Osbb> putUser(@RequestBody OsbbRegistrationDTO osbbRegistrationDTO) {
+        logger.info("registering new osbb");
+        Osbb registeredOsbb = registrationService.registrate(
+                osbbRegistrationDTOMapper.mapDTOToEntity(osbbRegistrationDTO)
+                );
+        return new ResponseEntity<>(registeredOsbb, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/validEmail", method = RequestMethod.POST)

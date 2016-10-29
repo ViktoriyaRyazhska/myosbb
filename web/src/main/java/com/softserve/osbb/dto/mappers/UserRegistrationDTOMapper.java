@@ -1,5 +1,6 @@
-package com.softserve.osbb.dto;
+package com.softserve.osbb.dto.mappers;
 
+import com.softserve.osbb.dto.UserRegistrationDTO;
 import com.softserve.osbb.dto.adapter.UserRegistrationToUserAdapter;
 import com.softserve.osbb.model.User;
 import org.springframework.beans.factory.annotation.Autowired;

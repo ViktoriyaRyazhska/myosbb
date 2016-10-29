@@ -36,14 +36,14 @@ export class HouseService {
             .catch((error)=>Observable.throw(error));
     }
 
-    getAllHousesByOsbb(pageParams: PageParams, osbbId: number): Observable<any> {
-        return this._http.post(this.houseURL + 'all/' + osbbId, JSON.stringify(pageParams))
+    currentUser_getAllHousesByOsbb(pageParams: PageParams): Observable<any> {
+        return this._http.post(this.houseURL + 'current/', JSON.stringify(pageParams))
             .map((response) => response.json())
             .catch((error) => Observable.throw(error));
     }
 
-    getAllHousesByPageParams(pageParams: PageParams): Observable<any> {
-        return this._http.post(this.houseURL + 'all', JSON.stringify(pageParams))
+    admin_getAllHouses(pageParams: PageParams): Observable<any> {
+        return this._http.post(this.houseURL + 'admin', JSON.stringify(pageParams))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
 

@@ -1,13 +1,12 @@
 import {Injectable} from "@angular/core";
 import {HTTP_PROVIDERS, Http, Headers, Response, RequestOptions} from "@angular/http";
-import {User} from "../../../shared/models/User";
-import {Osbb} from "../../../shared/models/osbb";
 import {Observable} from 'rxjs/Observable';
 import ApiService = require("../../../shared/services/api.service");
 import RegistrationComponent = require("./registration.component");
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {UserRegistration} from "../../../shared/models/user_registration";
+import {OsbbRegistration} from "../../../shared/models/osbb_registration";
 @Injectable()
 export class RegisterService {
 
@@ -22,16 +21,20 @@ export class RegisterService {
 
     }
 
-    addOSBB(osbb: Osbb): Observable<any> {
+    registerOsbb(osbb: OsbbRegistration): Observable<any> {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
-        return this.http.post(this._pathUrlForOsbb, osbb, options).map((res: Response) => res.json());
+        return this.http.post(this._pathUrlForOsbb, osbb, options)
+            .map((res: Response) => res.json())
+            .catch((error)=>Observable.throw(error));
     }
 
-    addUser(user: UserRegistration): Observable<any> {
+    registerUser(user: UserRegistration): Observable<any> {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
-        return this.http.post(this._pathUrlForUser, user, options).map((res: Response) => res.json());
+        return this.http.post(this._pathUrlForUser, user, options)
+            .map((res: Response) => res.json())
+            .catch((error)=>Observable.throw(error));
     }
 
     getAllOsbb(): Observable<any> {

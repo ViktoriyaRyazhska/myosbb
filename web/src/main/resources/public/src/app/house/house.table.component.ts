@@ -38,7 +38,7 @@ export class HouseTableComponent implements OnInit {
     private pending: boolean = false;
     private rows: number[] = [10, 20, 50];
     private onSearch: boolean = false;
-    private admin: boolean;
+    private admin: boolean = false;
     private selectedHouse: HousePageObject = {
         houseId: null, city: '', street: '', zipCode: '', description: '',
         osbbName: '', apartmentCount: null, numberOfInhabitants: null
@@ -69,15 +69,13 @@ export class HouseTableComponent implements OnInit {
     }
 
     initHousesArr() {
-          this.sub = this._routeParams.params.subscribe((params)=> {
-             this.osbbId = +params['id'];
-             if(this.osbbId > 0) {
-                 this.findAllHousesByOsbb();
-             } else {
-                 this.findAllHousesByPage();
-             } 
-         })
-      }
+
+        if (this.admin) {
+            this.findAllHousesByPage();
+        } else {
+            this.findAllHousesByOsbb();
+        }
+    }
 
     closeDelModal() {
         console.log("delete: " + this.houseId);
@@ -138,7 +136,7 @@ export class HouseTableComponent implements OnInit {
     private findAllHousesByPage() {
         this.emptyPageList();
         this.pending = true;
-        this._houseService.getAllHousesByPageParams(this.pageParams)
+        this._houseService.admin_getAllHouses(this.pageParams)
             .subscribe((data)=> {
                     this.pending = false;
                     this.houses = data.rows;
@@ -152,19 +150,19 @@ export class HouseTableComponent implements OnInit {
 
     findAllHousesByOsbb() {
         console.log("find All houses by osbb: " + this.osbbId);
-         this.emptyPageList();
-         this.pending = true;
-         this._houseService.getAllHousesByOsbb(this.pageParams, this.osbbId)
-             .subscribe((data)=> {
+        this.emptyPageList();
+        this.pending = true;
+        this._houseService.currentUser_getAllHousesByOsbb(this.pageParams, this.osbbId)
+            .subscribe((data)=> {
                     this.pending = false;
                     this.houses = data.rows;
                     this.totalPages = data.totalPages;
                     this.fillPageList(+data.beginPage, +data.endPage)
                 },
-                 (error)=> {
-                     this.handleErrors(error);
-                 });
-     }
+                (error)=> {
+                    this.handleErrors(error);
+                });
+    }
 
     fillPageList(beginIndex, endIndex) {
         for (let pageNum = beginIndex; pageNum <= endIndex; pageNum++) {

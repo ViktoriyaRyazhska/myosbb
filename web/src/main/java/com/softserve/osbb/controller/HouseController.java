@@ -5,9 +5,11 @@ import com.softserve.osbb.dto.PageParams;
 import com.softserve.osbb.dto.mappers.HouseDTOMapper;
 import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.House;
+import com.softserve.osbb.model.User;
 import com.softserve.osbb.service.ApartmentService;
 import com.softserve.osbb.service.HouseService;
 import com.softserve.osbb.service.OsbbService;
+import com.softserve.osbb.service.UserService;
 import com.softserve.osbb.util.paging.PageDataObject;
 import com.softserve.osbb.util.paging.PageDataUtil;
 import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
@@ -25,8 +27,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,6 +51,8 @@ public class HouseController {
     ApartmentService apartmentService;
     @Autowired
     OsbbService osbbService;
+    @Autowired
+    private UserService userService;
 
     private static Logger logger = LoggerFactory.getLogger(HouseController.class);
 
@@ -81,7 +87,7 @@ public class HouseController {
 
         return new ResponseEntity<>(houseDTOEntityResourceList, HttpStatus.OK);
     }
-    @RequestMapping(value = "/all", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin", method = RequestMethod.POST)
     public ResponseEntity<PageDataObject<Resource<HouseDTO>>> listAllHousesByPage(
             @RequestBody PageParams pageParams) {
         logger.info("get all houses by page number: " + pageParams.getPageNumber());
@@ -104,10 +110,13 @@ public class HouseController {
         return new ResponseEntity<>(houseDTOPageDataObject, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/all/{osbbId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/current", method = RequestMethod.POST)
     public ResponseEntity<PageDataObject<Resource<HouseDTO>>> listAllHousesByOsbbAndByPage(
-            @RequestBody PageParams pageParams, @PathVariable(value = "osbbId") Integer osbbId) {
-        logger.info("get all houses by osbb id: " + osbbId + ". by page number: " + pageParams.getPageNumber());
+            @RequestBody PageParams pageParams,
+            @AuthenticationPrincipal Principal user) {
+        User currentUser = userService.findUserByEmail(user.getName());
+        final Integer osbbId = currentUser.getOsbb().getOsbbId();
+        logger.info("get all houses by osbb: " + osbbId + ". by page number: " + pageParams.getPageNumber());
         final PageRequest pageRequest = PageRequestGenerator.generatePageRequest(pageParams.getPageNumber())
                 .addSortedBy(pageParams.getSortedBy(), "street")
                 .addOrderType(pageParams.getOrderType())

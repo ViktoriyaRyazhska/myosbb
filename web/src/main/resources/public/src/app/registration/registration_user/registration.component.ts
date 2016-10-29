@@ -15,6 +15,7 @@ import {
     onErrorServerNoResponseToastMsg,
     onErrorNewUserAlreadyExists
 } from "../../../shared/error/error.handler.component";
+import {OsbbRegistration} from "../../../shared/models/osbb_registration";
 // import {JoinOsbbComponent} from '../join/join.osbb.component';
 
 
@@ -23,12 +24,13 @@ import {
     templateUrl: 'src/app/registration/registration_user/registration.html',
     styleUrls: ['assets/css/registration/registration.css'],
     providers: [RegisterService, ToasterService],
-    directives: [ROUTER_DIRECTIVES, MaskedInput, GoogleplaceDirective, SELECT_DIRECTIVES, ToasterContainerComponent]
+    directives: [ROUTER_DIRECTIVES, MaskedInput, GoogleplaceDirective, SELECT_DIRECTIVES,
+        ToasterContainerComponent]
 })
 export class RegistrationComponent implements OnInit {
     options = ['Приєднатись до існуючого ОСББ', 'Створити нове ОСББ'];
     newUser: UserRegistration = new UserRegistration();
-    newOsbb: Osbb = new Osbb();
+    newOsbb: OsbbRegistration = new OsbbRegistration();
     public toasterconfig: ToasterConfig = new ToasterConfig({showCloseButton: true, tapToDismiss: true, timeout: 5000});
     public emailMask = emailMask;
     public textmask = [/[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/];
@@ -94,7 +96,7 @@ export class RegistrationComponent implements OnInit {
 
     SenderJoin(): any {
         let isSuccessful: boolean = false;
-        this.registerService.addUser(this.newUser)
+        this.registerService.registerUser(this.newUser)
             .subscribe(
                 data => {
                     isSuccessful = true;
@@ -111,7 +113,7 @@ export class RegistrationComponent implements OnInit {
 
         setTimeout(()=> {
             if (isSuccessful)
-                this._toasterService.pop('success', "Дякуємо за реєстрацію!")
+                this._toasterService.pop('success', '', 'Дякуємо за реєстрацію!')
             else
                 this._toasterService.pop(onErrorNewUserAlreadyExists);
 
@@ -125,17 +127,23 @@ export class RegistrationComponent implements OnInit {
     }
 
     SenderOsbbAndUser() {
-        this.registerService.addUser(this.newUser).subscribe(
-            data => {
-                let newUser: User = data;
-                this.newOsbb.creator = newUser;
-                this.registerService.addOSBB(this.newOsbb).subscribe(data=> {
-                    console.log(data)
-                });
-                console.log(data);
-                error => console.log("Error HTTP Post Service");
-                () => console.log("Job Done Osbb!");
-            });
+        this.newOsbb.creator = this.newUser;
+        this.registerService.registerOsbb(this.newOsbb)
+            .subscribe(
+                data => {
+                    console.log(data);
+                    this.toLoginPageRedirect();
+                    this._toasterService.pop('success', '', "Осбб " + this.newOsbb.name + " було успішно зареєстроване!");
+                },
+                error=> {
+                    this.handleErrors(error);
+                    if (error.status === 500) {
+                        this._toasterService.pop('error', '', "Нажаль, сталася помилка під час реєстрації. Спробуйте знову");
+                    }
+
+                }
+            )
+
     }
 
     getAddress(place: Object) {
