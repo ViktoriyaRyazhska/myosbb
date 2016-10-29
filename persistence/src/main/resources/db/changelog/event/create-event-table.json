@@ -17,7 +17,7 @@
                       "primaryKeyName": "event_pkey"
                     },
                     "name": "event_id",
-                    "type": "SERIAL"
+                    "type": "INT"
                   }
                 },
                 {
@@ -35,13 +35,13 @@
                 {
                   "column": {
                     "name": "start_time",
-                    "type": "TIMESTAMP WITH TIME ZONE"
+                    "type": "TIMESTAMP"
                   }
                 },
                 {
                   "column": {
                     "name": "end_time",
-                    "type": "TIMESTAMP WITH TIME ZONE"
+                    "type": "TIMESTAMP"
                   }
                 },
                 {
@@ -52,7 +52,7 @@
                 },
                 {
                   "column": {
-                    "name": "repeat",
+                    "name": "repeats",
                     "type": "VARCHAR(255)",
                     "defaultValue": "ONE_TIME"
                   }

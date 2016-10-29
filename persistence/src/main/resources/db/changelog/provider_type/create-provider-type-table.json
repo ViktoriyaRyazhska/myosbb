@@ -17,7 +17,7 @@
                       "primaryKeyName": "provider_type_pkey"
                     },
                     "name": "provider_type_id",
-                    "type": "SERIAL"
+                    "type": "INT"
                   }
                 },
                 {

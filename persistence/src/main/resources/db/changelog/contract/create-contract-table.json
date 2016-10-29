@@ -17,19 +17,19 @@
                       "primaryKeyName": "contract_pkey"
                     },
                     "name": "contract_id",
-                    "type": "SERIAL"
+                    "type": "INT"
                   }
                 },
                 {
                   "column": {
                     "name": "date_finish",
-                    "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
+                    "type": "TIMESTAMP"
                   }
                 },
                 {
                   "column": {
                     "name": "date_start",
-                    "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
+                    "type": "TIMESTAMP"
                   }
                 },
                 {

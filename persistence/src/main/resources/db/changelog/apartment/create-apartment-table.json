@@ -17,7 +17,7 @@
                       "primaryKeyName": "apartment_pkey"
                     },
                     "name": "apartment_id",
-                    "type": "SERIAL"
+                    "type": "INT"
                   }
                 },
                 {

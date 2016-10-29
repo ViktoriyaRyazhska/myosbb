@@ -17,7 +17,7 @@
                       "primaryKeyName": "settings_pkey"
                     },
                     "name": "settings_id",
-                    "type": "SERIAL"
+                    "type": "INT"
                   }
                 },
                 {

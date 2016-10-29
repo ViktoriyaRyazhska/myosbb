@@ -17,13 +17,13 @@
                       "primaryKeyName": "users_pkey"
                     },
                     "name": "user_id",
-                    "type": "SERIAL"
+                    "type": "INT"
                   }
                 },
                 {
                   "column": {
                     "name": "birth_date",
-                    "type": "TIMESTAMP(6) WITHOUT TIME ZONE"
+                    "type": "TIMESTAMP"
                   }
                 },
                 {

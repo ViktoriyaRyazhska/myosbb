@@ -7,7 +7,7 @@
         "changes": [
           {
             "sqlFile": {
-              "dbms": "postgres",
+              "dbms": "mysql",
               "encoding": "utf8",
               "endDelimiter": "\\nGO",
               "path": "import.sql",

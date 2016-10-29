@@ -17,7 +17,7 @@
                       "primaryKeyName": "bill_pkey"
                     },
                     "name": "bill_id",
-                    "type": "SERIAL"
+                    "type": "INT"
                   }
                 },
                 {
@@ -110,7 +110,6 @@
               "columnDataType": "varchar(255)",
               "columnName": "status",
               "defaultValue": "NOT_PAID",
-              "schemaName": "public",
               "tableName": "bill"
             }
           }

@@ -17,7 +17,7 @@
                       "primaryKeyName": "osbb_pkey"
                     },
                     "name": "osbb_id",
-                    "type": "SERIAL"
+                    "type": "INT"
                   }
                 },
                 {
@@ -47,7 +47,7 @@
                 {
                   "column": {
                     "name": "creation_date",
-                    "type": "TIMESTAMP(6) WITH TIME ZONE"
+                    "type": "TIMESTAMP"
                   }
                 },
                 {
@@ -154,7 +154,6 @@
               "columnDataType": "boolean",
               "columnName": "available",
               "defaultValueBoolean": true,
-              "schemaName": "public",
               "tableName": "osbb"
             }
           }

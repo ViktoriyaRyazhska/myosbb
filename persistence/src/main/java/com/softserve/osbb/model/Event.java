@@ -108,7 +108,7 @@ public class Event {
     }
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "repeat")
+    @Column(name = "repeats")
     public Periodicity getRepeat() {
         return repeat;
     }

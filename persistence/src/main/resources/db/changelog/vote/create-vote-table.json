@@ -17,7 +17,7 @@
                       "primaryKeyName": "vote_pkey"
                     },
                     "name": "vote_id",
-                    "type": "SERIAL"
+                    "type": "INT"
                   }
                 },
                 {
@@ -35,13 +35,13 @@
                 {
                   "column": {
                     "name": "start_time",
-                    "type": "TIMESTAMP(6) WITH TIME ZONE"
+                    "type": "TIMESTAMP"
                   }
                 },
                 {
                   "column": {
                     "name": "end_time",
-                    "type": "TIMESTAMP(6) WITH TIME ZONE"
+                    "type": "TIMESTAMP"
                   }
                 },
                 {

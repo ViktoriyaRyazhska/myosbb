@@ -17,7 +17,7 @@
                       "primaryKeyName": "provider_pkey"
                     },
                     "name": "provider_id",
-                    "type": "SERIAL"
+                    "type": "INT"
                   }
                 },
                 {
@@ -219,7 +219,7 @@
             "addForeignKeyConstraint": {
               "baseColumnNames": "provider_id",
               "baseTableName": "provider_attachment",
-              "constraintName": "fk_bi920n4vqcx1hpa2tw3k2eyq6",
+              "constraintName": "fk_bi920n4vqcx1hpa2tw3k215116",
               "deferrable": false,
               "initiallyDeferred": false,
               "onDelete": "NO ACTION",
@@ -241,7 +241,7 @@
             "addForeignKeyConstraint": {
               "baseColumnNames": "attachment_id",
               "baseTableName": "provider_attachment",
-              "constraintName": "fk_leg4d0wo56vr3bj1wqxsybqcv",
+              "constraintName": "fk_leg4d0wo56vr3bj1wqxs5b6cv",
               "deferrable": false,
               "initiallyDeferred": false,
               "onDelete": "NO ACTION",
@@ -263,7 +263,7 @@
             "addForeignKeyConstraint": {
               "baseColumnNames": "attachment_id",
               "baseTableName": "provider",
-              "constraintName": "fk_rdqtdh5wqlwkiryfy8lsp44ee",
+              "constraintName": "fk_rdqtdh5wqlwkiryff8jsp44ee",
               "deferrable": false,
               "initiallyDeferred": false,
               "onDelete": "NO ACTION",

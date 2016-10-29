@@ -17,7 +17,7 @@
                       "primaryKeyName": "notice_pkey"
                     },
                     "name": "notice_id",
-                    "type": "SERIAL"
+                    "type": "INT"
                   }
                 },
                 {
@@ -35,7 +35,7 @@
                 {
                   "column": {
                     "name": "time",
-                    "type": "TIMESTAMP(6) WITH TIME ZONE"
+                    "type": "TIMESTAMP"
                   }
                 },
                 {

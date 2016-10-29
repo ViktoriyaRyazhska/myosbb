@@ -17,7 +17,7 @@
                       "primaryKeyName": "option_pkey"
                     },
                     "name": "option_id",
-                    "type": "SERIAL"
+                    "type": "INT"
                   }
                 },
                 {

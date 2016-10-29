@@ -29,6 +29,7 @@
         <liquibase-maven-plugin.version>3.5.1</liquibase-maven-plugin.version>
         <jasper-reports>5.5.1</jasper-reports>
         <apache-poi>3.10-FINAL</apache-poi>
+        <mariadb.version>1.1.7</mariadb.version>
     </properties>
 
     <build>
@@ -77,7 +78,7 @@
                 <version>${liquibase-maven-plugin.version}</version>
                 <configuration>
                     <outputChangeLogFile>db.changelog-master.json</outputChangeLogFile>
-                    <driver>org.postgresql.Driver</driver>
+                    <driver>${db.driver}</driver>
                     <url>${db.connectionURL}</url>
                     <username>${db.username}</username>
                     <password>${db.password}</password>
@@ -109,6 +110,14 @@
             <version>${postgresql.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>${mariadb.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
         <dependency>
             <groupId>com.h2database</groupId>

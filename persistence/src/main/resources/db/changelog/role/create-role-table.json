@@ -17,7 +17,7 @@
                       "primaryKeyName": "role_pkey"
                     },
                     "name": "role_id",
-                    "type": "SERIAL"
+                    "type": "INT"
                   }
                 },
                 {

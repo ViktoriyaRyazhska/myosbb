@@ -17,7 +17,7 @@
                       "primaryKeyName": "ticket_pkey"
                     },
                     "name": "ticket_id",
-                    "type": "SERIAL"
+                    "type": "INT"
                   }
                 },
                 {
@@ -41,13 +41,13 @@
                 {
                   "column": {
                     "name": "state_time",
-                    "type": "TIMESTAMP(6) WITH TIME ZONE"
+                    "type": "TIMESTAMP"
                   }
                 },
                 {
                   "column": {
                     "name": "time",
-                    "type": "TIMESTAMP(6) WITH TIME ZONE"
+                    "type": "TIMESTAMP"
                   }
                 },
                 {
