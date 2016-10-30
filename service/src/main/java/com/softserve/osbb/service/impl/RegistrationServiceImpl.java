@@ -1,12 +1,10 @@
 package com.softserve.osbb.service.impl;
 
 import com.softserve.osbb.model.Osbb;
+import com.softserve.osbb.model.Role;
 import com.softserve.osbb.model.Settings;
 import com.softserve.osbb.model.User;
-import com.softserve.osbb.service.OsbbService;
-import com.softserve.osbb.service.RegistrationService;
-import com.softserve.osbb.service.SettingsService;
-import com.softserve.osbb.service.UserService;
+import com.softserve.osbb.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +26,8 @@ public class RegistrationServiceImpl implements RegistrationService {
     private OsbbService osbbService;
     @Autowired
     private SettingsService settingsService;
+    @Autowired
+    private RoleService roleService;
 
     @Transactional(readOnly = false,
             isolation = Isolation.SERIALIZABLE,
@@ -53,6 +53,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         creator = registrate(creator);
         newOsbb = osbbService.addOsbb(newOsbb);
         creator.setOsbb(newOsbb);
+        creator.setRole(roleService.getRole("ROLE_MANAGER"));
         userService.update(creator);
         return newOsbb;
 
