@@ -54,26 +54,6 @@ public class BasicController {
     @Autowired
     private OsbbRegistrationDTOMapper osbbRegistrationDTOMapper;
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ResponseEntity<UserDTO> putUser(@RequestBody UserRegistrationDTO userRegistrationDTO)
-            throws ServletException {
-        User foundUser = userService.findUserByEmail(userRegistrationDTO.getEmail());
-        if (foundUser != null) throw new ServletException("user already exists");
-        User registeredUser = registrationService.registrate(
-                userRegistrationDTOMapper.mapDTOToEntity(userRegistrationDTO)
-                );
-        return new ResponseEntity<>(UserDTOMapper.mapUserEntityToDTO(registeredUser), HttpStatus.OK);
-    }
-
-
-    @RequestMapping(value = "/registration/osbb", method = RequestMethod.POST)
-    public ResponseEntity<Osbb> putUser(@RequestBody OsbbRegistrationDTO osbbRegistrationDTO) {
-        logger.info("registering new osbb");
-        Osbb registeredOsbb = registrationService.registrate(
-                osbbRegistrationDTOMapper.mapDTOToEntity(osbbRegistrationDTO)
-                );
-        return new ResponseEntity<>(registeredOsbb, HttpStatus.OK);
-    }
 
     @RequestMapping(value = "/validEmail", method = RequestMethod.POST)
     public HttpStatus validateEmail(@RequestBody String email) {
@@ -114,6 +94,7 @@ public class BasicController {
             return HttpStatus.BAD_REQUEST;
         }
     }
+
 
 
 }
