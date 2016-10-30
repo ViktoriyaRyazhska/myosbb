@@ -63,9 +63,7 @@ export class TicketComponent implements OnInit {
                 private _currentUserService:CurrentUserService,
                 private router:Router) {
         this._currentUserService = HeaderComponent.currentUserService;
-        this.currentUser = this._currentUserService.getUser();
-        this.currentUser.role = this._currentUserService.getRole();
-
+        this.currentUser = this._currentUserService.currentUser;
         console.log("name"+this.currentUser.role);
 
     }

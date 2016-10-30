@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from "@angular/core";
 import {ReportDownloaderComponent} from "../report/download/report.downloader.component";
 import {BS_VIEW_PROVIDERS, MODAL_DIRECTIVES, BUTTON_DIRECTIVES, ModalDirective} from "ng2-bootstrap";
 import {CORE_DIRECTIVES} from "@angular/common";
-import {DateTimePickerDirective} from "ng2-datetime-picker/dist/datetime-picker.directive";
 import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
 import {PageCreator} from "../../../shared/services/page.creator.interface";
@@ -33,8 +32,7 @@ import {FORM_DIRECTIVES} from "@angular/forms";
     inputs: ['osbbRole', 'isUserDownload'],
     styleUrls: ['src/app/user/bills/bill.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
     directives: [BillChartComponent, ToasterContainerComponent, ReportDownloaderComponent,
-        MODAL_DIRECTIVES, SELECT_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES, BUTTON_DIRECTIVES,
-        DateTimePickerDirective],
+        MODAL_DIRECTIVES, SELECT_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES, BUTTON_DIRECTIVES],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
 })
@@ -77,8 +75,8 @@ export class UserBillComponent implements OnInit {
     constructor(private _billService: BillService, private _toasterService: ToasterService,
                 private _houseService: HouseService,
                 private _providerService: ProviderService) {
-        this.currentUser = HeaderComponent.currentUserService.getUser();
-
+        this.currentUser = HeaderComponent.currentUserService.currentUser;
+        console.log(JSON.stringify('loading..' + this.currentUser));
     }
 
     listAllHouses() {

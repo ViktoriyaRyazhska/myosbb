@@ -203,9 +203,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group"><label>{{'date' | translate | capitalize}}</label><br>
-                                    <input type="text" class="form-control mod" required
-                                           name="date" [(ngModel)]="selectedReport.creationDate" datetime-picker
-                                           date-only="true" #mdate="ngModel">
+                                    <input type="date" value="yyyy-MM-dd" class="form-control mod" required
+                                           name="date" [(ngModel)]="selectedReport.creationDate"  #mdate="ngModel">
                                     <div [hidden]="mdate.valid || mdate.pristine" class="alert alert-danger">
                                         {{'date_err_description' | translate}}
                                     </div>

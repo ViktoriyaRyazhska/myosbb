@@ -61,7 +61,7 @@ export class EventComponent implements OnInit, OnDestroy {
                 private _attachmentService: AttachmentService,
                 private currentUserService:CurrentUserService,
                 private _router: Router) {
-        this.currentUser = currentUserService.getUser();
+        this.currentUser = currentUserService.currentUser;
     }
 
     ngOnInit():any {

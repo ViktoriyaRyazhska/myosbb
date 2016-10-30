@@ -25,7 +25,6 @@ import {Attachment} from "../admin/components/attachment/attachment.interface";
 export class EventShowComponent implements OnInit, OnDestroy {
 
     @ViewChild('previewModal')
-
     public previewModal:ModalDirective;
     private event: Event;
     private eventId: number;

@@ -221,10 +221,9 @@
 
                                         <div class="form-group">
                                             <label>{{'date' | translate | capitalize}}</label><br>
-                                            <input style="width: 270px" type="text" class="form-control" required
-                                                   name="date" [(ngModel)]="newBill.date" datetime-picker
-                                                   date-only="true" #date="ngModel">
-                                            <div [hidden]="date.valid || date.pristine" class="alert alert-danger">
+                                            <input style="width: 270px" type="date" value="yyyy-MM-dd" class="form-control" required
+                                                   name="date" [(ngModel)]="newBill.date"  #date="ngModel">
+                                            <div [hidden]="date.valid || date.pristine" class="alert alert-danger" >
                                                 {{'date_err_description' | translate}}
                                             </div>
                                             <div [hidden]="isDateValid(newBill.date)" class="alert alert-danger">

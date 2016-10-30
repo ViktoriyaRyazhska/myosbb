@@ -10,7 +10,6 @@ import {DomSanitizationService} from "@angular/platform-browser";
 import {SELECT_DIRECTIVES} from "ng2-select";
 import {TranslatePipe} from "ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
-import {DateTimePickerDirective} from "ng2-datetime-picker/dist/datetime-picker.directive";
 import {User} from "../../../shared/models/User";
 import {HeaderComponent} from "../../header/header.component";
 import {FORM_DIRECTIVES} from "@angular/forms";
@@ -24,7 +23,7 @@ import Regex = require('../../../shared/services/regex.all.text');
     selector: 'my-report',
     templateUrl: 'src/app/user/report/report.html',
     providers: [ReportService, FileDownloaderService],
-    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, SELECT_DIRECTIVES, FORM_DIRECTIVES, BUTTON_DIRECTIVES, DateTimePickerDirective],
+    directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, SELECT_DIRECTIVES, FORM_DIRECTIVES, BUTTON_DIRECTIVES],
     viewProviders: [BS_VIEW_PROVIDERS],
     styleUrls: ['src/app/user/report/report.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
     pipes: [ReportFilter, TranslatePipe, CapitalizeFirstLetterPipe]
@@ -63,7 +62,7 @@ export class UserReportComponent implements OnInit, OnDestroy {
     constructor(private _reportService: ReportService,
                 private sanitizer: DomSanitizationService,
                 private fileDownloaderService: FileDownloaderService) {
-        this.currentUser = HeaderComponent.currentUserService.getUser();
+        this.currentUser = HeaderComponent.currentUserService.currentUser;
     }
 
     onClickShowOptional() {
