@@ -8,12 +8,15 @@ import MaskedInput from 'angular2-text-mask';
 import emailMask from 'node_modules/text-mask-addons/dist/emailMask.js';
 
 import {NoticeService} from './../header/header.notice.service';
+import {CapitalizeFirstLetterPipe} from "../../shared/pipes/capitalize-first-letter";
+import {TranslatePipe} from "ng2-translate";
 @Component({
     selector: 'app-login',
     templateUrl: 'src/app/login/login.html',
     styleUrls: ['assets/css/login/login.css'],
     directives: [RegistrationComponent, ToasterContainerComponent, MaskedInput],
     providers: [LoginService, ToasterService, NoticeService],
+    pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
     outputs: ['isLoggedIn']
 })
 export class LoginComponent implements OnInit {

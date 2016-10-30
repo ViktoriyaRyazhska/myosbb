@@ -215,13 +215,18 @@
   "write": "write",
   "apartment": "Apartment",
   "residents": "Residents",
-  "contacts":"Contacts",
-  "profile":"Profile",
-  "gender":"Gender",
-  "close":"Close",
-  "emptylist":"List is empthy...",
-  "createUser":"Create user",
-  "password":"Password"
+  "contacts": "Contacts",
+  "profile": "Profile",
+  "gender": "Gender",
+  "close": "Close",
+  "emptylist": "List is empthy...",
+  "createUser": "Create user",
+  "password": "Password",
+  "sign_in": "Sign In",
+  "forgot_pass": "Forgot password?",
+  "user_not_found": "no user was found",
+  "no_account": "don't have an account yet?",
+  "create_account": "create an account"
 }
 
 

@@ -21,7 +21,7 @@ export let onErrorServerNoResponseToastMsg: Toast = {
 export let onErrorNewUserAlreadyExists: Toast = {
     type: 'error',
     title: '',
-    body: '<h5>Юзер зтаким е-мейлом вже зареєстрований в системі</h5>',
+    body: '<h5>Юзер з таким е-мейлом вже зареєстрований в системі</h5>',
     showCloseButton: true,
     bodyOutputType: BodyOutputType.TrustedHtml
 };

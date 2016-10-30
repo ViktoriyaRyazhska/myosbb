@@ -46,6 +46,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public Osbb registrate(Osbb newOsbb) {
         logger.info("registering new osbb " + newOsbb);
+        if (!osbbService.findByNameContaining(newOsbb.getName()).isEmpty()) {
+            throw new IllegalArgumentException("osbb with such name " + newOsbb.getName() + " already exists");
+        }
         User creator = newOsbb.getCreator();
         creator = registrate(creator);
         newOsbb = osbbService.addOsbb(newOsbb);

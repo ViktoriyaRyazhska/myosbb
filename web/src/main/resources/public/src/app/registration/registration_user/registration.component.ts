@@ -4,7 +4,7 @@ import {Osbb, IOsbb} from "../../../shared/models/osbb";
 import {RegisterService} from "./register.service";
 import {ROUTER_DIRECTIVES, Router} from "@angular/router";
 import MaskedInput from "angular2-text-mask";
-import emailMask from "node_modules/text-mask-addons/dist/emailMask.js";
+import emailMask from 'node_modules/text-mask-addons/dist/emailMask.js';
 import {GoogleplaceDirective} from "./googleplace.directive";
 import {SELECT_DIRECTIVES} from "ng2-select";
 import {IHouse} from "../../../shared/models/House";
@@ -16,6 +16,8 @@ import {
     onErrorNewUserAlreadyExists
 } from "../../../shared/error/error.handler.component";
 import {OsbbRegistration} from "../../../shared/models/osbb_registration";
+import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
+import {TranslatePipe} from "ng2-translate";
 // import {JoinOsbbComponent} from '../join/join.osbb.component';
 
 
@@ -24,6 +26,7 @@ import {OsbbRegistration} from "../../../shared/models/osbb_registration";
     templateUrl: 'src/app/registration/registration_user/registration.html',
     styleUrls: ['assets/css/registration/registration.css'],
     providers: [RegisterService, ToasterService],
+    pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
     directives: [ROUTER_DIRECTIVES, MaskedInput, GoogleplaceDirective, SELECT_DIRECTIVES,
         ToasterContainerComponent]
 })
@@ -102,6 +105,7 @@ export class RegistrationComponent implements OnInit {
                     isSuccessful = true;
                     this.newUser = data;
                     console.log(data);
+                    this._toasterService.pop('success', '', 'Дякуємо за реєстрацію!')
                     this.toLoginPageRedirect();
                 },
                 error => {
@@ -110,14 +114,6 @@ export class RegistrationComponent implements OnInit {
 
                 }
             )
-
-        setTimeout(()=> {
-            if (isSuccessful)
-                this._toasterService.pop('success', '', 'Дякуємо за реєстрацію!')
-            else
-                this._toasterService.pop(onErrorNewUserAlreadyExists);
-
-        }, 1000)
     }
 
     private toLoginPageRedirect() {
@@ -132,15 +128,11 @@ export class RegistrationComponent implements OnInit {
             .subscribe(
                 data => {
                     console.log(data);
-                    this.toLoginPageRedirect();
                     this._toasterService.pop('success', '', "Осбб " + this.newOsbb.name + " було успішно зареєстроване!");
+                    this.toLoginPageRedirect();
                 },
                 error=> {
                     this.handleErrors(error);
-                    if (error.status === 500) {
-                        this._toasterService.pop('error', '', "Нажаль, сталася помилка під час реєстрації. Спробуйте знову");
-                    }
-
                 }
             )
 
@@ -343,8 +335,11 @@ export class RegistrationComponent implements OnInit {
     }
 
     handleErrors(error) {
+        if (error.status === 403) {
+            this._toasterService.pop('error', "Такий користувач уже зареєстрований в системі");
+        }
         if (error.status === 500) {
-            this._toasterService.pop(onErrorNewUserAlreadyExists);
+            this._toasterService.pop('error', "Нажаль, сталася помилка під час реєстрації");
         }
         console.log('error msg' + error)
     }

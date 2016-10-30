@@ -31,29 +31,14 @@ import java.util.HashMap;
 
 @CrossOrigin
 @RestController
-public class BasicController {
+public class ValidationController {
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
-
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private RegistrationService registrationService;
-
     @Autowired
     private OsbbService osbbService;
     @Value("${service.serverpath}")
     private String serverUrl;
-
-    @Autowired
-    SettingsService settingsService;
-
-    @Autowired
-    private UserRegistrationDTOMapper userRegistrationDTOMapper;
-
-    @Autowired
-    private OsbbRegistrationDTOMapper osbbRegistrationDTOMapper;
-
 
     @RequestMapping(value = "/validEmail", method = RequestMethod.POST)
     public HttpStatus validateEmail(@RequestBody String email) {
@@ -94,7 +79,6 @@ public class BasicController {
             return HttpStatus.BAD_REQUEST;
         }
     }
-
 
 
 }

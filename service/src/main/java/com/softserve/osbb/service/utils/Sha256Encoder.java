@@ -2,11 +2,14 @@ package com.softserve.osbb.service.utils;
 
 import com.softserve.osbb.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by cavayman on 16.09.2016.
@@ -17,7 +20,7 @@ public final class Sha256Encoder {
     @Autowired
     UserService userService;
 
-    private HashMap<Integer, String> secretKeysForForgotPassword = new HashMap<Integer, String>();
+    private Map<Integer, String> secretKeysForForgotPassword = new ConcurrentHashMap<Integer, String>();
 
     public void setSecretKeyForUser(Integer id) {
         if (!secretKeysForForgotPassword.containsKey(id)) {

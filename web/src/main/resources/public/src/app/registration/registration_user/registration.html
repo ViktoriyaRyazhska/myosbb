@@ -1,194 +1,198 @@
+<toaster-container></toaster-container>
 <div class="container">
-    <div class="registration-form  center-block" *ngIf="IsRegistered">
-        <form class="ui form " (ngSubmit)="onSubmitUser(newUser.status)" #registerForm="ngForm">
-            <div class="form-header">
-                <h3>Реєстрація користувача </h3>
-            </div>
-            <div class="form-container">
-                <div class="row">
-                    <div class="col-xs-6">
-                        <label>Ім'я</label>
-                        <input [textMask]="{mask:textmask,guide:false}" class="form-control placeholder-no-fix" name="firstName" [(ngModel)]="newUser.firstName"
-                            placeholder="Введіть своє ім'я" type="text" >
+    <div class="row animated  zoomIn ">
+        <div class="col-md-12">
+            <div class="registration-form  center-block" *ngIf="IsRegistered">
+                <form class="ui form " (ngSubmit)="onSubmitUser(newUser.status)" #registerForm="ngForm">
+                    <div class="form-header">
+                        <h3>Реєстрація користувача </h3>
                     </div>
+                    <div class="form-container">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <label>Ім'я</label>
+                                <input [textMask]="{mask:textmask,guide:false}" class="form-control placeholder-no-fix" name="firstName" [(ngModel)]="newUser.firstName"
+                                    placeholder="Введіть своє ім'я" type="text" >
+                            </div>
 
-                    <div class="col-xs-6">
-                        <label>Прізвище</label>
-                        <input [textMask]="{mask:textmask,guide:false}" class="form-control placeholder-no-fix" name="lastName" [(ngModel)]="newUser.lastName"
-                            placeholder="Введіть своє прізвище" type="text" required>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <label>Емейл</label>
-
-                        <input [textMask]="{mask:emailMask}" class="form-control placeholder-no-fix" name="email" [(ngModel)]="newUser.email" placeholder="Введіть свій Email"
-                            type="text" required>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-
-                        <label>Номер телефону</label>
-                        <input [textMask]="{mask:phoneMask}" class="form-control" name="phoneNumber" [(ngModel)]="newUser.phoneNumber" type="text"
-                            placeholder="(___) ___-____" required>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-
-                        <label>Дата народження</label>
-                        <input class="form-control" name="birthDate" [(ngModel)]="newUser.birthDate" type="date" required>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-12">
-                        <label for="status">Виберіть варіант</label>
-                        <select class="form-control" id="status" required [(ngModel)]="newUser.status" name="status" #status="ngModel">
-                             <option *ngFor="let p of options" [value]="p">{{p}}</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-12">
-                        <label>Пароль</label> <input class="form-control placeholder-no-fix col-xs-6" name="password" [(ngModel)]="newUser.password"
-                            (blur)="confirmPass()" placeholder='Введіть свій пароль' type="password" required>
-                        <div class="col-xs-12 centered">
-                            <label *ngIf='error' class="error" disabled=true>{{errorMsg}}</label>
-                        </div>
-                    </div>
-                    <div class="col-xs-12">
-                        <label>Підтвердіть пароль</label> <input class="form-control placeholder-no-fix col-xs-6" [(ngModel)]="confirmPassword"
-                            name="confirmPassword" (blur)="confirmPass()" placeholder='Підтвердіть пароль' type="password" required>
-                        <div class="col-xs-12 centered">
-                            <label *ngIf='errorConfirm' class="error" disabled=true>{{errorMsg}}</label>
-                        </div>
-                    </div>
-                        <br>
-                </div>
-                
-
-            </div>
-            <div class="row form-footer">
-                <hr>
-                <br>
-                <div class="col-xs-6">
-                    <a class="btn btn-danger col-xs-12" href="javascript:history.back()">Назад</a>
-                </div>
-                <div class="col-xs-6">
-                    <button class="btn btn-primary col-xs-12" type='submit'  [disabled]="!registerForm.form.valid">Вперед</button>
-                </div>
-            </div>
-
-        </form>
-    </div>
-<!--------------------------------------Registration Osbb------------------------------------------------------>
-
-    <div class="registration-form  center-block" *ngIf="IsRegisteredOsbb">
-        <form class="ui form" (ngSubmit)="onSubmitOsbb()" #registerOsbbForm="ngForm">
-            <div class="form-header">
-                <h3>Реєстрація ОСББ </h3>
-            </div>
-            <div class="form-container">
-                <div class="form-container">
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <label>Назва</label>
-                            <input class="form-control placeholder-no-fix" name="name" [(ngModel)]="newOsbb.name" type="text" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <label>Описання</label>
-                            <input class="form-control placeholder-no-fix" name="descrption" [(ngModel)]="newOsbb.description" type="text" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <label>Адрес</label>
-                            <input class="form-control placeholder-no-fix" name="address" [(ngModel)]="newOsbb.address" type="text" (setAddress)="getAddress($event)"
-                                googleplace required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <label>Район</label>
-                            <input class="form-control placeholder-no-fix" name="district" [(ngModel)]="newOsbb.district" type="text" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <label>Посилання на фото дому</label>
-                            <input class="form-control placeholder-no-fix" name="logoUrl" [(ngModel)]="newOsbb.logoUrl" type="text">
-                            <div class="text-xs-center">
-                                <br>
-                                <img src="{{newOsbb.logoUrl}}" class="img-rounded" style="height: auto; max-height: 300px; max-width: 300px;display: block;
-      margin: 0 auto; ">
+                            <div class="col-xs-6">
+                                <label>Прізвище</label>
+                                <input [textMask]="{mask:textmask,guide:false}" class="form-control placeholder-no-fix" name="lastName" [(ngModel)]="newUser.lastName"
+                                    placeholder="Введіть своє прізвище" type="text" required>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>Емейл</label>
+
+                                <input [textMask]="{mask:emailMask}" class="form-control placeholder-no-fix" name="email" [(ngModel)]="newUser.email" placeholder="Введіть свій Email"
+                                    type="text" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <label>Номер телефону</label>
+                                <input [textMask]="{mask:phoneMask}" class="form-control" name="phoneNumber" [(ngModel)]="newUser.phoneNumber" type="text"
+                                    placeholder="(___) ___-____" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <label>Дата народження</label>
+                                <input class="form-control" name="birthDate" [(ngModel)]="newUser.birthDate" type="date" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label for="status">Виберіть варіант</label>
+                                <select class="form-control" id="status" required [(ngModel)]="newUser.status" name="status" #status="ngModel">
+                                     <option *ngFor="let p of options" [value]="p">{{p}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>Пароль</label> <input class="form-control placeholder-no-fix col-xs-6" name="password" [(ngModel)]="newUser.password"
+                                    (blur)="confirmPass()" placeholder='Введіть свій пароль' type="password" required>
+                                <div class="col-xs-12 centered">
+                                    <label *ngIf='error' class="error" disabled=true>{{errorMsg}}</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <label>Підтвердіть пароль</label> <input class="form-control placeholder-no-fix col-xs-6" [(ngModel)]="confirmPassword"
+                                    name="confirmPassword" (blur)="confirmPass()" placeholder='Підтвердіть пароль' type="password" required>
+                                <div class="col-xs-12 centered">
+                                    <label *ngIf='errorConfirm' class="error" disabled=true>{{errorMsg}}</label>
+                                </div>
+                            </div>
+                                <br>
+                        </div>
+
+
                     </div>
-                    <br>
-                    <hr>
-                </div>
-            </div>
-            <div class="row form-footer">
-                <br>
-                <div class="col-xs-6">
-                    <a class="btn btn-danger col-xs-12" (click)="Back()">Назад</a>
-                </div>
-                <div class="col-xs-6">
-                    <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!registerOsbbForm.form.valid">Вперед</button>
-                </div>
-            </div>
+                    <div class="row form-footer">
+                        <hr>
+                        <br>
+                        <div class="col-xs-6">
+                            <a class="btn btn-danger col-xs-12" href="javascript:history.back()">Назад</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-primary col-xs-12" type='submit'  [disabled]="!registerForm.form.valid">Вперед</button>
+                        </div>
+                    </div>
 
-        </form>
+                </form>
+            </div>
+        <!--------------------------------------Registration Osbb------------------------------------------------------>
+
+            <div class="registration-form  center-block" *ngIf="IsRegisteredOsbb">
+                <form class="ui form" (ngSubmit)="onSubmitOsbb()" #registerOsbbForm="ngForm">
+                    <div class="form-header">
+                        <h3>Реєстрація ОСББ </h3>
+                    </div>
+                    <div class="form-container">
+                        <div class="form-container">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label>Назва</label>
+                                    <input class="form-control placeholder-no-fix" name="name" [(ngModel)]="newOsbb.name" type="text" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label>Описання</label>
+                                    <input class="form-control placeholder-no-fix" name="descrption" [(ngModel)]="newOsbb.description" type="text" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label>Адрес</label>
+                                    <input class="form-control placeholder-no-fix" name="address" [(ngModel)]="newOsbb.address" type="text" (setAddress)="getAddress($event)"
+                                        googleplace required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label>Район</label>
+                                    <input class="form-control placeholder-no-fix" name="district" [(ngModel)]="newOsbb.district" type="text" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label>Посилання на фото дому</label>
+                                    <input class="form-control placeholder-no-fix" name="logoUrl" [(ngModel)]="newOsbb.logoUrl" type="text">
+                                    <div class="text-xs-center">
+                                        <br>
+                                        <img src="{{newOsbb.logoUrl}}" class="img-rounded" style="height: auto; max-height: 300px; max-width: 300px;display: block;
+              margin: 0 auto; ">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row form-footer">
+                        <br>
+                        <div class="col-xs-6">
+                            <a class="btn btn-danger col-xs-12" (click)="Back()">Назад</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!registerOsbbForm.form.valid">Вперед</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <!--------------------------------------Join Osbb------------------------------------------------------>
+
+
+             <div class="registration-form  center-block" *ngIf="isJoinedOsbb">
+                <form class="ui form" (ngSubmit)="onSubmitJoin()" #joinOsbbForm="ngForm">
+                    <div class="form-header">
+                        <h3>Приєднатись до ОСББ </h3>
+                    </div>
+                    <div class="form-container">
+                            <div class="form-group"><label>Виберіть ваше ОСББ</label>
+                                                <ng-select [allowClear]="true"
+                                                           [items]="osbb"
+                                                           (selected)="selectedOsbb($event)"
+                                                           placeholder="Вибрати">
+                                                </ng-select>
+                                            </div>
+                                            <div *ngIf="isSelectedOsbb" class="form-group"><label>Виберіть ваш будинок</label>
+                                                <ng-select [allowClear]="true"
+                                                           [items]="houses"
+                                                           (selected)="selectedHouse($event)"
+                                                           placeholder="Вибрати">
+                                                </ng-select>
+                                            </div>
+                                            <div *ngIf="isSelectedHouse" class="form-group"><label>Виберіть вашу квартиру</label>
+                                                <ng-select [allowClear]="true"
+                                                           [items]="apartment"
+                                                           (selected)="selectedApartment($event)"
+                                                           placeholder="Вибрати">
+                                                </ng-select>
+                                            </div>
+                                            <br>
+                            <hr>
+                    </div>
+                    <div class="row form-footer">
+                        <br>
+                        <div class="col-xs-6">
+                            <a class="btn btn-danger col-xs-12" (click)="Back()">Назад</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!joinOsbbForm.form.valid" >Вперед</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            </div>
+        </div>
     </div>
-    <!--------------------------------------Join Osbb------------------------------------------------------>
-
-
-     <div class="registration-form  center-block" *ngIf="isJoinedOsbb">
-        <form class="ui form" (ngSubmit)="onSubmitJoin()" #joinOsbbForm="ngForm">
-            <div class="form-header">
-                <h3>Приєднатись до ОСББ </h3>
-            </div>
-            <div class="form-container">
-                    <div class="form-group"><label>Виберіть ваше ОСББ</label>
-                                        <ng-select [allowClear]="true"
-                                                   [items]="osbb"
-                                                   (selected)="selectedOsbb($event)"
-                                                   placeholder="Вибрати">
-                                        </ng-select>
-                                    </div>
-                                    <div *ngIf="isSelectedOsbb" class="form-group"><label>Виберіть ваш будинок</label>
-                                        <ng-select [allowClear]="true"
-                                                   [items]="houses"
-                                                   (selected)="selectedHouse($event)"
-                                                   placeholder="Вибрати">
-                                        </ng-select>
-                                    </div>
-                                    <div *ngIf="isSelectedHouse" class="form-group"><label>Виберіть вашу квартиру</label>
-                                        <ng-select [allowClear]="true"
-                                                   [items]="apartment"
-                                                   (selected)="selectedApartment($event)"
-                                                   placeholder="Вибрати">
-                                        </ng-select>
-                                    </div>
-                                    <br>
-                    <hr>
-            </div>
-            <div class="row form-footer">
-                <br>
-                <div class="col-xs-6">
-                    <a class="btn btn-danger col-xs-12" (click)="Back()">Назад</a>
-                </div>
-                <div class="col-xs-6">
-                    <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!joinOsbbForm.form.valid" >Вперед</button>
-                </div>
-            </div>
-
-        </form>
-    </div>
-
-</div>
