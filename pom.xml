@@ -62,12 +62,15 @@
     </dependencies>
 
     <profiles>
-        <profile>
+       <profile>
             <id>main</id>
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 4e53c5f8a6df175fa398e7c7150e68f69c723c35
             <build>
                 <plugins>
-                    <!-- disable tests during maven build -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
@@ -86,11 +89,21 @@
             </properties>
         </profile>
 
+
+
         <profile>
             <id>mariadb</id>
+<<<<<<< HEAD
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+=======
+
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+>>>>>>> 4e53c5f8a6df175fa398e7c7150e68f69c723c35
             <build>
                 <plugins>
                     <plugin>
@@ -133,6 +146,7 @@
                 <db.password>noddod1491</db.password>
             </properties>
         </profile>
+
         <profile>
             <id>h2</id>
             <properties>
