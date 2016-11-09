@@ -64,9 +64,7 @@
     <profiles>
         <profile>
             <id>main</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+            
             <build>
                 <plugins>
                     <!-- disable tests during maven build -->
@@ -90,6 +88,9 @@
 
         <profile>
             <id>mariadb</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
