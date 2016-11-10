@@ -66,12 +66,13 @@ export class RegistrationComponent implements OnInit {
         this.osbbList = [];
         this.houseList = [];
         this.apartmentList = [];
+        this.newUser.status = this.options[0];
     }
 
     ngOnInit() {
         this.listAllOsbb();
         this.IsRegistered = true;
-
+ 
     }
 
     onSubmitUser(status) {

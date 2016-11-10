@@ -45,16 +45,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <label for="status">Виберіть варіант</label>
-                                <select class="form-control" id="status" required [(ngModel)]="newUser.status" name="status" #status="ngModel">
-                                     <option *ngFor="let p of options" [value]="p">{{p}}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row">
+		        <div class="row">
                             <div class="col-xs-12">
                                 <label>Пароль</label> <input class="form-control placeholder-no-fix col-xs-6" name="password" [(ngModel)]="newUser.password"
                                     (blur)="confirmPass()" placeholder='Введіть свій пароль' type="password" required>
