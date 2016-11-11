@@ -14,6 +14,16 @@
     <artifactId>web</artifactId>
 
     <profiles>
+    	<profile>
+            <id>mariadb</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </profile>
         <profile>
             <id>main</id>
             <dependencies>
@@ -53,12 +63,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
-        <!--&lt;!&ndash;Java Jason Web Token&ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>io.jsonwebtoken</groupId>-->
-            <!--<artifactId>jjwt</artifactId>-->
-            <!--<version>0.6.0</version>-->
-        <!--</dependency>-->
 
     </dependencies>
 
