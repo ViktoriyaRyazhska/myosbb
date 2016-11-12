@@ -1,5 +1,13 @@
 # myosbb
-Project “OSBB” – a web-application which is  a godsend for condominium head, managers and residents. It offers a very easy way to manage accounting and residents, events and organizational issues. It represents a simple design and great functionality that is needed  for managing.In this project you'll see the following technologies: Spring Data JPA, Spring Boot, Spring Oauth2.0 (Jwt based), Hibernate, Spring MVC, Spring Security, Liquibase, RESTful resource server, Angular2 
+Project “OSBB” – a web-application which is  a godsend for condominium head, managers and residents. It offers a very easy way to manage accounting and residents, events and organizational issues. It represents a simple design and great functionality that is needed  for managing.In this project you'll see the following technologies: 
+- Spring Data JPA
+- Spring Boot
+- Spring Oauth2.0 (Jwt based)
+- Hibernate
+- Spring MVC
+- Liquibase
+- RESTful resource server
+- Angular2 
 
 ***
 
