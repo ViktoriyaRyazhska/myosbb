@@ -12,6 +12,7 @@ You will need:
 - Node.js
 - Eclipse IDE (you can use another one, but this instruction describes some specific steps for Eclipse)
 - Spring Tool Suite (STS) for Eclipse
+- Maven plugin for Eclipse
 
 After you have installed all necessary tools:
 - clone this repo to your workspace
