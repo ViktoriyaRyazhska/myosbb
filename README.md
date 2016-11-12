@@ -10,7 +10,7 @@ You will need:
 - Tomcat 8
 - MariaDB (set user and password to "root", set port to 1100)
 - Node.js
-- Eclipse IDE (you can use another one, but this instruction decribes some specific steps for Eclipse)
+- Eclipse IDE (you can use another one, but this instruction describes some specific steps for Eclipse)
 - Spring Tool Suite (STS) for Eclipse
 
 After you have installed all necessary tools:
