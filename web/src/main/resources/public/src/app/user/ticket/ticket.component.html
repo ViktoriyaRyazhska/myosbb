@@ -13,6 +13,10 @@
                 <button class="btn btn-success" *ngIf="currentUser.role!='ROLE_ADMIN'" (click)="addForm.openAddModal()"
                         style="margin-left:5px;margin-bottom:15px;"><i>{{'create_ticket' | translate}}</i>
                 </button>
+                <vote #voteVar></vote>
+                <button class="btn btn-info" (click)="voteVar.openModalWindow()"
+                        style="margin-left:5px;margin-bottom:15px;"><i>{{'addVoting' | translate | capitalize}}</i>
+                </button>
                 <file-upload-modal (upload)='onUpload($event)' #uploadForm></file-upload-modal>
                 <ticket-add-form (created)="createTicket($event)" #addForm></ticket-add-form>
                 <ticket-edit-form [ticket]="updatedTicket" (update)="editTicket($event)"

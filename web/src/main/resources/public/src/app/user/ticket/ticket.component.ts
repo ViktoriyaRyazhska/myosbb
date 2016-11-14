@@ -26,13 +26,14 @@ import {onErrorResourceNotFoundToastMsg, onErrorServerNoResponseToastMsg} from "
 import {FileSelectDirective, FileDropDirective} from "ng2-file-upload";
 import {FileUploadComponent} from "../../admin/components/attachment/modals/file-upload-modal";
 import {Attachment} from "../../admin/components/attachment/attachment.interface";
+import {VoteComponent} from "../../home/voting/vote.component";
 @Component({
     selector: 'ticket',
     templateUrl: './src/app/user/ticket/ticket.component.html',
     providers: [TicketService, ToasterService],
     directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, CORE_DIRECTIVES,
         TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent,
-        FileSelectDirective, FileDropDirective, FileUploadComponent],
+        FileSelectDirective, FileDropDirective, FileUploadComponent,VoteComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
     styleUrls: ['src/app/user/ticket/ticket.css', 'src/shared/css/loader.css', 'src/shared/css/general.css']
