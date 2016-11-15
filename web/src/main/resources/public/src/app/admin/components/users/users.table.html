@@ -135,20 +135,13 @@
                                            class="form-control" type="date"
                                            [(ngModel)]="userMy.birthDate" required>
                                 </div>
-                                <div class="">
+                                 <div class="">
                                     <label> {{ 'password' | translate }}</label>
                                     <input name="password" id="password"
                                            class="form-control" type="text"
                                            [(ngModel)]="userMy.password" required>
-                                </div>
-                                <div class="">
-                                    <label for="status">Виберіть варіант</label>
-                                    <select class="form-control" id="status" required [(ngModel)]="userMy.status"
-                                     name="status" #status="ngModel" (change)="onSubmitUser(userMy.status)">
-                                        <option *ngFor="let p of options" [value]="p">{{p}}</option>
-                                    </select>
-                                </div>
-                                    <div class="" *ngIf="isJoinedOsbb">
+                                </div> 
+                                    <div class="" >
                                         <label>Виберіть ваше ОСББ</label>
                                                 <ng-select [items]="osbb"
                                                            (selected)="selectedOsbb($event)"

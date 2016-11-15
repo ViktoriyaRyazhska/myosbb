@@ -48,17 +48,15 @@ export class UsersComponent implements OnInit {
     genders = [
         'male',
         'female'
-    ];
-    options = [
-        'Створити нове ОСББ',
-        'Приєднатись до існуючого ОСББ'
-        ];
-    
+    ];    
 
     constructor(private _userService:UsersService, private router:Router, private formBuilder:FormBuilder,
         private registerService: RegisterService) {
         console.log('constructore');
         this.userMy.activated = true;
+        this.IsRegistered = false;
+        this.isJoinedOsbb = true;
+        this.IsRegisteredOsbb = false;
         this.userList = [];
         this.userForm = this.formBuilder.group({
             'firstName': ['', Validators.required],
@@ -106,21 +104,6 @@ export class UsersComponent implements OnInit {
     }
     toUser(id:number){
         this.router.navigate(['admin/user', id]);
-    }
-
-    onSubmitUser(status) {
-        if (status == this.options[1]) {
-            console.log('CreateNew');
-            this.IsRegistered = false;
-            this.IsRegisteredOsbb = true;
-            this.isJoinedOsbb = false;
-        }
-        else if (status == this.options[0]) {
-            console.log('JoinToExist');
-            this.IsRegistered = false;
-            this.isJoinedOsbb = true;
-            this.IsRegisteredOsbb = false;
-        }
     }
 
     selectedOsbb(value: any) {
