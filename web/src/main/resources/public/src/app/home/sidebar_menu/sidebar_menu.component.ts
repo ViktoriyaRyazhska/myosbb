@@ -6,7 +6,6 @@ import {TranslatePipe} from "ng2-translate/ng2-translate";
 @Component({
     selector: 'osbb-sidebar-menu',
     templateUrl: './src/app/home/sidebar_menu/sidebar_menu.html',
-    // inputs: ['userName'],
     directives: [ROUTER_DIRECTIVES],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
 })
