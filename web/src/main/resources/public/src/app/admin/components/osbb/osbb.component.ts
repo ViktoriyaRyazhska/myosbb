@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {Router} from '@angular/router';
 import {TranslatePipe} from "ng2-translate";
 import 'rxjs/Rx';
-import moment from 'moment';
+import {Moment} from 'moment';
 
 import { OsbbDTO } from './osbb';
 import { OsbbService } from './osbb.service';
@@ -32,6 +32,7 @@ export class OsbbComponent implements OnInit {
     osbbArr:IOsbb[];
     updatedOsbb:IOsbb;
     asc: boolean;
+    
 
     constructor( private osbbService: OsbbService, private currentUserService:CurrentUserService, private router:Router,private loginService:LoginService) { 
         this.osbbArr = [];
