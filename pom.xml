@@ -64,7 +64,6 @@
     <profiles>
        <profile>
             <id>main</id>
-
             <build>
                 <plugins>
                     <plugin>
@@ -84,18 +83,12 @@
                 <db.password>Fi8O8oJfDiGcIkASAL8fR6snko57_S_T</db.password>
             </properties>
         </profile>
-
-
-
+        
         <profile>
             <id>mariadb</id>
-
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-
-          
-
             <build>
                 <plugins>
                     <plugin>
@@ -114,7 +107,6 @@
                 <db.username>root</db.username>
                 <db.password>root</db.password>
             </properties>
-
         </profile>
 
         <profile>
@@ -135,7 +127,7 @@
                 <db.driver>org.postgresql.Driver</db.driver>
                 <db.connectionURL>jdbc:postgresql://localhost:5432/myosbb</db.connectionURL>
                 <db.username>postgres</db.username>
-                <db.password>noddod1491</db.password>
+                <db.password>postgres</db.password>
             </properties>
         </profile>
 
