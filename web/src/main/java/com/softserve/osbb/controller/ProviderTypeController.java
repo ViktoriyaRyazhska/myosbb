@@ -2,7 +2,8 @@ package com.softserve.osbb.controller;
 
 import com.softserve.osbb.model.ProviderType;
 import com.softserve.osbb.service.ProviderTypeService;
-import com.softserve.osbb.util.EntityNotFoundException;
+import com.softserve.osbb.util.resources.exceptions.EntityNotFoundException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

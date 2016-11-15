@@ -6,8 +6,9 @@ import com.softserve.osbb.model.Provider;
 import com.softserve.osbb.service.AttachmentService;
 import com.softserve.osbb.service.ProviderService;
 import com.softserve.osbb.service.ProviderTypeService;
-import com.softserve.osbb.util.EntityNotFoundException;
 import com.softserve.osbb.util.paging.PageDataObject;
+import com.softserve.osbb.util.resources.exceptions.EntityNotFoundException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
