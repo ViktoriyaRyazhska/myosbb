@@ -10,8 +10,6 @@ import { ContractComponent } from "./contract/contract.component";
 import { ApartmentProfileComponent } from "../home/components/ApartmentProfile/apartment.profile";
 import { ProfileComponent } from "./profile/profile.component";
 import { SettingsComponent } from "./settings/settings.component";
-
-
  
 export const userRoutes: RouterConfig = [
     {

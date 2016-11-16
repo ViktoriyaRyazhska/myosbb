@@ -96,7 +96,6 @@ export class UserBillComponent implements OnInit {
             }, (error)=>this.handleErrors(error))
     }
 
-
     ngOnInit(): any {
         if (this.osbbRole != 'HEAD') {
             this.isUserDownload = true;
@@ -106,7 +105,6 @@ export class UserBillComponent implements OnInit {
         this.listAllHouses();
         this.listAllProviders();
     }
-
 
     emptyHouses() {
         while (this.houses.length) {
@@ -154,7 +152,6 @@ export class UserBillComponent implements OnInit {
         this.billId = +billId;
         this.delModal.show();
     }
-
 
     closeDelModal() {
         console.log('deleting bill with id', this.billId);
@@ -216,7 +213,6 @@ export class UserBillComponent implements OnInit {
                 });
     };
 
-
     private processBillDTOData(data) {
         console.log('processing bill data...');
         this.pending = false;
@@ -243,7 +239,6 @@ export class UserBillComponent implements OnInit {
 
         console.log(error);
     }
-
 
     isPaid(status: string): boolean {
         if (status == 'PAID') {
@@ -285,7 +280,6 @@ export class UserBillComponent implements OnInit {
         }
     }
 
-
     sortBy(name: string) {
         console.log('sorted by ', name);
         this.pageParams.orderType = !this.pageParams.orderType;
@@ -300,7 +294,6 @@ export class UserBillComponent implements OnInit {
                 });
     }
 
-
     confirmBill(bill: BillDTO) {
         console.log('confirming bill', bill.billId);
         bill.paid = bill.toPay;
@@ -312,7 +305,6 @@ export class UserBillComponent implements OnInit {
                 this.handleErrors(error)
             });
     }
-
 
     onClickSearchByParam(value: string) {
         if (value.trim().length) {
@@ -422,5 +414,4 @@ export class UserBillComponent implements OnInit {
             console.log('toPay: ', this.newBill.toPay);
         }
     }
-
 }

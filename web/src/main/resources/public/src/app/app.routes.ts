@@ -11,7 +11,6 @@ import { adminRoutes } from "./admin/admin.routes";
 import { managerRoutes } from "./manager/manager.routes";
 import { ForgotPasswordComponent } from "./forgot_password/forgot.password.component";
 
-
 export const routes: RouterConfig = [
     { path: 'head/:status', component: HeaderComponent },
     { path: 'login', component: LoginComponent },
