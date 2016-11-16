@@ -1,3 +1,9 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.controller;
 
 import com.softserve.osbb.dto.VoteDTO;
@@ -25,13 +31,13 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 /**
  * Created by Roman on 13.07.2016.
  */
-
 @CrossOrigin
 @RestController
 @RequestMapping("/restful/vote")
 public class VoteController {
 
-    private static Logger logger = LoggerFactory.getLogger(VoteController.class);
+    private static Logger logger = LoggerFactory
+            .getLogger(VoteController.class);
 
     @Autowired
     private VoteService voteService;
@@ -45,67 +51,86 @@ public class VoteController {
         User user = userService.findOne(vote.getUser().getUserId());
         user.getVotes().add(vote);
         vote.setUser(user);
-        for(Option option: vote.getOptions()) {
+
+        for (Option option : vote.getOptions()) {
             option.setVote(vote);
         }
-        vote = voteService.addVote(vote);
-        return new ResponseEntity<>(addResourceLinkToVote(vote), HttpStatus.OK);
+
+        return new ResponseEntity<>(
+                addResourceLinkToVote(voteService.addVote(vote)),
+                HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Resource<Vote>> getVoteById(@PathVariable("id") Integer id) {
+    public ResponseEntity<Resource<Vote>> getVoteById(
+            @PathVariable("id") Integer id) {
         logger.info("Get vote by id: " + id);
-        Vote vote = voteService.getVoteById(id);
-        return new ResponseEntity<>(addResourceLinkToVote(vote), HttpStatus.OK);
+        return new ResponseEntity<>(
+                addResourceLinkToVote(voteService.getVoteById(id)),
+                HttpStatus.OK);
     }
 
-   @RequestMapping(value="/all/{osbbId}", method = RequestMethod.GET)
-   public ResponseEntity<List<Resource<VoteDTO>>> getAllVotesByOsbb(@PathVariable("osbbId") Integer osbbId) {
-       logger.info("Get all votes by osbbId: " + osbbId);
-       List<Vote> voteList = voteService.getAllVotesByDateOfCreation();
-       List<VoteDTO> voteDTOList = VoteDTOMapper.mapAllVoteEntityToDTO(
-               voteList.stream().filter(v -> v.getUser().getOsbb().getOsbbId() == osbbId)
-                       .collect(Collectors.toList()));
-       final List<Resource<VoteDTO>> resourceVoteList = new ArrayList<>();
-       for(VoteDTO v: voteDTOList) {
-           resourceVoteList.add(addResourceLinkToVote(v));
-       }
-       return new ResponseEntity<>(resourceVoteList, HttpStatus.OK);
-   }
+    @RequestMapping(value = "/all/{osbbId}", method = RequestMethod.GET)
+    public ResponseEntity<List<Resource<VoteDTO>>> getAllVotesByOsbb(
+            @PathVariable("osbbId") Integer osbbId) {
+        logger.info("Get all votes by osbbId: " + osbbId);
+        List<Vote> voteList = voteService.getAllVotesByDateOfCreation();
+        
+        List<VoteDTO> voteDTOList = VoteDTOMapper.mapAllVoteEntityToDTO(voteList.stream()
+                        .filter(v -> v.getUser().getOsbb().getOsbbId() == osbbId)
+                        .collect(Collectors.toList()));
+        
+        final List<Resource<VoteDTO>> resourceVoteList = new ArrayList<>();
 
-    @RequestMapping(value="/close/{osbbId}", method = RequestMethod.GET)
-    public ResponseEntity<Resource<Vote>> closeVote(@PathVariable("osbbId") Integer osbbId) {
+        for (VoteDTO v : voteDTOList) {
+            resourceVoteList.add(addResourceLinkToVote(v));
+        }
+
+        return new ResponseEntity<>(resourceVoteList, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/close/{osbbId}", method = RequestMethod.GET)
+    public ResponseEntity<Resource<Vote>> closeVote(
+            @PathVariable("osbbId") Integer osbbId) {
         logger.info("Close vote with id: " + osbbId);
-        Vote v = voteService.getVoteById(osbbId);
-        v.setAvailable(false);
-        return new ResponseEntity<>(addResourceLinkToVote(voteService.addVote(v)), HttpStatus.OK);
+        Vote vote = voteService.getVoteById(osbbId);
+        vote.setAvailable(false);
+        return new ResponseEntity<>(addResourceLinkToVote(voteService.addVote(vote)), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Resource<Vote>> deleteVote(@PathVariable("id") Integer id) {
+    public ResponseEntity<Resource<Vote>> deleteVote(
+            @PathVariable("id") Integer id) {
         logger.info("Delete vote with id: " + id);
-        for(Option opt: voteService.getVoteById(id).getOptions()) {
+        
+        for (Option opt : voteService.getVoteById(id).getOptions()) {
             opt.getUsers().clear();
         }
+        
         voteService.deleteVote(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private Resource<Vote> addResourceLinkToVote(Vote vote) {
-        if (vote == null) return null;
+        if (vote == null) {
+            return null;
+        }
+        
         Resource<Vote> voteResource = new Resource<>(vote);
-        voteResource.add(linkTo(methodOn(VoteController.class)
-                .getVoteById(vote.getVoteId()))
-                .withSelfRel());
+        voteResource.add(linkTo(methodOn(VoteController.class).getVoteById(vote.getVoteId()))
+                        .withSelfRel());
         return voteResource;
     }
 
     private Resource<VoteDTO> addResourceLinkToVote(VoteDTO vote) {
-        if (vote == null) return null;
+        if (vote == null) {
+            return null;
+        }
+        
         Resource<VoteDTO> voteResource = new Resource<>(vote);
-        voteResource.add(linkTo(methodOn(VoteController.class)
-                .getVoteById(vote.getVoteId()))
-                .withSelfRel());
+        voteResource.add(linkTo(
+                methodOn(VoteController.class).getVoteById(vote.getVoteId()))
+                        .withSelfRel());
         return voteResource;
     }
 }

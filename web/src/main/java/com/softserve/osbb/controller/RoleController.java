@@ -1,3 +1,9 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.controller;
 
 import com.softserve.osbb.model.Role;
@@ -27,7 +33,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RequestMapping("/restful/role")
 public class RoleController {
 
-    private static final List<Resource<Role>> EMPTY_LIST = new ArrayList<>(0);
     private static Logger logger = LoggerFactory.getLogger(RoleController.class);
 
     @Autowired
@@ -38,9 +43,11 @@ public class RoleController {
         logger.info("Get all role: ");
         List<Role> roleList = roleService.getAllRole();
         final List<Resource<Role>> resourceRoleList = new ArrayList<>();
+        
         for(Role o: roleList) {
             resourceRoleList.add(addResourceLinkToRole(o));
         }
+        
         return new ResponseEntity<>(resourceRoleList, HttpStatus.OK);
     }
 
@@ -70,14 +77,12 @@ public class RoleController {
         return new ResponseEntity<>(pageDataObject, HttpStatus.OK);
     }
 
-
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<Resource<Role>> createRole(@RequestBody Role role) {
         logger.info("Create role.  " + role);
         role = roleService.addRole(role);
         return new ResponseEntity<>(addResourceLinkToRole(role), HttpStatus.OK);
     }
-
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource<Role>> getRoleById(@PathVariable("id") Integer roleId) {
@@ -92,7 +97,6 @@ public class RoleController {
         Role role = roleService.getRole(name);
         return new ResponseEntity<>(addResourceLinkToRole(role), HttpStatus.OK);
     }
-
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
     public ResponseEntity<Resource<Role>> updateRole(@RequestBody Role role) {
@@ -115,14 +119,18 @@ public class RoleController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     private Resource<Role> addResourceLinkToRole(Role role) {
-        if (role == null) return null;
+        if (role == null) {
+            return null;
+        }
+        
         Resource<Role> roleResource = new Resource<>(role);
+        
         roleResource.add(linkTo(methodOn(RoleController.class)
                 .getRoleById(role.getRoleId()))
                 .withSelfRel());
+        
         return roleResource;
     }
-
 
     private Resource<Role> getLink(Resource<Role> roleResource) {
         //adding self-link

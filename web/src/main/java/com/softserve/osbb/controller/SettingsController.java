@@ -1,13 +1,16 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.controller;
 
-import com.softserve.osbb.model.Notice;
-import com.softserve.osbb.model.Settings;
-import com.softserve.osbb.model.Ticket;
-import com.softserve.osbb.model.User;
-import com.softserve.osbb.model.enums.NoticeType;
-import com.softserve.osbb.service.SettingsService;
-import com.softserve.osbb.service.TicketService;
-import com.softserve.osbb.service.UserService;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
+import java.security.Principal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +18,17 @@ import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
-import java.sql.Timestamp;
-import java.util.Date;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import com.softserve.osbb.model.Settings;
+import com.softserve.osbb.model.User;
+import com.softserve.osbb.service.SettingsService;
+import com.softserve.osbb.service.UserService;
 
 /**
  * Created by Kris on 16.09.2016.
@@ -43,6 +49,7 @@ public class SettingsController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Resource<Settings>> createSettings(@RequestBody Integer userId) {
         Settings setting;
+        
         try {
             setting = settingsService.save(new Settings(userService.getOne(userId)));
             logger.info("Saving settings object " + setting.toString());
@@ -50,12 +57,14 @@ public class SettingsController {
             logger.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        
         return new ResponseEntity<>(addResourceLinkToSettings(setting), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Resource<Settings>> updateSettings(@RequestBody Settings settings) {
         Resource<Settings> settingsResource = new Resource<>(settings);
+        
         try {
             settingsService.update(settings);
             logger.info("Update settings object " + settings.toString());
@@ -65,6 +74,7 @@ public class SettingsController {
             logger.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        
         return new ResponseEntity<>(settingsResource, HttpStatus.OK);
     }
 
@@ -75,7 +85,6 @@ public class SettingsController {
                 .withSelfRel());
         return settingsResource;
     }
-
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Resource<Settings>> getSettingsByUser(@AuthenticationPrincipal Principal user) {

@@ -1,3 +1,9 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.controller;
 
 import com.softserve.osbb.dto.OsbbDTO;
@@ -21,7 +27,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 /**
  * Created by Roman on 12.07.2016.
  */
-
 @RestController
 @CrossOrigin
 @RequestMapping("/restful/osbb")
@@ -59,23 +64,26 @@ public class OsbbController {
         logger.info("Get all osbb: " +  osbbName);
         List<Osbb> osbbList = osbbService.findByNameContaining(osbbName);
         final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
+        
         for(Osbb o: osbbList) {
             resourceOsbbList.add(addResourceLinkToOsbb(o));
         }
+        
         return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Resource<Osbb>>> getAllOsbbByOrder(
             @RequestParam(value = "sortedBy", required = false) String sortedBy,
-            @RequestParam(value = "asc", required = false) Boolean ascOrder
-    ) {
+            @RequestParam(value = "asc", required = false) Boolean ascOrder) {
         logger.info("Get all osbb by order: '" + sortedBy + "'. AscOrder: '" + ascOrder + "'.");
         List<Osbb> osbbList = osbbService.getAllByOrder(sortedBy, ascOrder);
         final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
+        
         for(Osbb o: osbbList) {
             resourceOsbbList.add(addResourceLinkToOsbb(o));
         }
+        
         return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
     }
 
@@ -84,9 +92,11 @@ public class OsbbController {
         logger.info("Get osbb by active: " + available);
         List<Osbb> osbbList = osbbService.findByAvailable(available);
         final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
+        
         for(Osbb o: osbbList) {
             resourceOsbbList.add(addResourceLinkToOsbb(o));
         }
+        
         return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
     }
 
@@ -105,7 +115,10 @@ public class OsbbController {
     }
 
     private Resource<Osbb> addResourceLinkToOsbb(Osbb osbb) {
-        if (osbb == null) return null;
+        if (osbb == null) {
+            return null;
+        }
+        
         Resource<Osbb> osbbResource = new Resource<>(osbb);
         osbbResource.add(linkTo(methodOn(OsbbController.class)
                 .getOsbbById(osbb.getOsbbId()))
@@ -114,11 +127,15 @@ public class OsbbController {
     }
 
     private Resource<OsbbDTO> addResourceLinkToOsbb(OsbbDTO osbb) {
-        if (osbb == null) return null;
+        if (osbb == null) {
+            return null;
+        }
+        
         Resource<OsbbDTO> osbbResource = new Resource<>(osbb);
         osbbResource.add(linkTo(methodOn(OsbbController.class)
                 .getOsbbById(osbb.getOsbbId()))
                 .withSelfRel());
         return osbbResource;
     }
+    
 }

@@ -1,3 +1,9 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.controller;
 
 import com.softserve.osbb.dto.PageParams;
@@ -32,7 +38,6 @@ import java.util.List;
 
 import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 
-
 /**
  * Created by nazar.dovhyy on 09.07.2016.
  */
@@ -41,8 +46,10 @@ import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 @RequestMapping("/restful/report")
 public class ReportController {
 
-    private static final List<Resource<ReportDTO>> EMPTY_LIST = new ArrayList<>(0);
-    private static Logger logger = LoggerFactory.getLogger(ReportController.class);
+    private static final List<Resource<ReportDTO>> EMPTY_LIST = new ArrayList<>(
+            0);
+    private static Logger logger = LoggerFactory
+            .getLogger(ReportController.class);
 
     @Autowired
     private ReportServiceImpl reportService;
@@ -57,10 +64,12 @@ public class ReportController {
     public ResponseEntity<List<Resource<ReportDTO>>> listAllReports() {
         List<Report> reportList = reportService.getAllReports();
         logger.info("getting all reports: " + reportList);
+
         if (reportList.isEmpty()) {
             logger.warn("no reportList were found in the list: " + reportList);
             return new ResponseEntity<>(EMPTY_LIST, HttpStatus.OK);
         }
+
         final EntityResourceList<ReportDTO> reportResourceLinkList = new ReportResourceList();
         reportList.forEach((report) -> {
             ReportDTO reportDTO = ReportDTOMapper.mapReportEntityToDTO(report);
@@ -70,19 +79,20 @@ public class ReportController {
         return new ResponseEntity<>(reportResourceLinkList, HttpStatus.OK);
     }
 
-
     @RequestMapping(value = "/user/{userId}/all", method = RequestMethod.POST)
     public ResponseEntity<ReportPageDataObject> listAllUserReports(
             @PathVariable("userId") Integer userId,
-            @RequestBody PageParams pageParams
-    ) {
-        logger.info(String.format("listing all reports for user: %d , page number: %d ", userId, pageParams.getPageNumber()));
-        final PageRequest pageRequest = PageRequestGenerator.generatePageRequest(pageParams.getPageNumber())
+            @RequestBody PageParams pageParams) {
+        logger.info(String.format(
+                "listing all reports for user: %d , page number: %d ", userId,
+                pageParams.getPageNumber()));
+        final PageRequest pageRequest = PageRequestGenerator
+                .generatePageRequest(pageParams.getPageNumber())
                 .addRows(pageParams.getRowNum())
                 .addOrderType(pageParams.getOrderType())
-                .addSortedBy(pageParams.getSortedBy(), "name")
-                .toPageRequest();
-        Page<Report> reportsByPage = reportService.getAllUserReports(userId, pageRequest);
+                .addSortedBy(pageParams.getSortedBy(), "name").toPageRequest();
+        Page<Report> reportsByPage = reportService.getAllUserReports(userId,
+                pageRequest);
         PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator
                 .generatePageSelectorData(reportsByPage);
         EntityResourceList<ReportDTO> reportResourceLinkList = new ReportResourceList();
@@ -90,43 +100,50 @@ public class ReportController {
             ReportDTO reportDTO = ReportDTOMapper.mapReportEntityToDTO(report);
             reportResourceLinkList.add(toResource(reportDTO));
         });
-        ReportPageDataObject pageCreator = (ReportPageDataObject) PageDataUtil.providePageData(ReportPageDataObject.class, pageSelector, reportResourceLinkList);
+        ReportPageDataObject pageCreator = (ReportPageDataObject) PageDataUtil
+                .providePageData(ReportPageDataObject.class, pageSelector,
+                        reportResourceLinkList);
         pageCreator.setDates(reportService.findDistinctCreationDates());
         return new ResponseEntity<>(pageCreator, HttpStatus.OK);
     }
-
 
     @RequestMapping(value = "/all", method = RequestMethod.POST)
     public ResponseEntity<ReportPageDataObject> listAllReports(
             @RequestBody PageParams pageParams) {
-        logger.info("get all report by page number: " + pageParams.getPageNumber());
-        final PageRequest pageRequest = PageRequestGenerator.generatePageRequest(pageParams.getPageNumber())
+        logger.info(
+                "get all report by page number: " + pageParams.getPageNumber());
+        final PageRequest pageRequest = PageRequestGenerator
+                .generatePageRequest(pageParams.getPageNumber())
                 .addRows(pageParams.getRowNum())
                 .addSortedBy(pageParams.getSortedBy(), "name")
-                .addOrderType(pageParams.getOrderType())
-                .toPageRequest();
+                .addOrderType(pageParams.getOrderType()).toPageRequest();
         Page<Report> reportsByPage = reportService.getAllReports(pageRequest);
-        PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(reportsByPage);
+        PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator
+                .generatePageSelectorData(reportsByPage);
         EntityResourceList<ReportDTO> reportResourceLinkList = new ReportResourceList();
+        
         reportsByPage.forEach((report) -> {
             ReportDTO reportDTO = ReportDTOMapper.mapReportEntityToDTO(report);
             reportResourceLinkList.add(toResource(reportDTO));
         });
-        ReportPageDataObject pageCreator = (ReportPageDataObject) PageDataUtil.providePageData(ReportPageDataObject.class, pageSelector, reportResourceLinkList);
+        
+        ReportPageDataObject pageCreator = (ReportPageDataObject) PageDataUtil
+                .providePageData(ReportPageDataObject.class, pageSelector, reportResourceLinkList);
         pageCreator.setDates(reportService.findDistinctCreationDates());
+        
         return new ResponseEntity<>(pageCreator, HttpStatus.OK);
     }
-
 
     @RequestMapping(value = "/between", method = RequestMethod.GET)
     public ResponseEntity<EntityResourceList<ReportDTO>> listReportsByDates(
             @RequestParam("dateFrom") String dateFrom,
-            @RequestParam("dateTo") String dateTo
-    ) {
+            @RequestParam("dateTo") String dateTo) {
         LocalDate localDateFrom = CustomLocalDateDeserializer.toLocalDateParse(dateFrom);
         LocalDate localDateTo = CustomLocalDateDeserializer.toLocalDateParse(dateTo);
-        List<Report> reportList = reportService.getAllReportsBetweenDates(localDateFrom, localDateTo);
+        List<Report> reportList = reportService
+                .getAllReportsBetweenDates(localDateFrom, localDateTo);
         EntityResourceList<ReportDTO> reportResourceLinkList = new ReportResourceList();
+        
         reportList.forEach((report) -> {
             ReportDTO reportDTO = ReportDTOMapper.mapReportEntityToDTO(report);
             reportResourceLinkList.add(toResource(reportDTO));
@@ -140,79 +157,91 @@ public class ReportController {
     public ResponseEntity<EntityResourceList<ReportDTO>> listUserReportsByDates(
             @PathVariable("userId") Integer userId,
             @RequestParam(value = "dateFrom", required = true) String dateFrom,
-            @RequestParam(value = "dateTo", required = true) String dateTo
-    ) {
+            @RequestParam(value = "dateTo", required = true) String dateTo) {
         LocalDate localDateFrom = CustomLocalDateDeserializer.toLocalDateParse(dateFrom);
         LocalDate localDateTo = CustomLocalDateDeserializer.toLocalDateParse(dateTo);
-        List<Report> userReportList = reportService.getAllUserReportsBetweenDates(userId, localDateFrom, localDateTo);
+        List<Report> userReportList = reportService
+                .getAllUserReportsBetweenDates(userId, localDateFrom, localDateTo);
         EntityResourceList<ReportDTO> reportResourceLinkList = new ReportResourceList();
+        
         userReportList.forEach((report) -> {
             ReportDTO reportDTO = ReportDTOMapper.mapReportEntityToDTO(report);
             reportResourceLinkList.add(toResource(reportDTO));
         });
 
         return new ResponseEntity<>(reportResourceLinkList, HttpStatus.OK);
-
     }
 
-
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<Resource<ReportDTO>> createReport(@RequestBody ReportDTO reportDTO) {
+    public ResponseEntity<Resource<ReportDTO>> createReport(
+            @RequestBody ReportDTO reportDTO) {
         Resource<ReportDTO> reportResource;
         logger.info("saving report");
         Report report = ReportDTOMapper.mapDTOToReportEntity(reportDTO, reportService);
         report = reportService.addReport(report);
+        
         if (report == null) {
             logger.warn("report wasn't saved");
             throw new ReportNotSavedException();
         }
+        
         logger.info("fetching back: " + report.getReportId());
         ResourceLinkCreator<ReportDTO> reportResourceLinkCreator = new ReportResourceList();
-        reportResource = reportResourceLinkCreator
-                .createLink(toResource(ReportDTOMapper.mapReportEntityToDTO(report)));
+        reportResource = reportResourceLinkCreator.createLink(
+                toResource(ReportDTOMapper.mapReportEntityToDTO(report)));
         return new ResponseEntity<>(reportResource, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Resource<ReportDTO>> getReportById(@PathVariable("id") Integer reportId) {
+    public ResponseEntity<Resource<ReportDTO>> getReportById(
+            @PathVariable("id") Integer reportId) {
         logger.info("fetching reportResource by id: " + reportId);
         Report report = reportService.getReportById(reportId);
+        
         if (report == null) {
             logger.error("report was not found");
             throw new ReportNotFoundException();
         }
+        
         ResourceLinkCreator<ReportDTO> reportResourceLinkCreator = new ReportResourceList();
-        Resource<ReportDTO> reportResource = reportResourceLinkCreator.createLink(toResource(ReportDTOMapper.mapReportEntityToDTO(report)));
+        Resource<ReportDTO> reportResource = reportResourceLinkCreator
+                .createLink(toResource(ReportDTOMapper.mapReportEntityToDTO(report)));
         return new ResponseEntity<>(reportResource, HttpStatus.OK);
     }
 
-
     @RequestMapping(value = "/", method = RequestMethod.PUT)
-    public ResponseEntity<Resource<ReportDTO>> updateReport(@RequestBody ReportDTO reportDTO) {
+    public ResponseEntity<Resource<ReportDTO>> updateReport(
+            @RequestBody ReportDTO reportDTO) {
         Resource<ReportDTO> reportResource;
         logger.info("updating report with id: " + reportDTO.getReportId());
         Report report = ReportDTOMapper.mapDTOToReportEntity(reportDTO, reportService);
         report = reportService.updateReport(report.getReportId(), report);
+        
         if (report == null) {
             logger.error("report was not updated");
             throw new ReportNotFoundException();
         }
+        
         ResourceLinkCreator<ReportDTO> reportResourceLinkCreator = new ReportResourceList();
-        reportResource = reportResourceLinkCreator.createLink(toResource(ReportDTOMapper.mapReportEntityToDTO(report)));
+        reportResource = reportResourceLinkCreator.createLink(
+                toResource(ReportDTOMapper.mapReportEntityToDTO(report)));
         return new ResponseEntity<>(reportResource, HttpStatus.OK);
     }
 
-
     @RequestMapping(value = "/find", method = RequestMethod.GET)
-    public ResponseEntity<List<Resource<ReportDTO>>> getReportsByName(@RequestParam(value = "searchParam")
-                                                                              String searchParam) {
+    public ResponseEntity<List<Resource<ReportDTO>>> getReportsByName(
+            @RequestParam(value = "searchParam") String searchParam) {
         logger.info("fetching reportResource by search parameter: " + searchParam);
-        List<Report> reportsBySearchTerm = reportService.getAlReportsBySearchParameter(searchParam);
+        List<Report> reportsBySearchTerm = reportService
+                .getAlReportsBySearchParameter(searchParam);
+        
         if (reportsBySearchTerm.isEmpty()) {
             logger.warn("no reports were found");
             return new ResponseEntity<>(EMPTY_LIST, HttpStatus.OK);
         }
+        
         EntityResourceList<ReportDTO> reportResourceLinkList = new ReportResourceList();
+        
         reportsBySearchTerm.forEach((report) -> {
             ReportDTO reportDTO = ReportDTOMapper.mapReportEntityToDTO(report);
             reportResourceLinkList.add(toResource(reportDTO));
@@ -225,29 +254,40 @@ public class ReportController {
     public ResponseEntity<List<Resource<ReportDTO>>> getUserReportsByName(
             @PathVariable("userId") Integer userId,
             @RequestParam(value = "searchParam") String searchParam) {
-        logger.info(String.format("listing all reports for user: %d , by search value: %s ", userId, searchParam));
-        List<Report> reportsBySearchTerm = reportService.getAllReportsByUserAndSearchParameter(userId, searchParam);
+        logger.info(String.format(
+                "listing all reports for user: %d , by search value: %s ",
+                userId, searchParam));
+        List<Report> reportsBySearchTerm = reportService
+                .getAllReportsByUserAndSearchParameter(userId, searchParam);
+        
         if (reportsBySearchTerm.isEmpty()) {
             logger.warn("no reports were found");
             return new ResponseEntity<>(EMPTY_LIST, HttpStatus.OK);
         }
+        
         EntityResourceList<ReportDTO> reportResourceLinkList = new ReportResourceList();
+        
         reportsBySearchTerm.forEach((report) -> {
             ReportDTO reportDTO = ReportDTOMapper.mapReportEntityToDTO(report);
             reportResourceLinkList.add(toResource(reportDTO));
         });
+        
         return new ResponseEntity<>(reportResourceLinkList, HttpStatus.OK);
     }
 
-
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Resource<Report>> deleteReportById(@PathVariable("id") Integer reportId) {
+    public ResponseEntity<Resource<Report>> deleteReportById(
+            @PathVariable("id") Integer reportId) {
         logger.info("removing reportResource by id: " + reportId);
-        final boolean isDeletedReport = reportService.deleteReportById(reportId);
+        final boolean isDeletedReport = reportService
+                .deleteReportById(reportId);
+        
         if (!isDeletedReport) {
-            logger.warn("report with id: " + reportId + " wasn't deleted as not existed");
+            logger.warn("report with id: " + reportId
+                    + " wasn't deleted as not existed");
             throw new ReportNotFoundException();
         }
+        
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -259,36 +299,35 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public void download(@RequestParam(value = "type", required = true) String type,
-                         HttpServletResponse httpServletResponse) {
+    public void download(
+            @RequestParam(value = "type", required = true) String type,
+            HttpServletResponse httpServletResponse) {
         logger.info("preparing generate");
         reportDownloadService.generate(type, httpServletResponse);
-
     }
 
     @RequestMapping(value = "/user/{userId}/download", method = RequestMethod.GET)
     public void download(@PathVariable("userId") Integer userId,
-                         @RequestParam(value = "type", required = true) String type,
-                         HttpServletResponse httpServletResponse) {
+            @RequestParam(value = "type", required = true) String type,
+            HttpServletResponse httpServletResponse) {
         logger.info("preparing generate for userId: " + userId);
         User currentUser = userService.findOne(userId);
         reportDownloadService.generate(currentUser, type, httpServletResponse);
-
     }
 
     @RequestMapping(value = "/{reportId}/download", method = RequestMethod.GET)
     public void downloadExisting(@PathVariable("reportId") Integer reportId,
-                                 HttpServletResponse httpServletResponse) {
+            HttpServletResponse httpServletResponse) {
         logger.info("preparing download report with id: " + reportId);
         reportDownloadService.downloadExisting(reportId, httpServletResponse);
-
     }
 
+    @SuppressWarnings("serial")
     @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Report not found")
-    private class ReportNotFoundException extends RuntimeException {
-    }
+    private class ReportNotFoundException extends RuntimeException { }
 
+    @SuppressWarnings("serial")
     @ResponseStatus(value = HttpStatus.NOT_MODIFIED, reason = "Report not saved")
-    private class ReportNotSavedException extends RuntimeException {
-    }
+    private class ReportNotSavedException extends RuntimeException { }
+
 }
