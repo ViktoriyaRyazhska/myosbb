@@ -21,7 +21,7 @@ import {TranslatePipe} from "ng2-translate";
 // import {JoinOsbbComponent} from '../join/join.osbb.component';
 
 
-@Component({
+@Component({ 
     selector: 'app-register',
     templateUrl: 'src/app/registration/registration_user/registration.html',
     styleUrls: ['assets/css/registration/registration.css'],

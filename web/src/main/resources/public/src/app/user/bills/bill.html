@@ -1,17 +1,21 @@
 <toaster-container></toaster-container>
 <div class="panel panel-default top-panel">
+    
+    <!-- TOP SECTION -->
     <div class="panel-heading">
         <div class="row">
+            <!-- BILLS header -->
             <div class="col-xs-7">
                 <h4><i class="fa fa-angle-right"></i>{{'bills' | translate | capitalize}}</h4>
             </div>
             <div class="col-xs-3">
-                <div *ngIf="false" id="example_filter" class="pull-right" title="search">
+                <div *ngIf="false" id="example_filter" class="pull-right" title="search"> <!-- DISABLED MANUALY -->
                     <input #name (keyup.enter)="onClickSearchByParam(name.value)" type="search"
                            class="form-control input-sm" placeholder="пошук..."
                            aria-controls="example" maxlength="20" minlength="1">
                 </div>
             </div>
+            <<!-- REFRESH BUTTON -->
             <div class="col-xs-2 columns columns-right btn-group pull-right">
                 <button (click)="refresh()" style="height: 30px; width: 45px" class="btn btn-default" type="button"
                         name="refresh" title="Refresh">
@@ -20,22 +24,29 @@
             </div>
         </div>
     </div>
+    
+    <!-- BILLS STATUS TAB -->
     <div class="panel-body">
+        <!-- bills status row -->
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6">                
                 <div class="btn-group" role="group" aria-label="...">
+                    <!-- all bills -->
                     <button [ngClass]="{'active': status===options.ALL}" type="button" class="btn btn-default"
                             (click)="processOption(options.ALL)">{{'bill_status_all' | translate | capitalize}}
                     </button>
+                    <!-- bills to be paid - pendding status -->
                     <button [ngClass]="{'active': status===options.NOT_PAID}" type="button"
                             class="btn btn-default" (click)="processOption(options.NOT_PAID)">{{'bill_status_pending' |
                         translate | capitalize}}
                     </button>
+                    <!-- paid bills -->
                     <button [ngClass]="{'active': status===options.PAID}" type="button" class="btn btn-default"
                             (click)="processOption(options.PAID)">{{'bill_status_paid' | translate | capitalize}}
                     </button>
                 </div>
             </div>
+            <!-- option for sbb head -->
             <div class="col-md-6">
                 <div *ngIf="osbbRole == 'HEAD'" class="pull-right">
                     <button (click)="openCreateBillModal()" type="button" class="btn btn-default">
@@ -45,9 +56,11 @@
                 </div>
             </div>
         </div>
+
+        <!-- BILLS TABLE -->
         <div class="content-panel">
             <table class="table table-striped table-advance table-hover">
-                <thead>
+                <thead><!-- table headers -->
                 <tr>
                     <th class="sorting">{{'bill_apartment' | translate | capitalize}}<a (click)="sortBy('date')"><span
                             class="fa fa-fw fa-sort pull-right"></span></a>
@@ -70,7 +83,7 @@
                     <th>{{'bill_status' | translate | capitalize}}</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody><!-- table body -->
                 <div *ngIf="onSearch && bills.length === 0"
                      class="text-center not-found-search-elem-center"><h5>Немає результатів пошуку</h5>
                 </div>
@@ -95,6 +108,7 @@
                         <!--Оплатити-->
                         <!--</button>-->
                     </td>
+                    <!-- option for head of osbb -->
                     <td *ngIf="osbbRole == 'HEAD'">
                         <div class="dropdown">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
@@ -110,7 +124,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </td>
+                    </td><!-- end of head of osbb option -->
                 </tr>
                 </tbody>
             </table>

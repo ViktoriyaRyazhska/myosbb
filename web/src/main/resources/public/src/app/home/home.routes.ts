@@ -14,6 +14,7 @@ import {UserProfileComponent} from "./user/user.profile.component";
 import {ApartmentProfileComponent} from "../home/components/ApartmentProfile/apartment.profile";
 import {UserApartmentComponent} from "../home/components/apartment/user.apartment.component";
 import {ProviderInfoComponent} from "../user/provider/provider-info";
+import {UserReportComponent} from "../user/report/user.report.component";
 
 export const homeRoutes: RouterConfig = [
     {
@@ -35,6 +36,7 @@ export const homeRoutes: RouterConfig = [
             {path: 'ticket', component: TicketAdminComponent},
             {path: 'ticket/:id', component: TicketSingleAdminComponent},
             {path: 'friend/:id', component: UserProfileComponent},
+            {path: 'report', component: UserReportComponent},
             {path: 'apartment', component: UserApartmentComponent},
             {path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent}
 
