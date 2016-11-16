@@ -48,7 +48,7 @@
   "street": "street",
   "city": "city",
   "zipCode": "zip code",
-  "apartments": "apartments",
+  "rents": "rents",
   "osbb": "osbb",
   "homePage": "home page",
   "go_to": "go to",
@@ -213,7 +213,7 @@
   "phoneNumber": "phone number",
   "pageUser": "user page",
   "write": "write",
-  "apartment": "Apartment",
+  "rents": "Rents",
   "residents": "Residents",
   "contacts": "Contacts",
   "profile": "Profile",
@@ -230,8 +230,11 @@
   "discussed":"Discussed",
   "since":"Since",
   "not":"No",
-  "yes":"Yes"
-
-}
+  "electricity" : "electricity",
+  "gas":"gas",
+  "water":"water",
+  "rate" : "rate",
+  "debt" : "debt"
+  }
 
 
