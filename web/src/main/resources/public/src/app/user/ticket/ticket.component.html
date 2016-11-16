@@ -51,29 +51,38 @@
             <table class="table table-striped table-advance table-hover" style="table-layout: fixed;">
                 <thead>
                 <tr>
-                    <th class="sorting" style="width:20%"><i class="fa fa-bullhorn"> </i> {{'nameTicket' |
+                    <th class="sorting" style="width:15%"><i class="fa fa-bullhorn"> </i> {{'nameTicket' |
                         translate}}
                         <a style="{cursor:pointer}" (click)="sortBy('name')">
                             <span class="fa fa-fw fa-sort pull-left"></span></a>
                     </th>
-                    <th class="sorting" style="width:25%;min-width:25%"><i class=" fa fa-edit"></i>
-                        {{'descriptionTicket' | translate}}
+
+                    <th class="sorting" style="width:20%;min-width:20%"><i class=" fa fa-edit"></i>
+                        {{'descriptionTicket' | translate}}</th>
+
                     <th class="sorting" style="width:12%;min-width:3%"><i class=" fa fa-edit"></i>
                         {{'authorTicket'|translate}}
                         <a style="{cursor:pointer}" (click)="sortBy('user')">
                             <span class="fa fa-fw fa-sort pull-left"></span></a></th>
+
                     <th class="sorting" style="width:10%;min-width:3%"><i class=" fa fa-edit"></i>
                         {{'dateTicket'|translate}}
                         <a style="{cursor:pointer}" (click)="sortBy('time')">
                             <span class="fa fa-fw fa-sort pull-left"></span></a></th>
+
                     <th class="sorting" style="width:13%;min-width:10%">
                         <i class=" fa fa-edit"></i> {{'answer'|translate}}
                         <a style="{cursor:pointer}" (click)="sortBy('assigned')">
                             <span class="fa fa-fw fa-sort pull-left"></span></a></th>
+
                     <th class="sorting" style="width:11%;min-width:13%"><i class=" fa fa-edit"></i>
                         {{'state'|translate}}
                         <a style="cursor:pointer;width:8%;min-width:8%" (click)="sortBy('state')">
                             <span class="fa fa-fw fa-sort pull-left"></span></a></th>
+
+                    <th class="sorting" style="width:10%;min-width:10%"><i class=" fa fa-edit"></i>
+                        {{'discussed' | translate}}</th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -102,6 +111,45 @@
                                   style=" text-align: center;margin: 5px;">{{ 'done' | translate  }}</span>
                         </div>
                     </td>
+
+
+                    <td>
+
+                        <div *ngIf="item.discussed == null">
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    {{'not' | translate}}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <li><a style="cursor: pointer"
+                                           (click)="item.discussed = null; editTicket(item);">
+                                        {{'yes' | translate}}</a></li>
+                                    <li><a style="cursor: pointer">{{'not'|
+                                        translate}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div *ngIf="item.discussed != null">
+                            {{ 'since' | translate  }} {{getDiscussed(item.discussed)}}
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu3"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    {{'yes' | translate}}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu3">
+                                    <li><a style="cursor: pointer">
+                                        {{'yes' | translate}}</a></li>
+                                    <li><a style="cursor: pointer" (click)="item.discussed=null;editTicket(item);">
+                                        {{'not'|translate}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+
                     <td>
                         <div *ngIf="isCreator()||(item.user.firstName == currentUser.firstName && item.user.lastName == currentUser.lastName)">
                             <div class="dropdown">
@@ -120,6 +168,7 @@
                             </div>
                         </div>
                     </td>
+
 
 
                 </tr>

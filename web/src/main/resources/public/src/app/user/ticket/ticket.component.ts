@@ -39,7 +39,6 @@ import {VoteComponent} from "../../home/voting/vote.component";
     styleUrls: ['src/app/user/ticket/ticket.css', 'src/shared/css/loader.css', 'src/shared/css/general.css']
 })
 
-
 export class TicketComponent implements OnInit {
 
     private ticketArr:ITicket[] = [];
@@ -236,6 +235,10 @@ export class TicketComponent implements OnInit {
         return new Date(time).toLocaleString();
     }
 
+    getDiscussed(discussed:Date):string {
+        return new Date(discussed).toLocaleString();
+    }
+
     isCreator():boolean {
 
         if (this.currentUser.role == 'ROLE_ADMIN' || this.currentUser.role == 'ROLE_MANAGER') {
@@ -334,6 +337,10 @@ export class TicketComponent implements OnInit {
                 (error) => {
                     console.error(error)
                 });
+    }
+
+    $NowDate.getNowDate():Date {
+        return new Date();
     }
 
     private handleErrors(error:any) {

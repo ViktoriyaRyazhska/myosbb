@@ -23,6 +23,7 @@ public class Ticket {
     private TicketState state;
     private Timestamp stateTime;
     private Timestamp time;
+    private Timestamp discussed;
     private User user;
     private User assigned;
     private Collection<Message> messages = new ArrayList<>();
@@ -85,6 +86,18 @@ public class Ticket {
 
     public void setTime(Timestamp time) {
         this.time = time;
+    }
+
+
+    @Basic
+    @Column(name = "discussed")
+    public Timestamp getDiscussed() {
+        return discussed;
+    }
+
+
+    public void setDiscussed(Timestamp time) {
+        this.discussed = time;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

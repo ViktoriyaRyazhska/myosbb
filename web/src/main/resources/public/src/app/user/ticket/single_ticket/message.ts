@@ -9,6 +9,7 @@ export interface IMessage {
     idTicket:number;
     user:User;
     answers:Message[];
+    discussed:Date;
 
 }
 
@@ -20,6 +21,7 @@ export class Message implements IMessage {
     idTicket:number;
     user:User;
     answers:Message[];
+    discussed:Date;
 
 
     constructor(message:string) {

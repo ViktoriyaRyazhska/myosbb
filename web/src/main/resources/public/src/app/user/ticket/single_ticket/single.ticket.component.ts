@@ -298,6 +298,10 @@ export class MessageComponent implements OnInit {
         return new Date(time).toLocaleString();
     }
 
+    getDiscussed(discussed:Date):string {
+        return new Date(discussed).toLocaleString();
+    }
+
     initAddAnswer(parentMessage:Message) {
         this.message = new Message("");
         this.message.parentId = parentMessage.messageId;

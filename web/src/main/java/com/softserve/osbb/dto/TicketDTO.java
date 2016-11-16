@@ -4,6 +4,7 @@ import com.softserve.osbb.model.Message;
 import com.softserve.osbb.model.enums.TicketState;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,6 +16,7 @@ public class TicketDTO {
     private String description;
     private TicketState state;
     private Timestamp stateTime;
+    private Timestamp discussed;
     private Timestamp time;
     private UserDTO user;
     private UserDTO assigned;
@@ -22,13 +24,14 @@ public class TicketDTO {
     public TicketDTO() {
     }
 
-    public TicketDTO(Integer ticketId, String name, String description, TicketState state, Timestamp stateTime, Timestamp time) {
+    public TicketDTO(Integer ticketId, String name, String description, TicketState state, Timestamp stateTime, Timestamp time,Timestamp discussed) {
         this.ticketId = ticketId;
         this.name = name;
         this.description = description;
         this.state = state;
         this.stateTime = stateTime;
         this.time = time;
+        this.discussed = discussed;
     }
 
     public Integer getTicketId() {
@@ -77,6 +80,14 @@ public class TicketDTO {
 
     public void setTime(Timestamp time) {
         this.time = time;
+    }
+
+    public Timestamp getDiscussed() {
+        return discussed;
+    }
+
+    public void setDiscussed(Timestamp discussed) {
+        this.discussed = discussed;
     }
 
     public UserDTO getUser() {
