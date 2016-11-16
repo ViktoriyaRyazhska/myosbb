@@ -227,7 +227,11 @@
   "user_not_found": "no user was found",
   "no_account": "don't have an account yet?",
   "create_account": "create an account",
-  "discussed":"Discussed"
+  "discussed":"Discussed",
+  "since":"Since",
+  "not":"No",
+  "yes":"Yes"
+
 }
 
 

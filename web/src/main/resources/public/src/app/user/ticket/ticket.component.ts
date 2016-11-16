@@ -39,7 +39,6 @@ import {VoteComponent} from "../../home/voting/vote.component";
     styleUrls: ['src/app/user/ticket/ticket.css', 'src/shared/css/loader.css', 'src/shared/css/general.css']
 })
 
-
 export class TicketComponent implements OnInit {
 
     private ticketArr:ITicket[] = [];
@@ -93,6 +92,10 @@ export class TicketComponent implements OnInit {
         if (index > -1) {
             this.ticketArr[index] = ticket;
         }
+    }
+
+    setDiscussed( ticket: ITicket):void {
+        ticket.discussed = new Date();
     }
 
     deleteTicket(ticket:ITicket):void {
@@ -234,6 +237,10 @@ export class TicketComponent implements OnInit {
 
     getTime(time:Date):string {
         return new Date(time).toLocaleString();
+    }
+
+    getDiscussed(discussed:Date):string {
+        return new Date(discussed).toLocaleString();
     }
 
     isCreator():boolean {
