@@ -94,6 +94,10 @@ export class TicketComponent implements OnInit {
         }
     }
 
+    setDiscussed( ticket: ITicket):void {
+        ticket.discussed = new Date();
+    }
+
     deleteTicket(ticket:ITicket):void {
         this.ticketService.deleteTicket(ticket).then(ticket => this.deleteTicketFromArr(ticket));
     }
@@ -337,10 +341,6 @@ export class TicketComponent implements OnInit {
                 (error) => {
                     console.error(error)
                 });
-    }
-
-    $NowDate.getNowDate():Date {
-        return new Date();
     }
 
     private handleErrors(error:any) {
