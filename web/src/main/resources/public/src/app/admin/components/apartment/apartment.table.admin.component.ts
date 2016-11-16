@@ -1,4 +1,4 @@
-import {Component,onInit} from "@angular/core";
+import {Component,OnInit} from "@angular/core";
 import {UserApartmentComponent} from "../../../home/components/apartment/user.apartment.component";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 @Component(
