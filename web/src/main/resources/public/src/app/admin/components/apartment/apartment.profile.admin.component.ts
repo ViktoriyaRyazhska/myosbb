@@ -1,7 +1,7 @@
 /**
  * Created by Oleg on 24.09.2016.
  */
-import {Component,onInit} from "@angular/core";
+import {Component,OnInit} from "@angular/core";
 import {ApartmentProfileComponent} from "../../../home/components/ApartmentProfile/apartment.profile";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 @Component(

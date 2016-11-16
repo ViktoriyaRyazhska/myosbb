@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
                                     , "Hail Admin!");
                                 this._router.navigate(['admin']);
                             }
-                             if (this._currentUserService.getRole() === "ROLE_MANAGER") {
+                            if (this._currentUserService.getRole() === "ROLE_MANAGER") {
                                 this._toasterService.pop('success'
                                     , "Hello manager!");
                                 this._router.navigate(['manager/wall']);
