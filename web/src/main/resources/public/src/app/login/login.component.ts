@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
     public emailMask = emailMask;
 
     private model = {"username": "", "password": ""};
-    private isLoggedIn:boolean = this.loginService.checkLogin();
+    private isLoggedIn:boolean;
     private logInError:boolean = false;
     public toasterconfig:ToasterConfig = new ToasterConfig({showCloseButton: true, tapToDismiss: true, timeout: 5000});
     forgotEmail = "";
@@ -90,7 +90,7 @@ export class LoginComponent implements OnInit {
         return;
     }
 
-    tokenParseInLocalStorage(data:any) {
+    tokenParseInLocalStorage(data:any) { 
         localStorage.setItem("access_token", data.access_token);
         localStorage.setItem("token_type", data.token_type);
         localStorage.setItem("expires_in", new Date().setSeconds(data.expires_in));
