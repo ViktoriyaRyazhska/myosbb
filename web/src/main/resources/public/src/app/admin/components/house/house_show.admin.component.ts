@@ -1,5 +1,5 @@
-import {Component} from "@angular/core";
-import {HouseShowComponent} from "../../../house/house.show.component";
+import { Component } from "@angular/core";
+import { HouseShowComponent } from "../../../house/house.show.component";
 @Component(
     {
         selector: 'admin-house-show',

@@ -8,6 +8,8 @@ import { ProviderComponent } from "../user/provider/provider.component";
 import { ProviderInfoComponent } from "./../user/provider/provider-info";
 import { EventComponent } from "../event/event.component";
 import { EventShowComponent } from "../event/event.show.component";
+import { HouseTableManagerComponent } from "./components/house/house-table.manager.component";
+import { HouseShowManagerComponent } from "./components/house/house-show.manager.component";
 import { HomeWallComponent } from "./../home/home_wall/home.wall.component";
 import { ContractComponent } from "./../user/contract/contract.component";
 import { CalendarHomeComponent } from "../home/calendar/calendar.home.component";
@@ -26,6 +28,9 @@ export const managerRoutes:RouterConfig = [
             { path: '', redirectTo: 'wall', pathMatch: 'full' },
             { path: 'apartment', component: UserApartmentComponent },
             { path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent },
+            { path: 'houses', component: HouseTableManagerComponent },
+            { path: 'houses/:id', component: HouseTableManagerComponent },
+            { path: 'house/:id', component: HouseShowManagerComponent },
             { path: 'ticket', component: TicketManagerComponent },
             { path: 'ticket/:id', component: TicketSingleManagerComponent },
             { path: 'osbb/bill', component: OsbbBillComponent },

@@ -3,11 +3,11 @@ import { HouseTableComponent } from "../../../house/house.table.component";
 import { ROUTER_DIRECTIVES } from "@angular/router";
 @Component(
     {
-        selector: 'admin-house-table',
-        templateUrl: 'src/app/admin/components/house/house_table.admin.html',
+        selector: 'manager-house-table',
+        templateUrl: 'src/app/manager/components/house/house-table.manager.html',
         directives: [HouseTableComponent, ROUTER_DIRECTIVES]
     }
 )
-export class HouseTableAdminComponent {
+export class HouseTableManagerComponent {
 
 }

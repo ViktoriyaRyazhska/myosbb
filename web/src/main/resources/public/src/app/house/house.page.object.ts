@@ -7,6 +7,5 @@ export class HousePageObject {
     osbbName: string;
     apartmentCount: number;
     numberOfInhabitants: number;
-
 }
 
