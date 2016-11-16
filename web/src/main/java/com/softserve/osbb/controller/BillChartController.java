@@ -1,3 +1,9 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.controller;
 
 import com.softserve.osbb.model.BarChartData;
@@ -17,11 +23,11 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("restful/chart")
 public class BillChartController {
+    
     private static final Logger logger = LoggerFactory.getLogger(BillChartController.class);
 
     @Autowired
     private BillChartService billChartService;
-
 
     @RequestMapping(value="/percentage", method = RequestMethod.GET)
     public ResponseEntity<BillChartData> getBillChartData() {
@@ -32,9 +38,9 @@ public class BillChartController {
 
     @RequestMapping(value="/{year}/bar", method = RequestMethod.GET)
     public ResponseEntity<BarChartData> getBarChartData(@PathVariable("year") Integer year) {
-        logger.info("fetching bar chart data by year "+year);
+        logger.info("fetching bar chart data by year " + year);
         BarChartData barChartData = billChartService.getBarChartData(year);
-        logger.info("received: "+barChartData);
+        logger.info("received: " + barChartData);
         return new ResponseEntity<>(barChartData, HttpStatus.OK);
     }
 }

@@ -1,3 +1,9 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.controller;
 
 import com.softserve.osbb.model.Attachment;
@@ -35,6 +41,7 @@ public class AttachmentController {
     @Autowired
     private AttachmentService attachmentService;
 
+    @SuppressWarnings("unused")
     private final ResourceLoader resourceLoader;
 
     @Autowired
@@ -65,8 +72,10 @@ public class AttachmentController {
                 logger.info("Uploading logo " + file.getOriginalFilename());
                 Attachment attachment = attachmentService.uploadFile(file);
                 attachment.setType(AttachmentType.IMAGE);
+                
                 Resource<Attachment> attachmentResource = new Resource<>(attachment);
                 attachmentResource = getResourceWithLink(attachmentResource);
+                
                 return new ResponseEntity<>(attachmentResource, HttpStatus.OK);
             } catch (RuntimeException e) {
                 logger.warn("Could not upload logo " + file.getOriginalFilename());
@@ -156,11 +165,14 @@ public class AttachmentController {
             @RequestParam(value = "path") String path) {
         logger.info("Fetching attachment by search parameter: " + path);
         List<Attachment> attachmentsBySearchTerm = attachmentService.findAttachmentByPath(path);
+        
         if (attachmentsBySearchTerm.isEmpty()) {
             logger.warn("No attachments were found.");
         }
+        
         List<Resource<Attachment>> resourceAttachmentList = new ArrayList<>();
         attachmentsBySearchTerm.forEach((attachment) -> resourceAttachmentList.add(getResourceWithLink(toResource(attachment))));
+        
         return new ResponseEntity<>(resourceAttachmentList, HttpStatus.OK);
     }
 

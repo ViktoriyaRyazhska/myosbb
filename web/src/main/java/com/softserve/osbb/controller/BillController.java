@@ -1,3 +1,9 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.controller;
 
 import com.softserve.osbb.dto.BillDTO;
@@ -32,7 +38,6 @@ import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 /**
  * Created by nataliia on 11.07.16.
  */
-
 @RestController
 @CrossOrigin
 @RequestMapping("/restful/bill")
@@ -52,17 +57,19 @@ public class BillController {
     @Autowired
     private FilterList<Resource<BillDTO>, Bill> filterList;
 
-
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource<BillDTO>> findOneBill(@PathVariable("id") Integer id) {
         logger.info("fetching bill by id: " + id);
         Bill bill = billService.findOneBillByID(id);
+        
         if (bill == null) {
             logger.warn("no bill was found with id: " + id);
             throw new BillNotFoundException();
         }
+        
         ResourceLinkCreator<BillDTO> billDTOResourceLinkCreator = new BillResourceList();
-        Resource<BillDTO> billDTOResource = billDTOResourceLinkCreator.createLink(toResource(BillDTOMapper.mapEntityToDTO(bill)));
+        Resource<BillDTO> billDTOResource = billDTOResourceLinkCreator
+                .createLink(toResource(BillDTOMapper.mapEntityToDTO(bill)));
         return new ResponseEntity<>(billDTOResource, HttpStatus.OK);
     }
 
@@ -77,13 +84,16 @@ public class BillController {
                 .addSortedBy(pageParams.getSortedBy(), "date")
                 .toPageRequest();
         Page<Bill> bills = billService.findAllBills(pageRequest);
+        
         if (bills == null || bills.getSize() == 0) {
             logger.error("no bills were found");
             throw new BillNotFoundException();
         }
+        
         PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(bills);
         EntityResourceList<BillDTO> billResourceList = (EntityResourceList<BillDTO>) filterList.generateFilteredList(status, bills);
         PageDataObject<Resource<BillDTO>> billPageDataObject = PageDataUtil.providePageData(BillPageDataObject.class, pageSelector, billResourceList);
+        
         return new ResponseEntity<>(billPageDataObject, HttpStatus.OK);
     }
 
@@ -99,16 +109,18 @@ public class BillController {
                 .addSortedBy(pageParams.getSortedBy(), "date")
                 .toPageRequest();
         Page<Bill> bills = billService.findAllByApartmentOwner(userId, pageRequest);
+        
         if (bills == null || bills.getSize() == 0) {
             logger.error("no bills were found");
             throw new BillNotFoundException();
         }
+        
         PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(bills);
         EntityResourceList<BillDTO> billResourceList = (EntityResourceList<BillDTO>) filterList.generateFilteredList(status, bills);
         PageDataObject<Resource<BillDTO>> billPageDataObject = PageDataUtil.providePageData(BillPageDataObject.class, pageSelector, billResourceList);
+        
         return new ResponseEntity<>(billPageDataObject, HttpStatus.OK);
     }
-
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResponseEntity saveBill(@RequestBody BillDTO billDTO) {
@@ -120,10 +132,12 @@ public class BillController {
         bill.setApartment(apartment);
         bill.setProvider(provider);
         bill = billService.saveBill(bill);
+        
         if (bill == null) {
             logger.warn("bill wasn't saved");
             return new ResponseEntity(HttpStatus.CONTINUE);
         }
+        
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -132,10 +146,12 @@ public class BillController {
         logger.info("updating bill with id" + billDTO.getBillId());
         Bill bill = BillDTOMapper.mapDTOtoEntity(billDTO, billService);
         bill = billService.saveBill(bill);
+        
         if (bill == null) {
             logger.warn("bill wasn't saved as not found");
             throw new BillNotFoundException();
         }
+        
         logger.info("successfully updated bill with id " + bill.getBillId());
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -144,17 +160,16 @@ public class BillController {
     public ResponseEntity deleteById(@PathVariable("billId") Integer billId) {
         logger.info("deleting bill with id" + billId);
         boolean isDeleted = billService.deleteBillByID(billId);
+        
         if (!isDeleted) {
             logger.warn("bill was not deleted as not found");
             throw new BillNotFoundException();
         }
 
         return new ResponseEntity(HttpStatus.OK);
-    }
-
+    }    
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Bills not found")
-    private class BillNotFoundException extends RuntimeException {
-    }
+    private class BillNotFoundException extends RuntimeException { }
 
 }
