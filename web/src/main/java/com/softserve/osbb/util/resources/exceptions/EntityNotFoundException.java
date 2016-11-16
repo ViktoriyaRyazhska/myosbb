@@ -7,8 +7,7 @@
 package com.softserve.osbb.util.resources.exceptions;
 
 /**
- * 
- * Exception class.
+ * Exception class. To be thrown when entity is not found.
  * 
  * Created by Anastasiia Fedorak on 13.07.2016.
  * @version 1.1
