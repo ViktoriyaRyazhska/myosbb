@@ -1,12 +1,11 @@
-import {Injectable} from "@angular/core";
-import {Headers, Http} from "@angular/http";
-import {Observable} from "rxjs/Observable";
+import { Injectable } from "@angular/core";
+import { Headers, Http } from "@angular/http";
+import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
-import {Report} from "./report.interface";
+import { Report } from "./report.interface";
 import "rxjs/add/operator/toPromise";
-import {PageParams} from "../../../shared/models/search.model";
+import { PageParams } from "../../../shared/models/search.model";
 import ApiService = require("../../../shared/services/api.service");
-
 
 @Injectable()
 export class ReportService {
@@ -23,7 +22,6 @@ export class ReportService {
     constructor(private _http: Http) {
         this.headers.append('Content-Type', 'application/json');
     }
-
 
     //for current logged-in user
     getAllUserReports(userId: number, pageParams: PageParams): Observable<any> {
@@ -52,13 +50,11 @@ export class ReportService {
             .catch((error)=>Observable.throw(error));
     }
 
-
     getAllReports(pageParms: PageParams): Observable<any> {
         return this._http.post(this.getReportsURL + 'all', JSON.stringify(pageParms))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
-
 
     searchByDates(dateFrom: string, dateTo: string): Observable<any> {
         return this._http.get(this.getReportByParamURL
@@ -92,6 +88,4 @@ export class ReportService {
         return this._http.put(this.updateReportUrl, JSON.stringify(report))
             .catch((error)=>console.error(error));
     }
-
-
 }

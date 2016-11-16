@@ -1,29 +1,29 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
-import {ReportDownloaderComponent} from "../report/download/report.downloader.component";
-import {BS_VIEW_PROVIDERS, MODAL_DIRECTIVES, BUTTON_DIRECTIVES, ModalDirective} from "ng2-bootstrap";
-import {CORE_DIRECTIVES} from "@angular/common";
-import {TranslatePipe} from "ng2-translate";
-import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
-import {PageCreator} from "../../../shared/services/page.creator.interface";
-import {User} from "../../../shared/models/User";
-import {CurrentUserService} from "../../../shared/services/current.user.service";
-import {BillService} from "./bill.service";
-import {ToasterContainerComponent, ToasterService} from "angular2-toaster/angular2-toaster";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ReportDownloaderComponent } from "../report/download/report.downloader.component";
+import { BS_VIEW_PROVIDERS, MODAL_DIRECTIVES, BUTTON_DIRECTIVES, ModalDirective } from "ng2-bootstrap";
+import { CORE_DIRECTIVES } from "@angular/common";
+import { TranslatePipe } from "ng2-translate";
+import { CapitalizeFirstLetterPipe } from "../../../shared/pipes/capitalize-first-letter";
+import { PageCreator } from "../../../shared/services/page.creator.interface";
+import { User } from "../../../shared/models/User";
+import { CurrentUserService } from "../../../shared/services/current.user.service";
+import { BillService } from "./bill.service";
+import { ToasterContainerComponent, ToasterService} from "angular2-toaster/angular2-toaster";
 import {
     onErrorServerNoResponseToastMsg,
     onErrorResourceNotFoundToastMsg
 } from "../../../shared/error/error.handler.component";
-import {PageParams} from "../../../shared/models/search.model";
-import {HeaderComponent} from "../../header/header.component";
-import {SELECT_DIRECTIVES} from "ng2-select";
-import {HouseService} from "../../house/house.service";
-import {HousePageObject} from "../../house/house.page.object";
-import {IApartment} from "../../../shared/models/apartment.interface";
-import {ProviderService} from "../provider/service/provider-service";
-import {Provider} from "../../../shared/models/provider.interface";
-import {BillDTO} from "./show_bill_dto.interface";
-import {BillChartComponent} from "./chart/bill.chart.component";
-import {FORM_DIRECTIVES} from "@angular/forms";
+import { PageParams } from "../../../shared/models/search.model";
+import { HeaderComponent } from "../../header/header.component";
+import { SELECT_DIRECTIVES } from "ng2-select";
+import { HouseService } from "../../house/house.service";
+import { HousePageObject } from "../../house/house.page.object";
+import { IApartment } from "../../../shared/models/apartment.interface";
+import { ProviderService } from "../provider/service/provider-service";
+import { Provider } from "../../../shared/models/provider.interface";
+import { BillDTO } from "./show_bill_dto.interface";
+import { BillChartComponent } from "./chart/bill.chart.component";
+import { FORM_DIRECTIVES } from "@angular/forms";
 
 @Component({
     selector: 'bill-component',
@@ -96,7 +96,6 @@ export class UserBillComponent implements OnInit {
             }, (error)=>this.handleErrors(error))
     }
 
-
     ngOnInit(): any {
         if (this.osbbRole != 'HEAD') {
             this.isUserDownload = true;
@@ -106,7 +105,6 @@ export class UserBillComponent implements OnInit {
         this.listAllHouses();
         this.listAllProviders();
     }
-
 
     emptyHouses() {
         while (this.houses.length) {
@@ -154,7 +152,6 @@ export class UserBillComponent implements OnInit {
         this.billId = +billId;
         this.delModal.show();
     }
-
 
     closeDelModal() {
         console.log('deleting bill with id', this.billId);
@@ -216,7 +213,6 @@ export class UserBillComponent implements OnInit {
                 });
     };
 
-
     private processBillDTOData(data) {
         console.log('processing bill data...');
         this.pending = false;
@@ -243,7 +239,6 @@ export class UserBillComponent implements OnInit {
 
         console.log(error);
     }
-
 
     isPaid(status: string): boolean {
         if (status == 'PAID') {
@@ -285,7 +280,6 @@ export class UserBillComponent implements OnInit {
         }
     }
 
-
     sortBy(name: string) {
         console.log('sorted by ', name);
         this.pageParams.orderType = !this.pageParams.orderType;
@@ -300,7 +294,6 @@ export class UserBillComponent implements OnInit {
                 });
     }
 
-
     confirmBill(bill: BillDTO) {
         console.log('confirming bill', bill.billId);
         bill.paid = bill.toPay;
@@ -313,19 +306,9 @@ export class UserBillComponent implements OnInit {
             });
     }
 
-
     onClickSearchByParam(value: string) {
         if (value.trim().length) {
             console.log('search by ', value);
-            // this._reportService.searchUserReportsByInputParam(this.currentUser.userId, value)
-            //     .subscribe((data)=> {
-            //             this.onSearch = true;
-            //             this.reports = data;
-            //             this.preparePageList(this.pageNumber, this.pageNumber);
-            //         },
-            //         (error)=> {
-            //             console.error(error)
-            //         });
         }
     }
 
@@ -334,7 +317,6 @@ export class UserBillComponent implements OnInit {
         this.status = status;
         this.getBillsByPageNum(this.pageNumber, this.selectedRow, this.status);
     }
-
 
     refreshHouse(value: any) {
         console.log('refresh house: ', value);
@@ -398,7 +380,6 @@ export class UserBillComponent implements OnInit {
         this.createModal.show();
     }
 
-
     selectProviderIdByProviderName(value: string): number {
         let providerId = 0;
         for (let provider of this.providerList) {
@@ -421,7 +402,6 @@ export class UserBillComponent implements OnInit {
         return houseId;
     }
 
-
     isSelected(): boolean {
         return this.isSelectedHouse && this.isSelectedApartment && this.isSelectedProvider
     }
@@ -434,7 +414,4 @@ export class UserBillComponent implements OnInit {
             console.log('toPay: ', this.newBill.toPay);
         }
     }
-
 }
-
-
