@@ -8,7 +8,6 @@ import { UserRegistration } from '../../../../shared/models/user_registration';
 import { OsbbRegistration } from "../../../../shared/models/osbb_registration";
 import { UsersService} from "./users.service";
 import { RegisterService } from "../../../registration/registration_user/register.service";
-// import { RoleService } from "../role/role.service";
 import { RegistrationComponent } from "../../../registration/registration_user/registration.component";
 import { TranslatePipe } from "ng2-translate";
 import { CapitalizeFirstLetterPipe } from "../../../../shared/pipes/capitalize-first-letter";
@@ -28,7 +27,6 @@ import { SELECT_DIRECTIVES } from "ng2-select";
 export class UsersComponent implements OnInit {
     
     userList:User[];
-    userForm:any;
     roles: Array<string> = [];
     userMy: UserRegistration = new UserRegistration();
     osbbMy: OsbbRegistration = new OsbbRegistration();
@@ -58,15 +56,6 @@ export class UsersComponent implements OnInit {
         this.isJoinedOsbb = true;
         this.IsRegisteredOsbb = false;
         this.userList = [];
-        this.userForm = this.formBuilder.group({
-            'firstName': ['', Validators.required],
-            'lastName': ['', Validators.required],
-            'email': ['', [Validators.required,]],
-            'phoneNumber': ['', Validators.required],
-            'gender': ['', Validators.required],
-            'birthDate': ['', Validators.required],
-            'password': ['', Validators.required],
-        });
     }
 
     ngOnInit():any {
@@ -87,10 +76,8 @@ export class UsersComponent implements OnInit {
 
     saveUser(form: NgForm ) {
         console.log(this.userMy);
-//        let user:User = this.userForm;
         this._userService.saveUser(this.userMy).subscribe((data)=>this.userList.push(data));
     }
-
 
     public changeActivation(user:User) {
         this._userService.changeActivation(user).subscribe(
@@ -155,20 +142,6 @@ export class UsersComponent implements OnInit {
         });
     }
 
-    
-
-    // listAllHouses() {
-    //     this.registerService.getAllHouses()
-    //         .subscribe((data)=> {
-    //             this.houseList = data;
-    //             this.houses = this.fillHouses();
-    //             console.log('all houses', this.houses);
-    //         }, (error)=> {
-    //             this.handleErrors(error)
-    //         });
-    // }
-
-
     listAllHousesByOsbb(id: number) {
 
         this.registerService.getAllHousesByOsbb(id)
@@ -177,20 +150,7 @@ export class UsersComponent implements OnInit {
                     this.houses = this.fillHouses();
                     console.log('all houses', this.houses);
                 })
-
     }
-
-    // listAllApartments() {
-    //     this.registerService.getAllApartments()
-    //         .subscribe((data)=> {
-    //             this.apartmentList = data;
-    //             this.apartment = this.fillApartment();
-    //             console.log('all apartment', this.apartment);
-    //         }, (error)=> {
-    //             this.handleErrors(error)
-    //         });
-    // }
-
 
     listAllApartmentsByHouse(houseId: number) {
         this.registerService.getAllApartmentsByHouse(houseId)

@@ -1,17 +1,19 @@
-import {Injectable} from '@angular/core'
-import {User} from "../../../../shared/models/User";
+import { Injectable } from '@angular/core'
+import { User } from "../../../../shared/models/User";
 import { UserRegistration } from '../../../../shared/models/user_registration';
-import {HTTP_PROVIDERS, Http,Headers,Response, RequestOptions} from "@angular/http";
-import {Observable} from 'rxjs/Observable';
+import { HTTP_PROVIDERS, Http,Headers,Response, RequestOptions } from "@angular/http";
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import ApiService = require("../../../../shared/services/api.service");
 
 @Injectable()
 export class UsersService { 
+    
     private _pathUrl = ApiService.serverUrl + '/restful/user/';
     private _pathUrlForUser = ApiService.serverUrl + '/registration/';
     private _getUrl:string = ApiService.serverUrl + '/restful/role/';
+    
     constructor( private http:Http){
     }
 
@@ -31,12 +33,7 @@ export class UsersService {
         return this.http.delete(this._pathUrl+user.userId).map(response => response.json());
     }
 
-    // saveUser(user:UserRegistration):Observable<UserRegistration>{
-    //     return this.http.post(this._pathUrlForUser,JSON.stringify(user))
-    //         .map((res:Response) => {return new UserRegistration(res.json())});
-    // }
     saveUser(user:UserRegistration):Observable<UserRegistration>{
-        
         return this.http.post(this._pathUrlForUser,JSON.stringify(user))
             .map((res:Response) => res.json());
     }
@@ -49,7 +46,6 @@ export class UsersService {
         console.log('Get all role');
         return this.http.get(this._getUrl)
             .map((response)=> response.json())
-            .catch((error)=>Observable.throw(error));
-    
+            .catch((error)=>Observable.throw(error));  
     }
 }
