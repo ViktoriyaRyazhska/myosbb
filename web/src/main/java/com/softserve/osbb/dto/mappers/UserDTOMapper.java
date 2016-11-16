@@ -1,3 +1,9 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.dto.mappers;
 
 import com.softserve.osbb.dto.UserDTO;
@@ -20,8 +26,10 @@ public class UserDTOMapper {
     static ApartmentDTOMapper apartmentDTOMapper;
 
     public static UserDTO mapUserEntityToDTO(User user) {
-        UserDTO userDTO = new UserDTO();
-        if(user != null) {
+        UserDTO userDTO = null;
+        
+        if (user != null) {
+            userDTO = new UserDTO();
             userDTO.setUserId(user.getUserId());
             userDTO.setFirstName(user.getFirstName());
             userDTO.setLastName(user.getLastName());
@@ -31,20 +39,24 @@ public class UserDTOMapper {
             userDTO.setOsbbId(user.getOsbb().getOsbbId());
             userDTO.setGender(user.getGender());
         }
+        
         return userDTO;
     }
 
     public static List<UserDTO> mapUserEntityToDTO(List<User> usersList) {
         List<UserDTO> usersDTOList = new ArrayList<>();
-        if(usersList != null) {
-            for(User u: usersList) {
+        
+        if (usersList != null) {
+            for (User u: usersList) {
                 usersDTOList.add(mapUserEntityToDTO(u));
             }
         }
+        
         return usersDTOList;
     }
+    
     public static User mapUserDtoToEntity(User user,UserDTO userDTO) {
-        if(userDTO!=null){
+        if (userDTO != null) {
             user.setUserId(userDTO.getUserId());
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
@@ -53,6 +65,7 @@ public class UserDTOMapper {
             user.setPhoneNumber(userDTO.getPhoneNumber());
             user.setGender(userDTO.getGender());
         }
+        
         return user;
     }
 }

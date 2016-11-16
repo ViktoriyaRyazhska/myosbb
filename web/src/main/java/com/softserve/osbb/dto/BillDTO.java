@@ -1,3 +1,9 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -14,6 +20,7 @@ import java.time.LocalDate;
  * Created by nazar.dovhyy on 18.08.2016.
  */
 public class BillDTO {
+    
     private Integer billId;
     private LocalDate date;
     private Float tariff;
@@ -25,9 +32,7 @@ public class BillDTO {
     private Integer providerId;
     private String status;
 
-    public BillDTO() {
-
-    }
+    public BillDTO() { }
 
     public BillDTO(BillDTOBuilder billDTOBuilder) {
         this.billId = billDTOBuilder.billId;
@@ -38,7 +43,6 @@ public class BillDTO {
         this.description = billDTOBuilder.description;
         this.apartmentNumber = billDTOBuilder.apartmentNumber;
         this.status = billDTOBuilder.status;
-
     }
 
     public Integer getBillId() {
@@ -50,16 +54,13 @@ public class BillDTO {
         return date;
     }
 
-
     public Float getTariff() {
         return tariff;
     }
 
-
     public Float getToPay() {
         return toPay;
     }
-
 
     public Float getPaid() {
         return paid;
@@ -133,15 +134,15 @@ public class BillDTO {
         private Float tariff;
         private Float toPay;
         private Float paid;
+        @SuppressWarnings("unused")
         private Integer apartmentId = 0;
+        @SuppressWarnings("unused")
         private Integer providerId = 0;
         private String description;
         private Integer apartmentNumber;
         private String status;
 
-        public BillDTOBuilder() {
-
-        }
+        public BillDTOBuilder() { }
 
         public BillDTOBuilder setBillId(Integer billId) {
             this.billId = billId;
@@ -158,12 +159,10 @@ public class BillDTO {
             return this;
         }
 
-
         public BillDTOBuilder setToPay(Float toPay) {
             this.toPay = toPay;
             return this;
         }
-
 
         public BillDTOBuilder setPaid(Float paid) {
             this.paid = paid;
@@ -190,7 +189,6 @@ public class BillDTO {
             }
             return this;
         }
-
 
         public BillDTOBuilder setApartmentNumber(Apartment apartment) {
             if (apartment != null) {

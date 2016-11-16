@@ -1,3 +1,9 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.dto.adapter;
 
 import com.softserve.osbb.dto.OsbbRegistrationDTO;
@@ -17,16 +23,18 @@ public class OsbbRegistartionToOsbbAdapter extends DTOToEntityAdapter<OsbbRegist
     @Override
     public Osbb parse(OsbbRegistrationDTO osbbRegistrationDTO) {
         Osbb registeredOsbb = new Osbb();
+        
         if (osbbRegistrationDTO == null) {
-
             if (dto == null) {
                 throw new IllegalArgumentException();
             }
+            
             osbbRegistrationDTO = (OsbbRegistrationDTO) dto;
             _parse(osbbRegistrationDTO, registeredOsbb);
-            return registeredOsbb;
+        } else {
+            _parse(osbbRegistrationDTO, registeredOsbb);
         }
-        _parse(osbbRegistrationDTO, registeredOsbb);
+        
         return registeredOsbb;
     }
 

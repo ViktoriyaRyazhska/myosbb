@@ -1,3 +1,9 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.dto;
 
 import com.softserve.osbb.model.Apartment;
@@ -76,7 +82,6 @@ public class HouseDTO {
         private Integer apartmentCount;
         private Integer numberOfInhabitants;
 
-
         public HouseDTOBuilder setHouseId(final Integer houseId) {
             this.houseId = houseId;
             return this;
@@ -118,13 +123,6 @@ public class HouseDTO {
 
         public HouseDTOBuilder setNumberOfInhabitants(List<Apartment> apartments) {
             int inhabitantsCount = 0;
-         /*   if (apartments != null) {
-                for (Apartment apartment : apartments) {
-                    if (apartment.getUser() != null) {
-                        inhabitantsCount += 1;
-                    }
-                }
-            }*/
             this.numberOfInhabitants = inhabitantsCount;
             return this;
         }

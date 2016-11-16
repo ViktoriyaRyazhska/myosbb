@@ -1,15 +1,20 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.dto;
 
-import com.softserve.osbb.model.Message;
-import com.softserve.osbb.model.enums.TicketState;
-
 import java.sql.Timestamp;
-import java.util.List;
+
+import com.softserve.osbb.model.enums.TicketState;
 
 /**
  * Created by Kris on 22.08.2016.
  */
 public class TicketDTO {
+    
     private Integer ticketId;
     private String name;
     private String description;
@@ -19,8 +24,7 @@ public class TicketDTO {
     private UserDTO user;
     private UserDTO assigned;
 
-    public TicketDTO() {
-    }
+    public TicketDTO() { }
 
     public TicketDTO(Integer ticketId, String name, String description, TicketState state, Timestamp stateTime, Timestamp time) {
         this.ticketId = ticketId;

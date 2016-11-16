@@ -1,21 +1,24 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.dto.mappers;
 
 import com.softserve.osbb.dto.BillDTO;
 import com.softserve.osbb.model.Bill;
 import com.softserve.osbb.model.enums.BillStatus;
 import com.softserve.osbb.service.BillService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Created by nazar.dovhyy on 18.08.2016.
  */
 public class BillDTOMapper {
 
-    private static Logger logger = LoggerFactory.getLogger(BillDTOMapper.class);
-
     public static BillDTO mapEntityToDTO(Bill bill) {
         BillDTO billDTO = null;
+        
         if (bill != null) {
             billDTO = new BillDTO.BillDTOBuilder()
                     .setBillId(bill.getBillId())
@@ -35,6 +38,7 @@ public class BillDTOMapper {
 
     public static Bill mapDTOtoEntity(BillDTO billDTO, BillService billService) {
         Bill bill = null;
+        
         if (billDTO != null) {
             if (billDTO.getBillId() == null) {
                 bill = new Bill();
@@ -46,7 +50,6 @@ public class BillDTOMapper {
             }
             bill = billService.findOneBillByID(billDTO.getBillId());
             mapFromBillDTOTOBill(billDTO, bill);
-
         }
         return bill;
     }
@@ -61,9 +64,9 @@ public class BillDTOMapper {
 
     private static void mapFromBillDTOTOBill(BillDTO billDTO, Bill bill) {
         bill.setTariff(billDTO.getTariff());
-        bill.setBillStatus(billDTO.getStatus().equals(BillStatus.PAID.toString()) ?
-                BillStatus.PAID :
-                BillStatus.NOT_PAID);
+        bill.setBillStatus(billDTO.getStatus().equals(BillStatus.PAID.toString()) 
+                ? BillStatus.PAID 
+                : BillStatus.NOT_PAID);
         bill.setDate(billDTO.getDate());
         bill.setPaid(billDTO.getPaid());
         bill.setToPay(billDTO.getToPay());

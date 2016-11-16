@@ -1,5 +1,10 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.dto.mappers;
-
 
 import com.softserve.osbb.dto.MessageDTO;
 import com.softserve.osbb.model.Message;
@@ -14,6 +19,7 @@ public class MessageDTOMapper {
 
     public static MessageDTO mapMessageEntityToDTO(Message message, List<Message> answerList) {
         MessageDTO messageDTO = new MessageDTO();
+        
         if(message != null) {
             messageDTO.setMessageId(message.getMessageId());
             messageDTO.setParentId(message.getParentId());
@@ -28,6 +34,7 @@ public class MessageDTOMapper {
 
     public static Message mapMessageDTOtoEntity(MessageDTO messageDTO, User user) {
         Message message = new Message();
+        
         if(message != null) {
             message.setMessageId(messageDTO.getMessageId());
             message.setParentId(messageDTO.getParentId());
