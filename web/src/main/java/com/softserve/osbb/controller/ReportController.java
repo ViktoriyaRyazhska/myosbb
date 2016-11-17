@@ -46,10 +46,8 @@ import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 @RequestMapping("/restful/report")
 public class ReportController {
 
-    private static final List<Resource<ReportDTO>> EMPTY_LIST = new ArrayList<>(
-            0);
-    private static Logger logger = LoggerFactory
-            .getLogger(ReportController.class);
+    private static final List<Resource<ReportDTO>> EMPTY_LIST = new ArrayList<>(0);
+    private static final Logger logger = LoggerFactory.getLogger(ReportController.class);
 
     @Autowired
     private ReportServiceImpl reportService;

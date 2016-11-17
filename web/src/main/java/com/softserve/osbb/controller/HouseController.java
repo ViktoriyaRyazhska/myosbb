@@ -6,6 +6,32 @@
  */
 package com.softserve.osbb.controller;
 
+import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
+
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.hateoas.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.softserve.osbb.dto.HouseDTO;
 import com.softserve.osbb.dto.PageParams;
 import com.softserve.osbb.dto.mappers.HouseDTOMapper;
@@ -25,23 +51,6 @@ import com.softserve.osbb.util.resources.impl.ApartmentResourceList;
 import com.softserve.osbb.util.resources.impl.EntityResourceList;
 import com.softserve.osbb.util.resources.impl.HouseResourceList;
 import com.softserve.osbb.utils.Constants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.hateoas.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 
 /**
  * Created by nazar.dovhyy on 19.07.2016.
@@ -51,7 +60,7 @@ import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 @RequestMapping("/restful/house")
 public class HouseController {
 
-    private static Logger logger = LoggerFactory.getLogger(HouseController.class);
+    private static final Logger logger = LoggerFactory.getLogger(HouseController.class);
     
     @Autowired
     HouseService houseService;
@@ -68,7 +77,8 @@ public class HouseController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<EntityResourceList<HouseDTO>> getAllHousesList() {
         logger.info("listing all houses");
-        List<House> housesList = houseService.findAll();
+        List<House> housesList = new ArrayList<House>();
+        housesList.addAll(houseService.findAll());
         
         EntityResourceList<HouseDTO> houseEntityResourceList = new HouseResourceList();
         housesList.forEach((house) -> {
@@ -232,7 +242,7 @@ public class HouseController {
 
 
     @RequestMapping(value="/{houseId}/{apartmentNumber}",method=RequestMethod.GET)
-public boolean isApartmentNumberValid (@PathVariable("houseId") Integer houseId,@PathVariable("apartmentNumber") Integer apartmentNumber){
+    public boolean isApartmentNumberValid (@PathVariable("houseId") Integer houseId,@PathVariable("apartmentNumber") Integer apartmentNumber){
         boolean valid=true;
         List<Apartment> apartments = houseService.findAllApartmentsByHouseId(houseId);
         
@@ -245,8 +255,6 @@ public boolean isApartmentNumberValid (@PathVariable("houseId") Integer houseId,
         
         return valid;
     }
-
-
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource<HouseDTO>> getHouseById(@PathVariable("id") Integer houseId) {

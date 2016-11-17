@@ -36,8 +36,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RequestMapping("/restful/vote")
 public class VoteController {
 
-    private static Logger logger = LoggerFactory
-            .getLogger(VoteController.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoteController.class);
 
     @Autowired
     private VoteService voteService;
@@ -74,7 +73,8 @@ public class VoteController {
     public ResponseEntity<List<Resource<VoteDTO>>> getAllVotesByOsbb(
             @PathVariable("osbbId") Integer osbbId) {
         logger.info("Get all votes by osbbId: " + osbbId);
-        List<Vote> voteList = voteService.getAllVotesByDateOfCreation();
+        List<Vote> voteList = new ArrayList<Vote>();
+        voteList.addAll(voteService.getAllVotesByDateOfCreation());
         
         List<VoteDTO> voteDTOList = VoteDTOMapper.mapAllVoteEntityToDTO(voteList.stream()
                         .filter(v -> v.getUser().getOsbb().getOsbbId() == osbbId)

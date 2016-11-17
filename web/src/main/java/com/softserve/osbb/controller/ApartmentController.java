@@ -137,7 +137,7 @@ public class ApartmentController {
         List<UserDTO> userList = UserDTOMapper.mapUserEntityToDTO(apartmentService.findOneApartmentByID(id).getUsers());
         logger.info("Getting all users.");
 
-        List<Resource<UserDTO>> resourceUserList = new ArrayList<>();
+        final List<Resource<UserDTO>> resourceUserList = new ArrayList<>();
         for (UserDTO u : userList) {
             resourceUserList.add(addResourceLinkToUserDTO(u));
         }

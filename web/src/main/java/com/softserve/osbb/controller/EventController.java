@@ -46,7 +46,8 @@ public class EventController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<List<Resource<Event>>> findAllEvents() {
         logger.info("Getting all events.");
-        List<Event> eventList = eventService.getAllEvents();        
+        List<Event> eventList = new ArrayList<Event>();
+        eventList.addAll(eventService.getAllEvents());        
         List<Resource<Event>> resourceEventList = new ArrayList<>();
         eventList.forEach((event) -> resourceEventList.add(getResourceWithLink(toResource(event))));        
         return new ResponseEntity<>(resourceEventList, HttpStatus.OK);
