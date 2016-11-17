@@ -230,8 +230,10 @@
   "discussed":"Discussed",
   "since":"Since",
   "not":"No",
-  "yes":"Yes"
-
+  "yes":"Yes",
+  "startDate": "start of ticket",
+  "deadline": "Deadline",
+  "deadlineDate": "Project should be finished until"
 }
 
 

@@ -14,12 +14,13 @@ import {Attachment} from "../../../admin/components/attachment/attachment.interf
 import {HeaderComponent} from "../../../header/header.component";
 import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
 import {FileUploadComponent} from "../../../admin/components/attachment/modals/file-upload-modal";
+import {VoteComponent} from "../../../home/voting/vote.component";
 @Component({
     selector: 'ticket-add-form',
     templateUrl: './src/app/user/ticket/ticket_form/ticket-add-form.html',
     providers: [TicketService],
     directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES,
-            FileSelectDirective, FileDropDirective, FileUploadComponent],
+            FileSelectDirective, FileDropDirective, FileUploadComponent, VoteComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     pipes: [TicketFilter, TranslatePipe,CapitalizeFirstLetterPipe],
     styleUrls: ['src/app/user/ticket/ticket.css']
@@ -41,6 +42,7 @@ export class TicketAddFormComponent implements OnInit {
     private descriptionTicket:string = '';
     private assignTicket:string = '';
     private attachments:Attachment[] = [];
+    private endTimeStr: string;
     _currentUserService = null;
 
     constructor(private ticketService:TicketService,
@@ -111,12 +113,13 @@ export class TicketAddFormComponent implements OnInit {
         this.nameTicket = '';
         this.descriptionTicket = '';
         this.assignTicket = '';
+        this.endTimeStr = '';
 
     }
 
     onCreateTicket() {
          if (this.nameInput.valid && this.descriptionInput.valid && this.assignInput.valid&&
-             !this.isEmptyDescription()&&!this.isEmptyName()&&this.isFindAssign()) {
+             !this.isEmptyDescription()&&!this.isEmptyName()&&this.isFindAssign() && this.isDeadLineCorrect()) {
             this.created.emit(this.createTicket());
             this.closeAddModal();
         }
@@ -127,6 +130,7 @@ export class TicketAddFormComponent implements OnInit {
         ticket.user = this.currentUser;
         ticket.attachments = this.attachments;
         ticket.assigned = this.getAssignedId(this.assignTicket);
+        ticket.deadline = this.castDeadLineStringToDate();
         return ticket;
 
     }
@@ -160,5 +164,15 @@ export class TicketAddFormComponent implements OnInit {
             let index = this.ticket.attachments.indexOf(attachments);
             this.ticket.attachments.splice(index, 1);
         }
+    }
+
+    castDeadLineStringToDate(): Date {
+        return moment(this.endTimeStr).toDate();
+    }
+
+    isDeadLineCorrect(): boolean {
+        let startTime = new Date();
+        let res = this.castDeadLineStringToDate().valueOf() - startTime.valueOf();
+        return res > 0 ? true : false;
     }
 }

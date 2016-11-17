@@ -83,6 +83,11 @@
                     <th class="sorting" style="width:10%;min-width:10%"><i class=" fa fa-edit"></i>
                         {{'discussed' | translate}}</th>
 
+                    <th class="sorting" style="width:11%;min-width:13%"><i class=" fa fa-edit"></i>
+                        {{'deadline'|translate}}
+                        <a style="cursor:pointer;width:8%;min-width:8%" (click)="sortBy('deadline')">
+                            <span class="fa fa-fw fa-sort pull-left"></span></a></th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -149,7 +154,7 @@
                             </div>
                         </div>
                     </td>
-
+                    <td style="width: 15px;">{{getTime(item.deadline)}}</td>
                     <td>
                         <div *ngIf="isCreator()||(item.user.firstName == currentUser.firstName && item.user.lastName == currentUser.lastName)">
                             <div class="dropdown">
