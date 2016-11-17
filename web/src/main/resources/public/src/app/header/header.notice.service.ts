@@ -1,12 +1,11 @@
-import {Injectable} from "@angular/core";
-import {Http, Headers} from "@angular/http";
+import { Injectable } from "@angular/core";
+import { Http, Headers } from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import ApiService = require("../../shared/services/api.service");
-import {User} from './../user/user';
-
-import {Notice} from './notice';
-import {Observable} from "rxjs/Observable";
+import { User } from './../user/user';
+import { Notice } from './notice';
+import { Observable } from "rxjs/Observable";
 @Injectable()
 export class NoticeService {
 

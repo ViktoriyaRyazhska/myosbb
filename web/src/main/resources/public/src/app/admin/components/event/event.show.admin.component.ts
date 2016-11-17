@@ -1,5 +1,5 @@
-import {Component} from "@angular/core";
-import {EventShowComponent} from "../../../event/event.show.component";
+import { Component } from "@angular/core";
+import { EventShowComponent } from "../../../event/event.show.component";
 @Component(
     {
         selector: 'admin-event-show',

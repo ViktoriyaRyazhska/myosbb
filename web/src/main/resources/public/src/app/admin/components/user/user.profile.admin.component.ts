@@ -1,5 +1,5 @@
-import {Component} from "@angular/core";
-import {UserProfileComponent} from "../../../home/user/user.profile.component";
+import { Component } from "@angular/core";
+import { UserProfileComponent } from "../../../home/user/user.profile.component";
 
 @Component({
     selector: 'ticket-admin',

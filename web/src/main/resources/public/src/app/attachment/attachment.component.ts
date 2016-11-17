@@ -1,14 +1,14 @@
-import {Component, OnInit, OnDestroy, EventEmitter, ViewChild, Input, Output} from "@angular/core";
-import {CORE_DIRECTIVES} from "@angular/common";
+import { Component, OnInit, OnDestroy, EventEmitter, ViewChild, Input, Output } from "@angular/core";
+import { CORE_DIRECTIVES } from "@angular/common";
 import "rxjs/Rx";
-import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
-import {FileSelectDirective, FileDropDirective, FileUploader} from "ng2-file-upload/ng2-file-upload";
-import {TranslatePipe} from "ng2-translate/ng2-translate";
+import { MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective } from "ng2-bootstrap/ng2-bootstrap";
+import { FileSelectDirective, FileDropDirective, FileUploader } from "ng2-file-upload/ng2-file-upload";
+import { TranslatePipe } from "ng2-translate/ng2-translate";
 import ApiService = require("../../shared/services/api.service");
-import {CapitalizeFirstLetterPipe} from "../../shared/pipes/capitalize-first-letter";
+import { CapitalizeFirstLetterPipe } from "../../shared/pipes/capitalize-first-letter";
 import FileLocationPath = require("../../shared/services/file.location.path");
-import {AttachmentService} from "../admin/components/attachment/attachment.service";
-import {Attachment} from "../admin/components/attachment/attachment.interface";
+import { AttachmentService } from "../admin/components/attachment/attachment.service";
+import { Attachment } from "../admin/components/attachment/attachment.interface";
 
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment/';
 const fileUploadPath = FileLocationPath.fileUploadPath;

@@ -1,15 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { CORE_DIRECTIVES } from '@angular/common';
 
-import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
+import { MODAL_DIRECTIVES, BS_VIEW_PROVIDERS } from 'ng2-bootstrap/ng2-bootstrap';
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
-import {IRole} from './role';
+import { IRole} from './role';
 import { RoleService } from './role.service';
 import { RoleAddFormComponent } from './role_form/role-add-form.component';
 import { RoleEditFormComponent } from './role_form/role-edit-form.component';
 import { RoleDelFormComponent } from './role_form/role-del-form.component';
-import {PageCreator} from "../../../../shared/services/page.creator.interface";
+import { PageCreator } from "../../../../shared/services/page.creator.interface";
 
 @Component({
     selector: 'role',

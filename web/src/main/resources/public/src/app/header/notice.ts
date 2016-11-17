@@ -1,5 +1,5 @@
-import {DatePipe} from '@angular/common' ;
-import {User} from './../user/user';
+import { DatePipe } from '@angular/common' ;
+import { User } from './../user/user';
 export class Notice {
     noticeId:number;
     user:User;

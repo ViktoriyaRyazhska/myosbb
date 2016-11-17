@@ -1,22 +1,22 @@
-import {Component, OnInit} from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
-import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
-import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
-import {Observable} from 'rxjs/Observable';
-import {Router} from '@angular/router';
-import {TranslatePipe} from "ng2-translate";
+import { Component, OnInit } from '@angular/core';
+import { CORE_DIRECTIVES } from '@angular/common';
+import { MODAL_DIRECTIVES, BS_VIEW_PROVIDERS } from 'ng2-bootstrap/ng2-bootstrap';
+import { ModalDirective } from "ng2-bootstrap/ng2-bootstrap";
+import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
+import { TranslatePipe } from "ng2-translate";
 import 'rxjs/Rx';
-import {Moment} from 'moment';
+import { moment } from 'moment';
 
 import { OsbbDTO } from './osbb';
 import { OsbbService } from './osbb.service';
-import {LoginService} from "../../../login/login.service";
+import { LoginService } from "../../../login/login.service";
 import { OsbbModalComponent } from './osbb_form/osbb-modal.component';
 import { OsbbDelFormComponent } from './osbb_form/osbb-del-form.component';
-import {CurrentUserService} from "../../../../shared/services/current.user.service";
-import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
+import { CurrentUserService } from "../../../../shared/services/current.user.service";
+import { CapitalizeFirstLetterPipe } from "../../../../shared/pipes/capitalize-first-letter";
 import ApiService = require("../../../../shared/services/api.service");
-import {IOsbb, Osbb} from "../../../../shared/models/osbb";
+import { IOsbb, Osbb } from "../../../../shared/models/osbb";
 
 @Component({
     selector: 'osbb',
@@ -33,7 +33,6 @@ export class OsbbComponent implements OnInit {
     updatedOsbb:IOsbb;
     asc: boolean;
     
-
     constructor( private osbbService: OsbbService, private currentUserService:CurrentUserService, private router:Router,private loginService:LoginService) { 
         this.osbbArr = [];
     }
@@ -92,7 +91,7 @@ export class OsbbComponent implements OnInit {
         this.osbbService.deleteOsbb(osbb).then(osbb => this.deleteOsbbFromArr(osbb));
     }
 
-     private deleteOsbbFromArr(osbb: IOsbb): void {
+    private deleteOsbbFromArr(osbb: IOsbb): void {
          let index = this.osbbArr.indexOf(osbb);
          if(index > -1) {
             this.osbbArr.splice(index, 1);
@@ -126,7 +125,7 @@ export class OsbbComponent implements OnInit {
         }
     }
 
-     getFormatDate(date:Date):string {
+    getFormatDate(date:Date):string {
        return moment(date).format("DD.MM.YYYY");
     }
 

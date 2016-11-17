@@ -1,14 +1,14 @@
-import {Component, OnInit, OnDestroy, ViewChild} from "@angular/core";
-import {CORE_DIRECTIVES} from "@angular/common";
-import {Attachment} from "./attachment.interface";
-import {AttachmentService} from "./attachment.service";
-import {PageCreator} from "../../../../shared/services/page.creator.interface";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
+import { CORE_DIRECTIVES } from "@angular/common";
+import { Attachment } from "./attachment.interface";
+import { AttachmentService } from "./attachment.service";
+import { PageCreator } from "../../../../shared/services/page.creator.interface";
 import "rxjs/Rx";
-import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
-import {FileSelectDirective, FileDropDirective} from "ng2-file-upload/ng2-file-upload";
-import {TranslatePipe} from "ng2-translate/ng2-translate";
-import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
-import {FileUploadComponent} from "./modals/file-upload-modal";
+import { MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective } from "ng2-bootstrap/ng2-bootstrap";
+import { FileSelectDirective, FileDropDirective } from "ng2-file-upload/ng2-file-upload";
+import { TranslatePipe } from "ng2-translate/ng2-translate";
+import { CapitalizeFirstLetterPipe } from "../../../../shared/pipes/capitalize-first-letter";
+import { FileUploadComponent } from "./modals/file-upload-modal";
 import ApiService = require("../../../shared/services/api.service");
 import FileLocationPath = require("../../../shared/services/file.location.path");
 
@@ -41,7 +41,7 @@ export class AttachmentAdminComponent implements OnInit, OnDestroy {
         this.getAttachmentsByPageNum(this.pageNumber);
     }
 
-    getAttachmentsByPageNum(pageNumber: number,) {
+    getAttachmentsByPageNum(pageNumber: number) {
         this.pageNumber = +pageNumber;
         this.emptyArray();
         return this._attachmentService.getAllAttachments(this.pageNumber)
@@ -55,7 +55,7 @@ export class AttachmentAdminComponent implements OnInit, OnDestroy {
                 (error) => {
                     console.error(error)
                 });
-    };
+    }
 
     prevPage() {
         this.pageNumber = this.pageNumber - 1;

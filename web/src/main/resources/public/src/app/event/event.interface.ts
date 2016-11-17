@@ -1,5 +1,5 @@
-import {User} from "../../shared/models/User";
-import {Attachment} from "../admin/components/attachment/attachment.interface";
+import { User } from "../../shared/models/User";
+import { Attachment } from "../admin/components/attachment/attachment.interface";
 export class Event {
     id:number;
     title:string;
