@@ -1,3 +1,9 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.controller;
 
 import com.softserve.osbb.model.Event;
@@ -39,10 +45,11 @@ public class EventController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<List<Resource<Event>>> findAllEvents() {
-        List<Event> eventList = eventService.getAllEvents();
         logger.info("Getting all events.");
+        List<Event> eventList = new ArrayList<Event>();
+        eventList.addAll(eventService.getAllEvents());        
         List<Resource<Event>> resourceEventList = new ArrayList<>();
-        eventList.forEach((event) -> resourceEventList.add(getResourceWithLink(toResource(event))));
+        eventList.forEach((event) -> resourceEventList.add(getResourceWithLink(toResource(event))));        
         return new ResponseEntity<>(resourceEventList, HttpStatus.OK);
     }
     
@@ -131,9 +138,11 @@ public class EventController {
             @RequestParam(value = "title") String title) {
         logger.info("fetching event by search parameter: " + title);
         List<Event> eventsBySearchTerm = eventService.findEventsByTitleOrAuthorOrDescription(title);
+        
         if (eventsBySearchTerm.isEmpty()) {
             logger.warn("no events were found");
         }
+        
         List<Resource<Event>> resourceEventList = new ArrayList<>();
         eventsBySearchTerm.forEach((event) -> resourceEventList.add(getResourceWithLink(toResource(event))));
         return new ResponseEntity<>(resourceEventList, HttpStatus.OK);
@@ -144,9 +153,11 @@ public class EventController {
             @RequestParam(value = "status") EventStatus status) {
         logger.info("fetching event by status: " + status);
         List<Event> eventsBySearchTerm = eventService.findByStatus(status);
+        
         if (eventsBySearchTerm.isEmpty()) {
             logger.warn("no events were found");
         }
+        
         List<Resource<Event>> resourceEventList = new ArrayList<>();
         eventsBySearchTerm.forEach((event) -> resourceEventList.add(getResourceWithLink(toResource(event))));
         return new ResponseEntity<>(resourceEventList, HttpStatus.OK);
@@ -158,9 +169,11 @@ public class EventController {
         logger.info("fetching event by author: " + principal.getName());
         System.out.println("FIND BY AUTHOR " + principal.getName());
         List<Event> eventsBySearchTerm = eventService.findByAuthor(principal.getName());
+        
         if (eventsBySearchTerm.isEmpty()) {
             logger.warn("no events were found");
         }
+        
         List<Resource<Event>> resourceEventList = new ArrayList<>();
         eventsBySearchTerm.forEach((event) -> resourceEventList.add(getResourceWithLink(toResource(event))));
         return new ResponseEntity<>(resourceEventList, HttpStatus.OK);
@@ -171,13 +184,16 @@ public class EventController {
         eventResource.add(linkTo(methodOn(EventController.class)
                 .findEventById(eventResource.getContent().getEventId()))
                 .withSelfRel());
+        
         //adding link to osbb
         final Osbb osbbFromResource = eventResource.getContent().getOsbb();
+        
         if (osbbFromResource != null) {
             eventResource.add(linkTo(methodOn(OsbbController.class)
                     .getOsbbById(osbbFromResource
                             .getOsbbId())).withRel("osbb"));
         }
+        
         return eventResource;
     }
 }

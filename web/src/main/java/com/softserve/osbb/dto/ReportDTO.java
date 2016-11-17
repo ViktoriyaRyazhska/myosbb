@@ -1,3 +1,9 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -20,9 +26,7 @@ public class ReportDTO {
     private String filePath;
     private Integer userId;
 
-    public ReportDTO() {
-
-    }
+    public ReportDTO() { }
 
     public ReportDTO(ReportDTOBuilder reportDTOBuilder) {
         this.reportId = reportDTOBuilder.reportId;
@@ -31,7 +35,6 @@ public class ReportDTO {
         this.creationDate = reportDTOBuilder.creationDate;
         this.filePath = reportDTOBuilder.filePath;
     }
-
 
     public Integer getReportId() {
         return reportId;
@@ -90,6 +93,7 @@ public class ReportDTO {
         private String description;
         private LocalDate creationDate;
         private String filePath;
+        @SuppressWarnings("unused")
         private Integer userId;
 
         public ReportDTOBuilder setReportId(Integer reportId) {
@@ -128,7 +132,6 @@ public class ReportDTO {
             return new ReportDTO(this);
         }
     }
-
 
     @Override
     public String toString() {

@@ -1,3 +1,9 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.config;
 
 import org.springframework.core.Ordered;
@@ -10,15 +16,25 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * A filter that performs filtering tasks on either the request to a resource (a servlet or static 
+ * content), or on the response from a resource, or both. 
+ * 
  * Created by cavayman on 30.08.2016.
+ * @version 1.1
+ * @since 15.11.2016
  */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class SimpleCorsFilter implements Filter {
 
-    public SimpleCorsFilter() {
-    }
+    /**
+     * Default no-args constructor.
+     */
+    public SimpleCorsFilter() { }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;
@@ -37,10 +53,16 @@ public class SimpleCorsFilter implements Filter {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void init(FilterConfig filterConfig) {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void destroy() {
     }

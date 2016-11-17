@@ -1,3 +1,9 @@
+/*
+ * Project “OSBB” – a web-application which is a godsend for condominium head, managers and 
+ * residents. It offers a very easy way to manage accounting and residents, events and 
+ * organizational issues. It represents a simple design and great functionality that is needed 
+ * for managing. 
+ */
 package com.softserve.osbb.controller;
 
 import com.softserve.osbb.model.Mail;
@@ -16,6 +22,7 @@ import javax.mail.MessagingException;
 @CrossOrigin
 @RequestMapping("/restful/mail")
 public class MailController {
+    
     private static Logger logger = LoggerFactory.getLogger(MailController.class);
 
     @Autowired
@@ -23,8 +30,12 @@ public class MailController {
 
     @RequestMapping(method = RequestMethod.POST)
     public void sendMail(@RequestBody Mail mail){
-        if (mail == null) logger.warn("void mail");
+        if (mail == null) {
+            logger.warn("void mail");
+        }
+        
         logger.info("sending mail to "+ mail.getTo());
+        
         try {
             sender.send(mail.getTo(), mail.getSubject(), mail.getText());
         } catch (MessagingException e) {

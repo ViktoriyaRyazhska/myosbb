@@ -10,6 +10,7 @@ import java.util.List;
  * Created by Anastasiia Fedorak on 8/2/16.
  */
 public class ProviderPageDTO {
+    
     private Integer providerId;
     private String name;
     private String description;
@@ -27,8 +28,8 @@ public class ProviderPageDTO {
     }
 
     public ProviderPageDTO(Integer providerId, String name, String description, String logoUrl,
-                           Periodicity periodicity, ProviderType type, String email, String phone, String address,
-                           String schedule, boolean active) {
+                           Periodicity periodicity, ProviderType type, String email, String phone, 
+                           String address, String schedule, boolean active) {
         this.providerId = providerId;
         this.name = name;
         this.description = description;
@@ -41,6 +42,7 @@ public class ProviderPageDTO {
         this.schedule = schedule;
         this.active = active;
     }
+    
     public ProviderPageDTO(Integer providerId, String name,boolean active, String schedule) {
         this.providerId = providerId;
         this.name = name;
