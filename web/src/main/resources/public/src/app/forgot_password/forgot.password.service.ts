@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {Http, Response, Headers} from "@angular/http";
-import {Observable} from "rxjs/Observable";
-import {User} from "../../shared/models/User";
+import { Injectable } from '@angular/core';
+import { Http, Response, Headers } from "@angular/http";
+import { Observable } from "rxjs/Observable";
+import { User } from "../../shared/models/User";
 import ApiService = require("../../shared/services/api.service");
 
 @Injectable()
@@ -16,6 +16,7 @@ export class ForgotPasswordService{
         let headers=new Headers({'Content-Type':'application/json'});
         return this.http.post(validate, data,{headers:headers});
     }
+    
     updatePassword(id:string,password){
         let url=this._pathUrl+"/restful/user/"+id+"/password";
         let headers=new Headers({'Content-Type':'application/json'});

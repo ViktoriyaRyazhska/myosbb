@@ -1,11 +1,10 @@
 import { Component, Output, Input, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {FORM_DIRECTIVES, CORE_DIRECTIVES, FormBuilder, Control, ControlGroup, Validators} from '@angular/common';
-import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from 'ng2-bootstrap/ng2-bootstrap';
-import {TranslatePipe} from "ng2-translate";
-
-import {CapitalizeFirstLetterPipe} from "../../../../../shared/pipes/capitalize-first-letter";
-import {IOsbb, Osbb} from "../../../../../shared/models/osbb";
-import {Attachment} from "../../../../../shared/models/attachment";
+import { FORM_DIRECTIVES, CORE_DIRECTIVES, FormBuilder, Control, ControlGroup, Validators } from '@angular/common';
+import { MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
+import { TranslatePipe } from "ng2-translate";
+import { CapitalizeFirstLetterPipe } from "../../../../../shared/pipes/capitalize-first-letter";
+import { IOsbb, Osbb } from "../../../../../shared/models/osbb";
+import { Attachment } from "../../../../../shared/models/attachment";
 import { OsbbDTO } from '../osbb';
 
 @Component({
@@ -154,4 +153,3 @@ export class OsbbModalComponent implements OnInit{
         this.submitAttempt = false;
     }
 }
-

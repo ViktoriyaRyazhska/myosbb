@@ -61,7 +61,20 @@
                     "name": "user_id",
                     "type": "INT"
                   }
+                },
+                {
+                  "column": {
+                    "name": "discussed",
+                    "type": "TIMESTAMP"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "deadline",
+                    "type": "TIMESTAMP"
+                  }
                 }
+
               ],
               "tableName": "ticket"
             }

@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute}       from '@angular/router';
-import {ForgotPasswordService} from './forgot.password.service';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute }       from '@angular/router';
+import { ForgotPasswordService } from './forgot.password.service';
 
 @Component({
     selector: 'forgot-pass',
@@ -17,7 +17,6 @@ export class ForgotPasswordComponent implements OnInit {
     errorConfirm:boolean = false;
     id:string="";
     FormValid=false;
-
 
     constructor(private _router:Router,private route:ActivatedRoute,private forgotPassService:ForgotPasswordService) {
         this.route.params.subscribe(params =>
@@ -43,8 +42,8 @@ export class ForgotPasswordComponent implements OnInit {
             }
             this.FormValid=true;
         }
-
     }
+
     validateKey() {
         this.forgotPassService.validateKey({id:this.id,key:this.key}).subscribe(
             data=> {
@@ -58,13 +57,12 @@ export class ForgotPasswordComponent implements OnInit {
             }
         )
     }
+
     updatePassword(){
         this.forgotPassService.updatePassword(this.id,this.password).subscribe(
             data=>{
                 this._router.navigate(['/login'])
-            }
-            ,
-            error=>{
+            },error=>{
                 console.log(error);
             }
         )

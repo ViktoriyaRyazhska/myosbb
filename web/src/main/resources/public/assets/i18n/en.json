@@ -48,7 +48,7 @@
   "street": "street",
   "city": "city",
   "zipCode": "zip code",
-  "apartments": "apartments",
+  "rents": "rents",
   "osbb": "osbb",
   "homePage": "home page",
   "go_to": "go to",
@@ -213,7 +213,7 @@
   "phoneNumber": "phone number",
   "pageUser": "user page",
   "write": "write",
-  "apartment": "Apartment",
+  "rents": "Rents",
   "residents": "Residents",
   "contacts": "Contacts",
   "profile": "Profile",
@@ -227,7 +227,19 @@
   "user_not_found": "no user was found",
   "no_account": "don't have an account yet?",
   "create_account": "create an account",
-  "discussed":"Discussed"
+  "discussed":"Discussed",
+  "since":"Since",
+  "not":"No",
+	"yes": "Yes",
+  "electricity" : "electricity",
+  "gas":"gas",
+  "water":"water",
+  "rate" : "rate",
+  "debt" : "debt",
+  "startDate": "start of ticket",
+  "deadline": "Deadline",
+  "deadlineDate": "Project should be finished until"
 }
+
 
 

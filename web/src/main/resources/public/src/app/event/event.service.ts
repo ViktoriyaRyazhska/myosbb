@@ -1,8 +1,8 @@
-import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
-import {Observable} from "rxjs/Observable";
+import { Injectable } from "@angular/core";
+import { Http } from "@angular/http";
+import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
-import {Event} from "./event.interface";
+import { Event } from "./event.interface";
 import "rxjs/add/operator/toPromise";
 import moment from 'moment';
 import ApiService = require("../../shared/services/api.service");

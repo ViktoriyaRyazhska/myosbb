@@ -9,6 +9,8 @@ export interface ITicket {
     description: string;
     state: TicketState;
     statetime:Date;
+    discussed:Date;
+    deadline:Date;
     time:Date;
     user:User;
     assigned:User;
@@ -23,6 +25,8 @@ export class Ticket implements ITicket {
     description:string;
     state:TicketState;
     statetime:Date;
+    discussed:Date;
+    deadline:Date;
     time:Date;
     user:User;
     assigned:User;

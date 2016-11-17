@@ -1,9 +1,9 @@
-import {Component, OnInit, OnDestroy} from "@angular/core";
-import {HouseService} from "./house.service";
-import {HousePageObject} from "./house.page.object";
-import {HeaderComponent} from "../header/header.component";
-import {ActivatedRoute} from "@angular/router";
-import {Subscription} from "rxjs";
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { HouseService } from "./house.service";
+import { HousePageObject } from "./house.page.object";
+import { HeaderComponent } from "../header/header.component";
+import { ActivatedRoute } from "@angular/router";
+import { Subscription } from "rxjs";
 
 
 @Component({
@@ -30,10 +30,8 @@ export class HouseShowComponent implements OnInit, OnDestroy {
             this._houseService.getHouseById(this.houseId)
                 .subscribe((data) => this.housePageObject = data,
                     (error) => console.error(error));
-        })
-
+        });
     }
-
 
     ngOnDestroy(): any {
         if (this.sub)

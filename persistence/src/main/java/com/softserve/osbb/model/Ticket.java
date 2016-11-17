@@ -23,6 +23,8 @@ public class Ticket {
     private TicketState state;
     private Timestamp stateTime;
     private Timestamp time;
+    private Timestamp discussed;
+    private Timestamp deadline;
     private User user;
     private User assigned;
     private Collection<Message> messages = new ArrayList<>();
@@ -85,6 +87,27 @@ public class Ticket {
 
     public void setTime(Timestamp time) {
         this.time = time;
+    }
+
+    @Basic
+    @Column(name = "deadline")
+    public Timestamp getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Timestamp deadline) {
+        this.deadline = deadline;
+    }
+
+    @Basic
+    @Column(name = "discussed")
+    public Timestamp getDiscussed() {
+        return discussed;
+    }
+
+
+    public void setDiscussed(Timestamp time) {
+        this.discussed = time;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -166,6 +189,7 @@ public class Ticket {
                 ", state=" + state +
                 ", stateTime=" + stateTime +
                 ", time=" + time +
+                ", deadline=" + deadline +
                 ",attachments=" + attachments +
                 '}';
     }

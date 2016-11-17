@@ -1,19 +1,19 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
-import {HousePageObject} from "./house.page.object";
-import {HouseService} from "./house.service";
-import {Router, ActivatedRoute} from "@angular/router";
-import {TranslatePipe} from "ng2-translate";
-import {CapitalizeFirstLetterPipe} from "../../shared/pipes/capitalize-first-letter";
-import {ToasterContainerComponent, ToasterService} from "angular2-toaster/angular2-toaster";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { HousePageObject } from "./house.page.object";
+import { HouseService } from "./house.service";
+import { Router, ActivatedRoute } from "@angular/router";
+import { TranslatePipe } from "ng2-translate";
+import { CapitalizeFirstLetterPipe } from "../../shared/pipes/capitalize-first-letter";
+import { ToasterContainerComponent, ToasterService } from "angular2-toaster/angular2-toaster";
 import {
     onErrorResourceNotFoundToastMsg,
     onErrorServerNoResponseToastMsg
 } from "../../shared/error/error.handler.component";
-import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective} from "ng2-bootstrap";
-import {FORM_DIRECTIVES} from "@angular/forms";
-import {CORE_DIRECTIVES} from "@angular/common";
-import {Subscription} from "rxjs";
-import {PageParams} from "../../shared/models/search.model";
+import { MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, ModalDirective } from "ng2-bootstrap";
+import { FORM_DIRECTIVES } from "@angular/forms";
+import { CORE_DIRECTIVES } from "@angular/common";
+import { Subscription } from "rxjs";
+import { PageParams } from "../../shared/models/search.model";
 import Regex = require('../../shared/services/regex.all.text');
 
 @Component({
@@ -24,7 +24,7 @@ import Regex = require('../../shared/services/regex.all.text');
     viewProviders: [BS_VIEW_PROVIDERS],
     styleUrls: ['src/app/house/house.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
-    inputs: ['admin']
+    inputs: ['admin', 'manager']
 })
 export class HouseTableComponent implements OnInit {
 
@@ -39,6 +39,7 @@ export class HouseTableComponent implements OnInit {
     private rows: number[] = [10, 20, 50];
     private onSearch: boolean = false;
     private admin: boolean = false;
+    private manager: boolean = false;
     private selectedHouse: HousePageObject = {
         houseId: null, city: '', street: '', zipCode: '', description: '',
         osbbName: '', apartmentCount: null, numberOfInhabitants: null
@@ -55,13 +56,11 @@ export class HouseTableComponent implements OnInit {
 
     ngOnInit(): any {
         this.initHousesArr();
-
     }
 
     refresh() {
         this.initHousesArr();
     }
-
 
     openDelModal(houseId: number) {
         this.houseId = houseId;
@@ -69,7 +68,6 @@ export class HouseTableComponent implements OnInit {
     }
 
     initHousesArr() {
-
         if (this.admin) {
             this.findAllHousesByPage();
         } else {
@@ -89,7 +87,6 @@ export class HouseTableComponent implements OnInit {
                     this.handleErrors(error)
                 }
             );
-
     }
 
     showAddHouseModal() {
@@ -126,11 +123,9 @@ export class HouseTableComponent implements OnInit {
         return false;
     }
 
-
     selectByPageNumber(num) {
         this.pageParams.pageNumber = +num;
         this.findAllHousesByPage();
-
     }
 
     private findAllHousesByPage() {
@@ -176,7 +171,6 @@ export class HouseTableComponent implements OnInit {
         }
     }
 
-
     prevPage() {
         this.pageParams.pageNumber -= 1;
         console.log("load by page :", this.pageParams.pageNumber);
@@ -189,13 +183,11 @@ export class HouseTableComponent implements OnInit {
         this.findAllHousesByPage()
     }
 
-
     selectRowNum(row: number) {
         console.log('load by row number', row);
         this.pageParams.rowNum = +row;
         this.findAllHousesByPage();
     }
-
 
     onClickSearchByParam(value: string) {
         if (value.trim().length && Regex.TEXT.test(value)) {
@@ -213,8 +205,6 @@ export class HouseTableComponent implements OnInit {
                         this.handleErrors(error);
                     });
         }
-
-
     }
 
     private handleErrors(error: any) {
@@ -239,6 +229,5 @@ export class HouseTableComponent implements OnInit {
         }
         this._router.navigate(['home/house', id]);
     }
-
 
 }

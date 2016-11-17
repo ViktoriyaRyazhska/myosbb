@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
-import {UserCalendarComponent} from "../../../user/calendar/user.calendar.component";
-import {ROUTER_DIRECTIVES} from "@angular/router";
+import { Component } from "@angular/core";
+import { UserCalendarComponent } from "../../../user/calendar/user.calendar.component";
+import { ROUTER_DIRECTIVES } from "@angular/router";
 
 @Component(
     {

@@ -2,6 +2,9 @@
      aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <file-upload-modal (upload)='onUpload($event)' #uploadForm></file-upload-modal>
+        <vote-add-form [currentUser]="currentUser" (create)="createVote($event)" #voteAddForm></vote-add-form>
+        <vote-del-form (delete)="deleteVote($event)" #delForm></vote-del-form>
+        <vote-close-form (close)="closeVote($event)" #closeForm></vote-close-form>
 
         <div class="modal-content" [ngFormModel]="creatingForm">
             <div class="modal-header">
@@ -44,6 +47,27 @@
                         </ul>
                     </datalist>
                 </div>
+                <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !isDeadLineCorrect() }">
+                    <label>{{'deadlineDate' | translate}}</label>
+                    <input class="form-control" type="datetime-local" [(ngModel)]="endTimeStr" required/>
+                    <div class="alert alert-danger" *ngIf="submitAttempt && !isDeadLineCorrect()">{{'invalidDate' |
+                        translate | capitalize}}
+                    </div>
+                </div>
+                <div class="row main-btn ">
+                    <div class="col-lg-12">
+                        <button class="btn btn-info" (click)="voteVar.openModalWindow()">{{'addVoting' | translate |
+                            capitalize}}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <vote #voteVar></vote>
+                    </div>
+                </div>
+                &nbsp;
                 <div>
                     <label type="button" class="label label-info"
                             (click)="uploadForm.openUploadModal()">
