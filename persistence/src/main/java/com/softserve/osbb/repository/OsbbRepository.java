@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * Created by Roman on 06.07.2016.
  */
-
 @Repository
 public interface OsbbRepository extends JpaRepository<Osbb, Integer> {
 

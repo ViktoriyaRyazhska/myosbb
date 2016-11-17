@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * Created by Anastasiia Fedorak on 7/20/16.
  */
-
 @Repository
 public interface ProviderTypeRepository extends JpaRepository<ProviderType, Integer>{
 

@@ -19,8 +19,9 @@ import java.util.List;
 public interface ContractRepository extends JpaRepository <Contract, Integer>, JpaSpecificationExecutor<Contract>  {
 
     @Query("Select contract From Contract contract where LOWER(contract.provider.name) LIKE LOWER(CONCAT('%',:search,'%'))")
-            List<Contract> findContractsByProviderName(@Param("search") String search);
+    List<Contract> findContractsByProviderName(@Param("search") String search);
 
-            Page<Contract> findByActiveTrue(Pageable pageable);
-            List<Contract> findByActiveTrue();
+    Page<Contract> findByActiveTrue(Pageable pageable);
+    
+    List<Contract> findByActiveTrue();
 }

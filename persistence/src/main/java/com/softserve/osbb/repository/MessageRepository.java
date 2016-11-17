@@ -1,15 +1,14 @@
 package com.softserve.osbb.repository;
 
-import com.softserve.osbb.model.Message;
-import com.softserve.osbb.model.Ticket;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.softserve.osbb.model.Message;
+import com.softserve.osbb.model.Ticket;
 
 /**
  * Created by Kris on 05.07.2016.

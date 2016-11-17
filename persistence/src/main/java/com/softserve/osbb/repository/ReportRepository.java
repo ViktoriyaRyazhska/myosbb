@@ -1,6 +1,5 @@
 package com.softserve.osbb.repository;
 
-
 import com.softserve.osbb.model.Report;
 import com.softserve.osbb.model.User;
 import org.springframework.data.domain.Page;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
-
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Integer> {
 
@@ -23,8 +21,8 @@ public interface ReportRepository extends JpaRepository<Report, Integer> {
     @Query("Select r From Report r where r.user=?1 AND r.creationDate BETWEEN ?2 and ?3")
     List<Report> getAllUserReportsBetweenDates(User user, LocalDate from, LocalDate to);
 
-    @Query("Select r From Report r where LOWER(r.name) LIKE LOWER(CONCAT('%',:searchParam,'%'))" +
-            " OR LOWER(r.description) LIKE LOWER(CONCAT('%',:searchParam,'%'))")
+    @Query("Select r From Report r where LOWER(r.name) LIKE LOWER(CONCAT('%',:searchParam,'%'))"
+            + " OR LOWER(r.description) LIKE LOWER(CONCAT('%',:searchParam,'%'))")
     List<Report> getAllReportsBySearchParam(@Param("searchParam") String searchTerm);
 
     List<Report> findByUser(User user);

@@ -99,7 +99,6 @@ public class UserRepositoryTest extends Assert {
         userRepository.save(user2);
         assertTrue(userRepository.findByRole(role2).size() >= 2);
 
-        assertEquals(user.getRole().getName(),roleUserRepository.findByUsers(user).getName());
         assertTrue(userRepository.findAll().size() >= 2);
     }
 
