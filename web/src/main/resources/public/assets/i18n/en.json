@@ -230,12 +230,16 @@
   "discussed":"Discussed",
   "since":"Since",
   "not":"No",
-  "yes": "Yes",
+	"yes": "Yes",
   "electricity" : "electricity",
   "gas":"gas",
   "water":"water",
   "rate" : "rate",
-  "debt" : "debt"
-  }
+  "debt" : "debt",
+  "startDate": "start of ticket",
+  "deadline": "Deadline",
+  "deadlineDate": "Project should be finished until"
+}
+
 
 
