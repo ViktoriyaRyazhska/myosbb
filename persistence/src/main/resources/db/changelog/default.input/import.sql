@@ -30,7 +30,7 @@
 -- INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1992-12-30','butaroman3@gmail.com','Roman3','male','Buta3','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0632571119','1',8,TRUE );
 -- INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1994-08-18','nkharabaruk@gmail.com','Nataliia','female','Kharabaruk','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0638142706','1',4,TRUE );
 -- INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1996-02-21','user@gov.ua','User','male','TheUser','$2a$10$izk0e40i9NsxgRnwoafnnOANYf9iqhxyKp1P83LW.C2RysO0KnoOi','380687773508','1',4,TRUE,TRUE);
--- INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1983-12-31','ewing@nyk.com','Patrick','male','Ewing','$2a$10$UEjkwHIn9fMnNs7r4IXAduJ9rIv3tGatMqnt7GjWqaklljt2RoP9K','095729666','1',8,TRUE
+-- INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1983-12-31','ewing@nyk.com','Patrick','male','Ewing','$2a$10$UEjkwHIn9fMnNs7r4IXAduJ9rIv3tGatMqnt7GjWqaklljt2RoP9K','095729666','1',8,TRUE);
 -- --
 -- --
 -- INSERT INTO provider_type ( type_name) VALUES ('Internet');
