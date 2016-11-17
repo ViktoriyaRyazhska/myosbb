@@ -68,7 +68,7 @@ public class EventServiceTest {
         event.setAuthor(userRepository.findOne(1));
         event.setOsbb(osbb);
         event.setDescription("Simple repeatable trash recycling.");
-        event.setRepeat(Periodicity.DAYLY);
+        event.setRepeat(Periodicity.PERMANENT_DAYLY);
         event.setStartTime(t1);
         event.setEndTime(t2);
 
