@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
-import {Observable} from "rxjs/Observable";
+import { Injectable } from "@angular/core";
+import { Http } from "@angular/http";
+import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
-import {HousePageObject} from "./house.page.object";
-import {PageParams} from "../../shared/models/search.model";
+import { HousePageObject } from "./house.page.object";
+import { PageParams } from "../../shared/models/search.model";
 import ApiService = require("../../shared/services/api.service");
 
 
@@ -26,9 +26,7 @@ export class HouseService {
     deleteHouseById(houseId: number): Observable<any> {
         return this._http.delete(this.houseURL + houseId)
             .catch((error)=>Observable.throw(error));
-
     }
-
 
     listAllHouses(): Observable<any> {
         return this._http.get(this.houseURL + 'all')
@@ -46,7 +44,6 @@ export class HouseService {
         return this._http.post(this.houseURL + 'admin', JSON.stringify(pageParams))
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
-
     }
 
 
@@ -55,7 +52,6 @@ export class HouseService {
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error));
     }
-
 
     searchByInputParam(value: string): Observable<any> {
         console.log('service ', value);
@@ -68,6 +64,5 @@ export class HouseService {
         return this._http.post(this.houseURL, JSON.stringify(house))
             .catch((error)=> Observable.throw(error));
     }
-
 
 }

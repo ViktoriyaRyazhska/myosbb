@@ -1,8 +1,8 @@
 import { Component, Output, Input, EventEmitter, OnInit, ViewChild } from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
-import { IRole, Role} from '../role';
-import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
-import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
+import { CORE_DIRECTIVES } from '@angular/common';
+import { IRole, Role } from '../role';
+import { MODAL_DIRECTIVES, BS_VIEW_PROVIDERS } from 'ng2-bootstrap/ng2-bootstrap';
+import { ModalDirective } from "ng2-bootstrap/ng2-bootstrap";
 @Component({
     selector: 'role-del-form',
     templateUrl: './src/app/admin/components/role/role_form/role-del-form.html',

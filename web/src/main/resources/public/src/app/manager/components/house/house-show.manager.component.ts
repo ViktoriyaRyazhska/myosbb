@@ -2,11 +2,11 @@ import { Component } from "@angular/core";
 import { HouseShowComponent } from "../../../house/house.show.component";
 @Component(
     {
-        selector: 'admin-house-show',
-        templateUrl: 'src/app/admin/components/house/house_show.admin.html',
+        selector: 'manager-house-show',
+        templateUrl: 'src/app/manager/components/house/house-show.manager.html',
         directives:[HouseShowComponent]
     }
 )
-export class HouseShowAdminComponent {
+export class HouseShowManagerComponent {
 
 }

@@ -1,11 +1,11 @@
-import {Injectable} from "@angular/core";
-import {Http, Headers} from "@angular/http";
+import { Injectable } from "@angular/core";
+import { Http, Headers } from "@angular/http";
 
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 
-import {IOsbb} from "../../../../shared/models/osbb";
-import {OsbbDTO} from "../../../../shared/models/osbbDTO";
+import { IOsbb } from "../../../../shared/models/osbb";
+import { OsbbDTO } from "../../../../shared/models/osbbDTO";
 import ApiService = require("../../../../shared/services/api.service");
 
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment';
@@ -45,7 +45,7 @@ export class OsbbService {
         });
     }
 
-     getByAvailable(available:boolean): Promise<IOsbb[]> {
+    getByAvailable(available:boolean): Promise<IOsbb[]> {
         return this.http.get(this.url + '/status/' + available)
                  .toPromise()
                  .then(res => res.json())
@@ -57,7 +57,7 @@ export class OsbbService {
         return this.http.get(url)
                  .toPromise()
                  .then(res => res.json())
-                 .catch(this.handleError);
+                  .catch(this.handleError);
     }
 
    getAllOsbbByOrder(sortedBy: string, asc: boolean) {

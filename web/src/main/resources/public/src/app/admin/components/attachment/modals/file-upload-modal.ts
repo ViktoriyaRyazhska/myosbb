@@ -2,14 +2,14 @@
  * Created by nataliia on 20.09.16.
  */
 
-import {Component, Output, EventEmitter, ViewChild } from '@angular/core';
-import {CORE_DIRECTIVES} from '@angular/common';
-import {Attachment} from "../attachment.interface";
-import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
-import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
-import {TranslatePipe} from "ng2-translate";
-import {CapitalizeFirstLetterPipe} from "../../../../../shared/pipes/capitalize-first-letter";
-import {FileSelectDirective, FileDropDirective, FileUploader, FileItem} from "ng2-file-upload";
+import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
+import { CORE_DIRECTIVES } from '@angular/common';
+import { Attachment } from "../attachment.interface";
+import { MODAL_DIRECTIVES, BS_VIEW_PROVIDERS } from 'ng2-bootstrap/ng2-bootstrap';
+import { ModalDirective } from "ng2-bootstrap/ng2-bootstrap";
+import { TranslatePipe } from "ng2-translate";
+import { CapitalizeFirstLetterPipe } from "../../../../../shared/pipes/capitalize-first-letter";
+import { FileSelectDirective, FileDropDirective, FileUploader, FileItem } from "ng2-file-upload";
 import ApiService = require("../../../../../shared/services/api.service");
 
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment/';

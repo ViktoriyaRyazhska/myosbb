@@ -89,6 +89,7 @@ export class UsersComponent implements OnInit {
             }
         )
     }
+
     toUser(id:number){
         this.router.navigate(['admin/user', id]);
     }
@@ -101,7 +102,6 @@ export class UsersComponent implements OnInit {
         this.listAllHousesByOsbb(this.userMy.osbbId);
     }
 
-
     selectedHouse(value: any) {
         console.log('select house: ' + value);
         this.isSelectedHouse = true;
@@ -109,7 +109,6 @@ export class UsersComponent implements OnInit {
         console.log('select houseId: ' + houseId);
         this.listAllApartmentsByHouse(houseId);
     }
-
 
     selectedApartment(value: any) {
         this.isSelectedApartment = true;
@@ -194,7 +193,6 @@ export class UsersComponent implements OnInit {
         return houseId;
     }
 
-
     getApartmentByApartmentNumber(apartmentNumber: string): number {
         let apartmentID: number = 0;
         let apNumber = +apartmentNumber;
@@ -207,7 +205,6 @@ export class UsersComponent implements OnInit {
 
         return apartmentID;
     }
-
 
     fillOsbb(): string[] {
         let tempArr: string[] = [];
@@ -253,6 +250,5 @@ export class UsersComponent implements OnInit {
         console.log(tempArr)
         return tempArr;
     }
-
 
 }

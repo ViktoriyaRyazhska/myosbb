@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
-import {EventComponent} from "../../../event/event.component";
-import {ROUTER_DIRECTIVES} from "@angular/router";
+import { Component } from "@angular/core";
+import { EventComponent } from "../../../event/event.component";
+import { ROUTER_DIRECTIVES } from "@angular/router";
 
 @Component(
     {

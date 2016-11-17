@@ -42,7 +42,7 @@ export class UsersService {
         return this.http.post(this._pathUrl+user.userId+"/changeActivation");
     }
 
-    listAllRoles():Observable<any> {
+   listAllRoles():Observable<any> {
         console.log('Get all role');
         return this.http.get(this._getUrl)
             .map((response)=> response.json())
