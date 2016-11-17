@@ -23,8 +23,6 @@ import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 @Component
 public class BillFilterList implements FilterList<Resource<BillDTO>, Bill> {
 
-    private static final String PAID = "PAID";
-    private static final String NOT_PAID = "NOT_PAID";
     private static Logger logger = LoggerFactory.getLogger(BillFilterList.class);
 
     @Override
@@ -41,36 +39,23 @@ public class BillFilterList implements FilterList<Resource<BillDTO>, Bill> {
 
     private void processFilterByStatus(String status, Page<Bill> bills, EntityResourceList<BillDTO> billResourceList) {
         switch (status.toUpperCase()) {
-            case PAID:
-                addByStatusIfPaid(bills, billResourceList);
+            case "PAID":
+                addByStatus(bills, billResourceList, BillStatus.PAID);
                 break;
-            case NOT_PAID:
-                addByStatusIfNotPaid(bills, billResourceList);
+            case "NOT_PAID":
+                addByStatus(bills, billResourceList, BillStatus.NOT_PAID);
                 break;
             default:
                 addIfNoStatus(bills, billResourceList);
                 break;
-
         }
     }
 
-    private void addByStatusIfNotPaid(Page<Bill> bills, EntityResourceList<BillDTO> billResourceList) {
-        logger.info("filtering by: " + BillStatus.NOT_PAID);
+    private void addByStatus(Page<Bill> bills, EntityResourceList<BillDTO> billResourceList, BillStatus status) {
+        logger.info("filtering by: " + status);
         bills.getContent()
                 .stream()
-                .filter((b) -> b.getBillStatus() == BillStatus.NOT_PAID)
-                .forEach((bill) -> {
-                    BillDTO billDTo = BillDTOMapper.mapEntityToDTO(bill);
-                    logger.info("billDto created " + billDTo.toString());
-                    billResourceList.add(toResource(billDTo));
-                });
-    }
-
-    private void addByStatusIfPaid(Page<Bill> bills, EntityResourceList<BillDTO> billResourceList) {
-        logger.info("filtering by: " + BillStatus.PAID);
-        bills.getContent()
-                .stream()
-                .filter((b) -> b.getBillStatus() == BillStatus.PAID)
+                .filter((b) -> b.getBillStatus().equals(status))
                 .forEach((bill) -> {
                     BillDTO billDTo = BillDTOMapper.mapEntityToDTO(bill);
                     logger.info("billDto created " + billDTo.toString());
