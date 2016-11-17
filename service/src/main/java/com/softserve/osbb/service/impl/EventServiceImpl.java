@@ -115,7 +115,7 @@ public class EventServiceImpl implements EventService {
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Event> findByAuthor(String user) {
-        return eventRepository.findByAuthor(user);
+        return eventRepository.findByAuthorEmail(user);
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)

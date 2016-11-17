@@ -14,29 +14,30 @@ import java.io.File;
 public class PdfReportExporter extends ReportExporter {
 
     public PdfReportExporter() {
-        this.setFileName(buildDestinationFileName(getFileExtension()));
+        super("pdf");        
     }
 
     @Override
     public void exportToOutputStream(JasperPrint jp, ByteArrayOutputStream baos) throws JRException {
-        JRPdfExporter jrPdfExporter = new JRPdfExporter();
-        jrPdfExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
-        jrPdfExporter.setParameter(JRExporterParameter.JASPER_PRINT, jp);
-        jrPdfExporter.exportReport();
+        JRPdfExporter exporter = new JRPdfExporter();
+        exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
+        exporter.setParameter(JRExporterParameter.JASPER_PRINT, jp);
+        exporter.exportReport();
     }
 
     @Override
     public String exportToFile(JasperPrint jasperPrint, String outputDir) throws JRException {
         final String fileName = getFileName();
         String outputFileName = outputDir + File.separator + fileName;
+        
         if (jasperPrint != null) {
-            JRPdfExporter jrException = new JRPdfExporter();
-            jrException.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-            jrException.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, outputFileName);
-            jrException.exportReport();
+            JRPdfExporter exporter = new JRPdfExporter();
+            exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+            exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, outputFileName);
+            exporter.exportReport();
         }
-        return fileName;
+        
+        return outputFileName;
     }
-
 
 }

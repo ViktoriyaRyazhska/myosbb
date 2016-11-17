@@ -9,12 +9,6 @@ import com.softserve.osbb.utils.Constants;
  */
 public class CsvReportExporterTypeSelector implements ReportExporterTypeSelector {
 
-    private ReportExporterCreator reportExporterCreator;
-
-    public CsvReportExporterTypeSelector(ReportExporterCreator reportExporterCreator) {
-        this.reportExporterCreator = reportExporterCreator;
-    }
-
     @Override
     public ReportExporter createByType(String type) {
         if (!Constants.CSV_TYPE.equalsIgnoreCase(type)) {

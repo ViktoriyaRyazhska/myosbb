@@ -20,7 +20,7 @@ import java.io.IOException;
 @Service
 class ReportExporterService implements ReportExporterServiceInterface {
 
-    private static Logger logger = LoggerFactory.getLogger(ReportExporterService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ReportExporterService.class);
 
     @Autowired
     private FileDirectoryConfig fileDirectoryConfig;

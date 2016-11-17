@@ -23,6 +23,5 @@ public final class ReportExporterFactory {
         }
 
         return reportExporter;
-
     }
 }

@@ -15,16 +15,14 @@ public class ReportExporterCreator implements Creator<ReportExporter> {
     public ReportExporterCreator(){
         pdfPdfReportExporterTypeSelector = new PdfReportExporterTypeSelector(this);
         xlsPdfReportExporterTypeSelector = new XlsReportExporterTypeSelector(this);
-        csvPdfReportExporterTypeSelector = new CsvReportExporterTypeSelector(this);
+        csvPdfReportExporterTypeSelector = new CsvReportExporterTypeSelector();
         baseReportExporterTypeSelector = pdfPdfReportExporterTypeSelector;
-
     }
 
     @Override
     public ReportExporter createByType(String type) {
         return baseReportExporterTypeSelector.createByType(type);
     }
-
 
     public ReportExporterTypeSelector getBaseReportExporterTypeSelector() {
         return baseReportExporterTypeSelector;

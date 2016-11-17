@@ -11,27 +11,33 @@ import java.util.UUID;
  */
 public abstract class ReportExporter {
 
-    public static final ReportExporter NULL = null;
-
+    private String fileExtension;    
     private String fileName;
 
+    protected ReportExporter(String fileExtension) {
+        this.fileExtension = fileExtension;
+    }
+    
+    protected void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+    
     public String getFileName() {
+        if (fileName == null) {
+            setFileName(buildDestinationFileName(getFileExtension()));
+        }
+        
         return fileName;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    protected String getFileExtension() {
+        return this.fileExtension;
     }
 
-
-    String getFileExtension() {
-        return this.getClass().getSimpleName().toLowerCase().substring(0, 3);
-    }
-
-    String buildDestinationFileName(String type) {
+    private String buildDestinationFileName(String fileExtension) {
         StringBuilder stringBuilder = new StringBuilder();
         String randomFileName = UUID.randomUUID().toString();
-        stringBuilder.append("report" + randomFileName).append(".").append(type);
+        stringBuilder.append("report" + randomFileName).append(".").append(fileExtension);
         return stringBuilder.toString();
     }
 
