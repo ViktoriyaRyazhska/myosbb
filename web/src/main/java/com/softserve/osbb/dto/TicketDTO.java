@@ -1,11 +1,8 @@
 package com.softserve.osbb.dto;
 
-import com.softserve.osbb.model.Message;
 import com.softserve.osbb.model.enums.TicketState;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Kris on 22.08.2016.
@@ -17,6 +14,7 @@ public class TicketDTO {
     private TicketState state;
     private Timestamp stateTime;
     private Timestamp discussed;
+    private Timestamp deadline;
     private Timestamp time;
     private UserDTO user;
     private UserDTO assigned;
@@ -78,6 +76,14 @@ public class TicketDTO {
         return time;
     }
 
+    public Timestamp getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Timestamp deadline) {
+        this.deadline = deadline;
+    }
+
     public void setTime(Timestamp time) {
         this.time = time;
     }
@@ -115,6 +121,7 @@ public class TicketDTO {
                 ", state=" + state +
                 ", stateTime=" + stateTime +
                 ", time=" + time +
+                ", deadline=" + deadline +
                 ", user=" + user +
                 '}';
     }

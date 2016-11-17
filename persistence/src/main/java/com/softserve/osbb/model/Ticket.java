@@ -24,6 +24,7 @@ public class Ticket {
     private Timestamp stateTime;
     private Timestamp time;
     private Timestamp discussed;
+    private Timestamp deadline;
     private User user;
     private User assigned;
     private Collection<Message> messages = new ArrayList<>();
@@ -88,6 +89,15 @@ public class Ticket {
         this.time = time;
     }
 
+    @Basic
+    @Column(name = "deadline")
+    public Timestamp getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Timestamp deadline) {
+        this.deadline = deadline;
+    }
 
     @Basic
     @Column(name = "discussed")
@@ -179,6 +189,7 @@ public class Ticket {
                 ", state=" + state +
                 ", stateTime=" + stateTime +
                 ", time=" + time +
+                ", deadline=" + deadline +
                 ",attachments=" + attachments +
                 '}';
     }
