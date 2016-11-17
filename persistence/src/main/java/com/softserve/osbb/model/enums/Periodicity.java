@@ -5,8 +5,8 @@ package com.softserve.osbb.model.enums;
  */
 public enum Periodicity {
     ONE_TIME,
-    DAYLY,
-    WEEKLY,
-    MONTHLY,
-    YEARLY
+    PERMANENT_DAYLY,
+    PERMANENT_WEEKLY,
+    PERMANENT_MONTHLY,
+    PERMANENT_YEARLY
 }
