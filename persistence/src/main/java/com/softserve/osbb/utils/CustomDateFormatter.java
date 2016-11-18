@@ -15,7 +15,6 @@ public class CustomDateFormatter {
         return getFormat().format(date);
     }
 
-
     public static Date unmarshal(String value) throws Exception {
         return isNullOrEmpty(value) ? null : getFormat().parse(value);
     }

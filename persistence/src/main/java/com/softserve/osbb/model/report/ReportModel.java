@@ -15,10 +15,7 @@ public class ReportModel  {
     private Float amountToPay;
     private Float amountPaid;
 
-
-    public ReportModel() {
-
-    }
+    public ReportModel() { }
 
     public Integer getBillId() {
         return billId;
@@ -29,7 +26,6 @@ public class ReportModel  {
         reportModel.billId = billId;
         return reportModel;
     }
-
 
     public ReportModel setCustomerName(User user) {
         if (user != null) {
@@ -53,14 +49,12 @@ public class ReportModel  {
     }
 
     public ReportModel setAmountToPay(Float amountToPay) {
-        this.amountToPay = (amountToPay != null) ?
-                amountToPay : 0.0f;
+        this.amountToPay = ((amountToPay != null) ? amountToPay : 0.0f);
         return this;
     }
 
     public ReportModel setAmountPaid(Float amountPaid) {
-        this.amountPaid = (amountPaid != null) ?
-                amountPaid : 0.0f;
+        this.amountPaid = ((amountPaid != null) ? amountPaid : 0.0f);
         return this;
     }
 
@@ -76,11 +70,9 @@ public class ReportModel  {
         return providerDescription;
     }
 
-
     public Float getAmountToPay() {
         return amountToPay;
     }
-
 
     public Float getAmountPaid() {
         return amountPaid;

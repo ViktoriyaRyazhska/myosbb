@@ -10,10 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan
 public class PersistenceConfiguration {
 
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		SpringApplication.run(PersistenceConfiguration.class, args);
-
 	}
 
 }

@@ -120,7 +120,7 @@ public class HouseServiceImpl implements HouseService {
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<House> getAllHousesByOsbb(Integer osbbId) {
-        return houseRepository.findByOsbb(osbbId);
+        return houseRepository.findByOsbbId(osbbId);
     }
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)

@@ -1,7 +1,5 @@
 package com.softserve.osbb.model.report;
 
-import com.softserve.osbb.model.report.state.ReportExporterCreator;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,19 +8,36 @@ import java.util.Map;
  */
 public final class ReportExporterFactory {
 
-    private static Map<String, ReportExporter> reports = new HashMap<>();
-    private static ReportExporterCreator reportExporterCreator = new ReportExporterCreator();
-
+    private static Map<String, ReportExporter> exporters = new HashMap<>();
+    
+    /**
+     * Generates an instance of ReportExporter of appropriate type based on input, which represents 
+     * file extension (pdf, xls or csv).  
+     * @param type type of ReportExported to be generated
+     * @return instance of proper ReportExporter (pdf, xls or csv)
+     */
     public static ReportExporter generate(String type) {
-        ReportExporter reportExporter = reports.get(type);
-
-        if (reportExporter == null) {
-            ReportExporter reportExporterByType = reportExporterCreator.createByType(type);
-            reports.put(type, reportExporterByType);
-            return reports.get(type);
+        ReportExporter exporter = exporters.get(type);
+        
+        if (exporter == null) {
+            switch (type.toUpperCase()) {
+            case "PDF":
+                exporter = new PdfReportExporter();
+                break;
+            case "XLS":
+                exporter = new XlsReportExporter();
+                break;
+            case "CSV":
+                exporter = new CsvReportExporter();
+                break;
+            default:
+                exporter = new PdfReportExporter();  
+            }
+            
+            exporters.put(type, exporter);
         }
-
-        return reportExporter;
-
+        
+        return exporter;
     }
+    
 }

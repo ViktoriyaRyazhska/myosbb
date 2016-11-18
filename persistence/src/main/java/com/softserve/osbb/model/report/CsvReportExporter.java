@@ -15,15 +15,15 @@ import java.io.File;
 public class CsvReportExporter extends ReportExporter {
 
     public CsvReportExporter() {
-        this.setFileName(buildDestinationFileName(getFileExtension()));
+        super("csv");
     }
 
     @Override
     public void exportToOutputStream(JasperPrint jp, ByteArrayOutputStream baos) throws JRException {
-        JRCsvExporter exporterCSV = new JRCsvExporter();
-        exporterCSV.setParameter(JRCsvExporterParameter.JASPER_PRINT, jp);
-        exporterCSV.setParameter(JRCsvExporterParameter.OUTPUT_STREAM, baos);
-        exporterCSV.exportReport();
+        JRCsvExporter exporter = new JRCsvExporter();
+        exporter.setParameter(JRCsvExporterParameter.JASPER_PRINT, jp);
+        exporter.setParameter(JRCsvExporterParameter.OUTPUT_STREAM, baos);
+        exporter.exportReport();
     }
 
     @Override
@@ -31,12 +31,11 @@ public class CsvReportExporter extends ReportExporter {
         final String fileName = getFileName();
         JRCsvExporter exporter = new JRCsvExporter();
         String destFileName = outputDir + File.separator + fileName;
-        exporter.setParameter(JRExporterParameter.JASPER_PRINT,
-                jasperPrint);
-        exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,
-                destFileName);
+        exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+        exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, destFileName);
         exporter.exportReport();
 
         return fileName;
     }
+    
 }
