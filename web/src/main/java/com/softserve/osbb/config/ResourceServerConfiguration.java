@@ -36,21 +36,22 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeRequests()
+            .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .antMatchers(HttpMethod.POST,"/restful/user/**").permitAll()
-                .antMatchers("/registration").permitAll()
-                .antMatchers("/registration/osbb").permitAll()                
-                .antMatchers("/validEmail").permitAll()                
                 .antMatchers("/oauth/token").permitAll()
-                .antMatchers("/forgotEmail").permitAll()
-                .antMatchers("/restful/**").authenticated()
-                .antMatchers("/restful/apartment/**").permitAll() 
+                .antMatchers("/restful/address/**").permitAll()
+                .antMatchers("/restful/apartment/**").permitAll()
                 .antMatchers("/restful/attachment").permitAll()
                 .antMatchers("/restful/house/**").permitAll()
                 .antMatchers("/restful/house/all/**").permitAll()
-                .antMatchers("/restful/osbb").permitAll()                               
-                .antMatchers("/restful/report**").permitAll()                
-                .antMatchers("/restful/report/**").permitAll();
+                .antMatchers("/restful/osbb").permitAll()
+                .antMatchers("/restful/report/**").permitAll()
+                .antMatchers("/restful/report**").permitAll()
+                .antMatchers("/registration").permitAll()
+                .antMatchers("/registration/osbb").permitAll()
+                .antMatchers("/validEmail").permitAll()
+                .antMatchers("/forgotEmail").permitAll()                                
+                .antMatchers(HttpMethod.POST,"/restful/user/**").permitAll()
+                .antMatchers("/restful/**").authenticated();
     }
 }
