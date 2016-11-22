@@ -138,14 +138,30 @@ public class AttachmentController {
     public ResponseEntity<Attachment> deleteAttachmentEverywhere(@PathVariable("id") Integer attachmentId) {
         logger.info("Removing attachment by id: " + attachmentId);
         attachmentService.deleteAttachmentEverywhere(attachmentId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        ResponseEntity<Attachment> response = null;
+        
+        if (attachmentService.getAttachmentById(attachmentId) == null) {
+            response = new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
+        return response;
     }
 
     @RequestMapping(value = "", method = RequestMethod.DELETE)
     public ResponseEntity<Attachment> deleteAllAttachments() {
         logger.info("Removing all attachments.");
         attachmentService.deleteAllAttachments();
-        return new ResponseEntity<>(HttpStatus.OK);
+        ResponseEntity<Attachment> response = null;
+        
+        if (attachmentService.getAllAttachments().isEmpty()) {
+            response = new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
+        return response;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
