@@ -147,22 +147,27 @@ public class ApartmentController {
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public ResponseEntity<Resource<Apartment>> addUserToApartment(@PathVariable("id") Integer id, @RequestBody User user) {
         HttpStatus status = HttpStatus.OK;
-        ResponseEntity<Resource<Apartment>> response = null;
         
+        // may return null if not present in database, so need to check for null
         Apartment apartment = apartmentService.findById(id);
         
         if (apartment != null) {        
             if (user != null && user.isOwner() && apartment.getOwner() == null) {
                 apartment.setOwner(user.getUserId());
                 user.setApartment(apartment);
-                userService.saveAndFlush(user);
+                
+                if (userService.saveAndFlush(user) == null) {
+                    status = HttpStatus.INTERNAL_SERVER_ERROR;
+                }
             } else {
                 logger.info("Owner already exist");
+                status = HttpStatus.BAD_REQUEST;
             }            
+        } else {
+            status = HttpStatus.BAD_REQUEST;            
         }
 
-        return new ResponseEntity<>(addResourceLinkToApartment(apartment), 
-                apartment == null ? HttpStatus.BAD_REQUEST : HttpStatus.OK);
+        return new ResponseEntity<>(status);
     }
 
     @RequestMapping(value = "/users{id}", method = RequestMethod.GET)
@@ -227,7 +232,7 @@ public class ApartmentController {
      */
     private Resource<Bill> addResourceLinkToBill(Bill bill) {
         
-        // find bill by id may return null if not present in database
+        // find billById may return null if not present in database, ned to check
         if (bill == null) {
             return null;
         }
@@ -242,39 +247,30 @@ public class ApartmentController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Resource<Apartment>> addApartment(@RequestBody Apartment apartment) {
-        HttpStatus status = HttpStatus.OK;
-        ResponseEntity<Resource<Apartment>> response = null;
-        
         logger.info("Saving apartment " + apartment);
         Apartment saved = apartmentService.save(apartment);
         
-        if (saved == null) {
-            logger.warn("Could not save " + apartment);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-            response = new ResponseEntity<>(status);
-        } else {
-            response = new ResponseEntity<>(addResourceLinkToApartment(saved), status);
-        }
-        
-        return response;
+        return buildResponseEntity(saved);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Resource<Apartment>> findApartmentById(@PathVariable("id") Integer id) {
+    public ResponseEntity<Resource<Apartment>> findApartmentById(@PathVariable("id") Integer id) {        
+        logger.info("Getting apartment with id: " + id);
+        Apartment apartment = apartmentService.findById(id);
+       
+        return buildResponseEntity(apartment);
+    }    
+
+    private ResponseEntity<Resource<Apartment>> buildResponseEntity(Apartment apartment) {
         HttpStatus status = HttpStatus.OK;
         ResponseEntity<Resource<Apartment>> response = null;
         
-        logger.info("Getting apartment with id: " + id);
-        Apartment apartment = apartmentService.findById(id);
-        
         if (apartment == null) {
-            logger.warn("Apartment with id " + id + " not found!");
             status = HttpStatus.INTERNAL_SERVER_ERROR;
             response = new ResponseEntity<>(status);
         } else {
             response = new ResponseEntity<>(addResourceLinkToApartment(apartment), status);
         }
-        
         return response;
     }
 
@@ -295,6 +291,8 @@ public class ApartmentController {
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
     public ResponseEntity<Resource<Apartment>> updateApartment(@RequestBody Apartment apartment) {
+        apartment.setUsers(apartmentService.findById(apartment.getApartmentId()).getUsers());
+        apartment.setBills(apartmentService.findById(apartment.getApartmentId()).getBills());
         Apartment updated = apartmentService.update(apartment);
 
         return new ResponseEntity<>(addResourceLinkToApartment(updated), 

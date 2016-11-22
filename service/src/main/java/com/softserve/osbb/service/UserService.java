@@ -1,16 +1,14 @@
 package com.softserve.osbb.service;
 
-import com.softserve.osbb.model.Osbb;
-import com.softserve.osbb.model.User;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.softserve.osbb.model.Osbb;
+import com.softserve.osbb.model.User;
 
 /**
  * Created by cavayman on 11.07.2016.
