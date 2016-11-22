@@ -178,16 +178,13 @@ public class AttachmentController {
     public ResponseEntity<List<Resource<Attachment>>> getAttachmentsByPath(
             @RequestParam(value = "path") String path) {
         logger.info("Fetching attachment by search parameter: " + path);
-        List<Attachment> attachmentsBySearchTerm = attachmentService.findAttachmentByPath(path);
+        List<Attachment> attachments = new ArrayList<>();
+        attachments.addAll(attachmentService.findAttachmentByPath(path));
+     
+        List<Resource<Attachment>> resources = new ArrayList<>();
+        attachments.forEach((attachment) -> resources.add(getResourceWithLink(toResource(attachment))));
         
-        if (attachmentsBySearchTerm.isEmpty()) {
-            logger.warn("No attachments were found.");
-        }
-        
-        List<Resource<Attachment>> resourceAttachmentList = new ArrayList<>();
-        attachmentsBySearchTerm.forEach((attachment) -> resourceAttachmentList.add(getResourceWithLink(toResource(attachment))));
-        
-        return new ResponseEntity<>(resourceAttachmentList, HttpStatus.OK);
+        return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
     private Resource<Attachment> getResourceWithLink(Resource<Attachment> attachmentResource) {
