@@ -110,26 +110,28 @@ public class AttachmentController {
     public ResponseEntity<Resource<Attachment>> findAttachmentById(@PathVariable("id") Integer attachmentId) {
         logger.info("Getting attachment by id: " + attachmentId);
         Attachment attachment = attachmentService.getAttachmentById(attachmentId);
-        ResponseEntity<Resource<Attachment>> response = null;
         
-        if (attachment != null) {
-            Resource<Attachment> attachmentResource = new Resource<>(attachment);
-            attachmentResource = getResourceWithLink(attachmentResource);
-            response = new ResponseEntity<>(attachmentResource, HttpStatus.OK);
-        } else {
-            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        
-        return response;
+        return buildResponseEntity(attachment);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
     public ResponseEntity<Resource<Attachment>> updateAttachment(@RequestBody Attachment attachment) {
         logger.info("Updating attachment by id: " + attachment.getAttachmentId());
         attachment = attachmentService.updateAttachment(attachment.getAttachmentId(), attachment);
-        Resource<Attachment> attachmentResource = new Resource<>(attachment);
-        attachmentResource = getResourceWithLink(attachmentResource);
-        return new ResponseEntity<>(attachmentResource, HttpStatus.OK);
+        
+        return buildResponseEntity(attachment);
+    }
+
+    private ResponseEntity<Resource<Attachment>> buildResponseEntity(Attachment attachment) {
+        ResponseEntity<Resource<Attachment>> response = null;
+        
+        if (attachment != null) {
+            Resource<Attachment> attachmentResource = new Resource<>(attachment);
+            response = new ResponseEntity<>(getResourceWithLink(attachmentResource), HttpStatus.OK);
+        } else {
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return response;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
