@@ -6,27 +6,33 @@
  */
 package com.softserve.osbb.controller;
 
-import com.softserve.osbb.model.Attachment;
-import com.softserve.osbb.model.enums.AttachmentType;
-import com.softserve.osbb.service.AttachmentService;
-import com.softserve.osbb.util.paging.PageDataObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.domain.Page;
-import org.springframework.hateoas.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.hateoas.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.softserve.osbb.model.Attachment;
+import com.softserve.osbb.model.enums.AttachmentType;
+import com.softserve.osbb.service.AttachmentService;
+import com.softserve.osbb.util.paging.PageDataObject;
 
 /**
  * Created by nataliia on 11.07.16.
@@ -41,28 +47,23 @@ public class AttachmentController {
     @Autowired
     private AttachmentService attachmentService;
 
-    @SuppressWarnings("unused")
-    private final ResourceLoader resourceLoader;
-
-    @Autowired
-    public AttachmentController(ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
-    }
-
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<?> uploadFileToServer(@RequestParam("file") MultipartFile file) {
+        ResponseEntity<?> response = null;
+        
         if (!file.isEmpty()) {
             try {
                 logger.info("Uploading file " + file.getOriginalFilename());
-                return ResponseEntity.status(HttpStatus.OK).body(attachmentService.uploadFile(file));
+                response = new ResponseEntity<>(attachmentService.uploadFile(file), HttpStatus.OK);
             } catch (RuntimeException e) {
                 logger.warn("Could not upload file " + file.getOriginalFilename());
-                return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+                response = new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
             }
         } else {
             logger.warn("Could not upload file " + file.getOriginalFilename() + " because it is empty.");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        return response;
     }
 
     @RequestMapping(value = "/logo", method = RequestMethod.POST)
