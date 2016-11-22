@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softserve.osbb.dto.BillDTO;
@@ -51,7 +50,7 @@ import com.softserve.osbb.util.resources.impl.EntityResourceList;
 @RequestMapping("/restful/bill")
 public class BillController {
 
-    private static Logger logger = LoggerFactory.getLogger(BillController.class);
+    private static final Logger logger = LoggerFactory.getLogger(BillController.class);
 
     @Autowired
     private BillService billService;
@@ -67,42 +66,31 @@ public class BillController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource<BillDTO>> findOneBill(@PathVariable("id") Integer id) {
-        logger.info("fetching bill by id: " + id);
+        logger.info("Fetching bill by id: " + id);
         Bill bill = billService.findOneBillByID(id);
+        ResponseEntity<Resource<BillDTO>> response = null;
         
         if (bill == null) {
-            logger.warn("no bill was found with id: " + id);
-            throw new BillNotFoundException();
+            logger.warn("Bill with id " + id + " was not found!");
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {        
+            ResourceLinkCreator<BillDTO> billDTOResourceLinkCreator = new BillResourceList();
+            Resource<BillDTO> billDTOResource = billDTOResourceLinkCreator.createLink(toResource(BillDTOMapper.mapEntityToDTO(bill)));
+            response = new ResponseEntity<>(billDTOResource, HttpStatus.OK); 
         }
-        
-        ResourceLinkCreator<BillDTO> billDTOResourceLinkCreator = new BillResourceList();
-        Resource<BillDTO> billDTOResource = billDTOResourceLinkCreator
-                .createLink(toResource(BillDTOMapper.mapEntityToDTO(bill)));
-        return new ResponseEntity<>(billDTOResource, HttpStatus.OK);
+
+        return response;
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<PageDataObject<Resource<BillDTO>>> findAllBills(
             @RequestParam(value = "status", required = false) String status,
             @RequestBody PageParams pageParams) {
-        logger.info(String.format("listing all bills, page number: %d ", pageParams.getPageNumber()));
-        final PageRequest pageRequest = PageRequestGenerator.generatePageRequest(pageParams.getPageNumber())
-                .addRows(pageParams.getRowNum())
-                .addOrderType(pageParams.getOrderType())
-                .addSortedBy(pageParams.getSortedBy(), "date")
-                .toPageRequest();
-        Page<Bill> bills = billService.findAllBills(pageRequest);
         
-        if (bills == null || bills.getSize() == 0) {
-            logger.error("no bills were found");
-            throw new BillNotFoundException();
-        }
+        logger.info(String.format("Listing all bills, page number: %d ", pageParams.getPageNumber()));        
+        Page<Bill> bills = billService.findAllBills(buildPageRequest(pageParams));
         
-        PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(bills);
-        EntityResourceList<BillDTO> billResourceList = (EntityResourceList<BillDTO>) filterList.generateFilteredList(status, bills);
-        PageDataObject<Resource<BillDTO>> billPageDataObject = PageDataUtil.providePageData(BillPageDataObject.class, pageSelector, billResourceList);
-        
-        return new ResponseEntity<>(billPageDataObject, HttpStatus.OK);
+        return buildResponseEntity(status, bills);
     }
 
     @RequestMapping(value = "/user/{userId}/all", method = RequestMethod.POST, produces = "application/json")
@@ -110,76 +98,86 @@ public class BillController {
             @PathVariable("userId") Integer userId,
             @RequestParam(value = "status", required = false) String status,
             @RequestBody PageParams pageParams) {
-        logger.info(String.format("listing all bills for user: %d , page number: %d ", userId, pageParams.getPageNumber()));
+        
+        logger.info(String.format("Listing all bills for user: %d , page number: %d ", userId, pageParams.getPageNumber()));
+        Page<Bill> bills = billService.findAllByApartmentOwner(userId, buildPageRequest(pageParams));        
+        
+        return buildResponseEntity(status, bills);
+    }
+
+    private PageRequest buildPageRequest(PageParams pageParams) {
         final PageRequest pageRequest = PageRequestGenerator.generatePageRequest(pageParams.getPageNumber())
                 .addRows(pageParams.getRowNum())
                 .addOrderType(pageParams.getOrderType())
                 .addSortedBy(pageParams.getSortedBy(), "date")
                 .toPageRequest();
-        Page<Bill> bills = billService.findAllByApartmentOwner(userId, pageRequest);
+        return pageRequest;
+    }
+
+    private ResponseEntity<PageDataObject<Resource<BillDTO>>> buildResponseEntity(String status, Page<Bill> bills) {
+        ResponseEntity<PageDataObject<Resource<BillDTO>>> response = null;
         
         if (bills == null || bills.getSize() == 0) {
-            logger.error("no bills were found");
-            throw new BillNotFoundException();
+            logger.error("No bills were found");
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {        
+            PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(bills);
+            EntityResourceList<BillDTO> billResourceList = (EntityResourceList<BillDTO>) filterList.generateFilteredList(status, bills);
+            PageDataObject<Resource<BillDTO>> billPageDataObject = PageDataUtil.providePageData(BillPageDataObject.class, pageSelector, billResourceList);
+            response = new ResponseEntity<>(billPageDataObject, HttpStatus.OK);
         }
-        
-        PageRequestGenerator.PageSelector pageSelector = PageRequestGenerator.generatePageSelectorData(bills);
-        EntityResourceList<BillDTO> billResourceList = (EntityResourceList<BillDTO>) filterList.generateFilteredList(status, bills);
-        PageDataObject<Resource<BillDTO>> billPageDataObject = PageDataUtil.providePageData(BillPageDataObject.class, pageSelector, billResourceList);
-        
-        return new ResponseEntity<>(billPageDataObject, HttpStatus.OK);
+        return response;
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ResponseEntity<BillDTO> saveBill(@RequestBody BillDTO billDTO) {
-        logger.info("saving bill");
         Bill bill = BillDTOMapper.mapDTOtoEntity(billDTO, billService);        
-        logger.info("bill" + bill);
+        logger.info("Saving bill " + bill);
+        HttpStatus status = HttpStatus.OK;
         
         Apartment apartment = apartmentService.findOneApartmentByID(billDTO.getApartmentId());
         Provider provider = providerService.findOneProviderById(billDTO.getProviderId());
-        bill.setApartment(apartment);
-        bill.setProvider(provider);
-        bill = billService.saveBill(bill);
         
-        if (bill == null) {
-            logger.warn("bill wasn't saved");
-            return new ResponseEntity<>(HttpStatus.CONTINUE);
+        if (apartment != null && provider != null) {
+            bill.setApartment(apartment);        
+            bill.setProvider(provider);            
+        
+            if (billService.saveBill(bill) == null) {
+                logger.warn("Bill wasn't saved");
+                status = HttpStatus.CONTINUE;
+            } 
+        } else {
+            status = HttpStatus.BAD_REQUEST;
         }
         
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<BillDTO>(status);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<Resource<BillDTO>> updateBill(@RequestBody BillDTO billDTO) {
         logger.info("updating bill with id" + billDTO.getBillId());
         Bill bill = BillDTOMapper.mapDTOtoEntity(billDTO, billService);
-        bill = billService.saveBill(bill);
+        HttpStatus status = HttpStatus.OK;
         
-        if (bill == null) {
+        if (billService.saveBill(bill) == null) {
             logger.warn("bill wasn't saved as not found");
-            throw new BillNotFoundException();
+            status = HttpStatus.CONTINUE;
         }
         
-        logger.info("successfully updated bill with id " + bill.getBillId());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(status);
     }
 
     @RequestMapping(value = "/{billId}", method = RequestMethod.DELETE)
     public ResponseEntity<BillDTO> deleteById(@PathVariable("billId") Integer billId) {
         logger.info("deleting bill with id" + billId);
-        boolean isDeleted = billService.deleteBillByID(billId);
+        HttpStatus status = HttpStatus.OK;
         
-        if (!isDeleted) {
-            logger.warn("bill was not deleted as not found");
-            throw new BillNotFoundException();
+        if (!billService.deleteBillByID(billId)) {
+            logger.warn("Bill was not deleted as not found");
+            status = HttpStatus.NOT_FOUND;
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
-    }    
-
-    @SuppressWarnings("serial")
-    @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Bills not found")
-    private class BillNotFoundException extends RuntimeException { }
+        return new ResponseEntity<>(status);
+    }
 
 }
