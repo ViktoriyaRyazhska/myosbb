@@ -82,6 +82,8 @@ public class ApartmentController {
      * Adds link to passed resource
      */
     private Resource<Apartment> addResourceLinkToApartment(Apartment apartment) {
+        
+        // apartment may by null if findById din not found object in database
         if (apartment == null) {
             return null;
         }
@@ -144,6 +146,9 @@ public class ApartmentController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public ResponseEntity<Resource<Apartment>> addUserToApartment(@PathVariable("id") Integer id, @RequestBody User user) {
+        HttpStatus status = HttpStatus.OK;
+        ResponseEntity<Resource<Apartment>> response = null;
+        
         Apartment apartment = apartmentService.findById(id);
         
         if (apartment != null) {        
@@ -190,16 +195,19 @@ public class ApartmentController {
 
     @RequestMapping(value = "/owner/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource<UserDTO>> getOwnerInApartment(@PathVariable("id") Integer id) {
+        HttpStatus status = HttpStatus.OK;
+        UserDTO user = null;
+        
         logger.info("Getting owner of apartment  " + id);
         Apartment apartment = apartmentService.findById(id);
         
         if (apartment == null || apartment.getOwner() == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            status = HttpStatus.NOT_FOUND;
+        } else {
+            user = UserDTOMapper.mapUserEntityToDTO(userService.findOne(apartment.getOwner()));
         }
-            
-        UserDTO user = UserDTOMapper.mapUserEntityToDTO(userService.findOne(apartment.getOwner()));
         
-        return new ResponseEntity<>(addResourceLinkToUserDTO(user), HttpStatus.OK);
+        return new ResponseEntity<>(addResourceLinkToUserDTO(user), status);
     }
 
     @RequestMapping(value = "/{id}/bills", method = RequestMethod.GET)
@@ -218,6 +226,8 @@ public class ApartmentController {
      * Adds link to bill that will be sent to view (after wrapping into Response object)
      */
     private Resource<Bill> addResourceLinkToBill(Bill bill) {
+        
+        // find bill by id may return null if not present in database
         if (bill == null) {
             return null;
         }
@@ -232,41 +242,55 @@ public class ApartmentController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Resource<Apartment>> addApartment(@RequestBody Apartment apartment) {
+        HttpStatus status = HttpStatus.OK;
+        ResponseEntity<Resource<Apartment>> response = null;
+        
         logger.info("Saving apartment " + apartment);
         Apartment saved = apartmentService.save(apartment);
         
         if (saved == null) {
             logger.warn("Could not save " + apartment);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            response = new ResponseEntity<>(status);
+        } else {
+            response = new ResponseEntity<>(addResourceLinkToApartment(saved), status);
         }
         
-        return new ResponseEntity<>(addResourceLinkToApartment(saved), HttpStatus.OK);
+        return response;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource<Apartment>> findApartmentById(@PathVariable("id") Integer id) {
+        HttpStatus status = HttpStatus.OK;
+        ResponseEntity<Resource<Apartment>> response = null;
+        
         logger.info("Getting apartment with id: " + id);
         Apartment apartment = apartmentService.findById(id);
         
         if (apartment == null) {
             logger.warn("Apartment with id " + id + " not found!");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            response = new ResponseEntity<>(status);
+        } else {
+            response = new ResponseEntity<>(addResourceLinkToApartment(apartment), status);
         }
         
-        return new ResponseEntity<>(addResourceLinkToApartment(apartment), HttpStatus.OK);
+        return response;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Resource<Apartment>> deleteAppartmentById(@PathVariable("id") Integer id) {
-        logger.info("Deleting apartment wit id " + id);        
-        apartmentService.deleteById(id);
+        HttpStatus status = HttpStatus.OK;        
+        logger.info("Deleting apartment wit id " + id);
         
-        if (apartmentService.findById(id) != null) {
+        try {
+            apartmentService.deleteById(id);
+        } catch (IllegalArgumentException e) {
             logger.warn("Could not delete apartment with id " + id);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+            status = HttpStatus.BAD_REQUEST;
+        } 
         
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(status);
     }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
