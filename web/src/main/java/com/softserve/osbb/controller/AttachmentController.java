@@ -68,6 +68,8 @@ public class AttachmentController {
 
     @RequestMapping(value = "/logo", method = RequestMethod.POST)
     public ResponseEntity<Resource<Attachment>> uploadLogo(@RequestParam("file") MultipartFile file) {
+        ResponseEntity<Resource<Attachment>> response = null;
+        
         if (!file.isEmpty()) {
             try {
                 logger.info("Uploading logo " + file.getOriginalFilename());
@@ -77,15 +79,16 @@ public class AttachmentController {
                 Resource<Attachment> attachmentResource = new Resource<>(attachment);
                 attachmentResource = getResourceWithLink(attachmentResource);
                 
-                return new ResponseEntity<>(attachmentResource, HttpStatus.OK);
+                response = new ResponseEntity<>(attachmentResource, HttpStatus.OK);
             } catch (RuntimeException e) {
                 logger.warn("Could not upload logo " + file.getOriginalFilename());
-                return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+                response = new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
             }
         } else {
             logger.warn("Could not upload logo " + file.getOriginalFilename() + " because it is empty.");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        return response;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
