@@ -61,7 +61,7 @@ public class UserRegistrationToUserAdapter extends DTOToEntityAdapter<UserRegist
         user.setGender(userRegistrationDTO.getGender());
         user.setActivated(userRegistrationDTO.isActivated());
         user.setRole(roleService.getRole(userRegistrationDTO.getRole()));
-        user.setApartment(apartmentService.findOneApartmentByID(userRegistrationDTO.getApartmentId()));
+        user.setApartment(apartmentService.findById(userRegistrationDTO.getApartmentId()));
         user.setOsbb(osbbService.getOsbb(userRegistrationDTO.getOsbbId()));
     }
 

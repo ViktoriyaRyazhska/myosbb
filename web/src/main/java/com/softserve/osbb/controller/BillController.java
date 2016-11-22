@@ -136,7 +136,7 @@ public class BillController {
         Bill bill = BillDTOMapper.mapDTOtoEntity(billDTO, billService);        
         logger.info("bill" + bill);
         
-        Apartment apartment = apartmentService.findOneApartmentByID(billDTO.getApartmentId());
+        Apartment apartment = apartmentService.findById(billDTO.getApartmentId());
         Provider provider = providerService.findOneProviderById(billDTO.getProviderId());
         bill.setApartment(apartment);
         bill.setProvider(provider);

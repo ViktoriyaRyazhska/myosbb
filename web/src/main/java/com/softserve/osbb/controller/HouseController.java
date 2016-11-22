@@ -233,7 +233,7 @@ public class HouseController {
     public ResponseEntity<Resource<Apartment>> addApartmentToHouse(@PathVariable("id") Integer id, @RequestBody Apartment apartment) {
         House house = houseService.findHouseById(id);
         apartment.setHouse(house);
-        apartmentService.saveApartment(apartment);
+        apartmentService.save(apartment);
 
         ResourceLinkCreator<Apartment> apartmentResourceLinkCreator = new ApartmentResourceList();
         Resource<Apartment> apartmentResource = apartmentResourceLinkCreator.createLink(toResource(apartment));

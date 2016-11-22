@@ -12,10 +12,8 @@ public class ResourceUtil {
         if (entity == null) {
             throw new ResourceNotFoundException();
         }
-        Resource<T> entityResource = new Resource<>(entity);
-        return entityResource;
+
+        return new Resource<>(entity);
     }
-
-
 
 }
