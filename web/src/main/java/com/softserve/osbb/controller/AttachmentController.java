@@ -110,9 +110,17 @@ public class AttachmentController {
     public ResponseEntity<Resource<Attachment>> findAttachmentById(@PathVariable("id") Integer attachmentId) {
         logger.info("Getting attachment by id: " + attachmentId);
         Attachment attachment = attachmentService.getAttachmentById(attachmentId);
-        Resource<Attachment> attachmentResource = new Resource<>(attachment);
-        attachmentResource = getResourceWithLink(attachmentResource);
-        return new ResponseEntity<>(attachmentResource, HttpStatus.OK);
+        ResponseEntity<Resource<Attachment>> response = null;
+        
+        if (attachment != null) {
+            Resource<Attachment> attachmentResource = new Resource<>(attachment);
+            attachmentResource = getResourceWithLink(attachmentResource);
+            response = new ResponseEntity<>(attachmentResource, HttpStatus.OK);
+        } else {
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        
+        return response;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
