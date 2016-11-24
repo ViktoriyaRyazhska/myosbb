@@ -5,13 +5,26 @@
 .idea/
 
 ### Maven template
-
 target/
 
 ### NPM
 web/src/main/resources/public/assets/node_modules/
-/web/src/main/resources/public/node_modules/
-/web/src/main/resources/public/compiled/
-/web/src/main/resources/public/bin/
-/web/src/main/resources/public/typings/*
-/web/src/main/resources/public/npm-debug.log
+web/src/main/resources/public/node_modules/
+web/src/main/resources/public/compiled/
+web/src/main/resources/public/bin/
+web/src/main/resources/public/typings/*
+web/src/main/resources/public/npm-debug.log
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# No class files
+*.class
+
+# No config files
+.*
+
+# No log files
+*.log
