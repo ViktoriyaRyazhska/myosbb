@@ -1,11 +1,11 @@
 package com.softserve.osbb.service;
 
-import com.softserve.osbb.model.Provider;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.softserve.osbb.model.Provider;
 
 /**
  * Created by Anastasiia Fedorak on 12.07.2016.

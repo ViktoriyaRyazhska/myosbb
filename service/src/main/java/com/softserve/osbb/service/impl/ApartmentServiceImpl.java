@@ -20,8 +20,8 @@ public class ApartmentServiceImpl implements ApartmentService {
     ApartmentRepository apartmentRepository;
 
     @Override
-    public void saveApartment(Apartment apartment) {
-        apartmentRepository.save(apartment);
+    public Apartment save(Apartment apartment) {
+        return apartmentRepository.save(apartment);
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -32,41 +32,41 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
-    public Apartment findOneApartmentByID(Integer id) {
+    public Apartment findById(Integer id) {
         return apartmentRepository.findOne(id);
     }
 
 
     @Transactional(readOnly = true)
     @Override
-    public List<Apartment> findAllApartment() {
+    public List<Apartment> findAll() {
         return apartmentRepository.findAll();
     }
 
     @Transactional
     @Override
-    public void deleteApartment(Apartment apartment) {
+    public void delete(Apartment apartment) {
 
         apartmentRepository.delete(apartment);
     }
 
     @Transactional
     @Override
-    public void deleteApartmentByID(Integer id) {
+    public void deleteById(Integer id) {
 
         apartmentRepository.delete(id);
     }
 
     @Transactional(readOnly = false)
     @Override
-    public Apartment updateApartment(Apartment apartment) {
+    public Apartment update(Apartment apartment) {
         return apartmentRepository.saveAndFlush(apartment);
     }
 
 
     @Transactional(readOnly = true)
     @Override
-    public Page<Apartment> getAllApartment(Integer pageNumber, String sortBy, Boolean order, Integer number, Integer osbbId) {
+    public Page<Apartment> getByPageNumber(Integer pageNumber, String sortBy, Boolean order, Integer number, Integer osbbId) {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, Constants.DEF_ROWS,
                 getSortingOrder(order), sortBy == null ? "number" : sortBy);
         return number != null ? apartmentRepository.findByNumber(pageRequest, number, osbbId) : apartmentRepository.findAllForUser(pageRequest, osbbId);
@@ -74,7 +74,7 @@ public class ApartmentServiceImpl implements ApartmentService {
 
     @Transactional(readOnly = true)
     @Override
-    public Page<Apartment> getAllApartmentsToAdmin(Integer pageNumber, String sortBy, Boolean order, Integer number) {
+    public Page<Apartment> getByPageNumber(Integer pageNumber, String sortBy, Boolean order, Integer number) {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, Constants.DEF_ROWS,
                 getSortingOrder(order), sortBy == null ? "number" : sortBy);
         return number != null ? apartmentRepository.findByNumberToAdmin(pageRequest, number) : apartmentRepository.findAll(pageRequest);

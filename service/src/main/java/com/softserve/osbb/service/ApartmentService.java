@@ -1,33 +1,33 @@
 package com.softserve.osbb.service;
-import com.softserve.osbb.model.Apartment;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+
+import com.softserve.osbb.model.Apartment;
 
 /**
  * Created by Oleg on 12.07.2016.
  */
 @Service
 public interface ApartmentService {
-    void saveApartment(Apartment apartment);
+    
+    Apartment save(Apartment apartment);
 
     void saveApartmentList(List<Apartment> list);
 
-    Apartment findOneApartmentByID(Integer id);
+    Apartment findById(Integer id);
 
-    List<Apartment> findAllApartment();
+    List<Apartment> findAll();
 
-    void deleteApartment(Apartment apartment);
+    void delete(Apartment apartment);
 
-    void deleteApartmentByID(Integer id);
+    void deleteById(Integer id);
 
-    Apartment updateApartment(Apartment apartment);
+    Apartment update(Apartment apartment);
 
-    Page<Apartment> getAllApartment(Integer pageNumber, String sortedBy, Boolean ascOrder,Integer number,Integer osbbID);
+    Page<Apartment> getByPageNumber(Integer pageNumber, String sortedBy, Boolean ascOrder,Integer number,Integer osbbID);
 
-    Page<Apartment> getAllApartmentsToAdmin(Integer pageNumber, String sortedBy, Boolean ascOrder,Integer number);
+    Page<Apartment> getByPageNumber(Integer pageNumber, String sortedBy, Boolean ascOrder,Integer number);
 
 }

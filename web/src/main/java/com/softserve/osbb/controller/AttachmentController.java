@@ -6,27 +6,33 @@
  */
 package com.softserve.osbb.controller;
 
-import com.softserve.osbb.model.Attachment;
-import com.softserve.osbb.model.enums.AttachmentType;
-import com.softserve.osbb.service.AttachmentService;
-import com.softserve.osbb.util.paging.PageDataObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.domain.Page;
-import org.springframework.hateoas.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.hateoas.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.softserve.osbb.model.Attachment;
+import com.softserve.osbb.model.enums.AttachmentType;
+import com.softserve.osbb.service.AttachmentService;
+import com.softserve.osbb.util.paging.PageDataObject;
 
 /**
  * Created by nataliia on 11.07.16.
@@ -41,32 +47,29 @@ public class AttachmentController {
     @Autowired
     private AttachmentService attachmentService;
 
-    @SuppressWarnings("unused")
-    private final ResourceLoader resourceLoader;
-
-    @Autowired
-    public AttachmentController(ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
-    }
-
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<?> uploadFileToServer(@RequestParam("file") MultipartFile file) {
+        ResponseEntity<?> response = null;
+        
         if (!file.isEmpty()) {
             try {
                 logger.info("Uploading file " + file.getOriginalFilename());
-                return ResponseEntity.status(HttpStatus.OK).body(attachmentService.uploadFile(file));
+                response = new ResponseEntity<>(attachmentService.uploadFile(file), HttpStatus.OK);
             } catch (RuntimeException e) {
                 logger.warn("Could not upload file " + file.getOriginalFilename());
-                return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+                response = new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
             }
         } else {
             logger.warn("Could not upload file " + file.getOriginalFilename() + " because it is empty.");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        return response;
     }
 
     @RequestMapping(value = "/logo", method = RequestMethod.POST)
     public ResponseEntity<Resource<Attachment>> uploadLogo(@RequestParam("file") MultipartFile file) {
+        ResponseEntity<Resource<Attachment>> response = null;
+        
         if (!file.isEmpty()) {
             try {
                 logger.info("Uploading logo " + file.getOriginalFilename());
@@ -76,15 +79,16 @@ public class AttachmentController {
                 Resource<Attachment> attachmentResource = new Resource<>(attachment);
                 attachmentResource = getResourceWithLink(attachmentResource);
                 
-                return new ResponseEntity<>(attachmentResource, HttpStatus.OK);
+                response = new ResponseEntity<>(attachmentResource, HttpStatus.OK);
             } catch (RuntimeException e) {
                 logger.warn("Could not upload logo " + file.getOriginalFilename());
-                return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+                response = new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
             }
         } else {
             logger.warn("Could not upload logo " + file.getOriginalFilename() + " because it is empty.");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        return response;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -106,32 +110,58 @@ public class AttachmentController {
     public ResponseEntity<Resource<Attachment>> findAttachmentById(@PathVariable("id") Integer attachmentId) {
         logger.info("Getting attachment by id: " + attachmentId);
         Attachment attachment = attachmentService.getAttachmentById(attachmentId);
-        Resource<Attachment> attachmentResource = new Resource<>(attachment);
-        attachmentResource = getResourceWithLink(attachmentResource);
-        return new ResponseEntity<>(attachmentResource, HttpStatus.OK);
+        
+        return buildResponseEntity(attachment);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
     public ResponseEntity<Resource<Attachment>> updateAttachment(@RequestBody Attachment attachment) {
         logger.info("Updating attachment by id: " + attachment.getAttachmentId());
         attachment = attachmentService.updateAttachment(attachment.getAttachmentId(), attachment);
-        Resource<Attachment> attachmentResource = new Resource<>(attachment);
-        attachmentResource = getResourceWithLink(attachmentResource);
-        return new ResponseEntity<>(attachmentResource, HttpStatus.OK);
+        
+        return buildResponseEntity(attachment);
+    }
+
+    private ResponseEntity<Resource<Attachment>> buildResponseEntity(Attachment attachment) {
+        ResponseEntity<Resource<Attachment>> response = null;
+        
+        if (attachment != null) {
+            Resource<Attachment> attachmentResource = new Resource<>(attachment);
+            response = new ResponseEntity<>(getResourceWithLink(attachmentResource), HttpStatus.OK);
+        } else {
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return response;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Attachment> deleteAttachmentEverywhere(@PathVariable("id") Integer attachmentId) {
         logger.info("Removing attachment by id: " + attachmentId);
         attachmentService.deleteAttachmentEverywhere(attachmentId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        ResponseEntity<Attachment> response = null;
+        
+        if (attachmentService.getAttachmentById(attachmentId) == null) {
+            response = new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
+        return response;
     }
 
     @RequestMapping(value = "", method = RequestMethod.DELETE)
     public ResponseEntity<Attachment> deleteAllAttachments() {
         logger.info("Removing all attachments.");
         attachmentService.deleteAllAttachments();
-        return new ResponseEntity<>(HttpStatus.OK);
+        ResponseEntity<Attachment> response = null;
+        
+        if (attachmentService.getAllAttachments().isEmpty()) {
+            response = new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            response = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
+        return response;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -164,16 +194,13 @@ public class AttachmentController {
     public ResponseEntity<List<Resource<Attachment>>> getAttachmentsByPath(
             @RequestParam(value = "path") String path) {
         logger.info("Fetching attachment by search parameter: " + path);
-        List<Attachment> attachmentsBySearchTerm = attachmentService.findAttachmentByPath(path);
+        List<Attachment> attachments = new ArrayList<>();
+        attachments.addAll(attachmentService.findAttachmentByPath(path));
+     
+        List<Resource<Attachment>> resources = new ArrayList<>();
+        attachments.forEach((attachment) -> resources.add(getResourceWithLink(toResource(attachment))));
         
-        if (attachmentsBySearchTerm.isEmpty()) {
-            logger.warn("No attachments were found.");
-        }
-        
-        List<Resource<Attachment>> resourceAttachmentList = new ArrayList<>();
-        attachmentsBySearchTerm.forEach((attachment) -> resourceAttachmentList.add(getResourceWithLink(toResource(attachment))));
-        
-        return new ResponseEntity<>(resourceAttachmentList, HttpStatus.OK);
+        return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
     private Resource<Attachment> getResourceWithLink(Resource<Attachment> attachmentResource) {
