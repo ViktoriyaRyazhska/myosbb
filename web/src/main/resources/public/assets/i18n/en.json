@@ -238,7 +238,22 @@
   "debt" : "debt",
   "startDate": "start of ticket",
   "deadline": "Deadline",
-  "deadlineDate": "Project should be finished until"
+  "deadlineDate": "Project should be finished until",
+  "user_registration": "user registration",
+  "first_name": "first name",
+  "enter_name": "enter your first name",
+  "last_name": "last name",
+  "enter_last_name": "enter your last name",
+  "enter_email": "enter your email",
+  "phone_number": "phone number",
+  "enter_pass": "enter your password",
+  "confirm_pass": "confirm your password",
+  "next": "next",
+  "join_osbb": "join OSBB",
+  "choose_osbb": "choose your OSBB",
+  "choose_house": "choose your house",
+  "choose_apartment": "choose your apartment",
+  "choose": "select"
 }
 
 

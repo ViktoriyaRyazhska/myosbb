@@ -5,62 +5,64 @@
             <div class="registration-form  center-block" *ngIf="IsRegistered">
                 <form class="ui form " (ngSubmit)="onSubmitUser(newUser.status)" #registerForm="ngForm">
                     <div class="form-header">
-                        <h3>Реєстрація користувача </h3>
+                        <h3>{{'user_registration'| translate | capitalize }}</h3>
                     </div>
-                    <div class="form-container"> 
+                    <div class="form-container">
                         <div class="row">
                             <div class="col-xs-6">
-                                <label>Ім'я</label>
+                                <label>{{'first_name'| translate | capitalize }}</label>
                                 <input [textMask]="{mask:textmask,guide:false}" class="form-control placeholder-no-fix" name="firstName" [(ngModel)]="newUser.firstName"
-                                    placeholder="Введіть своє ім'я" type="text" >
+                                       placeholder="{{'enter_name'| translate | capitalize  }}" type="text" >
                             </div>
 
                             <div class="col-xs-6">
-                                <label>Прізвище</label>
+                                <label>{{'last_name'| translate | capitalize  }}</label>
                                 <input [textMask]="{mask:textmask,guide:false}" class="form-control placeholder-no-fix" name="lastName" [(ngModel)]="newUser.lastName"
-                                    placeholder="Введіть своє прізвище" type="text" required>
+                                       placeholder="{{'enter_last_name'| translate | capitalize  }}" type="text" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
-                                <label>Емейл</label>
+                                <label>{{'email'| translate | capitalize }}</label>
 
-                                <input [textMask]="{mask:emailMask}" class="form-control placeholder-no-fix" name="email" [(ngModel)]="newUser.email" placeholder="Введіть свій Email"
-                                    type="text" required>
+                                <input [textMask]="{mask:emailMask}" class="form-control placeholder-no-fix" name="email" [(ngModel)]="newUser.email"
+                                       placeholder="{{'enter_email'| translate | capitalize }}" type="text" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
 
-                                <label>Номер телефону</label>
+                                <label>{{'phone_number'| translate | capitalize}}</label>
                                 <input [textMask]="{mask:phoneMask}" class="form-control" name="phoneNumber" [(ngModel)]="newUser.phoneNumber" type="text"
-                                    placeholder="(___) ___-____" required>
+                                       placeholder="(___) ___-____" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
 
-                                <label>Дата народження</label>
+                                <label>{{'birthday'| translate | capitalize}}</label>
                                 <input class="form-control" name="birthDate" [(ngModel)]="newUser.birthDate" type="date" required>
                             </div>
                         </div>
 
-		        <div class="row">
+                        <div class="row">
                             <div class="col-xs-12">
-                                <label>Пароль</label> <input class="form-control placeholder-no-fix col-xs-6" name="password" [(ngModel)]="newUser.password"
-                                    (blur)="confirmPass()" placeholder='Введіть свій пароль' type="password" required>
+                                <label>{{'password'| translate | capitalize}}</label>
+                                <input class="form-control placeholder-no-fix col-xs-6" name="password" [(ngModel)]="newUser.password"
+                                       (blur)="confirmPass()" placeholder="{{'enter_pass'| translate | capitalize}}" type="password" required>
                                 <div class="col-xs-12 centered">
                                     <label *ngIf='error' class="error" disabled=true>{{errorMsg}}</label>
                                 </div>
                             </div>
                             <div class="col-xs-12">
-                                <label>Підтвердіть пароль</label> <input class="form-control placeholder-no-fix col-xs-6" [(ngModel)]="confirmPassword"
-                                    name="confirmPassword" (blur)="confirmPass()" placeholder='Підтвердіть пароль' type="password" required>
+                                <label>{{'confirm_pass'| translate | capitalize}}</label>
+                                <input class="form-control placeholder-no-fix col-xs-6" [(ngModel)]="confirmPassword"
+                                       name="confirmPassword" (blur)="confirmPass()" placeholder="{{'confirm_pass'| translate | capitalize}}" type="password" required>
                                 <div class="col-xs-12 centered">
                                     <label *ngIf='errorConfirm' class="error" disabled=true>{{errorMsg}}</label>
                                 </div>
                             </div>
-                                <br>
+                            <br>
                         </div>
 
 
@@ -69,10 +71,10 @@
                         <hr>
                         <br>
                         <div class="col-xs-6">
-                            <a class="btn btn-danger col-xs-12" href="javascript:history.back()">Назад</a>
+                            <a class="btn btn-danger col-xs-12" href="javascript:history.back()">{{ 'cancel' | translate | capitalize }}</a>
                         </div>
                         <div class="col-xs-6">
-                            <button class="btn btn-primary col-xs-12" type='submit'  [disabled]="!registerForm.form.valid">Вперед</button>
+                            <button class="btn btn-primary col-xs-12" type='submit'  [disabled]="!registerForm.form.valid">{{ 'next' | translate | capitalize }}</button>
                         </div>
                     </div>
 
@@ -145,28 +147,28 @@
              <div class="registration-form  center-block" *ngIf="isJoinedOsbb">
                 <form class="ui form" (ngSubmit)="onSubmitJoin()" #joinOsbbForm="ngForm">
                     <div class="form-header">
-                        <h3>Приєднатись до ОСББ </h3>
+                        <h3>{{ 'join_osbb' | translate | capitalize }} </h3>
                     </div>
                     <div class="form-container">
-                            <div class="form-group"><label>Виберіть ваше ОСББ</label>
+                            <div class="form-group"><label>{{ 'choose_osbb' | translate | capitalize }}</label>
                                                 <ng-select [allowClear]="true"
                                                            [items]="osbb"
                                                            (selected)="selectedOsbb($event)"
-                                                           placeholder="Вибрати">
+                                                           placeholder="{{ 'choose' | translate | capitalize }}">
                                                 </ng-select>
                                             </div>
-                                            <div *ngIf="isSelectedOsbb" class="form-group"><label>Виберіть ваш будинок</label>
+                                            <div *ngIf="isSelectedOsbb" class="form-group"><label>{{ 'choose_house' | translate | capitalize }}</label>
                                                 <ng-select [allowClear]="true"
                                                            [items]="houses"
                                                            (selected)="selectedHouse($event)"
-                                                           placeholder="Вибрати">
+                                                           placeholder="{{ 'choose' | translate | capitalize }}">
                                                 </ng-select>
                                             </div>
-                                            <div *ngIf="isSelectedHouse" class="form-group"><label>Виберіть вашу квартиру</label>
+                                            <div *ngIf="isSelectedHouse" class="form-group"><label>{{ 'choose_apartment' | translate | capitalize }}</label>
                                                 <ng-select [allowClear]="true"
                                                            [items]="apartment"
                                                            (selected)="selectedApartment($event)"
-                                                           placeholder="Вибрати">
+                                                           placeholder="{{ 'choose' | translate | capitalize }}">
                                                 </ng-select>
                                             </div>
                                             <br>
