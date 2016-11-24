@@ -135,7 +135,7 @@ public class BillController {
         logger.info("Saving bill " + bill);
         HttpStatus status = HttpStatus.OK;
         
-        Apartment apartment = apartmentService.findOneApartmentByID(billDTO.getApartmentId());
+        Apartment apartment = apartmentService.findById(billDTO.getApartmentId());
         Provider provider = providerService.findOneProviderById(billDTO.getProviderId());
         
         if (apartment != null && provider != null) {

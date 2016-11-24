@@ -58,14 +58,11 @@ public class ContractController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Resource<Contract>> getAll() {
         logger.info("Getting all contracts from database");
-        List<Contract> contracts = contractService.findAll();
+        List<Contract> contracts = new ArrayList<>();
+        contracts.addAll(contractService.findAll());
         
-        logger.info("Passed ContractService");
         List<Resource<Contract>> resources = new ArrayList<Resource<Contract>>();
-        
-        for (Contract temp : contracts) {
-            resources.add(getContractResource(temp));
-        }
+        contracts.stream().forEach(contract -> resources.add(getContractResource(contract)));
         
         return resources;
     }
@@ -77,36 +74,29 @@ public class ContractController {
             @RequestParam(value = "asc", required = false) Boolean ascOrder,
             @RequestParam(value = "actv", required = false) Boolean onlyActive) {
 
-        logger.info("getting all contracts by page number: " + pageNumber);
+        logger.info("Getting all contracts by page number: " + pageNumber);
         Page<Contract> contractsByPage = null;
         contractsByPage = contractService.getContracts(pageNumber, sortedBy, ascOrder);
         
         if ((onlyActive == null) ? false : onlyActive) {
-            logger.warn("getting only active contracts");
+            logger.warn("Getting only active contracts");
             contractsByPage = contractService.findByActiveTrue(pageNumber, sortedBy, ascOrder);
         }
         
-        int currentPage = contractsByPage.getNumber() + 1;
-        logger.info("current page : " + currentPage);
-        
-        int begin = Math.max(1, currentPage - 5);
-        logger.info("starts with: " + begin);
-        
+        int currentPage = contractsByPage.getNumber() + 1;        
+        int begin = Math.max(1, currentPage - 5);        
         int totalPages = contractsByPage.getTotalPages();
         int end = Math.min(currentPage + 5, totalPages);
-        logger.info("ends with: " + totalPages);
 
         List<Resource<Contract>> resourceList = new ArrayList<>();
-        contractsByPage.forEach((contract) -> {
-            resourceList.add(getContractResource(contract));
-        });
+        contractsByPage.forEach(contract -> resourceList.add(getContractResource(contract)));
 
         PageDataObject<Resource<Contract>> pageDataObject = new PageDataObject<>();
         pageDataObject.setRows(resourceList);
-        pageDataObject.setCurrentPage(Integer.valueOf(currentPage).toString());
-        pageDataObject.setBeginPage(Integer.valueOf(begin).toString());
-        pageDataObject.setEndPage(Integer.valueOf(end).toString());
-        pageDataObject.setTotalPages(Integer.valueOf(totalPages).toString());
+        pageDataObject.setCurrentPage(String.valueOf(currentPage));
+        pageDataObject.setBeginPage(String.valueOf(begin));
+        pageDataObject.setEndPage(String.valueOf(end));
+        pageDataObject.setTotalPages(String.valueOf(totalPages));
 
         return new ResponseEntity<>(pageDataObject, HttpStatus.OK);
     }
@@ -115,14 +105,13 @@ public class ContractController {
     public ResponseEntity<List<Resource<Contract>>> getContractsByProviderName(
             @RequestParam(value = "name", required = true) String name) {
         
-        List<Contract> contractsBySearchTerm = contractService.findContractsByProviderName(name);
-        List<Resource<Contract>> resourceContractList = new ArrayList<>();
+        List<Contract> contracts = new ArrayList<>();
+        contracts.addAll(contractService.findContractsByProviderName(name));
         
-        contractsBySearchTerm.stream().forEach((contract) -> {
-            resourceContractList.add(getContractResource(contract));
-        });
+        List<Resource<Contract>> resources = new ArrayList<>();        
+        contracts.stream().forEach((contract) -> resources.add(getContractResource(contract)));
         
-        return new ResponseEntity<>(resourceContractList, HttpStatus.OK);
+        return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -138,20 +127,19 @@ public class ContractController {
             contract.setPriceCurrency(Contract.DEFAULT_CURRENCY);
         }
         
-        ArrayList<Attachment> list = new ArrayList<>();
-        for (int i = 0; i < contract.getAttachments().size(); i++) {
-            list.add(attachmentService.getAttachmentById(contract.getAttachments().get(i).getAttachmentId()));
-        }
+        ArrayList<Attachment> attachments = new ArrayList<>();
+        contract.getAttachments().stream().forEach(attachment -> attachments.add(attachmentService.getAttachmentById(attachment.getAttachmentId())));
         
-        contract.setAttachments(list); //tmp dirty solution PersistentObjectException, detached Attachment entity passed to persist
+        contract.setAttachments(attachments);
         Contract newContract = contractService.save(contract);
         
         if (newContract != null) {
             Provider provider = providerService.findOneProviderById(newContract.getProvider().getProviderId());
-            provider.setActive(true);
-            providerService.saveProvider(provider);
             
-            if (!provider.isActive()) {
+            if (provider != null) {
+                provider.setActive(true);
+                providerService.saveProvider(provider);
+      
                 try {
                     providerService.updateProvider(provider.getProviderId(), provider);
                 } catch (Exception e) {
@@ -164,23 +152,23 @@ public class ContractController {
         return newContract;
     }
 
-    @RequestMapping(value="/{id}",method=RequestMethod.POST)
+    @RequestMapping(value="/{id}", method=RequestMethod.POST)
     public Contract updateContract(@PathVariable Integer id, @RequestBody Contract contract) {
-        logger.info("Updating contract id:"+id);
+        logger.info("Updating contract id: "+id);
         contract.setContractId(id);
         return contractService.saveAndFlush(contract);
     }
 
-    @RequestMapping(value="/",method=RequestMethod.DELETE)
+    @RequestMapping(value="/", method=RequestMethod.DELETE)
     public boolean deleteAllContracts(@RequestBody Contract contract) {
         logger.warn("Deleting all Contracts");
         contractService.deleteAll();
         return true;
     }
     
-    @RequestMapping(value="/{id}",method=RequestMethod.DELETE)
-    public boolean deleteContractByID(@PathVariable(value ="id") Integer id)
-    {logger.warn("Deleting contract with id:"+id);
+    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+    public boolean deleteContractById(@PathVariable(value ="id") Integer id)
+    {logger.warn("Deleting contract with id: " + id);
         contractService.delete(id);
         return true;
     }
