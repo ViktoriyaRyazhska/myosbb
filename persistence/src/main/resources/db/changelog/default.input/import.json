@@ -2,14 +2,14 @@
   "databaseChangeLog": [
     {
       "changeSet": {
-        "id": "auto-import-file",
-        "author": "cavayman",
+        "id": 1,
+        "author": "serg",
         "changes": [
           {
-            "sqlFile": {
-              "dbms": "mysql",
+              "sqlFile": {
+              "dbms": "PostgreSQL, MySQL",
               "encoding": "utf8",
-              "endDelimiter": "\\nGO",
+              "endDelimiter": ";",
               "path": "import.sql",
               "relativeToChangelogFile": true,
               "splitStatements": true,
