@@ -180,7 +180,7 @@
                             <a class="btn btn-danger col-xs-12" (click)="Back()">{{ 'cancel' | translate | capitalize }}</a>
                         </div>
                         <div class="col-xs-6">
-                            <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!joinOsbbForm.form.valid" >{{ 'save' | translate | capitalize }}</button>
+                            <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!isSelectedApartment" >{{ 'save' | translate | capitalize }}</button>
                         </div>
                     </div>
 
