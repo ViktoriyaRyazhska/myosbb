@@ -11,29 +11,36 @@
                         <div class="row">
                             <div class="col-xs-6">
                                 <label>{{'first_name'| translate | capitalize }}</label>
-                                <input [textMask]="{mask:textmask,guide:false}" class="form-control placeholder-no-fix" name="firstName" [(ngModel)]="newUser.firstName"
-                                       placeholder="{{'enter_name'| translate | capitalize }}" type="text" maxlength="35" required>
+                                <input [textMask]="{mask:textmask,guide:false}" class="form-control placeholder-no-fix"
+                                       name="firstName" [(ngModel)]="newUser.firstName"
+                                       placeholder="{{'enter_name'| translate | capitalize }}" type="text"
+                                       maxlength="35" required>
                             </div>
 
                             <div class="col-xs-6">
-                                <label>{{'last_name'| translate | capitalize  }}</label>
-                                <input [textMask]="{mask:textmask,guide:false}" class="form-control placeholder-no-fix" name="lastName" [(ngModel)]="newUser.lastName"
-                                       placeholder="{{'enter_last_name'| translate | capitalize }}" type="text" maxlength="35" required>
+                                <label>{{'last_name'| translate | capitalize }}</label>
+                                <input [textMask]="{mask:textmask,guide:false}" class="form-control placeholder-no-fix"
+                                       name="lastName" [(ngModel)]="newUser.lastName"
+                                       placeholder="{{'enter_last_name'| translate | capitalize }}" type="text"
+                                       maxlength="35" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
                                 <label>{{'email'| translate | capitalize }}</label>
 
-                                <input [textMask]="{mask:emailMask}" class="form-control placeholder-no-fix" name="email" [(ngModel)]="newUser.email"
-                                       placeholder="{{'enter_email'| translate | capitalize }}" type="email" maxlength="50"  required>
+                                <input [textMask]="{mask:emailMask}" class="form-control placeholder-no-fix"
+                                       name="email" [(ngModel)]="newUser.email"
+                                       placeholder="{{'enter_email'| translate | capitalize }}" type="email"
+                                       maxlength="50" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12">
 
                                 <label>{{'phone_number'| translate | capitalize}}</label>
-                                <input [textMask]="{mask:phoneMask}" class="form-control" name="phoneNumber" [(ngModel)]="newUser.phoneNumber" type="text"
+                                <input [textMask]="{mask:phoneMask}" class="form-control" name="phoneNumber"
+                                       [(ngModel)]="newUser.phoneNumber" type="text"
                                        placeholder="(___) ___-____" required>
                             </div>
                         </div>
@@ -41,27 +48,34 @@
                             <div class="col-xs-12">
 
                                 <label>{{'birthday'| translate | capitalize}}</label>
-                                <input class="form-control" name="birthDate" [(ngModel)]="newUser.birthDate" type="date" required>
+                                <input class="form-control" name="birthDate" [(ngModel)]="newUser.birthDate"
+                                       (blur)="checkDate()" type="date" required>
+                                <div class="col-xs-12 centered">
+                                    <label style="color: red" *ngIf='birthDateError' class="error" disabled=true>{{errorBirthDateMsg}}</label>
+                                </div>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-xs-12">
                                 <label>{{'password'| translate | capitalize}}</label>
-                                <input class="form-control placeholder-no-fix col-xs-6" name="password" [(ngModel)]="newUser.password"
-                                       (blur)="confirmPass()" placeholder="{{'enter_pass'| translate | capitalize}}" type="password" 
+                                <input class="form-control placeholder-no-fix col-xs-6" name="password"
+                                       [(ngModel)]="newUser.password"
+                                       (blur)="confirmPass()" placeholder="{{'enter_pass'| translate | capitalize}}"
+                                       type="password"
                                        minlength="4" maxlength="16" required>
                                 <div class="col-xs-12 centered">
-                                    <label *ngIf='error' class="error" disabled=true>{{errorMsg}}</label>
+                                    <label style="color: red" *ngIf='error' class="error" disabled=true>{{errorMsg}}</label>
                                 </div>
                             </div>
                             <div class="col-xs-12">
                                 <label>{{'confirm_pass'| translate | capitalize}}</label>
                                 <input class="form-control placeholder-no-fix col-xs-6" [(ngModel)]="confirmPassword"
-                                       name="confirmPassword" (blur)="confirmPass()" placeholder="{{'confirm_pass'| translate | capitalize}}" 
+                                       name="confirmPassword" (blur)="confirmPass()"
+                                       placeholder="{{'confirm_pass'| translate | capitalize}}"
                                        type="password" minlength="4" maxlength="16" required>
                                 <div class="col-xs-12 centered">
-                                    <label *ngIf='errorConfirm' class="error" disabled=true>{{errorMsg}}</label>
+                                    <label style="color: red" *ngIf='errorConfirm' class="error" disabled=true>{{errorMsg}}</label>
                                 </div>
                             </div>
                             <br>
@@ -73,16 +87,19 @@
                         <hr>
                         <br>
                         <div class="col-xs-6">
-                            <a class="btn btn-danger col-xs-12" href="javascript:history.back()">{{ 'cancel' | translate | capitalize }}</a>
+                            <a class="btn btn-danger col-xs-12" href="javascript:history.back()">{{ 'cancel' | translate
+                                | capitalize }}</a>
                         </div>
                         <div class="col-xs-6">
-                            <button class="btn btn-primary col-xs-12" type='submit'  [disabled]="!registerForm.form.valid">{{ 'next' | translate | capitalize }}</button>
+                            <button class="btn btn-primary col-xs-12" type='submit'
+                                    [disabled]="!registerForm.form.valid || birthDateError">{{ 'next' | translate | capitalize }}
+                            </button>
                         </div>
                     </div>
 
                 </form>
             </div>
-        <!--------------------------------------Registration Osbb------------------------------------------------------>
+            <!--------------------------------------Registration Osbb------------------------------------------------------>
 
             <div class="registration-form  center-block" *ngIf="IsRegisteredOsbb">
                 <form class="ui form" (ngSubmit)="onSubmitOsbb()" #registerOsbbForm="ngForm">
@@ -94,32 +111,37 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <label>Назва</label>
-                                    <input class="form-control placeholder-no-fix" name="name" [(ngModel)]="newOsbb.name" type="text" required>
+                                    <input class="form-control placeholder-no-fix" name="name"
+                                           [(ngModel)]="newOsbb.name" type="text" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
                                     <label>Описання</label>
-                                    <input class="form-control placeholder-no-fix" name="descrption" [(ngModel)]="newOsbb.description" type="text" required>
+                                    <input class="form-control placeholder-no-fix" name="descrption"
+                                           [(ngModel)]="newOsbb.description" type="text" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
                                     <label>Адрес</label>
-                                    <input class="form-control placeholder-no-fix" name="address" [(ngModel)]="newOsbb.address" type="text" (setAddress)="getAddress($event)"
-                                        googleplace required>
+                                    <input class="form-control placeholder-no-fix" name="address"
+                                           [(ngModel)]="newOsbb.address" type="text" (setAddress)="getAddress($event)"
+                                           googleplace required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
                                     <label>Район</label>
-                                    <input class="form-control placeholder-no-fix" name="district" [(ngModel)]="newOsbb.district" type="text" required>
+                                    <input class="form-control placeholder-no-fix" name="district"
+                                           [(ngModel)]="newOsbb.district" type="text" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
                                     <label>Посилання на фото дому</label>
-                                    <input class="form-control placeholder-no-fix" name="logoUrl" [(ngModel)]="newOsbb.logoUrl" type="text">
+                                    <input class="form-control placeholder-no-fix" name="logoUrl"
+                                           [(ngModel)]="newOsbb.logoUrl" type="text">
                                     <div class="text-xs-center">
                                         <br>
                                         <img src="{{newOsbb.logoUrl}}" class="img-rounded" style="height: auto; max-height: 300px; max-width: 300px;display: block;
@@ -137,7 +159,9 @@
                             <a class="btn btn-danger col-xs-12" (click)="Back()">Назад</a>
                         </div>
                         <div class="col-xs-6">
-                            <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!registerOsbbForm.form.valid">Вперед</button>
+                            <button class="btn btn-primary col-xs-12" type='submit'
+                                    [disabled]="!registerOsbbForm.form.valid">Вперед
+                            </button>
                         </div>
                     </div>
 
@@ -146,48 +170,53 @@
             <!--------------------------------------Join Osbb------------------------------------------------------>
 
 
-             <div class="registration-form  center-block" *ngIf="isJoinedOsbb">
+            <div class="registration-form  center-block" *ngIf="isJoinedOsbb">
                 <form class="ui form" (ngSubmit)="onSubmitJoin()" #joinOsbbForm="ngForm">
                     <div class="form-header">
                         <h3>{{ 'join_osbb' | translate | capitalize }} </h3>
                     </div>
                     <div class="form-container">
-                            <div class="form-group"><label>{{ 'choose_osbb' | translate | capitalize }}</label>
-                                                <ng-select [allowClear]="true"
-                                                           [items]="osbb"
-                                                           (selected)="selectedOsbb($event)"
-                                                           placeholder="{{ 'choose' | translate | capitalize }}">
-                                                </ng-select>
-                                            </div>
-                                            <div *ngIf="isSelectedOsbb" class="form-group"><label>{{ 'choose_house' | translate | capitalize }}</label>
-                                                <ng-select [allowClear]="true"
-                                                           [items]="houses"
-                                                           (selected)="selectedHouse($event)"
-                                                           placeholder="{{ 'choose' | translate | capitalize }}">
-                                                </ng-select>
-                                            </div>
-                                            <div *ngIf="isSelectedHouse" class="form-group"><label>{{ 'choose_apartment' | translate | capitalize }}</label>
-                                                <ng-select [allowClear]="true"
-                                                           [items]="apartment"
-                                                           (selected)="selectedApartment($event)"
-                                                           placeholder="{{ 'choose' | translate | capitalize }}">
-                                                </ng-select>
-                                            </div>
-                                            <br>
-                            <hr>
+                        <div class="form-group"><label>{{ 'choose_osbb' | translate | capitalize }}</label>
+                            <ng-select [allowClear]="true"
+                                       [items]="osbb"
+                                       (selected)="selectedOsbb($event)"
+                                       placeholder="{{ 'choose' | translate | capitalize }}">
+                            </ng-select>
+                        </div>
+                        <div *ngIf="isSelectedOsbb" class="form-group"><label>{{ 'choose_house' | translate | capitalize
+                            }}</label>
+                            <ng-select [allowClear]="true"
+                                       [items]="houses"
+                                       (selected)="selectedHouse($event)"
+                                       placeholder="{{ 'choose' | translate | capitalize }}">
+                            </ng-select>
+                        </div>
+                        <div *ngIf="isSelectedHouse" class="form-group"><label>{{ 'choose_apartment' | translate |
+                            capitalize }}</label>
+                            <ng-select [allowClear]="true"
+                                       [items]="apartment"
+                                       (selected)="selectedApartment($event)"
+                                       placeholder="{{ 'choose' | translate | capitalize }}">
+                            </ng-select>
+                        </div>
+                        <br>
+                        <hr>
                     </div>
                     <div class="row form-footer">
                         <br>
                         <div class="col-xs-6">
-                            <a class="btn btn-danger col-xs-12" (click)="Back()">{{ 'cancel' | translate | capitalize }}</a>
+                            <a class="btn btn-danger col-xs-12" (click)="Back()">{{ 'cancel' | translate | capitalize
+                                }}</a>
                         </div>
                         <div class="col-xs-6">
-                            <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!isSelectedApartment" >{{ 'save' | translate | capitalize }}</button>
+                            <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!isSelectedApartment">{{
+                                'save' | translate | capitalize }}
+                            </button>
                         </div>
                     </div>
 
                 </form>
             </div>
-            </div>
         </div>
     </div>
+</div>
