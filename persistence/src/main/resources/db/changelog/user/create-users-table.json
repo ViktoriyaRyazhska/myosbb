@@ -2,8 +2,8 @@
   "databaseChangeLog": [
     {
       "changeSet": {
-        "id": "2016/08/29",
-        "author": "nataliia",
+        "id": "2016/11/25",
+        "author": "Kostyantyn.Panchenko",
         "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
         "changes": [
           {
@@ -29,25 +29,25 @@
                 {
                   "column": {
                     "name": "email",
-                    "type": "VARCHAR(255)"
+                    "type": "VARCHAR(50)"
                   }
                 },
                 {
                   "column": {
                     "name": "first_name",
-                    "type": "VARCHAR(255)"
+                    "type": "VARCHAR(35)"
                   }
                 },
                 {
                   "column": {
                     "name": "gender",
-                    "type": "VARCHAR(255)"
+                    "type": "VARCHAR(6)"
                   }
                 },
                 {
                   "column": {
                     "name": "last_name",
-                    "type": "VARCHAR(255)"
+                    "type": "VARCHAR(35)"
                   }
                 },
                 {
@@ -60,13 +60,13 @@
                 {
                   "column": {
                     "name": "password",
-                    "type": "VARCHAR(255)"
+                    "type": "VARCHAR(80)"
                   }
                 },
                 {
                   "column": {
                     "name": "phone_number",
-                    "type": "VARCHAR(255)"
+                    "type": "VARCHAR(16)"
                   }
                 },
                 {

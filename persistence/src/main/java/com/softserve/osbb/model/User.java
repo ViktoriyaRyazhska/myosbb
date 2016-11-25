@@ -1,26 +1,43 @@
 package com.softserve.osbb.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
+
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 /**
  * Created by cavayman on 05.07.2016.
+ * @version 1.1
+ * @since 25.11.2016
  */
 @Entity
 @Table(name = "users")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private Integer userId;
     private String firstName;
     private String lastName;
@@ -29,23 +46,22 @@ public class User implements Serializable {
     private String phoneNumber;
     private String password;
     private String gender;
-
     private Boolean activated;
+    private Boolean isOwner;
     private Role role;
     private Apartment apartment;
     private Osbb osbb;
-    private Collection<Notice> notices=new ArrayList<>();
-    private Collection<Vote> votes=new ArrayList<>();
-    private Collection<Apartment> apartments=new ArrayList<>();
-    private Collection<Message> messages=new ArrayList<>();
-    private Collection<Ticket> assigned=new ArrayList<>();
-    private Collection<Ticket> tickets=new ArrayList<>();
+    private Collection<Notice> notices = new ArrayList<>();
+    private Collection<Vote> votes = new ArrayList<>();
+    private Collection<Message> messages = new ArrayList<>();
+    private Collection<Ticket> assigned = new ArrayList<>();
+    private Collection<Ticket> tickets = new ArrayList<>();
     private Collection<Event> events = new ArrayList<>();
-    private Collection<Option> options=new ArrayList<>();
-    private Collection<Report> reports=new ArrayList<>();
+    private Collection<Option> options = new ArrayList<>();
+    private Collection<Report> reports = new ArrayList<>();
 
-    private Boolean isOwner;
-
+    public User() { }
+    
     public User(User user) {
         this.userId = user.getUserId();
         this.firstName = user.getFirstName();
@@ -56,14 +72,10 @@ public class User implements Serializable {
         this.password = user.getPassword();
         this.gender = user.getGender();
         this.role = user.getRole();
-        this.apartment=user.apartment;
-        this.osbb=user.getOsbb();
+        this.apartment = user.getApartment();
+        this.osbb = user.getOsbb();
     }
-
-
-    public User() {
-    }
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -77,6 +89,7 @@ public class User implements Serializable {
 
     @Basic
     @Column(name = "firstName")
+    @Size(max = 35)
     public String getFirstName() {
         return firstName;
     }
@@ -87,6 +100,7 @@ public class User implements Serializable {
 
     @Basic
     @Column(name = "lastName")
+    @Size(max = 35)
     public String getLastName() {
         return lastName;
     }
@@ -107,6 +121,7 @@ public class User implements Serializable {
 
     @Basic
     @Column(name = "email")
+    @Size(max = 50)
     public String getEmail() {
         return email;
     }
@@ -117,6 +132,7 @@ public class User implements Serializable {
 
     @Basic
     @Column(name = "phoneNumber")
+    @Size(max = 16)
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -124,10 +140,10 @@ public class User implements Serializable {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-
-
+    
     @Basic
     @Column(name = "password")
+    @Size(max = 80)
     public String getPassword() {
         return this.password;
     }
@@ -138,6 +154,7 @@ public class User implements Serializable {
 
     @Basic
     @Column(name = "gender")
+    @Size(max = 6)
     public String getGender() {
         return gender;
     }
@@ -174,7 +191,6 @@ public class User implements Serializable {
         this.votes = votes;
     }
 
-
     @Basic
     @Column(name = "is_owner")
     public Boolean isOwner() {
@@ -184,7 +200,6 @@ public class User implements Serializable {
     public void setOwner(Boolean owner) {
         isOwner = owner;
     }
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "apartment_id", referencedColumnName = "apartment_id")
@@ -196,7 +211,6 @@ public class User implements Serializable {
     public void setApartment(Apartment appartament) {
         this.apartment = appartament;
     }
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "osbb_id")
@@ -269,19 +283,6 @@ public class User implements Serializable {
         this.notices = notices;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", roles='" + role + '\'' +
-                ", osbb='" + osbb + '\'' +
-
-                '}';
-    }
-
     @JsonIgnore
     @ManyToMany(mappedBy = "users")
     public Collection<Option> getOptions() {
@@ -300,6 +301,18 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", roles='" + role + '\'' +
+                ", osbb='" + osbb + '\'' +
+                '}';
     }
 
 }
