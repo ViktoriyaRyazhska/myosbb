@@ -62,6 +62,21 @@
     },
     {
       "includeAll": {
+        "path": "classpath:/db/changelog/region/"
+      }
+    },
+    {
+      "includeAll": {
+        "path": "classpath:/db/changelog/city/"
+      }
+    },
+    {
+      "includeAll": {
+        "path": "classpath:/db/changelog/street/"
+      }
+    },
+    {
+      "includeAll": {
         "path": "classpath:/db/changelog/report/"
       }
     },
