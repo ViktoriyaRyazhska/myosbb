@@ -160,7 +160,7 @@ public class HouseController {
                 Resource<Apartment> resource = resources.createLink(toResource(apartment));
                 resources.add(resource);
             });
-            new ResponseEntity<>(resources, HttpStatus.OK);
+            return new ResponseEntity<>(resources, HttpStatus.OK);
         } else {
             logger.error("Error finding house by id: ", houseId);
             response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
