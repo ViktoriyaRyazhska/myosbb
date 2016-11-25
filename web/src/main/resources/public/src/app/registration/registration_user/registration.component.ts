@@ -1,5 +1,4 @@
 import {Component, OnInit} from "@angular/core";
-import {User} from "../../../shared/models/User";
 import {Osbb, IOsbb} from "../../../shared/models/osbb";
 import {RegisterService} from "./register.service";
 import {ROUTER_DIRECTIVES, Router} from "@angular/router";
@@ -11,17 +10,12 @@ import {IHouse} from "../../../shared/models/House";
 import {IApartment} from "../../../shared/models/apartment.interface";
 import {UserRegistration} from "../../../shared/models/user_registration";
 import {ToasterContainerComponent, ToasterService, ToasterConfig} from "angular2-toaster/angular2-toaster";
-import {
-    onErrorServerNoResponseToastMsg,
-    onErrorNewUserAlreadyExists
-} from "../../../shared/error/error.handler.component";
 import {OsbbRegistration} from "../../../shared/models/osbb_registration";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
 import {TranslatePipe} from "ng2-translate";
-// import {JoinOsbbComponent} from '../join/join.osbb.component';
 
 
-@Component({ 
+@Component({
     selector: 'app-register',
     templateUrl: 'src/app/registration/registration_user/registration.html',
     styleUrls: ['assets/css/registration/registration.css'],
@@ -39,9 +33,11 @@ export class RegistrationComponent implements OnInit {
     public textmask = [/[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/];
     public phoneMask = ['(', /[0]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
     confirmPassword: string = "";
+    birthDateError: boolean = false;
     error: boolean = false;
     errorConfirm: boolean = false;
     errorMsg = "";
+    errorBirthDateMsg = "";
     private osbbList: IOsbb[] = [];
     private houseList: IHouse[] = [];
     private apartmentList: IApartment[] = [];
@@ -72,7 +68,7 @@ export class RegistrationComponent implements OnInit {
     ngOnInit() {
         this.listAllOsbb();
         this.IsRegistered = true;
- 
+
     }
 
     onSubmitUser(status) {
@@ -168,6 +164,20 @@ export class RegistrationComponent implements OnInit {
         }
     }
 
+    castBirthDateStringToDate(): Date {
+        return moment(this.newUser.birthDate).toDate();
+    }
+
+    checkDate() {
+        let date = new Date();
+        let res = this.castBirthDateStringToDate().valueOf() - date.valueOf();
+        if (res >= 0) {
+            this.errorBirthDateMsg = "Birthdate is invalid";
+            this.birthDateError = true;
+        }
+        else this.birthDateError = false;
+    }
+
     Back() {
         this.isJoinedOsbb = false;
         this.IsRegisteredOsbb = false;
@@ -212,17 +222,6 @@ export class RegistrationComponent implements OnInit {
             });
     }
 
-    // listAllHouses() {
-    //     this.registerService.getAllHouses()
-    //         .subscribe((data)=> {
-    //             this.houseList = data;
-    //             this.houses = this.fillHouses();
-    //             console.log('all houses', this.houses);
-    //         }, (error)=> {
-    //             this.handleErrors(error)
-    //         });
-    // }
-
 
     listAllHousesByOsbb(id: number) {
 
@@ -238,18 +237,6 @@ export class RegistrationComponent implements OnInit {
                 })
 
     }
-
-    // listAllApartments() {
-    //     this.registerService.getAllApartments()
-    //         .subscribe((data)=> {
-    //             this.apartmentList = data;
-    //             this.apartment = this.fillApartment();
-    //             console.log('all apartment', this.apartment);
-    //         }, (error)=> {
-    //             this.handleErrors(error)
-    //         });
-    // }
-
 
     listAllApartmentsByHouse(houseId: number) {
         this.registerService.getAllApartmentsByHouse(houseId)

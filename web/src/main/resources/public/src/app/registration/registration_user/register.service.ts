@@ -67,21 +67,3 @@ export class RegisterService {
             .catch((error) => Observable.throw(error))
     }
 }
-
-
-// sendOsbb(osbb: Osbb) {
-//     console.log(osbb);
-//     let headers = new Headers({ 'Content-Type': 'application/json' });
-//     return this.http.post(this._pathUrl1, JSON.stringify(osbb), { headers: headers });
-// }
-
-// sendUser(user:User){
-//     console.log(user);
-//     let headers=new Headers({'Content-Type':'application/json'});
-// return this.http.put(this._pathUrl2,JSON.stringify(user),{headers:headers});
-//}
-
-// sendU(user: User){
-//     console.log()
-//     return this.userId;
-// }
