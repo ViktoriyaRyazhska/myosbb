@@ -1,0 +1,65 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "2016/11/15-02",
+        "author": "YuriPushchalo",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "createTable": {
+              "columns": [
+                {
+                  "column": {
+                    "autoIncrement": true,
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "city_pkey"
+                    },
+                    "name": "id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "name",
+                    "type": "VARCHAR(255)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "region",
+                    "type": "INT"
+                  }
+                }
+              ],
+              "tableName": "cities"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2016/11/15-03",
+        "author": "YuriPushchalo",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "region",
+              "baseTableName": "cities",
+              "constraintName": "fk_mmgnrg9xuk9v75158vut4jl8g",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "id",
+              "referencedTableName": "regions"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "2016/11/16-01",
+        "author": "YuriPushchalo",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "createTable": {
+              "columns": [
+                {
+                  "column": {
+                    "autoIncrement": true,
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "street_pkey"
+                    },
+                    "name": "id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "name",
+                    "type": "VARCHAR(255)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "city",
+                    "type": "INT"
+                  }
+                }
+              ],
+              "tableName": "streets"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2016/11/16-02",
+        "author": "YuriPushchalo",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "city",
+              "baseTableName": "streets",
+              "constraintName": "fk_mmgnrg9xuk6v45158vut4jl8f",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "id",
+              "referencedTableName": "cities"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
