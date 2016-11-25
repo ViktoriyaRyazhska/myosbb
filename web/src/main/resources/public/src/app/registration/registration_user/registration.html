@@ -12,13 +12,13 @@
                             <div class="col-xs-6">
                                 <label>{{'first_name'| translate | capitalize }}</label>
                                 <input [textMask]="{mask:textmask,guide:false}" class="form-control placeholder-no-fix" name="firstName" [(ngModel)]="newUser.firstName"
-                                       placeholder="{{'enter_name'| translate | capitalize  }}" type="text" >
+                                       placeholder="{{'enter_name'| translate | capitalize }}" type="text" maxlength="35" required>
                             </div>
 
                             <div class="col-xs-6">
                                 <label>{{'last_name'| translate | capitalize  }}</label>
                                 <input [textMask]="{mask:textmask,guide:false}" class="form-control placeholder-no-fix" name="lastName" [(ngModel)]="newUser.lastName"
-                                       placeholder="{{'enter_last_name'| translate | capitalize  }}" type="text" required>
+                                       placeholder="{{'enter_last_name'| translate | capitalize }}" type="text" maxlength="35" required>
                             </div>
                         </div>
                         <div class="row">
@@ -26,7 +26,7 @@
                                 <label>{{'email'| translate | capitalize }}</label>
 
                                 <input [textMask]="{mask:emailMask}" class="form-control placeholder-no-fix" name="email" [(ngModel)]="newUser.email"
-                                       placeholder="{{'enter_email'| translate | capitalize }}" type="text" required>
+                                       placeholder="{{'enter_email'| translate | capitalize }}" type="text" maxlength="50"  required>
                             </div>
                         </div>
                         <div class="row">
@@ -49,7 +49,8 @@
                             <div class="col-xs-12">
                                 <label>{{'password'| translate | capitalize}}</label>
                                 <input class="form-control placeholder-no-fix col-xs-6" name="password" [(ngModel)]="newUser.password"
-                                       (blur)="confirmPass()" placeholder="{{'enter_pass'| translate | capitalize}}" type="password" required>
+                                       (blur)="confirmPass()" placeholder="{{'enter_pass'| translate | capitalize}}" type="password" 
+                                       minlength="4" maxlength="16" required>
                                 <div class="col-xs-12 centered">
                                     <label *ngIf='error' class="error" disabled=true>{{errorMsg}}</label>
                                 </div>
@@ -57,7 +58,8 @@
                             <div class="col-xs-12">
                                 <label>{{'confirm_pass'| translate | capitalize}}</label>
                                 <input class="form-control placeholder-no-fix col-xs-6" [(ngModel)]="confirmPassword"
-                                       name="confirmPassword" (blur)="confirmPass()" placeholder="{{'confirm_pass'| translate | capitalize}}" type="password" required>
+                                       name="confirmPassword" (blur)="confirmPass()" placeholder="{{'confirm_pass'| translate | capitalize}}" 
+                                       type="password" minlength="4" maxlength="16" required>
                                 <div class="col-xs-12 centered">
                                     <label *ngIf='errorConfirm' class="error" disabled=true>{{errorMsg}}</label>
                                 </div>
