@@ -184,4 +184,61 @@ INSERT into event(title, author, start_time, end_time, description, repeats, osb
 INSERT into event(title, author, start_time, end_time, description, repeats, osbb_id) VALUES(
 'Мешканців міста знайомлять з порядком створення ОСББ',4,'2016-01-01 08:00:00','2017-01-01 08:00:00',
 '1 липня 2015 р. набрав чинності Закон України «Про особливості здійснення права власності в багатоквартирному будинку».','ONE_TIME',4);
+
+INSERT into regions(id,name)VALUES(1,'АР Крим');
+INSERT into regions(id,name)VALUES(2,'Вінницька');
+INSERT into regions(id,name)VALUES(3,'Волинська');
+INSERT into regions(id,name)VALUES(4,'Дніпропетровська');
+INSERT into regions(id,name)VALUES(5,'Донецька');
+INSERT into regions(id,name)VALUES(6,'Житомирська');
+INSERT into regions(id,name)VALUES(7,'Закарпатська');
+INSERT into regions(id,name)VALUES(8,'Запорізька');
+INSERT into regions(id,name)VALUES(9,'Івано-Франківська');
+INSERT into regions(id,name)VALUES(10,'Київська');
+INSERT into regions(id,name)VALUES(11,'Кіровоградська');
+INSERT into regions(id,name)VALUES(12,'Луганська');
+INSERT into regions(id,name)VALUES(13,'Львівська');
+INSERT into regions(id,name)VALUES(14,'Миколаївська');
+INSERT into regions(id,name)VALUES(15,'Одеська');
+INSERT into regions(id,name)VALUES(16,'Полтавська');
+INSERT into regions(id,name)VALUES(17,'Рівненська');
+INSERT into regions(id,name)VALUES(18,'Сумська');
+INSERT into regions(id,name)VALUES(19,'Тернопільська');
+INSERT into regions(id,name)VALUES(20,'Харківська');
+INSERT into regions(id,name)VALUES(21,'Херсонська');
+INSERT into regions(id,name)VALUES(22,'Хмельницька');
+INSERT into regions(id,name)VALUES(23,'Черкаська');
+INSERT into regions(id,name)VALUES(24,'Чернівецька');
+INSERT into regions(id,name)VALUES(25,'Чернігівська');
+
+INSERT into cities(id,name,region)VALUES(1,'Львів',13);
+INSERT into cities(id,name,region)VALUES(2,'Стрий',13);
+INSERT into cities(id,name,region)VALUES(3,'Дрогобич',13);
+INSERT into cities(id,name,region)VALUES(4,'Самбір',13);
+INSERT into cities(id,name,region)VALUES(5,'Київ',10);
+INSERT into cities(id,name,region)VALUES(6,'Васильків',10);
+INSERT into cities(id,name,region)VALUES(7,'Тернопіль',19);
+INSERT into cities(id,name,region)VALUES(8,'Ужгород',7);
+INSERT into cities(id,name,region)VALUES(9,'Мукачево',7);
+
+INSERT into streets(id,name,city)VALUES(1,'Героїв УПА',1);
+INSERT into streets(id,name,city)VALUES(2,'Кульпарківська',1);
+INSERT into streets(id,name,city)VALUES(3,'Володимира Великого',1);
+INSERT into streets(id,name,city)VALUES(4,'Водогінна',1);
+INSERT into streets(id,name,city)VALUES(5,'Курмановича',1);
+INSERT into streets(id,name,city)VALUES(6,'Січових стрільців',2);
+INSERT into streets(id,name,city)VALUES(7,'Нижанківського',2);
+INSERT into streets(id,name,city)VALUES(8,'Коцюбинського',2);
+INSERT into streets(id,name,city)VALUES(9,'Шевченка',3);
+INSERT into streets(id,name,city)VALUES(10,'Франка',3);
+INSERT into streets(id,name,city)VALUES(11,'Саксаганського',5);
+INSERT into streets(id,name,city)VALUES(12,'Сагайдачного',5);
+INSERT into streets(id,name,city)VALUES(13,'Короленка',5);
+INSERT into streets(id,name,city)VALUES(14,'Перемоги пр-т',5);
+INSERT into streets(id,name,city)VALUES(15,'Довженка',5);
+INSERT into streets(id,name,city)VALUES(16,'Зелена',7);
+INSERT into streets(id,name,city)VALUES(17,'Бандери',7);
+INSERT into streets(id,name,city)VALUES(18,'Володимирська',8);
+INSERT into streets(id,name,city)VALUES(19,'Собранецька',8);
+INSERT into streets(id,name,city)VALUES(20,'Садова',9);
 --rollback
