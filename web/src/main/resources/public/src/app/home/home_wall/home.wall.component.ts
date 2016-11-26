@@ -40,7 +40,7 @@ export class HomeWallComponent implements OnInit {
         if(this.currentOsbb.logo != null){
             return  this.currentOsbb.logo.url;
         }
-        return '';   
+        return 'assets/img/my_house.png';   
     }
     
     getCreatorInfo():string {

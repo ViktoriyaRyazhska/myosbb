@@ -15,14 +15,13 @@ import { ApartmentProfileComponent } from "../home/components/ApartmentProfile/a
 import { UserApartmentComponent } from "../home/components/apartment/user.apartment.component";
 import { ProviderInfoComponent } from "../user/provider/provider-info";
 import { UserReportComponent } from "../user/report/user.report.component";
-import {ElectricityComponen} from "../home/components/apartment/submenu/electricity/electricity.component";
-import {GasComponen} from "../home/components/apartment/submenu/gas/gas.component";
-import {WaterComponen} from "../home/components/apartment/submenu/water/water.component";
+import { ElectricityComponen } from "../home/components/apartment/submenu/electricity/electricity.component";
+import { GasComponen } from "../home/components/apartment/submenu/gas/gas.component";
+import { WaterComponen } from "../home/components/apartment/submenu/water/water.component";
 
 export const homeRoutes: RouterConfig = [
     {
-        path: 'home',
-        component: HomeComponent,
+        path: 'home', component: HomeComponent,
 
         children: [
             { path: 'wall', component: HomeWallComponent },
@@ -40,9 +39,9 @@ export const homeRoutes: RouterConfig = [
             { path: 'friend/:id', component: UserProfileComponent },
             { path: 'report', component: UserReportComponent },
             { path: 'apartment', component: UserApartmentComponent },
-            {path: 'rents/electricity', component: ElectricityComponen},
-            {path: 'rents/gas', component: GasComponen},
-            {path: 'rents/water', component: WaterComponen},
+            { path: 'rents/electricity', component: ElectricityComponen },
+            { path: 'rents/gas', component: GasComponen },
+            { path: 'rents/water', component: WaterComponen },
             { path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent }
         ]
     }
