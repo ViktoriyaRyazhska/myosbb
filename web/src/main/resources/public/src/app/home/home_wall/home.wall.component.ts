@@ -29,7 +29,8 @@ export class HomeWallComponent implements OnInit {
     }
 
     ngOnInit():any {
-        this.osbbService.getDTOOsbbById(this.currentUserService.getUser().osbbId).then( osbb =>  this.currentOsbb = osbb );
+        this.osbbService.getDTOOsbbById(this.currentUserService.getUser().osbbId)
+            .then( osbb =>  this.currentOsbb = osbb );
     }
 
      getFormatDate():string {
@@ -45,7 +46,9 @@ export class HomeWallComponent implements OnInit {
     
     getCreatorInfo():string {
         if(this.currentOsbb.creator !== null) {
-            return this.currentOsbb.creator.firstName + " " + this.currentOsbb.creator.lastName + " " + this.currentOsbb.creator.email;
+            return this.currentOsbb.creator.firstName + " " 
+                    + this.currentOsbb.creator.lastName + " " 
+                    + this.currentOsbb.creator.email;
         } else {
             return '';
         }
