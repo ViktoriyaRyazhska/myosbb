@@ -32,6 +32,7 @@ import {
 import {PageRequest} from '../../../../shared/models/page.request';
 import {FileUploadComponent} from "../../../admin/components/attachment/modals/file-upload-modal";
 import {Attachment} from "../../../admin/components/attachment/attachment.interface";
+import {VoteComponent} from "../../../home/voting/vote.component";
 
 
 @Component({
@@ -39,7 +40,7 @@ import {Attachment} from "../../../admin/components/attachment/attachment.interf
     templateUrl: './src/app/user/ticket/single_ticket/single.ticket.component.html',
     providers: [MessageService, TicketService, ToasterService],
     directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, ToasterContainerComponent,
-        CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent],
+        CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent,VoteComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     styleUrls: ['src/app/user/ticket/ticket.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
