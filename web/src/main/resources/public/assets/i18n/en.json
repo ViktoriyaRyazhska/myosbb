@@ -258,7 +258,10 @@
   "choose": "select",
   "isDiscussed": "is to be discussed on",
   "isNotDiscussed":"is not to be discussed yet",
-  "shiftDate":"change date for discussion"
+  "shiftDate":"change date for discussion",
+  "registration_success": "Registration successful!",
+  "registration_success_text": "Your account has been created and a verification email has been sent to your registered email address. Please click on the verification link included in the email to activate your account.",
+   "return_to_sign_in": "Return to sign in"
 }
 
 
