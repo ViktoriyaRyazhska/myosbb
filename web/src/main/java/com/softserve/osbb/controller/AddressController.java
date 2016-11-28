@@ -1,5 +1,6 @@
 package com.softserve.osbb.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -40,19 +41,33 @@ public class AddressController {
     @RequestMapping(value = "/city/{id}", method = RequestMethod.GET)
     public ResponseEntity<List<City>> getAllCitiesOfRegion(@PathVariable("id") Integer id) {
         logger.info("Get all cities of region: ");
-        return new ResponseEntity<>(addressService.getAllCitiesOfRegion(id), HttpStatus.OK);
+        if (addressService.getRegionById(id) == null) {
+            return new ResponseEntity<>(new ArrayList<City>(), HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(addressService.getAllCitiesOfRegion(id), HttpStatus.OK);
+        }
     }
 
     @RequestMapping(value = "/street/{id}", method = RequestMethod.GET)
     public ResponseEntity<List<Street>> getAllStreetsOfCity(@PathVariable("id") Integer id) {
         logger.info("Get all streets of city: ");
-        return new ResponseEntity<>(addressService.getAllStreetsOfCity(id), HttpStatus.OK);
+        if (addressService.getCityById(id) == null) {
+            return new ResponseEntity<>(new ArrayList<Street>(), HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(addressService.getAllStreetsOfCity(id), HttpStatus.OK);
+        }
     }
 
     @RequestMapping(value = "/street/id/{id}", method = RequestMethod.GET)
     public ResponseEntity<Street> getStreetById(@PathVariable("id") Integer id) {
         logger.info("Get street by Id: ");
-        return new ResponseEntity<>(addressService.getStreetById(id), HttpStatus.OK);
+        Street street = addressService.getStreetById(id);
+        HttpStatus status = HttpStatus.OK;
+        if (street == null) {
+        	street = new Street();
+        	status = HttpStatus.NOT_FOUND;
+        }
+        return new ResponseEntity<>(street, status);
     }
 
 }
