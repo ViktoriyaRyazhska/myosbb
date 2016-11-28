@@ -368,7 +368,7 @@ export class MessageComponent implements OnInit {
 
     isCreator():boolean {
         return (this.ticket.user.firstName == this.currentUser.firstName && this.ticket.user.lastName == this.currentUser.lastName ||
-        this.currentUser.role == 'ROLE_ADMIN' || this.currentUser.role == 'ROLE_MANAGER');
+        this.currentUser.role == 'ROLE_ADMIN');
     }
 
 
@@ -398,4 +398,13 @@ export class MessageComponent implements OnInit {
     closeGallery() {
         this.gallery.hide();
     }
+
+    setDiscussed(ticket:ITicket):void {
+       ticket.discussed = new Date();
+    }
+
+    isDateRight(date:Date):boolean {
+        return (date > this.ticket.deadline)||(this.ticket.deadline==null);
+    }
+
 }

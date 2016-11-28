@@ -255,7 +255,10 @@
   "choose_osbb": "choose your OSBB",
   "choose_house": "choose your house",
   "choose_apartment": "choose your apartment",
-  "choose": "select"
+  "choose": "select",
+  "isDiscussed": "is to be discussed on",
+  "isNotDiscussed":"is not to be discussed yet",
+  "shiftDate":"change date for discussion"
 }
 
 
