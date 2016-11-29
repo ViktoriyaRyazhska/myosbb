@@ -32,6 +32,7 @@ import {
 import {PageRequest} from '../../../../shared/models/page.request';
 import {FileUploadComponent} from "../../../admin/components/attachment/modals/file-upload-modal";
 import {Attachment} from "../../../admin/components/attachment/attachment.interface";
+import {VoteComponent} from "../../../home/voting/vote.component";
 
 
 @Component({
@@ -39,7 +40,7 @@ import {Attachment} from "../../../admin/components/attachment/attachment.interf
     templateUrl: './src/app/user/ticket/single_ticket/single.ticket.component.html',
     providers: [MessageService, TicketService, ToasterService],
     directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, ToasterContainerComponent,
-        CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent],
+        CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent,VoteComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     styleUrls: ['src/app/user/ticket/ticket.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
@@ -70,6 +71,7 @@ export class MessageComponent implements OnInit {
     private pageRequest:PageRequest;
     private currentAttachment:Attachment;
     private index:number;
+    private date:Date;
 
     constructor(private routeParams:ActivatedRoute,
                 private ticketService:TicketService,
@@ -87,6 +89,7 @@ export class MessageComponent implements OnInit {
         this.ticket.assigned = new User();
         this.message = new Message("");
         this.currentAttachment = new Attachment();
+        this.date=this.ticket.discussed;
 
     }
 
@@ -362,12 +365,14 @@ export class MessageComponent implements OnInit {
     }
 
     isAssigned():boolean {
-        return (this.ticket.assigned.firstName == this.currentUser.firstName && this.ticket.assigned.lastName == this.currentUser.lastName);
+        return (this.ticket.assigned.firstName == this.currentUser.firstName
+                && this.ticket.assigned.lastName == this.currentUser.lastName);
     }
 
     isCreator():boolean {
-        return (this.ticket.user.firstName == this.currentUser.firstName && this.ticket.user.lastName == this.currentUser.lastName ||
-        this.currentUser.role == 'ROLE_ADMIN' || this.currentUser.role == 'ROLE_MANAGER');
+        return (this.ticket.user.firstName == this.currentUser.firstName
+                && this.ticket.user.lastName == this.currentUser.lastName ||
+                 this.currentUser.role == 'ROLE_ADMIN');
     }
 
 
@@ -397,4 +402,17 @@ export class MessageComponent implements OnInit {
     closeGallery() {
         this.gallery.hide();
     }
+
+    setDiscussed(dateSet:Date):void {
+        this.ticket.discussed = dateSet;
+        this.editTicket(this.ticket);
+    }
+
+    isDateRight():boolean {
+        return (( this.ticket.discussed > this.ticket.deadline)
+                    ||(this.ticket.deadline==null))
+                        &&( this.ticket.discussed > new Date());
+    }
+
+
 }
