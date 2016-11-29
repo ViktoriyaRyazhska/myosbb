@@ -12,7 +12,6 @@ export interface IMessage {
     discussed:Date;
     deadline:Date;
     date:Date;
-
 }
 
 export class Message implements IMessage {
@@ -26,7 +25,6 @@ export class Message implements IMessage {
     discussed:Date;
     deadline:Date;
     date:Date;
-
 
     constructor(message:string) {
         this.message = message;

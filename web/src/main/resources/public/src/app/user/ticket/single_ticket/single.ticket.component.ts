@@ -365,12 +365,14 @@ export class MessageComponent implements OnInit {
     }
 
     isAssigned():boolean {
-        return (this.ticket.assigned.firstName == this.currentUser.firstName && this.ticket.assigned.lastName == this.currentUser.lastName);
+        return (this.ticket.assigned.firstName == this.currentUser.firstName
+                && this.ticket.assigned.lastName == this.currentUser.lastName);
     }
 
     isCreator():boolean {
-        return (this.ticket.user.firstName == this.currentUser.firstName && this.ticket.user.lastName == this.currentUser.lastName ||
-        this.currentUser.role == 'ROLE_ADMIN');
+        return (this.ticket.user.firstName == this.currentUser.firstName
+                && this.ticket.user.lastName == this.currentUser.lastName ||
+                 this.currentUser.role == 'ROLE_ADMIN');
     }
 
 
@@ -407,7 +409,10 @@ export class MessageComponent implements OnInit {
     }
 
     isDateRight():boolean {
-        return (( this.ticket.discussed > this.ticket.deadline)||(this.ticket.deadline==null))&&( this.ticket.discussed > new Date());
+        return (( this.ticket.discussed > this.ticket.deadline)
+                    ||(this.ticket.deadline==null))
+                        &&( this.ticket.discussed > new Date());
     }
+
 
 }

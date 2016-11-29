@@ -21,9 +21,9 @@
                                   #editForm></ticket-edit-form>
                 <ticket-del-form (delete)="deleteTicket($event)" #delForm></ticket-del-form>
             </div>
+
             <div style="margin-bottom:20px">
                 <div style="float: left;  margin-left: 10px;font-size:22px;"> {{ticket.name}}</div>
-
 
                 <div *ngIf=" ticket.state == 'NEW' ">
                     <div class="liniya"><span class="label btn-round label-info "
@@ -43,7 +43,6 @@
                             <li><a (click)="editState('DONE')">{{ 'done' | translate }}</a></li>
                         </ul>
                     </div>
-
                 </div>
 
                 <div *ngIf=" ticket.state == '1' || ticket.state == 'IN_PROGRESS'">
@@ -62,7 +61,6 @@
                             <li><a (click)="editState('DONE')">{{ 'done' | translate }}</a></li>
                         </ul>
                     </div>
-
                 </div>
 
                 <div *ngIf=" ticket.state == '2' || ticket.state == 'DONE'">
@@ -74,7 +72,6 @@
                         {{ticket.assigned.firstName}} {{ticket.assigned.lastName}}
                     </button>
                 </div>
-
 
                 <div style="float: right; width: 20%;margin-right: 10px;margin-top:-2%">
 
@@ -101,14 +98,10 @@
                                 | translate}}</a></li>
                         </ul>
                     </div>
-
                 </div>
-
             </div>
             <br/>
-
         </div>
-
 
         <div style="margin-left:5%;padding:10px;width:90%;border-radius:2px;">
             <p style="font-size:20px;">
@@ -131,8 +124,6 @@
                 {{'discussed'|translate | capitalize}}:</p>
             <p style="font-size:18px;" *ngIf="ticket.discussed == null">{{'isNotDiscussed'|translate | capitalize}}</p>
             <p style="font-size:18px;" *ngIf="ticket.discussed != null">{{'isDiscussed'|translate | capitalize}} {{getTime(ticket.discussed).substring(0,10)}}</p>
-
-
         </div>
         <br/>
         <div class="form-group"
@@ -145,8 +136,6 @@
                     style="margin-left:5px; float: left">{{'deny'|translate | capitalize}}</button>
         </div>
         <br/>
-
-
         <div style=" width:100%; height:1px; clear:both;"></div>
         <div>
             <div class="attachmetTicket" *ngFor="let attachment of ticket.attachments">
@@ -169,7 +158,6 @@
 
         <div style="padding:20px;margin-right:1.5%;box-shadow: 0px 0px 5px 0px #000000;">
 
-            <!--input comment-->
             <div style="margin-bottom:70px;">
                 <div name="editor1" class="text1 descr" style="margin-top:10px">{{'comment'|translate}}:</div>
                 <textarea class="area comm form-control " type="text" name="message"
@@ -180,8 +168,6 @@
                 </button>
             </div>
 
-
-            <!-- Comments -->
             <ul>
                 <li *ngFor="let mess of messages let i=index">
                     <div class="comment-content"
@@ -244,8 +230,7 @@
 
                                 </div>
                                 <div>
-                                    <p style="font-size:15px;float: left; margin-left: -25%; margin-top:23px;font-family: 'Ruda'">
-                                        {{answer.message}}</p></div>
+                                    <p style="font-size:15px;float: left; margin-left: -25%; margin-top:23px;font-family: 'Ruda'">{{answer.message}}</p></div>
                             </div>
                         </li>
                     </ul>
@@ -255,7 +240,6 @@
                 <img src="http://www.clker.com/cliparts/2/9/c/f/13522312291232734589Down%20Arrow%20Button.svg.med.png"
                      width="30" height="30"/></a>
         </div>
-
 
         <div bsModal #gallery="bs-modal" class="modal fade" tabindex="-1" role="dialog"
              aria-labelledby="mySmallModalLabel" aria-hidden="true">
