@@ -6,6 +6,7 @@ import { UserComponent } from "./user/user.component";
 import { homeRoutes } from "./home/home.routes";
 import { userRoutes } from "./user/user.routes";
 import { RegistrationComponent } from "./registration/registration_user/registration.component";
+import { RegistrationSuccessComponent } from "./registration/registration-success.component";
 import { ErrorHandlerComponent } from "../shared/error/error.handler.component";
 import { adminRoutes } from "./admin/admin.routes";
 import { managerRoutes } from "./manager/manager.routes";
@@ -15,6 +16,7 @@ export const routes: RouterConfig = [
     { path: 'head/:status', component: HeaderComponent },
     { path: 'login', component: LoginComponent },
     { path: 'registration', component: RegistrationComponent },
+    { path: 'registration/success', component: RegistrationSuccessComponent },
     { path:'forgotPass',component:ForgotPasswordComponent }, 
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },

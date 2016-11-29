@@ -1,19 +1,23 @@
-import {Component, OnInit} from "@angular/core";
-import {Osbb, IOsbb} from "../../../shared/models/osbb";
-import {RegisterService} from "./register.service";
-import {ROUTER_DIRECTIVES, Router} from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { User } from "../../../shared/models/User";
+import { Osbb, IOsbb } from "../../../shared/models/osbb";
+import { RegisterService } from "./register.service";
+import { ROUTER_DIRECTIVES, Router } from "@angular/router";
 import MaskedInput from "angular2-text-mask";
 import emailMask from 'node_modules/text-mask-addons/dist/emailMask.js';
-import {GoogleplaceDirective} from "./googleplace.directive";
-import {SELECT_DIRECTIVES} from "ng2-select";
-import {IHouse} from "../../../shared/models/House";
-import {IApartment} from "../../../shared/models/apartment.interface";
-import {UserRegistration} from "../../../shared/models/user_registration";
-import {ToasterContainerComponent, ToasterService, ToasterConfig} from "angular2-toaster/angular2-toaster";
-import {OsbbRegistration} from "../../../shared/models/osbb_registration";
-import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
-import {TranslatePipe} from "ng2-translate";
-
+import { GoogleplaceDirective } from "./googleplace.directive";
+import { SELECT_DIRECTIVES } from "ng2-select";
+import { IHouse } from "../../../shared/models/House";
+import { IApartment } from "../../../shared/models/apartment.interface";
+import { UserRegistration} from "../../../shared/models/user_registration";
+import {ToasterContainerComponent, ToasterService, ToasterConfig } from "angular2-toaster/angular2-toaster";
+import {
+    onErrorServerNoResponseToastMsg,
+    onErrorNewUserAlreadyExists
+} from "../../../shared/error/error.handler.component";
+import { OsbbRegistration } from "../../../shared/models/osbb_registration";
+import { CapitalizeFirstLetterPipe } from "../../../shared/pipes/capitalize-first-letter";
+import { TranslatePipe } from "ng2-translate";
 
 @Component({
     selector: 'app-register',
@@ -102,8 +106,7 @@ export class RegistrationComponent implements OnInit {
                     isSuccessful = true;
                     this.newUser = data;
                     console.log(data);
-                    this._toasterService.pop('success', '', 'Дякуємо за реєстрацію!')
-                    this.toLoginPageRedirect();
+                    this._router.navigate(['/registration/success']);
                 },
                 error => {
                     isSuccessful = false;
@@ -113,12 +116,6 @@ export class RegistrationComponent implements OnInit {
             )
     }
 
-    private toLoginPageRedirect() {
-        setTimeout(() => {
-            this._router.navigate(['/login']);
-        }, 2000);
-    }
-
     SenderOsbbAndUser() {
         this.newOsbb.creator = this.newUser;
         this.registerService.registerOsbb(this.newOsbb)
@@ -126,7 +123,6 @@ export class RegistrationComponent implements OnInit {
                 data => {
                     console.log(data);
                     this._toasterService.pop('success', '', "Осбб " + this.newOsbb.name + " було успішно зареєстроване!");
-                    this.toLoginPageRedirect();
                 },
                 error=> {
                     this.handleErrors(error);
@@ -222,9 +218,7 @@ export class RegistrationComponent implements OnInit {
             });
     }
 
-
     listAllHousesByOsbb(id: number) {
-
         this.registerService.getAllHousesByOsbb(id)
             .subscribe((data)=> {
                     this.houseList = data;
@@ -271,8 +265,7 @@ export class RegistrationComponent implements OnInit {
         return houseId;
     }
 
-
-    getApartmentByApartmentNumber(apartmentNumber: string): number {
+	getApartmentByApartmentNumber(apartmentNumber: string): number {
         let apartmentID: number = 0;
         let apNumber = +apartmentNumber;
         for (let ap of this.apartmentList) {
@@ -284,7 +277,6 @@ export class RegistrationComponent implements OnInit {
 
         return apartmentID;
     }
-
 
     fillOsbb(): string[] {
         let tempArr: string[] = [];

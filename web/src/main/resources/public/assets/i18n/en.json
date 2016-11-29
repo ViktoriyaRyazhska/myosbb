@@ -269,5 +269,8 @@
   "board": "board",
   "CEO": "CEO",
   "board_members": "Members of the Board",
-  "PIB": "Full Name"
+  "PIB": "Full Name",
+  "registration_success": "Registration successful!",
+  "registration_success_text": "Your account has been created and a verification email has been sent to your registered email address. Please click on the verification link included in the email to activate your account.",
+   "return_to_sign_in": "Return to sign in"
 }
