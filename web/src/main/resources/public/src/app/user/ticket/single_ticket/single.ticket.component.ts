@@ -71,6 +71,7 @@ export class MessageComponent implements OnInit {
     private pageRequest:PageRequest;
     private currentAttachment:Attachment;
     private index:number;
+    private date:Date;
 
     constructor(private routeParams:ActivatedRoute,
                 private ticketService:TicketService,
@@ -88,6 +89,7 @@ export class MessageComponent implements OnInit {
         this.ticket.assigned = new User();
         this.message = new Message("");
         this.currentAttachment = new Attachment();
+        this.date=this.ticket.discussed;
 
     }
 
@@ -399,12 +401,12 @@ export class MessageComponent implements OnInit {
         this.gallery.hide();
     }
 
-    setDiscussed(ticket:ITicket):void {
-       ticket.discussed = new Date();
+    setDiscussed(dateSet:Date):void {
+       this.ticket.discussed = dateSet;
     }
 
-    isDateRight(date:Date):boolean {
-        return (date > this.ticket.deadline)||(this.ticket.deadline==null);
+    isDateRight():boolean {
+        return (( this.ticket.discussed > this.ticket.deadline)||(this.ticket.deadline==null))&&( this.ticket.discussed > new Date());
     }
 
 }

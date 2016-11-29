@@ -120,8 +120,10 @@
         <div style="margin-left:5%;padding:10px;width:90%;border-radius:2px;">
             <p style="font-size:20px;">
                 {{'deadline'|translate | capitalize}}:</p>
-            <p style="font-size:18px; ">
+            <p style="font-size:18px;" *ngIf="ticket.deadline!=null">
                 {{'deadlineDate'|translate | capitalize}} - {{getTime(ticket.deadline).substring(0,10)}}</p>
+            <p style="font-size:18px;" *ngIf="ticket.deadline==null">
+                {{'notset'|translate | capitalize}}</p>
         </div>
         <br/>
         <div style="margin-left:5%;padding:10px;width:90%;border-radius:2px;">
@@ -133,13 +135,16 @@
 
         </div>
         <br/>
-        <div class="form-group">
+        <div class="form-group"
+             style="margin-left:5%;padding:10px;width:90%;border-radius:2px;" *ngIf="currentUser.role == 'ROLE_MANAGER'">
             <p style="font-size:18px;">{{'shiftDate'|translate | capitalize}}:</p>
-            <input class="form-control" style="width: 20%" type="datetime-local" [(ngModel)]="ticket.discussed" */>
+            <input class="form-control" style="width: 20%; float: left" type="datetime-local" [(ngModel)]="date"/>
+            <button class="btn btn-success" (click) = "ticket.discussed = date; editTicket(ticket);"
+                    style="margin-left:5px; float: left">{{'save'|translate | capitalize}}</button>
         </div>
         <br/>
 
-        <!--<b>{{ 'attachments' | translate | capitalize }}</b>-->
+
         <div style=" width:100%; height:1px; clear:both;"></div>
         <div>
             <div class="attachmetTicket" *ngFor="let attachment of ticket.attachments">
