@@ -402,7 +402,8 @@ export class MessageComponent implements OnInit {
     }
 
     setDiscussed(dateSet:Date):void {
-       this.ticket.discussed = dateSet;
+        this.ticket.discussed = dateSet;
+        this.editTicket(this.ticket);
     }
 
     isDateRight():boolean {
