@@ -28,9 +28,12 @@ export class HomeWallComponent implements OnInit {
         this.currentOsbb = null;
     }
 
-    ngOnInit():any {
+    ngOnInit() {
         this.osbbService.getDTOOsbbById(this.currentUserService.getUser().osbbId)
-            .then( osbb =>  this.currentOsbb = osbb );
+            .then( osbb =>  {
+                this.currentOsbb = osbb;
+                 console.log(this.currentOsbb.name) 
+            });
     }
 
      getFormatDate():string {
