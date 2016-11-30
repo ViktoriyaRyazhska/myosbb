@@ -15,6 +15,8 @@ import java.util.Collection;
 @Entity
 @Table(name = "osbb")
 public class Osbb implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
     private Integer osbbId;
     private String name;
     private String description;
