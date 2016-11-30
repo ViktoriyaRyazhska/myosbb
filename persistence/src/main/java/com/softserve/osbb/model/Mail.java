@@ -1,10 +1,14 @@
 package com.softserve.osbb.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Anastasiia Fedorak on 8/13/16.
  */
-public class Mail {
-    private String to;
+public class Mail implements Serializable {
+   
+	private static final long serialVersionUID = 1L;
+	private String to;
     private String subject;
     private String text;
 

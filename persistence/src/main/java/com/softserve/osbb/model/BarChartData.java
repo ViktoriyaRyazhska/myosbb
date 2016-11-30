@@ -1,14 +1,16 @@
 package com.softserve.osbb.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by nazar.dovhyy on 01.09.2016.
  */
-public class BarChartData  {
+public class BarChartData implements Serializable {
 
-    private List<Integer> years;
+	private static final long serialVersionUID = 1L;
+	private List<Integer> years;
     private List<InnerBarChart> innerBarChart;
 
     public List<Integer> getYears() {

@@ -16,7 +16,9 @@ import java.util.List;
 @Entity
 @Table(name = "apartment")
 public class Apartment implements Serializable {
-    private Integer apartmentId;
+    
+	private static final long serialVersionUID = 1L;
+	private Integer apartmentId;
     private Integer number;
     private House house;
     private Integer square;
