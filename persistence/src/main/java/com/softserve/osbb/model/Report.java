@@ -31,6 +31,7 @@ import com.softserve.osbb.utils.CustomLocalDateSerializer;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Report implements Serializable {
     
+    public static final Report NO_REPORT = null;
     private static final long serialVersionUID = 1L;
     private Integer reportId;
     private String name;
