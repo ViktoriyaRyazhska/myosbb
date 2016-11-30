@@ -1,13 +1,23 @@
 package com.softserve.osbb.model;
 
-import javax.persistence.*;
+import java.io.Serializable;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Created by Yuri Pushchalo on 15.11.2016.
  */
 @Entity
 @Table(name = "regions")
-public class Region {
+public class Region implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String name;
 

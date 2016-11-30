@@ -16,7 +16,9 @@ import java.util.Collection;
 @Table(name = "house")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class House implements Serializable {
-    public static final House NULL = null;
+    
+	private static final long serialVersionUID = 1L;
+	public static final House NULL = null;
     private Integer houseId;
     private String city;
     private String street;

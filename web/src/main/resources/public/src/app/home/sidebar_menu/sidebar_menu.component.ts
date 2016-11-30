@@ -5,8 +5,10 @@ import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 @Component({
     selector: 'osbb-sidebar-menu',
-    templateUrl: './src/app/home/sidebar_menu/sidebar_menu.html',
+    templateUrl: './sidebar_menu.html',
+   
     directives: [ROUTER_DIRECTIVES],
+    
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
 })
 export class SideBarMenuComponent {

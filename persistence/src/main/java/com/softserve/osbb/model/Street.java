@@ -1,5 +1,7 @@
 package com.softserve.osbb.model;
 
+import java.io.Serializable;
+
 import javax.persistence.*;
 
 /**
@@ -7,7 +9,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "streets")
-public class Street {
+public class Street implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
     private Integer id;
     private String name;
     private City city;

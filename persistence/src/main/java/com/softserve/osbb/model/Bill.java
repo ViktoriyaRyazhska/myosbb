@@ -21,7 +21,8 @@ import java.time.LocalDate;
 @Table(name = "bill")
 public class Bill implements Serializable {
 
-    private Integer billId;
+	private static final long serialVersionUID = 1L;
+	private Integer billId;
     private LocalDate date;
     private Float tariff;
     private Provider provider;

@@ -69,6 +69,21 @@ a, a:hover, a:focus {
     outline: none !important;
     text-decoration: none;
 }
+/*.dropdown-menu*/
+ .dropdown-menu {
+      position: static;
+      float: none;
+      width: auto;
+      margin-top: 0;
+      background-color: transparent;
+      border: 0;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
+     .dropdown.open .caret{
+    border-top: none;
+    border-bottom: 4px solid #ffffff;
+}
 
 /*Theme Backgrounds*/
 

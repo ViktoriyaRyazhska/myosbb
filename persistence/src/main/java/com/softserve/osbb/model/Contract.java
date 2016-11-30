@@ -1,6 +1,5 @@
 package com.softserve.osbb.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.softserve.osbb.model.enums.Currency;
@@ -10,9 +9,10 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -21,8 +21,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "contract")
-public class Contract {
-    public static final Currency DEFAULT_CURRENCY = Currency.UAH;
+public class Contract implements Serializable {
+    
+	private static final long serialVersionUID = 1L;
+	public static final Currency DEFAULT_CURRENCY = Currency.UAH;
 
     private Integer contractId;
     private LocalDate dateStart;

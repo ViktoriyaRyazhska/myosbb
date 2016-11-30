@@ -1,17 +1,27 @@
 package com.softserve.osbb.model;
 
+import java.io.Serializable;
+import java.time.LocalDate;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.softserve.osbb.utils.CustomLocalDateDeserializer;
 import com.softserve.osbb.utils.CustomLocalDateSerializer;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDate;
 
 /**
  * Created by Nazar Dovhyi
@@ -20,7 +30,9 @@ import java.time.LocalDate;
 @Table(name = "report")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Report implements Serializable {
+    
     public static final Report NO_REPORT = null;
+    private static final long serialVersionUID = 1L;
     private Integer reportId;
     private String name;
     private String description;

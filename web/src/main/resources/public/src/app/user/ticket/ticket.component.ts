@@ -94,8 +94,8 @@ export class TicketComponent implements OnInit {
         }
     }
 
-    setDiscussed( ticket: ITicket):void {
-        ticket.discussed = new Date();
+    setDiscussed( ticket: ITicket,date:Date):void {
+        ticket.discussed = date;
     }
 
     deleteTicket(ticket:ITicket):void {
