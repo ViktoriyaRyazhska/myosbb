@@ -61,21 +61,27 @@
                                 <label>{{'password'| translate | capitalize}}</label>
                                 <input class="form-control placeholder-no-fix col-xs-6" name="password"
                                        [(ngModel)]="newUser.password"
-                                       (blur)="confirmPass()" placeholder="{{'enter_pass'| translate | capitalize}}"
+                                       (blur)="confirmPassLength()"
+                                       placeholder="{{'enter_pass'| translate | capitalize}}"
                                        type="password"
                                        minlength="4" maxlength="16" required>
                                 <div class="col-xs-12 centered">
-                                    <label style="color: red" *ngIf='error' class="error" disabled=true>{{errorMsg}}</label>
+                                    <label style="color: red" *ngIf='lengthError' class="error" disabled=true>{{'passLengthError'|
+                                        translate | capitalize}}</label>
+                                    <label style="color: red" *ngIf='!lengthError && matchError && checkOnUserPassword'
+                                           class="error" disabled=true>{{'passMatchError'| translate |
+                                        capitalize}}</label>
                                 </div>
                             </div>
                             <div class="col-xs-12">
                                 <label>{{'confirm_pass'| translate | capitalize}}</label>
                                 <input class="form-control placeholder-no-fix col-xs-6" [(ngModel)]="confirmPassword"
-                                       name="confirmPassword" (blur)="confirmPass()"
+                                       name="confirmPassword" (blur)="matchCheck()"
                                        placeholder="{{'confirm_pass'| translate | capitalize}}"
                                        type="password" minlength="4" maxlength="16" required>
                                 <div class="col-xs-12 centered">
-                                    <label style="color: red" *ngIf='errorConfirm' class="error" disabled=true>{{errorMsg}}</label>
+                                    <label style="color: red" *ngIf='!checkOnUserPassword && matchError' class="error"
+                                           disabled=true>{{'passMatchError'| translate | capitalize}}</label>
                                 </div>
                             </div>
                             <br>
@@ -92,7 +98,8 @@
                         </div>
                         <div class="col-xs-6">
                             <button class="btn btn-primary col-xs-12" type='submit'
-                                    [disabled]="!registerForm.form.valid || birthDateError">{{ 'next' | translate | capitalize }}
+                                    [disabled]="!registerForm.form.valid || birthDateError || lengthError || matchError">
+                                {{ 'next' | translate | capitalize }}
                             </button>
                         </div>
                     </div>

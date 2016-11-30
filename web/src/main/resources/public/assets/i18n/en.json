@@ -265,7 +265,9 @@
   "notset":"not defined",
   "deny":"do not discuss",
   "return_to_sign_in": "Return to sign in",
-  "fees_for_services": "Fees for services"
+  "fees_for_services": "Fees for services",
+  "passMatchError": "Passwords don't match. Please try again",
+  "passLengthError": "Password cannot be shorter than 4 and longer than 16 characters"
 }
 
 
