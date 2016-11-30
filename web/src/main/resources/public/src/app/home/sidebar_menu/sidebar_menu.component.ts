@@ -5,7 +5,7 @@ import {TranslatePipe} from "ng2-translate/ng2-translate";
 
 @Component({
     selector: 'osbb-sidebar-menu',
-    templateUrl: './sidebar_menu.html',
+    templateUrl: 'src/app/home/sidebar_menu/sidebar_menu.html',
    
     directives: [ROUTER_DIRECTIVES],
     

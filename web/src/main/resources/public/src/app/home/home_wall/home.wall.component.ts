@@ -13,8 +13,8 @@ import { CurrentUserService } from "../../../shared/services/current.user.servic
 
 @Component({
     selector: 'home-wall',
-    templateUrl: './src/app/home/home_wall/home.wall.html',
-    styleUrls: ['./src/app/home/home_wall/home.wall.css'],
+    templateUrl: 'src/app/home/home_wall/home.wall.html',
+    styleUrls: ['src/app/home/home_wall/home.wall.css'],
     providers: [OsbbService],
     directives: [ROUTER_DIRECTIVES, VoteComponent, UserCalendarComponent],
     pipes:[CapitalizeFirstLetterPipe, TranslatePipe]
