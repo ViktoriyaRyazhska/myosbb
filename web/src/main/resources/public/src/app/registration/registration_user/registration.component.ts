@@ -167,7 +167,6 @@ export class RegistrationComponent implements OnInit {
         let date = new Date();
         let res = this.castBirthDateStringToDate().valueOf() - date.valueOf();
         if (res >= 0) {
-            this.errorBirthDateMsg = "Birthdate is invalid";
             this.birthDateError = true;
         }
         else this.birthDateError = false;

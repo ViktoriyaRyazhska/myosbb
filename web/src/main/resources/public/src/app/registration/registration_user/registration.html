@@ -51,7 +51,8 @@
                                 <input class="form-control" name="birthDate" [(ngModel)]="newUser.birthDate"
                                        (blur)="checkDate()" type="date" required>
                                 <div class="col-xs-12 centered">
-                                    <label style="color: red" *ngIf='birthDateError' class="error" disabled=true>{{errorBirthDateMsg}}</label>
+                                    <label style="color: red" *ngIf='birthDateError' class="error" disabled=true>{{'errorBirthDateMsg'|
+                                        translate | capitalize}}</label>
                                 </div>
                             </div>
                         </div>
