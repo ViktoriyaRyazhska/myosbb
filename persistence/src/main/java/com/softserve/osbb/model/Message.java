@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
+
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -12,8 +14,10 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "message")
-public class Message {
-    private Integer messageId;
+public class Message implements Serializable{
+    
+	private static final long serialVersionUID = 1L;
+	private Integer messageId;
     private Integer parentId;
     private String message;
     private Timestamp time;
