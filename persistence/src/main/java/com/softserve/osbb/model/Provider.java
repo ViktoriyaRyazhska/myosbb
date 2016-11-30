@@ -1,16 +1,30 @@
 package com.softserve.osbb.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.softserve.osbb.model.enums.Periodicity;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.softserve.osbb.model.enums.Periodicity;
 
 /**
  * Created by Anastasiia Fedorak on 05.07.2016.
@@ -19,6 +33,8 @@ import java.util.List;
 @Table(name = "provider")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Provider implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
     public static final Periodicity DEFAULT_PERIODICITY = Periodicity.ONE_TIME;
     private Integer providerId;
     private String name;
