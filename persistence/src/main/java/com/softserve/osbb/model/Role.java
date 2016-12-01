@@ -15,6 +15,8 @@ import java.util.Collection;
 @Entity
 @Table(name = "role")
 public class Role implements GrantedAuthority, Serializable {
+    
+    private static final long serialVersionUID = 1L;
     private Integer roleId;
     private String name;
     private Collection<User> users;

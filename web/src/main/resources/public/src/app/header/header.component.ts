@@ -31,37 +31,36 @@ import { Settings } from "./../user/settings/settings";
 
 })
 
-export class HeaderComponent implements OnInit,OnDestroy {
-    static translateService:TranslateService;
-    static currentUserService:CurrentUserService;
-    isLoggedIn:boolean;
-    sub:any;
-    rrr:boolean = true;
-    languages:Array<string> = ['en', 'uk'];
-    selectedLang:string = 'uk';
-    reouterUrl:string = 'login';
-    noticeArr:Notice[] = [];
-    ticketNoticeLength:number = 0;
-    commentNoticeLength:number = 0;
-    ticketNotice:Notice[] = [];
-        commentNotice:Notice[] = [];
-    wordT:string = '';
-    wordM:string = '';
+export class HeaderComponent implements OnInit, OnDestroy {
+    static translateService: TranslateService;
+    static currentUserService: CurrentUserService;
+    isLoggedIn: boolean;
+    sub: any;
+    languages: Array<string> = ['en', 'uk'];
+    selectedLang: string = 'uk';
+    reouterUrl: string = 'login';
+    noticeArr: Notice[] = [];
+    ticketNoticeLength: number = 0;
+    commentNoticeLength: number = 0;
+    ticketNotice: Notice[] = [];
+    commentNotice: Notice[] = [];
+    wordT: string = '';
+    wordM: string = '';
 
-    settings:Settings;
+    settings: Settings;
 
-    constructor(private noticeService:NoticeService,
-                private settingsService:SettingsService,
-                private _currentUserService:CurrentUserService,
-                private _loginService:LoginService,
-                private _loginStat:LoginStat,
-                private _route:ActivatedRoute,
-                private router:Router,
-                private translate:TranslateService,
-                private http:Http,
-                private _loginservice:LoginService) {
+    constructor(private noticeService: NoticeService,
+        private settingsService: SettingsService,
+        private _currentUserService: CurrentUserService,
+        private _loginService: LoginService,
+        private _loginStat: LoginStat,
+        private _route: ActivatedRoute,
+        private router: Router,
+        private translate: TranslateService,
+        private http: Http,
+        private _loginservice: LoginService) {
 
-        this._loginStat.loggedInObserver$ .subscribe(stat => {
+        this._loginStat.loggedInObserver$.subscribe(stat => {
             this.isLoggedIn = stat;
         });
 
@@ -81,14 +80,14 @@ export class HeaderComponent implements OnInit,OnDestroy {
         console.log("shared sevice: ", HeaderComponent.currentUserService);
     }
 
-    ngOnInit():any {
-        this.sub = this._route.params.subscribe(params=>
+    ngOnInit(): any {
+        this.sub = this._route.params.subscribe(params =>
             this.isLoggedIn = params['status']);
         HeaderComponent.currentUserService = this._currentUserService;
         this.getNotice();
     }
 
-    ngOnDestroy():any {
+    ngOnDestroy(): any {
         this.sub.unsubscribe();
     }
 
@@ -99,15 +98,15 @@ export class HeaderComponent implements OnInit,OnDestroy {
         console.log("current lang: ", this.translate.currentLang);
     }
 
-   getNotice() {
+    getNotice() {
         this.settingsService.getSettingsForUser()
-            .then(settings =>this.settings = settings);
+            .then(settings => this.settings = settings);
         TimerWrapper.setInterval(() => {
             if (this._loginService.checkLogin() && this.isSettings() == true) {
                 this.noticeService.getNotice().subscribe(
                     data => {
                         this.noticeArr = data,
-                        this.devideNotice();
+                            this.devideNotice();
                     }
                 )
             }
@@ -115,7 +114,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
 
     }
 
-    isSettings():boolean {
+    isSettings(): boolean {
         if (this.settings.answer == true ||
             this.settings.comment == true ||
             this.settings.creator == true ||
@@ -126,33 +125,33 @@ export class HeaderComponent implements OnInit,OnDestroy {
     }
 
 
-    devideNotice(){
+    devideNotice() {
         this.ticketNotice = [];
         this.commentNotice = [];
-        
-        for (let i = 0; i < this.noticeArr.length; i++) {
-            if (this.noticeArr[i].typeNotice == 'TO_CREATOR' ||
-                this.noticeArr[i].typeNotice == 'TO_ASSIGNED') {
-                    this.ticketNotice.push(this.noticeArr[i]);
-                }
 
-            if (this.noticeArr[i].typeNotice == 'MESSAGE' ||
-                this.noticeArr[i].typeNotice == 'ANSWER') {
-                    this.commentNotice.push(this.noticeArr[i]); 
-            }     
+        for (let i = 0; i < this.noticeArr.length; i++) {
+            if (this.noticeArr[i].typeNotice.toString() == 'TO_CREATOR' ||
+                this.noticeArr[i].typeNotice.toString() == 'TO_ASSIGNED') {
+                this.ticketNotice.push(this.noticeArr[i]);
+            }
+
+            if (this.noticeArr[i].typeNotice.toString() == 'MESSAGE' ||
+                this.noticeArr[i].typeNotice.toString() == 'ANSWER') {
+                this.commentNotice.push(this.noticeArr[i]);
+            }
 
             this.ticketNoticeLength = this.ticketNotice.length;
             this.commentNoticeLength = this.commentNotice.length;
-            
+
             this.wordT = this.wordTNews();
             this.wordM = this.wordMNews();
         }
     }
 
-     removeCommentNotice(notice:Notice) {
+    removeCommentNotice(notice: Notice) {
         let index = this.commentNotice.indexOf(notice);
         this.hideNotice(notice);
-        
+
         if (index > -1) {
             console.log("deleting notice!!!");
             this.commentNotice.splice(index, 1);
@@ -161,34 +160,32 @@ export class HeaderComponent implements OnInit,OnDestroy {
         }
     }
 
-
-    removeTicketNotice(notice:Notice) {
+    removeTicketNotice(notice: Notice) {
         let index = this.ticketNotice.indexOf(notice);
         this.hideNotice(notice);
-        
+
         if (index > -1) {
             console.log("deleting notice!!!");
             this.ticketNotice.splice(index, 1);
             this.noticeService.deleteNotice(notice);
-            this.ticketNoticeLength--;            
+            this.ticketNoticeLength--;
         }
     }
 
-    hideNotice(notice:Notice) {
-       
-            if (this._currentUserService.getRole() == "ROLE_ADMIN") {
-                this.router.navigate(['admin/'+notice.path]);
-            }
-            if (this._currentUserService.getRole() == "ROLE_MANAGER") {
-                this.router.navigate(['manager/'+notice.path]);
-            }
-            else{
-                this.router.navigate(['home/'+notice.path]);         
-            }
+    hideNotice(notice: Notice) {
 
+        if (this._currentUserService.getRole() == "ROLE_ADMIN") {
+            this.router.navigate(['admin/' + notice.path]);
+        }
+        if (this._currentUserService.getRole() == "ROLE_MANAGER") {
+            this.router.navigate(['manager/' + notice.path]);
+        }
+        else {
+            this.router.navigate(['home/' + notice.path]);
+        }
     }
 
-    wordTNews():string {
+    wordTNews(): string {
         let num = Math.abs((this.ticketNotice.length) % 100) % 10;
         if (num >= 5 && num < 20)
             return "pending_task";
@@ -199,7 +196,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
         return "pending_task1";
     }
 
-    wordMNews():string {
+    wordMNews(): string {
         let num = Math.abs((this.commentNotice.length) % 100) % 10;
         if (num == 1)
             return "noticeComment";
@@ -208,7 +205,7 @@ export class HeaderComponent implements OnInit,OnDestroy {
         return "noticeComments";
     }
 
-    getTime(time:Date):string {
+    getTime(time: Date): string {
         return new Date(time).toLocaleTimeString();
     }
 
@@ -226,7 +223,6 @@ export class HeaderComponent implements OnInit,OnDestroy {
         } else {
             this.router.navigate(['login']);
         }
-
     }
 
 }
