@@ -9,6 +9,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -16,9 +18,10 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "attachment")
-public class Attachment {
+public class Attachment implements Serializable {
 
-    private Integer attachmentId;
+	private static final long serialVersionUID = 1L;
+	private Integer attachmentId;
     private String path;
     private String url;
     private AttachmentType type;

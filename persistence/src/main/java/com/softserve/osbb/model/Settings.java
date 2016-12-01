@@ -1,13 +1,24 @@
 package com.softserve.osbb.model;
 
-import javax.persistence.*;
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * Created by Kris on 15.09.2016.
  */
 @Entity
 @Table(name = "settings")
-public class Settings {
+public class Settings implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
     private Integer settingsId;
     private User user;
     private Boolean assigned;

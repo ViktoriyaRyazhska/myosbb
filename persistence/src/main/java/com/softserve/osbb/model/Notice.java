@@ -1,16 +1,31 @@
 package com.softserve.osbb.model;
 
-import com.softserve.osbb.model.enums.NoticeType;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.softserve.osbb.model.enums.NoticeType;
 
 /**
  * Created by kris on 06.09.2016.
  */
 @Entity
 @Table(name = "notice")
-public class Notice {
+public class Notice implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     private Integer noticeId;
     private User user;
     private String name;

@@ -1,11 +1,11 @@
-import {Component, OnInit} from "@angular/core";
-import {ROUTER_DIRECTIVES} from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { ROUTER_DIRECTIVES } from "@angular/router";
 
-import {UserComponent} from "../user/user.component";
+import { UserComponent } from "../user/user.component";
 
-import {SideBarMenuComponent} from "../home/sidebar_menu/sidebar_menu.component";
-import {VoteComponent} from "./voting/vote.component";
-import {LoginStat} from "../../shared/services/login.stats";
+import { SideBarMenuComponent } from "../home/sidebar_menu/sidebar_menu.component";
+import { VoteComponent } from "./voting/vote.component";
+import { LoginStat } from "../../shared/services/login.stats";
 
 @Component({
     selector: 'app-home',

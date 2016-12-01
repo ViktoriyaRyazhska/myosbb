@@ -10,7 +10,8 @@ export interface IMessage {
     user:User;
     answers:Message[];
     discussed:Date;
-
+    deadline:Date;
+    date:Date;
 }
 
 export class Message implements IMessage {
@@ -22,7 +23,8 @@ export class Message implements IMessage {
     user:User;
     answers:Message[];
     discussed:Date;
-
+    deadline:Date;
+    date:Date;
 
     constructor(message:string) {
         this.message = message;

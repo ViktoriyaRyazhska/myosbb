@@ -1,0 +1,12 @@
+.content {
+    margin-left: 210px;
+}
+
+.left{
+    width:100px;
+	float: left;
+}
+
+.right{
+	margin-left:100px;
+}
