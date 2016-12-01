@@ -70,7 +70,7 @@ a, a:hover, a:focus {
     text-decoration: none;
 }
 /*.dropdown-menu*/
- .dropdown-menu {
+  .dropdown-menu.updown {
       position: static;
       float: none;
       width: auto;
@@ -80,10 +80,10 @@ a, a:hover, a:focus {
       -webkit-box-shadow: none;
       box-shadow: none;
     }
-     .dropdown.open .caret{
+     .dropdown.open .caret.animated{
     border-top: none;
     border-bottom: 4px solid #ffffff;
-}
+} 
 
 /*Theme Backgrounds*/
 
