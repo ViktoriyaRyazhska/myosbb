@@ -16,6 +16,7 @@ import java.util.List;
 @Table(name = "option")
 public class Option implements Serializable{
 
+    private static final long serialVersionUID = 1L;
     private Integer optionId;
     private String description;
     private Vote vote;

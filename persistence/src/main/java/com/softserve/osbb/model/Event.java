@@ -9,6 +9,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
+
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -17,9 +19,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "event")
-public class Event {
+public class Event implements Serializable {
 
-    private Integer eventId;
+	private static final long serialVersionUID = 1L;
+	private Integer eventId;
     private String title;
     private Timestamp startTime;
     private Timestamp endTime;
@@ -28,7 +31,6 @@ public class Event {
     private Osbb osbb;
     private Periodicity repeat;
     private List<Attachment> attachments;
-    private EventStatus status;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -136,10 +138,6 @@ public class Event {
         } else {
             return EventStatus.IN_PROCESS;
         }
-    }
-
-    public void setStatus(EventStatus status) {
-        this.status = status;
     }
 
     @Override

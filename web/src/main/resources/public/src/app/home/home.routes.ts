@@ -18,6 +18,7 @@ import { UserReportComponent } from "../user/report/user.report.component";
 import { ElectricityComponen } from "../home/components/apartment/submenu/electricity/electricity.component";
 import { GasComponen } from "../home/components/apartment/submenu/gas/gas.component";
 import { WaterComponen } from "../home/components/apartment/submenu/water/water.component";
+import { OsbbContactsComponent } from "./osbb-contacts/osbb-contacts.component";
 
 export const homeRoutes: RouterConfig = [
     {
@@ -25,7 +26,7 @@ export const homeRoutes: RouterConfig = [
 
         children: [
             { path: '', redirectTo: 'wall', pathMatch: 'full' },
-            { path: 'wall', component: HomeWallComponent },            
+            { path: 'wall', component: HomeWallComponent },
             { path: 'events', component: EventComponent },
             { path: 'event/:id', component: EventShowComponent },
             { path: 'calendar', component: CalendarHomeComponent },
@@ -42,7 +43,8 @@ export const homeRoutes: RouterConfig = [
             { path: 'rents/electricity', component: ElectricityComponen },
             { path: 'rents/gas', component: GasComponen },
             { path: 'rents/water', component: WaterComponen },
-            { path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent }
+            { path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent },
+            { path: 'osbb/contacts', component: OsbbContactsComponent}
         ]
     }
 ];
