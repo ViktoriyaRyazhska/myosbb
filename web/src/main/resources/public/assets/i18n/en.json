@@ -276,5 +276,10 @@
   "shiftDate":"change date for discussion",
   "notset":"not defined",
   "deny":"do not discuss",
-  "fees_for_services": "Fees for services"
+  "fees_for_services": "Fees for services",
+  "passMatchError": "Passwords don't match. Please try again",
+  "passLengthError": "Password cannot be shorter than 4 and longer than 16 characters",
+  "errorBirthDateMsg": "Birthdate is invalid"
+}
+
 }
