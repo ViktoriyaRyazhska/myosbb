@@ -288,8 +288,7 @@ export class MessageComponent implements OnInit{
 
 
     editTicket(ticket:ITicket):void {
-        this.ticketService.editTicket(ticket)
-            .then(ngOnChange);
+        this.ticketService.editTicket(ticket);
     }
 
     deleteTicket(ticket:ITicket):void {

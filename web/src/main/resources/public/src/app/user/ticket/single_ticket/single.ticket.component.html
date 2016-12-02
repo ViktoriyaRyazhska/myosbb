@@ -131,7 +131,7 @@
            <input class="form-control" style="width: 20%; float: left" type="date" [(ngModel)]="date"/>
             <button class="btn btn-success" (click) ="ticket.discussed=date;editTicket(ticket);"
                     style="margin-left:5px; float: left">{{'save'|translate | capitalize}}</button>
-            <button class="btn btn-success" (click) = "ticket.discussed=date;editTicket(null);"
+            <button class="btn btn-success" (click) = "ticket.discussed=null;editTicket(ticket);"
                     style="margin-left:5px; float: left">{{'deny'|translate | capitalize}}</button>
         </div>
         <br/>
