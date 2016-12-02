@@ -34,10 +34,11 @@ export class Ticket implements ITicket {
 
 
 
-    constructor(name:string, description:string, state:TicketState) {
+    constructor(name:string, description:string, state:TicketState, discussed:Date) {
         this.name = name;
         this.description = description;
         this.state = state;
+        this.discussed = discussed;
     }
 }
 

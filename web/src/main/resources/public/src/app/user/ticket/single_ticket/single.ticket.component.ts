@@ -46,7 +46,7 @@ import {VoteComponent} from "../../../home/voting/vote.component";
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
 })
 
-export class MessageComponent implements OnInit {
+export class MessageComponent implements OnInit{
     @ViewChild('gallery') gallery:ModalDirective;
 
     private message:IMessage;
@@ -289,7 +289,7 @@ export class MessageComponent implements OnInit {
 
     editTicket(ticket:ITicket):void {
         this.ticketService.editTicket(ticket)
-            .then(this.ngOnInit());
+            .then(ngOnChange);
     }
 
     deleteTicket(ticket:ITicket):void {
@@ -401,11 +401,6 @@ export class MessageComponent implements OnInit {
 
     closeGallery() {
         this.gallery.hide();
-    }
-
-    setDiscussed(dateSet:Date):void {
-        this.ticket.discussed = dateSet;
-        this.editTicket(this.ticket);
     }
 
     isDateRight():boolean {
