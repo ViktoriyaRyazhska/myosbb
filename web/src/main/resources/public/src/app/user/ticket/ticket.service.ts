@@ -97,6 +97,14 @@ export class TicketService {
             .catch(this.handleError);
     }
 
+    editDiscussed(ticket:ITicket,date:Date):Promise<ITicket> {
+        ticket.discussed = date;
+        return this.http.put(this.url, JSON.stringify(ticket))
+            .toPromise()
+            .then(res => res.json())
+            .catch(this.handleError);
+    }
+
     deleteTicket(ticket:ITicket):Promise<ITicket> {
         let url = `${this.url}/${ticket.ticketId}`;
         return this.http.delete(url)
