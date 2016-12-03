@@ -20,7 +20,6 @@ import { GasComponen } from "../home/components/apartment/submenu/gas/gas.compon
 import { WaterComponen } from "../home/components/apartment/submenu/water/water.component";
 import { OsbbContactsComponent } from "./osbb-contacts/osbb-contacts.component";
 import { OsbbDocumentsAndReportsComponent } from "./osbb-docs-and-reports/osbb-docs-and-reports.component";
-import { OsbbDocsAndReportsRouter } from "./osbb-docs-and-reports/osbb-docs-and-reports.routes";
 import { RegulationsComponent } from './osbb-docs-and-reports/regulations/regulations.component';
 import { FinancialStatementsComponent } from './osbb-docs-and-reports/financial-statements/financial-statements.component';
 import { MeetingsMinutesComponent } from './osbb-docs-and-reports/meetings-minutes/meetings-minutes.component';

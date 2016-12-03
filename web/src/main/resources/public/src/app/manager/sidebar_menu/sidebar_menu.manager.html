@@ -2,21 +2,26 @@
     <div id="sidebar" class="nav-collapse">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-            <li class="sub-menu">
-                <a [routerLink]="['wall']">
-                    <i class="fa fa-user"></i>
-                    <span>{{ 'homePage' | translate | capitalize }}</span>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                    <i class="fa fa-home"></i>
+                    <span>{{ 'osbb' | translate | capitalize }} <span class="caret animated"></span></span>
                 </a>
+                <ul class="dropdown-menu updown">
+                    <li><a [routerLink]="['osbb/contacts']">{{ 'contacts' | translate | capitalize }}</a></li>
+                    <li><a [routerLink]="['osbb/documents-and-reports']">{{ 'docs&reports' | translate | capitalize }}</a></li>
+                    <li role="separator" class="divider"></li>
+                </ul>
             </li>
             <li class="sub-menu">
                 <a [routerLink]="['houses']">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-home"></i>
                     <span>{{ 'houses' | translate | capitalize }}</span>
                 </a>
             </li>
             <li class="sub-menu">
                 <a [routerLink]="['apartment']">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-building-o"></i>
                     <span>{{ 'apartments' | translate | capitalize }}</span>
                 </a>
             </li>
@@ -28,13 +33,13 @@
             </li>
             <li class="sub-menu">
                 <a [routerLink]="['events']">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-comments"></i>
                     <span>{{ 'events' | translate | capitalize }}</span>
                 </a>
             </li>
             <li class="sub-menu">
                 <a [routerLink]="['ticket']">
-                    <i class="fa fa-building-o"></i>
+                    <i class="fa fa-ticket"></i>
                     <span>{{'tickets' | translate | capitalize}}</span>
                 </a>
             </li>
@@ -47,7 +52,7 @@
             </li>
             <li class="sub-menu">
                 <a [routerLink]="['provider']">
-                    <i class="fa fa-building-o"></i>
+                    <i class="fa fa-building"></i>
                     <span>{{ 'providers' | translate | capitalize }}</span>
                 </a>
             </li>
