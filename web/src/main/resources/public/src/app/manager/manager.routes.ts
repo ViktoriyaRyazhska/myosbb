@@ -18,9 +18,7 @@ import { ApartmentProfileComponent } from "../home/components/ApartmentProfile/a
 import { UserProfileManagerComponent } from "./components/user/user.profile.manager.component";
 import { OsbbContactsComponent } from "../home/osbb-contacts/osbb-contacts.component";
 import { OsbbDocumentsAndReportsComponent } from "../home/osbb-docs-and-reports/osbb-docs-and-reports.component";
-import { RegulationsComponent } from '../home/osbb-docs-and-reports/regulations/regulations.component';
-import { FinancialStatementsComponent } from '../home/osbb-docs-and-reports/financial-statements/financial-statements.component';
-import { MeetingsMinutesComponent } from '../home/osbb-docs-and-reports/meetings-minutes/meetings-minutes.component';
+import { FolderComponent } from '../home/osbb-docs-and-reports/folder/folder.component';
 
 export const managerRoutes:RouterConfig = [
     {
@@ -47,14 +45,8 @@ export const managerRoutes:RouterConfig = [
             { path: 'contract', component: ContractComponent },
             { path: 'friend/:id', component: UserProfileManagerComponent },
             { path: 'osbb/contacts', component: OsbbContactsComponent },
-            { path: 'osbb/documents-and-reports', 
-                children: [
-                    { path: '', component: OsbbDocumentsAndReportsComponent },
-                    { path: 'regulations', component: RegulationsComponent },
-                    { path: 'financial-statements', component: FinancialStatementsComponent },
-                    { path: 'meetings-minutes', component: MeetingsMinutesComponent }
-                ]
-            }
+            { path: 'osbb/documents-and-reports', component: OsbbDocumentsAndReportsComponent },
+            { path: 'osbb/documents-and-reports/:id', component: FolderComponent }
         ]
     },
 ];

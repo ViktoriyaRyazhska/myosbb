@@ -20,9 +20,7 @@ import { GasComponen } from "../home/components/apartment/submenu/gas/gas.compon
 import { WaterComponen } from "../home/components/apartment/submenu/water/water.component";
 import { OsbbContactsComponent } from "./osbb-contacts/osbb-contacts.component";
 import { OsbbDocumentsAndReportsComponent } from "./osbb-docs-and-reports/osbb-docs-and-reports.component";
-import { RegulationsComponent } from './osbb-docs-and-reports/regulations/regulations.component';
-import { FinancialStatementsComponent } from './osbb-docs-and-reports/financial-statements/financial-statements.component';
-import { MeetingsMinutesComponent } from './osbb-docs-and-reports/meetings-minutes/meetings-minutes.component';
+import { FolderComponent } from './osbb-docs-and-reports/folder/folder.component';
 
 export const homeRoutes: RouterConfig = [
     {
@@ -49,13 +47,8 @@ export const homeRoutes: RouterConfig = [
             { path: 'rents/water', component: WaterComponen },
             { path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent },          
             { path: 'osbb/contacts', component: OsbbContactsComponent },
-            { path: 'osbb/documents-and-reports', 
-                children: [
-                    { path: '', component: OsbbDocumentsAndReportsComponent },
-                    { path: 'regulations', component: RegulationsComponent },
-                    { path: 'financial-statements', component: FinancialStatementsComponent },
-                    { path: 'meetings-minutes', component: MeetingsMinutesComponent }
-                ] }
+            { path: 'osbb/documents-and-reports', component: OsbbDocumentsAndReportsComponent },
+            { path: 'osbb/documents-and-reports/:id', component: FolderComponent }               
         ]
     }
 ];

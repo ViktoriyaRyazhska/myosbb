@@ -1,6 +1,8 @@
 <div id="main-content" class="content ">
     <div class="panel panel-default pos-top animated slideInRight">
-        <h1 class="text-center">{{'docs&reports' | translate}}</h1>
+        <div class="row">
+            <h1 class="text-center">{{'docs&reports' | translate}}</h1>
+        </div>
         <div class="row">
             <div class="col-md-4 text-center">
                 <a [routerLink]="['regulations']">
@@ -21,7 +23,54 @@
                 </a>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <a routerLink="./1">
+                    <img src="assets/img/folder/folder_00.png" width="128px" height="128px" alt="{{'regulations' | translate}}" />
+                    <h4>1</h4>
+                </a>
+            </div>
+            <div class="col-md-4 text-center">
+                <a routerLink="./2">
+                    <img src="assets/img/folder/folder_00.png" width="128px" height="128px" alt="{{'fin_stmnt' | translate}}" />
+                    <h4>2</h4>
+                </a>
+            </div>
+            <div class="col-md-4 text-center">
+                <a routerLink="./3">
+                    <img src="assets/img/folder/folder_00.png" width="128px" height="128px" alt="{{'meetings_minutes' | translate}}" />
+                    <h4>3</h4>
+                </a>
+            </div>
+        </div>
+
         <hr>
-        <router-outlet></router-outlet>
+        <div *ngIf="currentRole == 'ROLE_MANAGER'" class="row">
+            <!-- Trigger the modal with a button -->
+            <button type="button" class="btn btn-primary" style="margin-left:24px; margin-bottom:12px;" data-toggle="modal" data-target="#myModal">{{'add_folder' | translate}}</button>
+        </div>
     </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 </div>

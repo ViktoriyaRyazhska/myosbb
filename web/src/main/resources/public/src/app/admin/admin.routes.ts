@@ -17,7 +17,7 @@ import { UserProfileAdminComponent } from "./components/user/user.profile.admin.
 import { UserProfileComponent } from "./../home/user/user.profile.component";
 import { CalendarAdminComponent } from "./components/calendar/calendar.admin.component";
 
-export const adminRoutes:RouterConfig = [
+export const adminRoutes: RouterConfig = [
     {
         path: 'admin',
         component: AdminComponent,
@@ -42,8 +42,6 @@ export const adminRoutes:RouterConfig = [
             { path: 'apartments/apartmentprofile/:id', component: ApartmentProfileAdminComponent },
             { path: 'role', component: RoleComponent },
             { path: 'friend/:id', component: UserProfileAdminComponent }
-
-]
+        ]
     },
-
 ];
