@@ -1,48 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { ROUTER_DIRECTIVES } from "@angular/router";
 
-import { OsbbDTO } from "../../../shared/models/osbbDTO";
-import { OsbbService } from '../../admin/components/osbb/osbb.service';
 import { TranslatePipe } from 'ng2-translate';
 import { CapitalizeFirstLetterPipe } from '../../../shared/pipes/capitalize-first-letter';
-import { CurrentUserService } from "../../../shared/services/current.user.service";
-import { User } from '../../../shared/models/User';
-import { HeaderComponent } from '../../header/header.component';
 
 @Component({
-    selector: 'user-menu-osbb-docs-and-reports',
+    selector: 'osbb-docs-and-reports',
     templateUrl: 'src/app/home/osbb-docs-and-reports/osbb-docs-and-reports.html',
     styleUrls: ['src/app/home/osbb-contacts/osbb-contacts.css'],
-    providers: [OsbbService],
+    directives: [ROUTER_DIRECTIVES]
     pipes:[CapitalizeFirstLetterPipe, TranslatePipe]
 })
 export class OsbbDocumentsAndReportsComponent implements OnInit {
 
-    private userOsbb: OsbbDTO;
-    private user: User;
-    private osbbRetrieved = false;
-
-    constructor(private osbbService: OsbbService, private userSevice: CurrentUserService) {
-        this.userOsbb = null;
-     }
-
     ngOnInit(): any {
-        console.log('Initializing OSBB contacts...');
-        this.getUser();
-        this.getOsbb();
-    }
-
-    getUser() {
-        this.user = this.userSevice.getUser();
-        console.log('Current user is ' + this.user.firstName + ' ' + this.user.lastName);
-    }
-
-    getOsbb() {
-        this.osbbService.getDTOOsbbById(this.user.osbbId)
-            .then(osbb => {
-                this.userOsbb = osbb;
-                console.log('Retrieving OSBB for ' + this.user.firstName + ' ' + this.user.lastName);
-                console.log(this.userOsbb);
-                this.osbbRetrieved = true;
-            });
+        console.log('Initializing OSBB Docs and Reports...');
     }
 }
