@@ -19,6 +19,7 @@ import { ElectricityComponen } from "../home/components/apartment/submenu/electr
 import { GasComponen } from "../home/components/apartment/submenu/gas/gas.component";
 import { WaterComponen } from "../home/components/apartment/submenu/water/water.component";
 import { OsbbContactsComponent } from "./osbb-contacts/osbb-contacts.component";
+import { OsbbDocumentsAndReportsComponent } from "./osbb-docs-and-reports/osbb-docs-and-reports.component";
 
 export const homeRoutes: RouterConfig = [
     {
@@ -44,7 +45,8 @@ export const homeRoutes: RouterConfig = [
             { path: 'rents/gas', component: GasComponen },
             { path: 'rents/water', component: WaterComponen },
             { path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent },
-            { path: 'osbb/contacts', component: OsbbContactsComponent}
+            { path: 'osbb/contacts', component: OsbbContactsComponent},
+            { path: 'osbb/documents-and-reports', component: OsbbDocumentsAndReportsComponent}
         ]
     }
 ];
