@@ -18,7 +18,7 @@ import { ApartmentProfileComponent } from "../home/components/ApartmentProfile/a
 import { UserProfileManagerComponent } from "./components/user/user.profile.manager.component";
 import { OsbbContactsComponent } from "../home/osbb-contacts/osbb-contacts.component";
 import { OsbbDocumentsAndReportsComponent } from "../home/osbb-docs-and-reports/osbb-docs-and-reports.component";
-import { FolderComponent } from '../home/osbb-docs-and-reports/folder/folder.component';
+import { FolderManagerComponent } from '../home/osbb-docs-and-reports/folder-manager/folder-manager.component';
 
 export const managerRoutes:RouterConfig = [
     {
@@ -46,7 +46,7 @@ export const managerRoutes:RouterConfig = [
             { path: 'friend/:id', component: UserProfileManagerComponent },
             { path: 'osbb/contacts', component: OsbbContactsComponent },
             { path: 'osbb/documents-and-reports', component: OsbbDocumentsAndReportsComponent },
-            { path: 'osbb/documents-and-reports/:id', component: FolderComponent }
+            { path: 'osbb/documents-and-reports/:id', component: FolderManagerComponent }
         ]
     },
 ];
