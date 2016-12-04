@@ -33,27 +33,8 @@ export class ProviderUserPageComponent {
     }
 
     ngOnInit():any {
-        // console.log("init provider home cmp");
-        // console.log("periodicity items:", PeriodicityItems);
-        // for (let i=0; i<PeriodicityItems.length; i++){
-        //     this.periodicities.push(PeriodicityItems[i]);
-        // }
-        // this.getPeriodicitiesTranslation();
-        // console.log('readable periodicities: ', this.periodicities);
         this.getProvidersByPageNumAndState(this.pageNumber);
     }
-    //
-    // getPeriodicitiesTranslation(){
-    //     console.log("got lang",  HeaderComponent.translateService.currentLang);
-    //     for (let i=0; i < this.periodicities.length; i++){
-    //         HeaderComponent.translateService.get(this.periodicities[i].text)
-    //             .subscribe((data : string) => {
-    //                 this.periodicities[i].text = data;
-    //                 console.log("periodicity =", this.periodicities[i]);
-    //             })
-    //     }
-    //     console.log("periodicities: ", this.periodicities);
-    // }
 
     prevPage() {
         this.pageNumber = this.pageNumber - 1;
