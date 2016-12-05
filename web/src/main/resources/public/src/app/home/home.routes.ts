@@ -48,7 +48,8 @@ export const homeRoutes: RouterConfig = [
             { path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent },          
             { path: 'osbb/contacts', component: OsbbContactsComponent },
             { path: 'osbb/documents-and-reports', component: OsbbDocumentsAndReportsComponent },
-            { path: 'osbb/documents-and-reports/:id', component: FolderManagerComponent }               
+            { path: 'osbb/documents-and-reports/:folder', component: FolderManagerComponent },
+            { path: 'osbb/documents-and-reports/:folder/:id', component: FolderManagerComponent }               
         ]
     }
 ];

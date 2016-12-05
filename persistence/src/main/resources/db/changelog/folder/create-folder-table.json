@@ -1,0 +1,71 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "2016/12/04-01",
+        "author": "Kostyantyn.Panchenko",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "createTable": {
+              "columns": [
+                {
+                  "column": {
+                    "autoIncrement": true,
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "apartment_pkey"
+                    },
+                    "name": "folder_id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "name",
+                    "type": "VARCHAR(255)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "osbb_id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "parent",
+                    "type": "INT"
+                  }
+                }
+              ],
+              "tableName": "folders"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2016/12/04-02",
+        "author": "Kostyantyn.Panchenko",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "osbb_id",
+              "baseTableName": "folders",
+              "constraintName": "fk_osbb_id",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "CASCADE",
+              "onUpdate": "CASCADE",
+              "referencedColumnNames": "osbb_id",
+              "referencedTableName": "osbb"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
