@@ -130,7 +130,7 @@ public class Bill implements Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "parentBill_id", referencedColumnName = "bill_id")
+	@JoinColumn(name = "parent_bill_id", referencedColumnName = "bill_id")
 	public Bill getParentBill() {
 		return parentBill;
 	}
