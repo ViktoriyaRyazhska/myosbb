@@ -23,6 +23,7 @@ public class Bill implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer billId;
+	private String name;
     private LocalDate date;
     private Float tariff;
     private Provider provider;
@@ -30,6 +31,7 @@ public class Bill implements Serializable {
     private Float paid;
     private Apartment apartment;
     private BillStatus billStatus;
+    private Bill parentBill;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -117,7 +119,27 @@ public class Bill implements Serializable {
         this.billStatus = billStatus;
     }
 
-    @Override
+    @Basic
+    @Column(name = "name")
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "parentBill_id", referencedColumnName = "bill_id")
+	public Bill getParentBill() {
+		return parentBill;
+	}
+
+	public void setParentBill(Bill parentBill) {
+		this.parentBill = parentBill;
+	}
+
+	@Override
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
     }
