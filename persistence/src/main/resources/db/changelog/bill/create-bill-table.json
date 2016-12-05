@@ -79,7 +79,7 @@
                 },
                 {
                   "column": {
-                    "name": "parentBill_id",
+                    "name": "parent_bill_id",
                     "type": "INT"
                   }
                 }
@@ -136,7 +136,7 @@
         "changes": [
           {
             "addForeignKeyConstraint": {
-              "baseColumnNames": "parentBill_id",
+              "baseColumnNames": "parent_bill_id",
               "baseTableName": "bill",
               "constraintName": "fk_mmgnrg9uuk1v75162vub4jl5w",
               "deferrable": false,
