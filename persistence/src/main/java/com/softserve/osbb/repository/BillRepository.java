@@ -17,7 +17,10 @@ import java.util.List;
 @Repository
 public interface BillRepository extends JpaRepository<Bill, Integer> {
 
-    @Query(value = "select * from bill ", nativeQuery = true)
+	@Query(value = "select * from bill where apartment_id IN ("
+            + "SELECT a.apartment_id from apartment a "
+            + "INNER JOIN users ON users.user_id = a.owner_id "
+            + "where users.user_id = ?1)", nativeQuery = true)
     List<Bill> findAllByUserId(Integer userId);
 
     Page<Bill> findByApartment(Apartment apartment, Pageable pageable);
