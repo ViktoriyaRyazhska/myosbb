@@ -22,7 +22,6 @@ public interface BillService {
 
     List<Bill> findAllBillsByIDs(List<Integer> ids);
 
-
     List<Bill> findAllByUserId(Integer userId);
 
     Page<Bill> findAllBills(Pageable pageable);
@@ -40,5 +39,6 @@ public interface BillService {
     long countBills();
 
     boolean existsBill(Integer id);
+
     List<Bill> getAllBillsByApartmentWithCurrentMonth(Integer apartmentId);
 }

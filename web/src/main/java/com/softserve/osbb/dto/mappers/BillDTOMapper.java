@@ -22,15 +22,16 @@ public class BillDTOMapper {
         if (bill != null) {
             billDTO = new BillDTO.BillDTOBuilder()
                     .setBillId(bill.getBillId())
+                    .setName(bill.getName())
                     .setDate(bill.getDate())
                     .setApartmentNumber(bill.getApartment())
                     .setPaid(bill.getPaid())
                     .setToPay(bill.getToPay())
                     .setTariff(bill.getTariff())
-                    .setDescription(bill.getProvider())
                     .setStatus(bill.getBillStatus())
                     .setApartmentId(bill.getApartment())
                     .setProviderId(bill.getProvider())
+                    .setParentBillId(bill.getParentBill())
                     .build();
         }
         return billDTO;
@@ -55,6 +56,7 @@ public class BillDTOMapper {
     }
 
     private static void createNewBillFromBillDTO(BillDTO billDTO, Bill bill) {
+    	bill.setName(billDTO.getName());
         bill.setTariff(billDTO.getTariff());
         bill.setToPay(billDTO.getToPay());
         bill.setPaid(billDTO.getPaid());
@@ -63,7 +65,8 @@ public class BillDTOMapper {
     }
 
     private static void mapFromBillDTOTOBill(BillDTO billDTO, Bill bill) {
-        bill.setTariff(billDTO.getTariff());
+    	bill.setName(billDTO.getName());
+    	bill.setTariff(billDTO.getTariff());
         bill.setBillStatus(billDTO.getStatus().equals(BillStatus.PAID.toString()) 
                 ? BillStatus.PAID 
                 : BillStatus.NOT_PAID);
