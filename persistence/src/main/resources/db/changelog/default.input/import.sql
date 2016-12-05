@@ -34,6 +34,7 @@ INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,ph
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1994-08-18','nkharabaruk@gmail.com','Nataliia','female','Kharabaruk','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0638142706','1',4,TRUE );
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1996-02-21','user@gov.ua','User','male','TheUser','$2a$10$izk0e40i9NsxgRnwoafnnOANYf9iqhxyKp1P83LW.C2RysO0KnoOi','380687773508','1',4,TRUE,TRUE);
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1983-12-31','ewing@nyk.com','Patrick','male','Ewing','$2a$10$UEjkwHIn9fMnNs7r4IXAduJ9rIv3tGatMqnt7GjWqaklljt2RoP9K','095729666','1',8,TRUE,TRUE);
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1989-12-22','headmaster@gov.ua','Arnold','male','Shwarzenegger','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','380953334444','4',1,TRUE,TRUE);
 
 INSERT INTO provider_type ( type_name) VALUES ('Internet');
 INSERT INTO provider_type ( type_name) VALUES ('Trash');
@@ -111,6 +112,13 @@ INSERT INTO osbb(  name, description, address, district, creation_date) VALUES (
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Мрія',' ','м.Львів вул.Городоцька 147а','Залізничний','2016-09-01 10:46:43.221000');
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Моя Оселя','','м.Львів вул.Повітряна 17б','Залізничний','2013-10-12 08:46:43.221340');
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Сонечко','','м.Львів вул.Наукова 77','Франківський','2015-04-18 10:46:43.221270');
+
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(1, NULL, 1, 'Установчі документи');
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(2, NULL, 1, 'Протоколи зборів');
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(3, NULL, 1, 'Фінінсова звітність');
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(4, 1, 1, 'Статут');
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(5, 2, 1, 'Накази про призначення');
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(6, 2, 1, 'Протокол установчих зборів');
 
 INSERT INTO attachment(  path, type, file_name) VALUES ('http://itukraine.org.ua/sites/default/files/news/sserve.jpg', 'IMAGE', 'sserve.jpg');
 INSERT INTO attachment(  path, type, file_name) VALUES ('http://ua-ekonomist.com/uploads/posts/2013-08/1376494055_932378712.jpg', 'IMAGE', '1376494055_932378712.jpg');

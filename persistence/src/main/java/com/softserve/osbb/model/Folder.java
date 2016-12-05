@@ -1,11 +1,14 @@
 package com.softserve.osbb.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * 
@@ -14,31 +17,34 @@ import javax.persistence.Id;
  * @since 04.12.2016
  *
  */
+@Entity
+@Table(name = "folder")
 public class Folder implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private int id;
+    private int folder_id;
+    private Folder parent_id;
+    private Osbb osbb_id;
     private String name;
-    private Osbb osbb;
-    private Folder parent;
+    private Timestamp created;
     
     public Folder() { }
     
     public Folder(String name, Osbb osbb, Folder parent) {
         this.name = name;
-        this.osbb = osbb;
-        this.parent = parent;
+        this.osbb_id = osbb;
+        this.parent_id = parent;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "folder_id")
     public int getId() {
-        return id;
+        return folder_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.folder_id = id;
     }
 
     @Column(name = "name")
@@ -52,36 +58,43 @@ public class Folder implements Serializable {
 
     @Column(name = "osbb_id")
     public Osbb getOsbb() {
-        return osbb;
+        return osbb_id;
     }
 
     public void setOsbb(Osbb osbb) {
-        this.osbb = osbb;
+        this.osbb_id = osbb;
     }
 
     @Column(name = "parent_id")
     public Folder getParent() {
-        return parent;
+        return parent_id;
     }
 
     public void setParent(Folder parent) {
-        this.parent = parent;
+        this.parent_id = parent;
+    }
+
+    @Column(name = "created")
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
     }
 
     @Override
     public String toString() {
-        return "Folder [id=" + id + ", name=" + name + ", osbb=" + osbb.getName()
-                + ", parent=" + parent.getName() + "]";
+        return "Folder [id=" + folder_id + ", name=" + name + ", osbb=" + osbb_id.getName() + "]";
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + id;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((osbb == null) ? 0 : osbb.hashCode());
-        result = prime * result + ((parent == null) ? 0 : parent.hashCode());
+        result = prime * result + ((osbb_id == null) ? 0 : osbb_id.hashCode());
+        result = prime * result + ((parent_id == null) ? 0 : parent_id.hashCode());
         return result;
     }
 
@@ -94,24 +107,22 @@ public class Folder implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         Folder other = (Folder) obj;
-        if (id != other.id)
-            return false;
         if (name == null) {
             if (other.name != null)
                 return false;
         } else if (!name.equals(other.name))
             return false;
-        if (osbb == null) {
-            if (other.osbb != null)
+        if (osbb_id == null) {
+            if (other.osbb_id != null)
                 return false;
-        } else if (!osbb.equals(other.osbb))
+        } else if (!osbb_id.equals(other.osbb_id))
             return false;
-        if (parent == null) {
-            if (other.parent != null)
+        if (parent_id == null) {
+            if (other.parent_id != null)
                 return false;
-        } else if (!parent.equals(other.parent))
+        } else if (!parent_id.equals(other.parent_id))
             return false;
         return true;
     }
-
+    
 }
