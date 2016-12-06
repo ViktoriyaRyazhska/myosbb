@@ -5,9 +5,11 @@
  * for managing. 
  */
 package com.softserve.osbb.controller;
-
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import java.util.ArrayList;
 import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
-
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,7 @@ import com.softserve.osbb.util.paging.impl.BillPageDataObject;
 import com.softserve.osbb.util.resources.ResourceLinkCreator;
 import com.softserve.osbb.util.resources.impl.BillResourceList;
 import com.softserve.osbb.util.resources.impl.EntityResourceList;
+
 
 /**
  * Created by nataliia on 11.07.16.
@@ -179,5 +182,34 @@ public class BillController {
 
         return new ResponseEntity<>(status);
     }
+    @RequestMapping(value = "/parentbillid", method = RequestMethod.GET)
+    public ResponseEntity<List<Resource<Bill>>> findAllParentBill()
+    {
+        	logger.info("get all parent bills is not null");
+        	List<Bill> bills = billService.findAllParentBillId();
+        	List<Resource<Bill>> resources = new ArrayList<>();
+        	for(Bill temp : bills) {
+        		resources.add(getBillResource(temp));
+        	}
+            //return new ResponseEntity<>(billService.findAllParentBillId(), HttpStatus.OK); 
+           // return  buildResponseEntity(status, billService.findAllParentBillId());
+        	return new ResponseEntity<>(resources, HttpStatus.OK);
+        
+
+  
+    }
+    private Resource<Bill> getBillResource(Bill bill) {
+        Resource<Bill> resource = new Resource<>(bill);
+        resource.add(linkTo(methodOn(BillController.class).getBill(bill.getBillId().toString())).withSelfRel());
+        return resource;
+    }
+    
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    public Resource<Bill> getBill(@PathVariable(value = "id") String id) {
+        logger.info("geting user from database with id=" + id);
+        return getBillResource(billService.findOneBillByID(id));
+    }
+  
+    
 
 }
