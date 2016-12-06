@@ -1,26 +1,61 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers } from "@angular/http";
+import { Http, Response, Headers } from "@angular/http";
 import {Observable} from 'rxjs/Observable';
 
 import "rxjs/add/operator/map";
-import "rxjs/add/operator/toPromise";
 import 'rxjs/add/operator/catch';
+import "rxjs/add/operator/toPromise";
 
-import { IOsbb } from "../../../../shared/models/osbb";
-import { OsbbDTO } from "../../../../shared/models/osbbDTO";
-import ApiService = require("../../../../shared/services/api.service");
-import { SelectItem } from "../../../../shared/models/ng2-select-item.interface";
+import { IOsbb } from "../../shared/models/osbb";
+import { OsbbDTO } from "../../shared/models/osbbDTO";
+import ApiService = require("./api.service");
+import { SelectItem } from "../../shared/models/ng2-select-item.interface";
+import { Region, AddressDTO } from "../../shared/models/addressDTO";
 
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment';
 
 @Injectable()
-export class OsbbService { 
+export class AddressService { 
 
-    private url:string = ApiService.serverUrl + '/restful/osbb';
+//    private url:string = ApiService.serverUrl + '/restful/osbb';
+    private addressUrl:string = ApiService.serverUrl + '/restful/address';
+
     constructor(private http: Http) { 
     }
 
-    getAllOsbb(): Promise<IOsbb[]> {
+     getAllRegions(): Observable<Region[]> {
+        console.log('Get all regions: ');
+        let url = this.addressUrl + '/region';
+        return this.http.get(url)
+            .map((res:Response)=> res.json())
+            .catch((error)=>Observable.throw(error)); 
+     }           
+
+     getAllCitiesOfRegion(regionID: number): Observable<City[]> {
+        console.log('Get all cities: ');
+        let url = this.addressUrl + '/city/' + regionID;
+        return this.http.get(url)
+            .map((res:Response)=> res.json())
+            .catch((error)=>Observable.throw(error)); 
+     }           
+
+     getAllStreetsOfCity(cityID: number): Observable<Street[]> {
+        console.log('Get all streets: ');
+        let url = this.addressUrl + '/street/' + cityID;
+        return this.http.get(url)
+            .map((res:Response)=> res.json())
+            .catch((error)=>Observable.throw(error)); 
+     }           
+
+     getStreetById(streetID: number): Observable<Street> {
+        console.log('Get street: ');
+        let url = this.addressUrl + '/street/id/' + streetID;
+        return this.http.get(url)
+            .map((res:Response)=> res.json())
+            .catch((error)=>Observable.throw(error)); 
+     }           
+
+/*    getAllOsbb(): Promise<IOsbb[]> {
         return this.http.get(this.url)
                  .toPromise()
                  .then(res => res.json())
@@ -111,5 +146,14 @@ export class OsbbService {
         console.log('HandleError', error);
         return Promise.reject(error.message || error);
     }
-         
+
+  getAllRegions(): Promise<SelectItem[]> {
+        console.log('Get all regionsn: ');
+        let url = this.addressUrl + '/region';
+        return this.http.get(url)
+                 .toPromise()
+                 .then(res => res.json())
+                 .catch(this.handleError);
+    }
+  */  
 }

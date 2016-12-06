@@ -47,21 +47,6 @@
     },
     {
       "includeAll": {
-        "path": "classpath:/db/changelog/osbb/"
-      }
-    },
-    {
-      "includeAll": {
-        "path": "classpath:/db/changelog/provider/"
-      }
-    },
-    {
-      "includeAll": {
-        "path": "classpath:/db/changelog/provider_type/"
-      }
-    },
-    {
-      "includeAll": {
         "path": "classpath:/db/changelog/region/"
       }
     },
@@ -73,6 +58,21 @@
     {
       "includeAll": {
         "path": "classpath:/db/changelog/street/"
+      }
+    },
+    {
+      "includeAll": {
+        "path": "classpath:/db/changelog/osbb/"
+      }
+    },
+    {
+      "includeAll": {
+        "path": "classpath:/db/changelog/provider/"
+      }
+    },
+    {
+      "includeAll": {
+        "path": "classpath:/db/changelog/provider_type/"
       }
     },
     {

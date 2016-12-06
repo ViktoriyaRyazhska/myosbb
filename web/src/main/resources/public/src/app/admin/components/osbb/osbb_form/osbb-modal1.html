@@ -25,29 +25,20 @@
                             <div class="alert alert-danger" *ngIf="submitAttempt && !descriptionControl.valid">{{'requiredField' | translate | capitalize}}</div>
                         </div>
                         <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !addressControl.valid }">
-                            <ng-select [allowClear]="true"
-                                       [active]="currentRegion"
-                                       [items]="regions"
-                                       (selected)="selectedRegion($event)"
-                                       placeholder="{{'region' | translate}}">
-                            </ng-select>
-                        </div>
+			                 <select class="form-control" [ngModel]="currentRegion" (ngModelChange)="selectedRegion($event)" name="selectRegion">
+				             <option *ngFor="let reg of regions" [ngValue]="reg">{{reg.text}}</option>
+			                 </select>
+                        </div>   
                         <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !addressControl.valid }">
-                            <ng-select [allowClear]="true"
-                                       [active]="currentCity"
-                                       [items]="cities"
-                                       (selected)="selectedCity($event)"
-                                       placeholder="{{'city' | translate}}">
-                            </ng-select>
-                        </div>
+			                 <select class="form-control" [ngModel]="currentCity" (ngModelChange)="selectedCity($event)" name="selectCity">
+				             <option *ngFor="let cit of cities" [ngValue]="cit">{{cit.text}}</option>
+			                 </select>
+                        </div>   
                         <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !addressControl.valid }">
-                            <ng-select [allowClear]="true"
-                                       [active]="currentStreet"
-                                       [items]="streets"
-                                       (selected)="selectedStreet($event)"
-                                       placeholder="{{'street' | translate}}">
-                            </ng-select>
-                        </div>
+			                 <select class="form-control" [ngModel]="currentStreet" (ngModelChange)="selectedStreet($event)" name="selectStreet">
+				             <option *ngFor="let str of streets" [ngValue]="str">{{str.text}}</option>
+			                 </select>
+                        </div>   
                         <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !addressControl.valid }">
                             <input class="form-control" type="text" name="address" placeholder="{{'adress' | translate | capitalize}}" [(ngModel)]="address"
                                 ngControl="addressControl" required>
