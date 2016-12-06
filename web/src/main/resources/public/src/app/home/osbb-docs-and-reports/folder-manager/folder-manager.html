@@ -2,27 +2,41 @@
     <div class="panel panel-default pos-top animated slideInRight">
         <div class="row">
             <h1 class="text-center">FOLDER COMPONENT</h1>
+            <h4>{{currentUrl}}</h4>
         </div>
+
+        <div class="row">
+            <div *ngFor="let folder of folders" style="margin-left:50px">
+                <a routerLink="{{folder.id}}">
+                    <img src="assets/img/folder/folder_00.png" width="128px" height="128px" alt="{{'regulations' | translate}}" />
+                    <h4>{{folder.name}}</h4>
+                </a>
+            </div>
+        </div>
+
+
+        <!--
         <div class="row">
             <div class="col-md-4 text-center">
-                <a routerLink="./1">
+                <a routerLink="../1">
                     <img src="assets/img/folder/folder_00.png" width="128px" height="128px" alt="{{'regulations' | translate}}" />
                     <h4>1</h4>
                 </a>
             </div>
             <div class="col-md-4 text-center">
-                <a routerLink="./2">
+                <a routerLink="../2">
                     <img src="assets/img/folder/folder_00.png" width="128px" height="128px" alt="{{'fin_stmnt' | translate}}" />
                     <h4>2</h4>
                 </a>
             </div>
             <div class="col-md-4 text-center">
-                <a routerLink="./3">
+                <a routerLink="../3">
                     <img src="assets/img/folder/folder_00.png" width="128px" height="128px" alt="{{'meetings_minutes' | translate}}" />
                     <h4>3</h4>
                 </a>
             </div>
         </div>
+        -->
         <hr>
         <div *ngIf="currentRole == 'ROLE_MANAGER'" class="row">
             <!-- Trigger the modal with a button -->

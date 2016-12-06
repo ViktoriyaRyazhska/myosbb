@@ -2,6 +2,8 @@
     <div class="panel panel-default pos-top animated slideInRight">
         <div class="row">
             <h1 class="text-center">{{'docs&reports' | translate}}</h1>
+            <h1>{{folder}}</h1>
+            <h1 *ngIf="folder == null">documents-and-reports</h1>
         </div>
         <div class="row">
             <div class="col-md-4 text-center">

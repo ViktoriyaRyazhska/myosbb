@@ -44,7 +44,7 @@ import com.softserve.osbb.util.paging.PageDataObject;
 @CrossOrigin
 public class ContractController {
     
-    private static Logger logger = LoggerFactory.getLogger(ContractController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ContractController.class);
 
     @Autowired
     ContractService contractService;

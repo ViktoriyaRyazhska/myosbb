@@ -32,7 +32,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @CrossOrigin
 public class ProviderTypeController {
 
-    private static Logger logger = LoggerFactory.getLogger(ProviderTypeController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProviderTypeController.class);
 
     @Autowired
     ProviderTypeService providerTypeService;

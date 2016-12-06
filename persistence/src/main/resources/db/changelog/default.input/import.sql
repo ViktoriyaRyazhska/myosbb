@@ -113,9 +113,9 @@ INSERT INTO osbb(  name, description, address, district, creation_date) VALUES (
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Моя Оселя','','м.Львів вул.Повітряна 17б','Залізничний','2013-10-12 08:46:43.221340');
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Сонечко','','м.Львів вул.Наукова 77','Франківський','2015-04-18 10:46:43.221270');
 
-INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(1, NULL, 1, 'Установчі документи');
-INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(2, NULL, 1, 'Протоколи зборів');
-INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(3, NULL, 1, 'Фінінсова звітність');
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(1, 0, 1, 'Установчі документи');
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(2, 0, 1, 'Протоколи зборів');
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(3, 0, 1, 'Фінінсова звітність');
 INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(4, 1, 1, 'Статут');
 INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(5, 2, 1, 'Накази про призначення');
 INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(6, 2, 1, 'Протокол установчих зборів');

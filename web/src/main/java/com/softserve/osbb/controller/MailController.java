@@ -23,7 +23,7 @@ import javax.mail.MessagingException;
 @RequestMapping("/restful/mail")
 public class MailController {
     
-    private static Logger logger = LoggerFactory.getLogger(MailController.class);
+    private static final Logger logger = LoggerFactory.getLogger(MailController.class);
 
     @Autowired
     private MailSenderImpl sender;

@@ -5,10 +5,15 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 
@@ -22,9 +27,9 @@ import javax.persistence.Table;
 public class Folder implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private int folder_id;
-    private Folder parent_id;
-    private Osbb osbb_id;
+    private Integer id;
+    private Folder parent;
+    private Osbb osbb;
     private String name;
     private Timestamp created;
     
@@ -32,19 +37,19 @@ public class Folder implements Serializable {
     
     public Folder(String name, Osbb osbb, Folder parent) {
         this.name = name;
-        this.osbb_id = osbb;
-        this.parent_id = parent;
+        this.osbb = osbb;
+        this.parent = parent;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "folder_id")
-    public int getId() {
-        return folder_id;
+    public Integer getId() {
+        return id;
     }
 
-    public void setId(int id) {
-        this.folder_id = id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Column(name = "name")
@@ -56,22 +61,25 @@ public class Folder implements Serializable {
         this.name = name;
     }
 
-    @Column(name = "osbb_id")
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "osbb_id", referencedColumnName = "osbb_id")
     public Osbb getOsbb() {
-        return osbb_id;
+        return osbb;
     }
 
     public void setOsbb(Osbb osbb) {
-        this.osbb_id = osbb;
+        this.osbb = osbb;
     }
 
-    @Column(name = "parent_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
     public Folder getParent() {
-        return parent_id;
+        return parent;
     }
 
     public void setParent(Folder parent) {
-        this.parent_id = parent;
+        this.parent = parent;
     }
 
     @Column(name = "created")
@@ -85,7 +93,7 @@ public class Folder implements Serializable {
 
     @Override
     public String toString() {
-        return "Folder [id=" + folder_id + ", name=" + name + ", osbb=" + osbb_id.getName() + "]";
+        return "Folder [id=" + id + ", name=" + name + ", osbb=" + osbb.getName() + "]";
     }
 
     @Override
@@ -93,8 +101,8 @@ public class Folder implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((osbb_id == null) ? 0 : osbb_id.hashCode());
-        result = prime * result + ((parent_id == null) ? 0 : parent_id.hashCode());
+        result = prime * result + ((osbb == null) ? 0 : osbb.hashCode());
+        result = prime * result + ((parent == null) ? 0 : parent.hashCode());
         return result;
     }
 
@@ -112,15 +120,15 @@ public class Folder implements Serializable {
                 return false;
         } else if (!name.equals(other.name))
             return false;
-        if (osbb_id == null) {
-            if (other.osbb_id != null)
+        if (osbb == null) {
+            if (other.osbb != null)
                 return false;
-        } else if (!osbb_id.equals(other.osbb_id))
+        } else if (!osbb.equals(other.osbb))
             return false;
-        if (parent_id == null) {
-            if (other.parent_id != null)
+        if (parent == null) {
+            if (other.parent != null)
                 return false;
-        } else if (!parent_id.equals(other.parent_id))
+        } else if (!parent.equals(other.parent))
             return false;
         return true;
     }

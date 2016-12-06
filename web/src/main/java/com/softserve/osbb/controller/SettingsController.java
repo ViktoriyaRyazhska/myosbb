@@ -38,7 +38,7 @@ import com.softserve.osbb.service.UserService;
 @RequestMapping("/restful/settings")
 public class SettingsController {
 
-    private static Logger logger = LoggerFactory.getLogger(SettingsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SettingsController.class);
 
     @Autowired
     SettingsService settingsService;
