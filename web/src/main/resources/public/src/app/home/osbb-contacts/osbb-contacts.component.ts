@@ -33,16 +33,15 @@ export class OsbbContactsComponent implements OnInit {
 
     getUser() {
         this.user = this.userSevice.getUser();
-        console.log(this.user);
+        console.log('Current user is ' + this.user.firstName + ' ' + this.user.lastName);
     }
 
     getOsbb() {
         this.osbbService.getDTOOsbbById(this.user.osbbId)
             .then(osbb => {
                 this.userOsbb = osbb;
-                console.log('Retrieving user OSBB:');
+                console.log('Retrieving OSBB for ' + this.user.firstName + ' ' + this.user.lastName);
                 console.log(this.userOsbb);
-                console.log('Done');
                 this.osbbRetrieved = true;
             });
     }

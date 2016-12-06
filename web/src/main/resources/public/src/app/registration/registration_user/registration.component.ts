@@ -1,23 +1,23 @@
-import { Component, OnInit } from "@angular/core";
-import { User } from "../../../shared/models/User";
-import { Osbb, IOsbb } from "../../../shared/models/osbb";
-import { RegisterService } from "./register.service";
-import { ROUTER_DIRECTIVES, Router } from "@angular/router";
+import {Component, OnInit} from "@angular/core";
+import {User} from "../../../shared/models/User";
+import {Osbb, IOsbb} from "../../../shared/models/osbb";
+import {RegisterService} from "./register.service";
+import {ROUTER_DIRECTIVES, Router} from "@angular/router";
 import MaskedInput from "angular2-text-mask";
 import emailMask from 'node_modules/text-mask-addons/dist/emailMask.js';
-import { GoogleplaceDirective } from "./googleplace.directive";
-import { SELECT_DIRECTIVES } from "ng2-select";
-import { IHouse } from "../../../shared/models/House";
-import { IApartment } from "../../../shared/models/apartment.interface";
-import { UserRegistration} from "../../../shared/models/user_registration";
-import {ToasterContainerComponent, ToasterService, ToasterConfig } from "angular2-toaster/angular2-toaster";
+import {GoogleplaceDirective} from "./googleplace.directive";
+import {SELECT_DIRECTIVES} from "ng2-select";
+import {IHouse} from "../../../shared/models/House";
+import {IApartment} from "../../../shared/models/apartment.interface";
+import {UserRegistration} from "../../../shared/models/user_registration";
+import {ToasterContainerComponent, ToasterService, ToasterConfig} from "angular2-toaster/angular2-toaster";
 import {
     onErrorServerNoResponseToastMsg,
     onErrorNewUserAlreadyExists
 } from "../../../shared/error/error.handler.component";
-import { OsbbRegistration } from "../../../shared/models/osbb_registration";
-import { CapitalizeFirstLetterPipe } from "../../../shared/pipes/capitalize-first-letter";
-import { TranslatePipe } from "ng2-translate";
+import {OsbbRegistration} from "../../../shared/models/osbb_registration";
+import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
+import {TranslatePipe} from "ng2-translate";
 
 @Component({
     selector: 'app-register',
@@ -38,6 +38,9 @@ export class RegistrationComponent implements OnInit {
     public phoneMask = ['(', /[0]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
     confirmPassword: string = "";
     birthDateError: boolean = false;
+    matchError: boolean = false;
+    lengthError: boolean = false;
+    checkOnUserPassword: boolean = false;
     error: boolean = false;
     errorConfirm: boolean = false;
     errorMsg = "";
@@ -51,7 +54,6 @@ export class RegistrationComponent implements OnInit {
     private isSelectedOsbb: boolean = false;
     private isSelectedHouse: boolean = false;
     private isSelectedApartment: boolean = false;
-    errorMessage: string;
     private IsRegistered: boolean;
     private IsRegisteredOsbb: boolean;
     private isJoinedOsbb: boolean;
@@ -124,7 +126,7 @@ export class RegistrationComponent implements OnInit {
                     console.log(data);
                     this._toasterService.pop('success', '', "Осбб " + this.newOsbb.name + " було успішно зареєстроване!");
                 },
-                error=> {
+                error => {
                     this.handleErrors(error);
                 }
             )
@@ -139,24 +141,21 @@ export class RegistrationComponent implements OnInit {
         console.log("Address Object", place);
     }
 
-    confirmPass() {
-        this.error = false;
-        let password: string = this.confirmPassword;
-        let password2: string = this.newUser.password;
-        if (password.length != 0) {
-            if (password != password2) {
-                this.errorMsg = "Passwords don't match. Please try again";
-                this.errorConfirm = true;
-                this.confirmPassword = "";
-                return;
-            }
+    matchCheck() {
+        this.checkOnUserPassword = false;
+        let passwordConfirm: string = this.confirmPassword;
+        let userPassword: string = this.newUser.password;
+        if (passwordConfirm.length != 0) {
+            this.matchError = passwordConfirm != userPassword;
         }
-        if (password2.length < 4 || password2.length > 16) {
-            this.errorMsg = "Password cannot be shorter than 4 and longer than 16 characters";
-            this.error = true;
-            this.errorConfirm = false;
-        } else {
-            this.errorConfirm = false;
+    }
+
+    confirmPassLength() {
+        let userPassword: string = this.newUser.password;
+        this.lengthError = userPassword.length < 4 || userPassword.length > 16;
+        this.matchCheck();
+        if (this.matchError) {
+            this.checkOnUserPassword = true;
         }
     }
 
@@ -168,7 +167,6 @@ export class RegistrationComponent implements OnInit {
         let date = new Date();
         let res = this.castBirthDateStringToDate().valueOf() - date.valueOf();
         if (res >= 0) {
-            this.errorBirthDateMsg = "Birthdate is invalid";
             this.birthDateError = true;
         }
         else this.birthDateError = false;
@@ -209,24 +207,24 @@ export class RegistrationComponent implements OnInit {
 
     listAllOsbb() {
         this.registerService.getAllOsbb()
-            .subscribe((data)=> {
+            .subscribe((data) => {
                 this.osbbList = data;
                 this.osbb = this.fillOsbb();
                 console.log('all osbb names', this.osbb);
-            }, (error)=> {
+            }, (error) => {
                 this.handleErrors(error)
             });
     }
 
     listAllHousesByOsbb(id: number) {
         this.registerService.getAllHousesByOsbb(id)
-            .subscribe((data)=> {
+            .subscribe((data) => {
                     this.houseList = data;
                     this.houses = this.fillHouses();
                     console.log('all houses', this.houses);
                 },
 
-                (error)=> {
+                (error) => {
                     this.handleErrors(error)
                 })
 
@@ -234,11 +232,11 @@ export class RegistrationComponent implements OnInit {
 
     listAllApartmentsByHouse(houseId: number) {
         this.registerService.getAllApartmentsByHouse(houseId)
-            .subscribe((data)=> {
+            .subscribe((data) => {
                 this.apartmentList = data;
                 this.apartment = this.fillApartment();
                 console.log('all apartment', this.apartment);
-            }, (error)=> {
+            }, (error) => {
                 this.handleErrors(error)
             });
     }
@@ -265,7 +263,7 @@ export class RegistrationComponent implements OnInit {
         return houseId;
     }
 
-	getApartmentByApartmentNumber(apartmentNumber: string): number {
+    getApartmentByApartmentNumber(apartmentNumber: string): number {
         let apartmentID: number = 0;
         let apNumber = +apartmentNumber;
         for (let ap of this.apartmentList) {
