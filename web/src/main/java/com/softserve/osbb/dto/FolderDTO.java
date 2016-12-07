@@ -13,6 +13,11 @@ public class FolderDTO {
     private String name;
     
     public FolderDTO() { }
+    
+    public FolderDTO(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    };
 
     public Integer getId() {
         return id;

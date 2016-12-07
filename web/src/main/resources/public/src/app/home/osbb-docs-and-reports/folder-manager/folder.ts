@@ -1,4 +1,4 @@
 export class Folder {
-    id: string;
+    id: number;
     name: string;
 }

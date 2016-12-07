@@ -64,7 +64,7 @@ public class FolderServiceImpl implements FolderService {
 
     @Override
     public List<Folder> findByParentId(Integer parentId) {
-        return findByParentId(parentId);
+        return repository.findByParentId(parentId);
     }
 
     @Override
@@ -75,6 +75,25 @@ public class FolderServiceImpl implements FolderService {
     @Override
     public List<Folder> findByOsbb(Osbb osbb) {
         return repository.findByOsbb(osbb);
+    }
+
+//    @Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
+    @Override
+    public Folder save(String folderName, Integer parentId) {
+        Folder parent = repository.findById(parentId);
+        System.out.println("Parent = " + parent);
+        Folder saved = null;
+        
+        if (parent != null) {
+            Folder newFolder = new Folder();
+            newFolder.setName(folderName);
+            newFolder.setParent(parent);
+            newFolder.setOsbb(parent.getOsbb());
+            saved = repository.saveAndFlush(newFolder);
+            System.out.println("Saved = " + saved);
+        }
+        
+        return saved;
     }
 
 }

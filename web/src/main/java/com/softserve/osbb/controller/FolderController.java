@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,7 +53,7 @@ public class FolderController {
     @RequestMapping(value = "{parentId}", method = RequestMethod.GET)
     public ResponseEntity<List<FolderDTO>> findByParent(@PathVariable Integer parentId) {
         
-        System.out.println("\nfindByParent\n");
+        System.out.println("\nfindByParent()\n");
         
         List<Folder> folders = new ArrayList<>();
         folders.addAll(service.findByParentId(parentId));
@@ -63,10 +64,15 @@ public class FolderController {
         return new ResponseEntity<List<FolderDTO>>(response, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<Folder> saveFolder() {
-        logger.info("New folder named '' created.");
-        return null;
+    @RequestMapping(value = "{parentId}", method = RequestMethod.POST)
+    public ResponseEntity<FolderDTO> saveFolder(@RequestBody String folderName, @PathVariable Integer parentId) {
+        
+        Folder newFolder = service.save(folderName, parentId);
+        System.out.println(newFolder);
+        
+        logger.info("New folder named '" + folderName + "' created.");
+        FolderDTO folder = new FolderDTO(newFolder.getId(), newFolder.getName());
+        return new ResponseEntity<FolderDTO>(folder, HttpStatus.OK);
     }
     
     @RequestMapping(value = "", method = RequestMethod.PUT)

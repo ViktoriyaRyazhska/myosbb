@@ -7,7 +7,7 @@
         <hr>
         <div class="row" style="margin-left:50px">
             <div *ngFor="let folder of folders" class="floating-box">
-                <a routerLink="../{{folder.id}}">
+                <a routerLink="./{{folder.id}}">
                     <div class="folder-icon">
                         <img src="assets/img/folder/folder_00.png" class="media-object" width="64px" alt="{{folder.name}}">
                     </div>
@@ -19,7 +19,7 @@
         </div>
         <hr>
         <div *ngIf="currentRole == 'ROLE_MANAGER'" class="row">
-            <button type="button" class="btn btn-primary" style="margin-left:24px; margin-bottom:12px;" data-toggle="modal" data-target="#addFolderModal">
+            <button type="button" class="btn btn-primary" style="margin-left:24px; margin-bottom:12px;" data-toggle="modal" data-target="#addFolder">
                 {{'add_folder' | translate}}
             </button>
             <button type="button" class="btn btn-primary" style="margin-left:24px; margin-bottom:12px;" data-toggle="modal" data-target="#uploadFile">
@@ -29,9 +29,9 @@
     </div>
         
     <!-- Modal -->
-    <div id="addFolderModal" class="modal fade" role="dialog">
+    <div id="addFolder" class="modal fade" role="dialog">
         <div class="modal-dialog">
-            <form class="ui form" (ngSubmit)="createNewFolder(newFolder.name)" #newFolderForm="ngForm" role="form">
+            <form class="ui form" (ngSubmit)="createNewFolder(newFolder.name)" #newFolderForm="ngForm">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -48,12 +48,10 @@
                             required>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-success" type='submit' [disabled]="!newFolderForm.form.valid" onclick='$("#addFolderModal").modal("toggle");'>
-                            {{ 'save' | translate | capitalize }}
+                        <button class="btn btn-primary" type='submit' [disabled]="!newFolderForm.form.valid">
+                                {{ 'save' | translate | capitalize }}
                         </button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            {{'close' | translate}}
-                        </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{'close' | translate}}</button>
                     </div>
                 </div>
             </form>
@@ -72,12 +70,7 @@
                     <p>Some text in the modal.</p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" type='submit' onclick='$("#uploadFile").modal("toggle");'>
-                        {{ 'save' | translate | capitalize }}
-                    </button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                        {{'close' | translate}}
-                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{'close' | translate }}</button>
                 </div>
             </div>
         </div>

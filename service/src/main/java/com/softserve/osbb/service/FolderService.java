@@ -37,4 +37,6 @@ public interface FolderService {
     
     List<Folder> findByOsbb(Osbb osbb);
 
+    Folder save(String folderName, Integer parentId);
+
 }

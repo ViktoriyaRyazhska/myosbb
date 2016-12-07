@@ -1,0 +1,21 @@
+.floating-box {
+    display: inline-block;
+    width: 160px;
+    height: 64px;  
+}
+
+.folder-icon {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+}
+.folder-name {
+    padding: 8px;
+    display: inline-block;
+    width: 90px;
+    height: 64px;
+    word-wrap: break-word; 
+    font-size: 12px;
+    text-overflow: ellipsis;
+    vertical-align: top;  
+}

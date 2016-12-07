@@ -2,23 +2,23 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from "@angular/router";
 import { TranslatePipe } from 'ng2-translate';
 
-import { Subscription } from 'rxjs';
-import { User } from '../../../shared/models/User';
-import { CapitalizeFirstLetterPipe } from '../../../shared/pipes/capitalize-first-letter';
-import { CurrentUserService } from "../../../shared/services/current.user.service";
-import { FolderService } from './folder-manager/folder.service';
-import { Folder } from './folder-manager/Folder';
+import { Subscription } from 'rxjs/Rx';
+import { User } from '../../../../shared/models/User';
+import { CapitalizeFirstLetterPipe } from '../../../../shared/pipes/capitalize-first-letter';
+import { CurrentUserService } from "../../../../shared/services/current.user.service";
+import { FolderService } from './folder.service';
+import { Folder } from './Folder';
 
 @Component({
-    selector: 'docs-and-reports',
-    templateUrl: 'src/app/home/osbb-docs-and-reports/osbb-docs-and-reports.html',
+    selector: 'folder-manager',
+    templateUrl: './src/app/home/osbb-docs-and-reports/folder-manager/folder-manager.html',
     styleUrls: ['src/app/home/osbb-contacts/osbb-contacts.css', 
-                'src/app/home/osbb-docs-and-reports/osbb-docs-and-reports.css'],
+                'src/app/home/osbb-docs-and-reports/folder-manager/folder-manager.css'],
     directives: [ROUTER_DIRECTIVES],
     providers: [FolderService],
     pipes:[CapitalizeFirstLetterPipe, TranslatePipe]
 })
-export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
+export class FolderManagerComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
     private currentRole: string;
     private folders: Folder[]; 
@@ -66,7 +66,6 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
                 data => {
                     this.newFolder = data;
                     console.log('Successfully saved: name=' + this.newFolder.name + ', id=' + this.newFolder.id);
-                    this.initFolders(this.parentId);
                 },
                 error => console.log(error)
             );

@@ -20,7 +20,6 @@ import { GasComponen } from "../home/components/apartment/submenu/gas/gas.compon
 import { WaterComponen } from "../home/components/apartment/submenu/water/water.component";
 import { OsbbContactsComponent } from "./osbb-contacts/osbb-contacts.component";
 import { OsbbDocumentsAndReportsComponent } from "./osbb-docs-and-reports/osbb-docs-and-reports.component";
-import { FolderManagerComponent } from './osbb-docs-and-reports/folder-manager/folder-manager.component';
 
 export const homeRoutes: RouterConfig = [
     {
@@ -47,9 +46,8 @@ export const homeRoutes: RouterConfig = [
             { path: 'rents/water', component: WaterComponen },
             { path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent },          
             { path: 'osbb/contacts', component: OsbbContactsComponent },
-            { path: 'osbb/documents-and-reports', component: OsbbDocumentsAndReportsComponent },
-            { path: 'osbb/documents-and-reports/:folder', component: FolderManagerComponent }
-            // { path: 'osbb/documents-and-reports/:folder/:subfolder', component: FolderManagerComponent }               
+            { path: 'osbb/documents-and-reports', redirectTo: 'osbb/documents-and-reports/1', pathMatch: 'full' },
+            { path: 'osbb/documents-and-reports/:id', component: OsbbDocumentsAndReportsComponent }              
         ]
     }
 ];
