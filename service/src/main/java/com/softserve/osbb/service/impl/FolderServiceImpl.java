@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.osbb.model.Folder;
 import com.softserve.osbb.model.Osbb;
@@ -27,31 +25,31 @@ public class FolderServiceImpl implements FolderService {
     private FolderRepository repository;
 
     @Override
-    public Folder save(Folder folder) {
-        return repository.save(folder);
-    }
-
-    @Override
     public void delete(Folder folder) {
         repository.delete(folder);
     }
 
     @Override
-    public void deleteAll() {
-        repository.deleteAll();
-    }
-
-    @Override
-    public void deleteInBatch() {
-        repository.deleteAllInBatch();
+    public boolean deleteById(Integer id) {
+        repository.delete(id);
+        return (repository.findById(id) == null);
     }
 
     @Override
     public Folder update(Folder folder) {
         return repository.saveAndFlush(folder);
     }
+
+    @Override
+    public Folder update(Integer id, String name) {
+        Folder folder = repository.findById(id);        
+        if (folder == null) {
+            throw new EntityNotFoundException(id);
+        }
+        folder.setName(name);        
+        return update(folder);
+    }
     
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Folder> findAll() {
         return repository.findAll();

@@ -76,21 +76,32 @@ public class FolderController {
         return new FolderDTO(newFolder.getId(), newFolder.getName());
     }
     
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "id/{id}", method = RequestMethod.GET)
+    public FolderDTO getFolder(@PathVariable Integer id) {        
+        Folder newFolder = service.findById(id);  
+        return new FolderDTO(newFolder.getId(), newFolder.getName());
+    }
+    
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "id/{id}", method = RequestMethod.PUT)
+    public FolderDTO updateFolder(@RequestBody FolderDTO updated) {        
+        Folder folder = service.update(updated.getId(), updated.getName()); 
+        return new FolderDTO(folder.getId(), folder.getName());
+    }
+    
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "id/{id}", method = RequestMethod.DELETE)
+    public boolean deleteFolder(@PathVariable Integer id) {        
+        return service.deleteById(id);
+    }    
+    
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException.class)
     public Error folderNotFound(EntityNotFoundException exception) {
         String message = "Folder with id=" + exception.getId() + " not found!";
         logger.error(message);
-        System.out.println(message);
         return new Error(404, message);
-    }
-    
-    @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "id/{id}", method = RequestMethod.GET)
-    public FolderDTO getFolder(@PathVariable Integer id) {        
-        Folder newFolder = service.findById(id);  
-        System.out.println("Entity with id=" + id + " not found!");
-        return new FolderDTO(newFolder.getId(), newFolder.getName());
     }
 
 }

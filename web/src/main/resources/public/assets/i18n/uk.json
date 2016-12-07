@@ -18,8 +18,8 @@
   "PERMANENT_MONTHLY": "щомісячна",
   "search": "пошук",
   "description": "опис",
-  "edit": "редагувати",
-  "delete": "видалити",
+  "edit": "Редагувати",
+  "delete": "Видалити",
   "GoToProviderPage": "Перейти на сторінку провайдера",
   "required": "обов'язково",
   "save": "зберегти",
@@ -285,5 +285,8 @@
   "regulations": "Установчі документи",
   "meetings_minutes": "Протоколи зборів",
   "fin_stmnt": "Фінансова звітність",
-  "add_folder": "Створити папку"
+  "add_folder": "Створити папку",
+  "folder_name": "Назва папки",
+  "select_all": "Виділити все",
+  "rename": "Переіменувати"
 }

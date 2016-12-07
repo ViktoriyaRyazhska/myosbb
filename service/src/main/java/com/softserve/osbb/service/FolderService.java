@@ -17,15 +17,13 @@ import com.softserve.osbb.model.Osbb;
 @Service
 public interface FolderService {
     
-    Folder save(Folder folder);
-    
     void delete(Folder folder);
     
-    void deleteAll();
-    
-    void deleteInBatch();
+    boolean deleteById(Integer id);
     
     Folder update(Folder folder);
+    
+    Folder update(Integer id, String name); 
     
     List<Folder> findAll();
     
@@ -37,6 +35,6 @@ public interface FolderService {
     
     List<Folder> findByOsbb(Osbb osbb);
 
-    Folder save(String folderName, Integer parentId);
+    Folder save(String folderName, Integer parentId);      
 
 }

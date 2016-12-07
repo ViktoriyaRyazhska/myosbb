@@ -19,3 +19,7 @@
     text-overflow: ellipsis;
     vertical-align: top;  
 }
+
+.header-cell {
+    padding-left:12px;
+}

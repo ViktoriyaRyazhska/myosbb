@@ -71,8 +71,8 @@
   "PERMANENT_MONTHLY": "monthly",
   "search": "search",
   "description": "description",
-  "edit": "edit",
-  "delete": "delete",
+  "edit": "Edit",
+  "delete": "Delete",
   "GoToProviderPage": "Go to provider page",
   "required": "required",
   "save": "save",
@@ -284,5 +284,8 @@
   "regulations": "Regulations",
   "meetings_minutes": "Meetings Minutes",
   "fin_stmnt": "Financial Statements",
-  "add_folder": "Add New Folder"
+  "add_folder": "Add New Folder",
+  "folder_name": "Folder name",
+  "select_all": "Select all",
+  "rename": "Rename"
 }

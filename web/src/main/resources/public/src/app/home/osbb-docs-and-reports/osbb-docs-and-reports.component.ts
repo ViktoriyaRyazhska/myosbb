@@ -23,7 +23,9 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
     private currentRole: string;
     private folders: Folder[]; 
     private newFolder: Folder = new Folder();
-    private parentId: number; 
+    private editableFolder: Folder = new Folder();
+    private parentId: number;
+    private editMode: boolean = false; 
 
     constructor(private userService: CurrentUserService,
                 private router: Router, 
@@ -61,7 +63,7 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
 
     private createNewFolder(name: string) {
         console.log('Saving folder ' + this.newFolder.name + ' with parentId=' + this.parentId);
-        this.folderService.saveFolder(name, this.parentId)
+        this.folderService.save(name, this.parentId)
             .subscribe(
                 data => {
                     this.newFolder = data;
@@ -77,5 +79,44 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
             this.parentId = 1;
              console.log('parentId set to 1');
         }
+    }
+
+    private toggleEditMode() {
+        console.log(this.editMode);
+        this.editMode = !this.editMode;
+        console.log(this.editMode);
+    }
+
+    private deleteFolder(id: number) {        
+        if (confirm()) {
+            this.folderService.delete(id)
+                .subscribe(
+                    data => {                    
+                        console.log('Successfully deleted');
+                        this.initFolders();
+                    },
+                    error => console.log(error)
+                );
+        }
+    }
+
+    private updateFolder() {       
+        this.folderService.update(this.editableFolder)
+            .subscribe(
+                data => {                    
+                    console.log('Successfully updated');
+                    this.editableFolder = data;
+                    this.initFolders();
+                },
+                error => console.log(error)
+        );        
+    }
+
+    private getFolder(id: number) {
+        this.folderService.getFolder(id)
+            .subscribe(
+                data => this.editableFolder = data,                    
+                error => console.log(error)                
+            );
     }
 }
