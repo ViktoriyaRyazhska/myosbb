@@ -8,7 +8,6 @@ import { Attachment } from "../../../../../shared/models/attachment";
 import { SelectItem } from "../../../../../shared/models/ng2-select-item.interface";
 import { OsbbDTO } from '../osbb';
 import { SELECT_DIRECTIVES } from "ng2-select";
-import { OsbbService } from '../osbb.service';
 import { Region, AddressDTO, Street } from "../../../../../shared/models/addressDTO";
 import { AddressService } from '../../../../../shared/services/address.service';
 
@@ -18,7 +17,7 @@ import { AddressService } from '../../../../../shared/services/address.service';
     styleUrls: ['./src/app/admin/components/osbb/osbb_form/osbb-modal.css', './src/shared/css/general.css'],
     directives:[MODAL_DIRECTIVES, FORM_DIRECTIVES, CORE_DIRECTIVES, SELECT_DIRECTIVES],
     viewProviders: [BS_VIEW_PROVIDERS],
-    providers: [OsbbService, AddressService],
+    providers: [AddressService],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
 })
 export class OsbbModalComponent implements OnInit{
@@ -42,39 +41,40 @@ export class OsbbModalComponent implements OnInit{
     address: string;
     district: string;
     available: boolean;
-    regions: Array<any> = [];
-    cities: Array<any> = [];
-    streets: Array<any> = [];
-//    currentStreet: Array<any> = [];
+    regions: Array<any>;
+    cities: Array<any>;
+    streets: Array<any>;
     currentStreet: AddressDTO;
-//    currentCity: Array<any> = [];
-//    currentRegion: Array<any> = [];
     currentRegion: AddressDTO;
     currentCity: AddressDTO;
     submitAttempt:boolean = false;
     creatingForm: ControlGroup;
     nameControl: Control;
     descriptionControl: Control;
+    regionControl: Control;
+    cityControl: Control;
+    streetControl: Control;
     addressControl: Control;
     districtControl: Control;
 
-     constructor(private builder: FormBuilder, private element: ElementRef, private osbbService: OsbbService, 
+     constructor(private builder: FormBuilder, private element: ElementRef, 
                  private addressService: AddressService) {
-//        this.currentStreet = new AddressDTO();
-//        this.currentCity = new AddressDTO();
-        this.currentRegion = new AddressDTO();
-        this.currentCity = new AddressDTO();
-        this.currentStreet = new AddressDTO();
         this.osbbDTO = new OsbbDTO();
         this.created = new EventEmitter<OsbbDTO>();
         this.update = new EventEmitter<OsbbDTO>();
         this.nameControl = new Control('', Validators.required);
         this.descriptionControl = new Control('', Validators.required);
+        this.regionControl = new Control('', Validators.required);
+        this.cityControl = new Control('', Validators.required);
+        this.streetControl = new Control('', Validators.required);
         this.addressControl = new Control('', Validators.required);
         this.districtControl = new Control('', Validators.required);
         this.creatingForm = builder.group({
             nameControl: this.nameControl,
             descriptionControl: this.descriptionControl,
+            regionControl: this.regionControl,
+            cityControl: this.cityControl,
+            streetControl: this.streetControl,
             addressControl: this.addressControl,
             districtControl: this.districtControl,
         });
@@ -100,6 +100,13 @@ export class OsbbModalComponent implements OnInit{
     openAddModal() {
         this.logoUrl = null;
         this.isEditing = false;
+        this.regions = [];
+        this.cities = [];
+        this.streets = [];
+        this.currentRegion = undefined;
+        this.currentCity = undefined;
+        this.currentStreet = undefined;
+        this.fillRegions();
         this.modalWindow.show();  
     }
 
@@ -117,29 +124,17 @@ export class OsbbModalComponent implements OnInit{
         } else {
              this.logoUrl = '';
         }
+        this.regions = [];
+        this.cities = [];
+        this.streets = [];
+        this.currentRegion = undefined;
+        this.currentCity = undefined;
+        this.currentStreet = undefined;
         this.fillRegions();
+        if (this.street != null) {
         this.fillCities(this.street.city.region.id);
         this.fillStreets(this.street.city.id);
-        this.currentRegion = this.regions[2];
-//        let cs = new AddressDTO();
-//        cs.id = this.street.id;
-//        cs.text = this.street.name;
-//        this.currentStreet.push(cs);
-        this.currentStreet = this.streets[1];
-//        this.currentStreet.id = this.street.id;
-//        this.currentStreet.text = this.street.name;
-//        this.currentStreet[0].id = this.street.id;
-//        this.currentStreet[0].text = this.street.name;
-//        this.currentStreet = this.streets[2];
-        this.currentCity = this.cities[0];  
- //       this.currentCity = [];
- //       this.currentCity.push(this.cities[1]);
- //       this.currentCity.id = this.street.city.id;
- //       this.currentCity.text = this.street.city.name;
-//        this.currentRegion = [];
-//        this.currentRegion.id = this.street.city.region.id;
-//        this.currentRegion.text = this.street.city.region.name;
-//          this.currentRegion = this.street.city.region;
+        }
         this.modalWindow.show();
     }
     
@@ -193,14 +188,17 @@ export class OsbbModalComponent implements OnInit{
 
     fillRegions(): void {
         this.addressService.getAllRegions().subscribe((data)=> {
-//             this.regions = data;
              this.regions = [];
              for (let reg of data) {
                  let aDTO = new AddressDTO();
                  aDTO.id = reg.id;
                  aDTO.text = reg.name;
                  this.regions.push(aDTO);
+                 if ((this.street != null) && (this.street.city.region.id == aDTO.id)) {
+                     this.currentRegion = aDTO;
+                 }
              }
+             console.log("Regions List");
              console.log(this.regions);
              }, (error)=> {
                  this.handleErrors(error)
@@ -215,7 +213,11 @@ export class OsbbModalComponent implements OnInit{
                  aDTO.id = cit.id;
                  aDTO.text = cit.name;
                  this.cities.push(aDTO);
+                 if ((this.street != null) && (this.street.city.id == aDTO.id)) {
+                     this.currentCity = aDTO;
+                 }
              }
+             console.log("Cities List");
              console.log(this.cities);
              }, (error)=> {
                  this.handleErrors(error)
@@ -230,7 +232,11 @@ export class OsbbModalComponent implements OnInit{
                  aDTO.id = str.id;
                  aDTO.text = str.name;
                  this.streets.push(aDTO);
+                 if ((this.street != null) && (this.street.id == aDTO.id)) {
+                     this.currentStreet = aDTO;
+                 }
              }
+             console.log("Streets List");
              console.log(this.streets);
              }, (error)=> {
                  this.handleErrors(error)
@@ -239,9 +245,8 @@ export class OsbbModalComponent implements OnInit{
 
     selectedRegion(value: any): void {
         console.log(value);
-        this.currentRegion.id = value.id;    
-        this.currentRegion.text = value.text;    
         this.fillCities(value.id);
+        this.streets = [];
     }
 
     selectedCity(value: any): void {

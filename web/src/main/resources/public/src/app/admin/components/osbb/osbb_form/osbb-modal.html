@@ -14,46 +14,50 @@
                         <input id="imgInp" type="file" accept='image/*' (change)="showLogo($event);toggleChangeLogo()" #inputLogo/>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6">
+                        <label>{{'name'| translate | capitalize }}</label>
                         <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !nameControl.valid }">
                             <input class="form-control" type="text" name="name" placeholder="{{'name' | translate | capitalize}}" [(ngModel)]="name"
                                 ngControl="nameControl" required>
                             <div class="alert alert-danger" *ngIf="submitAttempt && !nameControl.valid">{{'requiredField' | translate | capitalize}}</div>
                         </div>
                         <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !descriptionControl.valid }">
+                            <label>{{'description'| translate | capitalize }}</label>
                             <input class="form-control" type="text" name="description" placeholder="{{'description' | translate | capitalize}}" [(ngModel)]="description"
                                 ngControl="descriptionControl" required>
                             <div class="alert alert-danger" *ngIf="submitAttempt && !descriptionControl.valid">{{'requiredField' | translate | capitalize}}</div>
                         </div>
+                        <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !regionControl.valid }">
+                            <label>{{'region'| translate | capitalize }}</label>
+			                 <select class="form-control" [ngModel]="currentRegion" (ngModelChange)="selectedRegion($event)" name="selectRegion" 
+                                ngControl="regionControl" required>
+				             <option *ngFor="let reg of regions" [selected]="reg === currentRegion" [ngValue]="reg" >{{reg.text}}</option>
+			                 </select>
+                            <div class="alert alert-danger" *ngIf="submitAttempt && !regionControl.valid">{{'requiredField' | translate | capitalize}}</div>
+                        </div>   
+                        <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !cityControl.valid }">
+                            <label>{{'city'| translate | capitalize }}</label>
+			                 <select class="form-control" [ngModel]="currentCity" (ngModelChange)="selectedCity($event)" name="selectCity"
+                                 ngControl="cityControl" required>
+				             <option *ngFor="let cit of cities" [selected]="cit === currentCity" [ngValue]="cit" >{{cit.text}}</option>
+			                 </select>
+                            <div class="alert alert-danger" *ngIf="submitAttempt && !cityControl.valid">{{'requiredField' | translate | capitalize}}</div>
+                        </div>   
+                        <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !streetControl.valid }">
+			                 <label>{{'street'| translate | capitalize }}</label>
+                             <select class="form-control" [ngModel]="currentStreet" (ngModelChange)="selectedStreet($event)" name="selectStreet"
+                                 ngControl="regionControl" required>
+				             <option *ngFor="let str of streets" [selected]="str === currentStreet" [ngValue]="str" >{{str.text}}</option>
+			                 </select>
+                            <div class="alert alert-danger" *ngIf="submitAttempt && !streetControl.valid">{{'requiredField' | translate | capitalize}}</div>
+                        </div>   
                         <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !addressControl.valid }">
-                            <ng-select [allowClear]="true"
-                                       [active]="currentRegion"
-                                       [items]="regions"
-                                       (selected)="selectedRegion($event)"
-                                       placeholder="{{'region' | translate}}">
-                            </ng-select>
-                        </div>
-                        <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !addressControl.valid }">
-                            <ng-select [allowClear]="true"
-                                       [active]="currentCity"
-                                       [items]="cities"
-                                       (selected)="selectedCity($event)"
-                                       placeholder="{{'city' | translate}}">
-                            </ng-select>
-                        </div>
-                        <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !addressControl.valid }">
-                            <ng-select [allowClear]="true"
-                                       [active]="currentStreet"
-                                       [items]="streets"
-                                       (selected)="selectedStreet($event)"
-                                       placeholder="{{'street' | translate}}">
-                            </ng-select>
-                        </div>
-                        <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !addressControl.valid }">
+                            <label>{{'build_number'| translate | capitalize }}</label>
                             <input class="form-control" type="text" name="address" placeholder="{{'adress' | translate | capitalize}}" [(ngModel)]="address"
                                 ngControl="addressControl" required>
                             <div class="alert alert-danger" *ngIf="submitAttempt && !addressControl.valid">{{'requiredField' | translate | capitalize}}</div>
                         </div>
                         <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !districtControl.valid }">
+                            <label>{{'district'| translate | capitalize }}</label>
                             <input class="form-control" type="text" name="district" placeholder="{{'district' | translate | capitalize}}" [(ngModel)]="district"
                                 ngControl="districtControl" required>
                             <div class="alert alert-danger" *ngIf="submitAttempt && !districtControl.valid">{{'requiredField' | translate | capitalize}}</div>
