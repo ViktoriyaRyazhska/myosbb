@@ -71,6 +71,7 @@ export class ProviderService {
     addProvider(provider: Provider) {
         console.log("sending http POST to " + this.url);
         console.log("saving ", provider);
+        provider.active = true;
         return this._http.post(this.url, JSON.stringify(provider))
             .map(res => res.json())
             .catch((err) => Observable.throw(err));
@@ -80,6 +81,16 @@ export class ProviderService {
         console.log('updating provider with id: ' + provider.providerId);
         console.log("sending http PUT to " + this.url + provider.providerId);
         console.log("json obj: " + JSON.stringify(provider));
+        return this._http.put(this.url + provider.providerId, JSON.stringify(provider))
+            .map(res => res.json())
+            .catch((err) => Observable.throw(err));
+    }
+
+    makeProviderInactive(provider: Provider) {
+        console.log('making provider with id: ' + provider.providerId + ' inactive');
+        console.log("sending http PUT to " + this.url + provider.providerId);
+        console.log("json obj: " + JSON.stringify(provider));
+        provider.active = false;
         return this._http.put(this.url + provider.providerId, JSON.stringify(provider))
             .map(res => res.json())
             .catch((err) => Observable.throw(err));

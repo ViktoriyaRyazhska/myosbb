@@ -8,7 +8,6 @@ import {Provider} from "../../../../shared/models/provider.interface";
 import {PageCreator} from "../../../../shared/services/page.creator.interface";
 import {SelectItem} from "../../../../shared/models/ng2-select-item.interface";
 import {ProviderService} from "../service/provider-service";
-import {PeriodicityItems} from "../../../../shared/models/periodicity.const";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 
 @Component({
@@ -20,19 +19,19 @@ import {ROUTER_DIRECTIVES} from "@angular/router";
     styleUrls: ['src/app/house/house.css', 'src/shared/css/loader.css', 'src/shared/css/general.css']
 })
 export class ProviderUserPageComponent {
-    private providers :  Provider[];
-    private pageCreator:PageCreator<Provider>;
-    private pageNumber:number = 1;
-    private pageList:Array<number> = [];
-    private totalPages:number;
+    private providers: Provider[];
+    private pageCreator: PageCreator<Provider>;
+    private pageNumber: number = 1;
+    private pageList: Array<number> = [];
+    private totalPages: number;
     onlyActive: boolean = true;
-    private providerId:number;
+    private providerId: number;
     private periodicities: SelectItem[] = [];
 
-    constructor(private _providerService:ProviderService){
+    constructor(private _providerService: ProviderService) {
     }
 
-    ngOnInit():any {
+    ngOnInit(): any {
         this.getProvidersByPageNumAndState(this.pageNumber);
     }
 
@@ -52,14 +51,14 @@ export class ProviderUserPageComponent {
         }
     }
 
-    preparePageList(start:number, end:number) {
+    preparePageList(start: number, end: number) {
         for (let i = start; i <= end; i++) {
             this.pageList.push(i);
         }
     }
 
-    getProvidersByPageNumAndState(pageNumber:number){
-        console.log("getProvidersByPageNum "+ pageNumber + "; only active=" + this.onlyActive);
+    getProvidersByPageNumAndState(pageNumber: number) {
+        console.log("getProvidersByPageNum " + pageNumber + "; only active=" + this.onlyActive);
         this.pageNumber = +pageNumber;
         this.emptyArray();
         return this._providerService.getProvidersByState(this.pageNumber, this.onlyActive)
@@ -74,5 +73,4 @@ export class ProviderUserPageComponent {
                     console.error(err)
                 });
     };
-
 }

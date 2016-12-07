@@ -17,7 +17,8 @@
                 <div *ngFor="let provider of providers; let isEven = even;">
                     <template [ngIf]="isEven">
                         <div class="col-xs-12">
-                            <label class="col-xs-6 text-center"><b style="font-size: 20px;">{{provider.name}}</b></label>
+                            <label class="col-xs-6 text-center"><b
+                                    style="font-size: 20px;">{{provider.name}}</b></label>
                         </div>
                         <div class="col-xs-12">
                             <label class="col-xs-6"><b>{{'type' | translate | capitalize}} </b></label>

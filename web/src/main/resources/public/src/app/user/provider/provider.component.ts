@@ -1,22 +1,19 @@
 /**
  * Created by Anastasiia Fedorak  8/2/16.
  */
-import {Component, OnInit, ViewChild, Input} from "@angular/core";
+import {Component, ViewChild, from
+"@angular/core";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
 import {TranslatePipe, TranslateService} from "ng2-translate/ng2-translate";
 import {DROPDOWN_DIRECTIVES} from "ng2-bs-dropdown/dropdown";
 import {ProviderService} from "./service/provider-service";
 import {PageCreator} from "../../../shared/services/page.creator.interface";
-import {Observable} from 'rxjs/Observable';
 import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS, BUTTON_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalDirective} from "ng2-bootstrap/ng2-bootstrap";
 import {CORE_DIRECTIVES, NgClass} from "@angular/common";
-import {BUTTON_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 import {SELECT_DIRECTIVES} from "ng2-select/ng2-select";
 import {ROUTER_DIRECTIVES, Router} from "@angular/router";
 import {ProviderTypeComponent} from "./provider_type/provider-type.component";
-import {ProviderType} from "../../../shared/models/provider.type.interface";
-import {ProviderTypeService} from "./provider_type/service/provider-type.service";
 import {Provider} from "../../../shared/models/provider.interface";
 import {Mail} from "../../../shared/models/mail.interface";
 import {MailService} from "../../../shared/services/mail.sender.service";
@@ -32,8 +29,6 @@ import FileLocationPath = require("../../../shared/services/file.location.path")
 import {AttachmentComponent} from "../../attachment/attachment.component";
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment/';
 
-const fileUploadPath = FileLocationPath.fileUploadPath;
-const fileDownloadPath = FileLocationPath.fileDownloadPath;
 declare var saveAs: any;
 
 
@@ -41,7 +36,6 @@ declare var saveAs: any;
     selector: 'myosbb-provider',
     templateUrl: 'src/app/user/provider/provider-table.html',
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
-    directives: [DROPDOWN_DIRECTIVES],
     providers: [ProviderService, MailService],
     directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, ROUTER_DIRECTIVES, ProviderTypeComponent, AttachmentComponent,
         SELECT_DIRECTIVES, NgClass, FORM_DIRECTIVES, BUTTON_DIRECTIVES, MaskedInput, FileSelectDirective, FileDropDirective, DROPDOWN_DIRECTIVES],
@@ -95,7 +89,6 @@ export class ProviderComponent {
     private shouldRun: boolean = true;
     private upload: boolean = false;
 
-    private providerId: number;
     private periodicities: SelectItem[] = [];
 
     private mail: Mail = {to: '', subject: '', text: ''};
@@ -184,29 +177,28 @@ export class ProviderComponent {
 
     }
 
-    openDelModal(id: number) {
-        this.providerId = id;
-        console.log('show', this.providerId);
+    openDelModal(provider: Provider) {
+        this.selected = provider;
+        this.upload = false;
+        console.log('selected provider: ' + this.selected);
         this.delModal.show();
     }
 
     closeDelModal() {
         this.active = false;
-        console.log('delete', this.providerId);
-        this._providerService.deleteProviderById(this.providerId).subscribe(() => {
-                console.log("refreshing...");
-                this.refresh();
-            },
-            (err) => {
-                console.log(err);
-                this.refresh()
-            }
-        );
-        this.delModal.hide();
-
-        setTimeout(() => {
-            this.active = true
-        }, 0);
+        if (this.shouldRun) {
+            this._providerService.makeProviderInactive(this.selected).subscribe(() => {
+                    console.log("refreshing...");
+                    this.shouldRun = false;
+                    this.refresh();
+                },
+                (err) => {
+                    console.log(err)
+                }
+            );
+            console.log("making provider inactive: ", this.selected);
+            this.delModal.hide();
+        }
     }
 
     getPeriodicitiesTranslation() {
@@ -299,6 +291,7 @@ export class ProviderComponent {
                 .subscribe(() => {
                         console.log("refreshing...");
                         this.shouldRun = false;
+                        this.active = true;
                         this.refresh();
                         this.emptyFields();
                     },
@@ -424,4 +417,3 @@ export class ProviderComponent {
         this.newProvider.logoUrl = event;
     }
 }
-
