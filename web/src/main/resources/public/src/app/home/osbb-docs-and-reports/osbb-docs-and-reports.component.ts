@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from "@angular/router";
 import { TranslatePipe } from 'ng2-translate';
 
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { User } from '../../../shared/models/User';
 import { CapitalizeFirstLetterPipe } from '../../../shared/pipes/capitalize-first-letter';
 import { CurrentUserService } from "../../../shared/services/current.user.service";
@@ -34,7 +34,7 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
             (params) => {
                 this.parentId = params['id'];
                 this.checkParentId();
-                this.initFolders(this.parentId);
+                this.initFolders();
                 console.log('Folder changed to ' + this.parentId);
             }
         );   
@@ -50,9 +50,9 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
         console.log('Unsubscribed from ActivatedRoure.params');
     }
 
-    private initFolders(parentId: number) {
+    private initFolders() {
         this.checkParentId();
-        this.folderService.getFoldersByParentId(parentId)
+        this.folderService.getFoldersByParentId(this.parentId)
             .subscribe(
                 data => this.folders = data,                    
                 error => console.log(error)                
@@ -66,7 +66,7 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
                 data => {
                     this.newFolder = data;
                     console.log('Successfully saved: name=' + this.newFolder.name + ', id=' + this.newFolder.id);
-                    this.initFolders(this.parentId);
+                    this.initFolders();
                 },
                 error => console.log(error)
             );

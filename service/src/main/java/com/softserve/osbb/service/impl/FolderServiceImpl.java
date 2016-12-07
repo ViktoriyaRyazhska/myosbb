@@ -11,6 +11,7 @@ import com.softserve.osbb.model.Folder;
 import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.repository.FolderRepository;
 import com.softserve.osbb.service.FolderService;
+import com.softserve.osbb.service.exceptions.EntityNotFoundException;
 
 /**
  * 
@@ -53,12 +54,15 @@ public class FolderServiceImpl implements FolderService {
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Folder> findAll() {
-        System.out.println("In FolderServiceImpl.findAll()");
         return repository.findAll();
     }
 
     @Override
     public Folder findById(Integer id) {
+        Folder folder = repository.findById(id);
+        if (folder == null) {
+            throw new EntityNotFoundException(id);
+        }
         return repository.findById(id);
     }    
 
@@ -77,23 +81,21 @@ public class FolderServiceImpl implements FolderService {
         return repository.findByOsbb(osbb);
     }
 
-//    @Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
     @Override
     public Folder save(String folderName, Integer parentId) {
-        Folder parent = repository.findById(parentId);
-        System.out.println("Parent = " + parent);
-        Folder saved = null;
+        Folder folder = repository.findById(parentId);
         
-        if (parent != null) {
+        if (folder != null) {
             Folder newFolder = new Folder();
             newFolder.setName(folderName);
-            newFolder.setParent(parent);
-            newFolder.setOsbb(parent.getOsbb());
-            saved = repository.saveAndFlush(newFolder);
-            System.out.println("Saved = " + saved);
+            newFolder.setParent(folder);
+            newFolder.setOsbb(folder.getOsbb());
+            folder = repository.saveAndFlush(newFolder);
+        } else {
+            throw new EntityNotFoundException(parentId);
         }
         
-        return saved;
+        return folder;
     }
 
 }

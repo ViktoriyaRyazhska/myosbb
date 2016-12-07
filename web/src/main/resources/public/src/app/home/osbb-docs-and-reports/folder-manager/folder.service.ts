@@ -20,13 +20,13 @@ export class FolderService {
     }
 
     getFoldersByParentId(id: number) : Observable<Folder[]> {
-        return this.http.get(this.controllerUrl + '/' + id)
+        return this.http.get(this.controllerUrl + '/parent/' + id)
             .map(response => response.json())
             .catch(error => Observable.throw(error));
     }
 
     saveFolder(folderName: string, parentId: number) : Observable<Folder> {
-        return this.http.post(this.controllerUrl + '/' + parentId, folderName)
+        return this.http.post(this.controllerUrl + '/parent/' + parentId, folderName)
             .map(response => response.json())
             .catch(error => Observable.throw(error))
     }
