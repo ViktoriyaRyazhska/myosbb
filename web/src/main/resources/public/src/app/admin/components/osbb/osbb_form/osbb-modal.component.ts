@@ -273,12 +273,6 @@ export class OsbbModalComponent implements OnInit{
         this.submitAttempt = false;
     }
     handleErrors(error) {
-/*        if (error.status === 403) {
-            this._toasterService.pop('error', "Такий користувач уже зареєстрований в системі");
-        }
-        if (error.status === 500) {
-            this._toasterService.pop('error', "Нажаль, сталася помилка під час реєстрації");
-        }*/
         console.log('error msg' + error)
     }
 }
