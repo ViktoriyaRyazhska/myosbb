@@ -1,0 +1,16 @@
+<div class="panel panel-default top-panel to-right">
+    <div class="panel-heading">
+        <h4>
+            <i class="fa fa-angle-right"></i> Bill:
+            <tbody>
+                <tr *ngFor="let parentBill of bills">
+                    <td> {{parentBill.name}} </td>
+                    <td> {{parentBill.billId}} </td>
+                </tr>
+            </tbody>
+        </h4>
+        <div id="example_filter" class="pull-right dataTables_filter">
+            <div style="display: inline-flex"></div>
+        </div>
+    </div>
+</div>

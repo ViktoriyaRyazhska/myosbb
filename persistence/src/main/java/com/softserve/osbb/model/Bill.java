@@ -1,5 +1,6 @@
 package com.softserve.osbb.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -131,6 +132,7 @@ public class Bill implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_bill_id", referencedColumnName = "bill_id")
+	@JsonBackReference
 	public Bill getParentBill() {
 		return parentBill;
 	}

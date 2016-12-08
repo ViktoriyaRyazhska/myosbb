@@ -43,4 +43,8 @@ public interface BillService {
     boolean existsBill(Integer id);
 
     List<Bill> getAllBillsByApartmentWithCurrentMonth(Integer apartmentId);
+    
+    List<Bill> findAllParentBillId();
+    
+    List<Bill> findAllParentBillById(Integer id);
 }

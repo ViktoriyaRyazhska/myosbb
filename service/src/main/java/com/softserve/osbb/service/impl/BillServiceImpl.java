@@ -125,8 +125,22 @@ public class BillServiceImpl implements BillService {
         return billRepository.getAllBillsByApartmentWithCurrentMonth(apartmentId);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	@Override
 	public Page<Bill> findAllParentBills(Pageable pageable) {
 		return billRepository.findByParentBillIsNull(pageable);
 	}
+    
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    @Override
+    public List<Bill> findAllParentBillId(){
+        return billRepository.findByParentBillIsNotNull();
+    }
+    
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    @Override
+    public List<Bill> findAllParentBillById(Integer id){
+        return billRepository.findParentBillById(id);
+    }
+
 }
