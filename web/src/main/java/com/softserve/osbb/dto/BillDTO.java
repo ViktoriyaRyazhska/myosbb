@@ -146,11 +146,12 @@ public class BillDTO {
         private Float toPay;
         private Float paid;
         @SuppressWarnings("unused")
-        private Integer apartmentId = 0;
+        private Integer apartmentId;
         @SuppressWarnings("unused")
-        private Integer providerId = 0;
+        private Integer providerId;
         private Integer apartmentNumber;
         private String status;
+        //@SuppressWarnings("unused")
         private Integer parentBillId;
 
         public BillDTOBuilder() { }
