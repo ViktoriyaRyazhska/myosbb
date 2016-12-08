@@ -18,7 +18,7 @@ import { UserReportComponent } from "../user/report/user.report.component";
 import { ElectricityComponen } from "../home/components/apartment/submenu/electricity/electricity.component";
 import { GasComponen } from "../home/components/apartment/submenu/gas/gas.component";
 import { WaterComponen } from "../home/components/apartment/submenu/water/water.component";
-import { CustomserviceComponen } from "../home/components/apartment/submenu/customservice/customservice.component";
+import { CustomserviceComponent } from "../home/components/apartment/submenu/customservice/customservice.component";
 import { OsbbContactsComponent } from "./osbb-contacts/osbb-contacts.component";
 import { OsbbDocumentsAndReportsComponent } from "./osbb-docs-and-reports/osbb-docs-and-reports.component";
 
@@ -42,7 +42,7 @@ export const homeRoutes: RouterConfig = [
             { path: 'friend/:id', component: UserProfileComponent },
             { path: 'report', component: UserReportComponent },
             { path: 'apartment', component: UserApartmentComponent },
-            { path: 'rents/gas', component: GasComponen },
+            { path: 'rent/gas', component: GasComponen },
             { path: 'rents/electricity', component: GasComponen },
             { path: 'rents/water', component: WaterComponen },
             { path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent },          
@@ -50,6 +50,7 @@ export const homeRoutes: RouterConfig = [
             { path: 'osbb/documents-and-reports', redirectTo: 'osbb/documents-and-reports/1', pathMatch: 'full' },
             { path: 'osbb/documents-and-reports/:id', component: OsbbDocumentsAndReportsComponent }              
             { path: 'rents/service', component: CustomserviceComponen}
+			{ path: 'bill/parentbillid', component: CustomserviceComponent}
             
         ]
     }
