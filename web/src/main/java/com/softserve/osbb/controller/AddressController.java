@@ -41,21 +41,27 @@ public class AddressController {
     @RequestMapping(value = "/city/{id}", method = RequestMethod.GET)
     public ResponseEntity<List<City>> getAllCitiesOfRegion(@PathVariable("id") Integer id) {
         logger.info("Get all cities of region: ");
+        HttpStatus status = HttpStatus.OK;
+        List<City> cities = new ArrayList<>();
         if (addressService.getRegionById(id) == null) {
-            return new ResponseEntity<>(new ArrayList<City>(), HttpStatus.NOT_FOUND);
+        	status = HttpStatus.NOT_FOUND;
         } else {
-            return new ResponseEntity<>(addressService.getAllCitiesOfRegion(id), HttpStatus.OK);
+        	cities.addAll(addressService.getAllCitiesOfRegion(id));
         }
+        return new ResponseEntity<>(cities, status);
     }
 
     @RequestMapping(value = "/street/{id}", method = RequestMethod.GET)
     public ResponseEntity<List<Street>> getAllStreetsOfCity(@PathVariable("id") Integer id) {
         logger.info("Get all streets of city: ");
+        HttpStatus status = HttpStatus.OK;
+        List<Street> streets = new ArrayList<>();
         if (addressService.getCityById(id) == null) {
-            return new ResponseEntity<>(new ArrayList<Street>(), HttpStatus.NOT_FOUND);
+            status = HttpStatus.NOT_FOUND;
         } else {
-            return new ResponseEntity<>(addressService.getAllStreetsOfCity(id), HttpStatus.OK);
+            streets.addAll(addressService.getAllStreetsOfCity(id));
         }
+        return new ResponseEntity<>(streets, status);
     }
 
     @RequestMapping(value = "/street/id/{id}", method = RequestMethod.GET)
