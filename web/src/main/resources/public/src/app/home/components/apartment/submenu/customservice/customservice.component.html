@@ -1,0 +1,26 @@
+<div class="panel panel-default top-panel to-right">
+	<div class="panel-heading">
+		<h4>
+			<table class="table table-striped">
+				<thead>
+					<i class="fa fa-angle-right"></i>
+					<tr>
+						<th>{{ 'bill_service' | translate }}</th>
+						<th>{{ 'price' | translate }}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let parentBill of bills">
+						<td [routerLink]="['subbill', parentBill.billId]">
+							{{parentBill.name}}</td>
+						<td [routerLink]="['subbill', parentBill.billId]">
+							{{parentBill.tariff}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</h4>
+		<div id="example_filter" class="pull-right dataTables_filter">
+			<div style="display: inline-flex"></div>
+		</div>
+	</div>
+</div>
