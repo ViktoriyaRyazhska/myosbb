@@ -1,5 +1,6 @@
 package com.softserve.osbb.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -43,7 +44,7 @@ public class FolderServiceImpl implements FolderService {
 
     @Override
     public Folder update(Integer id, String name) {
-        validateName(name);
+        validateName(name, id);
         
         Folder folder = repository.findById(id);        
         if (folder == null) {
@@ -84,7 +85,7 @@ public class FolderServiceImpl implements FolderService {
 
     @Override
     public Folder save(String folderName, Integer parentId) {
-        validateName(folderName);
+        validateName(folderName, parentId);
         
         Folder folder = repository.findById(parentId);        
         if (folder != null) {
@@ -100,8 +101,14 @@ public class FolderServiceImpl implements FolderService {
         return folder;
     }
 
-    private void validateName(String folderName) {
+    private void validateName(String folderName, Integer parentId) {
         if (!Pattern.compile("^[a-zA-Z0-9][a-zA-Z0-9-_]{1,35}$").matcher(folderName).matches()) {
+            throw new IllegalArgumentException("Folder name '" + folderName + "' not allowed!");
+        }
+        
+        List<Folder> folders = new ArrayList<>();
+        folders.addAll(repository.findByNameAndParentId(folderName, parentId));
+        if (!folders.isEmpty()) {
             throw new IllegalArgumentException("Folder name '" + folderName + "' not allowed!");
         }
     }
