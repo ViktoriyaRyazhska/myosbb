@@ -52,7 +52,6 @@ export const homeRoutes: RouterConfig = [
             { path: 'osbb/documents-and-reports/:id', component: OsbbDocumentsAndReportsComponent },              
 			{ path: 'bill/parentbillid', component: CustomserviceComponent},
             { path: 'bill/parentbillid/subbill/:id', component: SubbillComponent }
-            
         ]
     }
 ];

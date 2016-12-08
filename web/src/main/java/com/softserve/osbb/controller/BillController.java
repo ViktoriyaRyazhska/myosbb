@@ -88,8 +88,7 @@ public class BillController {
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<PageDataObject<Resource<BillDTO>>> findAllBills(
             @RequestParam(value = "status", required = false) String status,
-            @RequestBody PageParams pageParams) {
-        
+            @RequestBody PageParams pageParams) {        
         logger.info(String.format("Listing all bills, page number: %d ", pageParams.getPageNumber()));        
         Page<Bill> bills = billService.findAllParentBills(buildPageRequest(pageParams));
         
@@ -198,6 +197,7 @@ public class BillController {
 		for (Bill temp : bills) {
 			resources.add(getBillResource(temp));
 		}
+		
 		return new ResponseEntity<>(resources, HttpStatus.OK);
 	}
 
@@ -221,6 +221,7 @@ public class BillController {
 		for (Bill temp : bills) {
 			resources.add(getBillResource(temp));
 		}
+		
 		return new ResponseEntity<>(resources, HttpStatus.OK);
 	}
 

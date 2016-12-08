@@ -42,7 +42,6 @@ INSERT INTO provider_type ( type_name) VALUES ('Water');
 INSERT INTO provider_type ( type_name) VALUES ('House cleaning');
 INSERT INTO provider_type ( type_name) VALUES ('Some other provider');
 
-
 INSERT INTO provider (name, description, logo_url, periodicity, provider_type_id, email, phone, address, schedule, active)
 VALUES ('Volya', 'Інтернет провайдер', 'https://lh3.googleusercontent.com/ChIb4t3-f90R0s4qu3BGuTh2-t0HoA7q6L6fTkRdfMrMKDj3rgYBR3SiNxcjr_o9FMU=w300', 'PERMANENT_MONTHLY', 1,
 'volya@gmail.com', '(093)226-86-34', 'м. Львів, вул. Золотогірська 5а', 'пн-пт 09.00-20.00', TRUE );
