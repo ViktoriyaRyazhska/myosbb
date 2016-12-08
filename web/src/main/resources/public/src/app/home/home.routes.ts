@@ -18,6 +18,8 @@ import { UserReportComponent } from "../user/report/user.report.component";
 import { ElectricityComponen } from "../home/components/apartment/submenu/electricity/electricity.component";
 import { GasComponen } from "../home/components/apartment/submenu/gas/gas.component";
 import { WaterComponen } from "../home/components/apartment/submenu/water/water.component";
+import { CustomserviceComponent } from "../home/components/apartment/submenu/customservice/customservice.component";
+import { SubbillComponent } from "../home/components/apartment/submenu/customservice/subbill/subbill.component";
 import { OsbbContactsComponent } from "./osbb-contacts/osbb-contacts.component";
 import { OsbbDocumentsAndReportsComponent } from "./osbb-docs-and-reports/osbb-docs-and-reports.component";
 
@@ -41,13 +43,15 @@ export const homeRoutes: RouterConfig = [
             { path: 'friend/:id', component: UserProfileComponent },
             { path: 'report', component: UserReportComponent },
             { path: 'apartment', component: UserApartmentComponent },
-            { path: 'rents/electricity', component: ElectricityComponen },
-            { path: 'rents/gas', component: GasComponen },
+            { path: 'rents/electricity', component: GasComponen },
             { path: 'rents/water', component: WaterComponen },
+            { path: 'rent/gas' , component: WaterComponen },
             { path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent },          
             { path: 'osbb/contacts', component: OsbbContactsComponent },
             { path: 'osbb/documents-and-reports', redirectTo: 'osbb/documents-and-reports/1', pathMatch: 'full' },
-            { path: 'osbb/documents-and-reports/:id', component: OsbbDocumentsAndReportsComponent }              
+            { path: 'osbb/documents-and-reports/:id', component: OsbbDocumentsAndReportsComponent },              
+			{ path: 'bill/parentbillid', component: CustomserviceComponent},
+            { path: 'bill/parentbillid/subbill/:id', component: SubbillComponent }
         ]
     }
 ];

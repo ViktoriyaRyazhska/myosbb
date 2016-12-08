@@ -9,6 +9,7 @@ package com.softserve.osbb.dto;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.softserve.osbb.model.Apartment;
+import com.softserve.osbb.model.Bill;
 import com.softserve.osbb.model.Provider;
 import com.softserve.osbb.model.enums.BillStatus;
 import com.softserve.osbb.utils.CustomLocalDateDeserializer;
@@ -22,31 +23,37 @@ import java.time.LocalDate;
 public class BillDTO {
     
     private Integer billId;
+    private String name;
     private LocalDate date;
     private Float tariff;
     private Float toPay;
     private Float paid;
-    private String description;
     private Integer apartmentNumber;
     private Integer apartmentId;
     private Integer providerId;
     private String status;
+    private Integer parentBillId;
 
     public BillDTO() { }
 
     public BillDTO(BillDTOBuilder billDTOBuilder) {
         this.billId = billDTOBuilder.billId;
+        this.name = billDTOBuilder.name;
         this.date = billDTOBuilder.date;
         this.tariff = billDTOBuilder.tariff;
         this.toPay = billDTOBuilder.toPay;
         this.paid = billDTOBuilder.paid;
-        this.description = billDTOBuilder.description;
         this.apartmentNumber = billDTOBuilder.apartmentNumber;
         this.status = billDTOBuilder.status;
+        this.parentBillId = billDTOBuilder.parentBillId;
     }
 
     public Integer getBillId() {
         return billId;
+    }
+    
+    public String getName() {
+        return name;
     }
 
     @JsonSerialize(using = CustomLocalDateSerializer.class)
@@ -66,11 +73,6 @@ public class BillDTO {
         return paid;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-
     public Integer getApartmentNumber() {
         return apartmentNumber;
     }
@@ -81,6 +83,10 @@ public class BillDTO {
 
     public Integer getApartmentId() {
         return apartmentId;
+    }
+    
+    public Integer getParentBillId() {
+        return parentBillId;
     }
 
     public void setApartmentId(Integer apartmentId) {
@@ -97,6 +103,10 @@ public class BillDTO {
 
     public void setBillId(Integer billId) {
         this.billId = billId;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
     }
 
     @JsonDeserialize(using = CustomLocalDateDeserializer.class)
@@ -116,10 +126,6 @@ public class BillDTO {
         this.paid = paid;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public void setApartmentNumber(Integer apartmentNumber) {
         this.apartmentNumber = apartmentNumber;
     }
@@ -127,25 +133,36 @@ public class BillDTO {
     public void setStatus(String status) {
         this.status = status;
     }
+    
+    public void setParentBillId(Integer parentBillId) {
+        this.parentBillId = parentBillId;
+    }
 
     public static class BillDTOBuilder {
         private Integer billId;
+        private String name;
         private LocalDate date;
         private Float tariff;
         private Float toPay;
         private Float paid;
         @SuppressWarnings("unused")
-        private Integer apartmentId = 0;
+        private Integer apartmentId;
         @SuppressWarnings("unused")
-        private Integer providerId = 0;
-        private String description;
+        private Integer providerId;
         private Integer apartmentNumber;
         private String status;
+        //@SuppressWarnings("unused")
+        private Integer parentBillId;
 
         public BillDTOBuilder() { }
 
         public BillDTOBuilder setBillId(Integer billId) {
             this.billId = billId;
+            return this;
+        }
+        
+        public BillDTOBuilder setName(String name) {
+            this.name = name;
             return this;
         }
 
@@ -183,13 +200,6 @@ public class BillDTO {
             return this;
         }
 
-        public BillDTOBuilder setDescription(Provider provider) {
-            if (provider != null) {
-                this.description = provider.getName();
-            }
-            return this;
-        }
-
         public BillDTOBuilder setApartmentNumber(Apartment apartment) {
             if (apartment != null) {
                 this.apartmentNumber = apartment.getNumber();
@@ -200,6 +210,13 @@ public class BillDTO {
         public BillDTOBuilder setStatus(BillStatus billStatus) {
             if (billStatus != null) {
                 this.status = billStatus.toString();
+            }
+            return this;
+        }
+        
+        public BillDTOBuilder setParentBillId(Bill parentBill) {
+            if (parentBill != null) {
+                this.parentBillId = parentBill.getBillId();
             }
             return this;
         }
@@ -217,7 +234,6 @@ public class BillDTO {
                 ", tariff=" + tariff +
                 ", toPay=" + toPay +
                 ", paid=" + paid +
-                ", description='" + description + '\'' +
                 ", apartmentNumber=" + apartmentNumber +
                 '}';
     }

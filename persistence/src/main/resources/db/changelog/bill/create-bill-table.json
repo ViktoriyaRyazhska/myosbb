@@ -20,6 +20,12 @@
                     "type": "INT"
                   }
                 },
+                 {
+                  "column": {
+                    "name": "name",
+                    "type": "VARCHAR(255)"
+                  }
+                },
                 {
                   "column": {
                     "name": "date",
@@ -70,6 +76,12 @@
                     "name": "provider_id",
                     "type": "INT"
                   }
+                },
+                {
+                  "column": {
+                    "name": "parent_bill_id",
+                    "type": "INT"
+                  }
                 }
               ],
               "tableName": "bill"
@@ -111,6 +123,28 @@
               "columnName": "status",
               "defaultValue": "NOT_PAID",
               "tableName": "bill"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2016/12/05-53",
+        "author": "olegkykena",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "parent_bill_id",
+              "baseTableName": "bill",
+              "constraintName": "fk_mmgnrg9uuk1v75162vub4jl5w",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "bill_id",
+              "referencedTableName": "bill"
             }
           }
         ]

@@ -6,8 +6,11 @@
  */
 package com.softserve.osbb.controller;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import java.util.ArrayList;
 import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
-
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +52,7 @@ import com.softserve.osbb.util.resources.impl.EntityResourceList;
 @CrossOrigin
 @RequestMapping("/restful/bill")
 public class BillController {
-
+	
     private static final Logger logger = LoggerFactory.getLogger(BillController.class);
 
     @Autowired
@@ -85,10 +88,9 @@ public class BillController {
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<PageDataObject<Resource<BillDTO>>> findAllBills(
             @RequestParam(value = "status", required = false) String status,
-            @RequestBody PageParams pageParams) {
-        
+            @RequestBody PageParams pageParams) {        
         logger.info(String.format("Listing all bills, page number: %d ", pageParams.getPageNumber()));        
-        Page<Bill> bills = billService.findAllBills(buildPageRequest(pageParams));
+        Page<Bill> bills = billService.findAllParentBills(buildPageRequest(pageParams));
         
         return buildResponseEntity(status, bills);
     }
@@ -126,6 +128,7 @@ public class BillController {
             PageDataObject<Resource<BillDTO>> billPageDataObject = PageDataUtil.providePageData(BillPageDataObject.class, pageSelector, billResourceList);
             response = new ResponseEntity<>(billPageDataObject, HttpStatus.OK);
         }
+        
         return response;
     }
 
@@ -134,13 +137,19 @@ public class BillController {
         Bill bill = BillDTOMapper.mapDTOtoEntity(billDTO, billService);        
         logger.info("Saving bill " + bill);
         HttpStatus status = HttpStatus.OK;
+        Bill parentBill = null;
         
+        if(billDTO.getParentBillId() != null) {        	
+        	parentBill = billService.findOneBillByID(billDTO.getParentBillId());
+        	billDTO.setProviderId(parentBill.getProvider().getProviderId());
+        	billDTO.setApartmentId(parentBill.getApartment().getApartmentId());
+        }
         Apartment apartment = apartmentService.findById(billDTO.getApartmentId());
-        Provider provider = providerService.findOneProviderById(billDTO.getProviderId());
-        
+        Provider provider = providerService.findOneProviderById(billDTO.getProviderId());      
         if (apartment != null && provider != null) {
             bill.setApartment(apartment);        
-            bill.setProvider(provider);            
+            bill.setProvider(provider);
+            bill.setParentBill(parentBill);
         
             if (billService.saveBill(bill) == null) {
                 logger.warn("Bill wasn't saved");
@@ -179,5 +188,41 @@ public class BillController {
 
         return new ResponseEntity<>(status);
     }
+    
+    @RequestMapping(value = "/parentbillid", method = RequestMethod.GET)
+	public ResponseEntity<List<Resource<Bill>>> findAllParentBill() {
+		logger.info("get all parent bills is not null");
+		List<Bill> bills = billService.findAllParentBillId();
+		List<Resource<Bill>> resources = new ArrayList<>();
+		for (Bill temp : bills) {
+			resources.add(getBillResource(temp));
+		}
+		
+		return new ResponseEntity<>(resources, HttpStatus.OK);
+	}
+
+	private Resource<Bill> getBillResource(Bill bill) {
+		Resource<Bill> resource = new Resource<>(bill);
+		resource.add(linkTo(methodOn(BillController.class).getBill(bill.getBillId().toString())).withSelfRel());
+		return resource;
+	}
+
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+	public Resource<Bill> getBill(@PathVariable(value = "id") String id) {
+		logger.info("geting user from database with id=" + id);
+		return getBillResource(billService.findOneBillByID(Integer.valueOf(id)));
+	}
+
+	@RequestMapping(value = "/parentbillid/subbill/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<Resource<Bill>>> findParentBillById(@PathVariable("id") Integer id) {
+		logger.info("get all parent bills is not null");
+		List<Bill> bills = billService.findAllParentBillById(id);
+		List<Resource<Bill>> resources = new ArrayList<>();
+		for (Bill temp : bills) {
+			resources.add(getBillResource(temp));
+		}
+		
+		return new ResponseEntity<>(resources, HttpStatus.OK);
+	}
 
 }
