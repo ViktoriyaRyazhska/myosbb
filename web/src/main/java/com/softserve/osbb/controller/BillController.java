@@ -209,7 +209,17 @@ public class BillController {
         logger.info("geting user from database with id=" + id);
         return getBillResource(billService.findOneBillByID(id));
     }
-  
     
-
-}
+    @RequestMapping(value = "/parentbillid/subbill/{id}", method = RequestMethod.GET)
+    public ResponseEntity<List<Resource<Bill>>> findParentBillById(@PathVariable("id")Integer id)
+    {
+        	logger.info("get all parent bills is not null");
+        	
+        	List<Bill> bills = billService.findAllParentBillById(id);
+        	List<Resource<Bill>> resources = new ArrayList<>();
+        	for(Bill temp : bills) {
+        		resources.add(getBillResource(temp));
+        	}
+         return new ResponseEntity<>(resources, HttpStatus.OK);
+        }
+  }

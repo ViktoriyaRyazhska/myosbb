@@ -32,7 +32,10 @@ public interface BillRepository extends JpaRepository<Bill, Integer> {
             + "AND DATE_PART('Month',date) = DATE_PART('Month',now()) AND apartment_id = :apartmentId ", nativeQuery = true)
     List<Bill> getAllBillsByApartmentWithCurrentMonth(@Param("apartmentId") Integer apartmentId);
     
-    @Query(value = "Select * from bill where provider_id =6;", nativeQuery = true)
+    @Query(value = "Select * from bill where provider_id =6 AND parent_bill_id is null", nativeQuery = true)
     List<Bill> findByParentBillIsNotNull();
+    
+    @Query(value = "Select * from bill where parent_bill_id = :parentBillId ", nativeQuery = true)
+    List<Bill> findParentBillById(@Param("parentBillId") Integer parentBillId);
 
 }

@@ -131,9 +131,10 @@ public class BillServiceImpl implements BillService {
     public List<Bill> findAllParentBillId(){
         return billRepository.findByParentBillIsNotNull();
     }
+    
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
-    public List<Bill> findParentBillById(){
-        return billRepository.findByParentBillIsNotNull();
+    public List<Bill> findAllParentBillById(Integer id){
+        return billRepository.findParentBillById(id);
     }
 }
