@@ -13,52 +13,54 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
     selector: 'customservice',
     templateUrl: 'src/app/home/components/apartment/submenu/customservice/customservice.component.html',
     providers: [CustomserviceService, ToasterService],
-    inputs: [ 'isUserDownload'],
-    styleUrls: [ 'src/app/home/components/apartment/styles.css'],
-    directives: [ ToasterContainerComponent, ROUTER_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES],
-    
+    inputs: ['isUserDownload'],
+    styleUrls: ['src/app/home/components/apartment/styles.css'],
+    directives: [ToasterContainerComponent, ROUTER_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES],
+
     pipes: [TranslatePipe]
 })
-export class  CustomserviceComponent implements OnInit {
-    id:string;
-    private parentBillId: Array<String>=[];
+export class CustomserviceComponent implements OnInit {
+    id: string;
+    private parentBillId: Array<String> = [];
     private bills: BillDTO[] = [];
-      private router: Router;
-    constructor(private _billService: CustomserviceService, private _toasterService: ToasterService,) {}
-    ngOnInit(): any {
-this.getParentBillIds()
+    private router: Router;
+
+    constructor(private _billService: CustomserviceService, private _toasterService: ToasterService) {
 
     }
+
+    ngOnInit(): any {
+        this.getParentBillIds();
+    }
+    
     getParentBillIds() {
         this._billService.getAllParentId()
             .subscribe((data) => {
-                    this.bills=data;
-                    },
-                (error) => {
-                    this.handleErrors(error);
-                });
+                this.bills = data;
+            },
+            (error) => {
+                this.handleErrors(error);
+            });
     }
+    
     public handleErrors(error) {
-      
         if (error.status === 404 || error.status === 400) {
             console.log('server error 400', error);
-
             return;
         }
-
         if (error.status === 500) {
             console.log('server error 500', error);
-        
             return;
         }
 
         console.log(error);
     }
-            BiilId(): string[] {
-         let tempArr: string[] = [];
-         for (let reg of this.bills) {
-             tempArr.push(reg.name);
-         }
-         return tempArr;
-     }
+    
+    BiilId(): string[] {
+        let tempArr: string[] = [];
+        for (let reg of this.bills) {
+            tempArr.push(reg.name);
+        }
+        return tempArr;
+    }
 }

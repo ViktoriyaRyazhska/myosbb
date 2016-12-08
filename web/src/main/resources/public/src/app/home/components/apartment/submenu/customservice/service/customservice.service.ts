@@ -9,14 +9,13 @@ import ApiService = require("../../../../../../../shared/services/api.service");
 @Injectable()
 export class CustomserviceService {
 
-private billsURL: string = ApiService.serverUrl + '/restful/bill';
+    private billsURL: string = ApiService.serverUrl + '/restful/bill';
 
     constructor(private _http: Http) {
     
     }
 
-  getAllParentId(): Observable<any> {
-      
+    getAllParentId(): Observable<any> {  
          return this._http.get(this.billsURL+'/parentbillid')
              .map((response)=> response.json())
              .catch((error)=>Observable.throw(error));
