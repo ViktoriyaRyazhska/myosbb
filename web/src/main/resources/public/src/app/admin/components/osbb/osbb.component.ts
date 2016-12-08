@@ -46,12 +46,12 @@ export class OsbbComponent implements OnInit {
     }
 
     composeAddress(element: IOsbb): string {
+        let composedAddress = element.address;
         if (element.street != null) {
-        return (element.street.city.region.name + ', м.' + element.street.city.name + 
-                              ', вул. ' + element.street.name + ', ' + element.address);
-        } else {
-            return element.address;
-        }
+            composedAddress = element.street.city.region.name + ', м.' + element.street.city.name + 
+                              ', вул. ' + element.street.name + ', ' + element.address;
+        } 
+        return composedAddress;
     }
 
     initOsbbArr(available: string) {

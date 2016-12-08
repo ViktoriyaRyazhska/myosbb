@@ -64,8 +64,9 @@ public class Osbb implements Serializable {
         this.description = description;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    public Street getStreet() {
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "street", referencedColumnName = "id")
+        public Street getStreet() {
         return street;
     }
 

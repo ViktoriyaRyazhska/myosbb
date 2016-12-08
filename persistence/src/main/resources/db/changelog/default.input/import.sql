@@ -4,7 +4,6 @@
 
 INSERT INTO role(name) VALUES('ROLE_USER');
 INSERT INTO role(name) VALUES('ROLE_ADMIN');
-INSERT INTO role(name) VALUES('ROLE_GOLOVA');
 INSERT INTO role(name) VALUES('ROLE_MANAGER');
 
 INSERT INTO house(city, street, zip_code, description) VALUES('Lviv', 'Rjashivska 9', '79040', 'a nice house with a lot of parking spaces');
@@ -26,7 +25,7 @@ INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,ph
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1996-02-21','KostetskyRoma@gmail.com','Roman','male','Kostetsky','$2a$06$R33Bzp5v3k5l5xs1n3dwQuQ/fM1DjCMldqthEXhvnI7Cu3gOQ4ms6','380687773508','1',4,TRUE );
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner, activated) VALUES ('1992-12-30','butaroman@gmail.com','Roman','male','Buta','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0632571119','1',5,TRUE, TRUE );
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1997-06-02','cavayman@gmail.com','Oleg','male','Kotsik','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0679167305','1',6,TRUE );
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1991-04-14','nazardovhyi@gmail.com','Nazar','male','Dovhyi','$2a$06$FHyRBL.Yc54J8K1XoKPF9.wWzyThXZd/6kNBLY8BxyoaGUb.YtFjG','0973055976','4',7,TRUE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1991-04-14','nazardovhyi@gmail.com','Nazar','male','Dovhyi','$2a$06$FHyRBL.Yc54J8K1XoKPF9.wWzyThXZd/6kNBLY8BxyoaGUb.YtFjG','0973055976','3',7,TRUE );
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1994-12-16','oleg111koval@gmail.com','Oleg','male','Koval','$2a$06$QfIksIErYqbeoD3Pnxai7Ott22NGF8G38GsC/pQVpGG/rt55IYhUy','095729666','1',8,TRUE,TRUE);
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1992-12-30','butaroman1@gmail.com','Roman1','male','Buta1','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0632571119','1',8,TRUE );
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1992-12-30','butaroman2@gmail.com','Roman2','male','Buta2','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0632571119','1',8,TRUE );
@@ -34,7 +33,7 @@ INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,ph
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1994-08-18','nkharabaruk@gmail.com','Nataliia','female','Kharabaruk','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0638142706','1',4,TRUE );
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1996-02-21','user@gov.ua','User','male','TheUser','$2a$10$izk0e40i9NsxgRnwoafnnOANYf9iqhxyKp1P83LW.C2RysO0KnoOi','380687773508','1',4,TRUE,TRUE);
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1983-12-31','ewing@nyk.com','Patrick','male','Ewing','$2a$10$UEjkwHIn9fMnNs7r4IXAduJ9rIv3tGatMqnt7GjWqaklljt2RoP9K','095729666','1',8,TRUE,TRUE);
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1989-12-22','headmaster@gov.ua','Arnold','male','Shwarzenegger','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','380953334444','4',1,TRUE,TRUE);
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1989-12-22','headmaster@gov.ua','Arnold','male','Shwarzenegger','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','380953334444','3',1,TRUE,TRUE);
 
 INSERT INTO provider_type ( type_name) VALUES ('Internet');
 INSERT INTO provider_type ( type_name) VALUES ('Trash');
@@ -83,26 +82,6 @@ VALUES ('2010-03-03', '2015-10-02', 98,  'UAH', 'Опис контракту', 2
 INSERT INTO contract ( date_start, date_finish, price, price_currency, text, provider_id, active)
 VALUES ('2016-08-03', '2018-09-05', 100, 'UAH',  'Опис контракту', 1, TRUE);
 
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-05-28', 350.5,0, 4.5, 7, 1, 'NOT_PAID');
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-05-28', 280.5,120, 4.5, 1, 1, 'NOT_PAID');
-insert into bill(date, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-05-28', 320,320, 4.5, 3,  'PAID', 1);
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id, status)VALUES('2016-06-28', 240.5,0, 2.5, 2, 1, 'NOT_PAID');
-insert into bill(date, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-06-28', 356,356, 4.5, 7, 'PAID', 1);
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id, status)VALUES('2016-06-28', 60,0, 2, 8, 5, 'NOT_PAID');
-insert into bill(date, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-06-28', 120,120, 0.5, 6, 'PAID', 1);
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id, status)VALUES('2016-06-28', 88,88, 1.5, 6, 6, 'PAID');
-insert into bill(date, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-06-28', 356,356, 4.5, 7, 'PAID', 1);
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-07-28', 240.5,0, 2, 3, 2, 'NOT_PAID');
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-07-28', 150, 0, 4.5, 7, 3, 'NOT_PAID');
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-07-28', 188,50, 3, 5, 4, 'NOT_PAID');
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-07-28', 120, 120, 4.5, 7, 4, 'PAID');
-insert into bill(date, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-07-28', 350.5,350.5, 4.5, 4, 'PAID', 1);
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-08-28', 90,0, 1, 1, 4, 'NOT_PAID');
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-08-28', 144.5, 144.5, 2, 2, 6, 'PAID');
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-08-28', 199, 0, 2, 3, 3, 'NOT_PAID');
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-08-28', 120, 120, 4.5, 6, 6, 'PAID');
-insert into bill(date, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-08-28', 150.5,150.5, 4, 7, 'PAID', 1);
-
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Мій Дім','осбб для людей','м.Львів вул.Городоцька 147а','Залізничний','2016-09-01 10:46:43.221000');
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Червона Калина','найкраще осбб','м.Львів вул.В.Великого 99','Франківський','2014-09-05 10:46:43.221220');
 INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Двір','рівні права','м.Львів вул.Б.Хмельницького 77','Франківський','2012-05-27 08:20:43.221000');
@@ -132,16 +111,36 @@ INSERT INTO attachment(  path, type, file_name) VALUES ('https://www.askideas.co
 INSERT INTO attachment(  path, type, file_name) VALUES ('http://img1.globalinfo.ua/im/2014/02/12/TZA04E.jpg', 'IMAGE', 'TZA04E.jpg');
 INSERT INTO attachment(  path, type, file_name) VALUES ('http://kyiv.ridna.ua/wp-content/uploads/2015/06/Project2_0014.jpg', 'IMAGE', 'Project2_0014.jpg');
 
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-05-28', 'Прибирання території', 350.5,0, 4.5, 7, 1, 'NOT_PAID');
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-05-28', 'Озеленення', 280.5,120, 4.5, 1, 1, 'NOT_PAID');
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-05-28', 'Охорона', 320,320, 4.5, 3,  'PAID', 1);
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, status)VALUES('2016-06-28', 'Прибирання території', 240.5,0, 2.5, 2, 1, 'NOT_PAID');
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-06-28', 'Охорона', 356,356, 4.5, 7, 'PAID', 1);
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, status)VALUES('2016-06-28', 'Озеленення', 60,0, 2, 8, 5, 'NOT_PAID');
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-06-28', 'Прибирання сходової клітки', 120,120, 0.5, 6, 'PAID', 1);
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, status)VALUES('2016-06-28', 'Прибирання території', 88,88, 1.5, 6, 6, 'PAID');
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-06-28', 'Охорона', 356,356, 4.5, 7, 'PAID', 1);
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-07-28', 'Прибирання сходової клітки', 240.5,0, 2, 3, 2, 'NOT_PAID');
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-07-28', 'Озеленення', 150, 0, 4.5, 7, 3, 'NOT_PAID');
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-07-28', 'Прибирання території', 188,50, 3, 5, 4, 'NOT_PAID');
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-07-28', 'Озеленення', 120, 120, 4.5, 7, 4, 'PAID');
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-07-28', 'Охорона', 350.5,350.5, 4.5, 4, 'PAID', 1);
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-08-28', 'Прибирання сходової клітки', 90,0, 1, 1, 4, 'NOT_PAID');
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-08-28', 'Прибирання території', 144.5, 144.5, 2, 2, 6, 'PAID');
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-08-28', 'Озеленення', 199, 0, 2, 3, 3, 'NOT_PAID');
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-08-28', 'Охорона', 120, 120, 4.5, 6, 6, 'PAID');
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-08-28', 'Прибирання території', 150.5,150.5, 4, 7, 'PAID', 1);
+
 UPDATE house SET osbb_id=1 WHERE house_id=1;
 
 UPDATE users SET osbb_id=1;
 UPDATE users SET osbb_id=2 WHERE email='butaroman2@gmail.com';
 
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id)VALUES('2016-06-28', 240.5,0, 2.5, 1, 1);
-insert into bill(date, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-06-28', 356,356, 4.5, 1, 'PAID', 1);
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id) VALUES('2016-07-28', 240.5,0, 2, 3, 1);
-insert into bill(date, to_pay, paid, tariff, apartment_id, provider_id) VALUES('2016-07-28', 150, 0, 4.5, 2, 1);
-insert into bill(date, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-07-28', 350.5,0, 4.5, 4, 'PAID', 1);
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id)VALUES('2016-06-28', 'Охорона', 240.5,0, 2.5, 1, 1);
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-06-28', 'Прибирання сходової клітки', 356,356, 4.5, 1, 'PAID', 1);
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id) VALUES('2016-07-28', 'Консьєржі', 240.5,0, 2, 3, 1);
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id) VALUES('2016-07-28', 'Охорона', 150, 0, 4.5, 2, 1);
+insert into bill(date, name, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-07-28', 'Прибирання сходової клітки', 350.5,0, 4.5, 4, 'PAID', 1);
 
 INSERT into ticket(assigned,user_id,name,description,state,time,state_time, deadline)
 VALUES(2,3,'Зламаний ліфт','Скільки вже дзвонимо майстру, просимо, щоб налаштував ліфт. Він строїть його, але наступного дня ліфт знову не працює.'

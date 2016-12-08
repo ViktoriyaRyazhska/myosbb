@@ -1,5 +1,6 @@
 package com.softserve.osbb.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -23,6 +24,7 @@ public class Bill implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer billId;
+	private String name;
     private LocalDate date;
     private Float tariff;
     private Provider provider;
@@ -30,6 +32,7 @@ public class Bill implements Serializable {
     private Float paid;
     private Apartment apartment;
     private BillStatus billStatus;
+    private Bill parentBill;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,7 +67,7 @@ public class Bill implements Serializable {
         this.tariff = tariff;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "provider_id", referencedColumnName = "provider_id")
     public Provider getProvider() {
@@ -95,7 +98,7 @@ public class Bill implements Serializable {
         this.paid = paid;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "apartment_id", referencedColumnName = "apartment_id")
     public Apartment getApartment() {
@@ -117,7 +120,28 @@ public class Bill implements Serializable {
         this.billStatus = billStatus;
     }
 
-    @Override
+    @Basic
+    @Column(name = "name")
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "parent_bill_id", referencedColumnName = "bill_id")
+	@JsonBackReference
+	public Bill getParentBill() {
+		return parentBill;
+	}
+
+	public void setParentBill(Bill parentBill) {
+		this.parentBill = parentBill;
+	}
+
+	@Override
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
     }
