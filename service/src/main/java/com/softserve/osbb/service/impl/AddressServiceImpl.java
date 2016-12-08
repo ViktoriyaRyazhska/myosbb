@@ -52,4 +52,16 @@ public class AddressServiceImpl implements AddressService {
 	public Street getStreetById(Integer id) {
 		return streetRepository.findById(id);
 	}
+
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	@Override
+	public City getCityById(Integer id) {
+		return cityRepository.findById(id);
+	}
+
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	@Override
+	public Region getRegionById(Integer id) {
+		return regionRepository.findById(id);
+	}
 }

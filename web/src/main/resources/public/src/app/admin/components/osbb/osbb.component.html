@@ -50,7 +50,7 @@
                         <td><img *ngIf="osbb.logo !== null" src="{{osbb.logo.url}}" alt="empty" height="50" width="60" /></td>
                         <td *ngIf="osbb !== null"><a (click)="redirectToHouseTable(osbb.osbbId)">{{osbb.name}}</a></td>
                         <td>{{osbb.description}}</td>
-                        <td>{{osbb.address}}</td>
+                        <td>{{composeAddress(osbb)}}</td>
                         <td>{{osbb.district}}</td>
                         <td>{{getFormatDate(osbb.creationDate)}}</td>
                         <td *ngIf="osbb.available"><span class="fa fa-check"></span></td>
