@@ -25,6 +25,8 @@ public interface BillService {
     List<Bill> findAllByUserId(Integer userId);
 
     Page<Bill> findAllBills(Pageable pageable);
+    
+    Page<Bill> findAllParentBills(Pageable pageable);
 
     Page<Bill> findAllByApartmentOwner(Integer ownerId, Pageable pageable);
 

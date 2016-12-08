@@ -124,4 +124,9 @@ public class BillServiceImpl implements BillService {
     public List<Bill> getAllBillsByApartmentWithCurrentMonth(Integer apartmentId){
         return billRepository.getAllBillsByApartmentWithCurrentMonth(apartmentId);
     }
+
+	@Override
+	public Page<Bill> findAllParentBills(Pageable pageable) {
+		return billRepository.findByParentBillIsNull(pageable);
+	}
 }
