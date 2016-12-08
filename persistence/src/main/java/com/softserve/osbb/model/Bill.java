@@ -66,7 +66,7 @@ public class Bill implements Serializable {
         this.tariff = tariff;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "provider_id", referencedColumnName = "provider_id")
     public Provider getProvider() {
@@ -97,7 +97,7 @@ public class Bill implements Serializable {
         this.paid = paid;
     }
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "apartment_id", referencedColumnName = "apartment_id")
     public Apartment getApartment() {
