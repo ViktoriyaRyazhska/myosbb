@@ -22,6 +22,7 @@ import { IApartment } from "../../../shared/models/apartment.interface";
 import { ProviderService } from "../provider/service/provider-service";
 import { Provider } from "../../../shared/models/provider.interface";
 import { BillDTO } from "./show_bill_dto.interface";
+import { SubBill } from "./subBill";
 import { BillChartComponent } from "./chart/bill.chart.component";
 import { FORM_DIRECTIVES } from "@angular/forms";
 
@@ -37,12 +38,15 @@ import { FORM_DIRECTIVES } from "@angular/forms";
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
 })
 export class UserBillComponent implements OnInit {
+    
     private bills: BillDTO[] = [];
     private billCalcVal: number = 0;
     private newBill: BillDTO = {
-        billId: null, date: null, tariff: 0, toPay: 0, paid: 0, description: '',
-        apartmentNumber: null, apartmentId: null, providerId: null, status: null
+        billId: null, name: '', date: null, tariff: 0, toPay: 0, paid: 0, 
+        apartmentNumber: null, apartmentId: null, providerId: null, status: null,
+        parentBillId: null
     };
+    private subBill: SubBill = new SubBill();
     private pageCreator: PageCreator<BillDTO>;
     private pageNumber: number = 1;
     private pageList: Array<number> = [];
@@ -62,6 +66,7 @@ export class UserBillComponent implements OnInit {
     private status: string = this.options.ALL;
     @ViewChild('delModal') private delModal: ModalDirective;
     @ViewChild('createModal') private createModal: ModalDirective;
+    @ViewChild('createSubBillModal') private createSubBillModal: ModalDirective;
     private isSelectedHouse: boolean = false;
     private isSelectedApartment: boolean = false;
     private isSelectedProvider: boolean = false;
@@ -71,12 +76,42 @@ export class UserBillComponent implements OnInit {
     private houses: Array<string> = [];
     private apartment: Array<string> = [];
     private provider: Array<string> = [];
+    private temp: string;
+    private oneBill: BillDTO;
 
     constructor(private _billService: BillService, private _toasterService: ToasterService,
                 private _houseService: HouseService,
                 private _providerService: ProviderService) {
         this.currentUser = HeaderComponent.currentUserService.currentUser;
         console.log(JSON.stringify('loading..' + this.currentUser));
+    }
+
+    onCreateSubBill() {
+        this.oneBill.tariff = parseFloat(this.subBill.price.toString().replace(',', '.'));
+        this.oneBill.toPay = this.oneBill.tariff;
+        this.oneBill.billId = null;
+        this.oneBill.name = this.subBill.name;
+        this.oneBill.parentBillId = this.billId.valueOf();
+        this._billService.saveBill(this.oneBill)
+            .subscribe(()=> {
+                this.refresh();
+            }, (error)=> this.handleErrors(error));
+    }
+
+     onCreateSubBillModalOpen(billId: number) {
+        this.billId = +billId;
+        this._billService.findBillById(this.billId)
+                .subscribe((data) => {
+                    this.oneBill = data;
+                }, (error)=>
+                this.handleErrors(error));
+        this.createSubBillModal.show();
+    }
+
+    onCloseCreateSubBillModal() {
+        this.createSubBillModal.hide();
+        this.subBill.name = '';
+        this.subBill.price = 0;
     }
 
     listAllHouses() {
@@ -100,7 +135,6 @@ export class UserBillComponent implements OnInit {
         if (this.osbbRole != 'HEAD') {
             this.isUserDownload = true;
         }
-        console.log('current user: ', this.currentUser.lastName);
         this.getBillsByPageNum(this.pageNumber, this.selectedRow, this.status);
         this.listAllHouses();
         this.listAllProviders();
@@ -148,13 +182,11 @@ export class UserBillComponent implements OnInit {
     }
 
     onDelModalOpen(billId: number) {
-        console.log('opening del modal');
         this.billId = +billId;
         this.delModal.show();
     }
 
     closeDelModal() {
-        console.log('deleting bill with id', this.billId);
         setTimeout(()=> {
             this.delModal.hide();
         }, 0);
@@ -178,20 +210,25 @@ export class UserBillComponent implements OnInit {
     }
 
     onSaveNewBill() {
-        this.clearSelectedFields();
-        this.cancelCreateModal();
-        console.log('new bill :', JSON.stringify(this.newBill));
-        this._billService.save(this.newBill)
+        this._billService.saveBill(this.newBill)
             .subscribe(()=> {
                 this.refresh();
             }, (error)=> this.handleErrors(error));
-
+        this.clearSelectedFields();
+        this.cancelCreateModal();
+        console.log(this.newBill);
     }
 
     clearSelectedFields() {
         this.isSelectedApartment = false;
         this.isSelectedHouse = false;
         this.isSelectedProvider = false;
+        this.newBill.name = '';
+        this.newBill.tariff = 0;
+        this.newBill.toPay = 0;
+        this.newBill.paid = 0;
+        this.billCalcVal = 0;
+        this.newBill.date = null;
     }
 
     isNotNumber(value: number) {
@@ -206,7 +243,6 @@ export class UserBillComponent implements OnInit {
         this._billService.getAllByRole(this.osbbRole, this.currentUser.userId, this.pageParams, this.status)
             .subscribe((data) => {
                     this.processBillDTOData(data);
-
                 },
                 (error) => {
                     this.handleErrors(error);
@@ -236,16 +272,11 @@ export class UserBillComponent implements OnInit {
             this._toasterService.pop(onErrorServerNoResponseToastMsg);
             return;
         }
-
         console.log(error);
     }
 
     isPaid(status: string): boolean {
-        if (status == 'PAID') {
-            return true;
-        } else {
-            return false;
-        }
+        return status == 'PAID';
     }
 
     isDateValid(date: string): boolean {
@@ -298,7 +329,7 @@ export class UserBillComponent implements OnInit {
         console.log('confirming bill', bill.billId);
         bill.paid = bill.toPay;
         bill.status = this.options.PAID;
-        this._billService.save(bill).subscribe(()=> {
+        this._billService.saveBill(bill).subscribe(()=> {
                 this.refresh();
             },
             (error) => {
@@ -340,8 +371,6 @@ export class UserBillComponent implements OnInit {
     }
 
     refreshApartment(value: any) {
-        console.log('refresh all apartment numbers', this.apartment);
-        console.log('refresh apartment: ', value);
         this.isSelectedApartment = false;
     }
 
@@ -407,6 +436,10 @@ export class UserBillComponent implements OnInit {
     }
 
     calcToPay(value: string) {
+        this.temp = this.newBill.tariff.toString().replace(",", ".");
+        this.newBill.tariff = parseFloat(this.temp);
+        this.temp = this.billCalcVal.toString().replace(",", ".");
+        this.billCalcVal = parseFloat(this.temp);
         console.log('calc', value);
         if (!isNaN(parseInt('' + this.billCalcVal))) {
             this.newBill.toPay = this.billCalcVal * this.newBill.tariff;
