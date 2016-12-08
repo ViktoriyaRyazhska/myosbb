@@ -9,7 +9,6 @@ import 'rxjs/add/operator/catch';
 import { IOsbb } from "../../../../shared/models/osbb";
 import { OsbbDTO } from "../../../../shared/models/osbbDTO";
 import ApiService = require("../../../../shared/services/api.service");
-import { SelectItem } from "../../../../shared/models/ng2-select-item.interface";
 
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment';
 

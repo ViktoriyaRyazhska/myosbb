@@ -5,7 +5,6 @@ import { TranslatePipe } from "ng2-translate";
 import { CapitalizeFirstLetterPipe } from "../../../../../shared/pipes/capitalize-first-letter";
 import { IOsbb, Osbb } from "../../../../../shared/models/osbb";
 import { Attachment } from "../../../../../shared/models/attachment";
-import { SelectItem } from "../../../../../shared/models/ng2-select-item.interface";
 import { OsbbDTO } from '../osbb';
 import { SELECT_DIRECTIVES } from "ng2-select";
 import { Region, AddressDTO, Street } from "../../../../../shared/models/addressDTO";
