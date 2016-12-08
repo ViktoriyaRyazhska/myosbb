@@ -41,7 +41,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RequestMapping("/restful/message")
 public class MessageController {
 
-    private static Logger logger = LoggerFactory.getLogger(MessageController.class);
+    private static final Logger logger = LoggerFactory.getLogger(MessageController.class);
 
     @Autowired
     private TicketService ticketService;

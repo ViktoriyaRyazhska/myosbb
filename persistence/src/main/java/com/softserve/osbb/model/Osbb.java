@@ -20,6 +20,7 @@ public class Osbb implements Serializable {
     private Integer osbbId;
     private String name;
     private String description;
+    private Street street;
     private String address;
     private String district;
     private Boolean available= true;
@@ -61,6 +62,15 @@ public class Osbb implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    public Street getStreet() {
+        return street;
+    }
+
+    public void setStreet(Street street) {
+        this.street = street;
     }
 
     @Basic

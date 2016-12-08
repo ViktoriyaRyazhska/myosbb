@@ -44,7 +44,7 @@ import com.softserve.osbb.service.UserService;
 @RequestMapping(value = "/restful")
 public class UserController {
 
-    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private static final List<Resource<User>> EMPTY_LIST = new ArrayList<>(0);
     
     @Autowired

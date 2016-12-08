@@ -40,7 +40,7 @@ import com.softserve.osbb.service.UserService;
 @RequestMapping("/restful/notice")
 public class NoticeController {
 
-    private static Logger logger = LoggerFactory.getLogger(NoticeController.class);
+    private static final Logger logger = LoggerFactory.getLogger(NoticeController.class);
 
     @Autowired
     private NoticeService noticeService;

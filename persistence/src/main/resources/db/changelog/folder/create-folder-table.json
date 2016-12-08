@@ -1,0 +1,99 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "2016/12/04-01",
+        "author": "Kostyantyn.Panchenko",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "createTable": {
+              "columns": [
+                {
+                  "column": {
+                    "autoIncrement": true,
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "folder_pkey"
+                    },
+                    "name": "folder_id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "parent_id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "osbb_id",
+                    "type": "INT"
+                  }
+                },                
+                {
+                  "column": {
+                    "name": "name",
+                    "type": "VARCHAR(35)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "created",
+                    "type": "TIMESTAMP"
+                  }
+                }
+              ],
+              "tableName": "folder"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2016/12/04-02",
+        "author": "Kostyantyn.Panchenko",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "parent_id",
+              "baseTableName": "folder",
+              "constraintName": "fk_parent_id",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "CASCADE",
+              "onUpdate": "CASCADE",
+              "referencedColumnNames": "folder_id",
+              "referencedTableName": "folder"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2016/12/04-03",
+        "author": "Kostyantyn.Panchenko",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "osbb_id",
+              "baseTableName": "folder",
+              "constraintName": "fk_folder_osbb",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "CASCADE",
+              "onUpdate": "CASCADE",
+              "referencedColumnNames": "osbb_id",
+              "referencedTableName": "osbb"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

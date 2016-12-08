@@ -33,7 +33,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RequestMapping("/restful/role")
 public class RoleController {
 
-    private static Logger logger = LoggerFactory.getLogger(RoleController.class);
+    private static final Logger logger = LoggerFactory.getLogger(RoleController.class);
 
     @Autowired
     RoleService roleService;

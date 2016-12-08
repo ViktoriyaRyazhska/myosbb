@@ -1,5 +1,6 @@
 package com.softserve.osbb.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -26,7 +27,7 @@ import com.softserve.osbb.service.AddressService;
 @RequestMapping("/restful/address")
 public class AddressController {
 
-    private static Logger logger = LoggerFactory.getLogger(AddressController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AddressController.class);
 
     @Autowired
     private AddressService addressService;
@@ -40,19 +41,39 @@ public class AddressController {
     @RequestMapping(value = "/city/{id}", method = RequestMethod.GET)
     public ResponseEntity<List<City>> getAllCitiesOfRegion(@PathVariable("id") Integer id) {
         logger.info("Get all cities of region: ");
-        return new ResponseEntity<>(addressService.getAllCitiesOfRegion(id), HttpStatus.OK);
+        HttpStatus status = HttpStatus.OK;
+        List<City> cities = new ArrayList<>();
+        if (addressService.getRegionById(id) == null) {
+        	status = HttpStatus.NOT_FOUND;
+        } else {
+        	cities.addAll(addressService.getAllCitiesOfRegion(id));
+        }
+        return new ResponseEntity<>(cities, status);
     }
 
     @RequestMapping(value = "/street/{id}", method = RequestMethod.GET)
     public ResponseEntity<List<Street>> getAllStreetsOfCity(@PathVariable("id") Integer id) {
         logger.info("Get all streets of city: ");
-        return new ResponseEntity<>(addressService.getAllStreetsOfCity(id), HttpStatus.OK);
+        HttpStatus status = HttpStatus.OK;
+        List<Street> streets = new ArrayList<>();
+        if (addressService.getCityById(id) == null) {
+            status = HttpStatus.NOT_FOUND;
+        } else {
+            streets.addAll(addressService.getAllStreetsOfCity(id));
+        }
+        return new ResponseEntity<>(streets, status);
     }
 
     @RequestMapping(value = "/street/id/{id}", method = RequestMethod.GET)
     public ResponseEntity<Street> getStreetById(@PathVariable("id") Integer id) {
         logger.info("Get street by Id: ");
-        return new ResponseEntity<>(addressService.getStreetById(id), HttpStatus.OK);
+        Street street = addressService.getStreetById(id);
+        HttpStatus status = HttpStatus.OK;
+        if (street == null) {
+        	street = new Street();
+        	status = HttpStatus.NOT_FOUND;
+        }
+        return new ResponseEntity<>(street, status);
     }
 
 }

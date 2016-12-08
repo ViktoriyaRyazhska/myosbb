@@ -33,7 +33,7 @@ import com.softserve.osbb.service.utils.Sha256Encoder;
 @RestController
 public class ValidationController {
     
-    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     
     @Autowired
     private UserService userService;

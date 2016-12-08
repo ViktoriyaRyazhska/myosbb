@@ -32,7 +32,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RequestMapping("/restful/osbb")
 public class OsbbController {
 
-    private static Logger logger = LoggerFactory.getLogger(OsbbController.class);
+    private static final Logger logger = LoggerFactory.getLogger(OsbbController.class);
 
     @Autowired
     private OsbbService osbbService;

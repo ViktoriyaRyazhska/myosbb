@@ -60,7 +60,7 @@ import com.softserve.osbb.util.resources.impl.TicketResourceList;
 @RequestMapping("/restful/ticket")
 public class TicketController {
 
-    private static Logger logger = LoggerFactory.getLogger(TicketController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TicketController.class);
 
     @Value("${service.serverpath}")
     String serverUrl;
