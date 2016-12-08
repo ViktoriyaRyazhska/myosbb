@@ -19,6 +19,7 @@ import { ElectricityComponen } from "../home/components/apartment/submenu/electr
 import { GasComponen } from "../home/components/apartment/submenu/gas/gas.component";
 import { WaterComponen } from "../home/components/apartment/submenu/water/water.component";
 import { CustomserviceComponent } from "../home/components/apartment/submenu/customservice/customservice.component";
+import { SubbillComponent } from "../home/components/apartment/submenu/customservice/subbill/subbill.component";
 import { OsbbContactsComponent } from "./osbb-contacts/osbb-contacts.component";
 
 export const homeRoutes: RouterConfig = [
@@ -41,12 +42,13 @@ export const homeRoutes: RouterConfig = [
             { path: 'friend/:id', component: UserProfileComponent },
             { path: 'report', component: UserReportComponent },
             { path: 'apartment', component: UserApartmentComponent },
-            { path: 'rent/gas', component: GasComponen },
             { path: 'rents/electricity', component: GasComponen },
             { path: 'rent/gas' , component: WaterComponen },
             { path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent },
             { path: 'osbb/contacts', component: OsbbContactsComponent},
-            { path: 'bill/parentbillid', component: CustomserviceComponent}
+            { path: 'bill/parentbillid', component: CustomserviceComponent},
+            //{ path: 'bill/parentbillid/subbill/8', component: SubbillComponent }
+            { path: 'bill/parentbillid/subbill/:id', component: SubbillComponent }
             
         ]
     }

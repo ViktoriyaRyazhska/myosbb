@@ -156,8 +156,8 @@ public class UserController {
     public ResponseEntity<List<Resource<User>>> getUsersByOsbbId(@PathVariable("id")Integer osbbId) {
         logger.info("Getting users from database with osbb id" + osbbId);
         Osbb osbb = osbbService.getOsbb(osbbId);
-        List<User> users = userService.getUsersByOsbb(osbb);
         
+        List<User> users = userService.getUsersByOsbb(osbb);
         List<Resource<User>> resources = new ArrayList<>();
             for (User temp : users) {
                 resources.add(getUserResource(temp));

@@ -43,4 +43,6 @@ public interface BillService {
     List<Bill> getAllBillsByApartmentWithCurrentMonth(Integer apartmentId);
     
     List<Bill> findAllParentBillId();
+    
+    List<Bill> findAllParentBillById(Integer id);
 }

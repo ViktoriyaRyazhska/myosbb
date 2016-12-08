@@ -5,11 +5,10 @@
             <tbody>
                 <tr *ngFor="let parentBill of bills">
 
-                    <td [routerLink]="['subbill','parentBill.billId']"> {{parentBill.name}} {{parentBill.billId}} </td>
+                    <td> {{parentBill.name}} {{parentBill.billId}} </td>
 
 
                 </tr>
-
             </tbody>
         </h4>
         <div id="example_filter" class="pull-right dataTables_filter">
