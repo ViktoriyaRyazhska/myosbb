@@ -125,7 +125,6 @@ public class BillServiceImpl implements BillService {
         return billRepository.getAllBillsByApartmentWithCurrentMonth(apartmentId);
     }
     
-    
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
     public List<Bill> findAllParentBillId(){
