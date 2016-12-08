@@ -71,14 +71,8 @@ export class TicketEditDiscussedFormComponent implements OnInit {
     toggleSubmitAttempt() {
         this.submitAttempt = true;
     }
-    deleteAttachmet(attachment:Attachment){
-    let index = this.ticket.attachments.indexOf(attachment);
-        if (index > -1) {
-            this.ticket.attachments.splice(index,1);
-        }
-        
-   }
-    closeEditModal() {
+    
+     closeEditModal() {
         this.submitAttempt = false;
         this.clearEditModal();
         this.editModal.hide();
@@ -91,7 +85,6 @@ export class TicketEditDiscussedFormComponent implements OnInit {
     }
 
     onEditTicket() {
-        
             let ticket = this.editTicket();
             this.update.emit(ticket);
             this.closeEditModal();
