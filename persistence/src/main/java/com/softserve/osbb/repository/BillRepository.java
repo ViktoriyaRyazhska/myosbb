@@ -25,13 +25,16 @@ public interface BillRepository extends JpaRepository<Bill, Integer> {
 	@Query(value = "select * from bill where EXTRACT (year from \"date\") = :year", nativeQuery = true)
 	List<Bill> getAllByYear(@Param("year") Integer year);
 
-	@Query(value = "select * from bill where DATE_PART('Year',date) = DATE_PART('Year',now()) " + "AND DATE_PART('Month',date) = DATE_PART('Month',now()) AND apartment_id = :apartmentId ", nativeQuery = true)
-	List<Bill> getAllBillsByApartmentWithCurrentMonth(@Param("apartmentId") Integer apartmentId);
-
 	@Query(value = "Select * from bill join provider on bill.provider_id = provider.provider_id " + " where provider.provider_id=6 AND parent_bill_id is null", nativeQuery = true)
 	List<Bill> findByParentBillIsNotNull();
 
 	@Query(value = "Select * from bill where parent_bill_id = :parentBillId ", nativeQuery = true)
 	List<Bill> findParentBillById(@Param("parentBillId") Integer parentBillId);
+
+    @Query(value = "select * from bill where DATE_PART('Year',date) = DATE_PART('Year',now()) "
+            + "AND DATE_PART('Month',date) = DATE_PART('Month',now()) AND apartment_id = :apartmentId ", nativeQuery = true)
+    List<Bill> getAllBillsByApartmentWithCurrentMonth(@Param("apartmentId") Integer apartmentId);
+    
+    Page<Bill> findByParentBillIsNull(Pageable pageable);
 
 }
