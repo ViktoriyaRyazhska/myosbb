@@ -1,29 +1,25 @@
 package com.softserve.osbb.service.impl;
 
-import com.softserve.osbb.model.Osbb;
-import com.softserve.osbb.model.Role;
-import com.softserve.osbb.model.User;
-import com.softserve.osbb.repository.RoleRepository;
-import com.softserve.osbb.repository.UserRepository;
-import com.softserve.osbb.service.UserService;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import com.softserve.osbb.model.Osbb;
+import com.softserve.osbb.model.User;
+import com.softserve.osbb.repository.RoleRepository;
+import com.softserve.osbb.repository.UserRepository;
+import com.softserve.osbb.service.UserService;
 
 /**
  * Created by cavayman on 11.07.2016.

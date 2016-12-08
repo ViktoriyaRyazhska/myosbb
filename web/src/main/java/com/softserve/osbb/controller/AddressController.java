@@ -27,7 +27,7 @@ import com.softserve.osbb.service.AddressService;
 @RequestMapping("/restful/address")
 public class AddressController {
 
-    private static Logger logger = LoggerFactory.getLogger(AddressController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AddressController.class);
 
     @Autowired
     private AddressService addressService;
