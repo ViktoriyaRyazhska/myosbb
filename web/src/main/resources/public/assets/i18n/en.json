@@ -71,8 +71,8 @@
   "PERMANENT_MONTHLY": "monthly",
   "search": "search",
   "description": "description",
-  "edit": "edit",
-  "delete": "delete",
+  "edit": "Edit",
+  "delete": "Delete",
   "GoToProviderPage": "Go to provider page",
   "required": "required",
   "save": "save",
@@ -281,6 +281,17 @@
   "passLengthError": "Password cannot be shorter than 4 and longer than 16 characters",
   "errorBirthDateMsg": "Birthdate is invalid",
   "errorDateMsg": "Invalid date",
-  "choosedate":"edit date"
-
+  "choosedate":"edit date",
+  "region": "Region",
+  "city": "City",
+  "street": "Street",
+  "house_number": "House number",
+  "docs&reports": "Documents & Reports",
+  "regulations": "Regulations",
+  "meetings_minutes": "Meetings Minutes",
+  "fin_stmnt": "Financial Statements",
+  "add_folder": "Add New Folder",
+  "folder_name": "Folder name",
+  "select_all": "Select all",
+  "rename": "Rename"
 }

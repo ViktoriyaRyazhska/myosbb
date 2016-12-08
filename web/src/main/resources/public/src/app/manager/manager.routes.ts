@@ -16,6 +16,8 @@ import { CalendarHomeComponent } from "../home/calendar/calendar.home.component"
 import { UserApartmentComponent } from "../home/components/apartment/user.apartment.component";
 import { ApartmentProfileComponent } from "../home/components/ApartmentProfile/apartment.profile";
 import { UserProfileManagerComponent } from "./components/user/user.profile.manager.component";
+import { OsbbContactsComponent } from "../home/osbb-contacts/osbb-contacts.component";
+import { OsbbDocumentsAndReportsComponent } from "../home/osbb-docs-and-reports/osbb-docs-and-reports.component";
 
 export const managerRoutes:RouterConfig = [
     {
@@ -41,11 +43,9 @@ export const managerRoutes:RouterConfig = [
             { path: 'calendar', component: CalendarHomeComponent },
             { path: 'contract', component: ContractComponent },
             { path: 'friend/:id', component: UserProfileManagerComponent },
-
-
-
+            { path: 'osbb/contacts', component: OsbbContactsComponent },
+            { path: 'osbb/documents-and-reports', redirectTo: 'osbb/documents-and-reports/1', pathMatch: 'full' },
+            { path: 'osbb/documents-and-reports/:id', component: OsbbDocumentsAndReportsComponent }
         ]
     },
-
-
 ];

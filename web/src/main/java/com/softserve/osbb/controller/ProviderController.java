@@ -38,7 +38,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @CrossOrigin
 public class ProviderController {
 
-    private static Logger logger = LoggerFactory.getLogger(ProviderController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProviderController.class);
 
     @Autowired
     ProviderService providerService;

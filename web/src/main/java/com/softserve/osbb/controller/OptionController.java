@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/restful/option")
 public class OptionController {
 
-    private static Logger logger = LoggerFactory.getLogger(OptionController.class);
+    private static final Logger logger = LoggerFactory.getLogger(OptionController.class);
 
     @Autowired
     private OptionService optionService;

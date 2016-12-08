@@ -45,6 +45,15 @@ export class OsbbComponent implements OnInit {
         this.updatedOsbb = osbb;
     }
 
+    composeAddress(element: IOsbb): string {
+        let composedAddress = element.address;
+        if (element.street != null) {
+            composedAddress = element.street.city.region.name + ', м.' + element.street.city.name + 
+                              ', вул. ' + element.street.name + ', ' + element.address;
+        } 
+        return composedAddress;
+    }
+
     initOsbbArr(available: string) {
         if(available === "All") {
             this.osbbService.getAllOsbb().then(osbbArr => this.osbbArr = osbbArr);
