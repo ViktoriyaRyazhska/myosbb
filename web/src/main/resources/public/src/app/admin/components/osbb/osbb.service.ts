@@ -1,8 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers } from "@angular/http";
+import {Observable} from 'rxjs/Observable';
 
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
+import 'rxjs/add/operator/catch';
 
 import { IOsbb } from "../../../../shared/models/osbb";
 import { OsbbDTO } from "../../../../shared/models/osbbDTO";
@@ -14,7 +16,6 @@ const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment';
 export class OsbbService { 
 
     private url:string = ApiService.serverUrl + '/restful/osbb';
-
     constructor(private http: Http) { 
     }
 
@@ -109,4 +110,5 @@ export class OsbbService {
         console.log('HandleError', error);
         return Promise.reject(error.message || error);
     }
+         
 }

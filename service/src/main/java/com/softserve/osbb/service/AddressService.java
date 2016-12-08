@@ -21,4 +21,8 @@ public interface AddressService {
 
     Street getStreetById(Integer id);
     
+    City getCityById(Integer id);
+
+    Region getRegionById(Integer id);
+
 }
