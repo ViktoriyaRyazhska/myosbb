@@ -102,7 +102,7 @@ public class FolderServiceImpl implements FolderService {
     }
 
     private void validateName(String folderName, Integer parentId) {
-        if (!Pattern.compile("^[a-zA-Z0-9][a-zA-Z0-9-_]{1,35}$").matcher(folderName).matches()) {
+        if (!Pattern.compile("^[а-яА-ЯіІїЇa-zA-Z0-9-_]{1,35}$").matcher(folderName).matches()) {
             throw new IllegalArgumentException("Folder name '" + folderName + "' not allowed!");
         }
         

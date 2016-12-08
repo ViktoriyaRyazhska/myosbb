@@ -48,7 +48,7 @@
 
         <hr>
         <div *ngIf="currentRole == 'ROLE_MANAGER'" class="row">
-            <button type="button" class="btn btn-primary" style="margin-left:24px; margin-bottom:12px;" data-toggle="modal" data-target="#addFolderModal">
+            <button type="button" class="btn btn-primary" style="margin-left:24px; margin-bottom:12px;" onclick='$("#theName").val(""); $("#addFolderModal").modal("toggle");'>
                 {{'add_folder' | translate}}
             </button>
             <button type="button" class="btn btn-primary" style="margin-left:24px; margin-bottom:12px;" data-toggle="modal" data-target="#uploadFile">
@@ -73,11 +73,12 @@
                         <h4 class="modal-title">{{'add_folder' | translate}}</h4>
                     </div>
                     <div class="modal-body">
-                        <input type="text" 
+                        <input type="text"
+                            id="theName" 
                             name="name"
                             [(ngModel)]="newFolder.name"
                             placeholder="{{'name'| translate | capitalize }}..."
-                            pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]{1,35}$" 
+                            pattern="^[а-яА-ЯіІїЇa-zA-Z0-9-_]{1,35}$" 
                             class="form-control placeholder-no-fix"
                             maxlength="35" 
                             required>
@@ -86,7 +87,7 @@
                         <button class="btn btn-success" type='submit' [disabled]="!newFolderForm.form.valid" onclick='$("#addFolderModal").modal("toggle");'>
                             {{ 'save' | translate | capitalize }}
                         </button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <button type="button" class="btn btn-default" onclick='$("#theName").val(""); $("#addFolderModal").modal("toggle");'>
                             {{'close' | translate}}
                         </button>
                     </div>
@@ -109,7 +110,7 @@
                             name="name"
                             [(ngModel)]="editableFolder.name"
                             placeholder="{{'name'| translate | capitalize }}..."
-                            pattern="^[a-zA-Z0-9][a-zA-Z0-9-_]{1,35}$" 
+                            pattern="^[а-яА-ЯіІїЇa-zA-Z0-9-_]{1,35}$" 
                             class="form-control placeholder-no-fix"
                             maxlength="35" 
                             required>
