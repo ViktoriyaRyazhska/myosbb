@@ -52,7 +52,6 @@ export class OsbbComponent implements OnInit {
                               ', вул. ' + element.street.name + ', ' + element.address;
         } 
         return composedAddress;
-        }
     }
 
     initOsbbArr(available: string) {
