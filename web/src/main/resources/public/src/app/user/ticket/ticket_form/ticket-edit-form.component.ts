@@ -39,6 +39,7 @@ export class TicketEditFormComponent implements OnInit {
     private nameTicket:string = '';
     private descriptionTicket:string = '';
     private assignTicket:string = '';
+    private discussed:Date;
     private currentUser:User;
     private _currentUserService = null;
     private attachments:Attachment[] = [];
@@ -47,7 +48,7 @@ export class TicketEditFormComponent implements OnInit {
                 private builder:FormBuilder) {
         this._currentUserService = HeaderComponent.currentUserService;
         this.currentUser = this._currentUserService.getUser();
-        this.ticket = new Ticket("", "", TicketState.NEW);
+        this.ticket = new Ticket("", "", TicketState.NEW,new Date());
         this.ticket.attachments = [];
         this.attachments = this.ticket.attachments;
         this.update = new EventEmitter<Ticket>();
@@ -57,6 +58,7 @@ export class TicketEditFormComponent implements OnInit {
         this.nameInput = new Control('', Validators.required);
         this.descriptionInput = new Control('', Validators.required);
         this.assignInput = new Control('', Validators.required);
+        this.discussed = null;
         this.creatingForm = builder.group({
             nameInput: this.nameInput,
             descriptionInput: this.descriptionInput,
@@ -161,13 +163,13 @@ deleteAttachmet(attachment:Attachment){
         this.nameTicket = ticket.name;
         this.descriptionTicket = ticket.description;
         this.assignTicket = ticket.assigned.firstName + " " + ticket.assigned.lastName;
-this.openEditModal();
+        this.openEditModal();
         
     }
 
     editTicket():Ticket {
         console.log("edit ticket");
-        let ticket = new Ticket(this.nameTicket, this.descriptionTicket, TicketState.NEW);
+        let ticket = new Ticket(this.nameTicket, this.descriptionTicket, TicketState.NEW, this.discussed );
         ticket.ticketId = this.ticket.ticketId;
         ticket.user = this.currentUser;
         ticket.assigned = this.getAssignedId(this.assignTicket);

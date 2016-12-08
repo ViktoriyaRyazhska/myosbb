@@ -1,4 +1,5 @@
 <toaster-container></toaster-container>
+
 <div class="panel panel-default pos-top">
     <div class="panel-heading"><h4><i class="fa fa-angle-right"></i>{{'tickets'|translate}}</h4>
         <div style="float:right;margin-top:-30px;margin-right:20px;">
@@ -19,6 +20,8 @@
                 <ticket-add-form (created)="createTicket($event)" #addForm></ticket-add-form>
                 <ticket-edit-form [ticket]="updatedTicket" (update)="editTicket($event)"
                                   #editForm></ticket-edit-form>
+                <ticket-editdiscussed-form [ticket]="updatedTicket" (update)="editTicket($event)"
+                                  #editDiscussedForm></ticket-editdiscussed-form>
                 <ticket-del-form (delete)="deleteTicket($event)" #delForm></ticket-del-form>
             </div>
 
@@ -118,23 +121,22 @@
                 {{'notset'|translate | capitalize}}</p>
         </div>
         <br/>
-        <div style="margin-left:5%;padding:10px;width:90%;border-radius:2px;">
+        <div style="margin-left:5%;padding:10px;width:90%;border-radius:2px;" >
             <p style="font-size:20px;">
                 {{'discussed'|translate | capitalize}}:</p>
             <p style="font-size:18px;" *ngIf="ticket.discussed == null">{{'isNotDiscussed'|translate | capitalize}}</p>
-            <p style="font-size:18px;" *ngIf="ticket.discussed != null">{{'isDiscussed'|translate | capitalize}} {{getTime(ticket.discussed).substring(0,10)}}</p>
+                <button *ngIf="ticket.discussed == null && currentUser.role == 'ROLE_MANAGER'"
+                        class="btn btn-success" (click)="editDiscussedForm.initUpdatedTicket(ticket);"
+                                         style="margin-left:5px; float: left">{{'choosedate'|translate | capitalize}}
+                </button>
+            <p style="font-size:18px;" *ngIf="ticket.discussed != null">{{'isDiscussed'|translate | capitalize}} {{getTime(ticket.discussed).substring(0,10)}} </p>
+                <button *ngIf="ticket.discussed != null && currentUser.role == 'ROLE_MANAGER'"
+                        class="btn btn-success" (click) =" editDiscussedForm.initUpdatedTicket(ticket);"
+                            style="margin-left:5px; float: left">{{'choosedate'|translate | capitalize}}
+                </button>           
         </div>
         <br/>
-        <div class="form-group"
-             style="margin-left:5%;padding:10px;width:90%;border-radius:2px;" *ngIf="currentUser.role == 'ROLE_MANAGER'">
-            <p style="font-size:18px;">{{'shiftDate'|translate | capitalize}}:</p>
-           <input class="form-control" style="width: 20%; float: left" type="date" [(ngModel)]="date"/>
-            <button class="btn btn-success" (click) ="ticket.discussed=date;editTicket(ticket);"
-                    style="margin-left:5px; float: left">{{'save'|translate | capitalize}}</button>
-            <button class="btn btn-success" (click) = "ticket.discussed=null;editTicket(ticket);"
-                    style="margin-left:5px; float: left">{{'deny'|translate | capitalize}}</button>
-        </div>
-        <br/>
+        
         <div style=" width:100%; height:1px; clear:both;"></div>
         <div>
             <div class="attachmetTicket" *ngFor="let attachment of ticket.attachments">
