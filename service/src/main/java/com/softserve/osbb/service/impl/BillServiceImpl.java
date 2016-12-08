@@ -136,4 +136,10 @@ public class BillServiceImpl implements BillService {
     public List<Bill> findAllParentBillById(Integer id){
         return billRepository.findParentBillById(id);
     }
+
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	@Override
+	public Page<Bill> findAllParentBills(Pageable pageable) {
+		return billRepository.findByParentBillIsNull(pageable);
+	}
 }
