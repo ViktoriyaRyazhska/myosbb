@@ -15,7 +15,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
     templateUrl: 'src/app/home/components/apartment/submenu/customservice/customservice.component.html',
     providers: [CustomserviceService, ToasterService],
     inputs: [ 'isUserDownload'],
-    styleUrls: ['src/app/user/bills/bill.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
+    styleUrls: ['src/app/home/components/apartment/submenu/customservice/subbil/subbil.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
     directives: [ ToasterContainerComponent, ROUTER_DIRECTIVES,
         MODAL_DIRECTIVES, SELECT_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES, BUTTON_DIRECTIVES],
     viewProviders: [BS_VIEW_PROVIDERS],
