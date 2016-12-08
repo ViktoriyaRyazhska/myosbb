@@ -291,5 +291,6 @@
   "add_folder": "Add New Folder",
   "folder_name": "Folder name",
   "select_all": "Select all",
-  "rename": "Rename"
+  "rename": "Rename",
+  "upload_logo": "upload"
 }

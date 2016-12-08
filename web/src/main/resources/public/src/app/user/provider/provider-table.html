@@ -189,7 +189,7 @@
                                            name="name" #name="ngModel">
                                     <div [hidden]="name.valid || name.pristine"
                                          class="alert alert-danger">
-                                        {{ 'required' | translate | capitalize }}
+                                        {{ 'requiredField' | translate | capitalize }}
                                     </div>
                                 </div> <!-- Company -->
 
@@ -210,8 +210,6 @@
                                                                [items]="periodicities"
                                                                (selected)="onSelectPeriodicity($event)"
                                                                (data)="onRefresh($event)"
-                                                               (removed)="onRemove($event)"
-                                                               (typed)="onType($event)"
                                                                placeholder="{{selected.periodicity | translate}}">
                                                     </ng-select>
                                                     <p></p>
@@ -230,7 +228,7 @@
                                                   #description="ngModel"></textarea>
                                         <div [hidden]="description.valid || description.pristine"
                                              class="alert alert-danger">
-                                            {{ 'required' | translate | capitalize }}
+                                            {{ 'requiredField' | translate | capitalize }}
                                         </div>
                                     </div> <!-- Description -->
 
@@ -243,7 +241,7 @@
                                                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
                                         <div *ngIf="email.errors && email.errors.required  &&  !email.pristine"
                                              class="alert alert-danger">
-                                            {{ 'required' | translate | capitalize }}
+                                            {{ 'requiredField' | translate | capitalize }}
                                         </div>
                                         <div *ngIf="email.errors && email.errors.pattern &&  !email.pristine"
                                              class="alert alert-danger">
@@ -258,7 +256,7 @@
                                                placeholder="(0__) ___-____" #phone="ngModel" required>
                                         <div [hidden]="phone.valid || phone.pristine"
                                              class="alert alert-danger">
-                                            {{ 'required' | translate | capitalize }}
+                                            {{ 'requiredField' | translate | capitalize }}
                                         </div>
                                     </div> <!-- Phone -->
 
@@ -269,7 +267,7 @@
                                                #address="ngModel">
                                         <div [hidden]="address.valid || address.pristine"
                                              class="alert alert-danger">
-                                            {{ 'required' | translate | capitalize }}
+                                            {{ 'requiredField' | translate | capitalize }}
                                         </div>
                                     </div> <!-- Address -->
 
@@ -280,7 +278,7 @@
                                                   #schedule="ngModel"></textarea>
                                         <div [hidden]="schedule.valid || schedule.pristine"
                                              class="alert alert-danger">
-                                            {{ 'required' | translate | capitalize }}
+                                            {{ 'requiredField' | translate | capitalize }}
                                         </div>
                                     </div> <!-- Schedule -->
                                 </div>
@@ -328,7 +326,7 @@
                                                    name="name" #name="ngModel">
                                             <div [hidden]="name.valid || name.pristine"
                                                  class="alert alert-danger">
-                                                {{ 'required' | translate | capitalize }}
+                                                {{ 'requiredField' | translate | capitalize }}
                                             </div>
                                         </div> <!-- Company -->
                                     </div>
@@ -351,8 +349,6 @@
                                                                        [items]="periodicities"
                                                                        (selected)="onSelectPeriodicity($event)"
                                                                        (data)="onRefresh($event)"
-                                                                       (removed)="onRemove($event)"
-                                                                       (typed)="onType($event)"
                                                                        placeholder="{{ 'periodicity' | translate}}">
                                                             </ng-select>
                                                             <p></p>
@@ -384,7 +380,7 @@
                                                   #description="ngModel"></textarea>
                                         <div [hidden]="description.valid || description.pristine"
                                              class="alert alert-danger">
-                                            {{ 'required' | translate | capitalize }}
+                                            {{ 'requiredField' | translate | capitalize }}
                                         </div>
                                     </div> <!-- Description -->
 
@@ -397,7 +393,7 @@
                                                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
                                         <div *ngIf="email.errors && email.errors.required  &&  !email.pristine"
                                              class="alert alert-danger">
-                                            {{ 'required' | translate | capitalize }}
+                                            {{ 'requiredField' | translate | capitalize }}
                                         </div>
                                         <div *ngIf="email.errors && email.errors.pattern && !email.pristine"
                                              class="alert alert-danger">
@@ -412,7 +408,7 @@
                                                placeholder="(0__) ___-____" #phone="ngModel" required>
                                         <div *ngIf="phone.errors && phone.errors.required  &&  !phone.pristine"
                                              class="alert alert-danger">
-                                            {{ 'required' | translate | capitalize }}
+                                            {{ 'requiredField' | translate | capitalize }}
                                         </div>
                                         <div *ngIf="phone.errors && phone.errors.pattern && !phone.pristine"
                                              class="alert alert-danger">
@@ -427,7 +423,7 @@
                                                #address="ngModel">
                                         <div [hidden]="address.valid || address.pristine"
                                              class="alert alert-danger">
-                                            {{ 'required' | translate | capitalize }}
+                                            {{ 'requiredField' | translate | capitalize }}
                                         </div>
                                     </div> <!-- Address -->
 
@@ -438,7 +434,7 @@
                                                   #schedule="ngModel"></textarea>
                                         <div [hidden]="schedule.valid || schedule.pristine"
                                              class="alert alert-danger">
-                                            {{ 'required' | translate | capitalize }}
+                                            {{ 'requiredField' | translate | capitalize }}
                                         </div>
                                     </div> <!-- Schedule -->
                                 </div>

@@ -6,7 +6,6 @@ import {TranslatePipe} from "ng2-translate/ng2-translate";
 import {CapitalizeFirstLetterPipe} from "../../../../shared/pipes/capitalize-first-letter";
 import {Provider} from "../../../../shared/models/provider.interface";
 import {PageCreator} from "../../../../shared/services/page.creator.interface";
-import {SelectItem} from "../../../../shared/models/ng2-select-item.interface";
 import {ProviderService} from "../service/provider-service";
 import {ROUTER_DIRECTIVES} from "@angular/router";
 
@@ -25,8 +24,6 @@ export class ProviderUserPageComponent {
     private pageList: Array<number> = [];
     private totalPages: number;
     onlyActive: boolean = true;
-    private providerId: number;
-    private periodicities: SelectItem[] = [];
 
     constructor(private _providerService: ProviderService) {
     }
@@ -58,7 +55,6 @@ export class ProviderUserPageComponent {
     }
 
     getProvidersByPageNumAndState(pageNumber: number) {
-        console.log("getProvidersByPageNum " + pageNumber + "; only active=" + this.onlyActive);
         this.pageNumber = +pageNumber;
         this.emptyArray();
         return this._providerService.getProvidersByState(this.pageNumber, this.onlyActive)
