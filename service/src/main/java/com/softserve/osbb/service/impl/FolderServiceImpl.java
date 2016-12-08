@@ -1,6 +1,7 @@
 package com.softserve.osbb.service.impl;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,8 @@ public class FolderServiceImpl implements FolderService {
 
     @Override
     public Folder update(Integer id, String name) {
+        validateName(name);
+        
         Folder folder = repository.findById(id);        
         if (folder == null) {
             throw new EntityNotFoundException(id);
@@ -81,8 +84,9 @@ public class FolderServiceImpl implements FolderService {
 
     @Override
     public Folder save(String folderName, Integer parentId) {
-        Folder folder = repository.findById(parentId);
+        validateName(folderName);
         
+        Folder folder = repository.findById(parentId);        
         if (folder != null) {
             Folder newFolder = new Folder();
             newFolder.setName(folderName);
@@ -94,6 +98,12 @@ public class FolderServiceImpl implements FolderService {
         }
         
         return folder;
+    }
+
+    private void validateName(String folderName) {
+        if (!Pattern.compile("^[a-zA-Z0-9][a-zA-Z0-9-_]{1,35}$").matcher(folderName).matches()) {
+            throw new IllegalArgumentException("Folder name '" + folderName + "' not allowed!");
+        }
     }
 
 }

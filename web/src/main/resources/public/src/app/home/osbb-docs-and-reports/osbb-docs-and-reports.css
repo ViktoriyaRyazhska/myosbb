@@ -23,3 +23,7 @@
 .header-cell {
     padding-left:12px;
 }
+
+.ng-invalid {
+    border: 1px solid red;
+}

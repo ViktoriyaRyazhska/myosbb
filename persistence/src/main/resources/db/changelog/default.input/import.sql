@@ -180,6 +180,7 @@ INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(11,FALSE,FAL
 INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(12,TRUE,FALSE,TRUE,TRUE );
 INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(13,FALSE,FALSE,FALSE,FALSE );
 INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(14,TRUE,FALSE,TRUE,TRUE );
+INSERT into settings(user_id,assigned,creator,comment,answer)VALUES(15,TRUE,FALSE,TRUE,TRUE );
 
 INSERT into event(title, author, start_time, end_time, description, repeats, osbb_id) VALUES(
 'Процес пішов: три будинки передадуть з ЖЕКу до ОСББ',6,'2016-09-30 07:00:00','2016-10-10 07:00:00',

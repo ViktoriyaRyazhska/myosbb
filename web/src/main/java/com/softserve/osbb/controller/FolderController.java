@@ -104,4 +104,11 @@ public class FolderController {
         return new Error(404, message);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public Error illegalFolderName(IllegalArgumentException exception) {
+        String message = exception.getLocalizedMessage();
+        logger.error(message);
+        return new Error(400, message);
+    }
 }

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -52,6 +53,7 @@ public class Folder implements Serializable {
         this.id = id;
     }
 
+    @Size(max = 35)
     @Column(name = "name")
     public String getName() {
         return name;
