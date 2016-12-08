@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs/Subscription';
     templateUrl: 'src/app/home/components/apartment/submenu/customservice/subbill/subbill.component.html',
     providers: [subbillService, ToasterService],
     inputs: [ 'isUserDownload'],
-    styleUrls: ['src/app/user/bills/bill.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
+    styleUrls: ['src/app/home/components/apartment/styles.css'],
     directives: [ ToasterContainerComponent, ROUTER_DIRECTIVES,
         MODAL_DIRECTIVES, SELECT_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES, BUTTON_DIRECTIVES],
     viewProviders: [BS_VIEW_PROVIDERS],
@@ -42,31 +42,15 @@ this.subscription =  activatedRoute.params.subscribe(
             }
         );   
     }
-    ngOnInit(): any {
+    ngOnInit(): any {}
 
- 
-
-    }
     getCurrentBill() {
-        
         this._billService.getCurrentBill(this.parentId)
         .subscribe(data => {
             this.bills=data;
-       
-        });
+       });
     }
-   
-     goTosubbBill(){
-         this._billService.getCurrentBill(8)
-            .subscribe((data) => {
-                    this.bills=data;
-                    },
-                (error) => {
-                    this.handleErrors(error);
-                });
-    }
-
-     getBillid() {
+   getBillid() {
          let tempArr: number[] = [];
          for (let reg of this.bills) {
              tempArr.push(reg.billId);
@@ -78,17 +62,15 @@ this.subscription =  activatedRoute.params.subscribe(
         this.subscription.unsubscribe();
         console.log('Unsubscribed from ActivatedRoure.params');
     }
-public handleErrors(error) {
+    public handleErrors(error) {
       
         if (error.status === 404 || error.status === 400) {
             console.log('server error 400', error);
-
             return;
         }
 
         if (error.status === 500) {
             console.log('server error 500', error);
-        
             return;
         }
 

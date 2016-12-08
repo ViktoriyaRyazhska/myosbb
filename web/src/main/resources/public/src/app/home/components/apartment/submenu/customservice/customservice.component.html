@@ -1,13 +1,13 @@
 <div class="panel panel-default top-panel to-right">
     <div class="panel-heading">
         <h4>
-            <i class="fa fa-angle-right"></i> Bill:
+            <i class="fa fa-angle-right"></i>{{ 'rate' | translate }}
             <tbody>
                 <tr *ngFor="let parentBill of bills">
-
-                    <td [routerLink]="['subbill','parentBill.billId']"> {{parentBill.name}} {{parentBill.billId}} </td>
-
-
+                    <a>
+                        <td [routerLink]="['subbill', parentBill.billId]"> {{parentBill.name}} </td>
+                        <td [routerLink]="['subbill', parentBill.billId]"> {{parentBill.tariff}} </td>
+                    </a>
                 </tr>
 
             </tbody>

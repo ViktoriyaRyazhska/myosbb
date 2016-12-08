@@ -47,7 +47,6 @@ export const homeRoutes: RouterConfig = [
             { path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent },
             { path: 'osbb/contacts', component: OsbbContactsComponent},
             { path: 'bill/parentbillid', component: CustomserviceComponent},
-            //{ path: 'bill/parentbillid/subbill/8', component: SubbillComponent }
             { path: 'bill/parentbillid/subbill/:id', component: SubbillComponent }
             
         ]
