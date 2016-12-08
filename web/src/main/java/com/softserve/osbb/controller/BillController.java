@@ -88,7 +88,7 @@ public class BillController {
             @RequestBody PageParams pageParams) {
         
         logger.info(String.format("Listing all bills, page number: %d ", pageParams.getPageNumber()));        
-        Page<Bill> bills = billService.findAllBills(buildPageRequest(pageParams));
+        Page<Bill> bills = billService.findAllParentBills(buildPageRequest(pageParams));
         
         return buildResponseEntity(status, bills);
     }
@@ -126,6 +126,7 @@ public class BillController {
             PageDataObject<Resource<BillDTO>> billPageDataObject = PageDataUtil.providePageData(BillPageDataObject.class, pageSelector, billResourceList);
             response = new ResponseEntity<>(billPageDataObject, HttpStatus.OK);
         }
+        
         return response;
     }
 
@@ -134,13 +135,19 @@ public class BillController {
         Bill bill = BillDTOMapper.mapDTOtoEntity(billDTO, billService);        
         logger.info("Saving bill " + bill);
         HttpStatus status = HttpStatus.OK;
+        Bill parentBill = null;
         
+        if(billDTO.getParentBillId() != null) {        	
+        	parentBill = billService.findOneBillByID(billDTO.getParentBillId());
+        	billDTO.setProviderId(parentBill.getProvider().getProviderId());
+        	billDTO.setApartmentId(parentBill.getApartment().getApartmentId());
+        }
         Apartment apartment = apartmentService.findById(billDTO.getApartmentId());
-        Provider provider = providerService.findOneProviderById(billDTO.getProviderId());
-        
+        Provider provider = providerService.findOneProviderById(billDTO.getProviderId());      
         if (apartment != null && provider != null) {
             bill.setApartment(apartment);        
-            bill.setProvider(provider);            
+            bill.setProvider(provider);
+            bill.setParentBill(parentBill);
         
             if (billService.saveBill(bill) == null) {
                 logger.warn("Bill wasn't saved");
