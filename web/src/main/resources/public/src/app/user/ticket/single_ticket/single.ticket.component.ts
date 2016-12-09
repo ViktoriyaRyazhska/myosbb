@@ -14,6 +14,7 @@ import {TicketComponent} from './../ticket.component';
 import { MessageService } from './single.ticket.service';
 import { TicketAddFormComponent } from './../ticket_form/ticket-add-form.component';
 import { TicketEditFormComponent } from './../ticket_form/ticket-edit-form.component';
+import { TicketEditDiscussedFormComponent } from './../ticket_form/ticket-editdiscussed-form.component';
 import { TicketDelFormComponent } from './../ticket_form/ticket-del-form.component';
 import {ActivatedRoute} from "@angular/router";
 import {Router} from '@angular/router';
@@ -40,7 +41,7 @@ import {VoteComponent} from "../../../home/voting/vote.component";
     templateUrl: './src/app/user/ticket/single_ticket/single.ticket.component.html',
     providers: [MessageService, TicketService, ToasterService],
     directives: [RouterOutlet, ROUTER_DIRECTIVES, MODAL_DIRECTIVES, ToasterContainerComponent,
-        CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent,VoteComponent],
+        CORE_DIRECTIVES, TicketAddFormComponent, TicketEditFormComponent, TicketDelFormComponent,VoteComponent, TicketEditDiscussedFormComponent],
     viewProviders: [BS_VIEW_PROVIDERS],
     styleUrls: ['src/app/user/ticket/ticket.css', 'src/shared/css/loader.css', 'src/shared/css/general.css'],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe]
@@ -71,7 +72,8 @@ export class MessageComponent implements OnInit{
     private pageRequest:PageRequest;
     private currentAttachment:Attachment;
     private index:number;
-    private date:Date;
+    private discussed:Date;
+    private deadline:Date;
 
     constructor(private routeParams:ActivatedRoute,
                 private ticketService:TicketService,
@@ -84,12 +86,12 @@ export class MessageComponent implements OnInit{
         this.currentUser.role = this.currentUserService.getRole();
         this.message = new Message("");
         this.message.answers = [];
-        this.ticket = new Ticket("", "", TicketState.NEW);
+        this.ticket = new Ticket("", "", TicketState.NEW,new Date());
         this.ticket.user = new User();
         this.ticket.assigned = new User();
         this.message = new Message("");
         this.currentAttachment = new Attachment();
-        this.date=this.ticket.discussed;
+        this.discussed=null;
 
     }
 
@@ -288,7 +290,16 @@ export class MessageComponent implements OnInit{
 
 
     editTicket(ticket:ITicket):void {
-        this.ticketService.editTicket(ticket);
+        this.ticketService.editTicket(ticket)
+            .then(this.ngOnInit());;
+    }
+
+    editDiscussed(ticket:ITicket, date:Date ):void {
+        if(this.isDateRight(ticket,date)){
+            ticket.discussed = date;
+            this.ticketService.editTicket(ticket)
+                .then(this.ngOnInit());
+        }
     }
 
     deleteTicket(ticket:ITicket):void {
@@ -402,10 +413,11 @@ export class MessageComponent implements OnInit{
         this.gallery.hide();
     }
 
-    isDateRight():boolean {
-        return (( this.ticket.discussed > this.ticket.deadline)
-                    ||(this.ticket.deadline==null))
-                        &&( this.ticket.discussed > new Date());
+    isDateRight(ticket:ITicket,date:Date):boolean {
+        let now = new Date();
+        return ( (ticket.deadline.valueOf()>date.valueOf()
+                   ||(ticket.deadline==null)))
+                        &&( date.valueOf() >= now.valueOf());
     }
 
 
