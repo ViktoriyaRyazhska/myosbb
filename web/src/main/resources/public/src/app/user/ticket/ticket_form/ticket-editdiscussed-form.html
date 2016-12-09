@@ -1,0 +1,29 @@
+<div bsModal #editModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" [ngFormModel]="creatingForm">
+            <div class="modal-header">
+               <button type="button" class="close" aria-label="Close" (click)="editModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class = "modal-title">{{'shiftDate'|translate | capitalize}}</h4>
+            </div>
+            <div class = "modal-body">
+              <div class = "form-group" [ngClass]="{'has-error' : submitAttempt}">
+                     <input class="form-control" style="width: 30%; float: left"  type="date" [(ngModel)]="discussed" required/>
+              </div>
+              <br/>
+            </div>
+            <div class = "modal-footer">
+                <button style="float: right; width: 20%;" type="button"
+                            class="btn btn-primary" (click)="onEditTicket();">
+                        {{'save'|translate | capitalize}}
+                </button>
+                <button style="float: right; width: 20%; margin-right:15px;" type="button"
+                            class="btn btn-default" (click)="closeEditModal();">
+                        {{'cancel'|translate | capitalize}}      
+                </button>
+            </div>
+        </div>           
+    </div>
+</div>
