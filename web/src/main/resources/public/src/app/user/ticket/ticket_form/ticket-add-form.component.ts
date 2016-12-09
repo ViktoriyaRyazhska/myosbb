@@ -173,6 +173,6 @@ export class TicketAddFormComponent implements OnInit {
     isDeadLineCorrect(): boolean {
         let startTime = new Date();
         let res = this.castDeadLineStringToDate().valueOf() - startTime.valueOf();
-        return res > 0 ? true : false;
+        return res > 0;
     }
 }

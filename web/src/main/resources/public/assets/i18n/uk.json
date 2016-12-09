@@ -3,7 +3,7 @@
   "apartments": "квартири",
   "HELLO": "privet",
   "ourYard": "НАШ ДВІР",
-  "providers": "провайдери",
+  "providers": "надавачі послуг",
   "company": "компанія",
   "type": "тип",
   "price": "ціна",
@@ -295,5 +295,6 @@
   "folder_name": "Назва папки",
   "select_all": "Виділити все",
   "rename": "Переіменувати",
-  "add_subBill": "Додати підпослугу"
+  "add_subBill": "Додати підпослугу",
+  "upload_logo": "завантажити"
 }

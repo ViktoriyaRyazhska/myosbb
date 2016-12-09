@@ -4,7 +4,6 @@ import { TicketManagerComponent } from "./components/ticket/ticket.component.man
 import { TicketSingleManagerComponent } from "./components/ticket/single.ticket.component.manager";
 import { ManagerLoginGuard } from "../../shared/guard/manager.login.guard";
 import { OsbbBillComponent } from "./../user/bills/osbb/osbb.bill.component";
-import { ProviderComponent } from "../user/provider/provider.component";
 import { ProviderInfoComponent } from "./../user/provider/provider-info";
 import { EventComponent } from "../event/event.component";
 import { EventShowComponent } from "../event/event.show.component";
@@ -18,6 +17,7 @@ import { ApartmentProfileComponent } from "../home/components/ApartmentProfile/a
 import { UserProfileManagerComponent } from "./components/user/user.profile.manager.component";
 import { OsbbContactsComponent } from "../home/osbb-contacts/osbb-contacts.component";
 import { OsbbDocumentsAndReportsComponent } from "../home/osbb-docs-and-reports/osbb-docs-and-reports.component";
+import {ProviderManagerComponent} from "./components/provider/provider.component.manager";
 
 export const managerRoutes:RouterConfig = [
     {
@@ -36,7 +36,7 @@ export const managerRoutes:RouterConfig = [
             { path: 'ticket', component: TicketManagerComponent },
             { path: 'ticket/:id', component: TicketSingleManagerComponent },
             { path: 'osbb/bill', component: OsbbBillComponent },
-            { path: 'provider', component: ProviderComponent },
+            { path: 'provider', component: ProviderManagerComponent },
             { path: 'provider/info/:id', component: ProviderInfoComponent },
             { path: 'events', component: EventComponent },
             { path: 'event/:id', component: EventShowComponent },

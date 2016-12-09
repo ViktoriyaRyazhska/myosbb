@@ -16,7 +16,7 @@ const fileDownloadPath = FileLocationPath.fileDownloadPath;
 
 @Component({
     selector: 'myosbb-attachment',
-    templateUrl: './attachment.html',
+    templateUrl: 'src/app/attachment/attachment.html',
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
     providers: [AttachmentService],
     directives: [MODAL_DIRECTIVES, CORE_DIRECTIVES, FileSelectDirective, FileDropDirective],

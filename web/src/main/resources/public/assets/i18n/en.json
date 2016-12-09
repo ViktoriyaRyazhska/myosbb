@@ -294,5 +294,6 @@
   "folder_name": "Folder name",
   "select_all": "Select all",
   "rename": "Rename",
-  "add_subBill": "Add subbill"
+  "add_subBill": "Add subbill",
+  "upload_logo": "upload"
 }

@@ -1,46 +1,107 @@
 <!-- Page Content -->
 <div class="panel panel-default pos-top">
-<div class="container">
+    <div class="container">
 
-    <!-- Page Heading -->
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">{{'providers' | translate | capitalize}}
-            </h1>
+        <!-- Page Heading -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">{{'providers' | translate | capitalize}}
+                </h1>
+            </div>
         </div>
-    </div>
 
-    <div class="task-panel tasks-widget"> </div>
+        <div class="task-panel tasks-widget"></div>
 
-        <div class="row"  *ngFor="let provider of providers">
-                <div class="col-md-1">
-                </div>
-                <div class="col-md-5">
-                    <a [routerLink]="['.', provider.providerId]">
-                        <img class="img-responsive"  src="{{provider.logoUrl}}" alt="" class="img-thumbnail">
-                    </a>
-                </div>
-                <div class="col-md-5">
-                    <div class="task-panel tasks-widget" style="padding-top: 50px">
-                    <div class="col-xs-12">
-                        <label class="col-xs-6">{{'company' | translate | capitalize }}</label>
-                        <h5 class="col-xs-6">{{provider.name}}</h5>
-                    </div>
-                    <div class="col-xs-12">
-                        <label class="col-xs-6">{{'type' | translate | capitalize }}</label>
-                        <h6 class="col-xs-6">{{provider.type.providerTypeName}}</h6>
-                    </div>
-                    <div class="col-xs-12">
-                        <label class="col-xs-6">{{'description' | translate | capitalize }}</label>
-                        <h6 class="col-xs-6">{{provider.description}}</h6>
-                    </div>
-
-                        <div class="right">
-                            <a class="btn btn-primary" [routerLink]="['.', provider.providerId]"> {{'providergo' | translate | capitalize }} <span class="glyphicon glyphicon-chevron-right"></span></a>
+        <div class="row">
+            <div class="col-md-6">
+                <div *ngFor="let provider of providers; let isEven = even;">
+                    <template [ngIf]="isEven">
+                        <div class="col-xs-12">
+                            <label class="col-xs-6 text-center"><b
+                                    style="font-size: 20px;">{{provider.name}}</b></label>
                         </div>
+                        <div class="col-xs-12">
+                            <label class="col-xs-6"><b>{{'type' | translate | capitalize}} </b></label>
+                            <label class="col-xs-6">{{provider.type.providerTypeName}}</label>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="col-xs-6"><b>{{'whatwedo' | translate | capitalize}}</b></label>
+                            <label class="col-xs-6">{{provider.description}}</label>
+                        </div>
+                        <address>
+                            <div class="col-xs-12">
+                                <label class="col-xs-6"><b>{{ 'address' | translate | capitalize }}</b></label>
+                                <label class="col-xs-6">{{provider.address}}</label>
+                            </div>
+                        </address>
+                        <div class="col-xs-12">
+                            <label class="col-xs-6"><b>{{'schedule' | translate | capitalize }}</b></label>
+                            <label class="col-xs-6">{{provider.schedule}}</label>
+                        </div>
+                        <address>
+                            <div class="col-xs-12">
+                                <label class="col-xs-6"><b>{{ 'phone' | translate | capitalize}}</b></label>
+                                <label class="col-xs-6">{{provider.phone}}</label>
+                            </div>
+                        </address>
+                        <address>
+                            <div class="col-xs-12">
+                                <label class="col-xs-6"><b>{{ 'email' | translate | capitalize}}</b></label>
+                                <label class="col-xs-6"><a href="mailto:#">{{provider.email}}</a></label>
+                            </div>
+                        </address>
+                        <div class="col-xs-12">
+                            <label class="col-xs-6"><b>{{ 'periodicity' | translate | capitalize }}</b></label>
+                            <label class="col-xs-6">{{provider.periodicity | translate | capitalize}}</label>
+                        </div>
+                        &nbsp;
+                    </template>
                 </div>
             </div>
-    </div>
-    <hr>
+            <div class="col-md-6">
+                <div *ngFor="let provider of providers; let isOdd = odd; ">
+                    <template [ngIf]="isOdd">
+                        <div class="col-xs-12">
+                            <label class="col-xs-6 text-center"><b style="font-size: 20px">{{provider.name}}</b></label>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="col-xs-6"><b>{{'type' | translate | capitalize}} </b></label>
+                            <label class="col-xs-6">{{provider.type.providerTypeName}}</label>
+                        </div>
+                        <div class="col-xs-12">
+                            <label class="col-xs-6"><b>{{'whatwedo' | translate | capitalize}}</b></label>
+                            <label class="col-xs-6">{{provider.description}}</label>
+                        </div>
+                        <address>
+                            <div class="col-xs-12">
+                                <label class="col-xs-6"><b>{{ 'address' | translate | capitalize }}</b></label>
+                                <label class="col-xs-6">{{provider.address}}</label>
+                            </div>
+                        </address>
+                        <div class="col-xs-12">
+                            <label class="col-xs-6"><b>{{'schedule' | translate | capitalize }}</b></label>
+                            <label class="col-xs-6">{{provider.schedule}}</label>
+                        </div>
+                        <address>
+                            <div class="col-xs-12">
+                                <label class="col-xs-6"><b>{{ 'phone' | translate | capitalize}}</b></label>
+                                <label class="col-xs-6">{{provider.phone}}</label>
+                            </div>
+                        </address>
+                        <address>
+                            <div class="col-xs-12">
+                                <label class="col-xs-6"><b>{{ 'email' | translate | capitalize}}</b></label>
+                                <label class="col-xs-6"><a href="mailto:#">{{provider.email}}</a></label>
+                            </div>
+                        </address>
+                        <div class="col-xs-12">
+                            <label class="col-xs-6"><b>{{ 'periodicity' | translate | capitalize }}</b></label>
+                            <label class="col-xs-6">{{provider.periodicity | translate | capitalize}}</label>
+                        </div>
+                        &nbsp;
+                    </template>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
