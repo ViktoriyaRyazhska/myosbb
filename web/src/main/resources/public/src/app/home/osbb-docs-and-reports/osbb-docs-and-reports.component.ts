@@ -35,7 +35,7 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
                 private activatedRoute: ActivatedRoute, 
                 private folderService: FolderService,
                 private toasterService: ToasterService,
-                private translaeService: TranslateService) 
+                private translateService: TranslateService) 
     {
         this.subscription =  activatedRoute.params.subscribe(
             (params) => {
@@ -145,7 +145,7 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
 
     private translate(message: string): string {
         let translation: string;
-        this.translaeService.get(message).subscribe(
+        this.translateService.get(message).subscribe(
             data => translation = data
         );
         return translation;
