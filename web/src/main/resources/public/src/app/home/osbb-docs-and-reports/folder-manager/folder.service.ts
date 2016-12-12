@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import ApiService = require('../../../../shared/services/api.service');
-import { Folder } from './Folder';
+import { Folder } from './folder';
 
 @Injectable()
 export class FolderService {

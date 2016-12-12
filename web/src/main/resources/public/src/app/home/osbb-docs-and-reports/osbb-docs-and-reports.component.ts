@@ -9,7 +9,7 @@ import { User } from '../../../shared/models/User';
 import { CapitalizeFirstLetterPipe } from '../../../shared/pipes/capitalize-first-letter';
 import { CurrentUserService } from "../../../shared/services/current.user.service";
 import { FolderService } from './folder-manager/folder.service';
-import { Folder } from './folder-manager/Folder';
+import { Folder } from './folder-manager/folder';
 
 @Component({
     selector: 'docs-and-reports',
