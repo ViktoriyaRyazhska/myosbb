@@ -3,7 +3,7 @@
     <div class="panel panel-default pos-top animated slideInRight">
         <div class="row">
             <h4 class="text-center">{{'docs&reports' | translate}}</h4>
-            <a class="btn btn-info" href="javascript:history.back()" style="margin-left:24px;">{{'go_back' | translate}}</a>  
+            <a *ngIf="parentId != 1" class="btn btn-info" href="javascript:history.back()" style="margin-left:24px;">{{'go_back' | translate}}</a>  
         </div>
         <hr>
         <div *ngIf="!editMode" class="row" style="margin-left:50px">
