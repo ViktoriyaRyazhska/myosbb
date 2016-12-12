@@ -295,5 +295,9 @@
   "select_all": "Select all",
   "rename": "Rename",
   "add_subBill": "Add subbill",
-  "upload_logo": "upload"
+  "upload_logo": "upload",
+  "folder_deleted": "Folder successfully deleted!",
+  "folder_created": "Folder successfully created!",
+  "folder_exist": "Folder already exist!",
+  "could_not_delete": "Could not delete!"
 }

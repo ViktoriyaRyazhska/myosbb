@@ -296,5 +296,9 @@
   "select_all": "Виділити все",
   "rename": "Переіменувати",
   "add_subBill": "Додати підпослугу",
-  "upload_logo": "завантажити"
+  "upload_logo": "завантажити",
+  "folder_deleted": "Папка успішно видалена!",
+  "folder_created": "Папка успішно створена!",
+  "folder_exist": "Папка вже існує!",
+  "could_not_delete": "Не вдалось видалити!"
 }
