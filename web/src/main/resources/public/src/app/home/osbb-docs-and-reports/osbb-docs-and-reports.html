@@ -3,7 +3,7 @@
     <div class="panel panel-default pos-top animated slideInRight">
         <div class="row">
             <h4 class="text-center">{{'docs&reports' | translate}}</h4>
-            <a class="btn btn-info" href="javascript:history.back()" style="margin-left:24px;">{{'go_back' | translate}}</a>  
+            <a *ngIf="parentId != 1" class="btn btn-info" href="javascript:history.back()" style="margin-left:24px;">{{'go_back' | translate}}</a>  
         </div>
         <hr>
         <div *ngIf="!editMode" class="row" style="margin-left:50px">
@@ -37,7 +37,7 @@
                             </button>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-danger" (click)="deleteFolder(folder.id);">
+                            <button type="button" class="btn btn-danger" onclick='$("#confirmDelete").modal("toggle");' (click)='setDeleteId(folder.id);'>
                                 {{'delete' | translate}}
                             </button>
                         </td>
@@ -147,6 +147,30 @@
                     <button type="button" class="btn btn-default" data-dismiss="modal">
                         {{'close' | translate}}
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Delete File -->
+    <div id="confirmDelete" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">{{'delete' | translate}}?</h4>
+                </div>
+                <div class="modal-body content">
+                    <div class="row">
+                        <button type='submit' class="btn btn-danger content-center" onclick='$("#confirmDelete").modal("toggle");' (click)='deleteFolder()'>
+                            {{ 'delete' | translate | capitalize }}
+                        </button>
+                        <button type="button" class="btn btn-success content-center" data-dismiss="modal">
+                            {{'cancel' | translate | capitalize }}
+                        </button>                   
+                    </div> 
+                </div>
+                <div class="modal-footer">
                 </div>
             </div>
         </div>
