@@ -1,6 +1,6 @@
-import {Http, Headers, RequestOptions} from '@angular/http';
-import {Injectable} from "@angular/core";
-import {Observable} from 'rxjs/observable';
+import { Http, Headers, RequestOptions } from '@angular/http';
+import { Injectable } from "@angular/core";
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import {BillDTO} from "../customservice.dto.interface";
 import ApiService = require("../../../../../../../shared/services/api.service");
