@@ -3,6 +3,7 @@ package com.softserve.osbb.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mariadb.jdbc.internal.common.QueryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,6 +108,17 @@ public class FolderController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public Error illegalFolderName(IllegalArgumentException exception) {
+        return duplicateFolderErrorHandler(exception);
+    }
+    
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(Exception.class)
+    public Error duplicateFolderName(Exception exception) {
+        System.out.println("DB error");
+        return duplicateFolderErrorHandler(exception);
+    }    
+
+    private Error duplicateFolderErrorHandler(Exception exception) {
         String message = exception.getLocalizedMessage();
         logger.error(message);
         return new Error(400, message);

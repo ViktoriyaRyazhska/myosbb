@@ -64,9 +64,9 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
     }
 
     private createNewFolder(name: string) {
-        if (this.folderExist(name)) {
-            this.toasterService.pop('error', this.translate('folder_exist'));
-        } else {
+        // if (this.folderExist(name)) {
+        //     this.toasterService.pop('error', this.translate('folder_exist'));
+        // } else {
             console.log('Saving folder ' + this.newFolder.name + ' with parentId=' + this.parentId);
             this.folderService.save(name, this.parentId)
                 .subscribe(
@@ -77,7 +77,7 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
                     },
                     error => console.error(error)
                 );
-        }
+        // }
         this.newFolder = new Folder();
     }
 
