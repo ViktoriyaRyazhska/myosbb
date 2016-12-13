@@ -27,3 +27,8 @@
 .ng-invalid {
     border: 1px solid red;
 }
+
+.center-content {  
+  display: block;  
+  margin: auto; 
+}

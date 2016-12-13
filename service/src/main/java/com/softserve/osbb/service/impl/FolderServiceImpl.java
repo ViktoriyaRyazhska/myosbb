@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.osbb.model.Folder;
 import com.softserve.osbb.model.Osbb;
@@ -26,22 +28,26 @@ public class FolderServiceImpl implements FolderService {
     @Autowired
     private FolderRepository repository;
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public void delete(Folder folder) {
         repository.delete(folder);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public boolean deleteById(Integer id) {
         repository.delete(id);
         return (repository.findById(id) == null);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public Folder update(Folder folder) {
         return repository.saveAndFlush(folder);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public Folder update(Integer id, String name) {
         validateName(name, id);
@@ -83,6 +89,7 @@ public class FolderServiceImpl implements FolderService {
         return repository.findByOsbb(osbb);
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public Folder save(String folderName, Integer parentId) {
         validateName(folderName, parentId);
