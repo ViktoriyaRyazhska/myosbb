@@ -129,7 +129,7 @@ export class OsbbModalComponent implements OnInit{
         this.currentRegion = null;
         this.currentCity = null;
         this.currentStreet = null;
-        this.fillRegions().sub;
+        this.fillRegions();
         if (this.street != null) {
             this.fillCities(this.street.city.region.id);
             this.fillStreets(this.street.city.id);
