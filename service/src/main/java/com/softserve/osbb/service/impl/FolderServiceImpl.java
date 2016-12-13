@@ -94,7 +94,7 @@ public class FolderServiceImpl implements FolderService {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public Folder save(String folderName, Integer parentId) {
-//        validateName(folderName, parentId);
+        validateName(folderName, parentId);
         
         Folder folder = repository.findById(parentId);        
         if (folder != null) {
