@@ -94,6 +94,28 @@
           }
         ]
       }
+    },
+    {
+      "changeSet": {
+        "id": "2016/12/13-01",
+        "author": "Kostyantyn.Panchenko",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addUniqueConstraint": {
+              "catalogName": "myosbb",
+              "columnNames": "parent_id, name",
+              "constraintName": "unique_folder",
+              "deferrable": true,
+              "disabled": true,
+              "initiallyDeferred": true,
+              "schemaName": "public",
+              "tableName": "folder",
+              "tablespace": "A String"
+            }
+          }
+        ]
+      }
     }
   ]
 }
