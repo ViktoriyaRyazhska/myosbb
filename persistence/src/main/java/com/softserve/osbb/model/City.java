@@ -57,7 +57,7 @@ public class City implements Serializable {
         this.region = region;
     }
     
-    @OneToMany(mappedBy="city")
+    @OneToMany(mappedBy="city",fetch = FetchType.LAZY)
     @JsonIgnore
 	public Collection<Street> getStreets() {
 		return streets;
