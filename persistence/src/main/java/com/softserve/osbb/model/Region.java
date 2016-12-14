@@ -56,7 +56,7 @@ public class Region implements Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(mappedBy="region")
+	@OneToMany(mappedBy="region",fetch = FetchType.LAZY)
 	@JsonIgnore
 	public Collection<City> getCities() {
 		return cities;
