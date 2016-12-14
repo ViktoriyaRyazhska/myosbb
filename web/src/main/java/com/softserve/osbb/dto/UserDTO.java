@@ -33,7 +33,7 @@ public class UserDTO {
 
     public UserDTO() {}
 
-    public UserDTO(Integer userId, String firstName, String lastName, String email, Integer osbbId,Apartment apartment,Street street,String gender,String password) {
+    public UserDTO(Integer userId, String firstName, String lastName, String email, Integer osbbId, Apartment apartment, Street street, String gender, String password) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
