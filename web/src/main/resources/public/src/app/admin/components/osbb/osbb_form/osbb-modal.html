@@ -30,7 +30,7 @@
                             <label>{{'region'| translate | capitalize }}</label>
 			                 <select class="form-control" [ngModel]="currentRegion" (ngModelChange)="selectedRegion($event)" name="selectRegion" 
                                 ngControl="regionControl" required>
-				             <option *ngFor="let reg of regions" [selected]="reg === currentRegion" [ngValue]="reg" >{{reg.text}}</option>
+				             <option *ngFor="let reg of regions" [selected]="reg === currentRegion" [ngValue]="reg" >{{reg.name}}</option>
 			                 </select>
                             <div class="alert alert-danger" *ngIf="submitAttempt && !regionControl.valid">{{'requiredField' | translate | capitalize}}</div>
                         </div>   
@@ -38,7 +38,7 @@
                             <label>{{'city'| translate | capitalize }}</label>
 			                 <select class="form-control" [ngModel]="currentCity" (ngModelChange)="selectedCity($event)" name="selectCity"
                                  ngControl="cityControl" required>
-				             <option *ngFor="let cit of cities" [selected]="cit === currentCity" [ngValue]="cit" >{{cit.text}}</option>
+				             <option *ngFor="let cit of cities" [selected]="cit === currentCity" [ngValue]="cit" >{{cit.name}}</option>
 			                 </select>
                             <div class="alert alert-danger" *ngIf="submitAttempt && !cityControl.valid">{{'requiredField' | translate | capitalize}}</div>
                         </div>   
@@ -46,7 +46,7 @@
 			                 <label>{{'street'| translate | capitalize }}</label>
                              <select class="form-control" [ngModel]="currentStreet" (ngModelChange)="selectedStreet($event)" name="selectStreet"
                                  ngControl="regionControl" required>
-				             <option *ngFor="let str of streets" [selected]="str === currentStreet" [ngValue]="str" >{{str.text}}</option>
+				             <option *ngFor="let str of streets" [selected]="str === currentStreet" [ngValue]="str" >{{str.name}}</option>
 			                 </select>
                             <div class="alert alert-danger" *ngIf="submitAttempt && !streetControl.valid">{{'requiredField' | translate | capitalize}}</div>
                         </div>   
