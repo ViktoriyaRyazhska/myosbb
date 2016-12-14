@@ -48,7 +48,7 @@ public class Street implements Serializable {
         this.name = name;
     }
 
-    @OneToMany(mappedBy="street")
+    @OneToMany(mappedBy="street", fetch = FetchType.LAZY)
     @JsonIgnore
     public Collection<User> getUsers() {
 		return users;
@@ -58,7 +58,7 @@ public class Street implements Serializable {
 		this.users = users;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     public City getCity() {
         return city;
     }
