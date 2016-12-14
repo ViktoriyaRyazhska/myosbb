@@ -3,10 +3,10 @@ package com.softserve.osbb.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -112,8 +112,8 @@ public class FolderController {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ConstraintViolationException.class)
-    public Error duplicateFolderName(ConstraintViolationException exception) {
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public Error duplicateFolderName(DataIntegrityViolationException exception) {
         return duplicateFolderErrorHandler(exception);
     }    
 

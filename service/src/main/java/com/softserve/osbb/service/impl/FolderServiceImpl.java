@@ -118,7 +118,7 @@ public class FolderServiceImpl implements FolderService {
         List<Folder> folders = new ArrayList<>();
         folders.addAll(repository.findByNameAndParentId(folderName, parentId));
         if (!folders.isEmpty()) {
-            throw new IllegalArgumentException("Folder name '" + folderName + "' not allowed!");
+            throw new IllegalArgumentException("Folder '" + folderName + "' already exist!");
         }
     }
 
