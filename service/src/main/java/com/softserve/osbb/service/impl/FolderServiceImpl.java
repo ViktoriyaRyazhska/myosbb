@@ -25,6 +25,8 @@ import com.softserve.osbb.service.exceptions.EntityNotFoundException;
 @Service
 public class FolderServiceImpl implements FolderService {
 
+    private static final Pattern pattern = Pattern.compile("[а-яА-ЯіІїЇa-zA-Z0-9-_]{1,35}");
+    
     @Autowired
     private FolderRepository repository;
 
@@ -109,7 +111,7 @@ public class FolderServiceImpl implements FolderService {
     }
 
     private void validateName(String folderName, Integer parentId) {
-        if (!Pattern.compile("^[а-яА-ЯіІїЇa-zA-Z0-9-_]{1,35}$").matcher(folderName).matches()) {
+        if (!pattern.matcher(folderName).matches()) {
             throw new IllegalArgumentException("Folder name '" + folderName + "' not allowed!");
         }
         

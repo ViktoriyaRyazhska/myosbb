@@ -75,24 +75,22 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
                         this.initFolders();
                         this.toasterService.pop('success', this.translate('folder_created'));                        
                     },
-                    error => console.error(error)
+                    error => this.errorHandler(error, 'folder_exist')
                 );
         }
         this.newFolder = new Folder();
     }
 
     private deleteFolder() { 
-        this.folderService.delete(this.deleteId).subscribe(
-            data => {                    
-                this.initFolders();
-                this.toasterService.pop('success', this.translate('folder_deleted'));
-                this.deleteId = 0;
-            },
-            error => {
-                console.error(error);
-                this.toasterService.pop('error', this.translate('could_not_delete'));
-            }
-        );
+        this.folderService.delete(this.deleteId)
+            .subscribe(
+                data => {                    
+                    this.initFolders();
+                    this.toasterService.pop('success', this.translate('folder_deleted'));
+                    this.deleteId = 0;
+                },
+                error => this.errorHandler(error, 'could_not_delete')
+            );
     }
 
     private updateFolder() {       
@@ -105,7 +103,7 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
                         this.editableFolder = data;
                         this.initFolders();
                     },
-                    error => console.error(error)
+                    error => this.errorHandler(error, 'could_not_delete')
             );    
         }    
     }
@@ -153,6 +151,11 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
 
     private setDeleteId(id: number) {
         this.deleteId = id;
+    }
+
+    private errorHandler(error: any, i18n_key: string) {
+        console.error(error);
+        this.toasterService.pop('error', this.translate(i18n_key));
     }
 
 }
