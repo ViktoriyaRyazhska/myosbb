@@ -58,7 +58,7 @@ public class Street implements Serializable {
 		this.users = users;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     public City getCity() {
         return city;
     }
