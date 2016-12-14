@@ -3,6 +3,7 @@ package com.softserve.osbb.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,16 +110,10 @@ public class FolderController {
     public Error illegalFolderName(IllegalArgumentException exception) {
         return duplicateFolderErrorHandler(exception);
     }
-    
-    /*
-     * NOTE!
-     * Consider using org.mariadb.jdbc.internal.common.QueryException.class instead Exception.class
-     * As of time or writing Maven complains about absence of MariaDB QueryException class despite
-     * of actually being present in appropriate jar file
-     */
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(Exception.class)
-    public Error duplicateFolderName(Exception exception) {
+    @ExceptionHandler(ConstraintViolationException.class)
+    public Error duplicateFolderName(ConstraintViolationException exception) {
         return duplicateFolderErrorHandler(exception);
     }    
 
