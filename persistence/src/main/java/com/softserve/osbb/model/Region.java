@@ -66,6 +66,4 @@ public class Region implements Serializable {
 		this.cities = cities;
 	}
 	
-	
-
 }
