@@ -32,12 +32,14 @@ public class UserDTOMapper {
             userDTO = new UserDTO();
             userDTO.setUserId(user.getUserId());
             userDTO.setFirstName(user.getFirstName());
+            userDTO.setGender(user.getGender());
             userDTO.setLastName(user.getLastName());
             userDTO.setBirthDate(user.getBirthDate());
             userDTO.setEmail(user.getEmail());
             userDTO.setPhoneNumber(user.getPhoneNumber());
             userDTO.setOsbbId(user.getOsbb().getOsbbId());
-            userDTO.setGender(user.getGender());
+            userDTO.setStreet(user.getStreet());
+            userDTO.setPassword(user.getPassword());
         }
         
         return userDTO;
@@ -59,11 +61,13 @@ public class UserDTOMapper {
         if (userDTO != null) {
             user.setUserId(userDTO.getUserId());
             user.setFirstName(userDTO.getFirstName());
+            user.setGender(userDTO.getGender());
             user.setLastName(userDTO.getLastName());
             user.setBirthDate(new Timestamp(userDTO.getBirthDate().getTime()));
             user.setEmail(userDTO.getEmail());
-            user.setPhoneNumber(userDTO.getPhoneNumber());
-            user.setGender(userDTO.getGender());
+            user.setPhoneNumber(userDTO.getPhoneNumber());    
+            user.setStreet(userDTO.getStreet());
+            user.setPassword(userDTO.getPassword());
         }
         
         return user;

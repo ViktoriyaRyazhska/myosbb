@@ -1,8 +1,11 @@
 package com.softserve.osbb.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Created by Yuri Pushchalo on 15.11.2016.
@@ -15,6 +18,7 @@ public class City implements Serializable {
 	private Integer id;
     private String name;
     private Region region;
+    private Collection<Street> streets ;
 
     public City() { }
 
@@ -52,5 +56,15 @@ public class City implements Serializable {
     public void setRegion(Region region) {
         this.region = region;
     }
+    
+    @OneToMany(mappedBy="city")
+    @JsonIgnore
+	public Collection<Street> getStreets() {
+		return streets;
+	}
+
+	public void setStreets(Collection<Street> streets) {
+		this.streets = streets;
+	}
     
 }

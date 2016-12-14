@@ -4,12 +4,18 @@ import {Osbb, IOsbb} from "../../../shared/models/osbb";
 import {RegisterService} from "./register.service";
 import {ROUTER_DIRECTIVES, Router} from "@angular/router";
 import MaskedInput from "angular2-text-mask";
-import emailMask from 'node_modules/text-mask-addons/dist/emailMask.js';
+import emailMask from "node_modules/text-mask-addons/dist/emailMask.js";
 import {GoogleplaceDirective} from "./googleplace.directive";
 import {SELECT_DIRECTIVES} from "ng2-select";
 import {IHouse} from "../../../shared/models/House";
 import {IApartment} from "../../../shared/models/apartment.interface";
 import {UserRegistration} from "../../../shared/models/user_registration";
+import {Street} from "../../../shared/models/addressDTO";
+import {City} from "../../../shared/models/addressDTO";
+import {SelectItem} from "../../../shared/models/ng2-select-item.interface";
+import {Region} from "../../../shared/models/addressDTO";
+import {Mail} from "../../../shared/models/mail";
+import {AddressService} from "../../../shared/services/address.service"
 import {ToasterContainerComponent, ToasterService, ToasterConfig} from "angular2-toaster/angular2-toaster";
 import {
     onErrorServerNoResponseToastMsg,
@@ -18,12 +24,14 @@ import {
 import {OsbbRegistration} from "../../../shared/models/osbb_registration";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
 import {TranslatePipe} from "ng2-translate";
+import { MailService } from "../../../shared/services/mail.sender.service";
 
-@Component({
+
+@Component({ 
     selector: 'app-register',
     templateUrl: 'src/app/registration/registration_user/registration.html',
     styleUrls: ['assets/css/registration/registration.css'],
-    providers: [RegisterService, ToasterService],
+    providers: [RegisterService, ToasterService, MailService, AddressService],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
     directives: [ROUTER_DIRECTIVES, MaskedInput, GoogleplaceDirective, SELECT_DIRECTIVES,
         ToasterContainerComponent]
@@ -35,7 +43,12 @@ export class RegistrationComponent implements OnInit {
     public toasterconfig: ToasterConfig = new ToasterConfig({showCloseButton: true, tapToDismiss: true, timeout: 5000});
     public emailMask = emailMask;
     public textmask = [/[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/];
-    public phoneMask = ['(', /[0]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+    public phoneMask = ['+','3','8','(', /[0]/, /\d/, /\d/, ')',/\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+    public mail:Mail;
+    public itemRegion:SelectItem;
+    public itemCity:SelectItem;
+    public itemStreet:SelectItem;
+    public genders: string[] = ['Чоловік','Жінка'];
     confirmPassword: string = "";
     birthDateError: boolean = false;
     matchError: boolean = false;
@@ -46,6 +59,12 @@ export class RegistrationComponent implements OnInit {
     errorMsg = "";
     errorBirthDateMsg = "";
     private osbbList: IOsbb[] = [];
+    private regionList: Region[] = [];
+    private cityList: City[] = [];
+    private streetList: Street[] = [];
+    private regions: Array<string> = [];
+    private cities: Array<string> = [];
+    private streets: Array<string> = [];
     private houseList: IHouse[] = [];
     private apartmentList: IApartment[] = [];
     private osbb: Array<string> = [];
@@ -54,38 +73,41 @@ export class RegistrationComponent implements OnInit {
     private isSelectedOsbb: boolean = false;
     private isSelectedHouse: boolean = false;
     private isSelectedApartment: boolean = false;
+    private isSelectedStreet: boolean = false;
+    private isSelectGender:boolean = false;
+    errorMessage: string;
     private IsRegistered: boolean;
     private IsRegisteredOsbb: boolean;
     private isJoinedOsbb: boolean;
-    public address: Object;
 
     constructor(private registerService: RegisterService,
                 private _router: Router,
-                private _toasterService: ToasterService) {
+                private _toasterService: ToasterService,
+                private mailService:MailService,
+                private addressServise:AddressService) {
         this.newUser.password = "";
-        this.newUser.activated = true;
+        this.newUser.activated = false;
         this.newOsbb.creationDate = new Date;
         this.osbbList = [];
         this.houseList = [];
         this.apartmentList = [];
         this.newUser.status = this.options[0];
+        this.mail = new Mail();
     }
 
     ngOnInit() {
         this.listAllOsbb();
+        this.ListAllRegion();
         this.IsRegistered = true;
-
     }
-
+   
     onSubmitUser(status) {
         if (status == this.options[1]) {
-            console.log('CreateNew');
             this.IsRegistered = false;
             this.IsRegisteredOsbb = true;
             this.isJoinedOsbb = false;
         }
         else if (status == this.options[0]) {
-            console.log('JoinToExist');
             this.IsRegistered = false;
             this.isJoinedOsbb = true;
             this.IsRegisteredOsbb = false;
@@ -104,7 +126,7 @@ export class RegistrationComponent implements OnInit {
         let isSuccessful: boolean = false;
         this.registerService.registerUser(this.newUser)
             .subscribe(
-                data => {
+                data => {                
                     isSuccessful = true;
                     this.newUser = data;
                     console.log(data);
@@ -177,32 +199,80 @@ export class RegistrationComponent implements OnInit {
         this.IsRegisteredOsbb = false;
         this.IsRegistered = true;
     }
+    
+    selectedGender(value: any) {
+    	console.log(value.text);
+        this.newUser.gender = value.text;
+        this.isSelectGender = true;
+    }
 
+    removedGender(value:any) {
+        this.isSelectGender = false;
+    }
+    
+    selectedRegion(value: any) {
+        if(this.cities.length!=0){
+            this.itemCity.text = '';
+            this.itemStreet.text = '';
+            this.cities = [];
+            this.streets = [];
+        }
+                this.itemRegion = value;
+                let region: Region = this.getRegionByName(value.text);
+                this.listAllCitiesByRegion(region.id);
+                this.isSelectedStreet = false;  
+
+    }
+
+    selectedCity(value: any) {
+        console.log(value.text);
+         if(this.streets.length!=0){
+            this.itemStreet.text = '';
+            this.streets = [];
+        }
+                this.itemCity = value;
+                let city: City = this.getCityByName(value.text);
+                this.listAllStreetsByCity(city.id);
+                this.isSelectedStreet = false;
+    }
 
     selectedOsbb(value: any) {
         this.isSelectedOsbb = true;
-        console.log('select osbb: ', value);
         let selectedOsbb: Osbb = this.getOsbbByName(value.text);
         this.newUser.osbbId = selectedOsbb.osbbId;
         this.listAllHousesByOsbb(this.newUser.osbbId);
+        this.isSelectedStreet = false;
     }
 
+    selectedStreet(value: any) {
+        this.itemStreet = value;
+        let street: Street = this.getStreetByName(value.text);
+        this.newUser.street = street.id;
+        this.isSelectedStreet = true;
+
+    }
 
     selectedHouse(value: any) {
-        console.log('select house: ' + value);
         this.isSelectedHouse = true;
         let houseId = this.getHouseIdByName(value.text);
-        console.log('select houseId: ' + houseId);
         this.listAllApartmentsByHouse(houseId);
     }
-
 
     selectedApartment(value: any) {
         this.isSelectedApartment = true;
         let selectedApartmentID: number = this.getApartmentByApartmentNumber(value.text);
         this.newUser.apartmentId = selectedApartmentID;
-        console.log('select apartment: ' + selectedApartmentID);
-        console.log(JSON.stringify(this.newUser));
+    }
+
+    ListAllRegion() {
+        this.addressServise.getAllRegions()
+                .subscribe((data)=> {
+                this.regionList= data;
+                
+                this.regions =  this.fillRegion();
+            }, (error)=> {
+                this.handleErrors(error)
+            });
     }
 
     listAllOsbb() {
@@ -211,9 +281,34 @@ export class RegistrationComponent implements OnInit {
                 this.osbbList = data;
                 this.osbb = this.fillOsbb();
                 console.log('all osbb names', this.osbb);
-            }, (error) => {
+            }, (error)=> {
                 this.handleErrors(error)
             });
+    }
+
+    listAllStreetsByCity(id: number) {
+        this.addressServise.getAllStreetsOfCity(id)
+            .subscribe((data)=> {
+                    this.streetList = data;
+                    this.streets = this.fillStreet();
+                },
+
+                (error)=> {
+                    this.handleErrors(error)
+                })
+
+    }
+
+    listAllCitiesByRegion(id: number) {
+        this.addressServise.getAllCitiesOfRegion(id)
+            .subscribe((data)=> {
+                    this.cityList = data;
+                    this.cities = this.fillCities();
+                },
+
+                (error)=> {
+                    this.handleErrors(error)
+                })
     }
 
     listAllHousesByOsbb(id: number) {
@@ -221,7 +316,6 @@ export class RegistrationComponent implements OnInit {
             .subscribe((data) => {
                     this.houseList = data;
                     this.houses = this.fillHouses();
-                    console.log('all houses', this.houses);
                 },
 
                 (error) => {
@@ -252,6 +346,39 @@ export class RegistrationComponent implements OnInit {
         return selectedOsbb;
     }
 
+     getRegionByName(name: string): Region {
+        let region: Region = new Region();
+        for (let reg of this.regionList) {
+            if (reg.name.match(name)) {
+                region = reg;
+                break;
+            }
+        }
+        return region;
+    }
+
+      getCityByName(name: string): City {
+        let city: City = new City();
+        for (let ci of this.cityList) {
+            if (ci.name.match(name)) {
+                city = ci;
+                break;
+            }
+        }
+        return city;
+    }
+
+    getStreetByName(name: string): Street {
+        let street: Street = new Street();
+        for (let str of this.streetList) {
+            if (str.name.match(name)) {
+                street = str;
+                break;
+            }
+        }
+        return street;
+    }
+    
     getHouseIdByName(name: string): number {
         let houseId = 0;
         for (let house of this.houseList) {
@@ -282,6 +409,32 @@ export class RegistrationComponent implements OnInit {
             tempArr.push(osbbObject.name);
         }
         console.log(tempArr)
+        return tempArr;
+    }
+
+    fillRegion(): string[] {
+        let stri:string;
+        let tempArr: string[] = [];
+        for (let reg of this.regionList) {
+            tempArr.push(reg.name);
+        }
+
+        return tempArr;
+    }
+
+     fillCities(): string[] {
+        let tempArr: string[] = [];
+        for (let city of this.cityList) {
+            tempArr.push(city.name);
+        }
+        return tempArr;
+    }
+
+    fillStreet(): string[] {
+        let tempArr: string[] = [];
+        for (let street of this.streetList) {
+            tempArr.push(street.name);
+        }
         return tempArr;
     }
 
@@ -321,4 +474,5 @@ export class RegistrationComponent implements OnInit {
         }
         console.log('error msg' + error)
     }
+    
 }

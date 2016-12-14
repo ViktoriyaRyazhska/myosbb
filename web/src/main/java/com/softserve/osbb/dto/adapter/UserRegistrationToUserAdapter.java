@@ -8,6 +8,7 @@ package com.softserve.osbb.dto.adapter;
 
 import com.softserve.osbb.dto.UserRegistrationDTO;
 import com.softserve.osbb.model.User;
+import com.softserve.osbb.service.AddressService;
 import com.softserve.osbb.service.ApartmentService;
 import com.softserve.osbb.service.OsbbService;
 import com.softserve.osbb.service.RoleService;
@@ -28,6 +29,9 @@ public class UserRegistrationToUserAdapter extends DTOToEntityAdapter<UserRegist
     
     @Autowired
     private RoleService roleService;
+    
+    @Autowired
+    private AddressService addressService;
 
     public UserRegistrationToUserAdapter() { }
 
@@ -63,6 +67,7 @@ public class UserRegistrationToUserAdapter extends DTOToEntityAdapter<UserRegist
         user.setRole(roleService.getRole(userRegistrationDTO.getRole()));
         user.setApartment(apartmentService.findById(userRegistrationDTO.getApartmentId()));
         user.setOsbb(osbbService.getOsbb(userRegistrationDTO.getOsbbId()));
+        user.setStreet(addressService.getStreetById(userRegistrationDTO.getStreet()));
     }
 
 }

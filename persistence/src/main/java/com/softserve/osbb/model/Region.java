@@ -1,5 +1,6 @@
 package com.softserve.osbb.model;
 
+
 import java.io.Serializable;
 
 import javax.persistence.Basic;
@@ -9,6 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Collection;
+
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Created by Yuri Pushchalo on 15.11.2016.
@@ -20,6 +26,7 @@ public class Region implements Serializable {
     private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String name;
+	private Collection<City> cities;
 
 	public Region() {
 	}
@@ -48,5 +55,17 @@ public class Region implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@OneToMany(mappedBy="region")
+	@JsonIgnore
+	public Collection<City> getCities() {
+		return cities;
+	}
+
+	public void setCities(Collection<City> cities) {
+		this.cities = cities;
+	}
+	
+	
 
 }
