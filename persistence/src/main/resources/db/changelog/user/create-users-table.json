@@ -41,7 +41,7 @@
                 {
                   "column": {
                     "name": "gender",
-                    "type": "VARCHAR(6)"
+                    "type": "VARCHAR(8)"
                   }
                 },
                 {
@@ -92,6 +92,12 @@
                   "column": {
                     "name": "is_owner",
                     "type": "boolean"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "street",
+                    "type": "INT"
                   }
                 }
               ],
@@ -355,6 +361,28 @@
         ]
       }
     },
+     {
+      "changeSet": {
+        "id": "2016/08/31-5",
+        "author": "Vova",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "street",
+              "baseTableName": "users",
+              "constraintName": "fk_ccpnrg4xuk1h75158vmt1vqa5",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "id",
+              "referencedTableName": "streets"
+            }
+          }
+        ]
+      }
+    },   
     {
       "changeSet": {
         "id": "2016/08/31-98",

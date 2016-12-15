@@ -51,6 +51,7 @@ public class User implements Serializable {
     private Role role;
     private Apartment apartment;
     private Osbb osbb;
+    private Street street;
     private Collection<Notice> notices = new ArrayList<>();
     private Collection<Vote> votes = new ArrayList<>();
     private Collection<Message> messages = new ArrayList<>();
@@ -74,6 +75,7 @@ public class User implements Serializable {
         this.role = user.getRole();
         this.apartment = user.getApartment();
         this.osbb = user.getOsbb();
+        this.street = user.getStreet();
     }
     
     @Id
@@ -154,7 +156,7 @@ public class User implements Serializable {
 
     @Basic
     @Column(name = "gender")
-    @Size(max = 6)
+    @Size(max = 8)
     public String getGender() {
         return gender;
     }
@@ -292,6 +294,15 @@ public class User implements Serializable {
     public void setOptions(Collection<Option> options) {
         this.options = options;
     }
+    
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	public Street getStreet() {
+		return street;
+	}
+
+	public void setStreet(Street street) {
+		this.street = street;
+	}
 
     @Override
     public boolean equals(Object obj) {

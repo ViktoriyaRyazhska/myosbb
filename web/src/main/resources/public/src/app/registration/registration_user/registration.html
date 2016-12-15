@@ -25,6 +25,10 @@
                                        maxlength="35" required>
                             </div>
                         </div>
+                                  <div class="form-group"><label>{{ 'choose your gender' | translate | capitalize }}</label>
+                                    <ng-select [allowClear]="true" [items]="genders" (selected)="selectedGender($event)" (removed)="removedGender()" placeholder="{{ 'choose' | translate | capitalize }}">
+                                    </ng-select>
+                                </div>            
                         <div class="row">
                             <div class="col-xs-12">
                                 <label>{{'email'| translate | capitalize }}</label>
@@ -41,7 +45,7 @@
                                 <label>{{'phone_number'| translate | capitalize}}</label>
                                 <input [textMask]="{mask:phoneMask}" class="form-control" name="phoneNumber"
                                        [(ngModel)]="newUser.phoneNumber" type="text"
-                                       placeholder="(___) ___-____" required>
+                                       placeholder="+38(___)___-____" required>
                             </div>
                         </div>
                         <div class="row">
@@ -66,6 +70,7 @@
                                        placeholder="{{'enter_pass'| translate | capitalize}}"
                                        type="password"
                                        minlength="4" maxlength="16" required>
+                                       
                                 <div class="col-xs-12 centered">
                                     <label style="color: red" *ngIf='lengthError' class="error" disabled=true>{{'passLengthError'|
                                         translate | capitalize}}</label>
@@ -80,6 +85,7 @@
                                        name="confirmPassword" (blur)="matchCheck()"
                                        placeholder="{{'confirm_pass'| translate | capitalize}}"
                                        type="password" minlength="4" maxlength="16" required>
+                                       
                                 <div class="col-xs-12 centered">
                                     <label style="color: red" *ngIf='!checkOnUserPassword && matchError' class="error"
                                            disabled=true>{{'passMatchError'| translate | capitalize}}</label>
@@ -99,7 +105,7 @@
                         </div>
                         <div class="col-xs-6">
                             <button class="btn btn-primary col-xs-12" type='submit'
-                                    [disabled]="!registerForm.form.valid || birthDateError || lengthError || matchError">
+                                    [disabled]="!registerForm.form.valid || birthDateError || lengthError || matchError || !isSelectGender">
                                 {{ 'next' | translate | capitalize }}
                             </button>
                         </div>
@@ -107,17 +113,18 @@
 
                 </form>
             </div>
+
             <!--------------------------------------Registration Osbb------------------------------------------------------>
 
             <div class="registration-form  center-block" *ngIf="IsRegisteredOsbb">
                 <form class="ui form" (ngSubmit)="onSubmitOsbb()" #registerOsbbForm="ngForm">
                     <div class="form-header">
-                        <h3>Реєстрація ОСББ </h3>
+                        <h3>Реєстрація ОСББ</h3>
                     </div>
                     <div class="form-container">
-                        <div class="form-container">
                             <div class="row">
                                 <div class="col-xs-12">
+
                                     <label>Назва</label>
                                     <input class="form-control placeholder-no-fix" name="name"
                                            [(ngModel)]="newOsbb.name" type="text" required>
@@ -136,10 +143,14 @@
                                     <input class="form-control placeholder-no-fix" name="address"
                                            [(ngModel)]="newOsbb.address" type="text" (setAddress)="getAddress($event)"
                                            googleplace required>
+
+
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
+
+
                                     <label>Район</label>
                                     <input class="form-control placeholder-no-fix" name="district"
                                            [(ngModel)]="newOsbb.district" type="text" required>
@@ -147,9 +158,11 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
+
                                     <label>Посилання на фото дому</label>
                                     <input class="form-control placeholder-no-fix" name="logoUrl"
                                            [(ngModel)]="newOsbb.logoUrl" type="text">
+                             
                                     <div class="text-xs-center">
                                         <br>
                                         <img src="{{newOsbb.logoUrl}}" class="img-rounded" style="height: auto; max-height: 300px; max-width: 300px;display: block;
@@ -158,9 +171,7 @@
                                 </div>
                             </div>
                             <br>
-                            <hr>
-                        </div>
-                    </div>
+                            <hr>        
                     <div class="row form-footer">
                         <br>
                         <div class="col-xs-6">
@@ -172,6 +183,7 @@
                             </button>
                         </div>
                     </div>
+                        </div>
 
                 </form>
             </div>
@@ -185,29 +197,27 @@
                     </div>
                     <div class="form-container">
                         <div class="form-group"><label>{{ 'choose_osbb' | translate | capitalize }}</label>
-                            <ng-select [allowClear]="true"
-                                       [items]="osbb"
-                                       (selected)="selectedOsbb($event)"
-                                       placeholder="{{ 'choose' | translate | capitalize }}">
+                            <ng-select [allowClear]="true" [items]="osbb" (selected)="selectedOsbb($event)" placeholder="{{ 'choose' | translate | capitalize }}">
                             </ng-select>
                         </div>
-                        <div *ngIf="isSelectedOsbb" class="form-group"><label>{{ 'choose_house' | translate | capitalize
-                            }}</label>
-                            <ng-select [allowClear]="true"
-                                       [items]="houses"
-                                       (selected)="selectedHouse($event)"
-                                       placeholder="{{ 'choose' | translate | capitalize }}">
+
+                        <div class="form-group"><label>{{ 'choose your region' | translate | capitalize }}</label>
+                            <ng-select [allowClear]="true" [items]="regions" (selected)="selectedRegion($event)" placeholder="{{ 'choose' | translate | capitalize }}">
                             </ng-select>
                         </div>
-                        <div *ngIf="isSelectedHouse" class="form-group"><label>{{ 'choose_apartment' | translate |
-                            capitalize }}</label>
-                            <ng-select [allowClear]="true"
-                                       [items]="apartment"
-                                       (selected)="selectedApartment($event)"
-                                       placeholder="{{ 'choose' | translate | capitalize }}">
+
+                        <div class="form-group"><label>{{ 'choose your city' | translate | capitalize }}</label>
+                            <ng-select [allowClear]="true" [items]="cities" (selected)="selectedCity($event)" placeholder="{{ 'choose' | translate | capitalize }}">
                             </ng-select>
                         </div>
+
+                        <div class="form-group"><label>{{ 'choose your street' | translate | capitalize }}</label>
+                            <ng-select [allowClear]="true" [items]="streets" (selected)="selectedStreet($event)" placeholder="{{ 'choose' | translate | capitalize }}">
+                            </ng-select>
+                        </div>
+
                         <br>
+
                         <hr>
                     </div>
                     <div class="row form-footer">
@@ -217,9 +227,10 @@
                                 }}</a>
                         </div>
                         <div class="col-xs-6">
-                            <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!isSelectedApartment">{{
-                                'save' | translate | capitalize }}
-                            </button>
+
+
+                            <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!isSelectedStreet">{{ 'save' | translate | capitalize }}</button>
+
                         </div>
                     </div>
 
@@ -228,3 +239,6 @@
         </div>
     </div>
 </div>
+
+
+
