@@ -110,8 +110,7 @@
               "disabled": true,
               "initiallyDeferred": true,
               "schemaName": "public",
-              "tableName": "folder",
-              "tablespace": "A String"
+              "tableName": "folder"
             }
           }
         ]

@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -109,16 +110,10 @@ public class FolderController {
     public Error illegalFolderName(IllegalArgumentException exception) {
         return duplicateFolderErrorHandler(exception);
     }
-    
-    /*
-     * NOTE!
-     * Consider using org.mariadb.jdbc.internal.common.QueryException.class instead Exception.class
-     * As of time or writing Maven complains about absence of MariaDB QueryException class despite
-     * of actually being present in appropriate jar file
-     */
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(Exception.class)
-    public Error duplicateFolderName(Exception exception) {
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public Error duplicateFolderName(DataIntegrityViolationException exception) {
         return duplicateFolderErrorHandler(exception);
     }    
 
