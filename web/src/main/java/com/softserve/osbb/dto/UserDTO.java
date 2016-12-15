@@ -43,7 +43,6 @@ public class UserDTO {
         this.street = street;
         this.gender = gender;
         this.password = password;
-
     }
 
     public UserDTO(User user) {

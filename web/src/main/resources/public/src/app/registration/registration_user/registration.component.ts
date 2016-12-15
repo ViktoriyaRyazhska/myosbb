@@ -211,11 +211,11 @@ export class RegistrationComponent implements OnInit {
     }
     
     selectedRegion(value: any) {
-        if(this.cities.length!=0){
-            this.itemCity.text = '';
-            this.itemStreet.text = '';
-            this.cities = [];
-            this.streets = [];
+        if(this.cities.length!=0) {
+           this.itemCity.text = '';
+           this.itemStreet.text = '';
+           this.cities = [];
+           this.streets = [];
         }
                 this.itemRegion = value;
                 let region: Region = this.getRegionByName(value.text);
@@ -249,7 +249,6 @@ export class RegistrationComponent implements OnInit {
         let street: Street = this.getStreetByName(value.text);
         this.newUser.street = street.id;
         this.isSelectedStreet = true;
-
     }
 
     selectedHouse(value: any) {
