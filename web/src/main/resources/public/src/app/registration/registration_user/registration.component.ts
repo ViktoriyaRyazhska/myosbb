@@ -26,7 +26,6 @@ import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-
 import {TranslatePipe} from "ng2-translate";
 import { MailService } from "../../../shared/services/mail.sender.service";
 
-
 @Component({ 
     selector: 'app-register',
     templateUrl: 'src/app/registration/registration_user/registration.html',
@@ -79,6 +78,9 @@ export class RegistrationComponent implements OnInit {
     private IsRegistered: boolean;
     private IsRegisteredOsbb: boolean;
     private isJoinedOsbb: boolean;
+    public alphabet:string[] = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+    public captcha:string;
+    public captchaUser:string;
 
     constructor(private registerService: RegisterService,
                 private _router: Router,
@@ -99,6 +101,7 @@ export class RegistrationComponent implements OnInit {
         this.listAllOsbb();
         this.ListAllRegion();
         this.IsRegistered = true;
+        this.avtoGeneratePassword();
     }
    
     onSubmitUser(status) {
@@ -119,6 +122,14 @@ export class RegistrationComponent implements OnInit {
     }
 
     onSubmitJoin() {
+    	if(this.captchaUser == null || this.captchaUser == '' ) {
+            this._toasterService.pop('error',' Ви не заповнили капчу');
+            return;
+        }
+        if(this.captcha != this.captchaUser) {
+            this._toasterService.pop('error',' Ви погано заповнили капчу');
+            return;
+        }
         this.SenderJoin();
     }
 
@@ -126,7 +137,9 @@ export class RegistrationComponent implements OnInit {
         let isSuccessful: boolean = false;
         this.registerService.registerUser(this.newUser)
             .subscribe(
-                data => {                
+                data => {
+                	this.sendEmailToUser();
+                    this.sendEmailToGolova();
                     isSuccessful = true;
                     this.newUser = data;
                     console.log(data);
@@ -135,7 +148,6 @@ export class RegistrationComponent implements OnInit {
                 error => {
                     isSuccessful = false;
                     this.handleErrors(error);
-
                 }
             )
     }
@@ -152,7 +164,6 @@ export class RegistrationComponent implements OnInit {
                     this.handleErrors(error);
                 }
             )
-
     }
 
     getAddress(place: Object) {
@@ -206,7 +217,7 @@ export class RegistrationComponent implements OnInit {
         this.isSelectGender = true;
     }
 
-    removedGender(value:any) {
+    removedGender() {
         this.isSelectGender = false;
     }
     
@@ -221,7 +232,6 @@ export class RegistrationComponent implements OnInit {
                 let region: Region = this.getRegionByName(value.text);
                 this.listAllCitiesByRegion(region.id);
                 this.isSelectedStreet = false;  
-
     }
 
     selectedCity(value: any) {
@@ -266,8 +276,7 @@ export class RegistrationComponent implements OnInit {
     ListAllRegion() {
         this.addressServise.getAllRegions()
                 .subscribe((data)=> {
-                this.regionList= data;
-                
+                this.regionList= data;             
                 this.regions =  this.fillRegion();
             }, (error)=> {
                 this.handleErrors(error)
@@ -291,11 +300,9 @@ export class RegistrationComponent implements OnInit {
                     this.streetList = data;
                     this.streets = this.fillStreet();
                 },
-
                 (error)=> {
                     this.handleErrors(error)
                 })
-
     }
 
     listAllCitiesByRegion(id: number) {
@@ -304,7 +311,6 @@ export class RegistrationComponent implements OnInit {
                     this.cityList = data;
                     this.cities = this.fillCities();
                 },
-
                 (error)=> {
                     this.handleErrors(error)
                 })
@@ -316,11 +322,9 @@ export class RegistrationComponent implements OnInit {
                     this.houseList = data;
                     this.houses = this.fillHouses();
                 },
-
                 (error) => {
                     this.handleErrors(error)
                 })
-
     }
 
     listAllApartmentsByHouse(houseId: number) {
@@ -398,7 +402,6 @@ export class RegistrationComponent implements OnInit {
                 break;
             }
         }
-
         return apartmentID;
     }
 
@@ -417,7 +420,6 @@ export class RegistrationComponent implements OnInit {
         for (let reg of this.regionList) {
             tempArr.push(reg.name);
         }
-
         return tempArr;
     }
 
@@ -474,4 +476,62 @@ export class RegistrationComponent implements OnInit {
         console.log('error msg' + error)
     }
     
+    sendEmailToUser() {
+        this.mail.to = this.newUser.email;
+        this.mail.text = 'Добрий день '+this.newUser.firstName+' '+this.newUser.lastName+
+        ' дякуємо за реєстрацію на сайті OSBB , ваш акаунт буде розлянуто головою ОСББ , після підтвердження головою ОСББ вам на пошту прийде підтвердження';
+        this.mail.subject = 'Регістрація';
+        this.mailService.sendEmail(this.mail)
+        .subscribe((data)=> {},         
+                (error)=> {
+                this.handleErrors(error)
+            });
+    }
+
+    sendEmailToGolova() {
+        this.mail.to = 'golovaosbb@gmail.com';
+        this.mail.text = 'Особа '+this.newUser.firstName+' '+this.newUser.lastName+
+        ' зареєструвався на вашому ОСББ ';
+        this.mail.subject = 'Регістрація';
+        this.mailService.sendEmail(this.mail)
+        .subscribe((data)=> {},         
+                (error)=> {
+                this.handleErrors(error)
+        });
+    }
+
+    avtoGeneratePassword() {
+        const minLenght:number = 4;
+        const maxLenght:number = 5;
+        const maxThreshold:number = 3;
+        const minThreshold:number = 1;
+        const indexOFLowercaseLatter:number = 1;
+        const indexOFUppercaseLatter:number = 2;
+        const divider:number = 3;
+        const randomArea:number = 10;
+        let password:string = '';       
+        const lenght = Math.floor(Math.random() * (maxLenght) + minLenght);
+        let ind:number = 0;
+
+        while(ind < lenght) {
+            const rand:number = Math.floor(Math.random() * (maxThreshold) + minThreshold);
+            if(rand % divider == indexOFLowercaseLatter) {
+                password += this.alphabet[Math.floor(Math.random()*this.alphabet.length)];
+            }
+            else if(rand % divider == indexOFUppercaseLatter) {
+                password += this.alphabet[Math.floor(Math.random()*this.alphabet.length)].toUpperCase();
+            }
+            else{
+                password += Math.floor(Math.random() * randomArea).toString();
+            }
+            ind++;
+        }
+        console.log(password);
+        this.captcha = password;
+    }
+
+    initTextUser(text:any) {
+        this.captchaUser = text.target.value;
+        console.log(this.captchaUser);
+    } 
 }

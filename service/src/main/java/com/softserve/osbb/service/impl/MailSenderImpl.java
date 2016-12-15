@@ -27,6 +27,7 @@ public class MailSenderImpl implements MailSenderService {
     public void send(String to, String subject, String text) throws MessagingException {
         message = javaMailSender.createMimeMessage();
         helper = new MimeMessageHelper(message, true); //true for multipart
+        helper.setFrom("housing.coop.osbb@gmail.com");
         helper.setSubject(subject);
         helper.setTo(to);
         helper.setText(text, true); //true for html
@@ -37,6 +38,7 @@ public class MailSenderImpl implements MailSenderService {
     public void send(Mail mail) throws MessagingException {
         message = javaMailSender.createMimeMessage();
         helper = new MimeMessageHelper(message, true);
+        helper.setFrom("housing.coop.osbb@gmail.com");
         helper.setSubject(mail.getSubject());
         helper.setText(mail.getText());
         helper.setTo(mail.getTo());

@@ -295,7 +295,7 @@ public class User implements Serializable {
         this.options = options;
     }
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	public Street getStreet() {
 		return street;
 	}

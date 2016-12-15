@@ -5,6 +5,7 @@ import { HTTP_PROVIDERS, Http,Headers,Response, RequestOptions } from "@angular/
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/catch';
 import ApiService = require("../../../../shared/services/api.service");
 
 @Injectable()
