@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { SELECT_DIRECTIVES } from "ng2-select";
 import { MailService } from "../../../../shared/services/mail.sender.service";
+import { TranslateService } from 'ng2-translate';
 import { Mail } from "../../../../shared/models/mail";
 
 
@@ -53,7 +54,8 @@ export class UsersComponent implements OnInit {
 
     constructor(private _userService:UsersService, private router:Router, private formBuilder:FormBuilder,
         private registerService: RegisterService,
-        private mailService:MailService) {
+        private mailService:MailService,
+        private translateService:TranslateService) {
         console.log('constructore');
         this.userMy.activated = true;
         this.IsRegistered = false;
@@ -88,6 +90,15 @@ export class UsersComponent implements OnInit {
         });
     }
 
+    private translate(message: string): string {
+        let translatation: string;
+        this.translateService.get(message)
+        .subscribe(
+            data => translatation = data
+        )
+        return translatation;
+    }
+
     public changeActivation(user:User) {
         this._userService.changeActivation(user).subscribe(
             data=> {
@@ -101,9 +112,8 @@ export class UsersComponent implements OnInit {
     
     sendEmailActive(user:User) {
         this.mail.to = user.email;
-        this.mail.text = 'Добрий день '+user.firstName+' '+user.lastName+
-        ' ваш акаунт був підтвердженний головою Осбб';
-        this.mail.subject = 'Активація';
+        this.mail.text = this.translate('activated_account');
+        this.mail.subject = this.translate('subject_activeted');
         this.mailService.sendEmail(this.mail)
         .subscribe((data)=> {
         });
@@ -111,9 +121,8 @@ export class UsersComponent implements OnInit {
 
     sendEmailDeactive(user:User) {
         this.mail.to = user.email;
-        this.mail.text = 'Добрий день '+user.firstName+' '+user.lastName+
-        ' ваш акаунт був деактивований головою Осбб';
-        this.mail.subject = 'Деактивація';
+        this.mail.text = this.translate('deactivated_account');
+        this.mail.subject = this.translate('subject_deactiveted');
         this.mailService.sendEmail(this.mail)
         .subscribe((data)=> {
         });
@@ -122,10 +131,9 @@ export class UsersComponent implements OnInit {
     sendEmailRandomPassword(user:UserRegistration) {
         console.log('User password '+user.password);
         this.mail.to = user.email;
-        this.mail.text = 'Добрий день '+user.firstName+' '+user.lastName+
-        ' ваш акаунт зареєстрував голова Осбб , ваш логін  ' 
-        +user.email+ ' , ваш пароль до нашого сайту '+user.password+' будь-ласка не кажіть свій пароль нікому. Хорошого дня';
-        this.mail.subject = 'Реєстрація Головою Осбб';
+        this.mail.text = this.translate('send_email_user_registration_by_chairman')+', '+this.translate('send_osbb')+' '+this.osbbMy.name+
+        ', '+this.translate('send_email_login')+' '+user.email+', '+this.translate('send_email_password')+' '+user.password;
+        this.mail.subject = this.translate('subject_activeted_by_chairman');
         this.mailService.sendEmail(this.mail)
         .subscribe((data)=> {
         });
@@ -133,9 +141,8 @@ export class UsersComponent implements OnInit {
 
     sendEmailDelete(user:User) {
         this.mail.to = user.email;
-        this.mail.text = 'Добрий день '+user.firstName+' '+user.lastName+
-        ' ваш акаунт був видаленний головою Осбб';
-        this.mail.subject = 'Видалення';
+        this.mail.text = this.translate('deleted_account');
+        this.mail.subject = this.translate('subject_deleted');
         this.mailService.sendEmail(this.mail)
         .subscribe((data)=> {
         });
@@ -150,6 +157,7 @@ export class UsersComponent implements OnInit {
         console.log('select osbb: ', value);
         let selectedOsbb: Osbb = this.getOsbbByName(value.text);
         this.userMy.osbbId = selectedOsbb.osbbId;
+        this.osbbMy.name = value.text;
         this.listAllHousesByOsbb(this.userMy.osbbId);
     }
 

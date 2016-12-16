@@ -15,7 +15,7 @@ import {City} from "../../../shared/models/addressDTO";
 import {SelectItem} from "../../../shared/models/ng2-select-item.interface";
 import {Region} from "../../../shared/models/addressDTO";
 import {Mail} from "../../../shared/models/mail";
-import {AddressService} from "../../../shared/services/address.service"
+import {AddressService} from "../../../shared/services/address.service";
 import {ToasterContainerComponent, ToasterService, ToasterConfig} from "angular2-toaster/angular2-toaster";
 import {
     onErrorServerNoResponseToastMsg,
@@ -25,6 +25,7 @@ import {OsbbRegistration} from "../../../shared/models/osbb_registration";
 import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-letter";
 import {TranslatePipe} from "ng2-translate";
 import { MailService } from "../../../shared/services/mail.sender.service";
+import { TranslateService } from 'ng2-translate';
 
 @Component({ 
     selector: 'app-register',
@@ -43,7 +44,6 @@ export class RegistrationComponent implements OnInit {
     public emailMask = emailMask;
     public textmask = [/[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/, /[A-zА-яІ-і]/];
     public phoneMask = ['+','3','8','(', /[0]/, /\d/, /\d/, ')',/\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
-    public mail:Mail;
     public itemRegion:SelectItem;
     public itemCity:SelectItem;
     public itemStreet:SelectItem;
@@ -86,7 +86,8 @@ export class RegistrationComponent implements OnInit {
                 private _router: Router,
                 private _toasterService: ToasterService,
                 private mailService:MailService,
-                private addressServise:AddressService) {
+                private addressServise:AddressService,
+                private translateService: TranslateService) {
         this.newUser.password = "";
         this.newUser.activated = false;
         this.newOsbb.creationDate = new Date;
@@ -94,14 +95,13 @@ export class RegistrationComponent implements OnInit {
         this.houseList = [];
         this.apartmentList = [];
         this.newUser.status = this.options[0];
-        this.mail = new Mail();
     }
 
     ngOnInit() {
         this.listAllOsbb();
         this.ListAllRegion();
         this.IsRegistered = true;
-        this.avtoGeneratePassword();
+        this.autoGeneratePassword();
     }
    
     onSubmitUser(status) {
@@ -122,12 +122,12 @@ export class RegistrationComponent implements OnInit {
     }
 
     onSubmitJoin() {
-    	if(this.captchaUser == null || this.captchaUser == '' ) {
-            this._toasterService.pop('error',' Ви не заповнили капчу');
+    	if( this.captchaUser == null || this.captchaUser == '' ) {
+            this._toasterService.pop('error', this.translate('you_have_not_filled_captcha'));
             return;
         }
-        if(this.captcha != this.captchaUser) {
-            this._toasterService.pop('error',' Ви погано заповнили капчу');
+        if( this.captcha != this.captchaUser ) {
+            this._toasterService.pop('error', this.translate('you_incorrectly_filled_captcha'));
             return;
         }
         this.SenderJoin();
@@ -138,8 +138,7 @@ export class RegistrationComponent implements OnInit {
         this.registerService.registerUser(this.newUser)
             .subscribe(
                 data => {
-                	this.sendEmailToUser();
-                    this.sendEmailToGolova();
+                	this.sendEmails();
                     isSuccessful = true;
                     this.newUser = data;
                     console.log(data);
@@ -164,6 +163,15 @@ export class RegistrationComponent implements OnInit {
                     this.handleErrors(error);
                 }
             )
+    }
+
+    private translate(message: string): string {
+        let translatation: string;
+        this.translateService.get(message)
+        .subscribe(
+            data => translatation = data
+        )
+        return translatation;
     }
 
     getAddress(place: Object) {
@@ -250,6 +258,7 @@ export class RegistrationComponent implements OnInit {
         this.isSelectedOsbb = true;
         let selectedOsbb: Osbb = this.getOsbbByName(value.text);
         this.newUser.osbbId = selectedOsbb.osbbId;
+        this.newOsbb.name = value.text;
         this.listAllHousesByOsbb(this.newUser.osbbId);
         this.isSelectedStreet = false;
     }
@@ -476,49 +485,48 @@ export class RegistrationComponent implements OnInit {
         console.log('error msg' + error)
     }
     
-    sendEmailToUser() {
-        this.mail.to = this.newUser.email;
-        this.mail.text = 'Добрий день '+this.newUser.firstName+' '+this.newUser.lastName+
-        ' дякуємо за реєстрацію на сайті OSBB , ваш акаунт буде розлянуто головою ОСББ , після підтвердження головою ОСББ вам на пошту прийде підтвердження';
-        this.mail.subject = 'Регістрація';
-        this.mailService.sendEmail(this.mail)
-        .subscribe((data)=> {},         
+    sendEmails() {
+        let mail:Mail = new Mail();
+        mail.to= this.newUser.email;
+        mail.text = this.translate('send_email_user')+', '+this.translate('send_osbb')+' '+this.newOsbb.name+', '+this.translate('send_email_user2');
+        mail.subject = this.translate('subject_registration');
+
+        this.mailService.sendEmail(mail).subscribe(
+                (data)=> {},         
                 (error)=> {
                 this.handleErrors(error)
-            });
-    }
+        });
 
-    sendEmailToGolova() {
-        this.mail.to = 'golovaosbb@gmail.com';
-        this.mail.text = 'Особа '+this.newUser.firstName+' '+this.newUser.lastName+
-        ' зареєструвався на вашому ОСББ ';
-        this.mail.subject = 'Регістрація';
-        this.mailService.sendEmail(this.mail)
-        .subscribe((data)=> {},         
+        mail.to = 'golovaosbb@gmail.com';
+        mail.text = this.translate('send_email_chairman');
+        mail.subject = this.translate('subject_registration');
+
+        this.mailService.sendEmail(mail).subscribe(
+                (data)=> {},         
                 (error)=> {
                 this.handleErrors(error)
         });
     }
 
-    avtoGeneratePassword() {
-        const minLenght:number = 4;
-        const maxLenght:number = 5;
+    autoGeneratePassword() {
+        const minLength:number = 4;
+        const maxLength:number = 5;
         const maxThreshold:number = 3;
         const minThreshold:number = 1;
-        const indexOFLowercaseLatter:number = 1;
-        const indexOFUppercaseLatter:number = 2;
+        const indexOFLowercaseLetter:number = 1;
+        const indexOFUppercaseLetter:number = 2;
         const divider:number = 3;
         const randomArea:number = 10;
         let password:string = '';       
-        const lenght = Math.floor(Math.random() * (maxLenght) + minLenght);
+        const lenght = Math.floor(Math.random() * (maxLength) + minLength);
         let ind:number = 0;
 
         while(ind < lenght) {
             const rand:number = Math.floor(Math.random() * (maxThreshold) + minThreshold);
-            if(rand % divider == indexOFLowercaseLatter) {
+            if(rand % divider == indexOFLowercaseLetter) {
                 password += this.alphabet[Math.floor(Math.random()*this.alphabet.length)];
             }
-            else if(rand % divider == indexOFUppercaseLatter) {
+            else if(rand % divider == indexOFUppercaseLetter) {
                 password += this.alphabet[Math.floor(Math.random()*this.alphabet.length)].toUpperCase();
             }
             else{

@@ -38,18 +38,18 @@ public class RegistrationServiceImpl implements RegistrationService {
     
     private  String[] alphabet = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
 	private Random  random = new Random();
-	private StringBuilder password;
-	private static final int MIN_LENGHT = 4;
-	private static final int MAX_LENGHT = 13;
+	private String password;
+	private static final int MIN_LENGTH = 4;
+	private static final int MAX_LENGTH = 13;
 	private static final int MAX_THRESHOLD = 3;
 	private static final int MIN_THRESHOLD = 1;
-	private static final int INDEX_OF_LOWERCASE_LATTER = 1;
-	private static final int INDEX_OF_UPPERCASE_LATTER = 2;
+	private static final int INDEX_OF_LOWERCASE_LETTER = 1;
+	private static final int INDEX_OF_UPPERCASE_LETTER = 2;
 	private static final int DIVIDER = 3;
 	private static final int RANDOM_AREA = 10;
 	
 	private int generatePasswordLenght() {
-		return random.nextInt(MAX_LENGHT) + MIN_LENGHT;
+		return random.nextInt(MAX_LENGTH) + MIN_LENGTH;
 	}
 	
 	private int generateRandomThreshold() {
@@ -62,25 +62,24 @@ public class RegistrationServiceImpl implements RegistrationService {
         }
 	}
 	
-	public  String generatePassword() {
-		password = new StringBuilder();
-		password.append("");
+	public String generatePassword() {
+		StringBuilder password = new StringBuilder();
         int lenght = generatePasswordLenght();
         
         for(int ind = 0; ind < lenght; ind++) {
         	int randThreshold = generateRandomThreshold();
   
-            if(randThreshold % DIVIDER == INDEX_OF_LOWERCASE_LATTER) {
+            if(randThreshold % DIVIDER == INDEX_OF_LOWERCASE_LETTER) {
                 password.append(alphabet[random.nextInt(alphabet.length)]);
             }
-            else if(randThreshold % DIVIDER == INDEX_OF_UPPERCASE_LATTER) {
+            else if(randThreshold % DIVIDER == INDEX_OF_UPPERCASE_LETTER) {
                 password.append(alphabet[random.nextInt(alphabet.length)].toUpperCase());
             }
             else{
                 password.append(random.nextInt(RANDOM_AREA));
             }
         }
-        return password.toString();
+       return (this.password = password.toString());
     }
 
     @Transactional(readOnly = false,
@@ -112,14 +111,15 @@ public class RegistrationServiceImpl implements RegistrationService {
         userService.update(creator);
         return newOsbb;
     }
-    
-    @Override
-	public StringBuilder getPassword() {
-		return password;
+
+	@Override
+	public String getPassword() {
+		return this.password;
 	}
 
-    @Override
-	public void setPassword(StringBuilder password) {
+	@Override
+	public void setPassword(String password) {
 		this.password = password;
 	}
+    
 }

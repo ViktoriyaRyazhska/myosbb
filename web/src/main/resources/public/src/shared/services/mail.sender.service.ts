@@ -21,7 +21,6 @@ export class MailService {
         let headers=new Headers({'Content-Type':'application/json'});
         const body = JSON.stringify(mail);
             return this.http.post(this.url, body, {headers: headers})
-            .map((response)=>response.json())
             .catch((error) => Observable.throw(error))     
     }
 }

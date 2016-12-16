@@ -31,7 +31,7 @@ public class MailController {
     private MailSenderImpl sender;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Mail> sendMail(@RequestBody Mail mail){
+    public void sendMail(@RequestBody Mail mail){
         if (mail == null) {
             logger.warn("void mail");
         }
@@ -40,12 +40,10 @@ public class MailController {
         
         try {
             sender.send( mail.getTo(), mail.getSubject(), mail.getText());
-            return new ResponseEntity<>(new Mail(mail.getTo(),mail.getText()), HttpStatus.OK);
         } catch (MessagingException e) {
             logger.error("cannot send message to" + mail.getTo());
             logger.info("subject: " + mail.getSubject());
             logger.info("text: " + mail.getText());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }
