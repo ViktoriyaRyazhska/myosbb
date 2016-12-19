@@ -319,5 +319,7 @@
   "subject_deleted": "Deleted",
   "subject_activeted_by_chairman": "Registered by chairman condominiums",
   "you_have_not_filled_captcha": "You've not filled captcha",
-  "you_incorrectly_filled_captcha": "You incorrectly filled captcha"
+  "you_incorrectly_filled_captcha": "You incorrectly filled captcha",
+  "gender_male": "Male",
+  "gender_female": "Female"
 }

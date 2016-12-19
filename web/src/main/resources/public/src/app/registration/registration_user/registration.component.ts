@@ -47,7 +47,7 @@ export class RegistrationComponent implements OnInit {
     public itemRegion:SelectItem;
     public itemCity:SelectItem;
     public itemStreet:SelectItem;
-    public genders: string[] = ['Чоловік','Жінка'];
+    public genders: string[];
     confirmPassword: string = "";
     birthDateError: boolean = false;
     matchError: boolean = false;
@@ -102,6 +102,7 @@ export class RegistrationComponent implements OnInit {
         this.ListAllRegion();
         this.IsRegistered = true;
         this.autoGeneratePassword();
+        this.genders = [this.translate('gender_male'), this.translate('gender_female')];
     }
    
     onSubmitUser(status) {
@@ -220,8 +221,15 @@ export class RegistrationComponent implements OnInit {
     }
     
     selectedGender(value: any) {
+
     	console.log(value.text);
-        this.newUser.gender = value.text;
+        let gender: string = value.text;
+        if( gender == 'Female' || gender =='Жінка' ) {
+            this.newUser.gender = 'Female';
+        }
+        else{
+            this.newUser.gender = 'Male';
+        }
         this.isSelectGender = true;
     }
 
