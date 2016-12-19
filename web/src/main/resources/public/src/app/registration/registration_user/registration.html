@@ -215,6 +215,15 @@
                             <ng-select [allowClear]="true" [items]="streets" (selected)="selectedStreet($event)" placeholder="{{ 'choose' | translate | capitalize }}">
                             </ng-select>
                         </div>
+                        
+                         <div class="modal-body" >
+
+                            <p class="noselect" ><strong>{{captcha}}</strong></p>
+
+                            <input class="captcha" type="text" placeholder="{{ 'captcha' | translate | capitalize }}" (keyup)="initTextUser($event)">
+                            <a class="refresh" (click)="autoGeneratePassword()"> <img src="assets/img/captcha.jpg" width="35" height="35"></a>
+
+                        </div>
 
                         <br>
 

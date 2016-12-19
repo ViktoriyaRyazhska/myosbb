@@ -59,16 +59,16 @@
                 <td class="hidden-phone">{{item.email}}</td>
                 <td class="hidden-phone">{{item.gender}}</td>
                 <td>
-                    <div *ngIf="item.activated"  class="text-center" (click)="changeActivation(item)">
+                    <div *ngIf="item.activated"  class="text-center" (click)="changeActivation(item) ; sendEmailDeactive(item)">
                         <i class="fa fa-check activated fa-lg" aria-hidden="true"></i>
                     </div>
-                    <div *ngIf="!item.activated" class="text-center" (click)="changeActivation(item)">
+                    <div *ngIf="!item.activated" class="text-center" (click)="changeActivation(item) ; sendEmailActive(item)">
                         <i class="fa fa-times activated fa-lg" aria-hidden="true"></i>
                     </div>
                 </td>
 
                 <td>
-                    <button class="btn btn-danger btn-xs" (click)="deleteUser(item)"><i class="fa fa-trash-o "></i>
+                    <button class="btn btn-danger btn-xs" (click)="deleteUser(item) ; sendEmailDelete(item)"><i class="fa fa-trash-o "></i>
                     </button>
                 </td>
             </tr>
@@ -135,12 +135,6 @@
                                            class="form-control" type="date"
                                            [(ngModel)]="userMy.birthDate" required>
                                 </div>
-                                 <div class="">
-                                    <label> {{ 'password' | translate }}</label>
-                                    <input name="password" id="password"
-                                           class="form-control" type="text"
-                                           [(ngModel)]="userMy.password" required>
-                                </div> 
                                     <div class="" >
                                         <label>Виберіть ваше ОСББ</label>
                                                 <ng-select [items]="osbb"

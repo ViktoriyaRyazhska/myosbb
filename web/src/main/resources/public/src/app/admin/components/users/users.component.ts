@@ -14,12 +14,15 @@ import { CapitalizeFirstLetterPipe } from "../../../../shared/pipes/capitalize-f
 import { Router } from '@angular/router';
 import { REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { SELECT_DIRECTIVES } from "ng2-select";
+import { MailService } from "../../../../shared/services/mail.sender.service";
+import { TranslateService } from 'ng2-translate';
+import { Mail } from "../../../../shared/models/mail";
 
 
 @Component({ 
     selector: 'my-users',
     templateUrl: 'src/app/admin/components/users/users.table.html',
-    providers: [UsersService, RegisterService],
+    providers: [UsersService, RegisterService, MailService],
     styleUrls: ['src/app/admin/components/users/users.css'],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
     directives: [REACTIVE_FORM_DIRECTIVES, RegistrationComponent,  SELECT_DIRECTIVES]
@@ -30,6 +33,7 @@ export class UsersComponent implements OnInit {
     roles: Array<string> = [];
     userMy: UserRegistration = new UserRegistration();
     osbbMy: OsbbRegistration = new OsbbRegistration();
+    private mail:Mail;
     private isSelectedOsbb: boolean = false;
     private isSelectedHouse: boolean = false;
     private isSelectedApartment: boolean = false;
@@ -44,18 +48,21 @@ export class UsersComponent implements OnInit {
     private houses: Array<string> = [];
     private apartment: Array<string> = [];
     genders = [
-        'male',
-        'female'
+        'Чоловік',
+        'Жінка'
     ];    
 
     constructor(private _userService:UsersService, private router:Router, private formBuilder:FormBuilder,
-        private registerService: RegisterService) {
+        private registerService: RegisterService,
+        private mailService:MailService,
+        private translateService:TranslateService) {
         console.log('constructore');
         this.userMy.activated = true;
         this.IsRegistered = false;
         this.isJoinedOsbb = true;
         this.IsRegisteredOsbb = false;
         this.userList = [];
+        this.mail = new Mail();
     }
 
     ngOnInit():any {
@@ -76,7 +83,20 @@ export class UsersComponent implements OnInit {
 
     saveUser(form: NgForm ) {
         console.log(this.userMy);
-        this._userService.saveUser(this.userMy).subscribe((data)=>this.userList.push(data));
+        this._userService.saveUser(this.userMy)
+        .subscribe((data)=>{
+           this.sendEmailRandomPassword(data);
+           this.userList.push(data);
+        });
+    }
+
+    private translate(message: string): string {
+        let translatation: string;
+        this.translateService.get(message)
+        .subscribe(
+            data => translatation = data
+        )
+        return translatation;
     }
 
     public changeActivation(user:User) {
@@ -89,6 +109,44 @@ export class UsersComponent implements OnInit {
             }
         )
     }
+    
+    sendEmailActive(user:User) {
+        this.mail.to = user.email;
+        this.mail.text = this.translate('activated_account');
+        this.mail.subject = this.translate('subject_activeted');
+        this.mailService.sendEmail(this.mail)
+        .subscribe((data)=> {
+        });
+    }
+
+    sendEmailDeactive(user:User) {
+        this.mail.to = user.email;
+        this.mail.text = this.translate('deactivated_account');
+        this.mail.subject = this.translate('subject_deactiveted');
+        this.mailService.sendEmail(this.mail)
+        .subscribe((data)=> {
+        });
+    }
+
+    sendEmailRandomPassword(user:UserRegistration) {
+        console.log('User password '+user.password);
+        this.mail.to = user.email;
+        this.mail.text = this.translate('send_email_user_registration_by_chairman')+', '+this.translate('send_osbb')+' '+this.osbbMy.name+
+        ', '+this.translate('send_email_login')+' '+user.email+', '+this.translate('send_email_password')+' '+user.password;
+        this.mail.subject = this.translate('subject_activeted_by_chairman');
+        this.mailService.sendEmail(this.mail)
+        .subscribe((data)=> {
+        });
+    }
+
+    sendEmailDelete(user:User) {
+        this.mail.to = user.email;
+        this.mail.text = this.translate('deleted_account');
+        this.mail.subject = this.translate('subject_deleted');
+        this.mailService.sendEmail(this.mail)
+        .subscribe((data)=> {
+        });
+    }
 
     toUser(id:number){
         this.router.navigate(['admin/user', id]);
@@ -99,6 +157,7 @@ export class UsersComponent implements OnInit {
         console.log('select osbb: ', value);
         let selectedOsbb: Osbb = this.getOsbbByName(value.text);
         this.userMy.osbbId = selectedOsbb.osbbId;
+        this.osbbMy.name = value.text;
         this.listAllHousesByOsbb(this.userMy.osbbId);
     }
 

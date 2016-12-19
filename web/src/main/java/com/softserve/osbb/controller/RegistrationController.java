@@ -57,13 +57,15 @@ public class RegistrationController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ResponseEntity<UserDTO> putUser(@RequestBody UserRegistrationDTO userRegistrationDTO) {
         User foundUser = userService.findUserByEmail(userRegistrationDTO.getEmail());
-        
         if (foundUser != null) {
             throw new UserAlreadyExistsException("user already exists");
         }
         
         User registeredUser = registrationService.registrate(
                 userRegistrationDTOMapper.mapDTOToEntity(userRegistrationDTO));
+        if(registrationService.getPassword() != null) {
+        	registeredUser.setPassword(registrationService.getPassword());
+        }
         
         return new ResponseEntity<>(UserDTOMapper.mapUserEntityToDTO(registeredUser), HttpStatus.OK);
     }

@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface RegistrationService {
+	
+	String getPassword();
 
+	void setPassword(String password);
 
     User registrate(User user);
 

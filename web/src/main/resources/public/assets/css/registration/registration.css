@@ -37,3 +37,36 @@ hr{
 .panel-footer {
     margin: 0 -15;
 }
+
+.noselect {
+  background : #67deef;
+  border : 1px solid #999;
+  border-radius: 4px;
+  width: 198px;
+  height: 30px;
+  text-align: center;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+     -khtml-user-select: none; /* Konqueror */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  not supported by any browser */                                                                  
+}
+
+.modal-body {
+	border : 1px solid #999;
+	border-radius: 4px;
+}
+
+.refresh {
+	cursor: pointer;
+	margin-left: 10px;
+}
+
+.captcha{
+	padding: 6px 12px;
+	color: #555;
+	font-size: 14px;
+	border-radius: 4px;
+}
