@@ -27,12 +27,16 @@ import com.softserve.osbb.service.UserService;
 public class RegistrationServiceImpl implements RegistrationService {
 
     private static final Logger logger = LoggerFactory.getLogger(RegistrationServiceImpl.class);
+    
     @Autowired
     private UserService userService;
+    
     @Autowired
     private OsbbService osbbService;
+    
     @Autowired
     private SettingsService settingsService;
+    
     @Autowired
     private RoleService roleService;
     
