@@ -118,28 +118,6 @@
     },
     {
       "changeSet": {
-        "id": "2016/08/03-64",
-        "author": "nataliia",
-        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
-        "changes": [
-          {
-            "addForeignKeyConstraint": {
-              "baseColumnNames": "osbb_id",
-              "baseTableName": "house",
-              "constraintName": "fk_trh6nruaq2hc93m8s3f0brk8h",
-              "deferrable": false,
-              "initiallyDeferred": false,
-              "onDelete": "NO ACTION",
-              "onUpdate": "NO ACTION",
-              "referencedColumnNames": "osbb_id",
-              "referencedTableName": "osbb"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "changeSet": {
         "id": "2016/09/17-12",
         "author": "Roman",
         "changes": [

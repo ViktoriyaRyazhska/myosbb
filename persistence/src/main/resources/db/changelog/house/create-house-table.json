@@ -67,7 +67,7 @@
             "addForeignKeyConstraint": {
               "baseColumnNames": "osbb_id",
               "baseTableName": "house",
-              "constraintName": "fk_osbb_id",
+              "constraintName": "fk_houses_osbb_id",
               "onDelete": "NO ACTION",
               "onUpdate": "CASCADE",
               "referencedColumnNames": "osbb_id",
@@ -87,7 +87,7 @@
             "addForeignKeyConstraint": {
               "baseColumnNames": "street_id",
               "baseTableName": "house",
-              "constraintName": "fk_street_id",
+              "constraintName": "fk_house_street_id",
               "onDelete": "NO ACTION",
               "onUpdate": "NO ACTION",
               "referencedColumnNames": "id",
