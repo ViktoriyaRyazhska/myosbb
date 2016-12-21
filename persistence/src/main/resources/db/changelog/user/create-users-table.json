@@ -96,7 +96,7 @@
                 },
                 {
                   "column": {
-                    "name": "street",
+                    "name": "house_id",
                     "type": "INT"
                   }
                 }
@@ -369,15 +369,15 @@
         "changes": [
           {
             "addForeignKeyConstraint": {
-              "baseColumnNames": "street",
+              "baseColumnNames": "house_id",
               "baseTableName": "users",
               "constraintName": "fk_ccpnrg4xuk1h75158vmt1vqa5",
               "deferrable": false,
               "initiallyDeferred": false,
               "onDelete": "NO ACTION",
               "onUpdate": "NO ACTION",
-              "referencedColumnNames": "id",
-              "referencedTableName": "streets"
+              "referencedColumnNames": "house_id",
+              "referencedTableName": "house"
             }
           }
         ]

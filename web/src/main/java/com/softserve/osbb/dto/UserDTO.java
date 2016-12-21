@@ -8,6 +8,7 @@ package com.softserve.osbb.dto;
 
 import com.softserve.osbb.dto.mappers.ApartmentDTOMapper;
 import com.softserve.osbb.model.Apartment;
+import com.softserve.osbb.model.House;
 import com.softserve.osbb.model.Street;
 import com.softserve.osbb.model.User;
 
@@ -29,18 +30,18 @@ public class UserDTO {
     private String gender;
     private String password;
     private ApartmentDTO apartment;
-    private Street street;
+    private House house;
 
     public UserDTO() {}
 
-    public UserDTO(Integer userId, String firstName, String lastName, String email, Integer osbbId, Apartment apartment, Street street, String gender, String password) {
+    public UserDTO(Integer userId, String firstName, String lastName, String email, Integer osbbId, Apartment apartment, House house, String gender, String password) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.osbbId=osbbId;
         this.apartment= ApartmentDTOMapper.mapApartmentEntityToDTO(apartment);
-        this.street = street;
+        this.house = house;
         this.gender = gender;
         this.password = password;
     }
@@ -53,7 +54,7 @@ public class UserDTO {
         this.email = user.getEmail();
         this.phoneNumber = user.getPhoneNumber();
         this.gender = user.getGender();
-        this.street = user.getStreet();
+        this.house = user.getHouse();
         this.password = user.getPassword();
         if(user.getOsbb() != null) {
             this.osbbId = user.getOsbb().getOsbbId();
@@ -133,20 +134,20 @@ public class UserDTO {
         this.apartment = apartment;
     }
 
-    public Street getStreet() {
-		return street;
-	}
-
-	public void setStreet(Street street) {
-		this.street = street;
-	}
-
     public String getPassword() {
 		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public House getHouse() {
+		return house;
+	}
+
+	public void setHouse(House house) {
+		this.house = house;
 	}
 
 	@Override

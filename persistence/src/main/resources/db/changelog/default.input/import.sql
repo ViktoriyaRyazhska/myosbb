@@ -6,18 +6,6 @@ INSERT INTO role(name) VALUES('ROLE_USER');
 INSERT INTO role(name) VALUES('ROLE_ADMIN');
 INSERT INTO role(name) VALUES('ROLE_MANAGER');
 
-INSERT INTO house(city, street, zip_code, description) VALUES('Lviv', 'Rjashivska 9', '79040', 'a nice house with a lot of parking spaces');
-INSERT INTO apartment (number, square, house_id, owner_id) VALUES(1, 44, 1, 1);
-INSERT INTO apartment (number, square, house_id, owner_id) VALUES(2, 67, 1, 2);
-INSERT INTO apartment (number, square, house_id, owner_id) VALUES(3, 98, 1, 3);
-INSERT INTO apartment (number, square, house_id, owner_id) VALUES(4, 67, 1, 4);
-INSERT INTO apartment (number, square, house_id, owner_id) VALUES(5, 100, 1, 5);
-INSERT INTO apartment (number, square, house_id, owner_id) VALUES(6, 87, 1, 6);
-INSERT INTO apartment (number, square, house_id, owner_id) VALUES(7, 89, 1, 7);
-INSERT INTO apartment (number, square, house_id, owner_id) VALUES(8, 66, 1, 8);
-INSERT INTO apartment (number, square, house_id) VALUES(9,  55, 1);
-INSERT INTO apartment (number, square, house_id) VALUES(10, 69, 1);
-INSERT INTO apartment (number, square, house_id) VALUES(11, 99, 1);
 
 INSERT into regions(id,name)VALUES(1,'АР Крим');
 INSERT into regions(id,name)VALUES(2,'Вінницька обл.');
@@ -76,21 +64,6 @@ INSERT into streets(id,name,city)VALUES(18,'Володимирська',8);
 INSERT into streets(id,name,city)VALUES(19,'Собранецька',8);
 INSERT into streets(id,name,city)VALUES(20,'Садова',9);
 
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('2016-06-13','admin@admin','Admin','admin','Adminius','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','380000000','2',1,TRUE,TRUE);
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1993-10-31','vilumkris@gmail.com','kris','female','vilum','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','380931286864','1',2,TRUE );
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1990-11-28', 'n.svidersky@gmail.com','Nazar','male','Sviderskyi','$2a$06$fGiJsjD0U/ZoHbmjab2ytOoedYAB1zQ0XANiGUQXAwv9TcyxV.Qfe','0931544845','1',3,TRUE );
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1996-02-21','KostetskyRoma@gmail.com','Roman','male','Kostetsky','$2a$06$R33Bzp5v3k5l5xs1n3dwQuQ/fM1DjCMldqthEXhvnI7Cu3gOQ4ms6','380687773508','1',4,TRUE );
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner, activated) VALUES ('1992-12-30','butaroman@gmail.com','Roman','male','Buta','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0632571119','1',5,TRUE, TRUE );
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1997-06-02','cavayman@gmail.com','Oleg','male','Kotsik','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0679167305','1',6,TRUE );
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1991-04-14','nazardovhyi@gmail.com','Nazar','male','Dovhyi','$2a$06$FHyRBL.Yc54J8K1XoKPF9.wWzyThXZd/6kNBLY8BxyoaGUb.YtFjG','0973055976','3',7,TRUE );
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1994-12-16','oleg111koval@gmail.com','Oleg','male','Koval','$2a$06$QfIksIErYqbeoD3Pnxai7Ott22NGF8G38GsC/pQVpGG/rt55IYhUy','095729666','1',8,TRUE,TRUE);
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1992-12-30','butaroman1@gmail.com','Roman1','male','Buta1','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0632571119','1',8,TRUE );
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1992-12-30','butaroman2@gmail.com','Roman2','male','Buta2','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0632571119','1',8,TRUE );
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1992-12-30','butaroman3@gmail.com','Roman3','male','Buta3','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0632571119','1',8,TRUE );
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1994-08-18','nkharabaruk@gmail.com','Nataliia','female','Kharabaruk','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0638142706','1',4,TRUE );
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1996-02-21','user@gov.ua','User','male','TheUser','$2a$10$izk0e40i9NsxgRnwoafnnOANYf9iqhxyKp1P83LW.C2RysO0KnoOi','380687773508','1',4,TRUE,TRUE);
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1983-12-31','ewing@nyk.com','Patrick','male','Ewing','$2a$10$UEjkwHIn9fMnNs7r4IXAduJ9rIv3tGatMqnt7GjWqaklljt2RoP9K','095729666','1',8,TRUE,TRUE);
-INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1989-12-22','headmaster@gov.ua','Arnold','male','Shwarzenegger','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','380953334444','3',1,TRUE,TRUE);
 
 INSERT INTO provider_type ( type_name) VALUES ('Internet');
 INSERT INTO provider_type ( type_name) VALUES ('Trash');
@@ -139,15 +112,29 @@ VALUES ('2010-03-03', '2015-10-02', 98,  'UAH', 'Опис контракту', 2
 INSERT INTO contract ( date_start, date_finish, price, price_currency, text, provider_id, active)
 VALUES ('2016-08-03', '2018-09-05', 100, 'UAH',  'Опис контракту', 1, TRUE);
 
-INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Мій Дім','осбб для людей','м.Львів вул.Городоцька 147а','Залізничний','2016-09-01 10:46:43.221000');
-INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Червона Калина','найкраще осбб','м.Львів вул.В.Великого 99','Франківський','2014-09-05 10:46:43.221220');
-INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Двір','рівні права','м.Львів вул.Б.Хмельницького 77','Франківський','2012-05-27 08:20:43.221000');
-INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Район','осбб','м.Львів вул.Сихівськаа 33','Сихів','2015-10-15 10:46:43.221000');
-INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Надія','файне осбб','м.Львів вул.Гната Хоткевича 47а','Сихів','2010-08-01 10:46:43.221000');
-INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Весна',' ','м.Львів вул.Проспект Червоної Калини 11','Сихів','2016-05-10 12:46:43.221000');
-INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Мрія',' ','м.Львів вул.Городоцька 147а','Залізничний','2016-09-01 10:46:43.221000');
-INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Моя Оселя','','м.Львів вул.Повітряна 17б','Залізничний','2013-10-12 08:46:43.221340');
-INSERT INTO osbb(  name, description, address, district, creation_date) VALUES ('Сонечко','','м.Львів вул.Наукова 77','Франківський','2015-04-18 10:46:43.221270');
+INSERT INTO osbb(  name, description,  district, creation_date) VALUES ('Мій Дім','осбб для людей','Залізничний','2016-09-01 10:46:43.221000');
+INSERT INTO osbb(  name, description, district, creation_date) VALUES ('Червона Калина','найкраще осбб','Франківський','2014-09-05 10:46:43.221220');
+INSERT INTO osbb(  name, description,  district, creation_date) VALUES ('Двір','рівні права','Франківський','2012-05-27 08:20:43.221000');
+INSERT INTO osbb(  name, description,  district, creation_date) VALUES ('Район','осбб','Сихів','2015-10-15 10:46:43.221000');
+INSERT INTO osbb(  name, description, district, creation_date) VALUES ('Надія','файне осбб','Сихів','2010-08-01 10:46:43.221000');
+INSERT INTO osbb(  name, description,  district, creation_date) VALUES ('Весна',' ','Сихів','2016-05-10 12:46:43.221000');
+INSERT INTO osbb(  name, description,  district, creation_date) VALUES ('Мрія',' ','Залізничний','2016-09-01 10:46:43.221000');
+INSERT INTO osbb(  name, description,  district, creation_date) VALUES ('Моя Оселя',' ','Шевченківський','2013-10-12 08:46:43.221340');
+INSERT INTO osbb(  name, description,  district, creation_date) VALUES ('Сонечко', ' ' ,' Укпор ','2015-04-18 10:46:43.221270');
+
+INSERT INTO house(number_house, zip_code, description, street_id, osbb_id) VALUES(4, '79040', 'a nice house with a lot of parking spaces',5,1);
+
+INSERT INTO apartment (number, square, house_id, owner_id) VALUES(1, 44, 1, 1);
+INSERT INTO apartment (number, square, house_id, owner_id) VALUES(2, 67, 1, 2);
+INSERT INTO apartment (number, square, house_id, owner_id) VALUES(3, 98, 1, 3);
+INSERT INTO apartment (number, square, house_id, owner_id) VALUES(4, 67, 1, 4);
+INSERT INTO apartment (number, square, house_id, owner_id) VALUES(5, 100, 1, 5);
+INSERT INTO apartment (number, square, house_id, owner_id) VALUES(6, 87, 1, 6);
+INSERT INTO apartment (number, square, house_id, owner_id) VALUES(7, 89, 1, 7);
+INSERT INTO apartment (number, square, house_id, owner_id) VALUES(8, 66, 1, 8);
+INSERT INTO apartment (number, square, house_id) VALUES(9,  55, 1);
+INSERT INTO apartment (number, square, house_id) VALUES(10, 69, 1);
+INSERT INTO apartment (number, square, house_id) VALUES(11, 99, 1);
 
 INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(1, NULL, 1, 'ROOT FOLDER');
 INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(2, 1, 1, 'Установчі документи');
@@ -187,6 +174,22 @@ insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, st
 insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-08-28', 'Озеленення', 199, 0, 2, 3, 3, 'NOT_PAID');
 insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id, status) VALUES('2016-08-28', 'Охорона', 120, 120, 4.5, 6, 6, 'PAID');
 insert into bill(date, name, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-08-28', 'Прибирання території', 150.5,150.5, 4, 7, 'PAID', 1);
+
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('2016-06-13','admin@admin','Admin','admin','Adminius','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','380000000','2',1,TRUE,TRUE);
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1993-10-31','vilumkris@gmail.com','kris','female','vilum','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','380931286864','1',2,TRUE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1990-11-28', 'n.svidersky@gmail.com','Nazar','male','Sviderskyi','$2a$06$fGiJsjD0U/ZoHbmjab2ytOoedYAB1zQ0XANiGUQXAwv9TcyxV.Qfe','0931544845','1',3,TRUE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1996-02-21','KostetskyRoma@gmail.com','Roman','male','Kostetsky','$2a$06$R33Bzp5v3k5l5xs1n3dwQuQ/fM1DjCMldqthEXhvnI7Cu3gOQ4ms6','380687773508','1',4,TRUE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner, activated) VALUES ('1992-12-30','butaroman@gmail.com','Roman','male','Buta','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0632571119','1',5,TRUE, TRUE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1997-06-02','cavayman@gmail.com','Oleg','male','Kotsik','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0679167305','1',6,TRUE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1991-04-14','nazardovhyi@gmail.com','Nazar','male','Dovhyi','$2a$06$FHyRBL.Yc54J8K1XoKPF9.wWzyThXZd/6kNBLY8BxyoaGUb.YtFjG','0973055976','3',7,TRUE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1994-12-16','oleg111koval@gmail.com','Oleg','male','Koval','$2a$06$QfIksIErYqbeoD3Pnxai7Ott22NGF8G38GsC/pQVpGG/rt55IYhUy','095729666','1',8,TRUE,TRUE);
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1992-12-30','butaroman1@gmail.com','Roman1','male','Buta1','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0632571119','1',8,TRUE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1992-12-30','butaroman2@gmail.com','Roman2','male','Buta2','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0632571119','1',8,TRUE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1992-12-30','butaroman3@gmail.com','Roman3','male','Buta3','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0632571119','1',8,TRUE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,activated) VALUES ('1994-08-18','nkharabaruk@gmail.com','Nataliia','female','Kharabaruk','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','0638142706','1',4,TRUE );
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1996-02-21','user@gov.ua','User','male','TheUser','$2a$10$izk0e40i9NsxgRnwoafnnOANYf9iqhxyKp1P83LW.C2RysO0KnoOi','380687773508','1',4,TRUE,TRUE);
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1983-12-31','ewing@nyk.com','Patrick','male','Ewing','$2a$10$UEjkwHIn9fMnNs7r4IXAduJ9rIv3tGatMqnt7GjWqaklljt2RoP9K','095729666','1',8,TRUE,TRUE);
+INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('1989-12-22','headmaster@gov.ua','Arnold','male','Shwarzenegger','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','380953334444','3',1,TRUE,TRUE);
 
 UPDATE house SET osbb_id=1 WHERE house_id=1;
 

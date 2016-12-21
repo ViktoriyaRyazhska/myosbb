@@ -20,8 +20,6 @@ public class Osbb implements Serializable {
     private Integer osbbId;
     private String name;
     private String description;
-    private Street street;
-    private String address;
     private String district;
     private Boolean available= true;
     private Attachment logo;
@@ -62,26 +60,6 @@ public class Osbb implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "street", referencedColumnName = "id")
-        public Street getStreet() {
-        return street;
-    }
-
-    public void setStreet(Street street) {
-        this.street = street;
-    }
-
-    @Basic
-    @Column(name = "address")
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     @Basic
@@ -185,7 +163,6 @@ public class Osbb implements Serializable {
                 "osbbId=" + osbbId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", adress='" + address + '\'' +
                 ", district='" + district + '\'' +
                 ", dateOfCreation=" + creationDate +
                 '}';

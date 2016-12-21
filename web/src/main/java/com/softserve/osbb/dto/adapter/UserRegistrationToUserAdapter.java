@@ -10,6 +10,7 @@ import com.softserve.osbb.dto.UserRegistrationDTO;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.service.AddressService;
 import com.softserve.osbb.service.ApartmentService;
+import com.softserve.osbb.service.HouseService;
 import com.softserve.osbb.service.OsbbService;
 import com.softserve.osbb.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class UserRegistrationToUserAdapter extends DTOToEntityAdapter<UserRegist
     private RoleService roleService;
     
     @Autowired
-    private AddressService addressService;
+    private HouseService houseService;
 
     public UserRegistrationToUserAdapter() { }
 
@@ -67,7 +68,7 @@ public class UserRegistrationToUserAdapter extends DTOToEntityAdapter<UserRegist
         user.setRole(roleService.getRole(userRegistrationDTO.getRole()));
         user.setApartment(apartmentService.findById(userRegistrationDTO.getApartmentId()));
         user.setOsbb(osbbService.getOsbb(userRegistrationDTO.getOsbbId()));
-        user.setStreet(addressService.getStreetById(userRegistrationDTO.getStreet()));
+        user.setHouse(houseService.findHouseById(userRegistrationDTO.getHouse()));
     }
 
 }

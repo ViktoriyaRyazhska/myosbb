@@ -25,7 +25,7 @@ public class UserRegistrationDTO extends AbstractDTO {
     private boolean activated;
     private int apartmentId;
     private int role;
-    private int street;
+    private int house;
 
 	public int getUserId() {
         return userId;
@@ -122,12 +122,14 @@ public class UserRegistrationDTO extends AbstractDTO {
     public void setRole(int role) {
         this.role = role;
     }
-    
-    public int getStreet() {
-		return street;
+
+	public int getHouse() {
+		return house;
 	}
 
-	public void setStreet(int street) {
-		this.street = street;
+	public void setHouse(int house) {
+		this.house = house;
 	}
+    
+    
 }

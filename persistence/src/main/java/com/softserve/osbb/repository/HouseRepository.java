@@ -14,15 +14,9 @@ import java.util.List;
 @Repository
 public interface HouseRepository extends JpaRepository<House, Integer> {
 
-    List<House> findByCity(String city);
+  //  List<House> findByCity(String city);
 
-    List<House> findByStreet(String street);
-
-    @Query("Select h From House h where LOWER(h.street) LIKE LOWER(CONCAT('%',?1,'%'))"
-            + " OR LOWER(h.city) LIKE LOWER(CONCAT('%',?1,'%'))"
-            + "OR LOWER(h.description) LIKE LOWER(CONCAT('%',?1,'%'))"
-            + "OR LOWER(h.zipCode) LIKE LOWER(CONCAT('%',?1,'%'))")
-    List<House> getAlReportsBySearchParameter(String searchTerm);
+    List<House> findByStreet(Integer street);
 
     @Query("select h from House h join h.osbb o where o.osbbId = :osbbId")
     List<House> findByOsbbId(@Param("osbbId") Integer osbbId);

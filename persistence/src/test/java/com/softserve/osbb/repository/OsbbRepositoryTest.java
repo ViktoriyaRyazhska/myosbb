@@ -35,7 +35,6 @@ public class OsbbRepositoryTest {
         osbb.setName(OSBB_NAME);
         osbb.setDescription("осбб для людей");
         osbb.setDistrict("Залізничний");
-        osbb.setAddress("м.Львів вул.Городоцька 165а");
     }
 
     @Test

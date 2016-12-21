@@ -20,20 +20,17 @@ public class House implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final House NULL = null;
     private Integer houseId;
-    private String city;
-    private String street;
+    private Integer numberHouse;
     private String zipCode;
     private String description;
-    private Collection<Apartment> apartments;
+    private Street street;
     private Osbb osbb;
+    private Collection<User> users;
+    private Collection<Apartment> apartments;
 
 
     public House() {
         //default
-    }
-
-    public House(String street) {
-        this.street = street;
     }
 
     @Id
@@ -45,26 +42,6 @@ public class House implements Serializable {
 
     public void setHouseId(Integer houseId) {
         this.houseId = houseId;
-    }
-
-    @Basic
-    @Column(name = "street")
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String address) {
-        this.street = address;
-    }
-
-    @Basic
-    @Column(name = "city")
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     @Basic
@@ -116,16 +93,42 @@ public class House implements Serializable {
 
     public void setOsbb(Osbb osbb) {
         this.osbb = osbb;
-    }
+    } 
+    
+    @ManyToOne
+    @JoinColumn(name = "street_id")
+    public Street getStreet() {
+		return street;
+	}
 
-    @Override
-    public String toString() {
-        return "House{" +
-                "houseId=" + houseId +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", osbb=" + osbb +
-                '}';
-    }
+	public void setStreet(Street street) {
+		this.street = street;
+	}
+
+    @OneToMany(mappedBy = "house", fetch = FetchType.LAZY)
+    @JsonIgnore
+	public Collection<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Collection<User> users) {
+		this.users = users;
+	}
+	
+	@Column(name = "number_house")
+	public Integer getNumberHouse() {
+		return numberHouse;
+	}
+
+	public void setNumberHouse(Integer numHouse) {
+		this.numberHouse = numberHouse;
+	}
+
+	@Override
+	public String toString() {
+		return "House [houseId=" + houseId + ", zipCode=" + zipCode + ", description=" + description + ", street="
+				+ street + ", users=" + users + ", apartments=" + apartments + ", osbb=" + osbb + "]";
+	}
+
+
 }
