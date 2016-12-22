@@ -22,12 +22,11 @@ public class HouseDTOMapper {
         
         if (house != null) {
             houseDTO = new HouseDTO.HouseDTOBuilder()
-            		.setNumberHouse(house.getNumberHouse())
                     .setHouseId(house.getHouseId())
+               		.setNumberHouse(house.getNumberHouse())
                     .setZipCode(house.getZipCode())
-                    .setOsbbName(house.getOsbb())
-                    .setApartmentCount((List<Apartment>) house.getApartments())
-                    .setNumberOfInhabitants((List<Apartment>) house.getApartments())
+                    .setStreet(house.getStreet().getId())
+                    .setOsbb(house.getOsbb())
                     .build();
         }
         return houseDTO;

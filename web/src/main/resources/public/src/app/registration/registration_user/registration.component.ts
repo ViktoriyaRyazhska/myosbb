@@ -7,7 +7,7 @@ import MaskedInput from "angular2-text-mask";
 import emailMask from "node_modules/text-mask-addons/dist/emailMask.js";
 import {GoogleplaceDirective} from "./googleplace.directive";
 import {SELECT_DIRECTIVES} from "ng2-select";
-import {IHouse} from "../../../shared/models/House";
+import {House} from "../../../shared/models/House";
 import {IApartment} from "../../../shared/models/apartment.interface";
 import {UserRegistration} from "../../../shared/models/user_registration";
 import {Street} from "../../../shared/models/addressDTO";
@@ -47,6 +47,7 @@ export class RegistrationComponent implements OnInit {
     public itemRegion:SelectItem;
     public itemCity:SelectItem;
     public itemStreet:SelectItem;
+    public itemHouse:SelectItem;
     public genders: string[];
     confirmPassword: string = "";
     birthDateError: boolean = false;
@@ -58,13 +59,13 @@ export class RegistrationComponent implements OnInit {
     errorMsg = "";
     errorBirthDateMsg = "";
     private osbbList: IOsbb[] = [];
+    private houseList:House[] = [];
     private regionList: Region[] = [];
     private cityList: City[] = [];
     private streetList: Street[] = [];
     private regions: Array<string> = [];
     private cities: Array<string> = [];
     private streets: Array<string> = [];
-    private houseList: IHouse[] = [];
     private apartmentList: IApartment[] = [];
     private osbb: Array<string> = [];
     private houses: Array<string> = [];
@@ -72,9 +73,10 @@ export class RegistrationComponent implements OnInit {
     private isSelectedOsbb: boolean = false;
     private isSelectedHouse: boolean = false;
     private isSelectedApartment: boolean = false;
-    private isSelectedStreet: boolean = false;
     private isSelectGender:boolean = false;
     errorMessage: string;
+    private mailCreator:string;
+    private streetId:number;
     private IsRegistered: boolean;
     private IsRegisteredOsbb: boolean;
     private isJoinedOsbb: boolean;
@@ -91,9 +93,6 @@ export class RegistrationComponent implements OnInit {
         this.newUser.password = "";
         this.newUser.activated = false;
         this.newOsbb.creationDate = new Date;
-        this.osbbList = [];
-        this.houseList = [];
-        this.apartmentList = [];
         this.newUser.status = this.options[0];
     }
 
@@ -241,25 +240,29 @@ export class RegistrationComponent implements OnInit {
         if(this.cities.length!=0) {
            this.itemCity.text = '';
            this.itemStreet.text = '';
+           this.itemHouse.text = '';
+           this.houses = [];
            this.cities = [];
            this.streets = [];
+           this.isSelectedHouse = false;
         }
                 this.itemRegion = value;
                 let region: Region = this.getRegionByName(value.text);
-                this.listAllCitiesByRegion(region.id);
-                this.isSelectedStreet = false;  
+                this.listAllCitiesByRegion(region.id); 
     }
 
     selectedCity(value: any) {
         console.log(value.text);
          if(this.streets.length!=0){
             this.itemStreet.text = '';
+            this.itemHouse.text = ''
             this.streets = [];
+            this.houses = [];
+            this.isSelectedHouse = false;
         }
                 this.itemCity = value;
                 let city: City = this.getCityByName(value.text);
                 this.listAllStreetsByCity(city.id);
-                this.isSelectedStreet = false;
     }
 
     selectedOsbb(value: any) {
@@ -267,21 +270,35 @@ export class RegistrationComponent implements OnInit {
         let selectedOsbb: Osbb = this.getOsbbByName(value.text);
         this.newUser.osbbId = selectedOsbb.osbbId;
         this.newOsbb.name = value.text;
-        this.listAllHousesByOsbb(this.newUser.osbbId);
-        this.isSelectedStreet = false;
+        this.isSelectedHouse = false;
     }
 
     selectedStreet(value: any) {
+        if(this.houses.length!=0) {
+            this.itemHouse.text = '';
+            this.houses = [];
+            this.isSelectedHouse = false;
+        }
         this.itemStreet = value;
         let street: Street = this.getStreetByName(value.text);
-        this.newUser.street = street.id;
-        this.isSelectedStreet = true;
+        this.streetId = street.id;
+        this.listAllHousesByStreet(street.id);
+        this.isSelectedHouse = true;
     }
 
     selectedHouse(value: any) {
-        this.isSelectedHouse = true;
-        let houseId = this.getHouseIdByName(value.text);
-        this.listAllApartmentsByHouse(houseId);
+        this.itemHouse = value;
+        this.isSelectedHouse = true; 
+        let numberHouse:number = value.text;
+        this.registerService.getHouseByNumberHouseAndStreetId(numberHouse, this.streetId).
+        subscribe((data)=> {
+                let house:House =  data;             
+                this.newUser.house = house.houseId;
+                this.newUser.osbbId = house.osbb.osbbId;
+                this.mailCreator = house.osbb.creator.email;
+            }, (error)=> {
+                this.handleErrors(error)
+            });
     }
 
     selectedApartment(value: any) {
@@ -333,11 +350,12 @@ export class RegistrationComponent implements OnInit {
                 })
     }
 
-    listAllHousesByOsbb(id: number) {
-        this.registerService.getAllHousesByOsbb(id)
+    listAllHousesByStreet(id: number) {
+        this.registerService.getAllHousesByStreet(id)
             .subscribe((data) => {
                     this.houseList = data;
                     this.houses = this.fillHouses();
+                    console.log('House = '+this.houses);
                 },
                 (error) => {
                     this.handleErrors(error)
@@ -399,17 +417,6 @@ export class RegistrationComponent implements OnInit {
         return street;
     }
     
-    getHouseIdByName(name: string): number {
-        let houseId = 0;
-        for (let house of this.houseList) {
-            if (house.street.match(name)) {
-                houseId = house.houseId;
-                break;
-            }
-        }
-        return houseId;
-    }
-
     getApartmentByApartmentNumber(apartmentNumber: string): number {
         let apartmentID: number = 0;
         let apNumber = +apartmentNumber;
@@ -468,7 +475,8 @@ export class RegistrationComponent implements OnInit {
     fillHouses(): string[] {
         let tempArr: string[] = [];
         for (let houseObject of this.houseList) {
-            tempArr.push('' + houseObject.street);
+            console.log(houseObject.numberHouse);
+            tempArr.push('' + houseObject.numberHouse);
         }
         console.log(tempArr)
         return tempArr;
@@ -505,7 +513,7 @@ export class RegistrationComponent implements OnInit {
                 this.handleErrors(error)
         });
 
-        mail.to = 'golovaosbb@gmail.com';
+        mail.to = this.mailCreator;
         mail.text = this.translate('send_email_chairman');
         mail.subject = this.translate('subject_registration');
 

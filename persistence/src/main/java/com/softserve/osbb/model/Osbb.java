@@ -111,7 +111,8 @@ public class Osbb implements Serializable {
         this.creator = creator;
     }
 
-    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     public Collection<Contract> getContracts() {
         return contracts;
     }
@@ -120,7 +121,8 @@ public class Osbb implements Serializable {
         this.contracts = contracts;
     }
 
-    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     public Collection<Event> getEvents() {
         return events;
     }
@@ -129,7 +131,8 @@ public class Osbb implements Serializable {
         this.events = events;
     }
 
-    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     public Collection<House> getHouses() {
         return houses;
     }
@@ -138,7 +141,8 @@ public class Osbb implements Serializable {
         this.houses = houses;
     }
 
-    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     public Collection<Report> getReports() {
         return reports;
     }

@@ -21,12 +21,10 @@ public interface HouseService {
     House updateHouse(Integer houseId, House house);
 
     House findHouseById(Integer houseId);
+    
+    List<House> findAllByStreetId(Integer cityId);
 
     List<House> getAllHousesBySearchParameter(String searchTerm);
-
-    List<House> findAllByCity(String city);
-
-    List<House> findAllByStreet(String street);
 
     List<House> findAll();
 

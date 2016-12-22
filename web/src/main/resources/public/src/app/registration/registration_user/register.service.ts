@@ -49,10 +49,16 @@ export class RegisterService {
             .catch((error)=>Observable.throw(error));
     }
 
-    getAllHousesByOsbb(id: number): Observable<any> {
-        return this.http.get(this.houseAllURL + '/' + id)
+    getAllHousesByStreet(id: number): Observable<any> {
+        return this.http.get(this.houseURL + '/street/' + id)
             .map((response)=> response.json())
             .catch((error)=>Observable.throw(error))
+    }
+
+    getHouseByNumberHouseAndStreetId(houseNumber: number, streetId: number): Observable<any> {
+        return this.http.get(this.houseURL + '/'+houseNumber)
+            .map((response)=>response.json())
+            .catch((error) => Observable.throw(error))
     }
 
     getAllApartments(): Observable<any> {

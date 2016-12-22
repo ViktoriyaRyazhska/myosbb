@@ -60,10 +60,23 @@ public class HouseServiceImpl implements HouseService {
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
+    public List<House> getAllHousesBySearchParameter(String searchTerm) {
+        return (searchTerm == null || searchTerm.isEmpty()) ?
+                EMPTY_HOUSE_LIST : houseRepository.getAlReportsBySearchParameter(searchTerm);
+    }
+
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    @Override
     public List<House> findAll() {
         return houseRepository.findAll();
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	@Override
+	public List<House> findAllByStreetId(Integer streetId) {
+		
+		return houseRepository.findByStreetId(streetId);
+	}
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
@@ -108,21 +121,6 @@ public class HouseServiceImpl implements HouseService {
         return houseRepository.findByOsbb(osbb, pageable);
     }
 
-	@Override
-	public List<House> getAllHousesBySearchParameter(String searchTerm) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public List<House> findAllByCity(String city) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public List<House> findAllByStreet(String street) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -292,9 +292,9 @@
   "folder_name": "Folder name",
   "select_all": "Select all",
   "rename": "Rename",
-  "choose your region": "Choose your region",
-  "choose your city": "Choose your city",
-  "choose your street": "Choose your street",
+  "choose your region": "Choose your Region",
+  "choose your city": "Choose your City",
+  "choose your street": "Choose your Street",
   "choose your gender": "Gender",
   "add_subBill": "Add subbill",
   "upload_logo": "upload",
@@ -321,5 +321,6 @@
   "you_have_not_filled_captcha": "You've not filled captcha",
   "you_incorrectly_filled_captcha": "You incorrectly filled captcha",
   "gender_male": "Male",
-  "gender_female": "Female"
+  "gender_female": "Female",
+  "choose your house": "Choose your House"
 }

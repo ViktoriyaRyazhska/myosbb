@@ -43,6 +43,16 @@ public class House implements Serializable {
     public void setHouseId(Integer houseId) {
         this.houseId = houseId;
     }
+    
+    @Basic
+	@Column(name = "number_house")
+	public Integer getNumberHouse() {
+		return numberHouse;
+	}
+
+	public void setNumberHouse(Integer numberHouse) {
+		this.numberHouse = numberHouse;
+	}
 
     @Basic
     @Column(name = "zip_code")
@@ -84,8 +94,7 @@ public class House implements Serializable {
         this.apartments = appartaments;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "osbb_id", referencedColumnName = "osbb_id")
     public Osbb getOsbb() {
         return osbb;
@@ -114,21 +123,14 @@ public class House implements Serializable {
 	public void setUsers(Collection<User> users) {
 		this.users = users;
 	}
-	
-	@Column(name = "number_house")
-	public Integer getNumberHouse() {
-		return numberHouse;
-	}
-
-	public void setNumberHouse(Integer numHouse) {
-		this.numberHouse = numberHouse;
-	}
 
 	@Override
 	public String toString() {
-		return "House [houseId=" + houseId + ", zipCode=" + zipCode + ", description=" + description + ", street="
-				+ street + ", users=" + users + ", apartments=" + apartments + ", osbb=" + osbb + "]";
+		return "House [houseId=" + houseId + ", numberHouse=" + numberHouse + ", zipCode=" + zipCode + ", description="
+				+ description + ", street=" + street + ", osbb=" + osbb + "]";
 	}
+
+    
 
 
 }

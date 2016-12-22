@@ -1,18 +1,11 @@
 import { Osbb } from './osbb';
-export interface IHouse {
-    houseId: number;
-    city: string;
-    street: string;
-    zipCode:string;
-    description: string;
-    osbbId:Osbb;
-}
+import { Street } from './addressDTO'
 
-export class House implements IHouse {
+export class House implements House {
     houseId: number;
-    city: string;
-    street: string;
+    numberHouse:number;
     zipCode:string;
     description: string;
-    osbbId:Osbb;
+    street: Street;
+    osbb:Osbb;
 }
