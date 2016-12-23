@@ -76,6 +76,13 @@ INSERT into streets(id,name,city)VALUES(18,'Володимирська',8);
 INSERT into streets(id,name,city)VALUES(19,'Собранецька',8);
 INSERT into streets(id,name,city)VALUES(20,'Садова',9);
 
+INSERT into districts(id,name,city)VALUES(1,'Шевченківський',1);
+INSERT into districts(id,name,city)VALUES(2,'Личаківський',1);
+INSERT into districts(id,name,city)VALUES(3,'Сихівський',1);
+INSERT into districts(id,name,city)VALUES(4,'Франківський',1);
+INSERT into districts(id,name,city)VALUES(5,'Залізничний',1);
+INSERT into districts(id,name,city)VALUES(6,'Галицький',1);
+
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner,activated) VALUES ('2016-06-13','admin@admin','Admin','admin','Adminius','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','380000000','2',1,TRUE,TRUE);
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1993-10-31','vilumkris@gmail.com','kris','female','vilum','$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','380931286864','1',2,TRUE );
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,is_owner) VALUES ('1990-11-28', 'n.svidersky@gmail.com','Nazar','male','Sviderskyi','$2a$06$fGiJsjD0U/ZoHbmjab2ytOoedYAB1zQ0XANiGUQXAwv9TcyxV.Qfe','0931544845','1',3,TRUE );
