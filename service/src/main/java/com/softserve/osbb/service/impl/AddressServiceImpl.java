@@ -32,19 +32,19 @@ public class AddressServiceImpl implements AddressService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	@Override
 	public List<Region> getAllRegion() {
-		return regionRepository.findAll();
+		return regionRepository.findAllByOrderByNameAsc();
 	}
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	@Override
 	public List<City> getAllCitiesOfRegion(Integer regionId) {
-		return cityRepository.findByRegion(regionRepository.findById(regionId));
+		return cityRepository.findByRegionOrderByName(regionRepository.findById(regionId));
 	}
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	@Override
 	public List<Street> getAllStreetsOfCity(Integer cityId) {
-		return streetRepository.findByCity(cityRepository.findById(cityId));
+		return streetRepository.findByCityOrderByName(cityRepository.findById(cityId));
 	}
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
