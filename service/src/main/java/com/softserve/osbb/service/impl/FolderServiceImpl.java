@@ -2,7 +2,6 @@ package com.softserve.osbb.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +23,6 @@ import com.softserve.osbb.service.exceptions.EntityNotFoundException;
  */
 @Service
 public class FolderServiceImpl implements FolderService {
-
-    private static final Pattern pattern = Pattern.compile("[а-яА-ЯіІїЇa-zA-Z0-9-_]{1,35}");
     
     @Autowired
     private FolderRepository repository;
@@ -52,7 +49,8 @@ public class FolderServiceImpl implements FolderService {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public Folder update(Integer id, String name) {
-        validateName(name, id);
+        validateName(name);
+        checkIfExist(name, id);
         
         Folder folder = repository.findById(id);        
         if (folder == null) {
@@ -94,7 +92,8 @@ public class FolderServiceImpl implements FolderService {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public Folder save(String folderName, Integer parentId) {
-        validateName(folderName, parentId);
+        validateName(folderName);
+        checkIfExist(folderName, parentId);
         
         Folder folder = repository.findById(parentId);        
         if (folder != null) {
@@ -110,11 +109,13 @@ public class FolderServiceImpl implements FolderService {
         return folder;
     }
 
-    private void validateName(String folderName, Integer parentId) {
-        if (!pattern.matcher(folderName).matches()) {
+    private void validateName(String folderName) {
+        if (!folderName.matches("[а-яА-ЯіІїЇa-zA-Z0-9-_]{1,35}")) {
             throw new IllegalArgumentException("Folder name '" + folderName + "' not allowed!");
         }
-        
+    }
+    
+    private void checkIfExist(String folderName, Integer parentId) {
         List<Folder> folders = new ArrayList<>();
         folders.addAll(repository.findByNameAndParentId(folderName, parentId));
         if (!folders.isEmpty()) {
