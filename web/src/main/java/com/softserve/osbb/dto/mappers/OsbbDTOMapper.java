@@ -23,7 +23,6 @@ public class OsbbDTOMapper {
             osbbDTO.setDistrict(osbb.getDistrict());
             osbbDTO.setLogo(osbb.getLogo());
             osbbDTO.setCreationDate(osbb.getCreationDate());
-            osbbDTO.setCreator(osbb.getCreator());
             osbbDTO.setCountOfHouses(osbb.getHouses().size());
             osbbDTO.setCountOfUsers(osbb.getUsers().size());
         }

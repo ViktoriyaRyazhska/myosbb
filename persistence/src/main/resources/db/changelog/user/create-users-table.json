@@ -231,28 +231,6 @@
     },
     {
       "changeSet": {
-        "id": "2016/08/03-51",
-        "author": "nataliia",
-        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
-        "changes": [
-          {
-            "addForeignKeyConstraint": {
-              "baseColumnNames": "creator_id",
-              "baseTableName": "osbb",
-              "constraintName": "fk_h9v3kuiq6ff1eshxj59p98yab",
-              "deferrable": false,
-              "initiallyDeferred": false,
-              "onDelete": "NO ACTION",
-              "onUpdate": "NO ACTION",
-              "referencedColumnNames": "user_id",
-              "referencedTableName": "users"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "changeSet": {
         "id": "2016/08/03-52",
         "author": "nataliia",
         "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",

@@ -94,7 +94,6 @@ public class HouseServiceImpl implements HouseService {
         }
         houseRepository.delete(id);
         return true;
-
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -121,6 +120,10 @@ public class HouseServiceImpl implements HouseService {
         return houseRepository.findByOsbb(osbb, pageable);
     }
 
-
-
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	@Override
+	public House getByNumberHouseAndStreet(Integer numberHouse, Integer streetId) {
+		
+		return houseRepository.getByNumberHouseAndStreet(numberHouse, streetId);
+	}
 }

@@ -9,7 +9,6 @@ import "rxjs/add/operator/toPromise";
 import { IOsbb } from "../../shared/models/osbb";
 import { OsbbDTO } from "../../shared/models/osbbDTO";
 import ApiService = require("./api.service");
-import { SelectItem } from "../../shared/models/ng2-select-item.interface";
 import { Region, City, Street, AddressDTO } from "../../shared/models/addressDTO";
 
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment';

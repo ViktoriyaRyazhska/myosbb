@@ -9,6 +9,7 @@ package com.softserve.osbb.dto;
 import com.softserve.osbb.dto.mappers.ApartmentDTOMapper;
 import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.House;
+import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Street;
 import com.softserve.osbb.model.User;
 
@@ -26,7 +27,7 @@ public class UserDTO {
     private Date birthDate;
     private String email;
     private String phoneNumber;
-    private Integer osbbId;
+    private Osbb osbb;
     private String gender;
     private String password;
     private ApartmentDTO apartment;
@@ -34,12 +35,12 @@ public class UserDTO {
 
     public UserDTO() {}
 
-    public UserDTO(Integer userId, String firstName, String lastName, String email, Integer osbbId, Apartment apartment, House house, String gender, String password) {
+    public UserDTO(Integer userId, String firstName, String lastName, String email, Osbb osbb, Apartment apartment, House house, String gender, String password) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.osbbId=osbbId;
+        this.osbb = osbb;
         this.apartment= ApartmentDTOMapper.mapApartmentEntityToDTO(apartment);
         this.house = house;
         this.gender = gender;
@@ -57,7 +58,7 @@ public class UserDTO {
         this.house = user.getHouse();
         this.password = user.getPassword();
         if(user.getOsbb() != null) {
-            this.osbbId = user.getOsbb().getOsbbId();
+            this.osbb = user.getOsbb();
         }
         this.apartment= ApartmentDTOMapper.mapApartmentEntityToDTO(user.getApartment());
     }
@@ -118,14 +119,6 @@ public class UserDTO {
         this.gender = gender;
     }
 
-    public Integer getOsbbId() {
-        return osbbId;
-    }
-
-    public void setOsbbId(Integer osbbId) {
-        this.osbbId = osbbId;
-    }
-
     public ApartmentDTO getApartment() {
         return apartment;
     }
@@ -150,6 +143,14 @@ public class UserDTO {
 		this.house = house;
 	}
 
+	public Osbb getOsbb() {
+		return osbb;
+	}
+
+	public void setOsbb(Osbb osbb) {
+		this.osbb = osbb;
+	}
+
 	@Override
     public String toString() {
         return "UserDTO{" +
@@ -159,7 +160,7 @@ public class UserDTO {
                 ", birthDate=" + birthDate +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", osbbId=" + osbbId +
+                ", osbb=" + osbb +
                 ", gender='" + gender + '\'' +
                 '}';
     }

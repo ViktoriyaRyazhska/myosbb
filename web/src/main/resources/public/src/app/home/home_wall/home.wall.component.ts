@@ -10,12 +10,14 @@ import { UserCalendarComponent } from '../../user/calendar/user.calendar.compone
 import { TranslatePipe } from "ng2-translate";
 import { CapitalizeFirstLetterPipe } from "../../../shared/pipes/capitalize-first-letter";
 import { CurrentUserService } from "../../../shared/services/current.user.service";
+import { CreatorOsbbService } from "../../../shared/services/creatorOsbb.service";
+import { User } from "../../../shared/models/user";
 
 @Component({
     selector: 'home-wall',
     templateUrl: 'src/app/home/home_wall/home.wall.html',
     styleUrls: ['src/app/home/home_wall/home.wall.css'],
-    providers: [OsbbService],
+    providers: [OsbbService, CreatorOsbbService],
     directives: [ROUTER_DIRECTIVES, VoteComponent, UserCalendarComponent],
     pipes:[CapitalizeFirstLetterPipe, TranslatePipe]
 })
@@ -24,7 +26,10 @@ export class HomeWallComponent implements OnInit {
     isLoggedIn:boolean;
     currentOsbb: OsbbDTO;
 
-    constructor(private osbbService: OsbbService, private currentUserService:CurrentUserService) {
+    constructor(private osbbService: OsbbService,
+     private creatorOsbbService:CreatorOsbbService,
+     private currentUserService:CurrentUserService)
+     {
         this.currentOsbb = null;
     }
 
@@ -48,12 +53,17 @@ export class HomeWallComponent implements OnInit {
     }
     
     getCreatorInfo():string {
-        if(this.currentOsbb.creator !== null) {
-            return this.currentOsbb.creator.firstName + " " 
-                    + this.currentOsbb.creator.lastName + " " 
-                    + this.currentOsbb.creator.email;
-        } else {
-            return '';
-        }
+        let info:string
+        this.creatorOsbbService.getCreatorOsbb(this.currentOsbb.osbbId)
+            .subscribe((data) => {
+                let user:User = data;
+                info = user.firstName+' '
+                +user.lastName+' '
+                +user.email;
+            }, (error)=> {
+                return '';
+            });
+
+            return info;  
     }
 }

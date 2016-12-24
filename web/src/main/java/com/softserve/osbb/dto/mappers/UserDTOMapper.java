@@ -37,7 +37,7 @@ public class UserDTOMapper {
             userDTO.setBirthDate(user.getBirthDate());
             userDTO.setEmail(user.getEmail());
             userDTO.setPhoneNumber(user.getPhoneNumber());
-            userDTO.setOsbbId(user.getOsbb().getOsbbId());
+            userDTO.setOsbb(user.getOsbb());
             userDTO.setHouse(user.getHouse());;
             userDTO.setPassword(user.getPassword());
         }
@@ -65,7 +65,8 @@ public class UserDTOMapper {
             user.setLastName(userDTO.getLastName());
             user.setBirthDate(new Timestamp(userDTO.getBirthDate().getTime()));
             user.setEmail(userDTO.getEmail());
-            user.setPhoneNumber(userDTO.getPhoneNumber());    
+            user.setPhoneNumber(userDTO.getPhoneNumber());
+            user.setOsbb(userDTO.getOsbb());
             user.setHouse(userDTO.getHouse());;
             user.setPassword(userDTO.getPassword());
         }

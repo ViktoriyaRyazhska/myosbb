@@ -55,8 +55,8 @@ export class RegisterService {
             .catch((error)=>Observable.throw(error))
     }
 
-    getHouseByNumberHouseAndStreetId(houseNumber: number, streetId: number): Observable<any> {
-        return this.http.get(this.houseURL + '/'+houseNumber)
+    getHouseByNumberHouseAndStreetId(numberHouse: number, streetId: number): Observable<any> {
+        return this.http.get(this.houseURL + '/numberHouse/'+numberHouse+'/street/'+streetId)
             .map((response)=>response.json())
             .catch((error) => Observable.throw(error))
     }

@@ -21,6 +21,8 @@ public interface HouseService {
     House updateHouse(Integer houseId, House house);
 
     House findHouseById(Integer houseId);
+
+    House getByNumberHouseAndStreet(Integer numberHouse, Integer streetId);
     
     List<House> findAllByStreetId(Integer cityId);
 

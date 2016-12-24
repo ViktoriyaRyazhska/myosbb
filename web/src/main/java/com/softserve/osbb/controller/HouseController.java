@@ -298,5 +298,17 @@ public class HouseController {
 
         return new ResponseEntity<>(status);
     }
+    
+    @RequestMapping(value = "/numberHouse/{numberHouse}/street/{streetId}", method = RequestMethod.GET)
+    public ResponseEntity<House> findByNumberHouseAndStreet(@PathVariable("numberHouse") Integer numberHouse,
+    		@PathVariable("streetId") Integer streetId) {
+    	 logger.info(" Get house by numberHouse " + numberHouse + " and streetId " +streetId);
+    	 House house;
+    	 if ((house = houseService.getByNumberHouseAndStreet(numberHouse, streetId)) == null ) {
+    		  return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+    	 }
+    	 
+    	 return new ResponseEntity<>(house,HttpStatus.OK);   	
+    }
 
 }

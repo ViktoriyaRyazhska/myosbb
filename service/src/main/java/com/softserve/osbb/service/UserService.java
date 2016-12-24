@@ -59,5 +59,7 @@ public interface UserService {
     public List<User> getUsersByOsbb(Osbb osbb);
 
     public User update(User user);
+    
+    public User getCreatorOsbb(Integer id);
 
 }

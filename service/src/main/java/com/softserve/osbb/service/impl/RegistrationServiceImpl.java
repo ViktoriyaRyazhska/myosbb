@@ -107,12 +107,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (!osbbService.findByNameContaining(newOsbb.getName()).isEmpty()) {
             throw new IllegalArgumentException("osbb with such name " + newOsbb.getName() + " already exists");
         }
-        User creator = newOsbb.getCreator();
-        creator = registrate(creator);
         newOsbb = osbbService.addOsbb(newOsbb);
-        creator.setOsbb(newOsbb);
-        creator.setRole(roleService.getRole("ROLE_MANAGER"));
-        userService.update(creator);
         return newOsbb;
     }
 

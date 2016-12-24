@@ -67,7 +67,6 @@ export class OsbbComponent implements OnInit {
 
     createOsbb(osbbDTO:OsbbDTO): void {
         let osbb = osbbDTO.osbb;
-        osbb.creator = this.currentUserService.getUser();
         if(osbbDTO.file !== null && osbbDTO.file !== undefined){
             this.osbbService.upload(osbbDTO.file)         
             .then((attachment)=> {

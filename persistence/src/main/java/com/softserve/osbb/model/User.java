@@ -203,7 +203,7 @@ public class User implements Serializable {
         isOwner = owner;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "apartment_id", referencedColumnName = "apartment_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Apartment getApartment() {
@@ -214,9 +214,8 @@ public class User implements Serializable {
         this.apartment = appartament;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "osbb_id")
-    @JsonIgnore
     public Osbb getOsbb() {
         return osbb;
     }

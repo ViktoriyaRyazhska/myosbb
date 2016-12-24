@@ -185,4 +185,15 @@ public class UserController {
         return userResource;
     }
     
+    @RequestMapping(value = "/creator/osbb/{id}", method = RequestMethod.GET)
+    private ResponseEntity<User> getCreatorOsbb(@PathVariable("id") Integer id) {
+    	 logger.info("Get Creator");
+    	 User user;
+    	 if((user = userService.getCreatorOsbb(id)) == null) {
+    		 return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+    	 }
+    	 
+    	 return new ResponseEntity<>(user,HttpStatus.OK);
+    }
+    
 }

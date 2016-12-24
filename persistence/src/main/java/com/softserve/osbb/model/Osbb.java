@@ -24,7 +24,6 @@ public class Osbb implements Serializable {
     private Boolean available= true;
     private Attachment logo;
     private Timestamp creationDate;
-    private User creator;
     private Collection<Contract> contracts;
     private Collection<Event> events;
     private Collection<House> houses;
@@ -99,16 +98,6 @@ public class Osbb implements Serializable {
 
     public void setCreationDate(Timestamp creationDate) {
         this.creationDate = creationDate;
-    }
-
-    @OneToOne(optional=true)
-    @JoinColumn(name = "creator_id", referencedColumnName = "user_id")
-    public User getCreator() {
-        return creator;
-    }
-
-    public void setCreator(User creator) {
-        this.creator = creator;
     }
 
     @JsonIgnore
