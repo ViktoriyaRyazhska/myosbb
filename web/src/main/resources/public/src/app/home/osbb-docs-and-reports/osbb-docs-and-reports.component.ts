@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from "@angular/router";
 import { TranslatePipe } from 'ng2-translate';
 import { ToasterContainerComponent, ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
@@ -8,119 +8,94 @@ import { Subscription } from 'rxjs/Subscription';
 import { User } from '../../../shared/models/User';
 import { CapitalizeFirstLetterPipe } from '../../../shared/pipes/capitalize-first-letter';
 import { CurrentUserService } from "../../../shared/services/current.user.service";
-import { FolderService } from './folder-manager/folder.service';
-import { Folder } from './folder-manager/folder';
+import { DriveFile } from './google-drive-service/drive-file';
+import { GoogleDriveService } from './google-drive-service/google-drive.service';
 
 @Component({
     selector: 'docs-and-reports',
     templateUrl: 'src/app/home/osbb-docs-and-reports/osbb-docs-and-reports.html',
-    styleUrls: ['src/app/home/osbb-contacts/osbb-contacts.css', 
-                'src/app/home/osbb-docs-and-reports/osbb-docs-and-reports.css'],
+    styleUrls: ['src/app/home/osbb-contacts/osbb-contacts.css',
+        'src/app/home/osbb-docs-and-reports/osbb-docs-and-reports.css'],
     directives: [ROUTER_DIRECTIVES, ToasterContainerComponent],
-    providers: [FolderService, ToasterService],
-    pipes:[CapitalizeFirstLetterPipe, TranslatePipe]
+    providers: [GoogleDriveService, ToasterService],
+    pipes: [CapitalizeFirstLetterPipe, TranslatePipe]
 })
-export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
+export class OsbbDocumentsAndReportsComponent implements OnInit {
     private subscription: Subscription;
     private currentRole: string;
-    private folders: Folder[]; 
-    private newFolder: Folder = new Folder();
-    private editableFolder: Folder = new Folder();
-    private parentId: number;
-    private deleteId: number = 0;
-    private editMode: boolean = false;
+    private currentFolder: string = "root";
+    private newFolder: DriveFile = new DriveFile();
+    private editable: DriveFile = new DriveFile();
+    private deleteId: string;
+    private editMode: boolean;
+    private files: DriveFile[];
+    private parents: string[];
 
     constructor(private userService: CurrentUserService,
-                private router: Router, 
-                private activatedRoute: ActivatedRoute, 
-                private folderService: FolderService,
+                private router: Router,
+                private activatedRoute: ActivatedRoute,
                 private toasterService: ToasterService,
-                private translateService: TranslateService) 
-    {
-        this.subscription =  activatedRoute.params.subscribe(
-            (params) => {
-                this.parentId = params['id'];
-                this.checkParentId();
-                this.initFolders();
-            }
-        );  
+                private translateService: TranslateService,
+                private driveService: GoogleDriveService) {
+        this.currentFolder = 'appDataFolder';
+        this.parents = new Array<string>();    
+        console.log(this.parents.length);    
     }
 
-    ngOnInit() {      
-        this.currentRole = this.userService.getRole(); 
-    }
-
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
-
-    private initFolders() {
-        this.checkParentId();
-        this.folderService.getFoldersByParentId(this.parentId)
-            .subscribe(
-                data => this.folders = data,                    
-                error => console.error(error)                
-            );
+    ngOnInit() {
+        this.currentRole = this.userService.getRole();
+        this.initFolder(this.currentFolder);
     }
 
     private createNewFolder(name: string) {
         if (this.folderExist(name)) {
             this.toasterService.pop('error', this.translate('folder_exist'));
         } else {
-            console.log('Saving folder ' + this.newFolder.name + ' with parentId=' + this.parentId);
-            this.folderService.save(name, this.parentId)
+            console.log('Saving folder ' + this.newFolder.name + ' with parentId=' + this.currentFolder);
+            this.driveService.createFolder(name, this.currentFolder)
                 .subscribe(
-                    data => {
-                        this.newFolder = data;
-                        this.initFolders();
-                        this.toasterService.pop('success', this.translate('folder_created'));                        
-                    },
-                    error => this.errorHandler(error, 'folder_exist')
+                data => {
+                    this.openFolder(this.currentFolder);
+                    this.toasterService.pop('success', this.translate('folder_created'));
+                },
+                error => this.errorHandler(error, 'folder_exist')
                 );
         }
-        this.newFolder = new Folder();
+        this.newFolder = new DriveFile();
     }
 
-    private deleteFolder() { 
-        this.folderService.delete(this.deleteId)
-            .subscribe(
-                data => {                    
-                    this.initFolders();
-                    this.toasterService.pop('success', this.translate('folder_deleted'));
-                    this.deleteId = 0;
-                },
-                error => this.errorHandler(error, 'could_not_delete')
-            );
+    private delete() {
+        this.driveService.delete(this.deleteId).subscribe(
+            data => {
+                this.openFolder(this.currentFolder);
+                this.toasterService.pop('success', this.translate('folder_deleted'));
+                this.deleteId = "";
+                console.log('Folder ' + data + ' deleted');
+            },
+            error => this.errorHandler(error, 'could_not_delete')
+        );
     }
 
-    private updateFolder() {       
-        if (this.folderExist(this.editableFolder.name)) {
+    private update() {
+        if (this.folderExist(this.editable.name)) {
             this.toasterService.pop('error', this.translate('folder_exist'));
         } else {
-            this.folderService.update(this.editableFolder)
+            this.driveService.update(this.editable.id, this.editable.name)
                 .subscribe(
                     data => {
-                        this.editableFolder = data;
-                        this.initFolders();
+                        this.editable = data;
+                        this.openFolder(this.currentFolder);
                     },
-                    error => this.errorHandler(error, 'could_not_delete')
+                    error => this.errorHandler(error, 'could_not_update')
             );    
         }    
     }
 
-    private getFolder(id: number) {
-        this.folderService.getFolder(id)
-            .subscribe(
-                data => this.editableFolder = data,                    
-                error => console.log(error)                
-            );
-    }
-    
-    private checkParentId() {
-        if (!this.parentId) {
-            this.parentId = 1;
-             console.log('parentId set to 1');
-        }
+    private getFile(id: string) {
+        this.driveService.getFile(id).subscribe(
+            data => this.editable = data,
+            error => console.log(error)
+        );
     }
 
     private toggleEditMode() {
@@ -128,12 +103,12 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
     }
 
     private folderExist(name: string): boolean {
-        var exist: boolean = false;
+        var exist: boolean;
         var i: number;
-        var size = this.folders.length;
+        var size = this.files.length;
 
         for (i = 0; i < size; i++) {
-            if (this.folders[i].name.toUpperCase() == name.toUpperCase()) {                
+            if (this.files[i].name.toUpperCase() == name.toUpperCase()) {
                 exist = true;
                 break;
             }
@@ -149,13 +124,37 @@ export class OsbbDocumentsAndReportsComponent implements OnInit, OnDestroy {
         return translation;
     }
 
-    private setDeleteId(id: number) {
+    private setDeleteId(id: string) {
         this.deleteId = id;
     }
 
     private errorHandler(error: any, i18n_key: string) {
         console.error(error);
         this.toasterService.pop('error', this.translate(i18n_key));
+    }
+
+    private openFolder(id: string) {
+        this.parents.push(this.currentFolder); 
+        this.currentFolder = id;
+        this.initFolder(this.currentFolder);        
+    }
+
+    private initFolder(id: string) {        
+        this.driveService.getFilesByParent(id).subscribe(
+            data => this.files = data,
+            error => console.error(error)
+        );
+    }
+
+    private root() {
+        if (this.parents.length != 0) {
+            this.openFolder('appDataFolder');
+        }
+    }
+
+    private up() {        
+        this.currentFolder = this.parents.pop();
+        this.initFolder(this.currentFolder);                
     }
 
 }

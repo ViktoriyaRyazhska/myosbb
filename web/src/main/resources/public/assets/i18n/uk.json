@@ -322,5 +322,6 @@
   "you_have_not_filled_captcha": "Ви не заповнили капчу",
   "you_incorrectly_filled_captcha": "Ви погано заповнили капчу",
   "gender_male": "Чоловік",
-  "gender_female": "Жінка"
+  "gender_female": "Жінка",
+  "could_not_update": "Не вдалось зберегти зміни"
 }

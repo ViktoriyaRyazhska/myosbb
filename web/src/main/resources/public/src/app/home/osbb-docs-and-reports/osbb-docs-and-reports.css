@@ -1,7 +1,8 @@
 .floating-box {
     display: inline-block;
     width: 160px;
-    height: 64px;  
+    height: 64px;
+    cursor: pointer;  
 }
 
 .folder-icon {
@@ -31,4 +32,36 @@
 .center-content {  
   display: block;  
   margin: auto; 
+}
+
+.left-padding {
+    margin-left:50px;
+}
+
+.navigate {
+    font-family: monospace;
+    font-weight: heavy;
+    font-size: 150%;
+    border: 3px solid grey;
+    border-radius: 2px;    
+}
+
+.navigate:hover {
+    border-color: blue;
+    box-shadow: 3px 3px;
+    cursor: pointer;
+}
+.root {
+    margin-left: 22px;
+}
+
+.up {
+    margin-left: 8px;
+    
+}
+
+.unselectable {
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none
 }

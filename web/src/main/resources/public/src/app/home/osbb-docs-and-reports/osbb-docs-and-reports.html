@@ -2,42 +2,47 @@
 <div id="main-content" class="content ">
     <div class="panel panel-default pos-top animated slideInRight">
         <div class="row">
-            <h4 class="text-center">{{'docs&reports' | translate}}</h4>
-            <a *ngIf="parentId != 1" class="btn btn-info" href="javascript:history.back()" style="margin-left:24px;">{{'go_back' | translate}}</a>  
+            <h4 class="text-center">{{'docs&reports' | translate}}</h4>            
+            <span class="unselectable navigate root" (dblclick)="root()">&nbsp;\&nbsp;</span>
+            <span *ngIf="parents.length != 0" class="unselectable navigate up" (dblclick)="up()">&nbsp;..&nbsp;</span>
         </div>
         <hr>
-        <div *ngIf="!editMode" class="row" style="margin-left:50px">
-            <div *ngFor="let folder of folders" class="floating-box">
-                <a routerLink="../{{folder.id}}">
-                    <div class="folder-icon">
-                        <img src="assets/img/folder/folder_64.png" class="media-object" alt="{{folder.name}}">
-                    </div>
-                    <div class="folder-name">
-                        <p style="font-size:12px">{{folder.name}}</p>
-                    </div>
-                </a>
+        <div *ngIf="!editMode" class="row" class="left-padding">
+            <div *ngFor="let file of files" class="floating-box">
+                <div class="unselectable folder-icon">
+                    <img *ngIf="file.folder" src="assets/img/folder/folder_64.png" class="media-object" alt="{{file.name}}" (dblclick)="openFolder(file.id)">
+                    <img *ngIf="!file.folder" src="assets/img/folder/file_64.png" class="media-object" alt="{{file.name}}">
+                </div>
+                <div class="folder-name">
+                    <p style="font-size:12px">{{file.name}}</p>
+                </div>
             </div>
         </div>
 
-        <div *ngIf="editMode" class="row" style="margin-left:50px">
+        <div *ngIf="editMode" class="row" class="left-padding">
             <table class="table table-striped table-advance table-hover">
                 <thead>
-                    <th><img src="assets/img/folder/folder_32.png" class="media-object" alt="{{'folder' | translate}}"></th>
+                    <th>                        
+                        <img src="assets/img/folder/folder_32.png" class="media-object">                        
+                    </th>
                     <th class="header-cell">{{'folder_name' | translate}}</th>
                     <th class="header-cell">{{'rename' | translate}}</th>
                     <th class="header-cell">{{'delete' | translate}}</th>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let folder of folders" >
-                        <td><img src="assets/img/folder/folder_32.png" class="media-object" alt="{{'folder' | translate}}"></td>
-                        <td>{{folder.name}}</td>
+                    <tr *ngFor="let file of files">
                         <td>
-                            <button type="button" class="btn btn-warning" (click)="getFolder(folder.id);" data-toggle="modal" data-target="#editFolderModal">
+                            <img *ngIf="file.folder" src="assets/img/folder/folder_32.png" class="media-object" alt="{{file.name}}">
+                            <img *ngIf="!file.folder" src="assets/img/folder/file_32.png" class="media-object" alt="{{file.name}}">
+                        </td>
+                        <td>{{file.name}}</td>
+                        <td>
+                            <button type="button" class="btn btn-warning" (click)="getFile(file.id);" data-toggle="modal" data-target="#editFolderModal">
                                 {{'rename' | translate}}
                             </button>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-danger" onclick='$("#confirmDelete").modal("toggle");' (click)='setDeleteId(folder.id);'>
+                            <button type="button" class="btn btn-danger" onclick='$("#confirmDelete").modal("toggle");' (click)='setDeleteId(file.id);'>
                                 {{'delete' | translate}}
                             </button>
                         </td>
@@ -48,12 +53,12 @@
 
         <hr>
         <div *ngIf="currentRole == 'ROLE_MANAGER'" class="row">
-            <button type="button" class="btn btn-primary" style="margin-left:24px; margin-bottom:12px;" onclick='$("#theName").val(""); $("#addFolderModal").modal("toggle");'>
+            <button type="button" class="btn btn-primary" style="margin-left:24px; margin-bottom:12px;" onclick='$("#folderName").val(""); $("#addFolderModal").modal("toggle");'>
                 {{'add_folder' | translate}}
             </button>
-            <button type="button" class="btn btn-primary" style="margin-left:24px; margin-bottom:12px;" data-toggle="modal" data-target="#uploadFile">
+            <!--button type="button" class="btn btn-primary" style="margin-left:24px; margin-bottom:12px;" data-toggle="modal" data-target="#uploadFile">
                 {{'upload' | translate}} {{'file' | translate}}
-            </button>
+            </button-->
             <button *ngIf="!editMode" type="button" class="btn btn-warning" style="margin-left:24px; margin-bottom:12px;" (click)="toggleEditMode();">
                 {{'edit' | translate}}
             </button>
@@ -62,8 +67,8 @@
             </button>
         </div>
     </div>
-        
-    <!-- Add Folder Modal -->
+
+    <!--Add Folder Modal -->
     <div id="addFolderModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <form class="ui form" (ngSubmit)="createNewFolder(newFolder.name)" #newFolderForm="ngForm" role="form">
@@ -73,21 +78,14 @@
                         <h4 class="modal-title">{{'add_folder' | translate}}</h4>
                     </div>
                     <div class="modal-body">
-                        <input type="text"
-                            id="theName" 
-                            name="name"
-                            [(ngModel)]="newFolder.name"
-                            placeholder="{{'name'| translate | capitalize }}..."
-                            pattern="[а-яА-ЯіІїЇa-zA-Z0-9-_]{1,35}" 
-                            class="form-control placeholder-no-fix"
-                            maxlength="35" 
-                            required>
+                        <input type="text" id="folderName" name="name" [(ngModel)]="newFolder.name" placeholder="{{'name'| translate | capitalize }}..."
+                            pattern="[а-яА-ЯіІїЇa-zA-Z0-9-_]{1,35}" class="form-control placeholder-no-fix" maxlength="35" required>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-success" type='submit' [disabled]="!newFolderForm.form.valid" onclick='$("#addFolderModal").modal("toggle");'>
                             {{ 'save' | translate | capitalize }}
                         </button>
-                        <button type="button" class="btn btn-default" onclick='$("#theName").val(""); $("#addFolderModal").modal("toggle");'>
+                        <button type="button" class="btn btn-default" onclick='$("#folderName").val(""); $("#addFolderModal").modal("toggle");'>
                             {{'close' | translate}}
                         </button>
                     </div>
@@ -96,10 +94,10 @@
         </div>
     </div>
 
-    <!-- Edit Folder Modal -->
+    <!--Edit Folder Modal -->
     <div id="editFolderModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
-            <form class="ui form" (ngSubmit)="updateFolder()" #editFolderForm="ngForm" role="form">
+            <form class="ui form" (ngSubmit)="update()" #editFolderForm="ngForm" role="form">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -108,9 +106,9 @@
                     <div class="modal-body">
                         <input type="text" 
                             name="name"
-                            [(ngModel)]="editableFolder.name"
+                            [(ngModel)]="editable.name"
                             placeholder="{{'name'| translate | capitalize }}..."
-                            pattern="^[а-яА-ЯіІїЇa-zA-Z0-9-_]{1,35}$" 
+                            pattern="^[а-яА-ЯіІїЇa-zA-Z0-9-_.]{1,35}$" 
                             class="form-control placeholder-no-fix"
                             maxlength="35" 
                             required>
@@ -129,7 +127,7 @@
     </div>
 
     <!-- Modal Add File -->
-    <!-- TODO when file storing facility will be resolved -->
+    <!-- TODO when file storing facility will be resolved >
     <div id="uploadFile" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -150,7 +148,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div-->
 
     <!-- Modal Delete File -->
     <div id="confirmDelete" class="modal fade" role="dialog">
@@ -162,7 +160,7 @@
                 </div>
                 <div class="modal-body content">
                     <div class="row">
-                        <button type='submit' class="btn btn-danger content-center" onclick='$("#confirmDelete").modal("toggle");' (click)='deleteFolder()'>
+                        <button type='submit' class="btn btn-danger content-center" onclick='$("#confirmDelete").modal("toggle");' (click)='delete()'>
                             {{ 'delete' | translate | capitalize }}
                         </button>
                         <button type="button" class="btn btn-success content-center" data-dismiss="modal">
