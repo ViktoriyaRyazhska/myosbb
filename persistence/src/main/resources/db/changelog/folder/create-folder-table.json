@@ -62,8 +62,6 @@
               "baseColumnNames": "parent_id",
               "baseTableName": "folder",
               "constraintName": "fk_parent_id",
-              "deferrable": false,
-              "initiallyDeferred": false,
               "onDelete": "CASCADE",
               "onUpdate": "CASCADE",
               "referencedColumnNames": "folder_id",
@@ -83,9 +81,7 @@
             "addForeignKeyConstraint": {
               "baseColumnNames": "osbb_id",
               "baseTableName": "folder",
-              "constraintName": "fk_folder_osbb",
-              "deferrable": false,
-              "initiallyDeferred": false,
+              "constraintName": "fk_folder_osbb",             
               "onDelete": "CASCADE",
               "onUpdate": "CASCADE",
               "referencedColumnNames": "osbb_id",
@@ -105,10 +101,7 @@
             "addUniqueConstraint": {
               "catalogName": "myosbb",
               "columnNames": "parent_id, name",
-              "constraintName": "unique_folder",
-              "deferrable": true,
-              "disabled": true,
-              "initiallyDeferred": true,
+              "constraintName": "unique_folder",              
               "schemaName": "public",
               "tableName": "folder"
             }
