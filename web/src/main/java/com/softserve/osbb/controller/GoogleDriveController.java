@@ -3,25 +3,34 @@ package com.softserve.osbb.controller;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.api.services.drive.model.File;
 import com.softserve.osbb.dto.DriveFile;
 import com.softserve.osbb.service.GoogleDriveService;
+import com.softserve.osbb.service.exceptions.GoogleDriveException;
+import com.softserve.osbb.util.resources.exceptions.Error;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/restful/google-drive")
 public class GoogleDriveController {
-
+    
+    private final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveController.class);
+    
     private static final String FOLDER_FLAG = "application/vnd.google-apps.folder";
     
     @Autowired
@@ -62,10 +71,29 @@ public class GoogleDriveController {
     public DriveFile update(@PathVariable String id, @RequestBody String name) {        
         return getDriveFileFrom(driveService.update(id, name));
     }
-
-//    private void m() {
-//        logger.error("");
-//    }
+    
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "upload", method = RequestMethod.POST)    
+    public HttpStatus upload(@RequestParam("file") MultipartFile file) {
+        System.out.println("\n\nUPLOADING\n\n");
+        return HttpStatus.OK;
+    }
+    
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public Error illegalFileName(IllegalArgumentException exception) {
+        String message = exception.getLocalizedMessage();
+        LOGGER.error(message);
+        return new Error(404, message);
+    }
+    
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(GoogleDriveException.class)
+    public Error googleDriveError(GoogleDriveException exception) {
+        String message = exception.getMessage();
+        LOGGER.error(message);
+        return new Error(500, message);
+    }
     
     private List<DriveFile> getDriveFilesFrom(List<File> list) {        
         List<DriveFile> files = new LinkedList<>();
@@ -83,4 +111,5 @@ public class GoogleDriveController {
         driveFile.setParents(file.getParents());
         return driveFile;
     }
+    
 }

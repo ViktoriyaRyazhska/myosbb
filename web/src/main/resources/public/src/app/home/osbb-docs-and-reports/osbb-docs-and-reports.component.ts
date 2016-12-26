@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ROUTER_DIRECTIVES, Router, ActivatedRoute } from "@angular/router";
 import { TranslatePipe } from 'ng2-translate';
-import { ToasterContainerComponent, ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
 import { TranslateService} from 'ng2-translate';
+import { ToasterContainerComponent, ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
+import { FILE_UPLOAD_DIRECTIVES, FileSelectDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import FileLocationPath = require('../../../shared/services/file.location.path');
+import ApiService = require('../../../shared/services/api.service');
 
 import { Subscription } from 'rxjs/Subscription';
 import { User } from '../../../shared/models/User';
@@ -11,16 +13,20 @@ import { CurrentUserService } from "../../../shared/services/current.user.servic
 import { DriveFile } from './google-drive-service/drive-file';
 import { GoogleDriveService } from './google-drive-service/google-drive.service';
 
+const uploadUrl = ApiService.serverUrl + '/restful/google-drive/upload';
+
 @Component({
     selector: 'docs-and-reports',
     templateUrl: 'src/app/home/osbb-docs-and-reports/osbb-docs-and-reports.html',
     styleUrls: ['src/app/home/osbb-contacts/osbb-contacts.css',
         'src/app/home/osbb-docs-and-reports/osbb-docs-and-reports.css'],
-    directives: [ROUTER_DIRECTIVES, ToasterContainerComponent],
+    directives: [FILE_UPLOAD_DIRECTIVES, FileSelectDirective, ToasterContainerComponent],
     providers: [GoogleDriveService, ToasterService],
     pipes: [CapitalizeFirstLetterPipe, TranslatePipe]
 })
 export class OsbbDocumentsAndReportsComponent implements OnInit {
+    // public uploader: FileUploader = new FileUploader({url: attachmentUploadUrl, authToken: 'Bearer ' + localStorage.getItem('access_token')});
+    public uploader: FileUploader = new FileUploader({url: uploadUrl});
     private subscription: Subscription;
     private currentRole: string;
     private currentFolder: string = "root";
@@ -32,8 +38,6 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
     private parents: string[];
 
     constructor(private userService: CurrentUserService,
-                private router: Router,
-                private activatedRoute: ActivatedRoute,
                 private toasterService: ToasterService,
                 private translateService: TranslateService,
                 private driveService: GoogleDriveService) {

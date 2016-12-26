@@ -22,6 +22,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.softserve.osbb.service.GoogleDriveService;
+import com.softserve.osbb.service.exceptions.GoogleDriveException;
 
 /**
  * GoogleDrive-specific service implementation.
@@ -41,10 +42,10 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     /** Folder flag in File object. */
     private final String FOLDER_FLAG = "application/vnd.google-apps.folder";
 
-    /** Drive service. */
+    /** GoogleDrive service. */
     private Drive driveService;
 
-    /** Application name. Arbitrary. */
+    /** Application name. Arbitrary as we use service account. */
     private final String APPLICATION_NAME = "MyOSBB";
 
     /** Global instance of the JSON factory. */
@@ -53,18 +54,20 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     /** Global instance of the HTTP transport. */
     private HttpTransport HTTP_TRANSPORT;
 
-    /** Global instance of the scopes. */
-//    private final List<String> SCOPES = Arrays.asList(DriveScopes.DRIVE, DriveScopes.DRIVE_APPDATA);
+    /** Global instance of the scopes. DRIVE_APPDATA provide r/w access only to appDataFolder. */
     private final List<String> SCOPES = Arrays.asList(DriveScopes.DRIVE_APPDATA);
     
+    /** Google's name for application root folder. Can be use in any place where fileId is needed. */
     private final String APP_FOLDER = "appDataFolder";
 
     {
         try {
-            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-
+            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport(); 
+            java.io.File file = new java.io.File("src/main/resources/MyOSBB.json");
+            System.out.println(file.getAbsolutePath());
+            System.out.println(file.getPath());
             Credential credential = GoogleCredential
-                    .fromStream(new FileInputStream("D:/workspace/GoogleDrive/src/yougetit/MyOSBB.json"))
+                    .fromStream(new FileInputStream(file))                    
                     .createScoped(SCOPES);
 
             driveService = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
@@ -78,24 +81,42 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 
     @Override
     public File create(String name, String parentId) {
-        File fileMetadata = new File();
-        fileMetadata.setName(name);
-        fileMetadata.setParents(Collections.singletonList(parentId));
-        fileMetadata.setMimeType(FOLDER_FLAG);
+        validateName(name);
+        checkIfExist(name, parentId);
+        
+        File file = new File();
+        file.setName(name);
+        file.setParents(Collections.singletonList(parentId));
+        file.setMimeType(FOLDER_FLAG);
 
-        File file = null;
+        File created = null;
         try {
-            file = driveService.files().create(fileMetadata).setFields(CORE).execute();
-            LOGGER.info(new StringBuilder("Folder ").append(file.getName())
-                            .append(" with id=").append(file.getId())
+            created = driveService.files().create(file).setFields(CORE).execute();
+            LOGGER.info(new StringBuilder("Folder ").append(created.getName())
+                            .append(" with id=").append(created.getId())
                             .append(" was created").toString());
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
+            throw new GoogleDriveException("Could not create folder " + name); 
         }
 
-        return file;
+        return created;
     }
 
+    private void validateName(String folderName) {
+        if (!folderName.matches("[а-яА-ЯіІїЇa-zA-Z0-9-_.]{1,35}")) {
+            throw new IllegalArgumentException("Folder name '" + folderName + "' not allowed!");
+        }
+    }
+    
+    private void checkIfExist(String folderName, String parentId) {
+        findByParentId(parentId).forEach(file -> {
+            if (file.getName().equalsIgnoreCase(folderName)) {
+                throw new IllegalArgumentException("Folder '" + folderName + "' already exist!");
+            }
+        });
+    }
+    
     @Override
     public String delete(String id) {
         try {
@@ -103,6 +124,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
             LOGGER.info("File with id=" + id + " was deleted");
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
+            throw new IllegalArgumentException("Folder with id = '" + id + "' does not exist!");
         }
         return id;
     }
@@ -118,6 +140,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
             file = driveService.files().get(id).setFields(fields).execute();
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
+            throw new IllegalArgumentException("File with id = '" + id + "' does not exist!");
         }
 
         return file;
@@ -133,13 +156,13 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
             result.addAll(files);
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
+            throw new GoogleDriveException("Could not retrieve files");
         }
         return result;
     }
 
     @Override
     public List<File> findByParentId(String id) {
-        LOGGER.info("Getting content for folder with id=" + id);
         List<File> result = new ArrayList<>();
         try {
             List<File> files = driveService.files().list()
@@ -149,12 +172,15 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
             result.addAll(files);
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
+            throw new IllegalArgumentException("Folder with id = '" + id + "' does not exist!");
         }
         return result;
     }
 
     @Override
     public File update(String id, String name) {
+        validateName(name);
+        
         File file = getFileWithFields(id, "name");
         file.setName(name);
 
@@ -162,9 +188,10 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
             driveService.files().update(id, file).setFields("name").execute();
         } catch (IOException e) {
             LOGGER.error(e.getMessage());
+            throw new GoogleDriveException("Could not update " + name);
         }
 
         return getFileWithFields(id, CORE);
     }
-
+    
 }
