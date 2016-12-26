@@ -21,8 +21,9 @@ public class Osbb implements Serializable {
     private String name;
     private String description;
     private Street street;
-    private String address;
-    private String district;
+    private String houseNumber;
+    private District district;
+    private String districtStr;
     private Boolean available= true;
     private Attachment logo;
     private Timestamp creationDate;
@@ -74,24 +75,34 @@ public class Osbb implements Serializable {
         this.street = street;
     }
 
-    @Basic
-    @Column(name = "address")
-    public String getAddress() {
-        return address;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "district_id", referencedColumnName = "id")
+        public District getDistrict() {
+        return district;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDistrict(District district) {
+        this.district = district;
+    }
+
+    @Basic
+    @Column(name = "house_number")
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
     }
 
     @Basic
     @Column(name = "district")
-    public String getDistrict() {
-        return district;
+    public String getDistrictStr() {
+        return districtStr;
     }
 
-    public void setDistrict(String district) {
-        this.district = district;
+    public void setDistrictStr(String districtStr) {
+        this.districtStr = districtStr;
     }
 
     @Column(name = "available", columnDefinition = "boolean default true", nullable = false)
@@ -185,7 +196,7 @@ public class Osbb implements Serializable {
                 "osbbId=" + osbbId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", adress='" + address + '\'' +
+                ", adress='" + houseNumber + '\'' +
                 ", district='" + district + '\'' +
                 ", dateOfCreation=" + creationDate +
                 '}';
