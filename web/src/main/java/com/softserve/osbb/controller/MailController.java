@@ -11,8 +11,6 @@ import com.softserve.osbb.service.impl.MailSenderImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -39,7 +37,7 @@ public class MailController {
         logger.info("sending mail to "+ mail.getTo());
         
         try {
-            sender.send( mail.getTo(), mail.getSubject(), mail.getText());
+            sender.send(mail.getTo(), mail.getSubject(), mail.getText());
         } catch (MessagingException e) {
             logger.error("cannot send message to" + mail.getTo());
             logger.info("subject: " + mail.getSubject());
