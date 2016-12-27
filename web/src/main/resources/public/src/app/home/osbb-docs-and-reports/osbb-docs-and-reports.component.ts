@@ -25,13 +25,13 @@ const uploadUrl = ApiService.serverUrl + '/restful/google-drive/upload';
     pipes: [CapitalizeFirstLetterPipe, TranslatePipe]
 })
 export class OsbbDocumentsAndReportsComponent implements OnInit {
-    // public uploader: FileUploader = new FileUploader({url: attachmentUploadUrl, authToken: 'Bearer ' + localStorage.getItem('access_token')});
-    public uploader: FileUploader = new FileUploader({url: uploadUrl});
+
+    public uploader: FileUploader = new FileUploader({url: uploadUrl, authToken: 'Bearer ' + localStorage.getItem('access_token')});    
     private subscription: Subscription;
     private currentRole: string;
-    private currentFolder: string = "root";
-    private newFolder: DriveFile = new DriveFile();
-    private editable: DriveFile = new DriveFile();
+    private currentFolder: string;
+    private newFolder: DriveFile;
+    private editable: DriveFile;
     private deleteId: string;
     private editMode: boolean;
     private files: DriveFile[];
@@ -41,9 +41,11 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
                 private toasterService: ToasterService,
                 private translateService: TranslateService,
                 private driveService: GoogleDriveService) {
+        this.newFolder = new DriveFile();
+        this.editable = new DriveFile();
         this.currentFolder = 'appDataFolder';
-        this.parents = new Array<string>();    
-        console.log(this.parents.length);    
+        this.parents = new Array<string>();
+        this.uploader = new FileUploader({url: uploadUrl + '/' + this.currentFolder, authToken: 'Bearer ' + localStorage.getItem('access_token')});        
     }
 
     ngOnInit() {
@@ -145,9 +147,45 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
 
     private initFolder(id: string) {        
         this.driveService.getFilesByParent(id).subscribe(
-            data => this.files = data,
+            data => {
+                this.files = data;
+                this.sortFiles();
+            },
             error => console.error(error)
         );
+        this.uploader.setOptions({url: uploadUrl + '/' + this.currentFolder});
+        console.log(this.uploader);          
+    }
+
+    private sortFiles() {
+        this.sortByName();
+        this.sortFoldersFirst();       
+    }
+
+    private sortByName(){
+        this.files.sort((f1, f2) => {
+            var nameA = f1.name.toUpperCase();
+            var nameB = f2.name.toUpperCase();
+            if (nameA < nameB) {
+                return -1;
+            }
+            if (nameA > nameB) {
+                return 1;
+            }
+            return 0;
+        });
+    }
+
+    private sortFoldersFirst() {
+        this.files.sort((f1, f2) => {            
+            if (f1.folder && !f2.folder) {
+                return -1;
+            }
+            if (!f1.folder && f2.folder) {
+                return 1;
+            }
+            return 0;
+        });
     }
 
     private root() {
@@ -161,4 +199,17 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
         this.initFolder(this.currentFolder);                
     }
 
+    private onUpload() {
+        let i: number;
+        let len: number = this.uploader.queue.length;
+
+        for (i = 0; i < len; i++) {
+            console.log(this.uploader.queue[i]);
+            this.uploader.queue[i].upload();
+        }     
+    }
+
+    private onDownload(id: string, name: string) {
+        this.driveService.download(id, name);
+    }
 }

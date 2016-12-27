@@ -2,7 +2,10 @@ package com.softserve.osbb.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.api.services.drive.model.File;
 
@@ -26,4 +29,9 @@ public interface GoogleDriveService {
     List<File> findByParentId(String id);
     
     File update(String id, String name);
+
+    void upload(MultipartFile file, String folderId);
+
+    void download(String id, HttpServletResponse response);
+    
 }
