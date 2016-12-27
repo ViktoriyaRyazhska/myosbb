@@ -60,7 +60,7 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
             this.driveService.createFolder(name, this.currentFolder)
                 .subscribe(
                 data => {
-                    this.openFolder(this.currentFolder);
+                    this.initFolder(this.currentFolder);
                     this.toasterService.pop('success', this.translate('folder_created'));
                 },
                 error => this.errorHandler(error, 'folder_exist')
@@ -72,7 +72,7 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
     private delete() {
         this.driveService.delete(this.deleteId).subscribe(
             data => {
-                this.openFolder(this.currentFolder);
+                this.initFolder(this.currentFolder);
                 this.toasterService.pop('success', this.translate('folder_deleted'));
                 this.deleteId = "";
                 console.log('Folder ' + data + ' deleted');
@@ -89,7 +89,7 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
                 .subscribe(
                     data => {
                         this.editable = data;
-                        this.openFolder(this.currentFolder);
+                        this.initFolder(this.currentFolder);
                     },
                     error => this.errorHandler(error, 'could_not_update')
             );    
@@ -189,7 +189,9 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
 
     private root() {
         if (this.parents.length != 0) {
-            this.openFolder('appDataFolder');
+            this.currentFolder = 'appDataFolder';
+            this.initFolder(this.currentFolder);
+            this.parents = new Array<string>();
         }
     }
 

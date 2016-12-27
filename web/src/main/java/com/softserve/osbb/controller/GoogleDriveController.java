@@ -85,7 +85,6 @@ public class GoogleDriveController {
     public void download(@PathVariable String id, HttpServletResponse response) {
         System.out.println("Controller got download request...");
         driveService.download(id, response);
-        System.out.println("Controller is done!");
     }
     
     @ResponseStatus(HttpStatus.NOT_FOUND)
