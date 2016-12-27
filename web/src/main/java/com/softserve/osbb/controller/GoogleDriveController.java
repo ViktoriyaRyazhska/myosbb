@@ -33,7 +33,7 @@ public class GoogleDriveController {
     
     private final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveController.class);
     
-    private static final String FOLDER_FLAG = "application/vnd.google-apps.folder";
+    private final String FOLDER_FLAG = "application/vnd.google-apps.folder";
     
     @Autowired
     private GoogleDriveService driveService;
