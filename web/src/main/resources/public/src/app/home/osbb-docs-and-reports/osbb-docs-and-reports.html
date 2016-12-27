@@ -7,12 +7,15 @@
             <span class="unselectable navigate root" (dblclick)="root()">&nbsp;\&nbsp;</span>
             <span *ngIf="parents.length != 0" class="unselectable navigate up" (dblclick)="up()">&nbsp;..&nbsp;</span>
         </div>
+        <div class="row">
+            <span *ngFor="let path of paths; let i = index" (click)="goTo(i)">\{{path}}</span>
+        </div>
         <hr>
         <!-- Folder's content -->
         <div *ngIf="!editMode" class="row" class="left-padding">
             <div *ngFor="let file of files" class="floating-box">
                 <div class="unselectable folder-icon">
-                    <img *ngIf="file.folder" src="assets/img/folder/folder_64.png" class="media-object" alt="{{file.name}}" (dblclick)="openFolder(file.id)">
+                    <img *ngIf="file.folder" src="assets/img/folder/folder_64.png" class="media-object" alt="{{file.name}}" (dblclick)="openFolder(file.id, file.name)">
                     <img *ngIf="!file.folder" src="assets/img/folder/file_64.png" class="media-object" alt="{{file.name}}" (dblclick)="onDownload(file.id, file.name)">
                 </div>
                 <div class="folder-name">
