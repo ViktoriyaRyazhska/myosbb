@@ -18,12 +18,12 @@ You will need:
 - Tomcat 8
 - MariaDB (set user and password to "root", set port to 1100)
 - Node.js
-- Eclipse IDE (you can use another one, but this instruction describes some specific steps for Eclipse)
+- Eclipse IDE (you can use another one, but this manual describes some specific steps for Eclipse)
 - Spring Tool Suite (STS) for Eclipse
 - Maven plugin for Eclipse
 
 After you have installed all necessary tools:
-- clone this repo to your workspace
+- clone this repo to your Eclipse workspace
 - import sorce code as existing Maven project
 - open CLI
 - navigate to myosbb/web/src/main/resources/public/ and run "npm install", then run "npm run tsc"
@@ -47,3 +47,12 @@ How to use external properties:
 
 You can add this command to "Edit Configuration" in Intellij IDEA to field "VM Options",
 then you environment will run them every time.
+
+***
+Lv-205 Team:
+- Kostyantyn Panchenko
+- Yuri Pushchalo
+- Oleg Kykena
+- Anton Prudyus
+- Liubomyr Blikharskyi
+- Sergiy Vasylchak
