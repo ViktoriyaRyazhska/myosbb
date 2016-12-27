@@ -136,7 +136,6 @@ export class RegistrationComponent implements OnInit {
             this._toasterService.pop('error', this.translate('you_incorrectly_filled_captcha'));
             return;
         }
-        this.findHouseAndHouse()
         this.SenderJoin();
     }
 
@@ -298,26 +297,27 @@ export class RegistrationComponent implements OnInit {
         this.itemHouse = value;
         this.isSelectedHouse = true; 
         this.numberHouse = value.text;
-        console.log(value);
-        console.log(this.numberHouse);
+        this.findHouseAndOsbbId();
     }
 
-    findHouseAndHouse() {
+    findHouseAndOsbbId() {
         this.registerService.getHouseByNumberHouseAndStreetId(this.numberHouse, this.streetId).
         subscribe((data)=> {
                 let house:House =  data;             
                 this.newUser.house = house.houseId;
                 this.newUser.osbbId = house.osbb.osbbId;
                 this.newOsbb.name = house.osbb.name;
-
-                this.creatorOsbbService.getCreatorOsbb(house.osbb.osbbId).
-                subscribe((data)=> {
-                    let user:UserRegistration;
-                    user = data;
-                    this.mailCreator = user.email;
-            }, (error)=> {
+                this.findCreatorOsbb(house.osbb.osbbId);
+                            }, (error)=> {
                 this.handleErrors(error)
             });
+    }
+
+    findCreatorOsbb(osbbId:number) {
+                this.creatorOsbbService.getCreatorOsbb(osbbId).
+                subscribe((data)=> {
+                    let user:UserRegistration = data;
+                    this.mailCreator = user.email;
                 
             }, (error)=> {
                 this.handleErrors(error)

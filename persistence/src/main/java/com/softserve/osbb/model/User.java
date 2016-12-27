@@ -216,6 +216,7 @@ public class User implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "osbb_id")
+    @JsonIgnore
     public Osbb getOsbb() {
         return osbb;
     }

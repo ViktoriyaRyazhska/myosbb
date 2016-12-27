@@ -37,6 +37,7 @@ export class OsbbContactsComponent implements OnInit {
     }
 
     getOsbb() {
+        console.log(this.user);
         this.osbbService.getDTOOsbbById(this.user.osbbId)
             .then(osbb => {
                 this.userOsbb = osbb;

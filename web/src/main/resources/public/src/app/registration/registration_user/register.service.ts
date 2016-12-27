@@ -61,6 +61,12 @@ export class RegisterService {
             .catch((error) => Observable.throw(error))
     }
 
+     getAllHousesByOsbb(id: number): Observable<any> {
+        return this.http.get(this.houseAllURL + '/' + id)
+            .map((response)=> response.json())
+            .catch((error)=>Observable.throw(error))
+    }
+
     getAllApartments(): Observable<any> {
         return this.http.get(this.apartmentURL)
             .map((response)=> response.json())

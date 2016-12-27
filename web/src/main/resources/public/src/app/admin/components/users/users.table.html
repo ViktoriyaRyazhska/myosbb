@@ -111,7 +111,7 @@
                                     <label> {{ 'email' | translate  }}</label>
                                     <input name="email" id="email" type="email"
                                            class="form-control" 
-                                           [(ngModel)]="userMy.email"/>
+                                           [(ngModel)]="userMy.email" required>
                                 </div>
 
                                 <div class="">
@@ -120,15 +120,11 @@
                                            class="form-control" type="text"
                                            [(ngModel)]="userMy.phoneNumber" required>
                                 </div>
-                                <div class="">
-                                    <label> {{ 'gender' | translate  }}</label>
-                                         <select class="form-control" [(ngModel)]="userMy.gender" [ngModelOptions]="{standalone: true}">
-                                            <option *ngFor="let g of genders" [ngValue]= "g">
-                                             {{g}}
-                                            </option>
-                                        </select>
-                            
-                                </div>
+                               <div class="">
+                                   <label>{{ 'choose your gender' | translate | capitalize }}</label>
+                                    <ng-select [allowClear]="true" [items]="genders" (selected)="selectedGender($event)" (removed)="removedGender()" placeholder="{{ 'choose' | translate | capitalize }}">
+                                    </ng-select>
+                                </div>   
                                 <div class="">
                                     <label> {{ 'birthday' | translate }}</label>
                                     <input name="birthDate" id="birthDate"
@@ -136,40 +132,46 @@
                                            [(ngModel)]="userMy.birthDate" required>
                                 </div>
                                     <div class="" >
-                                        <label>Виберіть ваше ОСББ</label>
-                                                <ng-select [items]="osbb"
-                                                           (selected)="selectedOsbb($event)"
-                                                           placeholder="Вибрати">
+                                        <label>{{ 'choose your region' | translate | capitalize }}</label>
+                                                <ng-select [items]="regions"
+                                                           (selected)="selectedRegion($event)"
+                                                           placeholder="{{ 'choose' | translate | capitalize }}">
                                                 </ng-select>
                                             </div>
-                                            <div *ngIf="isSelectedOsbb" class="">
+                                            <div  class="">
                                                 
-                                                <label>Виберіть ваш будинок</label>
+                                                <label>{{ 'choose your city' | translate | capitalize }}</label>
+                                                <ng-select [items]="cities"
+                                                           (selected)="selectedCity($event)"
+                                                           placeholder="{{ 'choose' | translate | capitalize }}">
+                                                </ng-select>
+                                            </div>
+                                            <div  class="">
+                                                <label>{{ 'choose your street' | translate | capitalize }}</label>
+                                                <ng-select [items]="streets"
+                                                           (selected)="selectedStreet($event)"
+                                                           placeholder="{{ 'choose' | translate | capitalize }}">
+                                                </ng-select>
+                                            </div>
+                                            <div  class="">
+                                                <label>{{ 'choose your house' | translate | capitalize }}</label>
                                                 <ng-select [items]="houses"
                                                            (selected)="selectedHouse($event)"
-                                                           placeholder="Вибрати">
+                                                           placeholder="{{ 'choose' | translate | capitalize }}">
                                                 </ng-select>
                                             </div>
-                                            <div *ngIf="isSelectedHouse" class="">
-                                                <label>Виберіть вашу квартиру</label>
-                                                <ng-select [items]="apartment"
-                                                           (selected)="selectedApartment($event)"
-                                                           placeholder="Вибрати">
-                                                </ng-select>
-                                            </div>
-                                            <div *ngIf="isSelectedHouse" class="">
-                                                <label>Виберіть роль</label>
+                                            <div  class="">
+                                                <label>{{ 'choose your role' | translate | capitalize }}</label>
                                                 <ng-select [items]="roles"
                                                            (selected)="selectedRole($event)"
-                                                           placeholder="Вибрати">
+                                                           placeholder="{{ 'choose' | translate | capitalize }}">
                                                 </ng-select>
                                             </div>
                             </div>
-                            
-
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-default">{{ 'save' | translate  }}</button>
+                             
+                            <button type="submit" class="btn btn-default" [disabled]="!isSelectedHouse && isSelectGender ">{{ 'save' | translate  }}</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">{{ 'close' | translate }}</button>
                         </div>
                     </form>
