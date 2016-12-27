@@ -4,11 +4,12 @@
         <!-- Menu item name and folder navigation buttons-->
         <div class="row">
             <h4 class="text-center">{{'docs&reports' | translate}}</h4>
-            <span class="unselectable navigate root" (dblclick)="root()">&nbsp;\&nbsp;</span>
-            <span *ngIf="parents.length != 0" class="unselectable navigate up" (dblclick)="up()">&nbsp;..&nbsp;</span>
         </div>
-        <div class="row">
-            <span *ngFor="let path of paths; let i = index" (click)="goTo(i)">\{{path}}</span>
+        <hr>
+        <div class="row path">
+            <span class="unselectable path-part up" (click)="goUp()">..</span>
+            <span class="unselectable path-part" (click)="goToRoot()">\</span>
+            <span *ngFor="let path of paths; let i = index" class="path-part" (click)="goTo(i)" >{{path}}\</span>
         </div>
         <hr>
         <!-- Folder's content -->

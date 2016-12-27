@@ -13,6 +13,7 @@ import { DriveFile } from './google-drive-service/drive-file';
 import { GoogleDriveService } from './google-drive-service/google-drive.service';
 
 const uploadUrl = ApiService.serverUrl + '/restful/google-drive/upload';
+const root: string = 'appDataFolder'; 
 
 @Component({
     selector: 'docs-and-reports',
@@ -25,7 +26,7 @@ const uploadUrl = ApiService.serverUrl + '/restful/google-drive/upload';
 })
 export class OsbbDocumentsAndReportsComponent implements OnInit {
 
-    public uploader: FileUploader = new FileUploader({url: uploadUrl, authToken: 'Bearer ' + localStorage.getItem('access_token')});    
+    public uploader: FileUploader;
     private subscription: Subscription;
     private currentRole: string;
     private currentFolder: string;
@@ -38,26 +39,25 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
     private paths: string[];
 
     constructor(private userService: CurrentUserService,
-                private toasterService: ToasterService,
-                private translateService: TranslateService,
-                private driveService: GoogleDriveService) {
-        this.newFolder = new DriveFile();
-        this.editable = new DriveFile();
-        this.currentFolder = 'appDataFolder';
-        this.parents = new Array<string>();
-        this.uploader = new FileUploader({url: uploadUrl + '/' + this.currentFolder, authToken: 'Bearer ' + localStorage.getItem('access_token')});        
-    }
+        private toasterService: ToasterService,
+        private translateService: TranslateService,
+        private driveService: GoogleDriveService) { }
 
     ngOnInit() {
         this.currentRole = this.userService.getRole();
-        this.initFolder(this.currentFolder);
+        this.newFolder = new DriveFile();
+        this.editable = new DriveFile();
+        this.uploader = new FileUploader({
+            url: uploadUrl + '/' + this.currentFolder,
+            authToken: 'Bearer ' + localStorage.getItem('access_token')
+        });
+        this.goToRoot();
     }
 
     private createNewFolder(name: string) {
         if (this.folderExist(name)) {
             this.toasterService.pop('error', this.translate('folder_exist'));
         } else {
-            console.log('Saving folder ' + this.newFolder.name + ' with parentId=' + this.currentFolder);
             this.driveService.createFolder(name, this.currentFolder)
                 .subscribe(
                 data => {
@@ -76,7 +76,6 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
                 this.initFolder(this.currentFolder);
                 this.toasterService.pop('success', this.translate('folder_deleted'));
                 this.deleteId = "";
-                console.log('Folder ' + data + ' deleted');
             },
             error => this.errorHandler(error, 'could_not_delete')
         );
@@ -88,13 +87,13 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
         } else {
             this.driveService.update(this.editable.id, this.editable.name)
                 .subscribe(
-                    data => {
-                        this.editable = data;
-                        this.initFolder(this.currentFolder);
-                    },
-                    error => this.errorHandler(error, 'could_not_update')
-            );    
-        }    
+                data => {
+                    this.editable = data;
+                    this.initFolder(this.currentFolder);
+                },
+                error => this.errorHandler(error, 'could_not_update')
+                );
+        }
     }
 
     private getFile(id: string) {
@@ -140,13 +139,13 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
     }
 
     private openFolder(id: string, fileName: string) {
-        this.parents.push(this.currentFolder); 
+        this.parents.push(this.currentFolder);
         this.currentFolder = id;
         this.initFolder(this.currentFolder);
-        this.paths.push(fileName);        
+        this.paths.push(fileName);
     }
 
-    private initFolder(id: string) {        
+    private initFolder(id: string) {
         this.driveService.getFilesByParent(id).subscribe(
             data => {
                 this.files = data;
@@ -154,16 +153,54 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
             },
             error => console.error(error)
         );
-        this.uploader.setOptions({url: uploadUrl + '/' + this.currentFolder});
-        console.log(this.uploader);          
+        this.uploader.setOptions({ url: uploadUrl + '/' + this.currentFolder });
+    }
+
+    private goToRoot() {
+        if (!this.parents || this.parents.length != 0) {
+            this.parents = new Array<string>();
+            this.paths = new Array<string>();
+            this.currentFolder = root;
+            this.initFolder(this.currentFolder);
+        }
+    }
+
+    private goUp() {
+        if (this.currentFolder != root) {
+            this.currentFolder = this.parents.pop();
+            this.paths.pop();
+            this.initFolder(this.currentFolder);
+        }
+    }
+
+    private goTo(index: number) {
+        if (index + 1 == this.parents.length) {
+            return;
+        }
+        this.initFolder(this.parents[index + 1]);
+        this.parents = this.parents.slice(0, index + 1);
+        this.paths = this.paths.slice(0, index + 1);
+    }
+
+    private onUpload() {
+        let i: number;
+        let len: number = this.uploader.queue.length;
+
+        for (i = 0; i < len; i++) {
+            this.uploader.queue[i].upload();
+        }
+    }
+
+    private onDownload(id: string, name: string) {
+        this.driveService.download(id, name);
     }
 
     private sortFiles() {
         this.sortByName();
-        this.sortFoldersFirst();       
+        this.sortFoldersFirst();
     }
 
-    private sortByName(){
+    private sortByName() {
         this.files.sort((f1, f2) => {
             var nameA = f1.name.toUpperCase();
             var nameB = f2.name.toUpperCase();
@@ -178,7 +215,7 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
     }
 
     private sortFoldersFirst() {
-        this.files.sort((f1, f2) => {            
+        this.files.sort((f1, f2) => {
             if (f1.folder && !f2.folder) {
                 return -1;
             }
@@ -189,35 +226,4 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
         });
     }
 
-    private root() {
-        if (this.parents.length != 0) {
-            this.currentFolder = 'appDataFolder';
-            this.initFolder(this.currentFolder);
-            this.parents = new Array<string>();
-        }
-    }
-
-    private up() {        
-        this.currentFolder = this.parents.pop();
-        this.paths.pop();
-        this.initFolder(this.currentFolder);                
-    }
-
-    private goTo(index: number) {
-        console.log("Folder index = " + index);
-    }
-
-    private onUpload() {
-        let i: number;
-        let len: number = this.uploader.queue.length;
-
-        for (i = 0; i < len; i++) {
-            console.log(this.uploader.queue[i]);
-            this.uploader.queue[i].upload();
-        }     
-    }
-
-    private onDownload(id: string, name: string) {
-        this.driveService.download(id, name);
-    }
 }

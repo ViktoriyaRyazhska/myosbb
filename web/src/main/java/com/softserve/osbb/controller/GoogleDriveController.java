@@ -83,7 +83,6 @@ public class GoogleDriveController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "download/{id}", method = RequestMethod.GET)    
     public void download(@PathVariable String id, HttpServletResponse response) {
-        System.out.println("Controller got download request...");
         driveService.download(id, response);
     }
     

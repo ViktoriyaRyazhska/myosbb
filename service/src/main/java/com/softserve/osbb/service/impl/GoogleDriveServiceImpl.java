@@ -239,11 +239,9 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     }
 
     @Override
-    public void download(String id, HttpServletResponse response) {
-        System.out.println("Service got download request...");
+    public void download(String id, HttpServletResponse response) {        
         try {
             driveService.files().get(id).executeMediaAndDownloadTo(response.getOutputStream());
-            System.out.println("Successfully sent file with id = " + id);
         } catch (IOException e) {
             processGDE("Error occured while trying to download file with id = " + id);
         }   
