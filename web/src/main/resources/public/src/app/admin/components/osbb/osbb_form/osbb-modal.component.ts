@@ -7,7 +7,7 @@ import { IOsbb, Osbb } from "../../../../../shared/models/osbb";
 import { Attachment } from "../../../../../shared/models/attachment";
 import { OsbbDTO } from '../osbb';
 import { SELECT_DIRECTIVES } from "ng2-select";
-import { Region, Street, City } from "../../../../../shared/models/addressDTO";
+import { Region, Street, City, District } from "../../../../../shared/models/addressDTO";
 import { AddressService } from '../../../../../shared/services/address.service';
 
 @Component({
@@ -37,12 +37,14 @@ export class OsbbModalComponent implements OnInit{
     name: string;
     description: string;
     street: Street;
-    address: string;
-    district: string;
+    houseNumber: string;
+    district: District;
     available: boolean;
     regions: Array<Region>;
     cities: Array<City>;
     streets: Array<Street>;
+    districts: Array<District>;
+    currentDistrict: District;
     currentStreet: Street;
     currentRegion: Region;
     currentCity: City;
@@ -53,7 +55,7 @@ export class OsbbModalComponent implements OnInit{
     regionControl: Control;
     cityControl: Control;
     streetControl: Control;
-    addressControl: Control;
+    houseNumberControl: Control;
     districtControl: Control;
 
      constructor(private builder: FormBuilder, private element: ElementRef, 
@@ -66,7 +68,7 @@ export class OsbbModalComponent implements OnInit{
         this.regionControl = new Control('', Validators.required);
         this.cityControl = new Control('', Validators.required);
         this.streetControl = new Control('', Validators.required);
-        this.addressControl = new Control('', Validators.required);
+        this.houseNumberControl = new Control('', Validators.required);
         this.districtControl = new Control('', Validators.required);
         this.creatingForm = builder.group({
             nameControl: this.nameControl,
@@ -74,7 +76,7 @@ export class OsbbModalComponent implements OnInit{
             regionControl: this.regionControl,
             cityControl: this.cityControl,
             streetControl: this.streetControl,
-            addressControl: this.addressControl,
+            houseNumberControl: this.houseNumberControl,
             districtControl: this.districtControl,
         });
 
@@ -102,9 +104,11 @@ export class OsbbModalComponent implements OnInit{
         this.regions = [];
         this.cities = [];
         this.streets = [];
+        this.districts = [];
         this.currentRegion = null;
         this.currentCity = null;
         this.currentStreet = null;
+        this.currentDistrict = null;
         this.fillRegions();
         this.modalWindow.show();  
     }
@@ -115,7 +119,7 @@ export class OsbbModalComponent implements OnInit{
         this.name = osbb.name;
         this.description = osbb.description;
         this.street = osbb.street;
-        this.address = osbb.address;
+        this.houseNumber = osbb.houseNumber;
         this.district = osbb.district;
         this.available = osbb.available;
         if(osbb.logo !== null ) {
@@ -126,13 +130,16 @@ export class OsbbModalComponent implements OnInit{
         this.regions = [];
         this.cities = [];
         this.streets = [];
+        this.districts = [];
         this.currentRegion = null;
         this.currentCity = null;
         this.currentStreet = null;
+        this.currentDistrict = null;
         this.fillRegions();
         if (this.street != null) {
             this.fillCities(this.street.city.region.id);
             this.fillStreets(this.street.city.id);
+            this.fillDistricts(this.street.city.id);
         }
         this.modalWindow.show();
     }
@@ -140,7 +147,7 @@ export class OsbbModalComponent implements OnInit{
     saveButtonAction(fileInput:any):void {
          this.submitAttempt = true;
          if(this.nameControl.valid && this.descriptionControl.valid 
-                                && this.addressControl.valid && this.districtControl.valid) {
+                                && this.houseNumberControl.valid) {
             let fileList: FileList = fileInput.files;
             if(this.osbbDTO.isChanged) {
                 console.log("file was changed");
@@ -166,7 +173,7 @@ export class OsbbModalComponent implements OnInit{
         osbb.name = this.name;
         osbb.description = this.description;
         osbb.street = this.street;
-        osbb.address = this.address;
+        osbb.houseNumber = this.houseNumber;
         osbb.district = this.district;
         osbb.creationDate = new Date();   
         return osbb;
@@ -180,7 +187,7 @@ export class OsbbModalComponent implements OnInit{
            this.osbb.name = this.name;
            this.osbb.description = this.description;
            this.osbb.street = this.street;         
-           this.osbb.address = this.address;
+           this.osbb.houseNumber = this.houseNumber;
            this.osbb.district = this.district;
            this.osbb.available = this.available;
     }
@@ -199,6 +206,7 @@ export class OsbbModalComponent implements OnInit{
              console.log(this.regions);
              this.currentCity = null;
              this.currentStreet = null;
+             this.currentDistrict = null;
              }, (error)=> {
                  this.handleErrors(error)
              });
@@ -217,6 +225,7 @@ export class OsbbModalComponent implements OnInit{
              console.log("Cities List");
              console.log(this.cities);
              this.currentStreet = null;
+             this.currentDistrict = null;
              }, (error)=> {
                  this.handleErrors(error)
              });
@@ -239,17 +248,38 @@ export class OsbbModalComponent implements OnInit{
              });
     }
 
+    fillDistricts(cityID: number): void {
+        this.addressService.getAllDistrictsOfCity(cityID).subscribe((data)=> {
+             this.districts = data;
+             if (this.district != null) {
+                for (let ds of this.districts) {
+                    if (this.district.id == ds.id) {
+                        this.currentDistrict = ds;
+                    }
+                }
+             }
+             console.log("Discrits List");
+             console.log(this.districts);
+             }, (error)=> {
+                 this.handleErrors(error)
+             });
+    }
+
     selectedRegion(value: any): void {
         console.log(value);
         this.fillCities(value.id);
         this.currentCity = null;
         this.streets = [];
         this.currentStreet = null;
+        this.districts = [];
+        this.currentDistrict = null;
     }
 
     selectedCity(value: any): void {
         this.fillStreets(value.id);
         this.currentStreet = null;
+        this.fillDistricts(value.id);
+        this.currentDistrict = null;
     }
 
     selectedStreet(value: any): void {
@@ -261,12 +291,21 @@ export class OsbbModalComponent implements OnInit{
              });
     }
 
+    selectedDistrict(value: any): void {
+        this.addressService.getDistrictById(value.id).subscribe((data)=> {
+             this.district = data;
+             console.log(this.district);
+             }, (error)=> {
+                 this.handleErrors(error)
+             });
+    }
+
      clearForm(): void {
         this.name='';
         this.description='';
         this.street = null;
-        this.address='';
-        this.district='';
+        this.houseNumber='';
+        this.district=null;
         this.inputLogo.nativeElement.value = '';
         this.logoUrl='';
         this.submitAttempt = false;

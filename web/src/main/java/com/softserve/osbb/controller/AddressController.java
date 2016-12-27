@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softserve.osbb.model.City;
+import com.softserve.osbb.model.District;
 import com.softserve.osbb.model.Region;
 import com.softserve.osbb.model.Street;
 import com.softserve.osbb.service.AddressService;
@@ -74,6 +75,31 @@ public class AddressController {
         	status = HttpStatus.NOT_FOUND;
         }
         return new ResponseEntity<>(street, status);
+    }
+
+    @RequestMapping(value = "/district/{id}", method = RequestMethod.GET)
+    public ResponseEntity<List<District>> getAllDistrictsOfCity(@PathVariable("id") Integer id) {
+        logger.info("Get all districts of city: ");
+        HttpStatus status = HttpStatus.OK;
+        List<District> districts = new ArrayList<>();
+        if (addressService.getCityById(id) == null) {
+            status = HttpStatus.NOT_FOUND;
+        } else {
+            districts.addAll(addressService.getAllDistrictsOfCity(id));
+        }
+        return new ResponseEntity<>(districts, status);
+    }
+
+    @RequestMapping(value = "/district/id/{id}", method = RequestMethod.GET)
+    public ResponseEntity<District> getDistrictById(@PathVariable("id") Integer id) {
+        logger.info("Get district by Id: ");
+        District district = addressService.getDistrictById(id);
+        HttpStatus status = HttpStatus.OK;
+        if (district == null) {
+        	district = new District();
+        	status = HttpStatus.NOT_FOUND;
+        }
+        return new ResponseEntity<>(district, status);
     }
 
 }
