@@ -1,7 +1,5 @@
 package com.softserve.osbb.controller;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,11 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -84,8 +78,7 @@ public class GoogleDriveController {
     @RequestMapping(value = "upload/{id}", method = RequestMethod.POST)    
     public void upload(@PathVariable String id, @RequestParam("file") MultipartFile file) {        
         driveService.upload(file, id);
-    }
-    
+    }    
     
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "download/{id}", method = RequestMethod.GET)    
@@ -94,36 +87,6 @@ public class GoogleDriveController {
         driveService.download(id, response);
         System.out.println("Controller is done!");
     }
-    
-    
-    
-    @RequestMapping(value = "download2", method = RequestMethod.GET, produces = "image/jpeg")
-    public ResponseEntity<InputStreamResource> downloadPDFFile() throws IOException {
-
-//        ClassPathResource pdfFile = new ClassPathResource("e:/its_a_rule.jpg");
-        java.io.File file = new java.io.File("e:/its_a_rule.jpg");
-        FileInputStream pdfFile = new FileInputStream(file);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-        headers.add("Pragma", "no-cache");
-        headers.add("Expires", "0");
-        
-        System.out.println("All done!");
-        
-        return ResponseEntity
-                .ok()
-                .headers(headers)
-//                .contentLength(pdfFile.contentLength())
-                .contentLength(pdfFile.available())
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(new InputStreamResource(pdfFile));
-    }
-    
-    
-    
-    
-    
     
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(IllegalArgumentException.class)
