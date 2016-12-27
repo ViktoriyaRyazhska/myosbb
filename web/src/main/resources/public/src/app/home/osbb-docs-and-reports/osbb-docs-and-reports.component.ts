@@ -3,7 +3,6 @@ import { TranslatePipe } from 'ng2-translate';
 import { TranslateService} from 'ng2-translate';
 import { ToasterContainerComponent, ToasterService, ToasterConfig } from 'angular2-toaster/angular2-toaster';
 import { FILE_UPLOAD_DIRECTIVES, FileSelectDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
-import FileLocationPath = require('../../../shared/services/file.location.path');
 import ApiService = require('../../../shared/services/api.service');
 
 import { Subscription } from 'rxjs/Subscription';
