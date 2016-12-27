@@ -21,3 +21,9 @@ export class Street {
      name: string;
      city: City;
 }
+
+export class District {
+     id: number;
+     name: string;
+     city: City;
+}

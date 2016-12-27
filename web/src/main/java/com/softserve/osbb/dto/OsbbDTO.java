@@ -7,6 +7,7 @@
 package com.softserve.osbb.dto;
 
 import com.softserve.osbb.model.Attachment;
+import com.softserve.osbb.model.District;
 import com.softserve.osbb.model.User;
 
 import java.sql.Timestamp;
@@ -19,8 +20,9 @@ public class OsbbDTO {
     private Integer osbbId;
     private String name;
     private String description;
-    private String address;
-    private String district;
+    private String houseNumber;
+    private District district;
+    private String districtStr;
     private Attachment logo;
     private Timestamp creationDate;
     private User creator;
@@ -53,20 +55,28 @@ public class OsbbDTO {
         this.description = description;
     }
 
-    public String getAddress() {
-        return address;
+    public String getHouseNumber() {
+        return houseNumber;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
     }
 
-    public String getDistrict() {
+    public District getDistrict() {
         return district;
     }
 
-    public void setDistrict(String district) {
+    public void setDistrict(District district) {
         this.district = district;
+    }
+
+    public String getDistrictStr() {
+        return districtStr;
+    }
+
+    public void setDistrictStr(String districtStr) {
+        this.districtStr = districtStr;
     }
 
     public Attachment getLogo() {

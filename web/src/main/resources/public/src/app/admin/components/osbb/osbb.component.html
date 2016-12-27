@@ -35,7 +35,7 @@
                         <th class="sorting"><i class=" fa fa-edit"></i> {{'description' | translate | capitalize}}</th>
                         <th class="sorting"><i class=" fa fa-edit"></i> {{'adress' | translate | capitalize}}</th>
                         <th class="sorting"><i class=" fa fa-edit"></i> {{'district' | translate | capitalize}}
-                            <a style="{cursor:pointer}" (click)="sortBy('district')"><span
+                            <a style="{cursor:pointer}" (click)="sortBy('district.name')"><span
                                     class="fa fa-fw fa-sort pull-left"></span></a></th>
                         <th class="sorting"><i class=" fa fa-edit"></i> {{'creationDate' | translate | capitalize}}
                             <a style="{cursor:pointer}" (click)="sortBy('creationDate')"><span
@@ -51,7 +51,7 @@
                         <td *ngIf="osbb !== null"><a (click)="redirectToHouseTable(osbb.osbbId)">{{osbb.name}}</a></td>
                         <td>{{osbb.description}}</td>
                         <td>{{composeAddress(osbb)}}</td>
-                        <td>{{osbb.district}}</td>
+                        <td>{{osbb.district.name}}</td>
                         <td>{{getFormatDate(osbb.creationDate)}}</td>
                         <td *ngIf="osbb.available"><span class="fa fa-check"></span></td>
                         <td *ngIf="!osbb.available"><span class="fa fa-times"></span></td>
