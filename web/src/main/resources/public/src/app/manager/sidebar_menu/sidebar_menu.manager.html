@@ -2,6 +2,7 @@
     <div id="sidebar" class="nav-collapse">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
+            <!-- OSBB -->
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
                     <i class="fa fa-home"></i>
@@ -13,49 +14,56 @@
                     <li role="separator" class="divider"></li>
                 </ul>
             </li>
+            <!-- HOUSES -->
             <li class="sub-menu">
                 <a [routerLink]="['houses']">
                     <i class="fa fa-home"></i>
                     <span>{{ 'houses' | translate | capitalize }}</span>
                 </a>
             </li>
+            <!-- ФЗФКЕЬУТЕ -->
             <li class="sub-menu">
                 <a [routerLink]="['apartment']">
                     <i class="fa fa-building-o"></i>
                     <span>{{ 'apartments' | translate | capitalize }}</span>
                 </a>
             </li>
+            <!-- CALENDAR -->
             <li class="sub-menu">
                 <a [routerLink]="['calendar']">
                     <i class="fa fa-calendar"></i>
                     <span>{{ 'calendar' | translate | capitalize }}</span>
                 </a>
             </li>
+            <!-- EVENTS -->
             <li class="sub-menu">
                 <a [routerLink]="['events']">
                     <i class="fa fa-comments"></i>
                     <span>{{ 'events' | translate | capitalize }}</span>
                 </a>
             </li>
+            <!-- TICKETS -->
             <li class="sub-menu">
                 <a [routerLink]="['ticket']">
                     <i class="fa fa-ticket"></i>
                     <span>{{'tickets' | translate | capitalize}}</span>
                 </a>
             </li>
-
+            <!-- BILLS -->
             <li class="sub-menu">
                 <a [routerLink]="['osbb/bill']">
                     <i class="fa fa-credit-card-alt"></i>
                     <span>{{'bills_osbb' | translate | capitalize}}</span>
                 </a>
             </li>
+            <!-- PROVIDERS -->
             <li class="sub-menu">
                 <a [routerLink]="['provider']">
                     <i class="fa fa-building"></i>
                     <span>{{ 'providers' | translate | capitalize }}</span>
                 </a>
             </li>
+            <!-- CONTRACTS -->
             <li>
                 <a [routerLink]="['contract']">
                     <i class="fa fa-bookmark"></i>
