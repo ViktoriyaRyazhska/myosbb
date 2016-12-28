@@ -3,7 +3,6 @@ package com.softserve.osbb.service;
 import com.softserve.osbb.model.Region;
 import com.softserve.osbb.model.City;
 import com.softserve.osbb.model.District;
-import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Street;
 import org.springframework.stereotype.Service;
 
@@ -37,11 +36,18 @@ public interface AddressService {
 
     List<Street> getAllStreetsOfCity(Integer cityId);
 
+    Street getStreetById(Integer id);
+
+    Street addStreet(Street street);
+
+    Street updateStreet(Street street);
+
+    boolean deleteStreet(Integer id);
+
     List<District> getAllDistrictsOfCity(Integer cityId);
 
     District getDistrictById(Integer id);
 
-    Street getStreetById(Integer id);
     
 /*        Street updateStreet(Street street);
     

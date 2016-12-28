@@ -3,11 +3,11 @@ package com.softserve.osbb.service.impl;
 import com.softserve.osbb.model.Region;
 import com.softserve.osbb.model.City;
 import com.softserve.osbb.model.District;
-import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Street;
 import com.softserve.osbb.repository.RegionRepository;
 import com.softserve.osbb.repository.CityRepository;
 import com.softserve.osbb.repository.DistrictRepository;
+import com.softserve.osbb.repository.OsbbRepository;
 import com.softserve.osbb.repository.StreetRepository;
 import com.softserve.osbb.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +34,9 @@ public class AddressServiceImpl implements AddressService {
 
 	@Autowired
 	private DistrictRepository districtRepository;
+
+	@Autowired
+	private OsbbRepository osbbRepository;
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	@Override
@@ -146,19 +149,36 @@ public class AddressServiceImpl implements AddressService {
             + " exist. First they should be deleted.");
     	}
     }
-	
-/*    City updateCity(Integer id);
-    
-    Street updateStreet(Integer id);
-    
-    District updateDistrict(Integer id);
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Override
+    public Street addStreet(Street street) {
+        if(street == null) {
+            throw new IllegalArgumentException("Street is null. Try to set correct data.");
+        }
+        return streetRepository.saveAndFlush(street);
+    }
 
-    void deleteRegion(Integer id);
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Override
+    public Street updateStreet(Street street) {
+        if(streetRepository.exists(street.getId())) {
+            return streetRepository.saveAndFlush(street);
+        } else {
+            throw new IllegalArgumentException("Street with id=" + street.getId()
+                    + " doesn't exist. First try to add this city.");
+        }
+    }
 
-    void deleteCity(Integer id);
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Override
+    public boolean deleteStreet(Integer id) {
+    	if (osbbRepository.findByStreetId(id).isEmpty()) {
+        	streetRepository.delete(id);
+            return (streetRepository.findById(id) == null);
+    	} else {
+            throw new IllegalArgumentException("Objects, used street with id=" + id
+            + " exist. First they should be deleted.");
+    	}
+    }
 
-    void deleteStreet(Integer id);
-
-    void deleteDistrict(Integer id);
-*/
 }

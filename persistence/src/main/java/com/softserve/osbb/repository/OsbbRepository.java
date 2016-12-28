@@ -17,4 +17,9 @@ public interface OsbbRepository extends JpaRepository<Osbb, Integer> {
     List<Osbb> findByAvailable(Boolean available);
 
     List<Osbb> findByNameContainingIgnoreCase(String name);
+
+    List<Osbb> findByStreetId(Integer streetId);
+
+    List<Osbb> findByDistrictId(Integer districtId);
+
 }
