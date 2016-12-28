@@ -23,7 +23,6 @@ export class AddressService {
     }
 
      getAllRegions(): Observable<Region[]> {
-        console.log('Get all regions: ');
         let url = this.addressUrl + '/region';
         return this.http.get(url)
             .map((res:Response)=> res.json())
@@ -31,7 +30,6 @@ export class AddressService {
      }           
 
      getAllCitiesOfRegion(regionID: number): Observable<City[]> {
-        console.log('Get all cities: ');
         let url = this.addressUrl + '/city/' + regionID;
         return this.http.get(url)
             .map((res:Response)=> res.json())
@@ -39,7 +37,6 @@ export class AddressService {
      }           
 
      getAllStreetsOfCity(cityID: number): Observable<Street[]> {
-        console.log('Get all streets: ');
         let url = this.addressUrl + '/street/' + cityID;
         return this.http.get(url)
             .map((res:Response)=> res.json())
@@ -47,7 +44,6 @@ export class AddressService {
      }           
 
      getStreetById(streetID: number): Observable<Street> {
-        console.log('Get street: ');
         let url = this.addressUrl + '/street/id/' + streetID;
         return this.http.get(url)
             .map((res:Response)=> res.json())
@@ -55,7 +51,6 @@ export class AddressService {
      }           
 
      getAllDistrictsOfCity(cityID: number): Observable<District[]> {
-        console.log('Get all districts: ');
         let url = this.addressUrl + '/district/' + cityID;
         return this.http.get(url)
             .map((res:Response)=> res.json())
@@ -63,7 +58,6 @@ export class AddressService {
      }           
 
      getDistrictById(districtID: number): Observable<District> {
-        console.log('Get district: ');
         let url = this.addressUrl + '/district/id/' + districtID;
         return this.http.get(url)
             .map((res:Response)=> res.json())
