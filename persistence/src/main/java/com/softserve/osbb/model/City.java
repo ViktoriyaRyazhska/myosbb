@@ -22,7 +22,8 @@ public class City implements Serializable {
 
     public City() { }
 
-    public City(String name, Region region) {
+    public City(Integer id, String name, Region region) {
+        this.id = id;
         this.name = name;
         this.region = region;
     }

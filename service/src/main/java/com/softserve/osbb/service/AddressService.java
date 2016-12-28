@@ -29,9 +29,9 @@ public interface AddressService {
 
     City getCityById(Integer id);
     
-    City addCity(City region);
+    City addCity(City city);
 
-    City updateCity(City region);
+    City updateCity(City city);
 
     boolean deleteCity(Integer id);
 
