@@ -21,8 +21,8 @@ public class HouseDTO {
     private Integer numberHouse;
     private String zipCode;
     private String description;
-    private Integer street;
-    private Integer osbb;
+    private Street street;
+    private Osbb osbb;
     private Integer apartmentCount;
     private Integer numberOfInhabitants;
 
@@ -53,7 +53,7 @@ public class HouseDTO {
         return description;
     }
 
-    public Integer getOsbb() {
+    public Osbb getOsbb() {
         return osbb;
     }
 
@@ -65,11 +65,11 @@ public class HouseDTO {
         return numberOfInhabitants;
     }
     
-    public Integer getStreet() {
+    public Street getStreet() {
 		return street;
 	}
 
-	public void setStreet(Integer street) {
+	public void setStreet(Street street) {
 		this.street = street;
 	}
 	
@@ -81,7 +81,7 @@ public class HouseDTO {
 		this.numberHouse = numberHouse;
 	}
 	
-	public void setOsbb(Integer osbb) {
+	public void setOsbb(Osbb osbb) {
 		this.osbb = osbb;
 	}
 
@@ -92,8 +92,8 @@ public class HouseDTO {
         private Integer numberHouse;
         private String zipCode;
         private String description;
-        private Integer street;
-        private Integer osbb;
+        private Street street;
+        private Osbb osbb;
         private Integer apartmentCount;
         private Integer numberOfInhabitants;
 
@@ -114,7 +114,7 @@ public class HouseDTO {
 
         public HouseDTOBuilder setOsbb(final Osbb osbb) {
             if (osbb != null) {
-                this.osbb = osbb.getOsbbId();
+                this.osbb = osbb;
             }
             return this;
         }
@@ -132,11 +132,11 @@ public class HouseDTO {
             return this;
         }
         
-        public Integer getStreet() {
+        public Street getStreet() {
 			return street;
 		}
 
-		public HouseDTOBuilder setStreet(Integer street) {
+		public HouseDTOBuilder setStreet(Street street) {
 			this.street = street;
 			return this;
 		}

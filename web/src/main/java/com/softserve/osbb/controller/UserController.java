@@ -78,9 +78,7 @@ public class UserController {
     @RequestMapping(value = "/user/getCurrent", method = RequestMethod.GET)
     public ResponseEntity<Resource<UserDTO>>  getCurrent(@AuthenticationPrincipal Principal user) {
         User currentUser = userService.findUserByEmail(user.getName());
-        System.out.println("\\\\\\\\\\\\\\\\\\\\\\\\\\USER = "+currentUser+" ////////////////////////////////////////");
         UserDTO userDTO = new UserDTO(currentUser);
-        System.out.println("\\\\\\\\\\\\\\\\\\\\\\\\\\USERDTO = "+userDTO+" ///////////////////////////////");
         return new ResponseEntity<>(addResourceLinkToUserDTO(userDTO),HttpStatus.OK);
     }
 
@@ -99,7 +97,7 @@ public class UserController {
     @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
     public User updateUser(@PathVariable Integer id, @RequestBody UserDTO user) {
         logger.info("Updating user id:" + id);
-        User oldUser = userService.getOne(user.getUserId());
+        User oldUser = userService.getOne(user.getUserId()); 
         User newUser = UserDTOMapper.mapUserDtoToEntity(oldUser,user);
         return userService.update(newUser);
     }

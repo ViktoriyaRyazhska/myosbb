@@ -9,6 +9,7 @@ import emailMask from 'node_modules/text-mask-addons/dist/emailMask.js';
 import {HeaderComponent} from "../../header/header.component";
 import {CurrentUserService} from "../../../shared/services/current.user.service";
 import {ProfileService} from "./profile.service";
+
 @Component({
     selector: 'my-user-profile',
     templateUrl: 'src/app/user/profile/profile.html',
@@ -45,8 +46,12 @@ export class ProfileComponent implements OnInit {
     }
 
      changeUser() {
+        let osbbId = this.updateUser.osbbId;
+        let user:User;
         this.profileService.updateUser(this.updateUser).subscribe((data)=>{
-            this.currentUserService.setUser(data);
+            user = <User>data.json();
+            user.osbbId = osbbId;
+            this.currentUserService.setUser(user);
             this.currentUser=HeaderComponent.currentUserService.currentUser;
             this.updateUser = Object.assign({}, this.currentUser);
         });

@@ -38,7 +38,7 @@
                     </th>
                     <th class="sorting"> {{'zipCode' | translate | capitalize}}
                     </th>
-                    <th class="sorting"> {{'apartments' | translate | capitalize}}
+                    <th class="sorting"> {{'house_number' | translate | capitalize}}
                     </th>
                     <th class="sorting"> {{'osbb' | translate | capitalize}}
                     </th>
@@ -56,12 +56,12 @@
                     <h5>{{'search_not_found' | translate | capitalize}}
                     </h5>
                 </div>
-                <tr *ngFor="let house of houses ">
-                    <td>{{house.street}}</td>
-                    <td>{{house.city}}</td>
+                <tr *ngFor="let house of housess">
+                    <td>{{house.street.name}}</td>
+                    <td>{{house.street.city.name}}</td>
                     <td>{{house.zipCode}}</td>
-                    <td>{{house.apartmentCount}}</td>
-                    <td>{{house.osbbName}}</td>
+                    <td>{{house.numberHouse}}</td>
+                    <td>{{house.osbb.name}}</td>
                     <td>
                         <button (click)="onNavigate(house.houseId)" class="btn btn-default" type="button"
                                 aria-haspopup="true" aria-expanded="true">

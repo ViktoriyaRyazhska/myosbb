@@ -51,7 +51,7 @@
                 <tbody  >
                 <tr *ngFor="let apartment of Items"   id="linktoApartmentProfile"  >
 
-                    <td [routerLink]="['apartmentprofile',apartment.apartmentId ]" > {{apartment.house.street.name }} {{ 'house_number' | translate }} = {{apartment.house.numberHouse}}</td>
+                    <td [routerLink]="['apartmentprofile',apartment.apartmentId ]" > {{apartment.house.street.name }}, {{ 'house_number' | translate }} № {{apartment.house.numberHouse}}</td>
                    <td [routerLink]="['apartmentprofile',apartment.apartmentId ]"  > {{ apartment.number}}</td>
                    <td [routerLink]="['apartmentprofile',apartment.apartmentId ]" >{{ apartment.square}}</td>
 

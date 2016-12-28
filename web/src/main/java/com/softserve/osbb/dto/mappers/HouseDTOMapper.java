@@ -25,7 +25,7 @@ public class HouseDTOMapper {
                     .setHouseId(house.getHouseId())
                		.setNumberHouse(house.getNumberHouse())
                     .setZipCode(house.getZipCode())
-                    .setStreet(house.getStreet().getId())
+                    .setStreet(house.getStreet())
                     .setOsbb(house.getOsbb())
                     .build();
         }

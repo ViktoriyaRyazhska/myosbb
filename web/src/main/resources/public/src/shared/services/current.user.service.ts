@@ -25,8 +25,8 @@ export class CurrentUserService {
         this.setRole();
     }
 
-    setUser(user:Response) {
-        this.currentUser = <User>user.json();
+    setUser(user:User) {
+        this.currentUser = user;
     }
 
     setUserPromise(user:User) {

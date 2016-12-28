@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {RegistrationComponent} from "../registration/registration_user/registration.component";
 import {CurrentUserService} from "../../shared/services/current.user.service";
 import {ToasterContainerComponent, ToasterService, ToasterConfig} from 'angular2-toaster/angular2-toaster';
+import { User } from "../../shared/models/user";
 import MaskedInput from 'angular2-text-mask';
 import emailMask from 'node_modules/text-mask-addons/dist/emailMask.js';
 
@@ -44,7 +45,8 @@ export class LoginComponent implements OnInit {
                     this.tokenParseInLocalStorage(data.json());
                     this.loginService.sendToken().subscribe(
                         data=> {
-                            this._currentUserService.setUser(data);
+                            let user:User = <User>data.json();
+                            this._currentUserService.setUser(user);
                             this.model.username = "";
                             this.model.password = "";
                             this.isLoggedIn = true;

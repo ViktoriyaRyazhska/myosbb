@@ -251,7 +251,7 @@
   "next": "next",
   "join_osbb": "join OSBB",
   "choose_osbb": "choose your OSBB",
-  "choose_house": "choose your house",
+  "choose_house": "Choose your house",
   "choose_apartment": "choose your apartment",
   "choose": "select",
   "accountant": "accountant",
@@ -322,6 +322,5 @@
   "you_have_not_filled_captcha": "You've not filled captcha",
   "you_incorrectly_filled_captcha": "You incorrectly filled captcha",
   "gender_male": "Male",
-  "gender_female": "Female",
-  "choose your house": "Choose your House"
+  "gender_female": "Female"
 }

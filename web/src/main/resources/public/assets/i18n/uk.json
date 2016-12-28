@@ -252,7 +252,7 @@
   "next": "далі",
   "join_osbb": "Приєднатись до ОСББ",
   "choose_osbb": "виберіть Ваше ОСББ",
-  "choose_house": "виберіть Ваш будинок",
+  "choose_house": "Виберіть будинок",
   "choose_apartment": "виберіть Вашу квартиру",
   "choose": "вибрати",
   "accountant": "бухгалтер",
@@ -324,7 +324,5 @@
   "you_have_not_filled_captcha": "Ви не заповнили капчу",
   "you_incorrectly_filled_captcha": "Ви погано заповнили капчу",
   "gender_male": "Чоловік",
-  "gender_female": "Жінка",
-  "choose your house": "Виберіть Будинок"
-
+  "gender_female": "Жінка"
 }
