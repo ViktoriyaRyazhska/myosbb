@@ -28,7 +28,7 @@ export class GoogleDriveService {
     }
 
     delete(id: string): Observable<string> {
-        return this.http.put(this.controllerUrl + '/delete', id)
+        return this.http.delete(this.controllerUrl + '/delete/' + id)
             .catch(error => Observable.throw(error));
     }
 

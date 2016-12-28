@@ -45,12 +45,6 @@ public class GoogleDriveController {
     }
     
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "root", method = RequestMethod.GET)
-    public List<DriveFile> getRootFiles() {
-        return getDriveFilesFrom(driveService.findByParentId("root"));
-    }
-    
-    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "parent/{id}", method = RequestMethod.GET)
     public List<DriveFile> findByParentId(@PathVariable String id) {
         return getDriveFilesFrom(driveService.findByParentId(id));
@@ -63,8 +57,8 @@ public class GoogleDriveController {
     }
     
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "delete", method = RequestMethod.PUT)
-    public String delete(@RequestBody String id) {        
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
+    public String delete(@PathVariable String id) {        
         return driveService.delete(id);        
     }
     
