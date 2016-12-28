@@ -115,7 +115,14 @@ public class AddressController {
     }
 */
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/region/put", method = RequestMethod.PUT)
+    @RequestMapping(value = "/region", method = RequestMethod.POST)
+    public AddressDTO addRegion(@RequestBody AddressDTO added) {        
+        Region region = addressService.addRegion(new Region(added.getId(), added.getName())); 
+        return new AddressDTO(region.getId(), region.getName(), null);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/region", method = RequestMethod.PUT)
     public AddressDTO updateRegion(@RequestBody AddressDTO updated) {        
         Region region = addressService.updateRegion(new Region(updated.getId(), updated.getName())); 
         return new AddressDTO(region.getId(), region.getName(), null);

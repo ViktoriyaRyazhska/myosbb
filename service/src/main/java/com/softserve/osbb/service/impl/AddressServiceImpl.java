@@ -82,14 +82,24 @@ public class AddressServiceImpl implements AddressService {
 	public Region getRegionById(Integer id) {
 		return regionRepository.findById(id);
 	}
+ 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Override
+    public Region addRegion(Region region) {
+        if(region == null) {
+            throw new IllegalArgumentException("Region is null. Try to set correct data.");
+        }
+        return regionRepository.saveAndFlush(region);
+    }
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public Region updateRegion(Region region) {
         if(regionRepository.exists(region.getId())) {
-            return regionRepository.save(region);
+            return regionRepository.saveAndFlush(region);
         } else {
             throw new IllegalArgumentException("Region with id=" + region.getId()
-                    + " doesn't exist. First try to add this osbb.");
+                    + " doesn't exist. First try to add this region.");
         }
     }
 

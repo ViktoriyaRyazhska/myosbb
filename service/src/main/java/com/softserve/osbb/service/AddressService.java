@@ -31,6 +31,8 @@ public interface AddressService {
 
     Region getRegionById(Integer id);
     
+    Region addRegion(Region region);
+
     Region updateRegion(Region region);
 
 /*    City updateCity(City city);
