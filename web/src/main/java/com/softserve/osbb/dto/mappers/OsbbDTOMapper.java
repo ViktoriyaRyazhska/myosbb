@@ -20,6 +20,7 @@ public class OsbbDTOMapper {
             osbbDTO.setOsbbId(osbb.getOsbbId());
             osbbDTO.setName(osbb.getName());
             osbbDTO.setDescription(osbb.getDescription());
+            osbbDTO.setHouseNumber(osbb.getHouseNumber());
             osbbDTO.setDistrict(osbb.getDistrict());
             osbbDTO.setLogo(osbb.getLogo());
             osbbDTO.setCreationDate(osbb.getCreationDate());

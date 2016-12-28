@@ -6,7 +6,6 @@ INSERT INTO role(name) VALUES('ROLE_USER');
 INSERT INTO role(name) VALUES('ROLE_ADMIN');
 INSERT INTO role(name) VALUES('ROLE_MANAGER');
 
-
 INSERT into regions(id,name)VALUES(1,'АР Крим');
 INSERT into regions(id,name)VALUES(2,'Вінницька обл.');
 INSERT into regions(id,name)VALUES(3,'Волинська обл.');
@@ -64,6 +63,13 @@ INSERT into streets(id,name,city)VALUES(18,'Володимирська',8);
 INSERT into streets(id,name,city)VALUES(19,'Собранецька',8);
 INSERT into streets(id,name,city)VALUES(20,'Садова',9);
 
+INSERT into districts(id,name,city)VALUES(1,'Шевченківський',1);
+INSERT into districts(id,name,city)VALUES(2,'Личаківський',1);
+INSERT into districts(id,name,city)VALUES(3,'Сихівський',1);
+INSERT into districts(id,name,city)VALUES(4,'Франківський',1);
+INSERT into districts(id,name,city)VALUES(5,'Залізничний',1);
+INSERT into districts(id,name,city)VALUES(6,'Галицький',1);
+
 
 INSERT INTO provider_type ( type_name) VALUES ('Internet');
 INSERT INTO provider_type ( type_name) VALUES ('Trash');
@@ -111,6 +117,26 @@ INSERT INTO contract (date_start, date_finish, price, price_currency, text, prov
 VALUES ('2010-03-03', '2015-10-02', 98,  'UAH', 'Опис контракту', 2, TRUE);
 INSERT INTO contract ( date_start, date_finish, price, price_currency, text, provider_id, active)
 VALUES ('2016-08-03', '2018-09-05', 100, 'UAH',  'Опис контракту', 1, TRUE);
+
+INSERT INTO osbb(  name, description, house_number, district_id, district, creation_date) VALUES ('Мій Дім','осбб для людей','м.Львів вул.Городоцька 147а',5,'Залізничний','2016-09-01 10:46:43.221000');
+INSERT INTO osbb(  name, description, house_number, district_id, district, creation_date) VALUES ('Червона Калина','найкраще осбб','м.Львів вул.В.Великого 99',4,'Франківський','2014-09-05 10:46:43.221220');
+INSERT INTO osbb(  name, description, house_number, district_id, district, creation_date) VALUES ('Двір','рівні права','м.Львів вул.Б.Хмельницького 77',4,'Франківський','2012-05-27 08:20:43.221000');
+INSERT INTO osbb(  name, description, house_number, district_id, district, creation_date) VALUES ('Район','осбб','м.Львів вул.Сихівськаа 33',3,'Сихів','2015-10-15 10:46:43.221000');
+INSERT INTO osbb(  name, description, house_number, district_id, district, creation_date) VALUES ('Надія','файне осбб','м.Львів вул.Гната Хоткевича 47а',3,'Сихів','2010-08-01 10:46:43.221000');
+INSERT INTO osbb(  name, description, house_number, district_id, district, creation_date) VALUES ('Весна',' ','м.Львів вул.Проспект Червоної Калини 11',3,'Сихів','2016-05-10 12:46:43.221000');
+INSERT INTO osbb(  name, description, house_number, district_id, district, creation_date) VALUES ('Мрія',' ','м.Львів вул.Городоцька 147а',5,'Залізничний','2016-09-01 10:46:43.221000');
+INSERT INTO osbb(  name, description, house_number, district_id, district, creation_date) VALUES ('Моя Оселя','','м.Львів вул.Повітряна 17б',5,'Залізничний','2013-10-12 08:46:43.221340');
+INSERT INTO osbb(  name, description, house_number, district_id, district, creation_date) VALUES ('Сонечко','','м.Львів вул.Наукова 77',4,'Франківський','2015-04-18 10:46:43.221270');
+
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(1, NULL, 1, 'ROOT FOLDER');
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(2, 1, 1, 'Установчі документи');
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(3, 1, 1, 'Протоколи зборів');
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(4, 1, 1, 'Фінінсова звітність');
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(5, 2, 1, 'Статут');
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(6, 2, 1, 'Накази про призначення');
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(7, 3, 1, 'Протокол установчих зборів');
+INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(8, 3, 1, 'Some folder');
+
 
 INSERT INTO attachment(  path, type, file_name) VALUES ('http://itukraine.org.ua/sites/default/files/news/sserve.jpg', 'IMAGE', 'sserve.jpg');
 INSERT INTO attachment(  path, type, file_name) VALUES ('http://ua-ekonomist.com/uploads/posts/2013-08/1376494055_932378712.jpg', 'IMAGE', '1376494055_932378712.jpg');

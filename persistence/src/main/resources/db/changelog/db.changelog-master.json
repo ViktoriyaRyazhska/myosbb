@@ -57,6 +57,11 @@
     },
     {
       "includeAll": {
+        "path": "classpath:/db/changelog/district/"
+      }
+    },
+    {
+      "includeAll": {
         "path": "classpath:/db/changelog/osbb/"
       }
     },

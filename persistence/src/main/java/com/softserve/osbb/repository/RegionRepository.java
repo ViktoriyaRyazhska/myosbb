@@ -16,6 +16,6 @@ public interface RegionRepository extends JpaRepository<Region, Integer>, JpaSpe
 
 	public Region findById(Integer id);
 	public Region findByName(String name);
-	public List<Region> findAll();
+	public List<Region> findAllByOrderByNameAsc();
 
 }

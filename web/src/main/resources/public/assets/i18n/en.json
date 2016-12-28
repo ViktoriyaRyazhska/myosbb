@@ -322,5 +322,6 @@
   "you_have_not_filled_captcha": "You've not filled captcha",
   "you_incorrectly_filled_captcha": "You incorrectly filled captcha",
   "gender_male": "Male",
-  "gender_female": "Female"
+  "gender_female": "Female",
+  "could_not_update": "Could not perform update"
 }

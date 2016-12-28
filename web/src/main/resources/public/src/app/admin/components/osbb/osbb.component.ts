@@ -46,10 +46,10 @@ export class OsbbComponent implements OnInit {
     }
 
     composeAddress(element: IOsbb): string {
-        let composedAddress = element.address;
+        let composedAddress = element.houseNumber;
         if (element.street != null) {
             composedAddress = element.street.city.region.name + ', м.' + element.street.city.name + 
-                              ', вул. ' + element.street.name + ', ' + element.address;
+                              ', вул. ' + element.street.name + ', ' + element.houseNumber;
         } 
         return composedAddress;
     }

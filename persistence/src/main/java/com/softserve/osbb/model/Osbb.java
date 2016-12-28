@@ -20,7 +20,9 @@ public class Osbb implements Serializable {
     private Integer osbbId;
     private String name;
     private String description;
-    private String district;
+    private Street street;
+    private String houseNumber;
+    private District district;
     private Boolean available= true;
     private Attachment logo;
     private Timestamp creationDate;
@@ -61,14 +63,34 @@ public class Osbb implements Serializable {
         this.description = description;
     }
 
-    @Basic
-    @Column(name = "district")
-    public String getDistrict() {
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "street", referencedColumnName = "id")
+        public Street getStreet() {
+        return street;
+    }
+
+    public void setStreet(Street street) {
+        this.street = street;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "district_id", referencedColumnName = "id")
+        public District getDistrict() {
         return district;
     }
 
-    public void setDistrict(String district) {
+    public void setDistrict(District district) {
         this.district = district;
+    }
+
+    @Basic
+    @Column(name = "house_number")
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
     }
 
     @Column(name = "available", columnDefinition = "boolean default true", nullable = false)
@@ -156,6 +178,7 @@ public class Osbb implements Serializable {
                 "osbbId=" + osbbId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", adress='" + houseNumber + '\'' +
                 ", district='" + district + '\'' +
                 ", dateOfCreation=" + creationDate +
                 '}';

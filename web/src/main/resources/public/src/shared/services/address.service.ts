@@ -9,7 +9,8 @@ import "rxjs/add/operator/toPromise";
 import { IOsbb } from "../../shared/models/osbb";
 import { OsbbDTO } from "../../shared/models/osbbDTO";
 import ApiService = require("./api.service");
-import { Region, City, Street, AddressDTO } from "../../shared/models/addressDTO";
+import { SelectItem } from "../../shared/models/ng2-select-item.interface";
+import { Region, City, Street, District, AddressDTO } from "../../shared/models/addressDTO";
 
 const attachmentUploadUrl = ApiService.serverUrl + '/restful/attachment';
 
@@ -48,6 +49,22 @@ export class AddressService {
      getStreetById(streetID: number): Observable<Street> {
         console.log('Get street: ');
         let url = this.addressUrl + '/street/id/' + streetID;
+        return this.http.get(url)
+            .map((res:Response)=> res.json())
+            .catch((error)=>Observable.throw(error)); 
+     }           
+
+     getAllDistrictsOfCity(cityID: number): Observable<District[]> {
+        console.log('Get all districts: ');
+        let url = this.addressUrl + '/district/' + cityID;
+        return this.http.get(url)
+            .map((res:Response)=> res.json())
+            .catch((error)=>Observable.throw(error)); 
+     }           
+
+     getDistrictById(districtID: number): Observable<District> {
+        console.log('Get district: ');
+        let url = this.addressUrl + '/district/id/' + districtID;
         return this.http.get(url)
             .map((res:Response)=> res.json())
             .catch((error)=>Observable.throw(error)); 

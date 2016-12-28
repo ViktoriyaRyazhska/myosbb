@@ -34,6 +34,24 @@
                 },
                 {
                   "column": {
+                    "name": "street",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "house_number",
+                    "type": "VARCHAR(255)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "district_id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
                     "name": "district",
                     "type": "VARCHAR(255)"
                   }
@@ -126,5 +144,51 @@
         ]
       }
     }   
+
+  },
+    {
+      "changeSet": {
+        "id": "2016/12/04-01",
+        "author": "YuriPushchalo",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "street",
+              "baseTableName": "osbb",
+              "constraintName": "fk_trh6nruaq2hc93m8s3f0brk2g",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "id",
+              "referencedTableName": "streets"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2016/12/26-01",
+        "author": "YuriPushchalo",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "district_id",
+              "baseTableName": "osbb",
+              "constraintName": "fk_trh6nruaq2hc93m8s8f0brk2g",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "id",
+              "referencedTableName": "districts"
+            }
+          }
+        ]
+      }
+    }
   ]
 }

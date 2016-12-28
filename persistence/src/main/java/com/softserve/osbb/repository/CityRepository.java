@@ -16,6 +16,6 @@ public interface CityRepository extends JpaRepository<City,Integer>, JpaSpecific
 
     public City findById(Integer id);
     public List<City> findByName(String name);
-    public List<City> findByRegion(Region region);
+    public List<City> findByRegionOrderByName(Region region);
 
 }
