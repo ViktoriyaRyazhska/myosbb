@@ -6,6 +6,8 @@
  */
 package com.softserve.osbb.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -20,13 +22,15 @@ import java.io.IOException;
  * content), or on the response from a resource, or both. 
  * 
  * Created by cavayman on 30.08.2016.
- * @version 1.1
- * @since 15.11.2016
+ * @author Kostyantyn Panchenko
+ * @version 1.2
+ * @since 28.12.2016
  */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class SimpleCorsFilter implements Filter {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(SimpleCorsFilter.class);
     /**
      * Default no-args constructor.
      */
@@ -39,17 +43,39 @@ public class SimpleCorsFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        
+        LOGGER.info("Received request from " + request.getRemoteAddr());
+        
+        response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with, authorization,Content-Type,");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-
+        response.setHeader("Access-Control-Allow-Credentials", "true");        
+        
+        /*
+         * This block is needed to ensure that CORS request for file uploading will be granted access.
+         * It checks if request came from a localhost or another origin and set appropriate
+         * Access-Control-Allow-Origin header value.
+         * If running in development mode from port other that 8080 - change line No 64 to your port.
+         * As an option of this block consider setting Access-Control-Allow-Credentials to false.
+         */         
+        if (request.getRequestURI().contains("/restful/google-drive/upload/")) {           
+            if (request.getRemoteAddr().contains("127.0.0.1") 
+                    || request.getRemoteAddr().contains("localhost")
+                    || request.getRemoteAddr().contains("0:0:0:0:0:0:0:1")) {                    
+                response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+                LOGGER.info("Granted access for localhost");
+            } else {
+                response.setHeader("Access-Control-Allow-Origin", request.getRemoteAddr());
+            }
+        }
+        
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
             chain.doFilter(req, res);
         }
+        
     }
 
     /**

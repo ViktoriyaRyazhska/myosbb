@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,9 +28,7 @@ import com.softserve.osbb.util.resources.exceptions.Error;
 @RestController
 @RequestMapping("/restful/google-drive")
 public class GoogleDriveController {
-    
-    private final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveController.class);
-    
+        
     private final String FOLDER_FLAG = "application/vnd.google-apps.folder";
     
     @Autowired
@@ -84,7 +80,6 @@ public class GoogleDriveController {
     @ExceptionHandler(IllegalArgumentException.class)
     public Error illegalFileName(IllegalArgumentException exception) {
         String message = exception.getLocalizedMessage();
-        LOGGER.error(message);
         return new Error(404, message);
     }
     
@@ -92,7 +87,6 @@ public class GoogleDriveController {
     @ExceptionHandler(GoogleDriveException.class)
     public Error googleDriveError(GoogleDriveException exception) {
         String message = exception.getMessage();
-        LOGGER.error(message);
         return new Error(500, message);
     }
     
