@@ -19,10 +19,10 @@ public class HouseDTO {
 
     private Integer houseId;
     private Integer numberHouse;
+    private Street street;
     private String zipCode;
     private String description;
-    private Street street;
-    private Osbb osbb;
+    private String osbbName;
     private Integer apartmentCount;
     private Integer numberOfInhabitants;
 
@@ -32,17 +32,20 @@ public class HouseDTO {
 
     public HouseDTO(HouseDTOBuilder houseDTOBuilder) {
         this.houseId = houseDTOBuilder.houseId;
-        this.numberHouse = houseDTOBuilder.numberHouse;
+        this.street = houseDTOBuilder.street;
         this.zipCode = houseDTOBuilder.zipCode;
         this.description = houseDTOBuilder.description;
-        this.osbb = houseDTOBuilder.osbb;
+        this.osbbName = houseDTOBuilder.osbbName;
         this.apartmentCount = houseDTOBuilder.apartmentCount;
         this.numberOfInhabitants = houseDTOBuilder.numberOfInhabitants;
-        this.street = houseDTOBuilder.street;
     }
 
     public Integer getHouseId() {
         return houseId;
+    }
+
+    public Street getStreet() {
+        return street;
     }
 
     public String getZipCode() {
@@ -53,8 +56,8 @@ public class HouseDTO {
         return description;
     }
 
-    public Osbb getOsbb() {
-        return osbb;
+    public String getOsbbName() {
+        return osbbName;
     }
 
     public Integer getApartmentCount() {
@@ -64,15 +67,7 @@ public class HouseDTO {
     public Integer getNumberOfInhabitants() {
         return numberOfInhabitants;
     }
-    
-    public Street getStreet() {
-		return street;
-	}
 
-	public void setStreet(Street street) {
-		this.street = street;
-	}
-	
     public Integer getNumberHouse() {
 		return numberHouse;
 	}
@@ -80,25 +75,26 @@ public class HouseDTO {
 	public void setNumberHouse(Integer numberHouse) {
 		this.numberHouse = numberHouse;
 	}
-	
-	public void setOsbb(Osbb osbb) {
-		this.osbb = osbb;
-	}
 
 
 
 	public static class HouseDTOBuilder {
         private Integer houseId;
         private Integer numberHouse;
+        private Street street;
         private String zipCode;
         private String description;
-        private Street street;
-        private Osbb osbb;
+        private String osbbName;
         private Integer apartmentCount;
         private Integer numberOfInhabitants;
 
         public HouseDTOBuilder setHouseId(final Integer houseId) {
             this.houseId = houseId;
+            return this;
+        }
+
+        public HouseDTOBuilder setStreet(final Street street) {
+            this.street = street;
             return this;
         }
 
@@ -112,9 +108,9 @@ public class HouseDTO {
             return this;
         }
 
-        public HouseDTOBuilder setOsbb(final Osbb osbb) {
+        public HouseDTOBuilder setOsbbName(final Osbb osbb) {
             if (osbb != null) {
-                this.osbb = osbb;
+                this.osbbName = osbb.getName();
             }
             return this;
         }
@@ -132,37 +128,24 @@ public class HouseDTO {
             return this;
         }
         
-        public Street getStreet() {
-			return street;
-		}
+        public HouseDTOBuilder setNumberHouse(Integer numberHouse) {
+        	this.numberHouse = numberHouse;
+    		return this;
+    	}
 
-		public HouseDTOBuilder setStreet(Street street) {
-			this.street = street;
-			return this;
-		}
-
-		public HouseDTO build() {
+        public HouseDTO build() {
             return new HouseDTO(this);
         }
-
-		public Integer getNumberHouse() {
-			return numberHouse;
-		}
-
-		public HouseDTOBuilder setNumberHouse(Integer numberHouse) {
-			this.numberHouse = numberHouse;
-			return this;
-		}
-		
     }
-        
-	@Override
+
+    @Override
     public String toString() {
         return "HouseDTO{" +
                 "houseId=" + houseId +
+                ", street='" + street + '\'' +
                 ", zipCode='" + zipCode + '\'' +
                 ", description='" + description + '\'' +
-                ", osbbName='" + osbb + '\'' +
+                ", osbbName='" + osbbName + '\'' +
                 ", apartmentCount=" + apartmentCount +
                 ", numberOfInhabitants=" + numberOfInhabitants +
                 '}';

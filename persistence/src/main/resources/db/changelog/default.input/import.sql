@@ -137,7 +137,6 @@ INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(6, 2, 1, 'Нак
 INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(7, 3, 1, 'Протокол установчих зборів');
 INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(8, 3, 1, 'Some folder');
 
-
 INSERT INTO attachment(  path, type, file_name) VALUES ('http://itukraine.org.ua/sites/default/files/news/sserve.jpg', 'IMAGE', 'sserve.jpg');
 INSERT INTO attachment(  path, type, file_name) VALUES ('http://ua-ekonomist.com/uploads/posts/2013-08/1376494055_932378712.jpg', 'IMAGE', '1376494055_932378712.jpg');
 INSERT INTO attachment(  path, type, file_name) VALUES ('http://news.dks.ua/images/0915/i_08091517_1.jpg', 'IMAGE', 'i_08091517_1.jpg');
@@ -147,16 +146,6 @@ INSERT INTO attachment(  path, type, file_name) VALUES ('http://archfest.com/web
 INSERT INTO attachment(  path, type, file_name) VALUES ('https://www.askideas.com/media/39/Awesome-Empire-State-Building-Picture.jpg', 'IMAGE', 'Awesome-Empire-State-Building-Picture.jpg');
 INSERT INTO attachment(  path, type, file_name) VALUES ('http://img1.globalinfo.ua/im/2014/02/12/TZA04E.jpg', 'IMAGE', 'TZA04E.jpg');
 INSERT INTO attachment(  path, type, file_name) VALUES ('http://kyiv.ridna.ua/wp-content/uploads/2015/06/Project2_0014.jpg', 'IMAGE', 'Project2_0014.jpg');
-
-INSERT INTO osbb(  name, description,  district, creation_date) VALUES ('Мій Дім','осбб для людей','Залізничний','2016-09-01 10:46:43.221000');
-INSERT INTO osbb(  name, description, district, creation_date) VALUES ('Червона Калина','найкраще осбб','Франківський','2014-09-05 10:46:43.221220');
-INSERT INTO osbb(  name, description,  district, creation_date) VALUES ('Двір','рівні права','Франківський','2012-05-27 08:20:43.221000');
-INSERT INTO osbb(  name, description,  district, creation_date) VALUES ('Район','осбб','Сихів','2015-10-15 10:46:43.221000');
-INSERT INTO osbb(  name, description, district, creation_date) VALUES ('Надія','файне осбб','Сихів','2010-08-01 10:46:43.221000');
-INSERT INTO osbb(  name, description,  district, creation_date) VALUES ('Весна',' ','Сихів','2016-05-10 12:46:43.221000');
-INSERT INTO osbb(  name, description,  district, creation_date) VALUES ('Мрія',' ','Залізничний','2016-09-01 10:46:43.221000');
-INSERT INTO osbb(  name, description,  district, creation_date) VALUES ('Моя Оселя',' ','Шевченківський','2013-10-12 08:46:43.221340');
-INSERT INTO osbb(  name, description,  district, creation_date) VALUES ('Сонечко', ' ' ,' Укпор ','2015-04-18 10:46:43.221270');
 
 INSERT INTO house(number_house, zip_code, description, street_id, osbb_id) VALUES(1, '79040', 'a nice house with a lot of parking spaces',1,1);
 INSERT INTO house(number_house, zip_code, description, street_id, osbb_id) VALUES(2, '79041', 'a nice house with a lot of parking spaces',1,4);
@@ -260,14 +249,6 @@ INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,ph
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,osbb_id,is_owner,activated) VALUES ('1992-11-02','golovaosbb3@gmail.com','Semen','Male','Golova3','$$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','38925673651','3',1,3,TRUE,TRUE);
 INSERT INTO users(  birth_date,email, first_name, gender, last_name, password,phone_number,role,apartment_id,osbb_id,is_owner,activated) VALUES ('1991-02-15','golovaosbb4@gmail.com','Oleg','Male','Golova4','$$2a$06$IeFQ1f0OMzPvfrwMvUrvqO6ghg.Qayu57t6nRAhgY9Ic18muPHGAC','38935673123','3',1,4,TRUE,TRUE);
 
-INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(1, NULL, 1, 'ROOT FOLDER');
-INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(2, 1, 1, 'Установчі документи');
-INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(3, 1, 1, 'Протоколи зборів');
-INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(4, 1, 1, 'Фінінсова звітність');
-INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(5, 2, 1, 'Статут');
-INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(6, 2, 1, 'Накази про призначення');
-INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(7, 3, 1, 'Протокол установчих зборів');
-INSERT INTO folder (folder_id, parent_id, osbb_id, name) VALUES(8, 3, 1, 'Some folder');
 
 insert into bill(date, name, to_pay, paid, tariff, apartment_id, provider_id)VALUES('2016-06-28', 'Охорона', 240.5,0, 2.5, 1, 1);
 insert into bill(date, name, to_pay, paid, tariff, apartment_id, status, provider_id) VALUES('2016-06-28', 'Прибирання сходової клітки', 356,356, 4.5, 1, 'PAID', 1);

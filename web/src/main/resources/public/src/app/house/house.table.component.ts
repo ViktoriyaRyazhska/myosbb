@@ -14,7 +14,6 @@ import { FORM_DIRECTIVES } from "@angular/forms";
 import { CORE_DIRECTIVES } from "@angular/common";
 import { Subscription } from "rxjs";
 import { PageParams } from "../../shared/models/search.model";
-import { House } from "../../shared/models/house";
 import Regex = require('../../shared/services/regex.all.text');
 
 @Component({
@@ -31,7 +30,6 @@ export class HouseTableComponent implements OnInit {
 
     private sub: Subscription;
     private osbbId: number;
-    private housess:House[];
     private houses: HousePageObject[] = [];
     private houseId: number;
     private pageParams: PageParams = {pageNumber: 1, sortedBy: null, orderType: false, rowNum: 10};
@@ -57,17 +55,7 @@ export class HouseTableComponent implements OnInit {
     }
 
     ngOnInit(): any {
-        this.listAllHouses();
         this.initHousesArr();
-    }
-
-    listAllHouses() {
-        this._houseService.listAllHouses().subscribe((data)=> {
-            this.housess = data;
-                },
-                (error)=> {
-                    this.handleErrors(error);
-                });
     }
 
     refresh() {
@@ -147,6 +135,7 @@ export class HouseTableComponent implements OnInit {
             .subscribe((data)=> {
                     this.pending = false;
                     this.houses = data.rows;
+                    console.log(this.houses);
                     this.totalPages = data.totalPages;
                     this.fillPageList(+data.beginPage, +data.endPage)
                 },
@@ -163,6 +152,7 @@ export class HouseTableComponent implements OnInit {
             .subscribe((data)=> {
                     this.pending = false;
                     this.houses = data.rows;
+                    console.log(this.houses);
                     this.totalPages = data.totalPages;
                     this.fillPageList(+data.beginPage, +data.endPage)
                 },
@@ -241,5 +231,4 @@ export class HouseTableComponent implements OnInit {
         }
         this._router.navigate(['home/house', id]);
     }
-
 }

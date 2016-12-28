@@ -73,8 +73,7 @@ public class HouseServiceImpl implements HouseService {
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	@Override
-	public List<House> findAllByStreetId(Integer streetId) {
-		
+	public List<House> findAllByStreetId(Integer streetId) {	
 		return houseRepository.findByStreetId(streetId);
 	}
 
@@ -122,8 +121,7 @@ public class HouseServiceImpl implements HouseService {
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	@Override
-	public House getByNumberHouseAndStreet(Integer numberHouse, Integer streetId) {
-		
+	public House getByNumberHouseAndStreet(Integer numberHouse, Integer streetId) {		
 		return houseRepository.getByNumberHouseAndStreet(numberHouse, streetId);
 	}
 }

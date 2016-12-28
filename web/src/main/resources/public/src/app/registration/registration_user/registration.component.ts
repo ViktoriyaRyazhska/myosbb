@@ -147,7 +147,6 @@ export class RegistrationComponent implements OnInit {
                 	this.sendEmails();
                     isSuccessful = true;
                     this.newUser = data;
-                    console.log(data);
                     this._router.navigate(['/registration/success']);
                 },
                 error => {
@@ -161,7 +160,6 @@ export class RegistrationComponent implements OnInit {
         this.registerService.registerOsbb(this.newOsbb)
             .subscribe(
                 data => {
-                    console.log(data);
                     this._toasterService.pop('success', '', "Осбб " + this.newOsbb.name + " було успішно зареєстроване!");
                 },
                 error => {
@@ -184,7 +182,6 @@ export class RegistrationComponent implements OnInit {
         var location = place['geometry']['location'];
         var lat = location.lat();
         var lng = location.lng();
-        console.log("Address Object", place);
     }
 
     matchCheck() {
@@ -225,8 +222,6 @@ export class RegistrationComponent implements OnInit {
     }
     
     selectedGender(value: any) {
-
-    	console.log(value.text);
         let gender: string = value.text;
         if( gender == 'Female' || gender =='Жінка' ) {
             this.newUser.gender = 'Female';
@@ -251,14 +246,12 @@ export class RegistrationComponent implements OnInit {
            this.streets = [];
            this.isSelectedHouse = false;
         }
-           console.log(value);
            this.itemRegion = value;
            let region: Region = this.getRegionByName(value.text);
            this.listAllCitiesByRegion(region.id); 
     }
 
     selectedCity(value: any) {
-        console.log(value.text);
          if(this.streets.length!=0){
             this.itemStreet.text = '';
             this.itemHouse.text = '';
@@ -266,7 +259,6 @@ export class RegistrationComponent implements OnInit {
             this.houses = [];
             this.isSelectedHouse = false;
         }
-                console.log(value);
                 this.itemCity = value;
                 let city: City = this.getCityByName(value.text);
                 this.listAllStreetsByCity(city.id);
@@ -286,7 +278,6 @@ export class RegistrationComponent implements OnInit {
             this.houses = [];
             this.isSelectedHouse = false;
         }
-        console.log(value);
         this.itemStreet = value;
         let street: Street = this.getStreetByName(value.text);
         this.streetId = street.id;
@@ -345,7 +336,6 @@ export class RegistrationComponent implements OnInit {
             .subscribe((data) => {
                 this.osbbList = data;
                 this.osbb = this.fillOsbb();
-                console.log('all osbb names', this.osbb);
             }, (error)=> {
                 this.handleErrors(error)
             });
@@ -378,7 +368,6 @@ export class RegistrationComponent implements OnInit {
             .subscribe((data) => {
                     this.houseList = data;
                     this.houses = this.fillHouses();
-                    console.log('House = '+this.houses);
                 },
                 (error) => {
                     this.handleErrors(error)
@@ -390,7 +379,6 @@ export class RegistrationComponent implements OnInit {
             .subscribe((data) => {
                 this.apartmentList = data;
                 this.apartment = this.fillApartment();
-                console.log('all apartment', this.apartment);
             }, (error) => {
                 this.handleErrors(error)
             });
@@ -457,7 +445,6 @@ export class RegistrationComponent implements OnInit {
         for (let osbbObject of this.osbbList) {
             tempArr.push(osbbObject.name);
         }
-        console.log(tempArr)
         return tempArr;
     }
 
@@ -491,17 +478,14 @@ export class RegistrationComponent implements OnInit {
         for (let osbbObject of this.osbbList) {
             tempArr.push(osbbObject.osbbId);
         }
-        console.log(tempArr)
         return tempArr;
     }
 
     fillHouses(): string[] {
         let tempArr: string[] = [];
         for (let houseObject of this.houseList) {
-            console.log(houseObject.numberHouse);
             tempArr.push('' + houseObject.numberHouse);
         }
-        console.log(tempArr)
         return tempArr;
     }
 
@@ -510,7 +494,6 @@ export class RegistrationComponent implements OnInit {
         for (let apartmentObject of this.apartmentList) {
             tempArr.push('' + apartmentObject.number)
         }
-        console.log(tempArr)
         return tempArr;
     }
 
@@ -521,7 +504,6 @@ export class RegistrationComponent implements OnInit {
         if (error.status === 500) {
             this._toasterService.pop('error', "Нажаль, сталася помилка під час реєстрації");
         }
-        console.log('error msg' + error)
     }
     
     sendEmails() {
@@ -573,12 +555,10 @@ export class RegistrationComponent implements OnInit {
             }
             ind++;
         }
-        console.log(password);
         this.captcha = password;
     }
 
     initTextUser(text:any) {
         this.captchaUser = text.target.value;
-        console.log(this.captchaUser);
     } 
 }

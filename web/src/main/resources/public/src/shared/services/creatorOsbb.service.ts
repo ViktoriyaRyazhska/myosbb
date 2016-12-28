@@ -9,10 +9,9 @@ import "rxjs/add/operator/toPromise";
 @Injectable()
 export class CreatorOsbbService {
 
-     constructor(private http: Http) { }
+    constructor(private http: Http) { }
 
     private creatorURL: string = ApiService.serverUrl +'/restful/creator/osbb/';
-
 
     getCreatorOsbb(osbbId: number): Observable<any> {
         let url = this.creatorURL+osbbId;

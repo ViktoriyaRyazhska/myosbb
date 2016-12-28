@@ -23,10 +23,12 @@ public class HouseDTOMapper {
         if (house != null) {
             houseDTO = new HouseDTO.HouseDTOBuilder()
                     .setHouseId(house.getHouseId())
-               		.setNumberHouse(house.getNumberHouse())
-                    .setZipCode(house.getZipCode())
+                    .setDescription(house.getDescription())
                     .setStreet(house.getStreet())
-                    .setOsbb(house.getOsbb())
+                    .setZipCode(house.getZipCode())
+                    .setOsbbName(house.getOsbb())
+                    .setApartmentCount((List<Apartment>) house.getApartments())
+                    .setNumberOfInhabitants((List<Apartment>) house.getApartments())
                     .build();
         }
         return houseDTO;
@@ -49,6 +51,9 @@ public class HouseDTOMapper {
     }
 
     private static void mapFromHouseDTOToHouse(HouseDTO houseDTO, House house) {
+    	house.setHouseId(houseDTO.getHouseId());
+    	house.setNumberHouse(houseDTO.getNumberHouse());
+        house.setStreet(houseDTO.getStreet());
         house.setZipCode(houseDTO.getZipCode());
         house.setDescription(houseDTO.getDescription());
     }

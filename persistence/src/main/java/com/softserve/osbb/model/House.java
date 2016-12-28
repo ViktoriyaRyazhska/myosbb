@@ -43,8 +43,7 @@ public class House implements Serializable {
     public void setHouseId(Integer houseId) {
         this.houseId = houseId;
     }
-    
-    @Basic
+
 	@Column(name = "number_house")
 	public Integer getNumberHouse() {
 		return numberHouse;
@@ -54,7 +53,6 @@ public class House implements Serializable {
 		this.numberHouse = numberHouse;
 	}
 
-    @Basic
     @Column(name = "zip_code")
     public String getZipCode() {
         return zipCode;
@@ -64,7 +62,6 @@ public class House implements Serializable {
         this.zipCode = zipCode;
     }
 
-    @Basic
     @Column(name = "description")
     public String getDescription() {
         return description;
@@ -129,8 +126,4 @@ public class House implements Serializable {
 		return "House [houseId=" + houseId + ", numberHouse=" + numberHouse + ", zipCode=" + zipCode + ", description="
 				+ description + ", street=" + street + ", osbb=" + osbb + "]";
 	}
-
-    
-
-
 }

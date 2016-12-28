@@ -44,7 +44,6 @@ export class HomeWallComponent implements OnInit {
         this.osbbService.getDTOOsbbById(this.currentUserService.getUser().osbbId)
             .then( osbb =>  {
                 this.currentOsbb = osbb;
-                 console.log(this.currentOsbb.name);
                  this.getCreatorInfo();
             })
     }

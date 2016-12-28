@@ -198,8 +198,8 @@
               "constraintName": "fk_f80s4splfik67j2ja555ygvws",
               "deferrable": false,
               "initiallyDeferred": false,
-              "onDelete": "CASCADE",
-              "onUpdate": "CASCADE",
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
               "referencedColumnNames": "user_id",
               "referencedTableName": "users"
             }

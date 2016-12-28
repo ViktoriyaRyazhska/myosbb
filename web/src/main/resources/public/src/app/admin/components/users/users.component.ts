@@ -68,7 +68,6 @@ export class UsersComponent implements OnInit {
     private genders:string[];
     private isSelectGender:boolean = false;
 
-
     constructor(private _userService:UsersService, private router:Router, private formBuilder:FormBuilder,
         private registerService: RegisterService,
         private mailService:MailService,
@@ -93,7 +92,6 @@ export class UsersComponent implements OnInit {
         this.ListAllRegion();
         this._userService.getAllUsers().subscribe(data => this.userList = data, error=>console.error(error));
         this.listAllRoles();
-        console.log('get out of service');
         this.genders = [this.translate('gender_male'), this.translate('gender_female')];
     }
 
@@ -147,7 +145,6 @@ export class UsersComponent implements OnInit {
                 user.activated?user.activated=false:user.activated=true
             },
             error=> {
-                console.log(error);
             }
         )
     }
@@ -188,7 +185,6 @@ export class UsersComponent implements OnInit {
            this.streets = [];
            this.isSelectedHouse = false;
         }
-           console.log(value);
            this.itemRegion = value;
            let region: Region = this.getRegionByName(value.text);
            this.listAllCitiesByRegion(region.id); 
@@ -226,8 +222,6 @@ export class UsersComponent implements OnInit {
         this.itemHouse = value;
         this.isSelectedHouse = true; 
         this.numberHouse = value.text;
-        console.log(value);
-        console.log(this.numberHouse);
         this.findHouseAndOsbbId();
     }    
 
@@ -365,7 +359,6 @@ export class UsersComponent implements OnInit {
         .subscribe((data) => {
             this.roleList = data;
             this.roles = this.fillRoles();
-            console.log('all role names', this.roles);
         });
     }
 
@@ -399,7 +392,6 @@ export class UsersComponent implements OnInit {
             console.log(houseObject.numberHouse);
             tempArr.push('' + houseObject.numberHouse);
         }
-        console.log(tempArr)
         return tempArr;
     }
 
@@ -408,7 +400,6 @@ export class UsersComponent implements OnInit {
         for (let roleObject of this.roleList) {
             tempArr.push(roleObject.name);
         }
-        console.log(tempArr)
         return tempArr;
     }
 

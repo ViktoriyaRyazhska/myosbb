@@ -196,7 +196,6 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	@Override
 	public User getCreatorOsbb(Integer id) {
-		
 		return userRepository.getCreatorByOsbbId(id);
 	}
 }

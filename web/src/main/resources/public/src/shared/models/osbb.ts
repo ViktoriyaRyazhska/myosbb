@@ -10,7 +10,6 @@ export interface IOsbb {
     street: Street;
     district: District;
     houseNumber: string;
-    districtStr:string;
     logo: Attachment;
     creationDate: Date;
     available: boolean;
@@ -24,7 +23,6 @@ export class Osbb implements IOsbb {
     district: District;
     creator: User;
     houseNumber: string;
-    districtStr:string;
     logo: Attachment;
     creationDate: Date;
     available: boolean;
