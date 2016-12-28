@@ -40,6 +40,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/oauth/token").permitAll()
                 .antMatchers("/restful/address/**").permitAll()
+                .antMatchers(HttpMethod.DELETE,"/restful/address/region/**").permitAll()
                 .antMatchers("/restful/apartment/**").permitAll()
                 .antMatchers("/restful/attachment").permitAll()
                 .antMatchers("/restful/folder/**").permitAll()

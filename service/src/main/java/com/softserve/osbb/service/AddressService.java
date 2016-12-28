@@ -35,13 +35,13 @@ public interface AddressService {
 
     Region updateRegion(Region region);
 
+    boolean deleteRegion(Integer id);
 /*    City updateCity(City city);
     
     Street updateStreet(Street street);
     
     District updateDistrict(District district);
 
-    void deleteRegion(Integer id);
 
     void deleteCity(Integer id);
 

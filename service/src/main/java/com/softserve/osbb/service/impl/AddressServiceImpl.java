@@ -3,6 +3,7 @@ package com.softserve.osbb.service.impl;
 import com.softserve.osbb.model.Region;
 import com.softserve.osbb.model.City;
 import com.softserve.osbb.model.District;
+import com.softserve.osbb.model.Folder;
 import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Street;
 import com.softserve.osbb.repository.RegionRepository;
@@ -103,6 +104,19 @@ public class AddressServiceImpl implements AddressService {
         }
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Override
+    public boolean deleteRegion(Integer id) {
+    	if (getAllCitiesOfRegion(id).isEmpty()) {
+        	regionRepository.delete(id);
+            return (regionRepository.findById(id) == null);
+    	} else {
+            throw new IllegalArgumentException("Cities of region with id=" + id
+            + " exist. First they should be deleted.");
+    	}
+    }
+
+	
 /*    City updateCity(Integer id);
     
     Street updateStreet(Integer id);

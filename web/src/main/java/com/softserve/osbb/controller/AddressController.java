@@ -107,13 +107,6 @@ public class AddressController {
         return new ResponseEntity<>(district, status);
     }
 
-/*    @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Resource<Region>> updateOsbb(@RequestBody Osbb osbb) {
-        logger.info("Update osbb with id: " + osbb.getOsbbId());
-        Osbb updatedOsbb = osbbService.updateOsbb(osbb);
-        return new ResponseEntity<>(addResourceLinkToOsbb(updatedOsbb), HttpStatus.OK);
-    }
-*/
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/region", method = RequestMethod.POST)
     public AddressDTO addRegion(@RequestBody AddressDTO added) {        
@@ -128,4 +121,10 @@ public class AddressController {
         return new AddressDTO(region.getId(), region.getName(), null);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/region/{id}", method = RequestMethod.DELETE)
+    public boolean deleteRegion(@PathVariable Integer id) {        
+        return addressService.deleteRegion(id);
+    }    
+    
 }
