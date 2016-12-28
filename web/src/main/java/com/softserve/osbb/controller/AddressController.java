@@ -178,15 +178,15 @@ public class AddressController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/street", method = RequestMethod.PUT)
+    @RequestMapping(value = "/district", method = RequestMethod.PUT)
     public AddressDTO updateDistrict(@RequestBody AddressDTO updated) {        
     	District district = addressService.updateDistrict(new District(updated.getId(), updated.getName(),
         				addressService.getCityById(updated.getOwnerId()))); 
-        return new AddressDTO(district.getId(), district.getName(), null);
+        return new AddressDTO(district.getId(), district.getName(), district.getCity().getId());
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/street/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/district/{id}", method = RequestMethod.DELETE)
     public boolean deleteDistrict(@PathVariable Integer id) {        
         return addressService.deleteDistrict(id);
     }    
