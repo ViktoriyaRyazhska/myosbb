@@ -48,7 +48,7 @@ export const homeRoutes: RouterConfig = [
             { path: 'rent/gas' , component: WaterComponen },
             { path: 'apartment/apartmentprofile/:id', component: ApartmentProfileComponent },          
             { path: 'osbb/contacts', component: OsbbContactsComponent },
-            { path: 'osbb/documents-and-reports', component: OsbbDocumentsAndReportsComponent  },             
+            { path: 'osbb/documents-and-reports', component: OsbbDocumentsAndReportsComponent },             
 			{ path: 'bill/parentbillid', component: CustomserviceComponent},
             { path: 'bill/parentbillid/subbill/:id', component: SubbillComponent }
         ]

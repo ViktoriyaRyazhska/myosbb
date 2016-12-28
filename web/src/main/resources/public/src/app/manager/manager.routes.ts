@@ -44,8 +44,7 @@ export const managerRoutes:RouterConfig = [
             { path: 'contract', component: ContractComponent },
             { path: 'friend/:id', component: UserProfileManagerComponent },
             { path: 'osbb/contacts', component: OsbbContactsComponent },
-            { path: 'osbb/documents-and-reports', component: OsbbDocumentsAndReportsComponent },
-            { path: 'osbb/documents-and-reports/:id', component: OsbbDocumentsAndReportsComponent }
+            { path: 'osbb/documents-and-reports', component: OsbbDocumentsAndReportsComponent }
         ]
     },
 ];
