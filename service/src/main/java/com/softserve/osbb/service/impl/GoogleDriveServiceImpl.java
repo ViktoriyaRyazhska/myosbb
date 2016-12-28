@@ -1,6 +1,5 @@
 package com.softserve.osbb.service.impl;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -74,10 +73,9 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 
     {
         try {
-            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport(); 
-            java.io.File file = new java.io.File(TEMP + "/MyOSBB.json");
+            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
             Credential credential = GoogleCredential
-                    .fromStream(new FileInputStream(file))                    
+                    .fromStream(GoogleDriveServiceImpl.class.getResourceAsStream("/MyOSBB.json"))
                     .createScoped(SCOPES);
 
             driveService = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
