@@ -28,7 +28,6 @@ public class House implements Serializable {
     private Collection<User> users;
     private Collection<Apartment> apartments;
 
-
     public House() {
         //default
     }
