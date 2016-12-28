@@ -16,6 +16,8 @@ import { AttachmentAdminComponent } from "./components/attachment/attachment.com
 import { UserProfileAdminComponent } from "./components/user/user.profile.admin.component";
 import { UserProfileComponent } from "./../home/user/user.profile.component";
 import { CalendarAdminComponent } from "./components/calendar/calendar.admin.component";
+import { OsbbContactsComponent } from "../home/osbb-contacts/osbb-contacts.component";
+import { OsbbDocumentsAndReportsComponent } from "../home/osbb-docs-and-reports/osbb-docs-and-reports.component";
 
 export const adminRoutes: RouterConfig = [
     {
@@ -40,6 +42,8 @@ export const adminRoutes: RouterConfig = [
             { path: 'role', component: RoleComponent },
             { path: 'friend/:id', component: UserProfileComponent },
             { path: 'apartments/apartmentprofile/:id', component: ApartmentProfileAdminComponent },
+            { path: 'osbb/contacts', component: OsbbContactsComponent },
+            { path: 'osbb/documents-and-reports', component: OsbbDocumentsAndReportsComponent  },  
             { path: 'role', component: RoleComponent },
             { path: 'friend/:id', component: UserProfileAdminComponent }
         ]
