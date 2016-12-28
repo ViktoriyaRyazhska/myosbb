@@ -149,6 +149,7 @@ public class AddressServiceImpl implements AddressService {
             + " exist. First they should be deleted.");
     	}
     }
+
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
     public Street addStreet(Street street) {
@@ -181,4 +182,35 @@ public class AddressServiceImpl implements AddressService {
     	}
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Override
+    public District addDistrict(District district) {
+        if(district == null) {
+            throw new IllegalArgumentException("District is null. Try to set correct data.");
+        }
+        return districtRepository.saveAndFlush(district);
+    }
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Override
+    public District updateDistrict(District district) {
+        if(districtRepository.exists(district.getId())) {
+            return districtRepository.saveAndFlush(district);
+        } else {
+            throw new IllegalArgumentException("District with id=" + district.getId()
+                    + " doesn't exist. First try to add this district.");
+        }
+    }
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Override
+    public boolean deleteDistrict(Integer id) {
+    	if (osbbRepository.findByDistrictId(id).isEmpty()) {
+        	districtRepository.delete(id);
+            return (districtRepository.findById(id) == null);
+    	} else {
+            throw new IllegalArgumentException("Objects, used district with id=" + id
+            + " exist. First they should be deleted.");
+    	}
+    }
 }

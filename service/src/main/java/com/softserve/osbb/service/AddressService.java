@@ -48,16 +48,10 @@ public interface AddressService {
 
     District getDistrictById(Integer id);
 
-    
-/*        Street updateStreet(Street street);
-    
+    District addDistrict(District district);
+
     District updateDistrict(District district);
 
-
-    void deleteCity(Integer id);
-
-    void deleteStreet(Integer id);
-
-    void deleteDistrict(Integer id);
-*/
+    boolean deleteDistrict(Integer id);
+    
 }
