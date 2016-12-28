@@ -22,7 +22,8 @@ public class Street implements Serializable {
 
     public Street(){}
 
-    public Street(String name, City city) {
+    public Street(Integer id, String name, City city) {
+        this.id = id;
         this.name = name;
         this.city = city;
     }

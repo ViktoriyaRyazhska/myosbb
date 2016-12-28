@@ -124,6 +124,7 @@ public class AddressController {
     public boolean deleteRegion(@PathVariable Integer id) {        
         return addressService.deleteRegion(id);
     }    
+
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/city", method = RequestMethod.POST)
     public AddressDTO addCity(@RequestBody AddressDTO added) { 
@@ -144,6 +145,28 @@ public class AddressController {
     @RequestMapping(value = "/city/{id}", method = RequestMethod.DELETE)
     public boolean deleteCity(@PathVariable Integer id) {        
         return addressService.deleteCity(id);
+    }   
+    
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/street", method = RequestMethod.POST)
+    public AddressDTO addStreet(@RequestBody AddressDTO added) { 
+        Street street = addressService.addStreet(new Street(added.getId(), added.getName(), 
+        		      addressService.getCityById(added.getOwnerId()))); 
+        return new AddressDTO(street.getId(), street.getName(), street.getCity().getId());
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/street", method = RequestMethod.PUT)
+    public AddressDTO updateStreet(@RequestBody AddressDTO updated) {        
+        Street street = addressService.updateStreet(new Street(updated.getId(), updated.getName(),
+        				addressService.getCityById(updated.getOwnerId()))); 
+        return new AddressDTO(street.getId(), street.getName(), null);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/street/{id}", method = RequestMethod.DELETE)
+    public boolean deleteStreet(@PathVariable Integer id) {        
+        return addressService.deleteStreet(id);
     }    
     
 }
