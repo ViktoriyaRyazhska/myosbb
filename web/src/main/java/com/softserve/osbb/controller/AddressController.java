@@ -6,16 +6,21 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.softserve.osbb.dto.AddressDTO;
 import com.softserve.osbb.model.City;
 import com.softserve.osbb.model.District;
+import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Region;
 import com.softserve.osbb.model.Street;
 import com.softserve.osbb.service.AddressService;
@@ -100,6 +105,20 @@ public class AddressController {
         	status = HttpStatus.NOT_FOUND;
         }
         return new ResponseEntity<>(district, status);
+    }
+
+/*    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<Resource<Region>> updateOsbb(@RequestBody Osbb osbb) {
+        logger.info("Update osbb with id: " + osbb.getOsbbId());
+        Osbb updatedOsbb = osbbService.updateOsbb(osbb);
+        return new ResponseEntity<>(addResourceLinkToOsbb(updatedOsbb), HttpStatus.OK);
+    }
+*/
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/region/put", method = RequestMethod.PUT)
+    public AddressDTO updateRegion(@RequestBody AddressDTO updated) {        
+        Region region = addressService.updateRegion(new Region(updated.getId(), updated.getName())); 
+        return new AddressDTO(region.getId(), region.getName(), null);
     }
 
 }

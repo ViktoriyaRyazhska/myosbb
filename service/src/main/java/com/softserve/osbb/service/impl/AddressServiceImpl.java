@@ -3,6 +3,7 @@ package com.softserve.osbb.service.impl;
 import com.softserve.osbb.model.Region;
 import com.softserve.osbb.model.City;
 import com.softserve.osbb.model.District;
+import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Street;
 import com.softserve.osbb.repository.RegionRepository;
 import com.softserve.osbb.repository.CityRepository;
@@ -81,4 +82,29 @@ public class AddressServiceImpl implements AddressService {
 	public Region getRegionById(Integer id) {
 		return regionRepository.findById(id);
 	}
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Override
+    public Region updateRegion(Region region) {
+        if(regionRepository.exists(region.getId())) {
+            return regionRepository.save(region);
+        } else {
+            throw new IllegalArgumentException("Region with id=" + region.getId()
+                    + " doesn't exist. First try to add this osbb.");
+        }
+    }
+
+/*    City updateCity(Integer id);
+    
+    Street updateStreet(Integer id);
+    
+    District updateDistrict(Integer id);
+
+    void deleteRegion(Integer id);
+
+    void deleteCity(Integer id);
+
+    void deleteStreet(Integer id);
+
+    void deleteDistrict(Integer id);
+*/
 }
