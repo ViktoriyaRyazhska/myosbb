@@ -17,7 +17,23 @@ public interface AddressService {
 
     List<Region> getAllRegion();
 
+    Region getRegionById(Integer id);
+    
+    Region addRegion(Region region);
+
+    Region updateRegion(Region region);
+
+    boolean deleteRegion(Integer id);
+
     List<City> getAllCitiesOfRegion(Integer regionId);
+
+    City getCityById(Integer id);
+    
+    City addCity(City region);
+
+    City updateCity(City region);
+
+    boolean deleteCity(Integer id);
 
     List<Street> getAllStreetsOfCity(Integer cityId);
 
@@ -27,18 +43,7 @@ public interface AddressService {
 
     Street getStreetById(Integer id);
     
-    City getCityById(Integer id);
-
-    Region getRegionById(Integer id);
-    
-    Region addRegion(Region region);
-
-    Region updateRegion(Region region);
-
-    boolean deleteRegion(Integer id);
-/*    City updateCity(City city);
-    
-    Street updateStreet(Street street);
+/*        Street updateStreet(Street street);
     
     District updateDistrict(District district);
 

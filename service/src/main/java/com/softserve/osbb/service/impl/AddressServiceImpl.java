@@ -3,7 +3,6 @@ package com.softserve.osbb.service.impl;
 import com.softserve.osbb.model.Region;
 import com.softserve.osbb.model.City;
 import com.softserve.osbb.model.District;
-import com.softserve.osbb.model.Folder;
 import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Street;
 import com.softserve.osbb.repository.RegionRepository;
@@ -116,6 +115,37 @@ public class AddressServiceImpl implements AddressService {
     	}
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Override
+    public City addCity(City city) {
+        if(city == null) {
+            throw new IllegalArgumentException("City is null. Try to set correct data.");
+        }
+        return cityRepository.saveAndFlush(city);
+    }
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Override
+    public City updateCity(City city) {
+        if(cityRepository.exists(city.getId())) {
+            return cityRepository.saveAndFlush(city);
+        } else {
+            throw new IllegalArgumentException("City with id=" + city.getId()
+                    + " doesn't exist. First try to add this city.");
+        }
+    }
+
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Override
+    public boolean deleteCity(Integer id) {
+    	if (getAllStreetsOfCity(id).isEmpty() || getAllDistrictsOfCity(id).isEmpty()) {
+        	cityRepository.delete(id);
+            return (cityRepository.findById(id) == null);
+    	} else {
+            throw new IllegalArgumentException("Cities or districts of region with id=" + id
+            + " exist. First they should be deleted.");
+    	}
+    }
 	
 /*    City updateCity(Integer id);
     
