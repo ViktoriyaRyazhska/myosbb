@@ -54,7 +54,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     private final String FOLDER_FLAG = "application/vnd.google-apps.folder";
     
     /** Folder name pattern. */
-    private final String PATTERN = "[а-яА-ЯіІїЇa-zA-Z0-9-_.]{1,35}";
+    private final String PATTERN = "^[\\sа-яА-ЯіІїЇєЄa-zA-Z0-9_.-]{0,34}[а-яА-ЯіІїЇєЄa-zA-Z0-9_-]{1}$";
     
     /** Temporary directory for storing uploading file */
     private final String TEMP = System.getProperty("user.dir");
@@ -88,7 +88,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     }
 
     @Override
-    public File create(String name, String parentId) {
+    public File createFolder(String name, String parentId) {
         validateName(name);
         checkIfExist(name, parentId);
         
@@ -184,24 +184,29 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     }
 
     @Override
-    public File update(String id, String name) {
+    public File update(String parentId, String name) {
         validateName(name);
+        checkIfExist(name, parentId);
         
-        File file = getFileWithFields(id, "name");
+        File file = getFileWithFields(parentId, "name");
         file.setName(name);
 
         try {
-            driveService.files().update(id, file).setFields("name").execute();
+            driveService.files().update(parentId, file).setFields("name").execute();
         } catch (IOException e) {
             processGDE("IO error occured. Could not update " + name);
         }
 
-        return getFileWithFields(id, CORE);
+        return getFileWithFields(parentId, CORE);
     }
 
     @Override
     public void upload(MultipartFile uploading, String folderId) {
-        String fileName = TEMP + "\\" + uploading.getOriginalFilename();                
+        String fileName = uploading.getOriginalFilename();
+        validateName(fileName);
+        checkIfExist(fileName, folderId);
+        
+        fileName = TEMP + "/" + fileName;
         
         try {
             createTempCopy(fileName, uploading.getInputStream());
