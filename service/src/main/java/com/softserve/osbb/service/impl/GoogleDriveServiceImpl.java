@@ -206,7 +206,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
         validateName(fileName);
         checkIfExist(fileName, folderId);
         
-        fileName = TEMP + "/" + fileName;
+        fileName = new StringBuilder(TEMP).append("/").append(fileName).toString();
         
         try {
             createTempCopy(fileName, uploading.getInputStream());

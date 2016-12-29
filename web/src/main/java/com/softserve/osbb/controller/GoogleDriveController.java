@@ -76,11 +76,11 @@ public class GoogleDriveController {
         driveService.download(id, response);
     }
     
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public Error illegalFileName(IllegalArgumentException exception) {
         String message = exception.getLocalizedMessage();
-        return new Error(404, message);
+        return new Error(400, message);
     }
     
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
