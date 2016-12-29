@@ -13,7 +13,8 @@ import { DriveFile } from './google-drive-service/drive-file';
 import { GoogleDriveService } from './google-drive-service/google-drive.service';
 
 const uploadUrl = ApiService.serverUrl + '/restful/google-drive/upload';
-const root: string = 'appDataFolder'; 
+const root: string = 'appDataFolder';
+const space: string = ' ';
 
 @Component({
     selector: 'docs-and-reports',
@@ -55,16 +56,15 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
     }
 
     private createNewFolder(name: string) {
-        if (this.folderExist(name)) {
-            this.toasterService.pop('error', this.translate('folder_exist'));
+        if (this.exist(name)) {
+            this.toasterService.pop('error', name + space + this.translate('exist'));
         } else {
-            this.driveService.createFolder(name, this.currentFolder)
-                .subscribe(
+            this.driveService.createFolder(name, this.currentFolder).subscribe(
                 data => {
                     this.initFolder(this.currentFolder);
-                    this.toasterService.pop('success', this.translate('folder_created'));
+                    this.toasterService.pop('success', name + space + this.translate('created'));
                 },
-                error => this.errorHandler(error, 'folder_exist')
+                error => this.toasterService.pop('error', name + space + this.translate('exist'))
                 );
         }
         this.newFolder = new DriveFile();
@@ -74,24 +74,24 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
         this.driveService.delete(this.deleteId).subscribe(
             data => {
                 this.initFolder(this.currentFolder);
-                this.toasterService.pop('success', this.translate('folder_deleted'));
+                this.toasterService.pop('success', this.translate('deleted'));
                 this.deleteId = "";
             },
-            error => this.errorHandler(error, 'could_not_delete')
+            error => this.toasterService.pop('error', 'could_not_delete')
         );
     }
 
     private update() {
-        if (this.folderExist(this.editable.name)) {
-            this.toasterService.pop('error', this.translate('folder_exist'));
+        let name: string = this.editable.name;
+        if (this.exist(name)) {
+            this.toasterService.pop('error', name + space + this.translate('exist'));
         } else {
-            this.driveService.update(this.editable.id, this.editable.name)
-                .subscribe(
+            this.driveService.update(this.editable.id, name).subscribe(
                 data => {
                     this.editable = data;
                     this.initFolder(this.currentFolder);
                 },
-                error => this.errorHandler(error, 'could_not_update')
+                error => this.toasterService.pop('error', 'could_not_update')
                 );
         }
     }
@@ -107,18 +107,14 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
         this.editMode = !this.editMode;
     }
 
-    private folderExist(name: string): boolean {
-        var exist: boolean;
+    private exist(name: string): boolean {
         var i: number;
-        var size = this.files.length;
-
-        for (i = 0; i < size; i++) {
+        for (i = 0; i < this.files.length; i++) {
             if (this.files[i].name.toUpperCase() == name.toUpperCase()) {
-                exist = true;
-                break;
+                return true;
             }
         }
-        return exist;
+        return false;
     }
 
     private translate(message: string): string {
@@ -131,11 +127,6 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
 
     private setDeleteId(id: string) {
         this.deleteId = id;
-    }
-
-    private errorHandler(error: any, i18n_key: string) {
-        console.error(error);
-        this.toasterService.pop('error', this.translate(i18n_key));
     }
 
     private openFolder(id: string, fileName: string) {
@@ -184,10 +175,14 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
 
     private onUpload() {
         let i: number;
-        let len: number = this.uploader.queue.length;
 
-        for (i = 0; i < len; i++) {
-            this.uploader.queue[i].upload();
+        for (i = 0; i < this.uploader.queue.length; i++) {
+            let name: string = this.uploader.queue[i].file.name;
+            if (this.exist(name)) {
+                this.toasterService.pop('error', name + space + this.translate('exist'));
+            } else {
+                this.uploader.queue[i].upload();
+            }
         }
     }
 
