@@ -92,7 +92,7 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
                     this.initFolder(this.currentFolder);
                 },
                 error => this.toasterService.pop('error', 'could_not_update')
-                );
+            );
         }
     }
 
@@ -129,11 +129,11 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
         this.deleteId = id;
     }
 
-    private openFolder(id: string, fileName: string) {
+    private openFolder(id: string, folderName: string) {
         this.parents.push(this.currentFolder);
         this.currentFolder = id;
         this.initFolder(this.currentFolder);
-        this.paths.push(fileName);
+        this.paths.push(folderName);
     }
 
     private initFolder(id: string) {
