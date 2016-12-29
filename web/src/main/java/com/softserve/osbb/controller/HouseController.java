@@ -239,6 +239,16 @@ public class HouseController {
         }
         return response;
     }
+    
+    @RequestMapping(value = "/street/{id}", method = RequestMethod.GET)
+    public ResponseEntity<List<House>> findByStreetId(@PathVariable("id") Integer id) {
+    	 logger.info("Get all house of street: "+id);
+    	 List<House> houses = new ArrayList<>();
+    	 if (( houses = houseService.findAllByStreetId(id)) == null) {
+    		 return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+    	 }
+    	 return new ResponseEntity<>(houses,HttpStatus.OK);
+    }
 
     @RequestMapping(value = "/{houseId}/{apartmentNumber}", method = RequestMethod.GET)
     public boolean isApartmentNumberValid(
@@ -287,6 +297,18 @@ public class HouseController {
         }
 
         return new ResponseEntity<>(status);
+    }
+    
+    @RequestMapping(value = "/numberHouse/{numberHouse}/street/{streetId}", method = RequestMethod.GET)
+    public ResponseEntity<House> findByNumberHouseAndStreet(@PathVariable("numberHouse") Integer numberHouse,
+    		@PathVariable("streetId") Integer streetId) {
+    	 logger.info(" Get house by numberHouse " + numberHouse + " and streetId " +streetId);
+    	 House house;
+    	 if ((house = houseService.getByNumberHouseAndStreet(numberHouse, streetId)) == null ) {
+    		  return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+    	 }
+    	 
+    	 return new ResponseEntity<>(house,HttpStatus.OK);   	
     }
 
 }

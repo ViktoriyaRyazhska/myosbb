@@ -27,11 +27,6 @@
     },
     {
       "includeAll": {
-        "path": "classpath:/db/changelog/house/"
-      }
-    },
-    {
-      "includeAll": {
         "path": "classpath:/db/changelog/message/"
       }
     },
@@ -68,6 +63,11 @@
     {
       "includeAll": {
         "path": "classpath:/db/changelog/osbb/"
+      }
+    },
+    {
+      "includeAll": {
+        "path": "classpath:/db/changelog/house/"
       }
     },
     {

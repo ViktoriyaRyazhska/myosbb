@@ -1,6 +1,7 @@
 /**
  * Created by Oleg on 11.08.2016.
  */
+import {HousePageObject} from "../../app/house/house.page.object";
 export interface IApartment{
     apartmentId:number;
     square:number;
@@ -30,9 +31,6 @@ export class Apartment implements IApartment{
         this.house=house;
 
         this.owner=owner;
-
-        this.users=users;
-        this. bills=bills;
 
     }
 

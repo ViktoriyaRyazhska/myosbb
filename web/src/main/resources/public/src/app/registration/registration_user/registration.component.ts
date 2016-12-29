@@ -1,5 +1,4 @@
 import {Component, OnInit} from "@angular/core";
-import {User} from "../../../shared/models/User";
 import {Osbb, IOsbb} from "../../../shared/models/osbb";
 import {RegisterService} from "./register.service";
 import {ROUTER_DIRECTIVES, Router} from "@angular/router";
@@ -7,7 +6,7 @@ import MaskedInput from "angular2-text-mask";
 import emailMask from "node_modules/text-mask-addons/dist/emailMask.js";
 import {GoogleplaceDirective} from "./googleplace.directive";
 import {SELECT_DIRECTIVES} from "ng2-select";
-import {IHouse} from "../../../shared/models/House";
+import {House} from "../../../shared/models/House";
 import {IApartment} from "../../../shared/models/apartment.interface";
 import {UserRegistration} from "../../../shared/models/user_registration";
 import {Street} from "../../../shared/models/addressDTO";
@@ -26,12 +25,13 @@ import {CapitalizeFirstLetterPipe} from "../../../shared/pipes/capitalize-first-
 import {TranslatePipe} from "ng2-translate";
 import { MailService } from "../../../shared/services/mail.sender.service";
 import { TranslateService } from 'ng2-translate';
+import { CreatorOsbbService } from "../../../shared/services/creatorOsbb.service";
 
 @Component({ 
     selector: 'app-register',
     templateUrl: 'src/app/registration/registration_user/registration.html',
     styleUrls: ['assets/css/registration/registration.css'],
-    providers: [RegisterService, ToasterService, MailService, AddressService],
+    providers: [RegisterService, ToasterService, MailService, AddressService, CreatorOsbbService],
     pipes: [TranslatePipe, CapitalizeFirstLetterPipe],
     directives: [ROUTER_DIRECTIVES, MaskedInput, GoogleplaceDirective, SELECT_DIRECTIVES,
         ToasterContainerComponent]
@@ -47,6 +47,7 @@ export class RegistrationComponent implements OnInit {
     public itemRegion:SelectItem;
     public itemCity:SelectItem;
     public itemStreet:SelectItem;
+    public itemHouse:SelectItem;
     public genders: string[];
     confirmPassword: string = "";
     birthDateError: boolean = false;
@@ -58,13 +59,13 @@ export class RegistrationComponent implements OnInit {
     errorMsg = "";
     errorBirthDateMsg = "";
     private osbbList: IOsbb[] = [];
+    private houseList:House[] = [];
     private regionList: Region[] = [];
     private cityList: City[] = [];
     private streetList: Street[] = [];
     private regions: Array<string> = [];
     private cities: Array<string> = [];
     private streets: Array<string> = [];
-    private houseList: IHouse[] = [];
     private apartmentList: IApartment[] = [];
     private osbb: Array<string> = [];
     private houses: Array<string> = [];
@@ -72,9 +73,11 @@ export class RegistrationComponent implements OnInit {
     private isSelectedOsbb: boolean = false;
     private isSelectedHouse: boolean = false;
     private isSelectedApartment: boolean = false;
-    private isSelectedStreet: boolean = false;
     private isSelectGender:boolean = false;
     errorMessage: string;
+    private mailCreator:string;
+    private numberHouse:number;
+    private streetId:number;
     private IsRegistered: boolean;
     private IsRegisteredOsbb: boolean;
     private isJoinedOsbb: boolean;
@@ -87,14 +90,16 @@ export class RegistrationComponent implements OnInit {
                 private _toasterService: ToasterService,
                 private mailService:MailService,
                 private addressServise:AddressService,
-                private translateService: TranslateService) {
+                private translateService: TranslateService,
+                private creatorOsbbService: CreatorOsbbService) {
         this.newUser.password = "";
         this.newUser.activated = false;
         this.newOsbb.creationDate = new Date;
-        this.osbbList = [];
-        this.houseList = [];
-        this.apartmentList = [];
         this.newUser.status = this.options[0];
+        this.itemCity = new SelectItem();
+        this.itemHouse = new SelectItem();
+        this.itemRegion = new SelectItem();
+        this.itemStreet = new SelectItem();
     }
 
     ngOnInit() {
@@ -142,7 +147,6 @@ export class RegistrationComponent implements OnInit {
                 	this.sendEmails();
                     isSuccessful = true;
                     this.newUser = data;
-                    console.log(data);
                     this._router.navigate(['/registration/success']);
                 },
                 error => {
@@ -153,11 +157,9 @@ export class RegistrationComponent implements OnInit {
     }
 
     SenderOsbbAndUser() {
-        this.newOsbb.creator = this.newUser;
         this.registerService.registerOsbb(this.newOsbb)
             .subscribe(
                 data => {
-                    console.log(data);
                     this._toasterService.pop('success', '', "Осбб " + this.newOsbb.name + " було успішно зареєстроване!");
                 },
                 error => {
@@ -180,7 +182,6 @@ export class RegistrationComponent implements OnInit {
         var location = place['geometry']['location'];
         var lat = location.lat();
         var lng = location.lng();
-        console.log("Address Object", place);
     }
 
     matchCheck() {
@@ -221,8 +222,6 @@ export class RegistrationComponent implements OnInit {
     }
     
     selectedGender(value: any) {
-
-    	console.log(value.text);
         let gender: string = value.text;
         if( gender == 'Female' || gender =='Жінка' ) {
             this.newUser.gender = 'Female';
@@ -241,25 +240,28 @@ export class RegistrationComponent implements OnInit {
         if(this.cities.length!=0) {
            this.itemCity.text = '';
            this.itemStreet.text = '';
+           this.itemHouse.text = '';
+           this.houses = [];
            this.cities = [];
            this.streets = [];
+           this.isSelectedHouse = false;
         }
-                this.itemRegion = value;
-                let region: Region = this.getRegionByName(value.text);
-                this.listAllCitiesByRegion(region.id);
-                this.isSelectedStreet = false;  
+           this.itemRegion = value;
+           let region: Region = this.getRegionByName(value.text);
+           this.listAllCitiesByRegion(region.id); 
     }
 
     selectedCity(value: any) {
-        console.log(value.text);
          if(this.streets.length!=0){
             this.itemStreet.text = '';
+            this.itemHouse.text = '';
             this.streets = [];
+            this.houses = [];
+            this.isSelectedHouse = false;
         }
                 this.itemCity = value;
                 let city: City = this.getCityByName(value.text);
                 this.listAllStreetsByCity(city.id);
-                this.isSelectedStreet = false;
     }
 
     selectedOsbb(value: any) {
@@ -267,21 +269,50 @@ export class RegistrationComponent implements OnInit {
         let selectedOsbb: Osbb = this.getOsbbByName(value.text);
         this.newUser.osbbId = selectedOsbb.osbbId;
         this.newOsbb.name = value.text;
-        this.listAllHousesByOsbb(this.newUser.osbbId);
-        this.isSelectedStreet = false;
+        this.isSelectedHouse = false;
     }
 
     selectedStreet(value: any) {
+        if(this.houses.length!=0) {
+            this.itemHouse.text = '';
+            this.houses = [];
+            this.isSelectedHouse = false;
+        }
         this.itemStreet = value;
         let street: Street = this.getStreetByName(value.text);
-        this.newUser.street = street.id;
-        this.isSelectedStreet = true;
+        this.streetId = street.id;
+        this.listAllHousesByStreet(street.id);
     }
 
     selectedHouse(value: any) {
-        this.isSelectedHouse = true;
-        let houseId = this.getHouseIdByName(value.text);
-        this.listAllApartmentsByHouse(houseId);
+        this.itemHouse = value;
+        this.isSelectedHouse = true; 
+        this.numberHouse = value.text;
+        this.findHouseAndOsbbId();
+    }
+
+    findHouseAndOsbbId() {
+        this.registerService.getHouseByNumberHouseAndStreetId(this.numberHouse, this.streetId).
+        subscribe((data)=> {
+                let house:House =  data;             
+                this.newUser.house = house.houseId;
+                this.newUser.osbbId = house.osbb.osbbId;
+                this.newOsbb.name = house.osbb.name;
+                this.findCreatorOsbb(house.osbb.osbbId);
+                            }, (error)=> {
+                this.handleErrors(error)
+            });
+    }
+
+    findCreatorOsbb(osbbId:number) {
+                this.creatorOsbbService.getCreatorOsbb(osbbId).
+                subscribe((data)=> {
+                    let user:UserRegistration = data;
+                    this.mailCreator = user.email;
+                
+            }, (error)=> {
+                this.handleErrors(error)
+            });
     }
 
     selectedApartment(value: any) {
@@ -305,7 +336,6 @@ export class RegistrationComponent implements OnInit {
             .subscribe((data) => {
                 this.osbbList = data;
                 this.osbb = this.fillOsbb();
-                console.log('all osbb names', this.osbb);
             }, (error)=> {
                 this.handleErrors(error)
             });
@@ -333,8 +363,8 @@ export class RegistrationComponent implements OnInit {
                 })
     }
 
-    listAllHousesByOsbb(id: number) {
-        this.registerService.getAllHousesByOsbb(id)
+    listAllHousesByStreet(id: number) {
+        this.registerService.getAllHousesByStreet(id)
             .subscribe((data) => {
                     this.houseList = data;
                     this.houses = this.fillHouses();
@@ -349,7 +379,6 @@ export class RegistrationComponent implements OnInit {
             .subscribe((data) => {
                 this.apartmentList = data;
                 this.apartment = this.fillApartment();
-                console.log('all apartment', this.apartment);
             }, (error) => {
                 this.handleErrors(error)
             });
@@ -399,17 +428,6 @@ export class RegistrationComponent implements OnInit {
         return street;
     }
     
-    getHouseIdByName(name: string): number {
-        let houseId = 0;
-        for (let house of this.houseList) {
-            if (house.street.match(name)) {
-                houseId = house.houseId;
-                break;
-            }
-        }
-        return houseId;
-    }
-
     getApartmentByApartmentNumber(apartmentNumber: string): number {
         let apartmentID: number = 0;
         let apNumber = +apartmentNumber;
@@ -427,7 +445,6 @@ export class RegistrationComponent implements OnInit {
         for (let osbbObject of this.osbbList) {
             tempArr.push(osbbObject.name);
         }
-        console.log(tempArr)
         return tempArr;
     }
 
@@ -461,16 +478,14 @@ export class RegistrationComponent implements OnInit {
         for (let osbbObject of this.osbbList) {
             tempArr.push(osbbObject.osbbId);
         }
-        console.log(tempArr)
         return tempArr;
     }
 
     fillHouses(): string[] {
         let tempArr: string[] = [];
         for (let houseObject of this.houseList) {
-            tempArr.push('' + houseObject.street);
+            tempArr.push('' + houseObject.numberHouse);
         }
-        console.log(tempArr)
         return tempArr;
     }
 
@@ -479,7 +494,6 @@ export class RegistrationComponent implements OnInit {
         for (let apartmentObject of this.apartmentList) {
             tempArr.push('' + apartmentObject.number)
         }
-        console.log(tempArr)
         return tempArr;
     }
 
@@ -490,12 +504,11 @@ export class RegistrationComponent implements OnInit {
         if (error.status === 500) {
             this._toasterService.pop('error', "Нажаль, сталася помилка під час реєстрації");
         }
-        console.log('error msg' + error)
     }
     
     sendEmails() {
         let mail:Mail = new Mail();
-        mail.to= this.newUser.email;
+        mail.to = this.newUser.email;
         mail.text = this.translate('send_email_user')+', '+this.translate('send_osbb')+' '+this.newOsbb.name+', '+this.translate('send_email_user2');
         mail.subject = this.translate('subject_registration');
 
@@ -505,7 +518,7 @@ export class RegistrationComponent implements OnInit {
                 this.handleErrors(error)
         });
 
-        mail.to = 'golovaosbb@gmail.com';
+        mail.to = this.mailCreator;
         mail.text = this.translate('send_email_chairman');
         mail.subject = this.translate('subject_registration');
 
@@ -542,12 +555,10 @@ export class RegistrationComponent implements OnInit {
             }
             ind++;
         }
-        console.log(password);
         this.captcha = password;
     }
 
     initTextUser(text:any) {
         this.captchaUser = text.target.value;
-        console.log(this.captchaUser);
     } 
 }

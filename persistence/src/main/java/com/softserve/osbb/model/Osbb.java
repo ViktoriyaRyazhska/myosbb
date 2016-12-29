@@ -23,11 +23,9 @@ public class Osbb implements Serializable {
     private Street street;
     private String houseNumber;
     private District district;
-    private String districtStr;
     private Boolean available= true;
     private Attachment logo;
     private Timestamp creationDate;
-    private User creator;
     private Collection<Contract> contracts;
     private Collection<Event> events;
     private Collection<House> houses;
@@ -95,16 +93,6 @@ public class Osbb implements Serializable {
         this.houseNumber = houseNumber;
     }
 
-    @Basic
-    @Column(name = "district")
-    public String getDistrictStr() {
-        return districtStr;
-    }
-
-    public void setDistrictStr(String districtStr) {
-        this.districtStr = districtStr;
-    }
-
     @Column(name = "available", columnDefinition = "boolean default true", nullable = false)
     public Boolean getAvailable() {
         return available;
@@ -134,17 +122,8 @@ public class Osbb implements Serializable {
         this.creationDate = creationDate;
     }
 
-    @OneToOne(optional=true)
-    @JoinColumn(name = "creator_id", referencedColumnName = "user_id")
-    public User getCreator() {
-        return creator;
-    }
-
-    public void setCreator(User creator) {
-        this.creator = creator;
-    }
-
-    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     public Collection<Contract> getContracts() {
         return contracts;
     }
@@ -153,7 +132,8 @@ public class Osbb implements Serializable {
         this.contracts = contracts;
     }
 
-    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     public Collection<Event> getEvents() {
         return events;
     }
@@ -162,7 +142,8 @@ public class Osbb implements Serializable {
         this.events = events;
     }
 
-    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     public Collection<House> getHouses() {
         return houses;
     }
@@ -171,7 +152,8 @@ public class Osbb implements Serializable {
         this.houses = houses;
     }
 
-    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    @OneToMany(mappedBy = "osbb", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     public Collection<Report> getReports() {
         return reports;
     }

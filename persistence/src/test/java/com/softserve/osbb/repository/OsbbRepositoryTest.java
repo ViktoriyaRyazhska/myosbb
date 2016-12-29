@@ -1,6 +1,7 @@
 package com.softserve.osbb.repository;
 
 import com.softserve.osbb.PersistenceConfiguration;
+import com.softserve.osbb.model.District;
 import com.softserve.osbb.model.Osbb;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +35,7 @@ public class OsbbRepositoryTest {
         osbb = new Osbb();
         osbb.setName(OSBB_NAME);
         osbb.setDescription("осбб для людей");
-        osbb.setDistrictStr("Залізничний");
+        osbb.setDistrict(new District());
         osbb.setHouseNumber("м.Львів вул.Городоцька 165а");
     }
 

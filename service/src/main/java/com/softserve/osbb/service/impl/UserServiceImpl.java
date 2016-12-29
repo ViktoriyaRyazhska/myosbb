@@ -192,4 +192,10 @@ public class UserServiceImpl implements UserService {
     public User update(User user) {
         return userRepository.saveAndFlush(user);
     }
+
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	@Override
+	public User getCreatorOsbb(Integer id) {
+		return userRepository.getCreatorByOsbbId(id);
+	}
 }

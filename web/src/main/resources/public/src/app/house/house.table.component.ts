@@ -135,6 +135,7 @@ export class HouseTableComponent implements OnInit {
             .subscribe((data)=> {
                     this.pending = false;
                     this.houses = data.rows;
+                    console.log(this.houses);
                     this.totalPages = data.totalPages;
                     this.fillPageList(+data.beginPage, +data.endPage)
                 },
@@ -151,6 +152,7 @@ export class HouseTableComponent implements OnInit {
             .subscribe((data)=> {
                     this.pending = false;
                     this.houses = data.rows;
+                    console.log(this.houses);
                     this.totalPages = data.totalPages;
                     this.fillPageList(+data.beginPage, +data.endPage)
                 },
@@ -229,5 +231,4 @@ export class HouseTableComponent implements OnInit {
         }
         this._router.navigate(['home/house', id]);
     }
-
 }

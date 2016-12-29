@@ -40,7 +40,7 @@ export class UserApartmentComponent {
     order:boolean = true;
     private defaultSorter:string = 'number';
     private currentUser:User;
-    private apartmentToDelete:Aprtment;
+    private apartmentToDelete:Apartment;
     private allHouses:HousePageObject[] = [];
     private houseToAdd:HousePageObject = {street: ''};
     private isNumberValid:boolean = false;

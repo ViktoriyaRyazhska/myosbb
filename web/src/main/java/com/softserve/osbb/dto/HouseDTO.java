@@ -8,6 +8,7 @@ package com.softserve.osbb.dto;
 
 import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.Osbb;
+import com.softserve.osbb.model.Street;
 
 import java.util.List;
 
@@ -17,8 +18,8 @@ import java.util.List;
 public class HouseDTO {
 
     private Integer houseId;
-    private String city;
-    private String street;
+    private Integer numberHouse;
+    private Street street;
     private String zipCode;
     private String description;
     private String osbbName;
@@ -31,7 +32,6 @@ public class HouseDTO {
 
     public HouseDTO(HouseDTOBuilder houseDTOBuilder) {
         this.houseId = houseDTOBuilder.houseId;
-        this.city = houseDTOBuilder.city;
         this.street = houseDTOBuilder.street;
         this.zipCode = houseDTOBuilder.zipCode;
         this.description = houseDTOBuilder.description;
@@ -44,11 +44,7 @@ public class HouseDTO {
         return houseId;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public String getStreet() {
+    public Street getStreet() {
         return street;
     }
 
@@ -72,10 +68,20 @@ public class HouseDTO {
         return numberOfInhabitants;
     }
 
-    public static class HouseDTOBuilder {
+    public Integer getNumberHouse() {
+		return numberHouse;
+	}
+
+	public void setNumberHouse(Integer numberHouse) {
+		this.numberHouse = numberHouse;
+	}
+
+
+
+	public static class HouseDTOBuilder {
         private Integer houseId;
-        private String city;
-        private String street;
+        private Integer numberHouse;
+        private Street street;
         private String zipCode;
         private String description;
         private String osbbName;
@@ -87,12 +93,7 @@ public class HouseDTO {
             return this;
         }
 
-        public HouseDTOBuilder setCity(final String city) {
-            this.city = city;
-            return this;
-        }
-
-        public HouseDTOBuilder setStreet(final String street) {
+        public HouseDTOBuilder setStreet(final Street street) {
             this.street = street;
             return this;
         }
@@ -126,6 +127,11 @@ public class HouseDTO {
             this.numberOfInhabitants = inhabitantsCount;
             return this;
         }
+        
+        public HouseDTOBuilder setNumberHouse(Integer numberHouse) {
+        	this.numberHouse = numberHouse;
+    		return this;
+    	}
 
         public HouseDTO build() {
             return new HouseDTO(this);
@@ -136,7 +142,6 @@ public class HouseDTO {
     public String toString() {
         return "HouseDTO{" +
                 "houseId=" + houseId +
-                ", city='" + city + '\'' +
                 ", street='" + street + '\'' +
                 ", zipCode='" + zipCode + '\'' +
                 ", description='" + description + '\'' +

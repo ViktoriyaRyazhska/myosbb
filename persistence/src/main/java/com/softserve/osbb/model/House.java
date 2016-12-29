@@ -20,20 +20,16 @@ public class House implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public static final House NULL = null;
     private Integer houseId;
-    private String city;
-    private String street;
+    private Integer numberHouse;
     private String zipCode;
     private String description;
-    private Collection<Apartment> apartments;
+    private Street street;
     private Osbb osbb;
-
+    private Collection<User> users;
+    private Collection<Apartment> apartments;
 
     public House() {
         //default
-    }
-
-    public House(String street) {
-        this.street = street;
     }
 
     @Id
@@ -47,27 +43,15 @@ public class House implements Serializable {
         this.houseId = houseId;
     }
 
-    @Basic
-    @Column(name = "street")
-    public String getStreet() {
-        return street;
-    }
+	@Column(name = "number_house")
+	public Integer getNumberHouse() {
+		return numberHouse;
+	}
 
-    public void setStreet(String address) {
-        this.street = address;
-    }
+	public void setNumberHouse(Integer numberHouse) {
+		this.numberHouse = numberHouse;
+	}
 
-    @Basic
-    @Column(name = "city")
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    @Basic
     @Column(name = "zip_code")
     public String getZipCode() {
         return zipCode;
@@ -77,7 +61,6 @@ public class House implements Serializable {
         this.zipCode = zipCode;
     }
 
-    @Basic
     @Column(name = "description")
     public String getDescription() {
         return description;
@@ -107,8 +90,7 @@ public class House implements Serializable {
         this.apartments = appartaments;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "osbb_id", referencedColumnName = "osbb_id")
     public Osbb getOsbb() {
         return osbb;
@@ -116,16 +98,31 @@ public class House implements Serializable {
 
     public void setOsbb(Osbb osbb) {
         this.osbb = osbb;
-    }
+    } 
+    
+    @ManyToOne
+    @JoinColumn(name = "street_id")
+    public Street getStreet() {
+		return street;
+	}
 
-    @Override
-    public String toString() {
-        return "House{" +
-                "houseId=" + houseId +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", osbb=" + osbb +
-                '}';
-    }
+	public void setStreet(Street street) {
+		this.street = street;
+	}
+
+    @OneToMany(mappedBy = "house", fetch = FetchType.LAZY)
+    @JsonIgnore
+	public Collection<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Collection<User> users) {
+		this.users = users;
+	}
+
+	@Override
+	public String toString() {
+		return "House [houseId=" + houseId + ", numberHouse=" + numberHouse + ", zipCode=" + zipCode + ", description="
+				+ description + ", street=" + street + ", osbb=" + osbb + "]";
+	}
 }

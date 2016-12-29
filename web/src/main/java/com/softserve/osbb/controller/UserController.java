@@ -77,8 +77,8 @@ public class UserController {
 
     @RequestMapping(value = "/user/getCurrent", method = RequestMethod.GET)
     public ResponseEntity<Resource<UserDTO>>  getCurrent(@AuthenticationPrincipal Principal user) {
-        User currentUser=userService.findUserByEmail(user.getName());
-        UserDTO userDTO=new UserDTO(currentUser);
+        User currentUser = userService.findUserByEmail(user.getName());
+        UserDTO userDTO = new UserDTO(currentUser);
         return new ResponseEntity<>(addResourceLinkToUserDTO(userDTO),HttpStatus.OK);
     }
 
@@ -97,7 +97,7 @@ public class UserController {
     @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
     public User updateUser(@PathVariable Integer id, @RequestBody UserDTO user) {
         logger.info("Updating user id:" + id);
-        User oldUser = userService.getOne(user.getUserId());
+        User oldUser = userService.getOne(user.getUserId()); 
         User newUser = UserDTOMapper.mapUserDtoToEntity(oldUser,user);
         return userService.update(newUser);
     }
@@ -183,6 +183,17 @@ public class UserController {
                 .getUser(user.getUserId().toString()))
                 .withSelfRel());
         return userResource;
+    }
+    
+    @RequestMapping(value = "/creator/osbb/{id}", method = RequestMethod.GET)
+    private ResponseEntity<User> getCreatorOsbb(@PathVariable("id") Integer id) {
+    	 logger.info("Get Creator");
+    	 User user;
+    	 if ((user = userService.getCreatorOsbb(id)) == null) {
+    		 return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+    	 }
+    	 
+    	 return new ResponseEntity<>(user,HttpStatus.OK);
     }
     
 }

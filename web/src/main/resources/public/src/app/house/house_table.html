@@ -56,9 +56,9 @@
                     <h5>{{'search_not_found' | translate | capitalize}}
                     </h5>
                 </div>
-                <tr *ngFor="let house of houses ">
-                    <td>{{house.street}}</td>
-                    <td>{{house.city}}</td>
+                <tr *ngFor="let house of houses">
+                    <td>{{house.street.name}}</td>
+                    <td>{{house.street.city.name}}</td>
                     <td>{{house.zipCode}}</td>
                     <td>{{house.apartmentCount}}</td>
                     <td>{{house.osbbName}}</td>

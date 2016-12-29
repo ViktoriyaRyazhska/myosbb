@@ -9,17 +9,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.lang.annotation.Native;
 import java.util.List;
 
 @Repository
 public interface HouseRepository extends JpaRepository<House, Integer> {
 
-    List<House> findByCity(String city);
-
-    List<House> findByStreet(String street);
+    List<House> findByStreetId(Integer Integer);
+    
+    @Query(value = "Select * from house where house.number_house = :numberHouse and house.street_id = :streetId", nativeQuery = true)
+    House getByNumberHouseAndStreet(@Param("numberHouse") Integer numberHouse, @Param("streetId") Integer streetId);
 
     @Query("Select h From House h where LOWER(h.street) LIKE LOWER(CONCAT('%',?1,'%'))"
-            + " OR LOWER(h.city) LIKE LOWER(CONCAT('%',?1,'%'))"
             + "OR LOWER(h.description) LIKE LOWER(CONCAT('%',?1,'%'))"
             + "OR LOWER(h.zipCode) LIKE LOWER(CONCAT('%',?1,'%'))")
     List<House> getAlReportsBySearchParameter(String searchTerm);

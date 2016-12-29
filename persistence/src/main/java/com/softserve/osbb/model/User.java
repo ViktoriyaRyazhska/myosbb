@@ -51,7 +51,7 @@ public class User implements Serializable {
     private Role role;
     private Apartment apartment;
     private Osbb osbb;
-    private Street street;
+    private House house;
     private Collection<Notice> notices = new ArrayList<>();
     private Collection<Vote> votes = new ArrayList<>();
     private Collection<Message> messages = new ArrayList<>();
@@ -75,7 +75,7 @@ public class User implements Serializable {
         this.role = user.getRole();
         this.apartment = user.getApartment();
         this.osbb = user.getOsbb();
-        this.street = user.getStreet();
+        this.house = user.getHouse();
     }
     
     @Id
@@ -203,7 +203,7 @@ public class User implements Serializable {
         isOwner = owner;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "apartment_id", referencedColumnName = "apartment_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     public Apartment getApartment() {
@@ -214,7 +214,7 @@ public class User implements Serializable {
         this.apartment = appartament;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "osbb_id")
     @JsonIgnore
     public Osbb getOsbb() {
@@ -294,15 +294,6 @@ public class User implements Serializable {
     public void setOptions(Collection<Option> options) {
         this.options = options;
     }
-    
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-	public Street getStreet() {
-		return street;
-	}
-
-	public void setStreet(Street street) {
-		this.street = street;
-	}
 
     @Override
     public boolean equals(Object obj) {
@@ -313,8 +304,18 @@ public class User implements Serializable {
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
     }
+    
+    @ManyToOne
+    @JoinColumn(name = "house_id")
+    public House getHouse() {
+		return house;
+	}
 
-    @Override
+	public void setHouse(House house) {
+		this.house = house;
+	}
+
+	@Override
     public String toString() {
         return "User{" +
                 "userId=" + userId +

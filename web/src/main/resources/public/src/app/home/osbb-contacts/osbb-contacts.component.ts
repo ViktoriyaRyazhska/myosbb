@@ -33,10 +33,11 @@ export class OsbbContactsComponent implements OnInit {
 
     getUser() {
         this.user = this.userSevice.getUser();
-        console.log('Current user is ' + this.user.firstName + ' ' + this.user.lastName);
+        console.log('Current user is ' + this.user.firstName + ' ' + this.user.lastName+' '+this.user.osbbId);
     }
 
     getOsbb() {
+        console.log(this.user);
         this.osbbService.getDTOOsbbById(this.user.osbbId)
             .then(osbb => {
                 this.userOsbb = osbb;

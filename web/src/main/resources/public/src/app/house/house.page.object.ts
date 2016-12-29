@@ -1,7 +1,8 @@
+import { Street } from "../../shared/models/addressDTO";
+
 export class HousePageObject {
     houseId: number;
-    city: string;
-    street: string;
+    street: Street;
     zipCode: string;
     description: string;
     osbbName: string;

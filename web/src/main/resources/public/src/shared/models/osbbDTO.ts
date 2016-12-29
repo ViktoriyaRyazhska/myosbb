@@ -1,4 +1,3 @@
-import { User } from './User';
 import { Attachment } from './attachment';
 import { Street, District } from './addressDTO';
 
@@ -7,10 +6,9 @@ export class OsbbDTO {
     name: string;
     description: string;
     street: Street;
+    address: string;
     district: District;
-    creator: User;
     houseNumber: string;
-    districtStr:string;
     logo: Attachment;
     creationDate: Date;
     available: boolean;

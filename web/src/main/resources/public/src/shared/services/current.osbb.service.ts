@@ -19,8 +19,6 @@ export class CurrentOsbbService{
         this.currentUserService=HeaderComponent.currentUserService;
         this.currentUser = this.currentUserService.getUser();
 
-
-
      // console.log("osbb id ffrom service="+JSON.stringify(this.currentUser.osbbId));
         this.setOsbbId(this.currentUser.osbbId);
           }
@@ -33,9 +31,4 @@ export class CurrentOsbbService{
          return this.currentOsbbId;
         //return this.currentUser.osbb.osbbId;
     }
-
-
-
-
 }
-

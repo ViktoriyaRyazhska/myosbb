@@ -41,10 +41,8 @@ public class OsbbRegistartionToOsbbAdapter extends DTOToEntityAdapter<OsbbRegist
     private void _parse(OsbbRegistrationDTO osbbRegistrationDTO, Osbb registeredOsbb) {
         registeredOsbb.setName(osbbRegistrationDTO.getName());
         registeredOsbb.setDescription(osbbRegistrationDTO.getDescription());
-        registeredOsbb.setCreator(userRegistrationToUserAdapter.parse(osbbRegistrationDTO.getCreator()));
         registeredOsbb.setHouseNumber(osbbRegistrationDTO.getHouseNumber());
         registeredOsbb.setDistrict(osbbRegistrationDTO.getDistrict());
-        registeredOsbb.setDistrictStr(osbbRegistrationDTO.getDistrictStr());
         registeredOsbb.setCreationDate(osbbRegistrationDTO.getCreationDate());
         registeredOsbb.setAvailable(registeredOsbb.getAvailable());
 

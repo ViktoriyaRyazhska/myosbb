@@ -22,11 +22,11 @@ public interface HouseService {
 
     House findHouseById(Integer houseId);
 
+    House getByNumberHouseAndStreet(Integer numberHouse, Integer streetId);
+    
+    List<House> findAllByStreetId(Integer cityId);
+
     List<House> getAllHousesBySearchParameter(String searchTerm);
-
-    List<House> findAllByCity(String city);
-
-    List<House> findAllByStreet(String street);
 
     List<House> findAll();
 

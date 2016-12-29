@@ -12,7 +12,7 @@ export class UserRegistration {
     activated:boolean;
     apartmentId:number;
     role:number;
-    street:number;
+    house:number;
 
     constructor() {
         this.role = 1;

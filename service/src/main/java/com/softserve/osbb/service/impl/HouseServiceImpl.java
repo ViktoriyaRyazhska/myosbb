@@ -67,24 +67,15 @@ public class HouseServiceImpl implements HouseService {
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
-    public List<House> findAllByCity(String city) {
-        return (city == null || city.isEmpty()) ?
-                EMPTY_HOUSE_LIST : houseRepository.findByCity(city);
-    }
-
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    @Override
-    public List<House> findAllByStreet(String street) {
-        return (street == null || street.isEmpty()) ?
-                EMPTY_HOUSE_LIST : houseRepository.findByStreet(street);
-    }
-
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    @Override
     public List<House> findAll() {
         return houseRepository.findAll();
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	@Override
+	public List<House> findAllByStreetId(Integer streetId) {	
+		return houseRepository.findByStreetId(streetId);
+	}
 
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     @Override
@@ -102,7 +93,6 @@ public class HouseServiceImpl implements HouseService {
         }
         houseRepository.delete(id);
         return true;
-
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
@@ -128,4 +118,10 @@ public class HouseServiceImpl implements HouseService {
     public Page<House> getAllHousesByOsbb(Osbb osbb, Pageable pageable) {
         return houseRepository.findByOsbb(osbb, pageable);
     }
+
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	@Override
+	public House getByNumberHouseAndStreet(Integer numberHouse, Integer streetId) {		
+		return houseRepository.getByNumberHouseAndStreet(numberHouse, streetId);
+	}
 }
