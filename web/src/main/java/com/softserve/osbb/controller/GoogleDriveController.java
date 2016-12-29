@@ -49,7 +49,7 @@ public class GoogleDriveController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "create/{parentId}", method = RequestMethod.POST)
     public DriveFile createFolder(@PathVariable String parentId, @RequestBody String name) {        
-        return getDriveFileFrom(driveService.create(name, parentId));        
+        return getDriveFileFrom(driveService.createFolder(name, parentId));        
     }
     
     @ResponseStatus(HttpStatus.OK)

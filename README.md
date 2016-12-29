@@ -56,3 +56,4 @@ Lv-205 Team:
 - Anton Prudyus
 - Liubomyr Blikharskyi
 - Sergiy Vasylchak
+- Volodymyr Khmil

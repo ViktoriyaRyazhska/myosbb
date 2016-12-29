@@ -150,11 +150,9 @@ export class OsbbModalComponent implements OnInit{
                                 && this.houseNumberControl.valid) {
             let fileList: FileList = fileInput.files;
             if(this.osbbDTO.isChanged) {
-                console.log("file was changed");
                  this.osbbDTO.file =  fileList.item(0);
             }
             if(this.isEditing) {
-                console.log("isEditing");
                 this.editOsbb();
                 this.osbbDTO.osbb = this.osbb;
                 this.update.emit(this.osbbDTO);
@@ -202,8 +200,6 @@ export class OsbbModalComponent implements OnInit{
                     }
                 }
              }
-             console.log("Regions List");
-             console.log(this.regions);
              this.currentCity = null;
              this.currentStreet = null;
              this.currentDistrict = null;
@@ -222,8 +218,6 @@ export class OsbbModalComponent implements OnInit{
                     }
                 }
              }
-             console.log("Cities List");
-             console.log(this.cities);
              this.currentStreet = null;
              this.currentDistrict = null;
              }, (error)=> {
@@ -241,8 +235,6 @@ export class OsbbModalComponent implements OnInit{
                     }
                 }
              }
-             console.log("Streets List");
-             console.log(this.streets);
              }, (error)=> {
                  this.handleErrors(error)
              });
@@ -258,15 +250,12 @@ export class OsbbModalComponent implements OnInit{
                     }
                 }
              }
-             console.log("Discrits List");
-             console.log(this.districts);
              }, (error)=> {
                  this.handleErrors(error)
              });
     }
 
     selectedRegion(value: any): void {
-        console.log(value);
         this.fillCities(value.id);
         this.currentCity = null;
         this.streets = [];
@@ -285,7 +274,6 @@ export class OsbbModalComponent implements OnInit{
     selectedStreet(value: any): void {
         this.addressService.getStreetById(value.id).subscribe((data)=> {
              this.street = data;
-             console.log(this.street);
              }, (error)=> {
                  this.handleErrors(error)
              });
@@ -294,7 +282,6 @@ export class OsbbModalComponent implements OnInit{
     selectedDistrict(value: any): void {
         this.addressService.getDistrictById(value.id).subscribe((data)=> {
              this.district = data;
-             console.log(this.district);
              }, (error)=> {
                  this.handleErrors(error)
              });

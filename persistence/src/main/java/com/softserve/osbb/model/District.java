@@ -18,7 +18,8 @@ public class District implements Serializable {
 
     public District(){}
 
-    public District(String name, City city) {
+    public District(Integer id, String name, City city) {
+        this.id = id;
         this.name = name;
         this.city = city;
     }
