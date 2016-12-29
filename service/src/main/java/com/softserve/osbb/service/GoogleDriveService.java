@@ -18,7 +18,7 @@ import com.google.api.services.drive.model.File;
 @Service
 public interface GoogleDriveService {
     
-    File create(String name, String parentId);
+    File createFolder(String name, String parentId);
     
     String delete(String id);
     

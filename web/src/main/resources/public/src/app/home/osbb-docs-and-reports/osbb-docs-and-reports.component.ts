@@ -180,10 +180,11 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
             let name: string = this.uploader.queue[i].file.name;
             if (this.exist(name)) {
                 this.toasterService.pop('error', name + space + this.translate('exist'));
+                this.uploader.queue[i].remove();
             } else {
                 this.uploader.queue[i].upload();
             }
-        }
+        }        
     }
 
     private onDownload(id: string, name: string) {
@@ -219,6 +220,10 @@ export class OsbbDocumentsAndReportsComponent implements OnInit {
             }
             return 0;
         });
+    }
+
+    private clearQueue() {
+        this.uploader.clearQueue();
     }
 
 }
