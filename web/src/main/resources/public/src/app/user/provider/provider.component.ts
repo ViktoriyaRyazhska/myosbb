@@ -266,16 +266,7 @@ export class ProviderComponent {
                     }
                 );
         }
-        let mail: Mail = {
-            to: this.newProvider.email,
-            subject: 'PRIVET',
-            text: 'Welcome on the board'
-        };
-        if (this.newProvider.email !== null) {
-            this._mailService.sendMail(mail)
-        }
         this.createModal.hide();
-        setTimeout(() => this.active = true, 0);
     }
 
     closeCreateModal() {
