@@ -86,7 +86,7 @@
                     </div>
                     <div class="modal-body">
                         <input type="text" id="folderName" name="name" [(ngModel)]="newFolder.name" placeholder="{{'name'| translate | capitalize }}..."
-                            pattern="[а-яА-ЯіІїЇa-zA-Z0-9-_.]{1,35}" class="form-control placeholder-no-fix" maxlength="35" required>
+                            pattern="^[\sа-яА-ЯіІїЇєЄa-zA-Z0-9_.-]{0,34}[а-яА-ЯіІїЇєЄa-zA-Z0-9_-]{1}$" class="form-control placeholder-no-fix" maxlength="35" required>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-success" type='submit' [disabled]="!newFolderForm.form.valid" onclick='$("#addFolderModal").modal("toggle");'>
