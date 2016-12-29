@@ -86,7 +86,7 @@
                     </div>
                     <div class="modal-body">
                         <input type="text" id="folderName" name="name" [(ngModel)]="newFolder.name" placeholder="{{'name'| translate | capitalize }}..."
-                            pattern="[а-яА-ЯіІїЇa-zA-Z0-9-_]{1,35}" class="form-control placeholder-no-fix" maxlength="35" required>
+                            pattern="[а-яА-ЯіІїЇa-zA-Z0-9-_.]{1,35}" class="form-control placeholder-no-fix" maxlength="35" required>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-success" type='submit' [disabled]="!newFolderForm.form.valid" onclick='$("#addFolderModal").modal("toggle");'>
@@ -139,7 +139,7 @@
                 <!-- Main modal content -->
                 <div class="modal-body">
                     <div>
-                        <input type="file" ng2FileSelect [uploader]="uploader" />
+                        <input type="file" ng2FileSelect [uploader]="uploader" (click)="clearQueue()"/>
                     </div>
                     <div>
                         <table class="table table-font">
@@ -162,7 +162,7 @@
                                         <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
                                     </td>
                                     <td width="40%" nowrap>
-                                        <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                        <button type="button" class="btn btn-success btn-xs" (click)="onUpload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
                                                 {{ 'upload' | translate | capitalize }}
                                             </button>
                                         <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
@@ -182,7 +182,7 @@
                     <div>
                         <div>
                             {{ 'progress' | translate | capitalize }}:
-                            <div class="progress" style="">
+                            <div class="progress">
                                 <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
                             </div>
                         </div>

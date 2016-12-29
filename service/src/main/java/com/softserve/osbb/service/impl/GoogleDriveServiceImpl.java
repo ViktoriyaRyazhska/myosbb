@@ -88,7 +88,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     }
 
     @Override
-    public File create(String name, String parentId) {
+    public File createFolder(String name, String parentId) {
         validateName(name);
         checkIfExist(name, parentId);
         
@@ -184,24 +184,29 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     }
 
     @Override
-    public File update(String id, String name) {
+    public File update(String parentId, String name) {
         validateName(name);
+        checkIfExist(name, parentId);
         
-        File file = getFileWithFields(id, "name");
+        File file = getFileWithFields(parentId, "name");
         file.setName(name);
 
         try {
-            driveService.files().update(id, file).setFields("name").execute();
+            driveService.files().update(parentId, file).setFields("name").execute();
         } catch (IOException e) {
             processGDE("IO error occured. Could not update " + name);
         }
 
-        return getFileWithFields(id, CORE);
+        return getFileWithFields(parentId, CORE);
     }
 
     @Override
     public void upload(MultipartFile uploading, String folderId) {
-        String fileName = TEMP + "\\" + uploading.getOriginalFilename();                
+        String fileName = uploading.getOriginalFilename();
+        validateName(fileName);
+        checkIfExist(fileName, folderId);
+        
+        fileName = TEMP + "/" + fileName;
         
         try {
             createTempCopy(fileName, uploading.getInputStream());
