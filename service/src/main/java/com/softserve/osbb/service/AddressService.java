@@ -4,6 +4,7 @@ import com.softserve.osbb.model.Region;
 import com.softserve.osbb.model.City;
 import com.softserve.osbb.model.District;
 import com.softserve.osbb.model.Street;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,23 +15,44 @@ import java.util.List;
 @Service
 public interface AddressService {
 
-    List<Region> getAllRegion();
+	List<Region> getAllRegion();
 
-    List<City> getAllCitiesOfRegion(Integer regionId);
+	Region getRegionById(Integer id);
 
-    List<Street> getAllStreetsOfCity(Integer cityId);
+	Region addRegion(Region region);
 
-    List<District> getAllDistrictsOfCity(Integer cityId);
+	Region updateRegion(Region region);
 
-    District getDistrictById(Integer id);
+	boolean deleteRegion(Integer id);
 
-    Street getStreetById(Integer id);
-    
-    City getCityById(Integer id);
+	List<City> getAllCitiesOfRegion(Integer regionId);
 
-    Region getRegionById(Integer id);
-    
-    
-    
+	City getCityById(Integer id);
+
+	City addCity(City city);
+
+	City updateCity(City city);
+
+	boolean deleteCity(Integer id);
+
+	List<Street> getAllStreetsOfCity(Integer cityId);
+
+	Street getStreetById(Integer id);
+
+	Street addStreet(Street street);
+
+	Street updateStreet(Street street);
+
+	boolean deleteStreet(Integer id);
+
+	List<District> getAllDistrictsOfCity(Integer cityId);
+
+	District getDistrictById(Integer id);
+
+	District addDistrict(District district);
+
+	District updateDistrict(District district);
+
+	boolean deleteDistrict(Integer id);
 
 }
