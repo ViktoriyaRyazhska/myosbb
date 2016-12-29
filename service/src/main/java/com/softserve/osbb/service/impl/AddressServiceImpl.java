@@ -93,6 +93,7 @@ public class AddressServiceImpl implements AddressService {
 		if (region == null) {
 			throw new IllegalArgumentException("Region is null. Try to set correct data.");
 		}
+		region.setId(null);
 		return regionRepository.saveAndFlush(region);
 	}
 
@@ -125,6 +126,7 @@ public class AddressServiceImpl implements AddressService {
 		if (city == null) {
 			throw new IllegalArgumentException("City is null. Try to set correct data.");
 		}
+		city.setId(null);
 		return cityRepository.saveAndFlush(city);
 	}
 
@@ -157,6 +159,7 @@ public class AddressServiceImpl implements AddressService {
 		if (street == null) {
 			throw new IllegalArgumentException("Street is null. Try to set correct data.");
 		}
+		street.setId(null);
 		return streetRepository.saveAndFlush(street);
 	}
 
@@ -189,6 +192,7 @@ public class AddressServiceImpl implements AddressService {
 		if (district == null) {
 			throw new IllegalArgumentException("District is null. Try to set correct data.");
 		}
+		district.setId(null);
 		return districtRepository.saveAndFlush(district);
 	}
 
