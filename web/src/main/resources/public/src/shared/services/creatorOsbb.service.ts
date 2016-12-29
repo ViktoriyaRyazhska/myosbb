@@ -15,7 +15,6 @@ export class CreatorOsbbService {
 
     getCreatorOsbb(osbbId: number): Observable<any> {
         let url = this.creatorURL+osbbId;
-        console.log('URL = '+url);
         return this.http.get(url)
             .map((res:Response)=> res.json())
             .catch((error)=>Observable.throw(error)); 

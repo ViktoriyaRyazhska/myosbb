@@ -7,9 +7,7 @@ export class OsbbDTO {
     description: string;
     street: Street;
     address: string;
-    district:string;
     district: District;
-    creator: User;
     houseNumber: string;
     logo: Attachment;
     creationDate: Date;

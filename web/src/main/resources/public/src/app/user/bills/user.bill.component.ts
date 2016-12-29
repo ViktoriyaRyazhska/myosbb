@@ -163,7 +163,7 @@ export class UserBillComponent implements OnInit {
     fillHouses(): string[] {
         let tempArr: string[] = [];
         for (let housePageObject of this.houseList) {
-            tempArr.push(housePageObject.street);
+            tempArr.push(housePageObject.street.name);
         }
         return tempArr;
     }
@@ -423,7 +423,7 @@ export class UserBillComponent implements OnInit {
     selectHouseIdByHouseValue(value: string): number {
         let houseId = 0;
         for (let houseObject of this.houseList) {
-            if (value.match(houseObject.street)) {
+            if (value.match(houseObject.street.name)) {
                 houseId = houseObject.houseId;
                 break;
             }
