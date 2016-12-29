@@ -54,7 +54,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     private final String FOLDER_FLAG = "application/vnd.google-apps.folder";
     
     /** Folder name pattern. */
-    private final String PATTERN = "[а-яА-ЯіІїЇa-zA-Z0-9-_.]{1,35}";
+    private final String PATTERN = "^[\\sа-яА-ЯіІїЇєЄa-zA-Z0-9_.-]{0,34}[а-яА-ЯіІїЇєЄa-zA-Z0-9_-]{1}$";
     
     /** Temporary directory for storing uploading file */
     private final String TEMP = System.getProperty("user.dir");
