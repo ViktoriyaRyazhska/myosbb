@@ -100,6 +100,13 @@
                     "type": "INT"
                   }
                 }
+                ,
+                {
+                  "column": {
+                    "name": "ownership_id",
+                    "type": "INT"
+                  }
+                }
               ],
               "tableName": "users"
             }
@@ -356,6 +363,29 @@
               "onUpdate": "NO ACTION",
               "referencedColumnNames": "house_id",
               "referencedTableName": "house"
+            }
+          }
+        ]
+      }
+    },
+    
+    {
+      "changeSet": {
+        "id": "2017/02/09-7",
+        "author": "Yurii Rozhak",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "ownership_id",
+              "baseTableName": "users",
+              "constraintName": "fk_ccpnrg4x1k3h76158gmt6vra5",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "ownership_id",
+              "referencedTableName": "ownership"
             }
           }
         ]

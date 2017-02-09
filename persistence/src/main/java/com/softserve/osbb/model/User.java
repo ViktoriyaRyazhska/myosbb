@@ -26,288 +26,290 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
 /**
  * Created by cavayman on 05.07.2016.
+ * 
  * @version 1.1
  * @since 25.11.2016
  */
 @Entity
 @Table(name = "users")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    private Integer userId;
-    private String firstName;
-    private String lastName;
-    private Timestamp birthDate;
-    private String email;
-    private String phoneNumber;
-    private String password;
-    private String gender;
-    private Boolean activated;
-    private Boolean isOwner;
-    private Role role;
-    private Apartment apartment;
-    private Osbb osbb;
-    private House house;
-    private Collection<Notice> notices = new ArrayList<>();
-    private Collection<Vote> votes = new ArrayList<>();
-    private Collection<Message> messages = new ArrayList<>();
-    private Collection<Ticket> assigned = new ArrayList<>();
-    private Collection<Ticket> tickets = new ArrayList<>();
-    private Collection<Event> events = new ArrayList<>();
-    private Collection<Option> options = new ArrayList<>();
-    private Collection<Report> reports = new ArrayList<>();
+	private static final long serialVersionUID = 1L;
+	private Integer userId;
+	private String firstName;
+	private String lastName;
+	private Timestamp birthDate;
+	private String email;
+	private String phoneNumber;
+	private String password;
+	private String gender;
+	private Boolean activated;
+	private Boolean isOwner;
+	private Role role;
+	private Apartment apartment;
+	private Osbb osbb;
+	private House house;
+	private OwneshipType ownership;
+	private Collection<Notice> notices = new ArrayList<>();
+	private Collection<Vote> votes = new ArrayList<>();
+	private Collection<Message> messages = new ArrayList<>();
+	private Collection<Ticket> assigned = new ArrayList<>();
+	private Collection<Ticket> tickets = new ArrayList<>();
+	private Collection<Event> events = new ArrayList<>();
+	private Collection<Option> options = new ArrayList<>();
+	private Collection<Report> reports = new ArrayList<>();
 
-    public User() { }
-    
-    public User(User user) {
-        this.userId = user.getUserId();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
-        this.birthDate = user.getBirthDate();
-        this.email = user.getEmail();
-        this.phoneNumber = user.getPhoneNumber();
-        this.password = user.getPassword();
-        this.gender = user.getGender();
-        this.role = user.getRole();
-        this.apartment = user.getApartment();
-        this.osbb = user.getOsbb();
-        this.house = user.getHouse();
-    }
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    public Integer getUserId() {
-        return userId;
-    }
+	public User() {
+	}
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	public User(User user) {
+		this.userId = user.getUserId();
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
+		this.birthDate = user.getBirthDate();
+		this.email = user.getEmail();
+		this.phoneNumber = user.getPhoneNumber();
+		this.password = user.getPassword();
+		this.gender = user.getGender();
+		this.role = user.getRole();
+		this.apartment = user.getApartment();
+		this.osbb = user.getOsbb();
+		this.house = user.getHouse();
+	}
 
-    @Basic
-    @Column(name = "firstName")
-    @Size(max = 35)
-    public String getFirstName() {
-        return firstName;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    @Basic
-    @Column(name = "lastName")
-    @Size(max = 35)
-    public String getLastName() {
-        return lastName;
-    }
+	@Basic
+	@Column(name = "firstName")
+	@Size(max = 35)
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    @Basic
-    @Column(name = "birth_date")
-    public Timestamp getBirthDate() {
-        return birthDate;
-    }
+	@Basic
+	@Column(name = "lastName")
+	@Size(max = 35)
+	public String getLastName() {
+		return lastName;
+	}
 
-    public void setBirthDate(Timestamp birthDate) {
-        this.birthDate = birthDate;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    @Basic
-    @Column(name = "email")
-    @Size(max = 50)
-    public String getEmail() {
-        return email;
-    }
+	@Basic
+	@Column(name = "birth_date")
+	public Timestamp getBirthDate() {
+		return birthDate;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setBirthDate(Timestamp birthDate) {
+		this.birthDate = birthDate;
+	}
 
-    @Basic
-    @Column(name = "phoneNumber")
-    @Size(max = 16)
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+	@Basic
+	@Column(name = "email")
+	@Size(max = 50)
+	public String getEmail() {
+		return email;
+	}
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-    
-    @Basic
-    @Column(name = "password")
-    @Size(max = 80)
-    public String getPassword() {
-        return this.password;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	@Basic
+	@Column(name = "phoneNumber")
+	@Size(max = 16)
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
 
-    @Basic
-    @Column(name = "gender")
-    @Size(max = 8)
-    public String getGender() {
-        return gender;
-    }
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
+	@Basic
+	@Column(name = "password")
+	@Size(max = 80)
+	public String getPassword() {
+		return this.password;
+	}
 
-    @Column(name = "activated")
-    public Boolean getActivated() {
-        return activated;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setActivated(Boolean activated) {
-        this.activated = activated;
-    }
+	@Basic
+	@Column(name = "gender")
+	@Size(max = 8)
+	public String getGender() {
+		return gender;
+	}
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    public Role getRole() {
-        return role;
-    }
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+	@Column(name = "activated")
+	public Boolean getActivated() {
+		return activated;
+	}
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    public Collection<Vote> getVotes() {
-        return votes;
-    }
+	public void setActivated(Boolean activated) {
+		this.activated = activated;
+	}
 
-    public void setVotes(Collection<Vote> votes) {
-        this.votes = votes;
-    }
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	public Role getRole() {
+		return role;
+	}
 
-    @Basic
-    @Column(name = "is_owner")
-    public Boolean isOwner() {
-        return isOwner;
-    }
+	public void setRole(Role role) {
+		this.role = role;
+	}
 
-    public void setOwner(Boolean owner) {
-        isOwner = owner;
-    }
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	public Collection<Vote> getVotes() {
+		return votes;
+	}
 
-    @ManyToOne
-    @JoinColumn(name = "apartment_id", referencedColumnName = "apartment_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    public Apartment getApartment() {
-        return apartment;
-    }
+	public void setVotes(Collection<Vote> votes) {
+		this.votes = votes;
+	}
 
-    public void setApartment(Apartment appartament) {
-        this.apartment = appartament;
-    }
+	@Basic
+	@Column(name = "is_owner")
+	public Boolean isOwner() {
+		return isOwner;
+	}
 
-    @ManyToOne
-    @JoinColumn(name = "osbb_id")
-    @JsonIgnore
-    public Osbb getOsbb() {
-        return osbb;
-    }
+	public void setOwner(Boolean owner) {
+		isOwner = owner;
+	}
 
-    public void setOsbb(Osbb osbb) {
-        this.osbb = osbb;
-    }
+	@ManyToOne
+	@JoinColumn(name = "apartment_id", referencedColumnName = "apartment_id")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	public Apartment getApartment() {
+		return apartment;
+	}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
-    @JsonIgnore
-    public Collection<Message> getMessages() {
-        return messages;
-    }
+	public void setApartment(Apartment appartament) {
+		this.apartment = appartament;
+	}
 
-    public void setMessages(Collection<Message> messages) {
-        this.messages = messages;
-    }
+	@ManyToOne
+	@JoinColumn(name = "osbb_id")
+	@JsonIgnore
+	public Osbb getOsbb() {
+		return osbb;
+	}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonIgnore
-    public Collection<Ticket> getTickets() {
-        return tickets;
-    }
+	public void setOsbb(Osbb osbb) {
+		this.osbb = osbb;
+	}
 
-    public void setTickets(Collection<Ticket> tickets) {
-        this.tickets = tickets;
-    }
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
+	@JsonIgnore
+	public Collection<Message> getMessages() {
+		return messages;
+	}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    @JsonIgnore
-    public Collection<Report> getReports() {
-        return reports;
-    }
+	public void setMessages(Collection<Message> messages) {
+		this.messages = messages;
+	}
 
-    public void setReports(Collection<Report> reports) {
-        this.reports = reports;
-    }
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnore
+	public Collection<Ticket> getTickets() {
+		return tickets;
+	}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "assigned")
-    @JsonIgnore
-    public Collection<Ticket> getAssigned() {
-        return assigned;
-    }
+	public void setTickets(Collection<Ticket> tickets) {
+		this.tickets = tickets;
+	}
 
-    public void setAssigned(Collection<Ticket> assigned) {
-        this.assigned = assigned;
-    }
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@JsonIgnore
+	public Collection<Report> getReports() {
+		return reports;
+	}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
-    @JsonIgnore
-    public Collection<Event> getEvents() {
-        return events;
-    }
+	public void setReports(Collection<Report> reports) {
+		this.reports = reports;
+	}
 
-    public void setEvents(Collection<Event> events) {
-        this.events = events;
-    }
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "assigned")
+	@JsonIgnore
+	public Collection<Ticket> getAssigned() {
+		return assigned;
+	}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    @JsonIgnore
-    public Collection<Notice> getNotices() {
-        return notices;
-    }
+	public void setAssigned(Collection<Ticket> assigned) {
+		this.assigned = assigned;
+	}
 
-    public void setNotices(Collection<Notice> notices) {
-        this.notices = notices;
-    }
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
+	@JsonIgnore
+	public Collection<Event> getEvents() {
+		return events;
+	}
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "users")
-    public Collection<Option> getOptions() {
-        return options;
-    }
+	public void setEvents(Collection<Event> events) {
+		this.events = events;
+	}
 
-    public void setOptions(Collection<Option> options) {
-        this.options = options;
-    }
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@JsonIgnore
+	public Collection<Notice> getNotices() {
+		return notices;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
-    }
+	public void setNotices(Collection<Notice> notices) {
+		this.notices = notices;
+	}
 
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
-    }
-    
-    @ManyToOne
-    @JoinColumn(name = "house_id")
-    public House getHouse() {
+	@JsonIgnore
+	@ManyToMany(mappedBy = "users")
+	public Collection<Option> getOptions() {
+		return options;
+	}
+
+	public void setOptions(Collection<Option> options) {
+		this.options = options;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "house_id")
+	public House getHouse() {
 		return house;
 	}
 
@@ -315,16 +317,20 @@ public class User implements Serializable {
 		this.house = house;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "ownership_id", referencedColumnName = "ownership_id")
+	public OwneshipType getType() {
+		return ownership;
+	}
+
+	public void setType(OwneshipType type) {
+		this.ownership = type;
+	}
+
 	@Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", roles='" + role + '\'' +
-                ", osbb='" + osbb + '\'' +
-                '}';
-    }
+	public String toString() {
+		return "User{" + "userId=" + userId + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\''
+				+ ", email='" + email + '\'' + ", roles='" + role + '\'' + ", osbb='" + osbb + '\'' + '}';
+	}
 
 }
