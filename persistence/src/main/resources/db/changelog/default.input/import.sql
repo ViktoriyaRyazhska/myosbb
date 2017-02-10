@@ -309,4 +309,7 @@ INSERT into event(title, author, start_time, end_time, description, repeats, osb
 'Мешканців міста знайомлять з порядком створення ОСББ',4,'2016-01-01 08:00:00','2017-01-01 08:00:00',
 '1 липня 2015 р. набрав чинності Закон України «Про особливості здійснення права власності в багатоквартирному будинку».','ONE_TIME',4);
 
+INSERT into ownership(type)VALUES('Власник');
+INSERT into ownership(type)VALUES('Співвласник');
+INSERT into ownership(type)VALUES('Орендар');
 --rollback
