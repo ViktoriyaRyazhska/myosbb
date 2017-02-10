@@ -13,7 +13,7 @@ import com.softserve.osbb.model.OwneshipType;
 @Repository
 public interface OwnershipRepository extends JpaRepository<OwneshipType, Integer> {
 
-	@Query("select r from OwneshipType o where o.name = :name")
+	@Query("select o from OwneshipType o where o.type = :name")
 	public OwneshipType findByName(@Param("name") String name);
 
 }
