@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -47,11 +48,12 @@ public class Ticket implements Serializable  {
     private User assigned;
     private Collection<Message> messages = new ArrayList<>();
     private Collection<Attachment> attachments=new ArrayList<>();
+    private List<Vote> vote;
 
     public Ticket() {
     }
 
-    public Ticket(String name, String description) {
+	public Ticket(String name, String description) {
         this.name = name;
         this.description = description;
         state = TicketState.NEW;
@@ -187,6 +189,14 @@ public class Ticket implements Serializable  {
     public void setAttachments(Collection<Attachment> attachments) {
         this.attachments = attachments;
     }
+    
+    @OneToMany(fetch =FetchType.LAZY,mappedBy="ticket", cascade = CascadeType.ALL)
+    public List<Vote> getVote() {
+		return vote;
+	}
+	public void setVote(List<Vote> vote) {
+		this.vote = vote;
+	}
 
     @Override
     public boolean equals(Object obj) {
