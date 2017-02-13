@@ -1,6 +1,7 @@
 package com.softserve.osbb.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,7 +38,7 @@ public class Utility implements Serializable {
 	private String description;
 
 	@Column(name = "price")
-	private Float price;
+	private BigDecimal price;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "price_currency", columnDefinition = "varchar(45) default 'UAH'")
@@ -79,11 +80,11 @@ public class Utility implements Serializable {
 		this.description = description;
 	}
 
-	public Float getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 
-	public void setPrice(Float price) {
+	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
 
