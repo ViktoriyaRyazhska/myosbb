@@ -41,7 +41,7 @@
                 {
                   "column": {
                     "name": "price_currency",
-                    "type": "VARCHAR(255)",
+                    "type": "VARCHAR(45)",
                     "constraints": {
                       "defaultValue": "UAH"
                     }
@@ -60,7 +60,7 @@
                   }
                 }
               ],
-              "tableName": "utility"
+              "tableName": "utilities"
             }
           }
         ]
@@ -75,14 +75,14 @@
           {
             "addForeignKeyConstraint": {
               "baseColumnNames": "parent_id",
-              "baseTableName": "utility",
+              "baseTableName": "utilities",
               "constraintName": "fk_parent_tariff",
               "deferrable": false,
               "initiallyDeferred": false,
               "onDelete": "NO ACTION",
               "onUpdate": "NO ACTION",
               "referencedColumnNames": "utility_id",
-              "referencedTableName": "utility"
+              "referencedTableName": "utilities"
             }
           }
         ]
@@ -97,7 +97,7 @@
           {
             "addForeignKeyConstraint": {
               "baseColumnNames": "osbb_id",
-              "baseTableName": "utility",
+              "baseTableName": "utilities",
               "constraintName": "fk_tariff_osbb",
               "deferrable": false,
               "initiallyDeferred": false,

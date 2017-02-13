@@ -172,7 +172,8 @@ public class Osbb implements Serializable {
     public void setUsers(Collection<User> users) {
         this.users = users;
     }
-
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "osbb", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     public Collection<Utility> getUtilities() {
 		return utilities;
 	}
