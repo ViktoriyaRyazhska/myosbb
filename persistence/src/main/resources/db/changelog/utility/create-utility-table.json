@@ -1,0 +1,114 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "2017/02/06-38",
+        "author": "YaroslavStefanyshyn",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "createTable": {
+              "columns": [
+                {
+                  "column": {
+                    "autoIncrement": true,
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "utility_pkey"
+                    },
+                    "name": "utility_id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "name",
+                    "type": "VARCHAR(255)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "description",
+                    "type": "VARCHAR(255)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "price",
+                    "type": "numeric(19, 2)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "price_currency",
+                    "type": "VARCHAR(255)",
+                    "constraints": {
+                      "defaultValue": "UAH"
+                    }
+                  }
+                },
+                 {
+                  "column": {
+                    "name": "osbb_id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "parent_id",
+                    "type": "INT"
+                  }
+                }
+              ],
+              "tableName": "utility"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2017/02/06-58",
+        "author": "YaroslavStefanyshyn",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "parent_id",
+              "baseTableName": "utility",
+              "constraintName": "fk_parent_tariff",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "utility_id",
+              "referencedTableName": "utility"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2017/02/06-59",
+        "author": "YaroslavStefanyshyn",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "osbb_id",
+              "baseTableName": "utility",
+              "constraintName": "fk_tariff_osbb",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "osbb_id",
+              "referencedTableName": "osbb"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
