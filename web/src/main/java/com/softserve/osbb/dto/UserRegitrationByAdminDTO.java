@@ -2,7 +2,6 @@ package com.softserve.osbb.dto;
 
 import java.io.Serializable;
 
-import com.softserve.osbb.model.OwneshipType;
 
 public class UserRegitrationByAdminDTO extends AbstractDTO implements Serializable{
 
@@ -12,19 +11,19 @@ public class UserRegitrationByAdminDTO extends AbstractDTO implements Serializab
 	private String lastName;
 	private String email;
 	private String phoneNumber;
-	private OwneshipType type ;
+	private Integer owneshipTypeId;
 	
 	public UserRegitrationByAdminDTO() {
 	}
 
 	public UserRegitrationByAdminDTO(String firstName, String lastName, String email, String phoneNumber,
-			OwneshipType type) {
+			Integer owneshipTypeId) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
-		this.type = type;
+		this.owneshipTypeId = owneshipTypeId;
 	}
 
 	public String getFirstName() {
@@ -59,18 +58,18 @@ public class UserRegitrationByAdminDTO extends AbstractDTO implements Serializab
 		this.phoneNumber = phoneNumber;
 	}
 
-	public OwneshipType getType() {
-		return type;
+	public Integer getOwneshipTypeId() {
+		return owneshipTypeId;
 	}
 
-	public void setType(OwneshipType type) {
-		this.type = type;
+	public void setOwneshipTypeId(Integer owneshipTypeId) {
+		this.owneshipTypeId = owneshipTypeId;
 	}
 
 	@Override
 	public String toString() {
 		return "UserRegitrationByAdminDTO {firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", phoneNumber=" + phoneNumber + ", type=" + type + "}";
+				+ ", phoneNumber=" + phoneNumber + ", owneshipTypeId=" + owneshipTypeId + "}";
 	}
 	
 	

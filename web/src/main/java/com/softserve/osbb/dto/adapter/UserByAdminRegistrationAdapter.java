@@ -5,12 +5,14 @@ import org.springframework.stereotype.Component;
 
 import com.softserve.osbb.dto.UserRegitrationByAdminDTO;
 import com.softserve.osbb.model.User;
+import com.softserve.osbb.service.OwnershipTypeService;
 import com.softserve.osbb.service.RoleService;
 
 @Component
 public class UserByAdminRegistrationAdapter extends DTOToEntityAdapter<UserRegitrationByAdminDTO, User>{
 	
 	@Autowired RoleService rs;
+	@Autowired OwnershipTypeService os;
 
 	    public User parse(UserRegitrationByAdminDTO dtoToParse) {
 	        User user;
@@ -37,8 +39,15 @@ public class UserByAdminRegistrationAdapter extends DTOToEntityAdapter<UserRegit
 	        user.setEmail(userRegistrationDTO.getEmail());
 	        user.setPhoneNumber(userRegistrationDTO.getPhoneNumber());
 	        user.setActivated(true);
-	        user.setRole(rs.getRole(3));
-	        user.setOwner(true);
+	        user.setRole(rs.getRole(1));
+	        user.setType(os.getOwnershipType(userRegistrationDTO.getOwneshipTypeId()));
+	        if (userRegistrationDTO.getOwneshipTypeId()==1) {
+				user.setOwner(true);
+			}
+	        else {
+				user.setOwner(false);
+			}
+	        
 	    }
 
 }
