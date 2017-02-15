@@ -14,6 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.mail.MessagingException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +33,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.softserve.osbb.dto.AppartmentUserDTO;
 import com.softserve.osbb.dto.HouseDTO;
 import com.softserve.osbb.dto.PageParams;
+import com.softserve.osbb.dto.UserRegitrationByAdminDTO;
 import com.softserve.osbb.dto.mappers.HouseDTOMapper;
+import com.softserve.osbb.dto.mappers.UserRegistrationByAdminDTOMapper;
 import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.House;
 import com.softserve.osbb.model.User;
@@ -41,6 +46,7 @@ import com.softserve.osbb.service.ApartmentService;
 import com.softserve.osbb.service.HouseService;
 import com.softserve.osbb.service.OsbbService;
 import com.softserve.osbb.service.UserService;
+import com.softserve.osbb.service.impl.MailSenderImpl;
 import com.softserve.osbb.util.paging.PageDataObject;
 import com.softserve.osbb.util.paging.PageDataUtil;
 import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
@@ -63,6 +69,9 @@ public class HouseController {
             .getLogger(HouseController.class);
 
     @Autowired
+    private MailSenderImpl sender;
+    
+    @Autowired
     private HouseService houseService;
 
     @Autowired
@@ -73,6 +82,9 @@ public class HouseController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private UserRegistrationByAdminDTOMapper userRegistrationByAdminDTOMapper;
 
     private EntityResourceList<HouseDTO> buildResources(
             Iterable<House> houses) {
@@ -239,6 +251,40 @@ public class HouseController {
         }
         return response;
     }
+    
+    @RequestMapping(value = "/withUser/{id}", method = RequestMethod.POST)
+    public ResponseEntity<Resource<Apartment>> addApartmentWithUserToHouse(
+            @PathVariable("id") Integer id, @RequestBody AppartmentUserDTO apartmentUser) {
+    	Apartment apartment = apartmentUser.getApartment();
+    	UserRegitrationByAdminDTO userRegitrationByAdminDTO = apartmentUser.getUserRegitrationByAdminDTO();
+    	User user = userRegistrationByAdminDTOMapper.mapDTOToEntity(userRegitrationByAdminDTO);
+    	user.setPassword("password");
+        House house = houseService.findHouseById(id);
+        ResponseEntity<Resource<Apartment>> response = null;
+
+        if (house != null) {
+            apartment.setHouse(house);
+            
+            apartmentService.save(apartment);
+            user.setApartment(apartment);  
+            user.setHouse(house);
+            user.setOsbb(house.getOsbb());
+            try {
+				sender.send(user.getEmail(), "Registation", user.getPassword());
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
+            userService.save(user);
+            Resource<Apartment> resource = new ApartmentResourceList().createLink(toResource(apartment));
+            response = new ResponseEntity<>(resource, HttpStatus.OK);
+        } else {
+            response = new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
+        return response;
+//    	return null;
+    }
+    
+    
     
     @RequestMapping(value = "/street/{id}", method = RequestMethod.GET)
     public ResponseEntity<List<House>> findByStreetId(@PathVariable("id") Integer id) {
