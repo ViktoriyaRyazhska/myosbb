@@ -30,7 +30,6 @@ public class OwnershipTypeServiceImpl implements OwnershipTypeService {
 	}
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	@Override
 	public OwneshipType getOwnershipType(String type) {
 		return ownershipTypeRepository.findByType(type);
 	}
