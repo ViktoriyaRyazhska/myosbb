@@ -17,6 +17,8 @@ public interface ApartmentService {
     void saveApartmentList(List<Apartment> list);
 
     Apartment findById(Integer id);
+    
+    Apartment findByHouseAndNumber(Integer  number, Integer houseId);
 
     List<Apartment> findAll();
 
