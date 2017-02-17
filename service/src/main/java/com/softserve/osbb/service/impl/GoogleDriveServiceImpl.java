@@ -44,6 +44,9 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     /** Google's name for application root folder. Can be use in any place where fileId is needed. */
     private final String APP_FOLDER = "appDataFolder";
     
+    /**Folder ID  which contains information about users */
+    private final String  USERS_FOLDER= "1eMssg2OeCiUAAt3jCEvTieEfJQbHSrnPztvExGB_K9Sq";
+    
     /** Application name. Arbitrary as we use service account. */
     private final String APPLICATION_NAME = "MyOSBB";
     
@@ -89,9 +92,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 
     @Override
     public File createFolder(String name, String parentId) {
-        validateName(name);
         checkIfExist(name, parentId);
-        
         File file = getFileWithMetadata(name, parentId);
         file.setMimeType(FOLDER_FLAG);
 
@@ -199,15 +200,42 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 
         return getFileWithFields(parentId, CORE);
     }
+    
+    @Override
+	public void uploadUserFile(MultipartFile uploading, String userEmail) {
+    	
+     File userFolder = createFolder(userEmail,USERS_FOLDER);
+     String fileName = uploading.getOriginalFilename();
+     validateName(fileName);
+     checkIfExist(fileName, userFolder.getId());
+     fileName = new StringBuilder(TEMP).append("/").append(fileName).toString();
+     try {
+         createTempCopy(fileName, uploading.getInputStream());
+     } catch (IOException e) {
+         processGDE("Could not obtain InputStream from " + fileName);
+     }        
+     
+     File fileMetadata = getFileWithMetadata(uploading.getOriginalFilename(), userFolder.getId());       
+     java.io.File content = new java.io.File(fileName);        
+     FileContent mediaContent = new FileContent(null, content);
+     
+     try {
+         driveService.files().create(fileMetadata, mediaContent).setFields("id, parents").execute();            
+         content.delete();
+     } catch (IOException e) {
+         processGDE("Could not upload " + fileName);
+     }        
+     
+    	
+	   		
+	}
 
     @Override
     public void upload(MultipartFile uploading, String folderId) {
         String fileName = uploading.getOriginalFilename();
         validateName(fileName);
         checkIfExist(fileName, folderId);
-        
-        fileName = new StringBuilder(TEMP).append("/").append(fileName).toString();
-        
+        fileName = new StringBuilder(TEMP).append("/").append(fileName).toString();   
         try {
             createTempCopy(fileName, uploading.getInputStream());
         } catch (IOException e) {
@@ -259,4 +287,6 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
         LOGGER.error(message);
         throw new GoogleDriveException(message);
     }
+
+	
 }

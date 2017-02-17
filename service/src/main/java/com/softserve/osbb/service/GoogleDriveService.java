@@ -34,4 +34,6 @@ public interface GoogleDriveService {
 
     void download(String id, HttpServletResponse response);
     
+    void uploadUserFile(MultipartFile file, String userEmail);
+    
 }
