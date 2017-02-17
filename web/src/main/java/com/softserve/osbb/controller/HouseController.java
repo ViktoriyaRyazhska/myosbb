@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.softserve.osbb.dto.AppartmentUserDTO;
 import com.softserve.osbb.dto.HouseDTO;
@@ -44,6 +45,7 @@ import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.House;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.service.ApartmentService;
+import com.softserve.osbb.service.GoogleDriveService;
 import com.softserve.osbb.service.HouseService;
 import com.softserve.osbb.service.OsbbService;
 import com.softserve.osbb.service.RegistrationService;
@@ -89,6 +91,13 @@ public class HouseController {
 
 	@Autowired
 	private UserRegistrationByAdminDTOMapper userRegistrationByAdminDTOMapper;
+	
+	
+	@Autowired 
+	private GoogleDriveService driveService;
+	
+	
+	
 
 	private EntityResourceList<HouseDTO> buildResources(Iterable<House> houses) {
 		EntityResourceList<HouseDTO> resources = new HouseResourceList();
@@ -283,6 +292,15 @@ public class HouseController {
 		return response;
 		// return null;
 	}
+	
+	
+	@ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "upload/{userEmail}", method = RequestMethod.POST)    
+    public void upload(@PathVariable String userEmail, @RequestParam("file") MultipartFile file) {        
+        driveService.upload(file, "157CxnwG8h5QM1-TQkY8n6IIoBi4KLgxpTec730TTz-VI");
+        System.out.println(userEmail);
+         
+    }    
 
 	@RequestMapping(value = "/street/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<House>> findByStreetId(@PathVariable("id") Integer id) {
