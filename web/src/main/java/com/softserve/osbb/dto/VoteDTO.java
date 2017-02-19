@@ -22,20 +22,30 @@ public class VoteDTO {
     private UserDTO user;
     private List<OptionDTO> options;
     private List<Integer> usersId;
+    private Integer ticketId;
 
     public VoteDTO() {}
 
     public VoteDTO(Integer voteId, String description, Timestamp startTime,
-                   Timestamp endTime, UserDTO user, List<OptionDTO> options) {
+                   Timestamp endTime, UserDTO user, List<OptionDTO> options, Integer ticketId) {
         this.voteId = voteId;
         this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
         this.user = user;
         this.options = options;
+        this.ticketId=ticketId;
     }
 
-    public Integer getVoteId() {
+    public Integer getTicketId() {
+		return ticketId;
+	}
+
+	public void setTicketId(Integer ticketId) {
+		this.ticketId = ticketId;
+	}
+
+	public Integer getVoteId() {
         return voteId;
     }
 
