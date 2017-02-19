@@ -44,6 +44,7 @@ import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.House;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.service.ApartmentService;
+import com.softserve.osbb.service.AppartmentUserRegistrationService;
 import com.softserve.osbb.service.HouseService;
 import com.softserve.osbb.service.OsbbService;
 import com.softserve.osbb.service.RegistrationService;
@@ -82,7 +83,10 @@ public class HouseController {
 	private RegistrationService registrationService;
 
 	@Autowired
-	private OsbbService osbbService;
+	private AppartmentUserRegistrationService apartmentUserRS;
+	
+	@Autowired
+ 	private OsbbService osbbService;
 
 	@Autowired
 	private UserService userService;
@@ -246,7 +250,6 @@ public class HouseController {
 	public ResponseEntity<Resource<Apartment>> addApartmentWithUserToHouse(@PathVariable("id") Integer id,
 			@RequestBody AppartmentUserDTO apartmentUser) {
 		Apartment apartment = apartmentUser.getApartment();
-		
 		UserRegitrationByAdminDTO userRegitrationByAdminDTO = apartmentUser.getUserRegitrationByAdminDTO();
 		
 		User foundUser = userService.findUserByEmail(userRegitrationByAdminDTO.getEmail());
@@ -257,31 +260,24 @@ public class HouseController {
 		if (foundApartment != null) {
 			throw new ApartmentAlreadyExistsException("apartment with this number in this house already exists");
 		}
+		
 		User user = userRegistrationByAdminDTOMapper.mapDTOToEntity(userRegitrationByAdminDTO);
 		user.setPassword(registrationService.generatePassword());
 		House house = houseService.findHouseById(id);
 		ResponseEntity<Resource<Apartment>> response = null;
-
-		if (house != null) {
-			apartment.setHouse(house);
-
-			apartmentService.save(apartment);
-			user.setApartment(apartment);
-			user.setHouse(house);
-			user.setOsbb(house.getOsbb());
-			try {
-				sender.send(user.getEmail(), "Registation", user.getPassword());
-			} catch (MessagingException e) {
-				e.printStackTrace();
-			}
-			registrationService.registrate(user);
-			Resource<Apartment> resource = new ApartmentResourceList().createLink(toResource(apartment));
-			response = new ResponseEntity<>(resource, HttpStatus.OK);
-		} else {
-			response = new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+		
+		if (house == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
+		try {
+			apartmentUserRS.registerAppartmentWithUser(user, apartment, house, userRegitrationByAdminDTO.getOwneshipTypeId());
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+			Resource<Apartment> resource = new ApartmentResourceList().createLink(toResource(apartment));
+			response =  new ResponseEntity<>(resource, HttpStatus.OK);
+	
 		return response;
-		// return null;
 	}
 
 	@RequestMapping(value = "/street/{id}", method = RequestMethod.GET)
