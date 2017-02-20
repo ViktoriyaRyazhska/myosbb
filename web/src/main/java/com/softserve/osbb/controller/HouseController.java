@@ -8,6 +8,7 @@ package com.softserve.osbb.controller;
 
 import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 
+
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,7 +51,6 @@ import com.softserve.osbb.service.HouseService;
 import com.softserve.osbb.service.OsbbService;
 import com.softserve.osbb.service.RegistrationService;
 import com.softserve.osbb.service.UserService;
-import com.softserve.osbb.service.impl.MailSenderImpl;
 import com.softserve.osbb.util.paging.PageDataObject;
 import com.softserve.osbb.util.paging.PageDataUtil;
 import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
@@ -70,8 +71,6 @@ public class HouseController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HouseController.class);
 
-	@Autowired
-	private MailSenderImpl sender;
 
 	@Autowired
 	private HouseService houseService;
@@ -271,8 +270,8 @@ public class HouseController {
 		}
 		try {
 			apartmentUserRS.registerAppartmentWithUser(user, apartment, house, userRegitrationByAdminDTO.getOwneshipTypeId());
-		} catch (MessagingException e) {
-			e.printStackTrace();
+		} catch (MessagingException | MailException e) {
+			throw new CannotSendMailException("something wrong with internet connection. cannot send mail");
 		}
 			Resource<Apartment> resource = new ApartmentResourceList().createLink(toResource(apartment));
 			response =  new ResponseEntity<>(resource, HttpStatus.OK);
@@ -364,6 +363,15 @@ public class HouseController {
 	private static class ApartmentAlreadyExistsException extends RuntimeException {
 
 		ApartmentAlreadyExistsException(String message) {
+			super(message);
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	@ResponseStatus(value = HttpStatus.ACCEPTED, reason = "something wrong with internet connection. cannot send mail")
+	private static class CannotSendMailException extends RuntimeException {
+
+		CannotSendMailException(String message) {
 			super(message);
 		}
 	}
