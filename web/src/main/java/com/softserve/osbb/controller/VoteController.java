@@ -9,8 +9,10 @@ package com.softserve.osbb.controller;
 import com.softserve.osbb.dto.VoteDTO;
 import com.softserve.osbb.dto.mappers.VoteDTOMapper;
 import com.softserve.osbb.model.Option;
+import com.softserve.osbb.model.Ticket;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.model.Vote;
+import com.softserve.osbb.service.TicketService;
 import com.softserve.osbb.service.UserService;
 import com.softserve.osbb.service.VoteService;
 import org.slf4j.Logger;
@@ -43,7 +45,10 @@ public class VoteController {
 
     @Autowired
     private UserService userService;
-
+    
+    @Autowired
+    private TicketService ticketService;
+    
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Resource<Vote>> createVote(@RequestBody Vote vote) {
         logger.info("Add vote: " + vote);
@@ -51,6 +56,24 @@ public class VoteController {
         user.getVotes().add(vote);
         vote.setUser(user);
 
+        for (Option option : vote.getOptions()) {
+            option.setVote(vote);
+        }
+
+        return new ResponseEntity<>(
+                addResourceLinkToVote(voteService.addVote(vote)),
+                HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
+    public ResponseEntity<Resource<Vote>> createVoteWithTicketId(@RequestBody Vote vote) {
+        logger.info("Add vote: " + vote);
+        User user = userService.findOne(vote.getUser().getUserId());
+        user.getVotes().add(vote);
+        vote.setUser(user);
+        Ticket ticket = ticketService.findOne(vote.getTicket().getTicketId());
+        ticket.getVote().add(vote);
+        vote.setTicket(ticket);
         for (Option option : vote.getOptions()) {
             option.setVote(vote);
         }

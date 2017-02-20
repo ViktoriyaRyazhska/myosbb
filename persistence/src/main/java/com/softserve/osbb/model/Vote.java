@@ -37,8 +37,22 @@ public class Vote implements Serializable {
 	private Timestamp endTime;
 	private User user;
 	private List<Option> options;
-	private Integer ticket_id;
 	private Ticket ticket;
+	
+	
+	
+
+	public Vote() {
+	}
+	
+	public Vote(Vote vote){
+		this.voteId=vote.getVoteId();
+		this.description=vote.getDescription();
+		this.available=vote.getAvailable();
+		this.startTime=vote.getStartTime();
+		this.endTime=vote.getEndTime();
+		this.user=vote.getUser();
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -100,9 +114,9 @@ public class Vote implements Serializable {
 		this.user = user;
 	}
 
-	@JsonIgnore
+
 	@ManyToOne
-	@JoinColumn(name = "ticket_id", nullable = false)
+	@JoinColumn(name = "ticket_id")
 	public Ticket getTicket() {
 		return ticket;
 	}
