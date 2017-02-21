@@ -39,7 +39,7 @@ public class AppartmentUserRegistrationServiceImpl implements AppartmentUserRegi
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public Apartment registerAppartmentWithUser(User user, Apartment apartment, House house, Integer ownershipTypeId) throws MessagingException {
 		apartment.setHouse(house);
-		Apartment saved = apartmentRepository.save(apartment);
+		apartment = apartmentRepository.save(apartment);
 
 		user.setApartment(apartment);
 		user.setHouse(house);
@@ -48,14 +48,14 @@ public class AppartmentUserRegistrationServiceImpl implements AppartmentUserRegi
 		sender.send(user.getEmail(), "Registation", user.getPassword());
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		User registeredUser = userRepository.save(user);
+		user = userRepository.save(user);
 
-		settingsRepository.save(new Settings(registeredUser));
+		settingsRepository.save(new Settings(user));
 		if (ownershipTypeId == 1) {
-			saved.setOwner(registeredUser.getUserId());
+			apartment.setOwner(user.getUserId());
 		}
-		apartmentRepository.saveAndFlush(saved);
-		return saved;
+	Apartment ap =	apartmentRepository.saveAndFlush(apartment);
+		return apartment;
 	}
 
 }
