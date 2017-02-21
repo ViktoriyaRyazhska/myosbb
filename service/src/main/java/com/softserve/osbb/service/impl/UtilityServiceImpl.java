@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.osbb.model.Utility;
@@ -29,5 +30,32 @@ public class UtilityServiceImpl implements UtilityService{
 	public List<Utility> getAll() {
 		return utilityRepository.findAll();
 	}
+	
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    @Override
+    public Utility findById(Integer integer) {
+        return utilityRepository.findOne(integer);
+    }
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	@Override
+	public void delete(Integer id) {
+		utilityRepository.delete(id);
+		
+	}
+	 @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	    @Override
+	    public Utility updateUtility(Utility utility) {
+		 if(findById(utility.getUtilityId()) != null) {
+			 return utilityRepository.save(utility);
+	        } else {
+	            throw new IllegalArgumentException("Utility with id=" + utility.getUtilityId()
+	                    + " doesn't exist. First try to add this utility.");
+	        }
+	            
+	        
+	    }
+
+	
 
 }

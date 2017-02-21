@@ -15,6 +15,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.softserve.osbb.model.enums.Currency;
 
 /**
@@ -22,6 +26,7 @@ import com.softserve.osbb.model.enums.Currency;
  */
 @Entity
 @Table(name = "utilities")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Utility implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -60,7 +65,7 @@ public class Utility implements Serializable {
 		return utilityId;
 	}
 
-	public void setTariffId(Integer utilityId) {
+	public void setUtilityId(Integer utilityId) {
 		this.utilityId = utilityId;
 	}
 
@@ -111,4 +116,22 @@ public class Utility implements Serializable {
 	public void setParent(Utility parent) {
 		this.parent = parent;
 	}
+	
+	@Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+	@Override
+	public String toString() {
+		return "Utility [utilityId=" + utilityId + ", name=" + name + ", description=" + description + ", price="
+				+ price + ", priceCurrency=" + priceCurrency + ", osbb=" + osbb + ", parent=" + parent + "]";
+	}
+    
+    
 }
