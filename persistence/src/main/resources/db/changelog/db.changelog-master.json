@@ -115,6 +115,11 @@
         "path": "classpath:/db/changelog/vote/"
       }
     },
+  {
+      "includeAll": {
+        "path": "classpath:/db/changelog/chat/"
+      }
+    },
     {
       "includeAll": {
         "path": "classpath:/db/changelog/default.input/"
