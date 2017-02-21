@@ -1,0 +1,49 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "2017/02/16",
+        "author": "Nazar, Yurii",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "createTable": {
+              "columns": [
+                {
+                  "column": {
+                    "autoIncrement": true,
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "chat_pkey"
+                    },
+                    "name": "chat_id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "message",
+                    "type": "VARCHAR(500)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "message_time",
+                    "type": "TIMESTAMP"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "user_id",
+                    "type": "INT"
+                  }
+                }
+              ],
+              "tableName": "chat"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

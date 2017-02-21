@@ -1,6 +1,5 @@
 package com.softserve.osbb.service;
 
-
 import com.softserve.osbb.model.Vote;
 import org.springframework.stereotype.Service;
 
@@ -13,18 +12,22 @@ import java.util.List;
 @Service
 public interface VoteService {
 
-    Vote addVote(Vote vote);
+	Vote addVote(Vote vote);
 
-    Vote getVoteById(Integer id);
+	Vote getVoteById(Integer id);
 
-    List<Vote> getAllAvailable();
+	List<Vote> getAllAvailable();
 
-    List<Vote> getAllVotesByDateOfCreation();
+	List<Vote> getByTicketId(Integer ticketId);
 
-    boolean existsVote(Integer id);
+	List<Vote> getByTicketIdAndAvailable(Integer ticketId);
 
-    void deleteVote(Integer id);
+	List<Vote> getAllVotesByDateOfCreation();
 
-    void deleteVote(Vote vote);
+	boolean existsVote(Integer id);
+
+	void deleteVote(Integer id);
+
+	void deleteVote(Vote vote);
 
 }
