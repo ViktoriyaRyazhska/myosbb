@@ -36,6 +36,11 @@ public class ApartmentServiceImpl implements ApartmentService {
         return apartmentRepository.findOne(id);
     }
 
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    @Override
+	public Apartment findByHouseAndNumber(Integer number, Integer houseId) {
+		return apartmentRepository.findByHouseAndNumber(number, houseId);
+	}
 
     @Transactional(readOnly = true)
     @Override
@@ -87,5 +92,7 @@ public class ApartmentServiceImpl implements ApartmentService {
         }
         return order == true ? Sort.Direction.ASC : Sort.Direction.DESC;
     }
+
+	
 
 }
