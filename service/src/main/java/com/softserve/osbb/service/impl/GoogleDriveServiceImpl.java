@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,7 +28,9 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
+import com.softserve.osbb.model.User;
 import com.softserve.osbb.service.GoogleDriveService;
+import com.softserve.osbb.service.UserService;
 import com.softserve.osbb.service.exceptions.GoogleDriveException;
 
 /**
@@ -78,6 +81,9 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 
 	/** GoogleDrive service. */
 	private Drive driveService;
+	
+	@Autowired
+	private UserService userService;
 
 	/** Global instance of the HTTP transport. */
 	private HttpTransport HTTP_TRANSPORT;
@@ -218,14 +224,15 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 
 	@Override
 	public void uploadUserFile(MultipartFile uploading, String userEmail) {
-
+		User user = userService.findUserByEmail(userEmail);
+		if(user==null)
+		throw  new IllegalArgumentException("Could not find User with "+userEmail);
 		File usersRootFolder = findByName("Users", APP_FOLDER_ID);
 		if (usersRootFolder == null)
 			usersRootFolder = createFolder("Users", APP_FOLDER_ID);
 		File userFolder = findByName(userEmail, usersRootFolder.getId());
 		if (userFolder == null)
-			userFolder = createFolder(userEmail, usersRootFolder.getId());
-		
+			userFolder = createFolder(userEmail, usersRootFolder.getId());		
 		String fileName = uploading.getOriginalFilename();
 		validateName(fileName);
 		checkIfExist(fileName, userFolder.getId());
@@ -235,18 +242,16 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		} catch (IOException e) {
 			processGDE("Could not obtain InputStream from " + fileName);
 		}
-
 		File fileMetadata = getFileWithMetadata(uploading.getOriginalFilename(), userFolder.getId());
 		java.io.File content = new java.io.File(fileName);
 		FileContent mediaContent = new FileContent(null, content);
-
-		try {
-			driveService.files().create(fileMetadata, mediaContent).setFields("id, parents").execute();
+		try {		   
+		File file= driveService.files().create(fileMetadata, mediaContent).setFields("id, parents").execute();		user.setPhotoId(file.getId());
+		userService.saveAndFlush(user);
 			content.delete();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			processGDE("Could not upload " + fileName);
-		}
-
+		}		
 	}
 
 	@Override

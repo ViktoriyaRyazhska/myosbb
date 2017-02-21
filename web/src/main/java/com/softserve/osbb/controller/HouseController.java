@@ -290,10 +290,11 @@ public class HouseController {
 	
 	
 	@ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "upload/{userEmail}", method = RequestMethod.POST)    
+    @RequestMapping(value = "upload/{userEmail:.+}", method = RequestMethod.POST)    
     public void upload(@PathVariable String userEmail, @RequestParam("file") MultipartFile file) {        
-        driveService.uploadUserFile(file, userEmail);
-        System.out.println(userEmail);
+        
+		driveService.uploadUserFile(file, userEmail);
+        
          
     }    
 
