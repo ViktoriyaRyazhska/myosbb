@@ -63,15 +63,15 @@ public class VoteServiceImpl implements VoteService {
 
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	@Override
-	public List<Vote> getByTicket_id(Integer ticket_id) {
-		return voteRepository.findByTicket_id(ticket_id);
+	public List<Vote> getByTicketId(Integer ticketId) {
+		return voteRepository.findByTicketId(ticketId);
 	}
 
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	@Override
-	public List<Vote> getByTicket_idAndAvailable(Integer ticket_id) {
+	public List<Vote> getByTicketIdAndAvailable(Integer ticketId) {
 
-		return voteRepository.findByTicket_idAndAvailable(ticket_id);
+		return voteRepository.findByTicketIdAndAvailable(ticketId);
 	}
 
 }

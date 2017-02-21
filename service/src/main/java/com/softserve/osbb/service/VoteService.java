@@ -18,9 +18,9 @@ public interface VoteService {
 
 	List<Vote> getAllAvailable();
 
-	List<Vote> getByTicket_id(Integer ticket_id);
+	List<Vote> getByTicketId(Integer ticketId);
 
-	List<Vote> getByTicket_idAndAvailable(Integer ticket_id);
+	List<Vote> getByTicketIdAndAvailable(Integer ticketId);
 
 	List<Vote> getAllVotesByDateOfCreation();
 

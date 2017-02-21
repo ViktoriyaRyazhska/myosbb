@@ -107,7 +107,7 @@ public class VoteController {
 	public ResponseEntity<List<Resource<VoteDTO>>> getAllVotesByTicketId(@PathVariable("ticketId") Integer ticketId) {
 		logger.info("Get all votes by ticket ID: " + ticketId);
 		List<Vote> voteList = new ArrayList<Vote>();
-		voteList.addAll(voteService.getByTicket_id(ticketId));
+		voteList.addAll(voteService.getByTicketId(ticketId));
 		List<VoteDTO> listDTO = VoteDTOMapper.mapAllVoteEntityToDTO(voteList);
 
 		final List<Resource<VoteDTO>> resourceVoteList = new ArrayList<>();
