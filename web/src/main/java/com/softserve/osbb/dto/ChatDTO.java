@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.softserve.osbb.model.Chat;
-import com.softserve.osbb.model.Message;
 import com.softserve.osbb.model.User;
 
 public class ChatDTO {
