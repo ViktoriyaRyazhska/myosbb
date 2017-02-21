@@ -9,8 +9,10 @@ package com.softserve.osbb.controller;
 import com.softserve.osbb.dto.VoteDTO;
 import com.softserve.osbb.dto.mappers.VoteDTOMapper;
 import com.softserve.osbb.model.Option;
+import com.softserve.osbb.model.Ticket;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.model.Vote;
+import com.softserve.osbb.service.TicketService;
 import com.softserve.osbb.service.UserService;
 import com.softserve.osbb.service.VoteService;
 import org.slf4j.Logger;
@@ -36,101 +38,124 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RequestMapping("/restful/vote")
 public class VoteController {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoteController.class);
+	private static final Logger logger = LoggerFactory.getLogger(VoteController.class);
 
-    @Autowired
-    private VoteService voteService;
+	@Autowired
+	private VoteService voteService;
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Resource<Vote>> createVote(@RequestBody Vote vote) {
-        logger.info("Add vote: " + vote);
-        User user = userService.findOne(vote.getUser().getUserId());
-        user.getVotes().add(vote);
-        vote.setUser(user);
+	@Autowired
+	private TicketService ticketService;
 
-        for (Option option : vote.getOptions()) {
-            option.setVote(vote);
-        }
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Resource<Vote>> createVote(@RequestBody Vote vote) {
+		logger.info("Add vote: " + vote);
+		User user = userService.findOne(vote.getUser().getUserId());
+		user.getVotes().add(vote);
+		vote.setUser(user);
 
-        return new ResponseEntity<>(
-                addResourceLinkToVote(voteService.addVote(vote)),
-                HttpStatus.OK);
-    }
+		for (Option option : vote.getOptions()) {
+			option.setVote(vote);
+		}
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Resource<Vote>> getVoteById(
-            @PathVariable("id") Integer id) {
-        logger.info("Get vote by id: " + id);
-        return new ResponseEntity<>(
-                addResourceLinkToVote(voteService.getVoteById(id)),
-                HttpStatus.OK);
-    }
+		return new ResponseEntity<>(addResourceLinkToVote(voteService.addVote(vote)), HttpStatus.OK);
+	}
 
-    @RequestMapping(value = "/all/{osbbId}", method = RequestMethod.GET)
-    public ResponseEntity<List<Resource<VoteDTO>>> getAllVotesByOsbb(
-            @PathVariable("osbbId") Integer osbbId) {
-        logger.info("Get all votes by osbbId: " + osbbId);
-        List<Vote> voteList = new ArrayList<Vote>();
-        voteList.addAll(voteService.getAllVotesByDateOfCreation());
-        
-        List<VoteDTO> voteDTOList = VoteDTOMapper.mapAllVoteEntityToDTO(voteList.stream()
-                        .filter(v -> v.getUser().getOsbb().getOsbbId() == osbbId)
-                        .collect(Collectors.toList()));
-        
-        final List<Resource<VoteDTO>> resourceVoteList = new ArrayList<>();
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public ResponseEntity<Resource<Vote>> createVoteWithTicketId(@RequestBody Vote vote) {
+		logger.info("Add vote: " + vote);
+		User user = userService.findOne(vote.getUser().getUserId());
+		user.getVotes().add(vote);
+		vote.setUser(user);
+		Ticket ticket = ticketService.findOne(vote.getTicket().getTicketId());
+		ticket.getVote().add(vote);
+		vote.setTicket(ticket);
+		for (Option option : vote.getOptions()) {
+			option.setVote(vote);
+		}
 
-        for (VoteDTO v : voteDTOList) {
-            resourceVoteList.add(addResourceLinkToVote(v));
-        }
+		return new ResponseEntity<>(addResourceLinkToVote(voteService.addVote(vote)), HttpStatus.OK);
+	}
 
-        return new ResponseEntity<>(resourceVoteList, HttpStatus.OK);
-    }
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Resource<Vote>> getVoteById(@PathVariable("id") Integer id) {
+		logger.info("Get vote by id: " + id);
+		return new ResponseEntity<>(addResourceLinkToVote(voteService.getVoteById(id)), HttpStatus.OK);
+	}
 
-    @RequestMapping(value = "/close/{osbbId}", method = RequestMethod.GET)
-    public ResponseEntity<Resource<Vote>> closeVote(
-            @PathVariable("osbbId") Integer osbbId) {
-        logger.info("Close vote with id: " + osbbId);
-        Vote vote = voteService.getVoteById(osbbId);
-        vote.setAvailable(false);
-        return new ResponseEntity<>(addResourceLinkToVote(voteService.addVote(vote)), HttpStatus.OK);
-    }
+	@RequestMapping(value = "/all/{osbbId}", method = RequestMethod.GET)
+	public ResponseEntity<List<Resource<VoteDTO>>> getAllVotesByOsbb(@PathVariable("osbbId") Integer osbbId) {
+		logger.info("Get all votes by osbbId: " + osbbId);
+		List<Vote> voteList = new ArrayList<Vote>();
+		voteList.addAll(voteService.getAllVotesByDateOfCreation());
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Resource<Vote>> deleteVote(
-            @PathVariable("id") Integer id) {
-        logger.info("Delete vote with id: " + id);
-        
-        for (Option opt : voteService.getVoteById(id).getOptions()) {
-            opt.getUsers().clear();
-        }
-        
-        voteService.deleteVote(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+		List<VoteDTO> voteDTOList = VoteDTOMapper.mapAllVoteEntityToDTO(voteList.stream()
+				.filter(v -> v.getUser().getOsbb().getOsbbId() == osbbId).collect(Collectors.toList()));
 
-    private Resource<Vote> addResourceLinkToVote(Vote vote) {
-        if (vote == null) {
-            return null;
-        }
-        
-        Resource<Vote> voteResource = new Resource<>(vote);
-        voteResource.add(linkTo(methodOn(VoteController.class).getVoteById(vote.getVoteId()))
-                        .withSelfRel());
-        return voteResource;
-    }
+		final List<Resource<VoteDTO>> resourceVoteList = new ArrayList<>();
 
-    private Resource<VoteDTO> addResourceLinkToVote(VoteDTO vote) {
-        if (vote == null) {
-            return null;
-        }
-        
-        Resource<VoteDTO> voteResource = new Resource<>(vote);
-        voteResource.add(linkTo(
-                methodOn(VoteController.class).getVoteById(vote.getVoteId()))
-                        .withSelfRel());
-        return voteResource;
-    }
+		for (VoteDTO v : voteDTOList) {
+			resourceVoteList.add(addResourceLinkToVote(v));
+		}
+
+		return new ResponseEntity<>(resourceVoteList, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/all/byticket/{ticketId}", method = RequestMethod.GET)
+	public ResponseEntity<List<Resource<VoteDTO>>> getAllVotesByTicketId(@PathVariable("ticketId") Integer ticketId) {
+		logger.info("Get all votes by ticket ID: " + ticketId);
+		List<Vote> voteList = new ArrayList<Vote>();
+		voteList.addAll(voteService.getByTicketId(ticketId));
+		List<VoteDTO> listDTO = VoteDTOMapper.mapAllVoteEntityToDTO(voteList);
+
+		final List<Resource<VoteDTO>> resourceVoteList = new ArrayList<>();
+
+		for (VoteDTO v : listDTO) {
+			resourceVoteList.add(addResourceLinkToVote(v));
+		}
+
+		return new ResponseEntity<>(resourceVoteList, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/close/{osbbId}", method = RequestMethod.GET)
+	public ResponseEntity<Resource<Vote>> closeVote(@PathVariable("osbbId") Integer osbbId) {
+		logger.info("Close vote with id: " + osbbId);
+		Vote vote = voteService.getVoteById(osbbId);
+		vote.setAvailable(false);
+		return new ResponseEntity<>(addResourceLinkToVote(voteService.addVote(vote)), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Resource<Vote>> deleteVote(@PathVariable("id") Integer id) {
+		logger.info("Delete vote with id: " + id);
+
+		for (Option opt : voteService.getVoteById(id).getOptions()) {
+			opt.getUsers().clear();
+		}
+
+		voteService.deleteVote(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	private Resource<Vote> addResourceLinkToVote(Vote vote) {
+		if (vote == null) {
+			return null;
+		}
+
+		Resource<Vote> voteResource = new Resource<>(vote);
+		voteResource.add(linkTo(methodOn(VoteController.class).getVoteById(vote.getVoteId())).withSelfRel());
+		return voteResource;
+	}
+
+	private Resource<VoteDTO> addResourceLinkToVote(VoteDTO vote) {
+		if (vote == null) {
+			return null;
+		}
+
+		Resource<VoteDTO> voteResource = new Resource<>(vote);
+		voteResource.add(linkTo(methodOn(VoteController.class).getVoteById(vote.getVoteId())).withSelfRel());
+		return voteResource;
+	}
 }

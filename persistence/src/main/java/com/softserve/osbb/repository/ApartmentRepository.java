@@ -16,6 +16,9 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Integer> {
     Page<Apartment> findByNumber(Pageable pageable, @Param("number") Integer number, @Param("osbbId")Integer osbbId);
 
     Apartment findByOwner(Integer owner);//do not delete this!!!
+    
+    @Query("select ap from Apartment ap join ap.house h  where h.houseId = :houseId and ap.number = :number")
+    Apartment findByHouseAndNumber(@Param("number") Integer number, @Param("houseId")Integer houseId);
 
     @Query("select ap from Apartment ap where ap.number = :number")
     Page<Apartment> findByNumberToAdmin(Pageable pageable, @Param("number") Integer number);

@@ -1,10 +1,22 @@
 {
   "databaseChangeLog": [
+<<<<<<< HEAD
+=======
+   {
+      "includeAll": {
+        "path": "classpath:/db/changelog/ownership/"
+      }
+    },
+>>>>>>> 6674566f59b02665575807d9d07be6586fdf338c
     {
       "includeAll": {
         "path": "classpath:/db/changelog/apartment/"
       }
     },
+<<<<<<< HEAD
+=======
+   
+>>>>>>> 6674566f59b02665575807d9d07be6586fdf338c
     {
       "includeAll": {
         "path": "classpath:/db/changelog/attachment/"

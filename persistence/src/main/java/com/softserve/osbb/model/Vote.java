@@ -20,106 +20,132 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Created by Roman on 05.07.2016.
  */
 @Entity
 @Table(name = "vote")
 public class Vote implements Serializable {
-    
-    private static final long serialVersionUID = 1L;
-    private Integer voteId;
-    private String description;
-    private Boolean available = true;
-    private Timestamp startTime;
-    private Timestamp endTime;
-    private User user;
-    private List<Option> options;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vote_id")
-    public Integer getVoteId() {
-        return voteId;
-    }
+	private static final long serialVersionUID = 1L;
+	private Integer voteId;
+	private String description;
+	private Boolean available = true;
+	private Timestamp startTime;
+	private Timestamp endTime;
+	private User user;
+	private List<Option> options;
+	private Ticket ticket;
+	
+	
+	
 
-    public void setVoteId(Integer voteId) {
-        this.voteId = voteId;
-    }
+	public Vote() {
+	}
+	
+	public Vote(Vote vote){
+		this.voteId=vote.getVoteId();
+		this.description=vote.getDescription();
+		this.available=vote.getAvailable();
+		this.startTime=vote.getStartTime();
+		this.endTime=vote.getEndTime();
+		this.user=vote.getUser();
+	}
 
-    @Basic
-    @Column(name = "description")
-    public String getDescription() {
-        return description;
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "vote_id")
+	public Integer getVoteId() {
+		return voteId;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setVoteId(Integer voteId) {
+		this.voteId = voteId;
+	}
 
-    @Column(name = "available", columnDefinition = "boolean default true", nullable = false)
-    public Boolean getAvailable() {
-        return available;
-    }
+	@Basic
+	@Column(name = "description")
+	public String getDescription() {
+		return description;
+	}
 
-    public void setAvailable(Boolean available) {
-        this.available = available;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    @Basic
-    @Column(name = "start_time")
-    public Timestamp getStartTime() {
-        return startTime;
-    }
+	@Column(name = "available", columnDefinition = "boolean default true", nullable = false)
+	public Boolean getAvailable() {
+		return available;
+	}
 
-    public void setStartTime(Timestamp startTime) {
-        this.startTime = startTime;
-    }
+	public void setAvailable(Boolean available) {
+		this.available = available;
+	}
 
-    @Basic
-    @Column(name = "end_time")
-    public Timestamp getEndTime() {
-        return endTime;
-    }
+	@Basic
+	@Column(name = "start_time")
+	public Timestamp getStartTime() {
+		return startTime;
+	}
 
-    public void setEndTime(Timestamp endTime) {
-        this.endTime = endTime;
-    }
+	public void setStartTime(Timestamp startTime) {
+		this.startTime = startTime;
+	}
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    public User getUser() {
-        return user;
-    }
+	@Basic
+	@Column(name = "end_time")
+	public Timestamp getEndTime() {
+		return endTime;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public void setEndTime(Timestamp endTime) {
+		this.endTime = endTime;
+	}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "vote", cascade = CascadeType.ALL)
-    public List<Option> getOptions() {
-        return options;
-    }
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	public User getUser() {
+		return user;
+	}
 
-    public void setOptions(List<Option> options) {
-        this.options = options;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
-    }
 
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
-    }
+	@ManyToOne
+	@JoinColumn(name = "ticket_id")
+	public Ticket getTicket() {
+		return ticket;
+	}
 
-    @Override
-    public String toString() {
-        return "Vote{" +
-                "voteId=" + voteId +
-                ", description='" + description + '\'' +
-                '}';
-    }
+	public void setTicket(Ticket ticket) {
+		this.ticket = ticket;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "vote", cascade = CascadeType.ALL)
+	public List<Option> getOptions() {
+		return options;
+	}
+
+	public void setOptions(List<Option> options) {
+		this.options = options;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
+
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
+
+	@Override
+	public String toString() {
+		return "Vote{" + "voteId=" + voteId + ", description='" + description + '\'' + '}';
+	}
 }

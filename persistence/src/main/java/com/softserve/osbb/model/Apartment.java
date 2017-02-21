@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -117,5 +118,12 @@ public class Apartment implements Serializable {
                 ", users=" + users +
                 ", bills=" + bills +
                 '}';
+    }
+
+    public void addUser(User user){
+    	if(this.users == null){
+    		this.users = new ArrayList<>();
+    	}
+    	this.users.add(user);
     }
 }

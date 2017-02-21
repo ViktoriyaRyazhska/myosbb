@@ -30,6 +30,7 @@ public class VoteDTOMapper {
             voteDTO.setEndTime(vote.getEndTime());
             voteDTO.setUser(UserDTOMapper.mapUserEntityToDTO(vote.getUser()));
             voteDTO.setUsersId(getALLUsersIdFromVote(vote.getOptions()));
+            voteDTO.setTicket(TicketDTOMapper.mapTicketEntityToDTO(vote.getTicket()));
         }
         
         return voteDTO;
