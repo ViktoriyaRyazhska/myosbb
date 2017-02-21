@@ -49,6 +49,12 @@
                     "name": "user_id",
                     "type": "INT"
                   }
+                },
+                                {
+                  "column": {
+                    "name": "ticket_id",
+                    "type": "INT"
+                  }
                 }
               ],
               "tableName": "vote"
@@ -79,6 +85,28 @@
         ]
       }
     },
+     {
+      "changeSet": {
+        "id": "2017/02/10-01",
+        "author": "OrestOhorodnyk",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "ticket_id",
+              "baseTableName": "vote",
+              "constraintName": "fk_vote_ticket",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "NO ACTION",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "ticket_id",
+              "referencedTableName": "ticket"
+            }
+          }
+        ]
+      }
+    },
     {
       "changeSet": {
         "id": "2016/08/03-59",
@@ -103,3 +131,4 @@
     }
   ]
 }
+

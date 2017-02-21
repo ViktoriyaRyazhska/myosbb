@@ -16,48 +16,62 @@ import java.util.List;
 @Service
 public class VoteServiceImpl implements VoteService {
 
-    @Autowired
-    VoteRepository voteRepository;
+	@Autowired
+	VoteRepository voteRepository;
 
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    @Override
-    public Vote addVote(Vote vote) {
-        return voteRepository.saveAndFlush(vote);
-    }
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	@Override
+	public Vote addVote(Vote vote) {
+		return voteRepository.saveAndFlush(vote);
+	}
 
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    @Override
-    public Vote getVoteById(Integer id) {
-        return voteRepository.findOne(id);
-    }
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	@Override
+	public Vote getVoteById(Integer id) {
+		return voteRepository.findOne(id);
+	}
 
-    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-    @Override
-    public List<Vote> getAllAvailable() {
-        return voteRepository.findAllAvailable();
-    }
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    @Override
-    public List<Vote> getAllVotesByDateOfCreation() {
-        return voteRepository.findByOrderByStartTimeDesc();
-    }
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+	@Override
+	public List<Vote> getAllAvailable() {
+		return voteRepository.findAllAvailable();
+	}
 
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    @Override
-    public boolean existsVote(Integer id) {
-        return voteRepository.exists(id);
-    }
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	@Override
+	public List<Vote> getAllVotesByDateOfCreation() {
+		return voteRepository.findByOrderByStartTimeDesc();
+	}
 
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    @Override
-    public void deleteVote(Integer id) {
-        voteRepository.delete(id);
-    }
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	@Override
+	public boolean existsVote(Integer id) {
+		return voteRepository.exists(id);
+	}
 
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    @Override
-    public void deleteVote(Vote vote) {
-        voteRepository.delete(vote);
-    }
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	@Override
+	public void deleteVote(Integer id) {
+		voteRepository.delete(id);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	@Override
+	public void deleteVote(Vote vote) {
+		voteRepository.delete(vote);
+	}
+
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+	@Override
+	public List<Vote> getByTicketId(Integer ticketId) {
+		return voteRepository.findByTicketId(ticketId);
+	}
+
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+	@Override
+	public List<Vote> getByTicketIdAndAvailable(Integer ticketId) {
+
+		return voteRepository.findByTicketIdAndAvailable(ticketId);
+	}
 
 }
