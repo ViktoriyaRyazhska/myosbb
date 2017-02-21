@@ -46,6 +46,7 @@ public class User implements Serializable {
 	private String phoneNumber;
 	private String password;
 	private String gender;
+	private String photoId;
 	private Boolean activated;
 	private Boolean isOwner;
 	private Role role;
@@ -143,6 +144,17 @@ public class User implements Serializable {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	@Basic
+	@Column(name = "photo_id")
+	@JsonIgnore
+	public String getPhotoId() {
+		return photoId;
+	}
+
+	public void setPhotoId(String photoId) {
+		this.photoId = photoId;
 	}
 
 	@Basic

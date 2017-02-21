@@ -69,6 +69,7 @@
                     "type": "VARCHAR(16)"
                   }
                 },
+                
                 {
                   "column": {
                     "name": "role",
@@ -105,6 +106,15 @@
                   "column": {
                     "name": "ownership_id",
                     "type": "INT"
+                  }
+                }
+                
+                ,
+                
+                {
+                  "column": {
+                    "name": "photo_id",
+                    "type": "VARCHAR(80)"
                   }
                 }
               ],
