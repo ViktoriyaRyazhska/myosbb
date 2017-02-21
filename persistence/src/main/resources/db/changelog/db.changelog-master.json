@@ -1,18 +1,15 @@
 {
   "databaseChangeLog": [
-
    {
       "includeAll": {
         "path": "classpath:/db/changelog/ownership/"
       }
     },
-
     {
       "includeAll": {
         "path": "classpath:/db/changelog/apartment/"
       }
     },
-
     {
       "includeAll": {
         "path": "classpath:/db/changelog/attachment/"
@@ -126,6 +123,11 @@
   {
       "includeAll": {
         "path": "classpath:/db/changelog/chat/"
+      }
+    },
+    {
+      "includeAll": {
+        "path": "classpath:/db/changelog/utility/"
       }
     },
     {

@@ -312,4 +312,12 @@ INSERT into event(title, author, start_time, end_time, description, repeats, osb
 INSERT into ownership(type)VALUES('Власник');
 INSERT into ownership(type)VALUES('Співвласник');
 INSERT into ownership(type)VALUES('Орендар');
+
+INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Прибирання','Примітка',235,'UAH',1);
+INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Прибирання Двору','Примітка Підпослуга',153,'UAH',1,1);
+INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Прибирання сходової клітки','Примітка Підпослуга',82,'UAH',1,1);
+INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Ремонт','Примітка',35600,'UAH',2);
+INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Ремонт під`їзду','Примітка Підпослуга',15400,'UAH',2,2);
+INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Ремонт дитячої площадки','Примітка Підпослуга',20200,'UAH',2,2);
+
 --rollback

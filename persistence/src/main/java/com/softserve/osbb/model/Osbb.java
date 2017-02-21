@@ -31,6 +31,7 @@ public class Osbb implements Serializable {
     private Collection<House> houses;
     private Collection<Report> reports;
     private Collection<User> users;
+    private Collection<Utility> utilities;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -171,8 +172,17 @@ public class Osbb implements Serializable {
     public void setUsers(Collection<User> users) {
         this.users = users;
     }
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "osbb", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    public Collection<Utility> getUtilities() {
+		return utilities;
+	}
 
-    @Override
+	public void setUtilities(Collection<Utility> utilities) {
+		this.utilities = utilities;
+	}
+
+	@Override
     public String toString() {
         return "Osbb{" +
                 "osbbId=" + osbbId +
@@ -193,4 +203,5 @@ public class Osbb implements Serializable {
     public int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
     }
+    
 }
