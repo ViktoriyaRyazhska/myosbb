@@ -17,20 +17,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softserve.osbb.model.Chat;
-import com.softserve.osbb.model.Message;
-import com.softserve.osbb.model.Notice;
-import com.softserve.osbb.model.Settings;
-import com.softserve.osbb.model.Ticket;
-import com.softserve.osbb.model.enums.NoticeType;
 import com.softserve.osbb.service.ChatService;
-import com.softserve.osbb.service.MessageService;
-import com.softserve.osbb.service.NoticeService;
-import com.softserve.osbb.service.SettingsService;
-import com.softserve.osbb.service.TicketService;
+
 
 @RestController
 @CrossOrigin
