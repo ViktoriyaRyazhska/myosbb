@@ -20,9 +20,9 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
      @Query("SELECT v FROM  Vote v WHERE v.available = TRUE")
      List<Vote> findAllAvailable();
      
-     @Query(value="SELECT v FROM  Vote v WHERE v.ticket_id = :ticket_id", nativeQuery = true)
+     @Query(value="SELECT * FROM  Vote v WHERE v.ticket_id = :ticket_id", nativeQuery = true)
      List<Vote> findByTicket_id(@Param("ticket_id") Integer ticket_id);
      
-     @Query(value="SELECT v FROM  Vote v WHERE v.available = TRUE and v.ticket_id = :ticket_id ",nativeQuery = true)
+     @Query(value="SELECT * FROM  Vote v WHERE v.available = TRUE and v.ticket_id = :ticket_id ",nativeQuery = true)
      List<Vote> findByTicket_idAndAvailable(@Param("ticket_id") Integer ticket_id);
 }
