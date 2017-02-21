@@ -3,6 +3,7 @@ package com.softserve.osbb.service.impl;
 import com.softserve.osbb.model.Mail;
 import com.softserve.osbb.service.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class MailSenderImpl implements MailSenderService {
     private MimeMessage message;
     private MimeMessageHelper helper;
 
-    public void send(String to, String subject, String text) throws MessagingException {
+    public void send(String to, String subject, String text) throws MessagingException, MailException {
         message = javaMailSender.createMimeMessage();
         helper = new MimeMessageHelper(message, true); //true for multipart
         helper.setFrom("housing.coop.osbb@gmail.com");

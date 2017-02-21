@@ -8,6 +8,7 @@ package com.softserve.osbb.controller;
 
 import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 
+
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,11 +48,11 @@ import com.softserve.osbb.model.House;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.service.ApartmentService;
 import com.softserve.osbb.service.GoogleDriveService;
+import com.softserve.osbb.service.AppartmentUserRegistrationService;
 import com.softserve.osbb.service.HouseService;
 import com.softserve.osbb.service.OsbbService;
 import com.softserve.osbb.service.RegistrationService;
 import com.softserve.osbb.service.UserService;
-import com.softserve.osbb.service.impl.MailSenderImpl;
 import com.softserve.osbb.util.paging.PageDataObject;
 import com.softserve.osbb.util.paging.PageDataUtil;
 import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
@@ -71,8 +73,6 @@ public class HouseController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HouseController.class);
 
-	@Autowired
-	private MailSenderImpl sender;
 
 	@Autowired
 	private HouseService houseService;
@@ -84,7 +84,10 @@ public class HouseController {
 	private RegistrationService registrationService;
 
 	@Autowired
-	private OsbbService osbbService;
+	private AppartmentUserRegistrationService apartmentUserRS;
+	
+	@Autowired
+ 	private OsbbService osbbService;
 
 	@Autowired
 	private UserService userService;
@@ -255,7 +258,6 @@ public class HouseController {
 	public ResponseEntity<Resource<Apartment>> addApartmentWithUserToHouse(@PathVariable("id") Integer id,
 			@RequestBody AppartmentUserDTO apartmentUser) {
 		Apartment apartment = apartmentUser.getApartment();
-		
 		UserRegitrationByAdminDTO userRegitrationByAdminDTO = apartmentUser.getUserRegitrationByAdminDTO();
 		
 		User foundUser = userService.findUserByEmail(userRegitrationByAdminDTO.getEmail());
@@ -266,31 +268,24 @@ public class HouseController {
 		if (foundApartment != null) {
 			throw new ApartmentAlreadyExistsException("apartment with this number in this house already exists");
 		}
+		
 		User user = userRegistrationByAdminDTOMapper.mapDTOToEntity(userRegitrationByAdminDTO);
 		user.setPassword(registrationService.generatePassword());
 		House house = houseService.findHouseById(id);
 		ResponseEntity<Resource<Apartment>> response = null;
-
-		if (house != null) {
-			apartment.setHouse(house);
-
-			apartmentService.save(apartment);
-			user.setApartment(apartment);
-			user.setHouse(house);
-			user.setOsbb(house.getOsbb());
-			try {
-				sender.send(user.getEmail(), "Registation", user.getPassword());
-			} catch (MessagingException e) {
-				e.printStackTrace();
-			}
-			registrationService.registrate(user);
-			Resource<Apartment> resource = new ApartmentResourceList().createLink(toResource(apartment));
-			response = new ResponseEntity<>(resource, HttpStatus.OK);
-		} else {
-			response = new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+		
+		if (house == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
+		try {
+			apartmentUserRS.registerAppartmentWithUser(user, apartment, house, userRegitrationByAdminDTO.getOwneshipTypeId());
+		} catch (MessagingException | MailException e) {
+			throw new CannotSendMailException("something wrong with internet connection. cannot send mail");
+		}
+			Resource<Apartment> resource = new ApartmentResourceList().createLink(toResource(apartment));
+			response =  new ResponseEntity<>(resource, HttpStatus.OK);
+	
 		return response;
-		// return null;
 	}
 	
 	
@@ -386,6 +381,15 @@ public class HouseController {
 	private static class ApartmentAlreadyExistsException extends RuntimeException {
 
 		ApartmentAlreadyExistsException(String message) {
+			super(message);
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	@ResponseStatus(value = HttpStatus.ACCEPTED, reason = "something wrong with internet connection. cannot send mail")
+	private static class CannotSendMailException extends RuntimeException {
+
+		CannotSendMailException(String message) {
 			super(message);
 		}
 	}
