@@ -3,9 +3,7 @@ package com.softserve.osbb.dto.mappers;
 import java.util.List;
 
 import com.softserve.osbb.dto.ChatDTO;
-import com.softserve.osbb.dto.MessageDTO;
 import com.softserve.osbb.model.Chat;
-import com.softserve.osbb.model.Message;
 import com.softserve.osbb.model.User;
 
 public class ChatDTOMapper {
