@@ -1,15 +1,14 @@
 package com.softserve.osbb.service.impl;
 
-import java.util.List;
-
+import com.softserve.osbb.model.Utility;
+import com.softserve.osbb.repository.UtilityRepository;
+import com.softserve.osbb.service.UtilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.osbb.model.Utility;
-import com.softserve.osbb.repository.UtilityRepository;
-import com.softserve.osbb.service.UtilityService;
+import java.util.List;
 /**
  * Created by YaroslavStefanyshyn on 02/13/2017.
  */
@@ -46,7 +45,7 @@ public class UtilityServiceImpl implements UtilityService{
 	 @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	    @Override
 	    public Utility updateUtility(Utility utility) {
-		 if(findById(utility.getUtilityId()) != null) {
+		 if(utilityRepository.exists(utility.getUtilityId())) {
 			 return utilityRepository.save(utility);
 	        } else {
 	            throw new IllegalArgumentException("Utility with id=" + utility.getUtilityId()
