@@ -52,6 +52,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .antMatchers("/restful/folder/**").permitAll()
                 .antMatchers("/restful/google-drive/**").permitAll()
                 .antMatchers("/restful/house/**").permitAll()
+                .antMatchers("/restful/vote/**").permitAll()
                 .antMatchers("/restful/house/all/**").permitAll()
                 .antMatchers("/restful/osbb").permitAll()
                 .antMatchers("/restful/report/**").permitAll()
