@@ -8,7 +8,7 @@ package com.softserve.osbb.controller;
 
 import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 
-
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,12 +17,15 @@ import java.util.Set;
 
 import javax.mail.MessagingException;
 
+import org.apache.poi.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.hateoas.Resource;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
@@ -73,7 +76,6 @@ public class HouseController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HouseController.class);
 
-
 	@Autowired
 	private HouseService houseService;
 
@@ -94,14 +96,10 @@ public class HouseController {
 
 	@Autowired
 	private UserRegistrationByAdminDTOMapper userRegistrationByAdminDTOMapper;
-	
-	
+		
 	@Autowired 
 	private GoogleDriveService driveService;
 	
-	
-	
-
 	private EntityResourceList<HouseDTO> buildResources(Iterable<House> houses) {
 		EntityResourceList<HouseDTO> resources = new HouseResourceList();
 		houses.forEach(house -> {
@@ -259,7 +257,6 @@ public class HouseController {
 			@RequestBody AppartmentUserDTO apartmentUser) {
 		Apartment apartment = apartmentUser.getApartment();
 		UserRegitrationByAdminDTO userRegitrationByAdminDTO = apartmentUser.getUserRegitrationByAdminDTO();
-		
 		User foundUser = userService.findUserByEmail(userRegitrationByAdminDTO.getEmail());
 		if (foundUser != null) {
 			throw new UserAlreadyExistsException("user already exists");
@@ -268,12 +265,10 @@ public class HouseController {
 		if (foundApartment != null) {
 			throw new ApartmentAlreadyExistsException("apartment with this number in this house already exists");
 		}
-		
 		User user = userRegistrationByAdminDTOMapper.mapDTOToEntity(userRegitrationByAdminDTO);
 		user.setPassword(registrationService.generatePassword());
 		House house = houseService.findHouseById(id);
 		ResponseEntity<Resource<Apartment>> response = null;
-		
 		if (house == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
@@ -284,11 +279,9 @@ public class HouseController {
 		}
 			Resource<Apartment> resource = new ApartmentResourceList().createLink(toResource(apartment));
 			response =  new ResponseEntity<>(resource, HttpStatus.OK);
-	
 		return response;
 	}
-	
-	
+		
 	@ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "upload/{userEmail:.+}", method = RequestMethod.POST)    
     public void upload(@PathVariable String userEmail, @RequestParam("file") MultipartFile file) {        
@@ -367,6 +360,22 @@ public class HouseController {
 
 		return new ResponseEntity<>(house, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/image/{fileId}", method = RequestMethod.GET)
+	 public ResponseEntity<byte[]> getImageAsResponseEntity(@PathVariable("fileId") String fileId) {
+	     HttpHeaders headers = new HttpHeaders();
+	     java.io.InputStream in;
+	     byte[] media=null;
+	  try {
+	   in = driveService.getInput(fileId);
+	   media = IOUtils.toByteArray(in);
+	  } catch (IOException e) {
+	   return new ResponseEntity<>(null, headers, HttpStatus.NOT_FOUND);
+	  }     
+	     headers.setCacheControl(CacheControl.noCache().getHeaderValue());      
+	     ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
+	     return responseEntity;
+	 }
 
 	@SuppressWarnings("serial")
 	@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "user already exists")

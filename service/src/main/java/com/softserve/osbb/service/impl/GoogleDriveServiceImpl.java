@@ -141,6 +141,10 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		file.setParents(Collections.singletonList(parentId));
 		return file;
 	}
+	
+	public InputStream getInput(String fileId) throws IOException {
+		  return driveService.files().get(fileId).executeMediaAsInputStream(); 
+		 }
 
 	@Override
 	public String delete(String id) {
@@ -246,7 +250,8 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		java.io.File content = new java.io.File(fileName);
 		FileContent mediaContent = new FileContent(null, content);
 		try {		   
-		File file= driveService.files().create(fileMetadata, mediaContent).setFields("id, parents").execute();		user.setPhotoId(file.getId());
+		File file= driveService.files().create(fileMetadata, mediaContent).setFields("id, parents").execute();	
+		user.setPhotoId(file.getId());
 		userService.saveAndFlush(user);
 			content.delete();
 		} catch (Exception e) {

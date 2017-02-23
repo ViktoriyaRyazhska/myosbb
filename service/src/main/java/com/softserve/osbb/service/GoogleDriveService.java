@@ -1,5 +1,7 @@
 package com.softserve.osbb.service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +37,8 @@ public interface GoogleDriveService {
     void download(String id, HttpServletResponse response);
     
     void uploadUserFile(MultipartFile file, String userEmail);
+    
+    public InputStream getInput(String fileId) throws IOException;
     
     
 }
