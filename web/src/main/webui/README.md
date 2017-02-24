@@ -43,7 +43,8 @@ angular2-webpack-starter/
 
 ## Install
 
-**npm install** 
+**npm install**
+***
 **npm run build:prod**
 (more scripts are in package.json)
 
