@@ -28,7 +28,7 @@ const HMR = helpers.hasProcessFlag('hot');
 const AOT = helpers.hasNpmFlag('aot');
 const METADATA = {
   title: 'Наш Двір',
-  baseUrl: process.env.BASE_URL || '/myosbb/',
+  baseUrl: '/' + (process.env.BASE_URL || 'myosbb/'),
   isDevServer: helpers.isWebpackDevServer()
 };
 
