@@ -3,7 +3,7 @@
 This partial based on Angular2 Webpack Starter https://github.com/AngularClass/angular2-webpack-starter
 
 ## File Structure
-
+```
 angular2-webpack-starter/
  ├──config/                        * our configuration
  |   ├──helpers.js                 * helper functions for our configuration files
