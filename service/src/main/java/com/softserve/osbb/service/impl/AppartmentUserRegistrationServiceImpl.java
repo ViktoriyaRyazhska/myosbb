@@ -1,5 +1,7 @@
 package com.softserve.osbb.service.impl;
 
+import java.net.UnknownHostException;
+
 import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import com.softserve.osbb.repository.ApartmentRepository;
 import com.softserve.osbb.repository.SettingsRepository;
 import com.softserve.osbb.repository.UserRepository;
 import com.softserve.osbb.service.AppartmentUserRegistrationService;
+import com.softserve.osbb.service.utils.EmailValidator;
 
 @Service
 public class AppartmentUserRegistrationServiceImpl implements AppartmentUserRegistrationService {
@@ -34,27 +37,32 @@ public class AppartmentUserRegistrationServiceImpl implements AppartmentUserRegi
 
 	@Autowired
 	SettingsRepository settingsRepository;
+	
+	@Autowired
+	EmailValidator emailValidator;
 
 	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public Apartment registerAppartmentWithUser(User user, Apartment apartment, House house, Integer ownershipTypeId) throws MessagingException {
+	@Transactional(readOnly = false,rollbackFor = UnknownHostException.class, propagation = Propagation.REQUIRED)
+	public Apartment registerAppartmentWithUser(User user, Apartment apartment, House house, Integer ownershipTypeId) throws MessagingException, UnknownHostException {
 		apartment.setHouse(house);
 		apartment = apartmentRepository.save(apartment);
 
 		user.setApartment(apartment);
 		user.setHouse(house);
 		user.setOsbb(house.getOsbb());
-
-		sender.send(user.getEmail(), "Registation", user.getPassword());
+		String email = user.getEmail();
+		emailValidator.validateEmail(email);
+		sender.send(email, "Registation", user.getPassword());
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user = userRepository.save(user);
 
 		settingsRepository.save(new Settings(user));
+		// enum or const
 		if (ownershipTypeId == 1) {
 			apartment.setOwner(user.getUserId());
 		}
-	Apartment ap =	apartmentRepository.saveAndFlush(apartment);
+	Apartment apart =	apartmentRepository.saveAndFlush(apartment);
 		return apartment;
 	}
 

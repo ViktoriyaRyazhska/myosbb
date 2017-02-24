@@ -9,6 +9,7 @@ package com.softserve.osbb.controller;
 import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -56,6 +57,7 @@ import com.softserve.osbb.service.HouseService;
 import com.softserve.osbb.service.OsbbService;
 import com.softserve.osbb.service.RegistrationService;
 import com.softserve.osbb.service.UserService;
+import com.softserve.osbb.service.exceptions.InvalidEmailException;
 import com.softserve.osbb.util.paging.PageDataObject;
 import com.softserve.osbb.util.paging.PageDataUtil;
 import com.softserve.osbb.util.paging.generator.PageRequestGenerator;
@@ -257,6 +259,8 @@ public class HouseController {
 			@RequestBody AppartmentUserDTO apartmentUser) {
 		Apartment apartment = apartmentUser.getApartment();
 		UserRegitrationByAdminDTO userRegitrationByAdminDTO = apartmentUser.getUserRegitrationByAdminDTO();
+		//if(apartmentUser apartment userRegitrationByAdminDTO == null)
+		// userRegitrationByAdminDTO.getEmail()
 		User foundUser = userService.findUserByEmail(userRegitrationByAdminDTO.getEmail());
 		if (foundUser != null) {
 			throw new UserAlreadyExistsException("user already exists");
@@ -268,6 +272,7 @@ public class HouseController {
 		User user = userRegistrationByAdminDTOMapper.mapDTOToEntity(userRegitrationByAdminDTO);
 		user.setPassword(registrationService.generatePassword());
 		House house = houseService.findHouseById(id);
+	
 		ResponseEntity<Resource<Apartment>> response = null;
 		if (house == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
@@ -276,7 +281,10 @@ public class HouseController {
 			apartmentUserRS.registerAppartmentWithUser(user, apartment, house, userRegitrationByAdminDTO.getOwneshipTypeId());
 		} catch (MessagingException | MailException e) {
 			throw new CannotSendMailException("something wrong with internet connection. cannot send mail");
+		} catch (UnknownHostException | InvalidEmailException e) {
+			throw new WrongEmailException("wrong e-mail");
 		}
+		
 			Resource<Apartment> resource = new ApartmentResourceList().createLink(toResource(apartment));
 			response =  new ResponseEntity<>(resource, HttpStatus.OK);
 		return response;
@@ -400,6 +408,15 @@ public class HouseController {
 	private static class CannotSendMailException extends RuntimeException {
 
 		CannotSendMailException(String message) {
+			super(message);
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "wrong e-mail")
+	private static class WrongEmailException extends RuntimeException {
+
+		WrongEmailException(String message) {
 			super(message);
 		}
 	}
