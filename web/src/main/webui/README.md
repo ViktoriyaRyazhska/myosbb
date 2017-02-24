@@ -51,10 +51,14 @@ angular2-webpack-starter/
 
 ## Environment variables for building
 
-**PUBLIC_PATH** (if not defined will use value '/myosbb/')
+**PUBLIC_PATH**
+This variable let you specify the base path for all the assets on your application. If it isn't defined will use value '/myosbb/'.
 
-**BASE_URL** (if not defined will use value '/myosbb/')
+**BASE_URL**
+You can use this variable to define **href** value for **<base>**. If it isn't defined will use value '/myosbb/'.
 
-**BUILD_PATH** (if not defined will use value '../resources/public')
+**BUILD_PATH**
+You can use this variable to define where Webpack will build application. If it isn't defined will use value '../resources/public'
 
-**API_SERVER** (if not defined will use value '/myobb')
+**API_SERVER**
+You can use this variable to define where Angular sends requests for the API-functions. If it isn't defined will use value '/myobb'.
