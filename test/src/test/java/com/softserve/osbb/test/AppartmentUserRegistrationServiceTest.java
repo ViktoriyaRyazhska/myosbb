@@ -6,6 +6,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.net.UnknownHostException;
+
 import javax.mail.MessagingException;
 
 import org.junit.Before;
@@ -69,8 +71,15 @@ public class AppartmentUserRegistrationServiceTest {
 
 		when(apartmentRepository.save(apartment)).thenReturn(apartment);
 		when(userRepository.save(user)).thenReturn(user);
-		Apartment ap1 = appartmentUserRegistrationServiceImpl.registerAppartmentWithUser(user, apartment, house, 1);
-		Apartment ap2 = appartmentUserRegistrationServiceImpl.registerAppartmentWithUser(user, apartment, house, 2);
+		Apartment ap1 = null;
+		Apartment ap2 = null;
+		try {
+			ap1 = appartmentUserRegistrationServiceImpl.registerAppartmentWithUser(user, apartment, house, 1);
+			ap2 = appartmentUserRegistrationServiceImpl.registerAppartmentWithUser(user, apartment, house, 2);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		verify(apartmentRepository, times(2)).saveAndFlush(apartment);
 		
 		assertEquals(apartment, ap1);
