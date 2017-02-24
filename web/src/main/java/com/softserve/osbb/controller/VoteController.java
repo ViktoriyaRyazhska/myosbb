@@ -18,6 +18,7 @@ import com.softserve.osbb.service.VoteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.support.Repositories;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.hamcrest.CoreMatchers.not;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
@@ -67,9 +69,17 @@ public class VoteController {
 	public ResponseEntity<Resource<Vote>> createVoteWithTicketId(@RequestBody Vote vote) {
 		logger.info("Add vote: " + vote);
 		User user = userService.findOne(vote.getUser().getUserId());
+		if(user==null){
+			logger.info("User not found");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 		user.getVotes().add(vote);
 		vote.setUser(user);
 		Ticket ticket = ticketService.findOne(vote.getTicket().getTicketId());
+		if(ticket==null){
+			logger.info("Ticket not found");
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 		ticket.getVote().add(vote);
 		vote.setTicket(ticket);
 		for (Option option : vote.getOptions()) {
