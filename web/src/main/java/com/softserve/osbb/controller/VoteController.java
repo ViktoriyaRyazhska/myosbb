@@ -69,14 +69,14 @@ public class VoteController {
 	public ResponseEntity<Resource<Vote>> createVoteWithTicketId(@RequestBody Vote vote) {
 		logger.info("Add vote: " + vote);
 		User user = userService.findOne(vote.getUser().getUserId());
-		if(user==null){
+		if (user == null) {
 			logger.info("User not found");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		user.getVotes().add(vote);
 		vote.setUser(user);
 		Ticket ticket = ticketService.findOne(vote.getTicket().getTicketId());
-		if(ticket==null){
+		if (ticket == null) {
 			logger.info("Ticket not found");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -116,7 +116,7 @@ public class VoteController {
 	@RequestMapping(value = "/all/byticket/{ticketId}", method = RequestMethod.GET)
 	public ResponseEntity<List<Resource<VoteDTO>>> getAllVotesByTicketId(@PathVariable("ticketId") Integer ticketId) {
 		logger.info("Get all votes by ticket ID: " + ticketId);
-		List<Vote> voteList = new ArrayList<Vote>();
+		List<Vote> voteList = new ArrayList<>();
 		voteList.addAll(voteService.getByTicketId(ticketId));
 		List<VoteDTO> listDTO = VoteDTOMapper.mapAllVoteEntityToDTO(voteList);
 

@@ -36,8 +36,6 @@ public interface UserService {
 
     public void delete(Integer integer) ;
 
-    public void delete(User user) ;
-
     public void delete(Iterable<? extends User> iterable) ;
 
     public void deleteAll() ;

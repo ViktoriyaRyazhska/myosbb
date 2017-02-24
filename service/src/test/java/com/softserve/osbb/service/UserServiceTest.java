@@ -4,6 +4,8 @@ package com.softserve.osbb.service; /**
 
 import com.softserve.osbb.config.ServiceApplication;
 import com.softserve.osbb.model.User;
+
+import org.hibernate.annotations.common.AssertionFailure;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 public class UserServiceTest {
 
     private User user;
-
+    private Integer userId;
     @Autowired
     private UserService userService;
 
@@ -47,11 +49,16 @@ public class UserServiceTest {
     @Test
     public void testSave() {
         userService.save(user);
-        assertEquals(user.getUserId(), userService.findOne(user.getUserId()).getUserId());
+        userId = user.getUserId();
+        User userSaved = userService.findOne(userId);
+        if(userSaved == null) {
+        	assertEquals(true, false);
+        }
+        assertEquals(userId, userSaved.getUserId());
 
     }
     @After
     public void afterTest(){
-        userService.delete(user);
+        userService.delete(userId);
     }
 }
