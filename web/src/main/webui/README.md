@@ -44,13 +44,17 @@ angular2-webpack-starter/
 ## Install
 
 **npm install**
-***
+
 **npm run build:prod**
+
 (more scripts are in package.json)
 
 ## Environment variables for building
 
 **PUBLIC_PATH** (if not defined will use value '/myosbb/')
+
 **BASE_URL** (if not defined will use value '/myosbb/')
+
 **BUILD_PATH** (if not defined will use value '../resources/public')
+
 **API_SERVER** (if not defined will use value '/myobb')
