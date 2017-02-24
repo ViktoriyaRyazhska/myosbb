@@ -1,0 +1,74 @@
+<div class="content">
+  <breadcrumb [header]="title"></breadcrumb>
+  <table class="table table-striped table-advance table-hover">
+    <thead>
+    <tr>
+      <th class="sorting"><i class="fa fa-bullhorn"></i> {{'name'}}
+        <a style="{cursor:pointer}" (click)="sortBy('title')">
+          <span class="fa fa-fw fa-sort pull-right"></span></a></th>
+      <th class="sorting"><i class="fa fa-calendar-check-o"></i> {{'dateStart'}}
+        <a style="{cursor:pointer}" (click)="sortBy('startTime')">
+          <span class="fa fa-fw fa-sort pull-right"></span></a></th>
+      <th class="sorting"><i class="fa fa-calendar-times-o"></i> {{'dateFinish'}}
+        <a style="{cursor:pointer}" (click)="sortBy('endTime')">
+          <span class="fa fa-fw fa-sort pull-right"></span></a></th>
+      <th class="sorting"><i class="fa fa-repeat"></i> {{'repeat'}}
+        <a style="{cursor:pointer}" (click)="sortBy('repeat')">
+          <span class="fa fa-fw fa-sort pull-right"></span></a></th>
+      <th class="sorting"><i class=" fa fa-user"></i> {{'author'}}
+        <a style="{cursor:pointer}" (click)="sortBy('author')">
+          <span class="fa fa-fw fa-sort pull-right"></span></a></th>
+      <th class="sorting"><i class=" fa fa-meh-o"></i> {{'status'}}</th>
+      <th class="sorting"><i class="fa fa-bookmark"></i> {{'homePage' }}</th>
+      <th class="sorting"><i class=" fa fa-edit"></i> {{'additionalInformation'}}</th>
+      <th><i class="fa fa-question-circle"></i> {{'details'}}</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let event of resData">
+    <tr>
+      <td><a (click)="onNavigate(event.id)">{{event.title}}</a></td>
+      <td>
+        {{event.start | date: 'mediumDate'}}
+      </td>
+      <td>
+        {{event.end}}
+      </td>
+      <td>{{event.repeat}}</td>
+      <td><a (click)="toUser(event.author.userId)">{{event.author.firstName + " " + event.author.lastName}}</a></td>
+      <td>
+        <div *ngIf="event.status == 'FINISHED'">
+          <span class="label btn-round label-danger">{{event.status.toLowerCase() }}</span>
+        </div>
+        <div *ngIf="event.status == 'IN_PROCESS'">
+          <span class="label btn-round label-success">{{event.status.toLowerCase() }}</span>
+        </div>
+        <div *ngIf="event.status == 'FUTURE'">
+          <span class="label btn-round label-info">{{event.status.toLowerCase()}}</span>
+        </div>
+      <td>
+        <button (click)="onNavigate(event.id)" class="btn btn-primary" type="button"
+                aria-haspopup="true" aria-expanded="true">
+          {{'go_to'}}
+        </button>
+      </td>
+      <td>{{event.description}}</td>
+      <td>
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                  *ngIf="(event?.author.userId == currentUser?.userId) || (currentUser?.userId == 1)">
+            {{'options'}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a style="cursor: pointer" (click)="openEditModal(event)">
+              {{'edit'}} </a></li>
+            <li><a style="cursor: pointer" (click)="openDelModal(event.id)">
+              {{'delete'}}</a></li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

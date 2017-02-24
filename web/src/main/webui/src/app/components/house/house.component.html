@@ -1,0 +1,26 @@
+<div class="content" >
+  <breadcrumb [header]="title"></breadcrumb>
+  <section>
+        <table class="table">
+          <tr>
+            <th>Street</th>
+            <th>City</th>
+            <th>Zip code</th>
+            <th>Apartments</th>
+            <th>Osbb</th>
+            <th>Home page</th>
+            <th>Add. info</th></tr>
+          <tr *ngFor="let item of resData">
+            <td>{{item.street.name}}</td>
+            <td>{{item.street.city.name}}</td>
+            <td>{{item.zipCode}}</td>
+            <td>{{item.numberOfInhabitants}}</td>
+            <td>{{item.osbbName}}</td>
+            <td><input type="button" class="btn" value="Go to"></td>
+            <td>{{item.description}}</td>
+          </tr>
+        </table>
+  </section>
+
+</div>
+
