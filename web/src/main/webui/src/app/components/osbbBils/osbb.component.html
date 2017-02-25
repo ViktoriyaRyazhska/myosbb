@@ -1,0 +1,109 @@
+<div class="content">
+
+  <breadcrumb [header]="title"></breadcrumb>
+{{  authRole | json
+  }}  <div class="panel-heading">
+    <div class="btn-group" role="group" aria-label="...">
+      <button type="button" class="btn btn-default">App</button>
+      <button type="button" class="btn btn-default">Pending</button>
+      <button type="button" class="btn btn-default">Paid</button>
+      <div class="col-xs-2 columns columns-right btn-group pull-right">
+        <button (click)="refresh()" style="height: 30px; width: 45px" class="btn btn-default" type="button" name="refresh" title="Refresh">
+          <i class="glyphicon glyphicon-refresh icon-refresh"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <table class='table'>
+    <thead>
+    <tr>
+      <th>Apartment</th>
+      <th>Name</th>
+      <th>Fare</th>
+      <th>Date</th>
+      <th>Amout to pay</th>
+      <th>Paid</th>
+      <th>Status</th>
+      <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of data">
+      <td>{{item.apartmentNumber}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.tariff}}</td>
+      <td>{{item.date}}</td>
+      <td>{{item.toPay}}</td>
+      <td>{{item.paid}}</td>
+      <td>{{item.status}}</td>
+      <td><input type='button' class="btn" value="batton"></td>
+    </tr>
+    </tbody>
+  </table>
+  <!--<div class="container">-->
+    <!--<h2>Modal Example</h2>-->
+    <!--&lt;!&ndash; Trigger the modal with a button &ndash;&gt;-->
+    <!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>-->
+
+    <!--&lt;!&ndash; Modal &ndash;&gt;-->
+    <!--<div class="modal fade" id="myModal" role="dialog">-->
+      <!--<div class="modal-dialog">-->
+
+        <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+        <!--<div class="modal-content">-->
+          <!--<div class="modal-header">-->
+            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+            <!--<h4 class="modal-title">Modal Header</h4>-->
+          <!--</div>-->
+          <!--<div class="modal-body">-->
+            <!--<p>Some text in the modal.</p>-->
+          <!--</div>-->
+          <!--<div class="modal-footer">-->
+            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+          <!--</div>-->
+        <!--</div>-->
+
+      <!--</div>-->
+    <!--</div>-->
+
+  <!--</div>-->
+  <div class="btn-group" role="group" aria-label="...">
+    <button type="button" class="btn btn-default">10</button>
+    <button type="button" class="btn btn-default">20</button>
+    <button type="button" class="btn btn-default">50</button>
+  </div>
+  <div aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!--<nav aria-label="Page navigation example">-->
+    <!--<ul class="pagination">-->
+      <!--<li class="page-item disabled">-->
+        <!--<a class="page-link" href="#" tabindex="-1">Previous</a>-->
+      <!--</li>-->
+      <!--<li class="page-item"><a class="page-link" href="#">1</a></li>-->
+      <!--<li class="page-item"><a class="page-link" href="#">2</a></li>-->
+      <!--<li class="page-item"><a class="page-link" href="#">3</a></li>-->
+      <!--<li class="page-item">-->
+        <!--<a class="page-link" href="#">Next</a>-->
+      <!--</li>-->
+    <!--</ul>-->
+  <!--</nav>-->
+
+</div>
+

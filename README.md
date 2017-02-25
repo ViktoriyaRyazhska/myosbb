@@ -26,7 +26,7 @@ After you have installed all necessary tools:
 - clone this repo to your Eclipse workspace
 - import sorce code as existing Maven project
 - open CLI
-- navigate to myosbb/web/src/main/resources/public/ and run "npm install", then run "npm run tsc"
+- navigate to myosbb/web/src/main/webui/ and run "npm install", then run "npm run build:prod"
 - in Eclipse package explorer navigate to project "web", right click on it and choose Run as -> Spring Boot Application; set profile to "mariadb"
 - OR in Eclipse package explorer navigate to /myosbb/web/src/main/java/com/softserve/osbb/config/Application.java and right click on it, choose Run as -> Spring Boot Application;  set profile to "mariadb"
 - observe console log, when compilation is finished - populate database with test data (you can find some in osbb.sql)

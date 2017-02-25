@@ -108,14 +108,6 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     @Override
-    public void delete(User user) {
-        if (exists(user.getUserId())) {
-            userRepository.delete(user.getUserId());
-        }
-    }
-
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-    @Override
     public void delete(Iterable<? extends User> iterable) {
         userRepository.delete(iterable);
     }

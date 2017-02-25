@@ -1,0 +1,14 @@
+.breadcrumb {
+  background-color: #ffffff;
+  margin-top: 58px;
+  li {
+    font-size: larger;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+    &:hover {
+      color: rgba(0,0,0,.5);
+    }
+  }
+}
