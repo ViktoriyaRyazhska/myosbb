@@ -1,0 +1,22 @@
+<section class="content">
+  <div>
+    <!--<img src="myosbb/assets/img/my_house.png" alt="some"  class="thumbnail">-->
+    <h3>District</h3>
+    <hr>
+    <p>
+      <span> Headmaster: {{resData?.firstName}} {{resData?.lastName}}</span>
+      <br>
+      <span> Creation date: {{resData?.house.osbb.creationDate | date:["fullDate"]}}</span>
+      <br>
+      <span> Address: {{resData?.house.street.city.region.name}} {{resData?.house.street.city.name}}
+        {{resData?.house.street.name}} {{resData?.house.numberHouse}}</span>
+      <br>
+      <span> District: {{resData?.house.osbb.district.name}}</span>
+      <br>
+      <!--<span> Square: {{resData?.apartment.square}}</span>-->
+      <br>
+      <!--<span> Owner: {{resData?.apartment.owner}}</span>-->
+      <br>
+    </p>
+  </div>
+</section>

@@ -1,0 +1,54 @@
+<div  class="container">
+  <div class="row animated form-group zoomIn ">
+    <div class="col-md-12">
+      <form class="form-login " (ngSubmit)="logIn()">
+        <h2 class="form-login-heading">{{'sign_in'}}</h2>
+        <div class="login-wrapper">
+          <input type="text" id="username" class="form-control" name="username" placeholder="{{'user' }}"
+            autofocus maxlength="35" required [(ngModel)]="model.username">
+          <br>
+          <input type="password" id="password" class="form-control" name="password" placeholder="{{'password'}}"
+            minlength="4" maxlength="16" required [(ngModel)]="model.password">
+          <input type="hidden"/>
+          <label class="checkbox">
+            <span class="pull-right">
+              <a data-toggle="modal" href="#/login#myModal">{{'forgot_pass'}}</a>
+            </span>
+          </label>
+          <button type="submit" class="btn btn-theme btn-block">
+            <i class="fa fa-lock"></i> {{'sign_in' }}
+          </button>
+          <div class="registration">
+            <a href="#">{{'create_account'}}</a>
+            <a  [routerLink]=" ['./'] "
+              routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+    <!-- Modal -->
+  <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal"
+     class="modal fade ">
+    <div class="modal-dialog animated  zoomIn">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"
+                  aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Forgot Password ?</h4>
+        </div>
+        <div class="modal-body">
+          <p>Enter your e-mail address below to reset your password.</p>
+          <input type="text" name="email" placeholder="Email" class="form-control" id="validemail">
+        </div>
+        <div class="modal-footer">
+          <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+          <button class="btn btn-theme" type="button">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- modal -->
+</div>
+
