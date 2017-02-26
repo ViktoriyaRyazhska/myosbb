@@ -15,6 +15,7 @@ import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.House;
 import com.softserve.osbb.model.Settings;
 import com.softserve.osbb.model.User;
+import com.softserve.osbb.model.enums.Ownership;
 import com.softserve.osbb.repository.ApartmentRepository;
 import com.softserve.osbb.repository.SettingsRepository;
 import com.softserve.osbb.repository.UserRepository;
@@ -43,7 +44,7 @@ public class AppartmentUserRegistrationServiceImpl implements AppartmentUserRegi
 
 	@Override
 	@Transactional(readOnly = false,rollbackFor = UnknownHostException.class, propagation = Propagation.REQUIRED)
-	public Apartment registerAppartmentWithUser(User user, Apartment apartment, House house, Integer ownershipTypeId) throws MessagingException, UnknownHostException {
+	public Apartment registerAppartmentWithUser(User user, Apartment apartment, House house) throws MessagingException, UnknownHostException {
 		apartment.setHouse(house);
 		apartment = apartmentRepository.save(apartment);
 
@@ -59,10 +60,10 @@ public class AppartmentUserRegistrationServiceImpl implements AppartmentUserRegi
 
 		settingsRepository.save(new Settings(user));
 		// enum or const
-		if (ownershipTypeId == 1) {
+		if (user.getOwnership() == Ownership.OWNER) {
 			apartment.setOwner(user.getUserId());
 		}
-	Apartment apart =	apartmentRepository.saveAndFlush(apartment);
+		apartment =	apartmentRepository.saveAndFlush(apartment);
 		return apartment;
 	}
 

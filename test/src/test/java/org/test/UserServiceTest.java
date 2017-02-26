@@ -134,7 +134,7 @@ public class UserServiceTest {
 		verify(userRep, times(1)).count();
 	}
 	
-	@Test
+/*	@Test
 	public void deleteTest() {
 		user.setUserId(1);
 		 doNothing().when(userService).delete(1);
@@ -150,7 +150,7 @@ public class UserServiceTest {
      
          verify(userService, times(1)).delete(1);
          verify(userService, times(1)).delete(uExIteration);
-	}
+	}*/
 	
 	@Test
 	public void  deleteAllTest() {

@@ -278,7 +278,7 @@ public class HouseController {
 			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
 		try {
-			apartmentUserRS.registerAppartmentWithUser(user, apartment, house, userRegitrationByAdminDTO.getOwneshipTypeId());
+			apartmentUserRS.registerAppartmentWithUser(user, apartment, house);
 		} catch (MessagingException | MailException e) {
 			throw new CannotSendMailException("something wrong with internet connection. cannot send mail");
 		} catch (UnknownHostException | InvalidEmailException e) {

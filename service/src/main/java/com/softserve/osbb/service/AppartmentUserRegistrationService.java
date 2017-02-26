@@ -10,5 +10,7 @@ import com.softserve.osbb.model.User;
 
 public interface AppartmentUserRegistrationService {
 
-	public Apartment registerAppartmentWithUser(User user, Apartment apartment, House house, Integer ownershipTypeId) throws MessagingException, UnknownHostException;
+
+	 public Apartment registerAppartmentWithUser(User user, Apartment apartment, House house)
+			throws MessagingException, UnknownHostException;
 }

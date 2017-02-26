@@ -9,6 +9,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +27,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.softserve.osbb.model.enums.Ownership;
 
 /**
  * Created by cavayman on 05.07.2016.
@@ -53,7 +56,7 @@ public class User implements Serializable {
 	private Apartment apartment;
 	private Osbb osbb;
 	private House house;
-	private OwneshipType ownership;
+	private Ownership ownership;
 	private Collection<Notice> notices = new ArrayList<>();
 	private Collection<Vote> votes = new ArrayList<>();
 	private Collection<Message> messages = new ArrayList<>();
@@ -329,14 +332,15 @@ public class User implements Serializable {
 		this.house = house;
 	}
 
-	@ManyToOne
-	@JoinColumn(name = "ownership_id", referencedColumnName = "ownership_id")
-	public OwneshipType getType() {
+	@Basic
+	@Column(name = "ownership_id")
+	@Enumerated(EnumType.ORDINAL)
+	public Ownership getOwnership() {
 		return ownership;
 	}
 
-	public void setType(OwneshipType type) {
-		this.ownership = type;
+	public void setOwnership(Ownership ownership) {
+		this.ownership = ownership;
 	}
 
 	@Override
