@@ -36,7 +36,7 @@ public interface GoogleDriveService {
 
     void download(String id, HttpServletResponse response);
     
-    void uploadUserFile(MultipartFile file, String userEmail);
+    void uploadUserPhoto(MultipartFile file, String userEmail);
     
     public InputStream getInput(String fileId) throws IOException;
     

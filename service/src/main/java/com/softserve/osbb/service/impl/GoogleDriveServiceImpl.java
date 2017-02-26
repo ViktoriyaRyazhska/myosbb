@@ -81,7 +81,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 
 	/** GoogleDrive service. */
 	private Drive driveService;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -141,10 +141,10 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		file.setParents(Collections.singletonList(parentId));
 		return file;
 	}
-	
+
 	public InputStream getInput(String fileId) throws IOException {
-		  return driveService.files().get(fileId).executeMediaAsInputStream(); 
-		 }
+		return driveService.files().get(fileId).executeMediaAsInputStream();
+	}
 
 	@Override
 	public String delete(String id) {
@@ -225,20 +225,25 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		}
 		return folder;
 	}
+	
+	/**
+	 * Upload user photo to Google Drive
+	 * Create folder with name as User's email 
+	 * Don't use this method if  User's email has been changed
+	 */
 
 	@Override
-	public void uploadUserFile(MultipartFile uploading, String userEmail) {
+	public void uploadUserPhoto(MultipartFile uploading, String userEmail) {
 		User user = userService.findUserByEmail(userEmail);
-		if(user==null)
-		throw  new IllegalArgumentException("Could not find User with "+userEmail);
+		if (user == null)
+			throw new IllegalArgumentException("Could not find User with " + userEmail);
 		File usersRootFolder = findByName("Users", APP_FOLDER_ID);
 		if (usersRootFolder == null)
 			usersRootFolder = createFolder("Users", APP_FOLDER_ID);
 		File userFolder = findByName(userEmail, usersRootFolder.getId());
 		if (userFolder == null)
-			userFolder = createFolder(userEmail, usersRootFolder.getId());		
+			userFolder = createFolder(userEmail, usersRootFolder.getId());
 		String fileName = uploading.getOriginalFilename();
-		validateName(fileName);
 		checkIfExist(fileName, userFolder.getId());
 		fileName = new StringBuilder(TEMP).append("/").append(fileName).toString();
 		try {
@@ -249,14 +254,14 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		File fileMetadata = getFileWithMetadata(uploading.getOriginalFilename(), userFolder.getId());
 		java.io.File content = new java.io.File(fileName);
 		FileContent mediaContent = new FileContent(null, content);
-		try {		   
-		File file= driveService.files().create(fileMetadata, mediaContent).setFields("id, parents").execute();	
-		user.setPhotoId(file.getId());
-		userService.saveAndFlush(user);
+		try {
+			File file = driveService.files().create(fileMetadata, mediaContent).setFields("id, parents").execute();
+			user.setPhotoId(file.getId());
+			userService.saveAndFlush(user);
 			content.delete();
 		} catch (Exception e) {
 			processGDE("Could not upload " + fileName);
-		}		
+		}
 	}
 
 	@Override
@@ -297,7 +302,9 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 			processGDE("IO error occured while trying to make a temporary local copy at " + path);
 		}
 	}
-
+    
+	
+	
 	@Override
 	public void download(String id, HttpServletResponse response) {
 		try {
