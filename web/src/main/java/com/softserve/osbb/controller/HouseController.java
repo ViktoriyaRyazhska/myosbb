@@ -89,19 +89,19 @@ public class HouseController {
 
 	@Autowired
 	private AppartmentUserRegistrationService apartmentUserRS;
-	
+
 	@Autowired
- 	private OsbbService osbbService;
+	private OsbbService osbbService;
 
 	@Autowired
 	private UserService userService;
 
 	@Autowired
 	private UserRegistrationByAdminDTOMapper userRegistrationByAdminDTOMapper;
-		
-	@Autowired 
+
+	@Autowired
 	private GoogleDriveService driveService;
-	
+
 	private EntityResourceList<HouseDTO> buildResources(Iterable<House> houses) {
 		EntityResourceList<HouseDTO> resources = new HouseResourceList();
 		houses.forEach(house -> {
@@ -259,7 +259,7 @@ public class HouseController {
 			@RequestBody AppartmentUserDTO apartmentUser) {
 		Apartment apartment = apartmentUser.getApartment();
 		UserRegitrationByAdminDTO userRegitrationByAdminDTO = apartmentUser.getUserRegitrationByAdminDTO();
-		//if(apartmentUser apartment userRegitrationByAdminDTO == null)
+		// if(apartmentUser apartment userRegitrationByAdminDTO == null)
 		// userRegitrationByAdminDTO.getEmail()
 		User foundUser = userService.findUserByEmail(userRegitrationByAdminDTO.getEmail());
 		if (foundUser != null) {
@@ -272,32 +272,30 @@ public class HouseController {
 		User user = userRegistrationByAdminDTOMapper.mapDTOToEntity(userRegitrationByAdminDTO);
 		user.setPassword(registrationService.generatePassword());
 		House house = houseService.findHouseById(id);
-	
+
 		ResponseEntity<Resource<Apartment>> response = null;
 		if (house == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
 		try {
-			apartmentUserRS.registerAppartmentWithUser(user, apartment, house, userRegitrationByAdminDTO.getOwneshipTypeId());
+			apartmentUserRS.registerAppartmentWithUser(user, apartment, house,
+					userRegitrationByAdminDTO.getOwneshipTypeId());
 		} catch (MessagingException | MailException e) {
 			throw new CannotSendMailException("something wrong with internet connection. cannot send mail");
 		} catch (UnknownHostException | InvalidEmailException e) {
 			throw new WrongEmailException("wrong e-mail");
 		}
-		
-			Resource<Apartment> resource = new ApartmentResourceList().createLink(toResource(apartment));
-			response =  new ResponseEntity<>(resource, HttpStatus.OK);
+
+		Resource<Apartment> resource = new ApartmentResourceList().createLink(toResource(apartment));
+		response = new ResponseEntity<>(resource, HttpStatus.OK);
 		return response;
 	}
-		
+
 	@ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "upload/{userEmail:.+}", method = RequestMethod.POST)    
-    public void upload(@PathVariable String userEmail, @RequestParam("file") MultipartFile file) {        
-        
-		driveService.uploadUserFile(file, userEmail);
-        
-         
-    }    
+	@RequestMapping(value = "upload/{userEmail:.+}", method = RequestMethod.POST)
+	public void upload(@PathVariable String userEmail, @RequestParam("file") MultipartFile file) {
+		driveService.uploadUserPhoto(file, userEmail);
+	}
 
 	@RequestMapping(value = "/street/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<House>> findByStreetId(@PathVariable("id") Integer id) {
@@ -368,22 +366,22 @@ public class HouseController {
 
 		return new ResponseEntity<>(house, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/image/{fileId}", method = RequestMethod.GET)
-	 public ResponseEntity<byte[]> getImageAsResponseEntity(@PathVariable("fileId") String fileId) {
-	     HttpHeaders headers = new HttpHeaders();
-	     java.io.InputStream in;
-	     byte[] media=null;
-	  try {
-	   in = driveService.getInput(fileId);
-	   media = IOUtils.toByteArray(in);
-	  } catch (IOException e) {
-	   return new ResponseEntity<>(null, headers, HttpStatus.NOT_FOUND);
-	  }     
-	     headers.setCacheControl(CacheControl.noCache().getHeaderValue());      
-	     ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
-	     return responseEntity;
-	 }
+	public ResponseEntity<byte[]> getImageAsResponseEntity(@PathVariable("fileId") String fileId) {
+		HttpHeaders headers = new HttpHeaders();
+		java.io.InputStream in;
+		byte[] media = null;
+		try {
+			in = driveService.getInput(fileId);
+			media = IOUtils.toByteArray(in);
+		} catch (IOException e) {
+			return new ResponseEntity<>(null, headers, HttpStatus.NOT_FOUND);
+		}
+		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+		ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
+		return responseEntity;
+	}
 
 	@SuppressWarnings("serial")
 	@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "user already exists")
@@ -393,7 +391,7 @@ public class HouseController {
 			super(message);
 		}
 	}
-	
+
 	@SuppressWarnings("serial")
 	@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "apartment with this number in this house already exists")
 	private static class ApartmentAlreadyExistsException extends RuntimeException {
@@ -402,7 +400,7 @@ public class HouseController {
 			super(message);
 		}
 	}
-	
+
 	@SuppressWarnings("serial")
 	@ResponseStatus(value = HttpStatus.ACCEPTED, reason = "something wrong with internet connection. cannot send mail")
 	private static class CannotSendMailException extends RuntimeException {
@@ -411,7 +409,7 @@ public class HouseController {
 			super(message);
 		}
 	}
-	
+
 	@SuppressWarnings("serial")
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "wrong e-mail")
 	private static class WrongEmailException extends RuntimeException {
