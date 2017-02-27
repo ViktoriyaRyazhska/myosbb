@@ -12,10 +12,6 @@ public interface RegistrationService {
 	
 	public String generatePassword();
 	
-	String getPassword();
-
-	void setPassword(String password);
-
     User registrate(User user);
 
     Osbb registrate(Osbb osbb);

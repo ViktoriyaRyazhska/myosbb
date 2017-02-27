@@ -1,8 +1,9 @@
 package com.softserve.osbb.service.impl;
 
+import java.security.SecureRandom;
 import java.util.Objects;
-import java.util.Random;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import com.softserve.osbb.model.Settings;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.service.OsbbService;
 import com.softserve.osbb.service.RegistrationService;
-import com.softserve.osbb.service.RoleService;
 import com.softserve.osbb.service.SettingsService;
 import com.softserve.osbb.service.UserService;
 
@@ -36,29 +36,17 @@ public class RegistrationServiceImpl implements RegistrationService {
     
     @Autowired
     private SettingsService settingsService;
-    
-    @Autowired
-    private RoleService roleService;
-    
-    private  String[] alphabet = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
-	private Random  random = new Random();
-	private String password;
+        
+    private SecureRandom random = new SecureRandom();
+
 	private static final int MIN_LENGTH = 4;
-	private static final int MAX_LENGTH = 13;
-	private static final int MAX_THRESHOLD = 3;
-	private static final int MIN_THRESHOLD = 1;
-	private static final int INDEX_OF_LOWERCASE_LETTER = 1;
-	private static final int INDEX_OF_UPPERCASE_LETTER = 2;
-	private static final int DIVIDER = 3;
-	private static final int RANDOM_AREA = 10;
+	private static final int MAX_LENGTH = 16;
+
 	
 	private int generatePasswordLenght() {
-		return random.nextInt(MAX_LENGTH) + MIN_LENGTH;
+		return random.nextInt((MAX_LENGTH - MIN_LENGTH) + 1) + MIN_LENGTH;
 	}
 	
-	private int generateRandomThreshold() {
-		return random.nextInt(MAX_THRESHOLD) + MIN_THRESHOLD;
-	}
 	
 	private void checkUserPassword(User user) {
 		if(Objects.isNull(user.getPassword())) {
@@ -67,23 +55,10 @@ public class RegistrationServiceImpl implements RegistrationService {
 	}
 	
 	public String generatePassword() {
-		StringBuilder password = new StringBuilder();
+		
         int lenght = generatePasswordLenght();
+        return RandomStringUtils.random(lenght, 0, 0, true, true, null, random );
         
-        for(int ind = 0; ind < lenght; ind++) {
-        	int randThreshold = generateRandomThreshold();
-  
-            if(randThreshold % DIVIDER == INDEX_OF_LOWERCASE_LETTER) {
-                password.append(alphabet[random.nextInt(alphabet.length)]);
-            }
-            else if(randThreshold % DIVIDER == INDEX_OF_UPPERCASE_LETTER) {
-                password.append(alphabet[random.nextInt(alphabet.length)].toUpperCase());
-            }
-            else{
-                password.append(random.nextInt(RANDOM_AREA));
-            }
-        }
-       return (this.password = password.toString());
     }
 
     @Transactional(readOnly = false,
@@ -111,14 +86,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         return newOsbb;
     }
 
-	@Override
-	public String getPassword() {
-		return this.password;
-	}
 
-	@Override
-	public void setPassword(String password) {
-		this.password = password;
-	}
     
 }

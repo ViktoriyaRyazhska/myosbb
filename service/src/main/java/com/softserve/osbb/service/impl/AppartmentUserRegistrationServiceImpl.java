@@ -38,13 +38,14 @@ public class AppartmentUserRegistrationServiceImpl implements AppartmentUserRegi
 
 	@Autowired
 	SettingsRepository settingsRepository;
-	
+
 	@Autowired
 	EmailValidator emailValidator;
 
 	@Override
-	@Transactional(readOnly = false,rollbackFor = UnknownHostException.class, propagation = Propagation.REQUIRED)
-	public Apartment registerAppartmentWithUser(User user, Apartment apartment, House house) throws MessagingException, UnknownHostException {
+	@Transactional(readOnly = false, rollbackFor = UnknownHostException.class, propagation = Propagation.REQUIRED)
+	public Apartment registerAppartmentWithUser(User user, Apartment apartment, House house)
+			throws MessagingException, UnknownHostException {
 		apartment.setHouse(house);
 		apartment = apartmentRepository.save(apartment);
 
@@ -57,13 +58,12 @@ public class AppartmentUserRegistrationServiceImpl implements AppartmentUserRegi
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user = userRepository.save(user);
-
 		settingsRepository.save(new Settings(user));
-		// enum or const
+
 		if (user.getOwnership() == Ownership.OWNER) {
 			apartment.setOwner(user.getUserId());
 		}
-		apartment =	apartmentRepository.saveAndFlush(apartment);
+		apartment = apartmentRepository.saveAndFlush(apartment);
 		return apartment;
 	}
 
