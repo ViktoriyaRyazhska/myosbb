@@ -1,204 +1,65 @@
 <aside [ngSwitch]=authRole>
-    <div id="sidebar" class="nav-collapse animated  bounceInDown " *ngSwitchCase="'ROLE_ADMIN'">
-        <!-- sidebar menu start-->
-        <ul class="sidebar-menu" id="nav-accordion" >
-            <li class="sub-menu">
-                <a [routerLink]="['osbb']" >
-                    <i class="fa fa-home fa-fw fa-4x"></i>
-                    <span>{{'osbb' }}</span>
-                </a>
-            </li>
-            <li class="sub-menu">
-                <a [routerLink]="['houses']">
-                    <i class="fa fa-user"></i>
-                    <span>{{'houses'}}</span>
-                </a>
-            </li>
-            <li class="sub-menu">
-                <a [routerLink]="['apartments']">
-                    <i class="fa fa-building-o"></i>
-                    <span>{{'rents'}}</span>
-                </a>
-            </li>
-            <li class="sub-menu">
-                <a [routerLink]="['ticket']">
-                    <i class="fa fa-ticket"></i>
-                    <span>{{ 'tickets'}}</span>
-                </a>
-            </li>
-            <li class="sub-menu">
-                <a [routerLink]="['calendar']">
-                    <i class="fa fa-calendar"></i>
-                    <span>{{'calendar'}}</span>
-                </a>
-            </li>
-            <li class="sub-menu">
-                <a [routerLink]="['events']">
-                    <i class="fa fa-comments"></i>
-                    <span>{{'events'}}</span>
-                </a>
-            </li>
-            <li class="sub-menu">
-                <a [routerLink]="['attachments']">
-                    <i class="fa fa-cloud-download"></i>
-                    <span>{{'attachments' }}</span>
-                </a>
-            </li>
-            <li class="sub-menu">
-                <a [routerLink]="['users']">
-                    <i class="fa fa-users"></i>
-                    <span>{{ 'users' }}</span>
-                </a>
-            </li>
-            <li class="sub-menu">
-                <a [routerLink]="['role']">
-                    <i class="fa fa-building-o"></i>
-                    <span>{{'roles'}}</span>
-                </a>
-            </li>
+  <div id="sidebar" class="nav-collapse animated  bounceInDown " *ngSwitchCase="'ROLE_ADMIN'">
+    <ul class="sidebar-menu" id="nav-accordion" >
+      <li class="sub-menu" *ngFor="let admin of admins">
+        <a [routerLink]="admin.route">
+          <i class="{{admin.class}}"></i>
+          <span>{{admin.name}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div id="sidebar" class="nav-collapse" *ngSwitchCase="'ROLE_MANAGER'">
+    <ul class="sidebar-menu" id="nav-accordion">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+          <i class="fa fa-home"></i>
+          <span>{{ 'osbb'}} <span class="caret animated"></span></span>
+        </a>
+        <ul class="dropdown-menu updown">
+          <li><a [routerLink]="['contacts']">{{ 'contacts'}}</a></li>
+          <li><a [routerLink]="['documents-and-reports']">{{ 'docs&reports'}}</a></li>
+          <li role="separator" class="divider"></li>
         </ul>
-    </div>
-    <!-- MANAGER-->
-    <div id="sidebar" class="nav-collapse" *ngSwitchCase="'ROLE_MANAGER'">
-        <!-- sidebar menu start-->
-        <ul class="sidebar-menu" id="nav-accordion">
-            <!-- OSBB -->
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
-                    <i class="fa fa-home"></i>
-                    <span>{{ 'osbb'}} <span class="caret animated"></span></span>
-                </a>
-                <ul class="dropdown-menu updown">
-                    <li><a [routerLink]="['contacts']">{{ 'contacts'}}</a></li>
-                    <li><a [routerLink]="['documents-and-reports']">{{ 'docs&reports'}}</a></li>
-                    <li role="separator" class="divider"></li>
-                </ul>
-            </li>
-            <!-- HOUSES -->
-            <li class="sub-menu">
-                <a [routerLink]="['houses']">
-                    <i class="fa fa-home"></i>
-                    <span>{{ 'houses'}}</span>
-                </a>
-            </li>
-            <!-- APARTMENTS -->
-            <li class="sub-menu">
-                <a [routerLink]="['apartment']">
-                    <i class="fa fa-building-o"></i>
-                    <span>{{ 'apartments'}}</span>
-                </a>
-            </li>
-            <!-- CALENDAR -->
-            <li class="sub-menu">
-                <a [routerLink]="['calendar']">
-                    <i class="fa fa-calendar"></i>
-                    <span>{{ 'calendar'}}</span>
-                </a>
-            </li>
-            <!-- EVENTS -->
-            <li class="sub-menu">
-                <a [routerLink]="['events']">
-                    <i class="fa fa-comments"></i>
-                    <span>{{ 'events'}}</span>
-                </a>
-            </li>
-            <!-- TICKETS -->
-            <li class="sub-menu">
-                <a [routerLink]="['ticket']">
-                    <i class="fa fa-ticket"></i>
-                    <span>{{'tickets'}}</span>
-                </a>
-            </li>
-            <!-- BILLS -->
-            <li class="sub-menu">
-                <a [routerLink]="['osbb']">
-                    <i class="fa fa-credit-card-alt"></i>
-                    <span>{{'bills_osbb'}}</span>
-                </a>
-            </li>
-            <!-- PROVIDERS -->
-            <li class="sub-menu">
-                <a [routerLink]="['provider']">
-                    <i class="fa fa-building"></i>
-                    <span>{{ 'providers'}}</span>
-                </a>
-            </li>
-            <!-- CONTRACTS -->
-            <li>
-                <a [routerLink]="['contract']">
-                    <i class="fa fa-bookmark"></i>
-                    <span> {{ 'contracts'}}</span>
-                </a>
-            </li>
+      </li>
+      <li class="sub-menu" *ngFor="let manager of managers">
+        <a [routerLink]="manager.route">
+          <i class="{{manager.class}}"></i>
+          <span>{{manager.name}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div id="sidebar" class="nav-collapse animated  bounceInDown " *ngSwitchCase="'ROLE_USER'">
+    <ul class="sidebar-menu" id="nav-accordion">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+          <i class="fa fa-home"></i>
+          <span>{{ 'osbb'}} <span class="caret animated"></span></span>
+        </a>
+        <ul class="dropdown-menu updown">
+          <li><a [routerLink]="['contacts']">{{'contacts'}}</a></li>
+          <li><a [routerLink]="['documents-and-reports']">{{'docs&reports'}}</a></li>
+          <li role="separator" class="divider"></li>
         </ul>
-    </div>
-    <!--  USER -->
-    <div id="sidebar" class="nav-collapse animated  bounceInDown " *ngSwitchCase="'ROLE_USER'">
-        <!-- sidebar menu start-->
-        <ul class="sidebar-menu" id="nav-accordion">
-            <!-- OSBB -->
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
-                    <i class="fa fa-home"></i>
-                    <span>{{ 'osbb'}} <span class="caret animated"></span></span>
-                </a>
-                <ul class="dropdown-menu updown">
-                    <li><a [routerLink]="['osbb/contacts']">{{ 'contacts'}}</a></li>
-                    <li><a [routerLink]="['osbb/documents-and-reports']">{{ 'docs&reports'}}</a></li>
-                    <li role="separator" class="divider"></li>
-                </ul>
-            </li>
-            <!-- FEES -->
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
-                    <i class="fa fa-credit-card fa-fw fa-4x"></i>
-                    <span>{{ 'fees_for_services' }} <span class="caret animated"></span></span>
-                </a>
-                <ul class="dropdown-menu updown">
-                    <li><a [routerLink]="['rents/electricity']">{{ 'electricity'}}</a></li>
-                    <li><a [routerLink]="['rents/gas']">{{ 'gas'}}</a></li>
-                    <li><a [routerLink]="['rents/water']">{{ 'water'}}</a></li>
-                    <li><a [routerLink]="['rents/service']">{{ 'debt'}}</a></li>
-                    <li><a [routerLink]="['bill/parentbillid']">{{ 'rate'}}</a></li>
-                    <li role="separator" class="divider"></li>
-                </ul>
-            </li>
-            <!-- EVENTS -->
-            <li class="sub-menu">
-                <a [routerLink]="['events']">
-                    <i class="fa fa-comments"></i>
-                    <span>{{ 'events'}}</span>
-                </a>
-            </li>
-            <!-- CALENDAR -->
-            <li class="sub-menu">
-                <a [routerLink]="['calendar']">
-                    <i class="fa fa-calendar"></i>
-                    <span>{{ 'calendar' }}</span>
-                </a>
-            </li>
-            <!-- PROVIDERS -->
-            <li class="sub-menu">
-                <a [routerLink]="['provider/info']">
-                    <i class="fa fa-building-o"></i>
-                    <span>{{ 'providers' }}</span>
-                </a>
-            </li>
-            <!-- TICKETS -->
-            <li class="sub-menu">
-                <a [routerLink]="['ticket']">
-                    <i class="fa fa-ticket"></i>
-                    <span>{{ 'tickets' }}</span>
-                </a>
-            </li>
-            <!-- REPORTS -->
-            <li class="sub-menu">
-                <a [routerLink]="['report']">
-                    <i class="fa fa-list-alt"></i>
-                    <span>{{ 'reports' }}</span>
-                </a>
-            </li>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+          <i class="fa fa-credit-card fa-fw fa-4x"></i>
+          <span>{{ 'fees_for_services' }} <span class="caret animated"></span></span>
+        </a>
+        <ul class="dropdown-menu updown">
+          <li *ngFor="let provider of providers"><a [routerLink]="provider.route">{{ provider.name}}</a></li>
+          <li role="separator" class="divider"></li>
         </ul>
-        <!-- sidebar menu end-->
-    </div>
+      </li>
+      <li class="sub-menu" *ngFor="let user of users">
+        <a [routerLink]="user.route">
+          <i class="{{user.class}}"></i>
+          <span>{{user.name}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
 </aside>
+

@@ -4,26 +4,33 @@ import {
   Response
 } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import "rxjs/add/operator/map";
+import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import "rxjs/add/operator/toPromise";
-import { API_URL } from '../../../shared/models/localhost.config';
+import 'rxjs/add/operator/toPromise';
 import { LoginService } from '../../shared/login/login.service';
-import { PageParams } from '../../../shared/models/pageParam.interface';
+import { PageParams } from '../../../assets/models/pageParam.interface';
+import { UrlListConfig } from '../../../assets/services/apiUrl.service';
 
 @Injectable()
 
 export class OsbbService {
-  private pageParams: PageParams = {pageNumber: 1, sortedBy: 'date', orderType: false, rowNum: 10};
-  constructor(
-    private http: Http,
-    public login: LoginService,
 
+  constructor(
+    private _http: Http,
+    public login: LoginService,
   ) { }
 
-  getEventData(): Observable<any> {
-    return this.http.post(`${API_URL}/restful/bill/?status=ALL`, JSON.stringify(this.pageParams), this.login.getRequestOptionArgs())
+  public getBilsData(parameters: PageParams, status: string): Observable<any> {
+    return this._http.post(UrlListConfig.URL_LIST.billUrl + status,
+      JSON.stringify(parameters), this.login.getRequestOptionArgs())
       .map((res: Response) => res.json())
       .catch((error) => Observable.throw(error));
-  }
+  };
+
+  public findBillById(billId: number): Observable<any> {
+    return this._http.get(UrlListConfig.URL_LIST.idUrl + `${billId}`,
+      this.login.getRequestOptionArgs())
+      .map((response) => response.json())
+      .catch((error) => Observable.throw(error));
+  };
 }

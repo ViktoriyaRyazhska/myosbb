@@ -1,0 +1,87 @@
+.documents-wrapper {
+    margin-left: 210px;
+    margin-top: 60px;
+    .documents-footer {
+        button {
+            margin-left:24px;
+            margin-bottom:12px;
+        }
+    }
+}
+
+.floating-box {
+    display: inline-block;
+    width: 160px;
+    height: 64px;
+    cursor: pointer;
+}
+
+.folder-icon {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+}
+.folder-name {
+    padding: 8px;
+    display: inline-block;
+    width: 90px;
+    height: 64px;
+    word-wrap: break-word;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    font-size:12px;
+}
+
+.header-cell {
+    padding-left:12px;
+}
+
+.ng-invalid {
+    border: 1px solid red;
+}
+
+.center-content {
+  display: block;
+  margin: auto;
+}
+
+.left-padding {
+    margin-left:50px;
+}
+
+.path {
+    font-family: monospace;
+    font-weight: heavy;
+}
+
+.path-part {
+    border: 1px solid lightgray;
+    border-radius: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.path-part:hover {
+    cursor: pointer;
+    color: blue;
+    border-color: 1px solid grey;
+    border-radius: 2px;
+    background-color: lightblue ;
+}
+
+.up {
+    margin-left: 24px;
+}
+
+.unselectable {
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none
+}
+
+.table-font {
+    font-size: 12px;
+}

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
-import { API_URL } from '../../../shared/models/localhost.config';
+import { API_URL } from '../../../assets/models/localhost.config';
 
 @Injectable()
 

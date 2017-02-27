@@ -14,7 +14,6 @@ import { EventsService } from './events.service';
 
 @Component({
   selector: `events`,
-  styleUrls: ['../../../assets/css/manager.page.layout.scss'],
   templateUrl: './events.template.html',
   providers: [ LoginService, EventsService ]
 })

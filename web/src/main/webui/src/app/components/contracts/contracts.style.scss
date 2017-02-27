@@ -1,50 +1,13 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
 .contracts {
-
-    font-family: 'Roboto', sans-serif;
-  .filter-box {
+  .contracts_filter-box {
     top: -75px;
     right: -15px;
   }
-  table {
-    a {
-      text-decoration: none;
-      color: rgb(121,121,121);
-      &:hover {
-        color: rgba(121,121,121,.5);
-      }
-    }
-    .table-size-small {
-      width: 10%;
-    }
-    .table-size-medium {
-      width: 15%;
-    }
-    .table-size-big {
-      width: 20%;
-    }
-    .table-size-large {
-      width: 30%;
-    }
-    font-size: 16px;
-    th {
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      a {
-        cursor: pointer;
-      }
-    }
-    td {
-      vertical-align: baseline;
-      text-align: center;
-    }
-
-    .table-text-align {
-      text-align: center;
-    }
-  }
-  .create {
+  .contracts_create {
     margin-left: 20px;
   }
+  .btn-foot {
+    margin-bottom: 15px;
+  }
 }
+

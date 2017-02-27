@@ -1,0 +1,175 @@
+<toaster-container></toaster-container>
+<div class="container">
+    <div class="row animated  zoomIn ">
+        <div class="col-md-12">
+            <div class="registration-form center-block" *ngIf="IsRegistered">
+                <form class="ui form " (ngSubmit)="onSubmitUser(newUser.status)" #registerForm="ngForm">
+                    <div class="form-header">
+                        <h3>{{'user_registration'}}</h3>
+                    </div>
+                    <div class="form-container">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <label>{{'first_name'}}</label>
+                                <input [textMask]="{mask:textmask,guide:false}" class="form-control placeholder-no-fix" name="firstName" [(ngModel)]="newUser.firstName" placeholder="{{'enter_name'}}" type="text" maxlength="35" required>
+                            </div>
+                            <div class="col-xs-6">
+                                <label>{{'last_name'}}</label>
+                                <input [textMask]="{mask:textmask,guide:false}" class="form-control placeholder-no-fix" name="lastName" [(ngModel)]="newUser.lastName" placeholder="{{'enter_last_name'}}" type="text" maxlength="35" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ 'choose your gender' }}</label>
+                            <ng-select [allowClear]="true" [items]="genders" (selected)="selectedGender($event)" (removed)="removedGender()" placeholder="{{ 'choose' }}">
+                            </ng-select>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>{{'email'}}</label>
+                                <input class="form-control placeholder-no-fix" name="email" [(ngModel)]="newUser.email" placeholder="{{'enter_email'}}" type="email" maxlength="50" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>{{'phone_number'}}</label>
+                                <input [textMask]="{mask:phoneMask}" class="form-control" name="phoneNumber" [(ngModel)]="newUser.phoneNumber" type="text" placeholder="+38(___)___-____" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>{{'birthday'}}</label>
+                                <input class="form-control" name="birthDate" [(ngModel)]="newUser.birthDate" (blur)="checkDate()" type="date" required>
+                                <div class="col-xs-12 centered">
+                                    <label *ngIf='birthDateError' class="error" disabled=true>{{'errorBirthDateMsg'}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>{{'password'}}</label>
+                                <input class="form-control placeholder-no-fix col-xs-6" name="password" [(ngModel)]="newUser.password" (blur)="confirmPassLength()" placeholder="{{'enter_pass'}}" type="password" minlength="4" maxlength="16" required>
+                                <div class="col-xs-12 centered">
+                                    <label *ngIf='lengthError' class="error" disabled=true>{{'passLengthError'}}</label>
+                                    <label *ngIf='!lengthError && matchError && checkOnUserPassword' class="error" disabled=true>{{'passMatchError'}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <label>{{'confirm_pass'}}</label>
+                                <input class="form-control placeholder-no-fix col-xs-6" [(ngModel)]="confirmPassword" name="confirmPassword" (blur)="matchCheck()" placeholder="{{'confirm_pass'}}" type="password" minlength="4" maxlength="16" required>
+                                <div class="col-xs-12 centered">
+                                    <label *ngIf='!checkOnUserPassword && matchError' class="error" disabled=true>{{'passMatchError'}}</label>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="row form-footer">
+                        <div class="col-xs-6">
+                            <a class="btn btn-danger col-xs-12" href="javascript:history.back()">{{ 'cancel' }}</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!registerForm.form.valid ||  birthDateError || lengthError || matchError || !isSelectGender">
+                                {{ 'next' }}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="registration-form  center-block" *ngIf="IsRegisteredOsbb">
+                <form class="ui form" (ngSubmit)="onSubmitOsbb()" #registerOsbbForm="ngForm">
+                    <div class="form-header">
+                        <h3>Реєстрація ОСББ</h3>
+                    </div>
+                    <div class="form-container">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>Назва</label>
+                                <input class="form-control placeholder-no-fix" name="name" [(ngModel)]="newOsbb.name" type="text" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>Описання</label>
+                                <input class="form-control placeholder-no-fix" name="descrption" [(ngModel)]="newOsbb.description" type="text" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>Адрес</label>
+                                <input class="form-control placeholder-no-fix" name="address" [(ngModel)]="newOsbb.address" type="text" (setAddress)="getAddress($event)" googleplace required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>Район</label>
+                                <input class="form-control placeholder-no-fix" name="district" [(ngModel)]="newOsbb.district" type="text" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>Посилання на фото дому</label>
+                                <input class="form-control placeholder-no-fix" name="logoUrl" [(ngModel)]="newOsbb.logoUrl" type="text">
+                                <div class="text-xs-center">
+                                    <br>
+                                    <img src="{{newOsbb.logoUrl}}" class="osbb-logo img-rounded">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row form-footer">
+                            <div class="col-xs-6">
+                                <a class="btn btn-danger col-xs-12" (click)="Back()">Назад</a>
+                            </div>
+                            <div class="col-xs-6">
+                                <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!registerOsbbForm.form.valid">Вперед
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="registration-form  center-block" *ngIf="isJoinedOsbb">
+                <form class="ui form" (ngSubmit)="onSubmitJoin()" #joinOsbbForm="ngForm">
+                    <div class="form-header">
+                        <h3>{{ 'join_osbb' }} </h3>
+                    </div>
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label>{{ 'choose your region' }}</label>
+                            <ng-select [items]="regions" (selected)="selectedRegion($event)" placeholder="{{ 'choose' }}">
+                            </ng-select>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ 'choose your city' }}</label>
+                            <ng-select [items]="cities" (selected)="selectedCity($event)" placeholder="{{ 'choose' }}">
+                            </ng-select>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ 'choose your street' }}</label>
+                            <ng-select [items]="streets" (selected)="selectedStreet($event)" placeholder="{{ 'choose' }}">
+                            </ng-select>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ 'choose_house' }}</label>
+                            <ng-select [items]="houses" (selected)="selectedHouse($event)" placeholder="{{ 'choose' }}">
+                            </ng-select>
+                        </div>
+                        <div class="modal-body">
+                            <p class="noselect"><strong>{{captcha}}</strong></p>
+                            <input class="captcha" type="text" placeholder="{{ 'captcha' }}" (keyup)="initTextUser($event)">
+                            <a class="refresh" (click)="autoGeneratePassword()"> <img src="assets/img/captcha.jpg" width="35" height="35"></a>
+                        </div>
+                    </div>
+                    <div class="row form-footer">
+                        <div class="col-xs-6">
+                            <a class="btn btn-danger col-xs-12" (click)="Back()">{{ 'cancel' }}</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-primary col-xs-12" type='submit' [disabled]="!isSelectedHouse">{{ 'save' }}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

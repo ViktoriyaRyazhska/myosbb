@@ -1,34 +1,65 @@
-import { Component, OnInit } from '@angular/core';
-import { myosbbLink } from '../../app.webpackHardcode.service';
 import {
-  Http,
-  Response
-} from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+  Component,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
-import { ContractsService } from "./contracts.service";
+import { ContractsService } from './contracts.service';
 import { LoginService } from '../../shared/login/login.service';
+import { ModalDirective } from 'ng2-bootstrap/modal';
 
 @Component({
   selector: 'contract',
-  styleUrls: ['../../../assets/css/manager.page.layout.scss', './contracts.style.scss'],
+  styleUrls: [
+    '../../../assets/style/page.layout.scss',
+    './contracts.style.scss'
+  ],
   templateUrl: './contracts.component.html',
-  providers: [ ContractsService, LoginService ]
+  providers: [
+    ContractsService,
+    LoginService
+  ]
 })
-
-export class ContractsComponent implements OnInit{
+export class ContractsComponent implements OnInit {
+  @ViewChild('delModal') public delModal: ModalDirective;
+  @ViewChild('editModal') public editModal: ModalDirective;
+  @ViewChild('createModal') public createModal: ModalDirective;
   public resData: any;
   public title: string = 'Contracts';
+
   constructor(
-    private http: Http,
     public login: LoginService,
     public contract: ContractsService
-  ) {  }
-  public ngOnInit() {
-    this.contract.getContractsData().subscribe(data => {
-      this.resData = data.rows;
-    })
-  }
-}
+  ) { }
 
+  public ngOnInit() {
+    this.contract.getContractsData()
+      .subscribe((response) => {
+        this.resData = response.rows;
+      });
+  };
+
+  public openEditModal() {
+    this.editModal.show();
+  };
+
+  public openCreateModal() {
+    this.createModal.show();
+  };
+
+  public openDelModal(id: number) {
+    this.delModal.show();
+  };
+
+  public closeEditModal() {
+    this.editModal.hide();
+  };
+
+  public onSearch(search: string) {
+    this.contract.findByProviderName(search)
+      .subscribe((response) => {
+        this.resData = response;
+      });
+  };
+}

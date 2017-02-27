@@ -1,14 +1,17 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './shared/login';
-import { ManagerRoutes } from './manager/manager.routes';
-import { AdminRoutes } from './admin/admin.routes';
-import { UserRoutes } from "./user/user.routes";
-export const ROUTES: Routes = [
+import { RegistrationComponent } from './components/registration';
+import { RegistrationSuccessComponent } from './components/registration/registration-sucess';
+import { ManagerRoutes } from './managerComponent/manager.routes';
+import { AdminRoutes } from './adminComponent/admin.routes';
+import { UserRoutes } from './userComponent/user.routes';
 
+export const ROUTES: Routes = [
+  { path: '',  component: LoginComponent },
   { path: 'login',  component: LoginComponent },
+  { path: 'registration',  component: RegistrationComponent },
+  { path: 'registration/success', component: RegistrationSuccessComponent },
   ...ManagerRoutes,
   ...AdminRoutes,
   ...UserRoutes
-
-
 ];

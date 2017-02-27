@@ -14,12 +14,12 @@ import { HouseService } from './house.service';
   {
     selector: 'houses',
     templateUrl: 'house.component.html',
-    styleUrls: ['../../../assets/css/manager.page.layout.scss', './house.scss'],
+    styleUrls: ['../../../assets/style/page.layout.scss', './house.scss'],
     providers: [ HouseService ]
   }
 )
 
-export class HouseComponent implements OnInit{
+export class HouseComponent implements OnInit {
   public title: string = `Houses`;
   public resData: any;
 
@@ -29,8 +29,8 @@ export class HouseComponent implements OnInit{
   ) { }
 
   public ngOnInit() {
-    this.house.getHouseData().subscribe(data => {
-      this.resData = data;
-    });
-  }
+  this.house.getHouseData().subscribe((data) => {
+    this.resData = data;
+  });
+}
 }

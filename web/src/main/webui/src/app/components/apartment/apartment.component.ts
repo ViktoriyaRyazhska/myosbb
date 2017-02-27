@@ -1,9 +1,8 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'apartment',
-    templateUrl:'apartment.component.html',
-    styleUrls: ['../../../assets/css/manager.page.layout.scss']
+    templateUrl: 'apartment.component.html'
 })
 
 export class ApartmentComponent {
