@@ -74,8 +74,8 @@ public class AppartmentUserRegistrationServiceTest {
 		Apartment ap1 = null;
 		Apartment ap2 = null;
 		try {
-			ap1 = appartmentUserRegistrationServiceImpl.registerAppartmentWithUser(user, apartment, house, 1);
-			ap2 = appartmentUserRegistrationServiceImpl.registerAppartmentWithUser(user, apartment, house, 2);
+			ap1 = appartmentUserRegistrationServiceImpl.registerAppartmentWithUser(user, apartment, house);
+			ap2 = appartmentUserRegistrationServiceImpl.registerAppartmentWithUser(user, apartment, house);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

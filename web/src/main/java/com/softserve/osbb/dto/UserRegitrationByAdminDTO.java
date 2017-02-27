@@ -2,6 +2,8 @@ package com.softserve.osbb.dto;
 
 import java.io.Serializable;
 
+import com.softserve.osbb.model.enums.Ownership;
+
 
 public class UserRegitrationByAdminDTO extends AbstractDTO implements Serializable{
 
@@ -11,19 +13,19 @@ public class UserRegitrationByAdminDTO extends AbstractDTO implements Serializab
 	private String lastName;
 	private String email;
 	private String phoneNumber;
-	private Integer owneshipTypeId;
+	private Ownership ownership;
 	
 	public UserRegitrationByAdminDTO() {
 	}
 
 	public UserRegitrationByAdminDTO(String firstName, String lastName, String email, String phoneNumber,
-			Integer owneshipTypeId) {
+			Ownership ownership) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
-		this.owneshipTypeId = owneshipTypeId;
+		this.ownership = ownership;
 	}
 
 	public String getFirstName() {
@@ -58,18 +60,18 @@ public class UserRegitrationByAdminDTO extends AbstractDTO implements Serializab
 		this.phoneNumber = phoneNumber;
 	}
 
-	public Integer getOwneshipTypeId() {
-		return owneshipTypeId;
+	public Ownership getOwnership() {
+		return ownership;
 	}
 
-	public void setOwneshipTypeId(Integer owneshipTypeId) {
-		this.owneshipTypeId = owneshipTypeId;
+	public void setOwnership(Ownership owneship) {
+		this.ownership = owneship;
 	}
 
 	@Override
 	public String toString() {
 		return "UserRegitrationByAdminDTO {firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", phoneNumber=" + phoneNumber + ", owneshipTypeId=" + owneshipTypeId + "}";
+				+ ", phoneNumber=" + phoneNumber + ", owneship=" + ownership.name() + "}";
 	}
 	
 	
