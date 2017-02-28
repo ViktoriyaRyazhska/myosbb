@@ -257,10 +257,17 @@ public class HouseController {
 	@RequestMapping(value = "/withUser/{id}", method = RequestMethod.POST)
 	public ResponseEntity<Resource<Apartment>> addApartmentWithUserToHouse(@PathVariable("id") Integer id,
 			@RequestBody AppartmentUserDTO apartmentUser) {
+		if (apartmentUser == null) {
+			throw new InvalidInputDataException("Incoming dto is null");
+		}
 		Apartment apartment = apartmentUser.getApartment();
 		UserRegitrationByAdminDTO userRegitrationByAdminDTO = apartmentUser.getUserRegitrationByAdminDTO();
-		// if(apartmentUser apartment userRegitrationByAdminDTO == null)
-		// userRegitrationByAdminDTO.getEmail()
+		if (apartment == null || userRegitrationByAdminDTO == null) {
+			throw new InvalidInputDataException("incoming data contains null element on place of required");
+		}
+		if (userRegitrationByAdminDTO.getEmail() == null) {
+			throw new InvalidInputDataException("incoming data contains null where e-mail address supposed to be");
+		}
 		User foundUser = userService.findUserByEmail(userRegitrationByAdminDTO.getEmail());
 		if (foundUser != null) {
 			throw new UserAlreadyExistsException("user already exists");
@@ -418,4 +425,12 @@ public class HouseController {
 		}
 	}
 
+	@SuppressWarnings("serial")
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	private static class InvalidInputDataException extends RuntimeException {
+
+		InvalidInputDataException(String message) {
+			super(message);
+		}
+	}
 }

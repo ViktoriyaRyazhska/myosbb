@@ -1,7 +1,6 @@
 package com.softserve.osbb.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -24,7 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.House;
-import com.softserve.osbb.model.Option;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.repository.ApartmentRepository;
 import com.softserve.osbb.repository.SettingsRepository;
