@@ -1,17 +1,18 @@
-import { Component, OnInit, Input} from "@angular/core";
-import { Http, Response } from '@angular/http';
+import {
+  Component,
+  OnInit,
+  Input
+} from '@angular/core';
+import { LoginService } from '../../shared/login/login.service';
 
-
-@Component(
-  {
+@Component({
     selector: 'breadcrumb',
     styleUrls: ['./breadcrumb.scss'],
-    templateUrl: './breadcrumb.component.html'
-  }
-)
+    templateUrl: './breadcrumb.component.html',
+    providers: [ LoginService ]
+})
 
 export class BreadcrumbComponent {
   public resData: any;
-  constructor() {}
-  @Input() header: string;
+  @Input() public header: string;
 }

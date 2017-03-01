@@ -20,6 +20,9 @@ div{
 	width:30%;
 	
 }
+#password{
+	margin-top: 8px;
+}
 form{
 	border:1px solid black;
 	border-radius: 5%;

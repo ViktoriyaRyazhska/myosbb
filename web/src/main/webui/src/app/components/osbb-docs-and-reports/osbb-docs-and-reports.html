@@ -1,0 +1,228 @@
+
+<toaster-container></toaster-container>
+<div class="documents-wrapper">
+  <div class="panel">
+      <!-- Menu item name and folder navigation buttons -->
+    <div class="row">
+      <h4 class="text-center">{{'docs&reports' | translate}}</h4>
+    </div>
+    <hr>
+    <div class="row path">
+      <span class="unselectable path-part up" (click)="goUp()">..</span>
+      <span class="unselectable path-part" (click)="goToRoot()">\</span>
+      <span *ngFor="let path of paths; let i = index" class="path-part" (click)="goTo(i)" >{{path}}\</span>
+    </div>
+    <hr>
+    <!-- Folder's content -->
+    <div *ngIf="!editMode" class="row" class="left-padding">
+      <div *ngFor="let file of files" class="floating-box">
+        <div class="unselectable folder-icon">
+          <img *ngIf="file.folder" src="assets/img/folder/folder_64.png" class="media-object" alt="{{file.name}}" (dblclick)="openFolder(file.id, file.name)">
+          <img *ngIf="!file.folder" src="assets/img/folder/file_64.png" class="media-object" alt="{{file.name}}" (dblclick)="onDownload(file.id, file.name)">
+        </div>
+        <div class="folder-name">
+          <p>{{file.name}}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Etid mode view -->
+    <div *ngIf="editMode" class="row" class="left-padding">
+      <table class="table table-striped table-advance table-hover">
+        <thead>
+          <th>
+            <img src="assets/img/folder/folder_32.png" class="media-object">
+          </th>
+          <th class="header-cell">{{'folder_name' | translate}}</th>
+          <th class="header-cell">{{'rename' | translate}}</th>
+          <th class="header-cell">{{'delete' | translate}}</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let file of files">
+            <td>
+              <img *ngIf="file.folder" src="assets/img/folder/folder_32.png" class="media-object" alt="{{file.name}}">
+              <img *ngIf="!file.folder" src="assets/img/folder/file_32.png" class="media-object" alt="{{file.name}}">
+            </td>
+            <td>{{file.name}}</td>
+            <td>
+              <button type="button" class="btn btn-warning" (click)="getFile(file.id);" data-toggle="modal" data-target="#editFolderModal">
+                {{'rename' | translate}}
+              </button>
+            </td>
+            <td>
+              <button type="button" class="btn btn-danger" onclick='$("#confirmDelete").modal("toggle")' (click)='setDeleteId(file.id);'>
+                {{'delete' | translate}}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr>
+
+      <!--   Footer  - buttons are visible OSBB for Manager only -->
+    <div *ngIf="currentRole == 'ROLE_MANAGER'" class="row documents-footer">
+      <button type="button" class="btn btn-primary" onclick='$("#folderName").val(""); $("#addFolderModal").modal("toggle");'>
+        {{'add_folder' | translate}}
+      </button>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#uploadFile">
+        {{'upload' | translate}} {{'file' | translate}}
+      </button>
+      <button *ngIf="!editMode" type="button" class="btn btn-warning" (click)="toggleEditMode();">
+        {{'edit' | translate}}
+      </button>
+      <button *ngIf="editMode" type="button" class="btn btn-success" (click)="toggleEditMode();">
+        {{'edit' | translate}}
+      </button>
+    </div>
+
+    <!-- Add Folder Modal -->
+    <div id="addFolderModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <form class="ui form" (ngSubmit)="createNewFolder(newFolder.name)" #newFolderForm="ngForm" role="form">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">{{'add_folder' | translate}}</h4>
+            </div>
+            <div class="modal-body">
+              <input type="text" name="name"
+                    [(ngModel)]="newFolder.name"
+                    placeholder="{{'name'| translate | myCapitalize }}"
+                    pattern="^[\sа-яА-ЯіІїЇєЄa-zA-Z0-9_.-]{0,34}[а-яА-ЯіІїЇєЄa-zA-Z0-9_-]{1}$"
+                    class="form-control placeholder-no-fix"
+                    maxlength="35"
+                    required>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-success" type='submit'
+                      [disabled]="!newFolderForm.form.valid"
+                      onclick='$("#addFolderModal").modal("toggle");'>
+                {{ 'save' | translate | myCapitalize }}
+              </button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">
+                {{'close' | translate}}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+   <!--  Edit Folder Modal -->
+    <div id="editFolderModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <form class="ui form" (ngSubmit)="update()" #editFolderForm="ngForm" role="form">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">{{'rename' | translate}}</h4>
+            </div>
+            <div class="modal-body">
+              <input type="text" name="name" [(ngModel)]="editable.name" placeholder="{{'name'| translate | myCapitalize }}..." pattern="^[а-яА-ЯіІїЇa-zA-Z0-9-_.]{1,35}$"
+                  class="form-control placeholder-no-fix" maxlength="35" required>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-success" type='submit' [disabled]="!editFolderForm.form.valid" onclick='$("#editFolderModal").modal("toggle");'>
+                {{ 'save' | translate | myCapitalize }}
+              </button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">
+                {{'close' | translate}}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  <!-- Modal Upload File -->
+    <div id="uploadFile" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+           <!--  Modal header -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" (click)="uploader.clearQueue(); initFolder(currentFolder);">&times;</button>
+            <h4 class="modal-title">{{'upload' | translate}} {{'file' | translate}}</h4>
+          </div>
+           <!--  Main modal content -->
+          <div class="modal-body">
+            <div>
+               <input type="file" ng2FileSelect [uploader]="uploader" (click)="clearQueue()"/>
+            </div>
+            <div>
+              <table class="table table-font">
+                <thead>
+                  <tr>
+                    <th width="40%">{{ 'name' | translate | myCapitalize }}</th>
+                    <th width="15%">{{ 'size' | translate | myCapitalize }}</th>
+                    <th width="5%">{{ 'status' | translate | myCapitalize }}</th>
+                    <th width="40%">{{ 'actions' | translate | myCapitalize }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of uploader.queue">
+                    <td width="40%"><strong>{{ item?.file?.name }}</strong></td>
+                    <td *ngIf="uploader.isHTML5" width="15%" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                    <td *ngIf="!uploader.isHTML5" width="15%" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                    <td width="5%" class="text-center">
+                      <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                      <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                      <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                    </td>
+                    <td width="40%" nowrap>
+                      <button type="button" class="btn btn-success btn-xs"
+                              (click)="onUpload()"
+                              [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                        {{ 'upload' | translate | myCapitalize }}
+                      </button>
+                      <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
+                        {{ 'cancel' | translate | myCapitalize }}
+                      </button>
+                      <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                        {{ 'remove' | translate | myCapitalize }}
+                      </button>
+                      </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+    <!--                                Modal footer -->
+          <div class="modal-footer">
+            <div>
+              <div>
+                {{ 'progress' | translate | myCapitalize }}:
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" [ngStyle]="{'width': uploader.progress + '%'}"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ <!--    Modal Delete File -->
+    <div id="confirmDelete" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">{{'delete' | translate}}?</h4>
+          </div>
+          <div class="modal-body content">
+            <div class="row col-xs-offset-4">
+              <button type='submit' class="btn btn-danger content-center" onclick='$("#confirmDelete").modal("toggle");' (click)='delete()'>
+                {{ 'delete' | translate | myCapitalize }}
+              </button>
+              <button type="button" class="btn btn-success content-center" data-dismiss="modal">
+                {{'cancel' | translate | myCapitalize }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+

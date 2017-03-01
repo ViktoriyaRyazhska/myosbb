@@ -11,6 +11,7 @@ import { AdminRoutes } from './admin.routes';
 @Component({
   selector: 'admin',
   template: `
+  
   <sidebar-component></sidebar-component>
   <router-outlet></router-outlet>
 `

@@ -1,0 +1,98 @@
+<div bsModal
+     #editModal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="mySmallModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button"
+                class="close"
+                aria-label="Close"
+                (click)="editModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">{{'editTickModal'}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group"
+             [ngClass]="{'has-error' : submitAttempt && !nameInput.valid }">
+          <textarea class="form-control"
+                    [(ngModel)]="nameTicket"
+                    type="text"
+                    name="name"
+                    placeholder="Enter name"
+                    ngControl="nameInput"
+                    required>
+          </textarea>
+          <div class="alert alert-danger"
+               *ngIf="submitAttempt &&  isEmptyName() ">
+            {{'nameErrorTicket'}}
+          </div>
+        </div>
+        <div class="form-group"
+             [ngClass]="{ 'has-error' :  submitAttempt && !descriptionInput.valid}">
+          <textarea class="form-control"
+                    [(ngModel)]="descriptionTicket"
+                    type="text"
+                    name="description"
+                    placeholder="Enter description"
+                    ngControl="descriptionInput"
+                    required>
+          </textarea>
+          <div class="alert alert-danger"
+               *ngIf="submitAttempt &&  isEmptyDescription() ">
+            {{'descrErrorTicket'}}
+          </div>
+          <br>
+        </div>
+        <select class="form-control"
+                [(ngModel)]="stateTicket">
+          <option *ngFor="let key of states"
+                  value={{key}}>{{key}}
+          </option>
+        </select>
+        <div class="form-group">
+          <input class="form-control"
+                 type="text"
+                 name="assign"
+                 list="assign"
+                 [(ngModel)]="assignTicket"
+                 placeholder="Enter user name"
+                 (keyup)="assign.value"
+                 #assign
+                 ngControl="assignInput">
+          <datalist id="assign">
+            <ul>
+              <option *ngFor="let user of userAssignArr">
+                <li>{{user.firstName}} {{user.lastName}}</li>
+              </option>
+            </ul>
+          </datalist>
+        </div>
+        <div>
+          <label type="button"
+                 class="label label-info"
+                 (click)="uploadForm.openUploadModal()">
+            {{'upload'  }} {{'file'}}</label>
+        </div>
+        <div>
+        </div>
+        <div class="modal-footer">
+          <button type="button"
+                  (click)="toggleSubmitAttempt(); onEditTicket()"
+                  class="btn btn-primary">
+            {{'editTicket'}}
+          </button>
+          <button type="button"
+                  (click)="closeEditModal()"
+                  class="btn btn-default">
+            {{'cancel'}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

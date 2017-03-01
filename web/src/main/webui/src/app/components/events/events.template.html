@@ -28,10 +28,10 @@
     <tr>
       <td><a (click)="onNavigate(event.id)">{{event.title}}</a></td>
       <td>
-        {{event.start | date: 'mediumDate'}}
+        <!--{{formatDate(event.start)}}-->
       </td>
       <td>
-        {{event.end}}
+        <!--{formatDate(event.end)}}-->
       </td>
       <td>{{event.repeat}}</td>
       <td><a (click)="toUser(event.author.userId)">{{event.author.firstName + " " + event.author.lastName}}</a></td>

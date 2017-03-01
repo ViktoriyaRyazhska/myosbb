@@ -1,0 +1,45 @@
+.sub-ticket {
+  .sub-ticket_header-text {
+    font-size: 2em;
+    display: inline-block;
+    padding: 10px;
+  }
+  .sub-ticket_content {
+    border-top: 1px solid #797979;
+    border-bottom: 1px solid #797979;
+    padding: 20px;
+  }
+  .sub-ticket_label-status {
+    padding: 10px;
+    border-radius: 4px;
+  }
+  .sub-ticket_comments-area {
+    padding-bottom: 50px;
+    textarea {
+      resize: none;
+      padding: 25px 0;
+    }
+    .sub-ticket_comments {
+      margin: 20px 0;
+    }
+  }
+  .sub-ticket_btn-left {
+    margin-right: 10px;
+  }
+  .sub-ticket_label {
+    padding: 5px;
+    margin-top: -10px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  .ticket-status-display, .ticket-edit-btn {
+    margin-top: 15px;
+  }
+  .sub-ticket_show-comments {
+    margin: 15px 0;
+  }
+  .sub-ticket_creator-name {
+    text-decoration: none;
+    color: #797979;
+  }
+}

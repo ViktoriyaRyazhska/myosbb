@@ -1,0 +1,24 @@
+<aside>
+    <div id="sidebar" class="nav-collapse animated  bounceInDown ">
+        
+        <ul class="sidebar-menu" id="nav-accordion">
+
+            <p class="centered"><a [routerLink]="['./']"><img src="assets/img/ui-sam.jpg" class="img-circle"></a></p>
+            <h5 class="centered">{{currentUser.firstName | capitalize }}</h5>
+
+            <li class="sub-menu">
+                <a [routerLink]="['./']">
+                    <i class="fa fa-user"></i>
+                    <span>{{'homePage' | translate | capitalize }}</span>
+                </a>
+            </li>
+            <li class="sub-menu">
+                <a [routerLink]="['user_bills']">
+                    <i class="fa fa-credit-card-alt"></i>
+                    <span>{{'bills'| translate| capitalize }}</span>
+                </a>
+            </li>
+        </ul>
+       
+    </div>
+</aside>

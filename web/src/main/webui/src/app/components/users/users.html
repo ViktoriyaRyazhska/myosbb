@@ -1,0 +1,28 @@
+<div class="content">
+    <br>
+    <br>
+    <table class="table table-hover">
+        <tr>
+            <th>Ім'я</th>
+            <th>Прізвище</th>
+            <th>Номер телефону</th>
+            <th>Емейл</th>
+            <th>Стать</th>
+            <th>Статус</th>
+            <th>Дії</th>
+        </tr>
+        <tr *ngFor="let c of users" class="info">
+            <td>{{c.firstName}}</td>
+            <td>{{c.lastName}}</td>
+            <td>{{c.phoneNumber}}</td>
+            <td>{{c.email}}</td>
+            <td>{{c.gender}}</td>
+            <td>
+                <button class="btn">Disable</button>
+            </td>
+            <td>
+                <button class="btn">Delete</button>
+            </td>
+        </tr>
+    </table>
+</div>

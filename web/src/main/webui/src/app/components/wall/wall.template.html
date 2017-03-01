@@ -1,22 +1,30 @@
-<section class="content">
-  <div>
-    <!--<img src="myosbb/assets/img/my_house.png" alt="some"  class="thumbnail">-->
-    <h3>District</h3>
-    <hr>
-    <p>
-      <span> Headmaster: {{resData?.firstName}} {{resData?.lastName}}</span>
-      <br>
-      <span> Creation date: {{resData?.house.osbb.creationDate | date:["fullDate"]}}</span>
-      <br>
-      <span> Address: {{resData?.house.street.city.region.name}} {{resData?.house.street.city.name}}
-        {{resData?.house.street.name}} {{resData?.house.numberHouse}}</span>
-      <br>
-      <span> District: {{resData?.house.osbb.district.name}}</span>
-      <br>
-      <!--<span> Square: {{resData?.apartment.square}}</span>-->
-      <br>
-      <!--<span> Owner: {{resData?.apartment.owner}}</span>-->
-      <br>
-    </p>
+<section class="page-content wall">
+  <div class="container-fluid">
+    <div class="col-md-4 wall_image">
+      <img src="{{imageLink}}/assets/img/my_house.png" alt="image"  class="wall_image"/>
+    </div>
+    <div class="col-md-6">
+      <h3>District</h3>
+      <hr>
+      <div>
+        <span class="wall_title"> Headmaster: </span>
+        <span> {{resData?.firstName}} {{resData?.lastName}}</span>
+      </div>
+      <div>
+        <span class="wall_title">Creation date: </span>
+        <span>{{resData?.house.osbb.creationDate | date:["fullDate"]}}</span>
+      </div>
+      <div>
+        <span class="wall_title">Address: </span>
+        <span>
+          {{resData?.house.street.city.region.name}} {{resData?.house.street.city.name}}
+          {{resData?.house.street.name}} {{resData?.house.numberHouse}}
+        </span>
+      </div>
+      <div>
+        <span class="wall_title">District: </span>
+        <span>{{resData?.house.osbb.district.name}}</span>
+      </div>
+    </div>
   </div>
 </section>

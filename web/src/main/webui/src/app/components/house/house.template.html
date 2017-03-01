@@ -1,0 +1,29 @@
+<br>
+<br>
+<div class="content" >
+<div class="panel-body">
+    <div class="col-md-6">
+        <div class="text-center">
+            <h5><b>Мій Будинок</b></h5>
+            <img src="assets/img/my_house.png" class="img-rounded" alt="my_house" width="304" height="236">
+        </div>
+    </div>
+    <br>
+    <ul *ngFor="let c of house">
+        <li><b>ОСББ: {{c.osbbName}}</b></li>
+        <br>
+        <li><b>Місто: {{c.street.city.name}}</b></li>
+        <br>
+        <li><b>Вулиця: {{c.street.name}}</b></li>
+        <br>
+        <li><b>Поштовий індекс: {{c.zipCode}}</b></li>
+        <br>
+        <li><b>Кількість квартир: {{c.apartmentCount}}</b></li>
+        <br>
+        <li><b>Кількість жителів: {{c.numberOfInhabitants}}</b></li>
+        <br>
+        <li><b>Додаткова інформація: {{c.description}}</b></li>
+        <br>
+    </ul>
+</div>
+</div>

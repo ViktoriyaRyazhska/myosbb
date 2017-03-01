@@ -1,0 +1,93 @@
+<!--
+    NOTE:
+    contains hardcoded values as at the moment of writing this component osbb requisites
+    and board members details were not implemented - subject of future releases
+    -->
+<div class="contacts-wrapper">
+  <div class="panel">
+    <div *ngIf="osbbRetrieved">
+      <!-- OSBB contacts and requisites -->
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <h3>{{'contacts' | translate}}</h3>
+          <h5>{{'headmaster' | translate | myCapitalize}}</h5>
+          <p>Петров Іван Миколайович <i class="fa fa-phone" aria-hidden="true"></i> (067) 123-45-67</p>
+          <h5>{{'accountant' | translate | myCapitalize}}</h5>
+          <p>Іванова Оксана Степанівна <i class="fa fa-phone" aria-hidden="true"></i> (067) 123-45-67</p>
+          <h5>{{'dispatcher' | translate | myCapitalize}}</h5>
+          <p>Цілодобово <i class="fa fa-phone" aria-hidden="true"></i> (067) 123-45-67</p>
+          <h5>{{'doctor' | translate | myCapitalize}}</h5>
+          <p>Айболит Олег Петрович <i class="fa fa-phone" aria-hidden="true"></i> (067) 123-45-67</p>
+        </div>
+        <div class="col-md-5">
+          <h3>{{'requisites' | translate | myCapitalize}}</h3>
+          <h5>{{'full_name' | translate | myCapitalize}}</h5>
+          <p>{{userOsbb.name}}</p>
+          <h5>{{'address' | translate | myCapitalize}}</h5>
+          <p>{{userOsbb.houseNumber}}</p>
+          <h5>{{'phone' | translate | myCapitalize}}</h5>
+          <p>+38 (032) 244 58 86</p>
+          <h5>{{'EDRPOU' | translate }}</h5>
+          <p>34566773</p>
+          <h5>{{'MFO' | translate}}</h5>
+          <p>123456</p>
+          <h5>{{'bank_account' | translate | myCapitalize}}</h5>
+          <p>49000012345678 в КБ "УКРСИББАНК"</p>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <!-- Board members and their contacts -->
+      <div>
+        <h3 class="text-center">{{'board' | translate | myCapitalize}}</h3>
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-10">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th class="text-center">{{'PIB' | translate}}</th>
+                  <th class="text-center">{{'apartment' | translate | myCapitalize}}</th>
+                  <th class="text-center">{{'contacts' | translate | myCapitalize}}</th>
+                  <th class="text-center">{{'photo' | translate | myCapitalize}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <th colspan="4" class="text-center">{{'CEO' | translate}}</th>
+                </tr>
+                <tr>
+                  <td>Петров Іван Миколайович</td>
+                  <td class="text-center">24</td>
+                  <td class="text-center">(067) 333 44 44</td>
+                  <td class="text-center"><img src="assets/img/simpson.jpg" alt="photo"/></td>
+                </tr>
+                <tr>
+                  <th colspan="4" class="text-center">{{'board_members' | translate}}</th>
+                </tr>
+                <tr>
+                  <td>Іванова Олена Степанівна</td>
+                  <td class="text-center">34</td>
+                  <td class="text-center">(067) 333 44 45</td>
+                  <td class="text-center"><img src="assets/img/ui-divya.jpg" alt="photo"/></td>
+                </tr>
+                <tr>
+                  <td>Зайченко Петро Андрійович</td>
+                  <td class="text-center">57</td>
+                  <td class="text-center">(067) 333 44 46</td>
+                  <td class="text-center"><img src="assets/img/ui-sherman.jpg" alt="photo"/></td>
+                </tr>
+                <tr>
+                  <td>Столяров Михайло Іванович</td>
+                  <td class="text-center">83</td>
+                  <td class="text-center">(067) 333 44 47</td>
+                  <td class="text-center"><img src="assets/img/ui-zac.jpg" alt="photo"/></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-1"></div>
+        </div>
+      </div>
+    </div>
+</div>

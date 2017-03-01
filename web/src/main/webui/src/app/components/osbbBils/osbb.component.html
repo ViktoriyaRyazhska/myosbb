@@ -1,81 +1,144 @@
-<div class="content">
-
+<div class="page-content osbb-bills">
+  <div class="container-fluid">
   <breadcrumb [header]="title"></breadcrumb>
-{{  authRole | json
-  }}  <div class="panel-heading">
-    <div class="btn-group" role="group" aria-label="...">
-      <button type="button" class="btn btn-default">App</button>
-      <button type="button" class="btn btn-default">Pending</button>
-      <button type="button" class="btn btn-default">Paid</button>
-      <div class="col-xs-2 columns columns-right btn-group pull-right">
-        <button (click)="refresh()" style="height: 30px; width: 45px" class="btn btn-default" type="button" name="refresh" title="Refresh">
-          <i class="glyphicon glyphicon-refresh icon-refresh"></i>
-        </button>
-      </div>
-    </div>
+  <div class="osbb-bills_create-button pull-right">
+    <button (click)="openCreateBillModal()"
+            type="button"
+            class="btn btn-default">
+      <i class="fa fa-plus"
+         aria-hidden="true">
+      </i>
+      {{'create_bill'| capitalize}}
+    </button>
   </div>
-  <table class='table'>
+ <div>
+    <div class="btn-group"
+         role="group"
+         aria-label="...">
+      <button type="button"
+              class="btn btn-default"
+              (click)="processOption('ALL')">
+        {{'App'}}
+      </button>
+      <button type="button"
+              class="btn btn-default"
+              (click)="processOption('NOT_PAID')">
+        {{'Pending'}}
+      </button>
+      <button type="button"
+              class="btn btn-default"
+              (click)="processOption('PAID')">
+        {{'Paid'}}
+      </button>
+    </div>
+   <div class="pull-right">
+     <button (click)="refresh('ALL', 10)"
+             class="btn btn-default"
+             name="refresh"
+             title="Refresh">
+       <i class="glyphicon glyphicon-refresh icon-refresh"></i>
+     </button>
+   </div>
+  </div>
+  </div>
+  <br>
+  <table class='table table-hover'>
     <thead>
     <tr>
-      <th>Apartment</th>
-      <th>Name</th>
-      <th>Fare</th>
-      <th>Date</th>
-      <th>Amout to pay</th>
-      <th>Paid</th>
-      <th>Status</th>
+      <th>Apartment
+          <span class="fa fa-fw fa-sort"></span>
+      </th>
+      <th> {{'name' | capitalize}}
+          <span class="fa fa-fw fa-sort"></span>
+      </th>
+      <th>
+        {{'fare' | capitalize}}
+        <span class="fa fa-fw fa-sort"></span>
+      </th>
+      <th>
+        {{'date' | capitalize}}
+        <span class="fa fa-fw fa-sort"></span>
+      </th>
+      <th>
+        {{'amout_to_pay' | capitalize}}
+        <span class="fa fa-fw fa-sort"></span>
+      </th>
+      <th>
+        {{'paid' | capitalize}}
+        <span class="fa fa-fw fa-sort"></span>
+      </th>
+      <th>
+        {{'status' | capitalize}}
+        <span class="fa fa-fw fa-sort"></span>
+      </th>
       <th>&nbsp;</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let item of data">
-      <td>{{item.apartmentNumber}}</td>
-      <td>{{item.name}}</td>
-      <td>{{item.tariff}}</td>
-      <td>{{item.date}}</td>
-      <td>{{item.toPay}}</td>
-      <td>{{item.paid}}</td>
-      <td>{{item.status}}</td>
-      <td><input type='button' class="btn" value="batton"></td>
-    </tr>
+      <tr *ngFor="let item of resData" [ngStyle]="{'background-color': itemStatusColor(item.status)}">
+        <td>{{item.apartmentNumber}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.tariff}}</td>
+        <td>{{item.date}}</td>
+        <td>{{item.toPay}}</td>
+        <td>{{item.paid}}</td>
+        <td>
+          <i [attr.class]="someExpression(item.status)"></i>
+        </td>
+        <td>
+        <div class="dropdown">
+          <button class="btn btn-default dropdown-toggle"
+                  type="button"
+                  id="dropdownMenu1"
+                  data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="true">
+            {{'options' | capitalize}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li>
+              <a (click)="onCreateSubBillModalOpen(item?.billId)">{{'add_subBill' }}</a>
+            </li>
+            <li>
+              <a (click)="onDelModalOpen(item?.billId)">{{'delete' | capitalize}}</a>
+            </li>
+            <li>
+              <a (click)="confirmBill(item?.billId)">{{'confirm_bill' | capitalize}}</a>
+            </li>
+          </ul>
+          </div>
+        </td>
+      </tr>
     </tbody>
   </table>
-  <!--<div class="container">-->
-    <!--<h2>Modal Example</h2>-->
-    <!--&lt;!&ndash; Trigger the modal with a button &ndash;&gt;-->
-    <!--<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>-->
-
-    <!--&lt;!&ndash; Modal &ndash;&gt;-->
-    <!--<div class="modal fade" id="myModal" role="dialog">-->
-      <!--<div class="modal-dialog">-->
-
-        <!--&lt;!&ndash; Modal content&ndash;&gt;-->
-        <!--<div class="modal-content">-->
-          <!--<div class="modal-header">-->
-            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
-            <!--<h4 class="modal-title">Modal Header</h4>-->
-          <!--</div>-->
-          <!--<div class="modal-body">-->
-            <!--<p>Some text in the modal.</p>-->
-          <!--</div>-->
-          <!--<div class="modal-footer">-->
-            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-          <!--</div>-->
-        <!--</div>-->
-
-      <!--</div>-->
-    <!--</div>-->
-
-  <!--</div>-->
-  <div class="btn-group" role="group" aria-label="...">
-    <button type="button" class="btn btn-default">10</button>
-    <button type="button" class="btn btn-default">20</button>
-    <button type="button" class="btn btn-default">50</button>
-  </div>
-  <div aria-label="Page navigation example">
-    <ul class="pagination">
+  <div class="container-fluid">
+  <div class="bottom-navigation">
+    <div class="btn-group osbb-bills_btn-show-select"
+         role="group"
+         aria-label="...">
+      <button type="button"
+              class="btn btn-default"
+              (click)="pagePaginationList(10)">
+        10
+      </button>
+      <button
+        type="button"
+        class="btn btn-default"
+        (click)="pagePaginationList(20)">
+        20
+      </button>
+      <button type="button"
+              class="btn btn-default"
+              (click)="pagePaginationList(50)">
+        50
+      </button>
+    </div>
+    <div  class="pull-right ">
+    <ul class="pagination pull-right">
       <li class="page-item">
-        <a class="page-link" href="#" aria-label="Previous">
+        <a class="page-link"
+           href="#"
+           aria-label="Previous">
           <span aria-hidden="true">&laquo;</span>
           <span class="sr-only">Previous</span>
         </a>
@@ -91,19 +154,212 @@
       </li>
     </ul>
   </div>
-  <!--<nav aria-label="Page navigation example">-->
-    <!--<ul class="pagination">-->
-      <!--<li class="page-item disabled">-->
-        <!--<a class="page-link" href="#" tabindex="-1">Previous</a>-->
-      <!--</li>-->
-      <!--<li class="page-item"><a class="page-link" href="#">1</a></li>-->
-      <!--<li class="page-item"><a class="page-link" href="#">2</a></li>-->
-      <!--<li class="page-item"><a class="page-link" href="#">3</a></li>-->
-      <!--<li class="page-item">-->
-        <!--<a class="page-link" href="#">Next</a>-->
-      <!--</li>-->
-    <!--</ul>-->
-  <!--</nav>-->
-
+  </div>
+</div>
 </div>
 
+
+<div bsModal
+     #delModal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="mySmallModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button"
+                class="close"
+                aria-label="Close"
+                (click)="delModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">{{'removing' | capitalize}}</h4>
+      </div>
+      <div class="modal-body">
+        <h5>{{'confirmDelete' | capitalize}}</h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-primary"
+                (click)="closeDelModal()">
+          {{'yes' | capitalize}}
+        </button>
+        <button type="button"
+                class="btn btn-default"
+                (click)="delModal.hide()">
+          {{'no' | capitalize}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div bsModal
+     #createModal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="mySmallModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button"
+                class="close"
+                aria-label="Close"
+                (click)="cancelCreateModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">{{'create_bill' | capitalize}}</h4>
+      </div>
+      <form (ngSubmit)="onSaveNewBill()"
+            #billForm="ngForm">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="name">{{'name'| capitalize}}</label><br>
+                <input class="form-control mod"
+                       id="name"
+                       required
+                       [(ngModel)]="newBill.name"
+                       name="name"
+                       #name="ngModel"
+                       maxlength="10"
+                       minlength="1">
+              </div>
+              <div  class="form-group">
+                <div class="form-group">
+                  <label for="bill_fare">{{'bill_fare' | capitalize}}</label><br>
+                  <input class="form-control mod"
+                         id="bill_fare"
+                         type="number"
+                         step="0.01"
+                         [(ngModel)]="newBill.tariff"
+                         (keyup)="calcToPay(tariff.val)"
+                         name="tariff"
+                         #tariff="ngModel"
+                         maxlength="10"
+                         minlength="1"
+                         required/>
+                </div>
+
+                <div class="form-group">
+                  <label for="bill_calc">{{'bill_calc'  | capitalize}}</label><br>
+                  <input [(ngModel)]="billCalcVal"
+                         id="bill_calc"
+                         type="number"
+                         step="0.01"
+                         (keyup)="calcToPay(calc.val)"
+                         class="form-control mod"
+                         name="calc"
+                         #calc="ngModel"
+                         maxlength="10"
+                         minlength="1"
+                         required/>
+                </div>
+                <div class="form-group">
+                  <label for="bill_paid">{{'bill_paid' | capitalize}}</label><br>
+                  <input [(ngModel)]="newBill.toPay"
+                         id="bill_paid"
+                         class="form-control mod"
+                         name="toPay"
+                         #toPay="ngModel"
+                         readonly="readonly">
+                </div>
+                <div class="form-group">
+                  <label for="date">{{'date' | capitalize}}</label><br>
+                  <input type="date"
+                         id="date"
+                         value="yyyy-MM-dd"
+                         class="form-control"
+                         required name="date"
+                         [(ngModel)]="newBill.date"
+                         #date="ngModel"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit"
+                  class="btn btn-primary"
+                  [disabled]="!billForm.form.valid">
+            {{'save' | capitalize}}
+          </button>
+          <button type="button"
+                  (click)="cancelCreateModal()"
+                  class="btn btn-default">
+            {{'cancel' | capitalize}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div bsModal
+     #createSubBillModal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="mySmallModalLabel"
+     aria-hidden="true">
+  <div class=" modal-dialog modal-md ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button"
+                class="close"
+                aria-label="Close"
+                (click)="cancelCreateModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">{{'add_subBill'}}</h4>
+      </div>
+      <form (ngSubmit)="onCreateSubBill(); onCloseCreateSubBillModal()"
+            #subBillForm="ngForm">
+        <div class="modal-body modal-window-small">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="names">{{'name' | capitalize }}</label><br>
+                <input class="form-control"
+                       [(ngModel)]="subBill.name"
+                       name="name"
+                       id="names"
+                       #name="ngModel"
+                       minlength="1"
+                       required/>
+              </div>
+              <div class="form-group">
+                <label>{{'price'  | capitalize}}</label><br>
+                <input class="form-control mod"
+                       type="number"
+                       step="0.01"
+                       required
+                       [(ngModel)]="subBill.price"
+                       name="price"
+                       #price="ngModel">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit"
+                  class="btn btn-primary"
+                  [disabled]="!subBillForm.valid">
+            {{'save' | capitalize}}
+          </button>
+          <button type="button"
+                  (click)="cancelCreateModal()"
+                  class="btn btn-default">
+            {{'cancel'  | capitalize}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
