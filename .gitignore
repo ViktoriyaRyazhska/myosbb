@@ -9,6 +9,7 @@ target/
 
 ### @Angular
 web/src/main/resources/public/
+web/src/main/resources/webui/node_modules/
 
 # Runtime data
 pids
