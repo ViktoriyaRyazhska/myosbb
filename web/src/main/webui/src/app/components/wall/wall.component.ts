@@ -8,7 +8,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { WallService } from './wall.service';
 import { LoginService } from '../../shared/login/login.service';
-import { API_URL } from '../../../assets/models/localhost.config';
+import { API_URL } from '../../models/localhost.config';
 
 @Component({
   selector: 'wall',
@@ -17,7 +17,7 @@ import { API_URL } from '../../../assets/models/localhost.config';
     LoginService
   ],
   styleUrls: [
-    '../../../assets/style/page.layout.scss',
+    '../../../assets/css/page.layout.scss',
     './wall.style.scss'
   ],
   templateUrl: './wall.template.html',

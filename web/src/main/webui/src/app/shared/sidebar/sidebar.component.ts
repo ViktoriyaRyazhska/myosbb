@@ -27,4 +27,3 @@ export class SidebarComponent implements OnInit {
     this.authRole = this.loginService.getRole();
   }
 }
-

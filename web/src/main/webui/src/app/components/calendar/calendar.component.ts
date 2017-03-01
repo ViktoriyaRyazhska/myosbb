@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { EventsService } from '../events/events.service';
 import { LoginService } from '../../shared/login/login.service';
 import { CalendarConstants } from './calendar.const';
+import { Event } from '../events/event.model';
 import {
   Http,
   Response
@@ -15,7 +16,7 @@ export class CalendarComponent implements OnInit {
     public events: any;
     public header: any;
     public translate: any;
-    public event: MyEvent;
+    public event: Event;
     public dialogVisible: boolean;
     public idGen: number;
     public resData: any;
@@ -32,12 +33,12 @@ export class CalendarComponent implements OnInit {
         this.translate = CalendarConstants.ukr;
     }
     public handleDayClick(event) {
-        this.event = new MyEvent();
+        this.event = new Event();
         this.event.start = event.date.format();
         this.dialogVisible = true;
     }
     public handleEventClick(e) {
-        this.event = new MyEvent();
+        this.event = new Event();
         this.event.title = e.calEvent.title;
         const start = e.calEvent.start;
         const end = e.calEvent.end;
@@ -83,11 +84,4 @@ export class CalendarComponent implements OnInit {
         }
         return index;
     }
-}
-export class MyEvent {
-    public id: number;
-    public title: string;
-    public start: string;
-    public end: string;
-    public allDay: boolean = true;
 }

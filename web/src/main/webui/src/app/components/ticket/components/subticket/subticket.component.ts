@@ -17,7 +17,7 @@ import { LoginService } from '../../../../shared/login/login.service';
 @Component({
   selector: 'ticket',
   styleUrls: [
-    '../../../../../assets/style/page.layout.scss',
+    '../../../../../assets/css/page.layout.scss',
     './subticket.style.scss'
   ],
   templateUrl: './subticket.component.html',

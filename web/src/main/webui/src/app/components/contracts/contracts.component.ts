@@ -12,7 +12,7 @@ import { ModalDirective } from 'ng2-bootstrap/modal';
 @Component({
   selector: 'contract',
   styleUrls: [
-    '../../../assets/style/page.layout.scss',
+    '../../../assets/css/page.layout.scss',
     './contracts.style.scss'
   ],
   templateUrl: './contracts.component.html',

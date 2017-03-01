@@ -8,8 +8,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 import { LoginService } from '../../shared/login/login.service';
-import { PageParams } from '../../../assets/models/pageParam.interface';
-import { UrlListConfig } from '../../../assets/services/apiUrl.service';
+import { PageParams } from '../../models/pageParam.model';
+import { UrlListConfig } from '../../services/apiUrl.service';
 
 @Injectable()
 

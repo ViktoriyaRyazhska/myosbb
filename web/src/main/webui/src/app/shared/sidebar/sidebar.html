@@ -4,7 +4,7 @@
       <li class="sub-menu" *ngFor="let admin of admins">
         <a [routerLink]="admin.route">
           <i class="{{admin.class}}"></i>
-          <span>{{admin.name}}</span>
+          <span>{{admin.name |translate| myCapitalize}}</span>
         </a>
       </li>
     </ul>
@@ -14,18 +14,18 @@
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
           <i class="fa fa-home"></i>
-          <span>{{ 'osbb'}} <span class="caret animated"></span></span>
+          <span>{{ 'osbb' | translate| myCapitalize}} <span class="caret animated"></span></span>
         </a>
         <ul class="dropdown-menu updown">
-          <li><a [routerLink]="['contacts']">{{ 'contacts'}}</a></li>
-          <li><a [routerLink]="['documents-and-reports']">{{ 'docs&reports'}}</a></li>
+          <li><a [routerLink]="['contacts']">{{ 'contacts'| translate| myCapitalize}}</a></li>
+          <li><a [routerLink]="['documents-and-reports']">{{ 'docs&reports' | translate| myCapitalize}}</a></li>
           <li role="separator" class="divider"></li>
         </ul>
       </li>
       <li class="sub-menu" *ngFor="let manager of managers">
         <a [routerLink]="manager.route">
           <i class="{{manager.class}}"></i>
-          <span>{{manager.name}}</span>
+          <span>{{manager.name | translate| myCapitalize}}</span>
         </a>
       </li>
     </ul>
@@ -35,31 +35,30 @@
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
           <i class="fa fa-home"></i>
-          <span>{{ 'osbb'}} <span class="caret animated"></span></span>
+          <span>{{ 'osbb' | translate| myCapitalize}} <span class="caret animated"></span></span>
         </a>
         <ul class="dropdown-menu updown">
-          <li><a [routerLink]="['contacts']">{{'contacts'}}</a></li>
-          <li><a [routerLink]="['documents-and-reports']">{{'docs&reports'}}</a></li>
+          <li><a [routerLink]="['contacts']">{{'contacts' | translate| myCapitalize}}</a></li>
+          <li><a [routerLink]="['documents-and-reports']">{{'docs&reports' | translate| myCapitalize}}</a></li>
           <li role="separator" class="divider"></li>
         </ul>
       </li>
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
           <i class="fa fa-credit-card fa-fw fa-4x"></i>
-          <span>{{ 'fees_for_services' }} <span class="caret animated"></span></span>
+          <span>{{ 'fees_for_services' | translate| myCapitalize}} <span class="caret animated"></span></span>
         </a>
         <ul class="dropdown-menu updown">
-          <li *ngFor="let provider of providers"><a [routerLink]="provider.route">{{ provider.name}}</a></li>
+          <li *ngFor="let provider of providers"><a [routerLink]="provider.route">{{ provider.name | translate| myCapitalize}}</a></li>
           <li role="separator" class="divider"></li>
         </ul>
       </li>
       <li class="sub-menu" *ngFor="let user of users">
         <a [routerLink]="user.route">
           <i class="{{user.class}}"></i>
-          <span>{{user.name}}</span>
+          <span>{{user.name | translate| myCapitalize}}</span>
         </a>
       </li>
     </ul>
   </div>
 </aside>
-

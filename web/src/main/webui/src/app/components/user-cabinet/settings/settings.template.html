@@ -1,0 +1,52 @@
+<toaster-container> </toaster-container>
+<div class="settings-class col-xs-12">
+    <div class="panel panel-info ">
+        <div class="panel-heading">
+            <h3 class="panel-title">SETTINGS</h3>
+        </div>
+        <div class="panel-body">
+            
+            <div class="col-md-4 switcher">
+              <h4>{{'iAssigned' | translate | capitalize}}</h4>
+              <label class="toggle col-sm-8">
+                   <input type="checkbox"(click)="changeAssigned()">
+                   <span class="handle"></span>
+              </label>
+              
+            </div>
+
+            
+            <div class="col-md-4 switcher">
+                <h4>{{'commentChangeStatus' | translate | capitalize}}</h4>
+                <label class="toggle col-sm-8">
+                   <input type="checkbox"(click)="changeCreator()">
+                   <span class="handle"></span>
+               </label>
+            </div>
+
+            <div class="col-md-4 switcher">
+                <h4>{{'newCommentSetting' | translate | capitalize}}</h4>
+                <label class="toggle col-sm-8">
+                   <input type="checkbox"(click)="changeComment()">
+                   <span class="handle"></span>
+               </label>
+            </div>
+            
+            <div class="col-md-4 switcher">
+                <h4>{{'newAnswerForMyComment'| translate | capitalize}}</h4>
+                <label class="toggle col-sm-8">
+                   <input type="checkbox"(click)="changeAnswer()">
+                   <span class="handle"></span>
+               </label>
+            </div>
+            <div class="saver">
+                <button type="button" class="btn btn-primary" (click)="save()">{{'save' | translate | capitalize}}</button>
+            </div>
+        </div>
+    </div>
+  
+     
+</div>
+
+
+

@@ -11,7 +11,7 @@ import { ModalDirective } from "ng2-bootstrap/modal";
 @Component({
   selector: 'ticket-editdiscussed-form',
   templateUrl: './ticket-editdiscussed-form.html',
-  styleUrls: ['../../../../../assets/style/page.layout.scss']
+  styleUrls: ['../../../../../assets/css/page.layout.scss']
 })
 
 export class TicketEditDiscussedFormComponent {

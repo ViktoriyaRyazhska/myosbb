@@ -5,8 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { LoginConstants } from './login.constants';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '../../../assets/models/user.model';
-import { API_URL } from '../../../assets/models/localhost.config.ts';
+import { User } from '../../models/user.model';
 
 @Injectable()
 export class LoginService {
@@ -15,10 +14,11 @@ export class LoginService {
   public role: string;
   public isLoggedIn: boolean;
   public currentUser: User;
-  private getUrl: string = API_URL + '/restful/user';
+  private getUrl: string = this._pathUrl.serverUrl + '/restful/user';
 
   constructor(public http: Http, public _router: Router,
     ) {}
+
   public sendCredentials(model) {
       let options = this.getRequestOptionArgs();
       let tokenUrl = this._pathUrl.serverUrl + '/oauth/token';
@@ -121,5 +121,8 @@ export class LoginService {
       this.setRole();
       this.setUser();
     }
+  }
+  public setEditUser(user: User) {
+    this.currentUser = user;
   }
 }

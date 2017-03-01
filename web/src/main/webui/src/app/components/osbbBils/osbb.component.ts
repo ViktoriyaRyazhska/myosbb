@@ -9,15 +9,15 @@ import 'rxjs/add/operator/toPromise';
 import { LoginService } from '../../shared/login/login.service';
 import { OsbbService } from './osbb.service';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
-import { PageParams } from '../../../assets/models/pageParam.interface';
+import { PageParams } from '../../models/pageParam.model';
 import { ModalDirective } from 'ng2-bootstrap/modal';
-import { BillDTO } from '../../../assets/models/bill.dto.interface';
-import { SubBill } from '../../../assets/models/sub.bill.interface';
+import { BillDTO } from '../../models/bill.dto.model';
+import { SubBill } from '../../models/sub.bill.model';
 
 @Component({
-  selector: 'osbb',
+  selector: 'osbbBills',
   styleUrls: [
-    '../../../assets/style/page.layout.scss',
+    '../../../assets/css/page.layout.scss',
     './osbbBils.style.scss'
   ],
   templateUrl: './osbb.component.html',

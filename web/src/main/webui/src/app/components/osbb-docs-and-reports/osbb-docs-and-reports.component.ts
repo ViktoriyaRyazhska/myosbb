@@ -4,7 +4,7 @@ import { ToasterService } from 'angular2-toaster';
 import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import { Subscription } from 'rxjs/Subscription';
 
-import { API_URL } from '../../../assets/models/localhost.config';
+import { API_URL } from '../../../shared/models/localhost.config';
 import { OsbbDocumentsAndReportsConstants } from './osbb-docs-and-reports.constants';
 import { User } from '../../models/user.model';
 import { DriveFile } from './google-drive-service/drive-file.model';

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { OsbbDTO } from '../../../assets/models/osbb-dto.model';
-import { User } from '../../../assets/models/user.model';
-import { OsbbService } from '../../../assets/services/osbb.service';
+import { OsbbDTO } from '../../models/osbb-dto.model';
+import { User } from '../../models/user.model';
+import { OsbbService } from '../../services/osbb.service';
 import { LoginService } from '../../shared/login/login.service';
 
 @Component({

@@ -1,12 +1,15 @@
 <nav class="black-bg">
   <a [routerLink]="['']">
     <i class="fa fa-home fa-lg header_logo_position" aria-hidden="true">
-      <b>Наш Двір</b>
+      <b>{{ 'ourYard' | translate| myCapitalize }}</b>
     </i>
   </a>
   <div class="header_button_block">
+    <a  [routerLink]=" ['./cabinet'] "
+      routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+      <i class="fa fa-user fa-lg" aria-hidden="true" *ngIf="loginService.checkLogin()"></i>
+    </a>
     <set-language></set-language>
     <button type="button" class="btn btn-warning header_button_position" (click)="logOut()" *ngIf="loginService.checkLogin()"><i class="fa fa-sign-out">LogOut</i></button>
   </div>
-
 </nav>

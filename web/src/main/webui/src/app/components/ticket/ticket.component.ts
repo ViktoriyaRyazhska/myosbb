@@ -11,12 +11,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import { TicketService } from './ticket.service';
 import { LoginService } from '../../shared/login/login.service';
-import { PageRequest } from '../../../assets/models/pageRequest.interface';
+import { PageRequest } from '../../models/pageRequest.model';
 
 @Component({
     selector: 'ticket',
     styleUrls: [
-      '../../../assets/style/page.layout.scss',
+      '../../../assets/css/page.layout.scss',
       './ticket.page.scss'
     ],
     templateUrl: 'tickets.component.html',

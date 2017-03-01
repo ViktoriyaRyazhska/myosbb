@@ -2,23 +2,23 @@
   <div class="row animated form-group zoomIn ">
     <div class="col-md-12">
       <form class="form-login" (ngSubmit)="logIn()">
-        <h2 class="form-login-heading">{{'sign_in'}}</h2>
+        <h2 class="form-login-heading">{{'sign_in' | translate | myCapitalize}}</h2>
         <div class="login-wrapper">
-          <input type="text" id="username" class="form-control" name="username" placeholder="{{'user'}}"
+          <input type="text" id="username" class="form-control" name="username" placeholder="{{'user' | translate | myCapitalize}}"
             autofocus maxlength="35" required [(ngModel)]="model.username">
-          <input type="password" id="password" class="form-control" name="password" placeholder="{{'password'}}"
+          <input type="password" id="password" class="form-control" name="password" placeholder="{{'password' | translate | myCapitalize}}"
             minlength="4" maxlength="16" required [(ngModel)]="model.password">
           <input type="hidden"/>
           <label class="checkbox">
             <span class="pull-right">
-              <a data-toggle="modal" href="#/login#myModal">{{'forgot_pass'}}</a>
+              <a data-toggle="modal" href="#/login#myModal">{{'forgot_pass' | translate | myCapitalize}}</a>
             </span>
           </label>
           <button type="submit" class="btn btn-theme btn-block">
-            <i class="fa fa-lock"></i> {{'sign_in'}}
+            <i class="fa fa-lock"></i> {{'sign_in' | translate | myCapitalize}}
           </button>
           <div class="registration">
-            <button type="button" class="btn btn-link" (click)="registrationPage()">{{'create_account'}}</button>
+            <button type="button" class="btn btn-link" (click)="registrationPage()">{{'create_account' | translate | myCapitalize}}</button>
           </div>
         </div>
       </form>

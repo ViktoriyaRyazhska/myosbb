@@ -2,7 +2,7 @@ export class SidebarConstants {
   public static get admin() { return [
       {route: 'osbb' , name: 'osbb' , class: 'fa fa-home fa-fw fa-4x'},
       {route: 'houses' , name: 'houses' , class: 'fa fa-user'},
-      {route: 'apartments' , name: 'rents' , class: 'fa fa-building-o'},
+      {route: 'apartment' , name: 'rents' , class: 'fa fa-building-o'},
       {route: 'ticket' , name: 'tickets' , class: 'fa fa-ticket'},
       {route: 'calendar' , name: 'calendar' , class: 'fa fa-calendar'},
       {route: 'events' , name: 'events' , class: 'fa fa-comments'},
@@ -12,11 +12,11 @@ export class SidebarConstants {
     ]; }
   public static get manager() { return [
       {route: 'houses' , name: 'houses' , class: 'fa fa-user'},
-      {route: 'apartments' , name: 'rents' , class: 'fa fa-building-o'},
+      {route: 'apartment' , name: 'rents' , class: 'fa fa-building-o'},
       {route: 'ticket' , name: 'tickets' , class: 'fa fa-ticket'},
       {route: 'calendar' , name: 'calendar' , class: 'fa fa-calendar'},
       {route: 'events' , name: 'events' , class: 'fa fa-comments'},
-      {route: 'osbb' , name: 'bills_osbb' , class: 'fa fa-credit-card-alt'},
+      {route: 'osbbBills' , name: 'bills_osbb' , class: 'fa fa-credit-card-alt'},
       {route: 'provider' , name: 'providers' , class: 'fa fa-building'},
       {route: 'contract' , name: 'contracts' , class: 'fa fa-bookmark'}
     ]; }
