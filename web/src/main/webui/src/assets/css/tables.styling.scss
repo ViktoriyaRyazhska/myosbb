@@ -1,0 +1,33 @@
+table {
+  color: #797979;
+  .table-size-small {
+    width: 10%;
+  }
+  .table-size-medium {
+    width: 15%;
+  }
+  .table-size-big {
+    width: 20%;
+  }
+  .table-size-large {
+    width: 30%;
+  }
+  font-size: 15px;
+  th {
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    a {
+      cursor: pointer;
+    }
+  }
+  td {
+    height: 50px;
+    padding-top: 15px;
+    vertical-align: baseline;
+    text-align: center;
+  }
+  .table-text-align {
+    text-align: center;
+  }
+}

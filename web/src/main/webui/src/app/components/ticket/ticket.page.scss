@@ -1,66 +1,35 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
 .ticket {
-  font-family: 'Roboto', sans-serif;
-
-  .span-btn-group {
+  .ticket_span-btn-group {
     padding-top: 5px;
     font-size: 15px;
     font-weight: normal;
   }
-  .span-group {
+  .ticket_span-group {
     margin-top: 8px;
     cursor: pointer;
   }
-  .btn-find-group {
+  .ticket_btn-find-group {
     display: block;
     left: -15px;
   }
-  .search-box {
+  .ticket_search-box {
     top: -75px;
     right: -15px;
   }
-  a {
-    text-decoration: none;
-    color: rgb(121,121,121);
-    &:hover {
-      color: rgba(121,121,121,.5);
-    }
+  .ticket_footer-btn-group {
+    white-space: nowrap;
+    padding-bottom: 15px;
   }
   table {
-    .table-size-small {
-      width: 10%;
-    }
-    .table-size-medium {
-      width: 15%;
-    }
-    .table-size-big {
-      width: 20%;
-    }
-    .table-size-large {
-      width: 30%;
-    }
-    font-size: 15px;
-    th {
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      a {
-        cursor: pointer;
-      }
-    }
     td {
-      height: 50px;
-      padding-top: 15px;
       &:first-child {
         cursor: pointer;
         white-space: nowrap;
         overflow: hidden;
       }
     }
-
-    .table-text-align {
-      text-align: center;
+    .ticket_first-row-data {
+      display: block;
     }
   }
 }
-

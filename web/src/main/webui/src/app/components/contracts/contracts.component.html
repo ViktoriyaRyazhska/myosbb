@@ -1,110 +1,297 @@
-<div class="content contracts ">
+<div class="page-content contracts ">
   <div class="container-fluid">
+
     <breadcrumb [header]="title"></breadcrumb>
 
-    <div class="col-md-2 pull-right filter-box " title="search">
-      <input #name
-             (keyup.enter)="onClickSearchByParam(name.value)"
+    <div class="col-md-2 pull-right contracts_filter-box"
+         title="search">
+      <input #search
+             (keyup)="onSearch(search.value)"
              type="search"
              class="form-control input-sm"
              placeholder="search..."
              aria-controls="example"
              maxlength="20"
-             minlength="1">
+             minlength="1"/>
     </div>
   </div>
   <table class="table table-hover">
     <thead>
-    <tr>
-      <th class="sorting">
-        <i class="fa fa-bullhorn"></i>
-        {{'company' | capitalize}}
-        <a (click)="sortBy('provider.name')">
-          <span class="fa fa-fw fa-sort"></span>
-        </a>
-      </th>
-      <th class="sorting">
-        <i class=" fa fa-calendar"></i>
-        {{'dateStart' | capitalize}}
-        <a (click)="sortBy('dateStart')">
-          <span class="fa fa-fw fa-sort"></span>
-        </a>
-      </th>
-      <th class="sorting">
-        <i class="fa fa-calendar"></i>
-        {{'dateFinish' | capitalize}}
-        <a (click)="sortBy('dateFinish')">
-          <span class="fa fa-fw fa-sort"></span>
-        </a>
-      </th>
-      <th>
-        <i class=" fa fa-circle fa-description"></i>
-        {{'text' | capitalize}}
-      </th>
-      <th class="sorting">
-        <i class="fa fa-money"></i>
-        {{ 'price' | capitalize}}
-        <a (click)="sortBy('price')">
-          <span class="fa fa-fw fa-sort "></span>
-        </a>
-      </th>
-      <th>
-        <i class="fa fa-files-o"></i>
-        {{'attachments' | capitalize}}
-      </th>
-      <th>
-        <i class="fa fa-question-circle"></i>
-        {{'details' | capitalize}}
-      </th>
-    </tr>
+      <tr>
+        <th class="sorting">
+          <i class="fa fa-bullhorn"></i>
+            {{'company' | capitalize}}
+          <a>
+            <span class="fa fa-fw fa-sort"></span>
+          </a>
+        </th>
+        <th class="sorting">
+          <i class=" fa fa-calendar"></i>
+            {{'dateStart' | capitalize}}
+          <a>
+            <span class="fa fa-fw fa-sort"></span>
+          </a>
+        </th>
+        <th class="sorting">
+          <i class="fa fa-calendar"></i>
+            {{'dateFinish' | capitalize}}
+          <a>
+            <span class="fa fa-fw fa-sort"></span>
+          </a>
+        </th>
+        <th>
+          <i class=" fa fa-circle fa-description"></i>
+          {{'text' | capitalize}}
+        </th>
+        <th class="sorting">
+          <i class="fa fa-money"></i>
+          {{ 'price' | capitalize}}
+          <a>
+            <span class="fa fa-fw fa-sort "></span>
+          </a>
+        </th>
+        <th>
+          <i class="fa fa-files-o"></i>
+          {{'attachments' | capitalize}}
+        </th>
+        <th>
+          <i class="fa fa-question-circle"></i>
+          {{'details' | capitalize}}
+        </th>
+      </tr>
     </thead>
     <tbody>
-
-    <tr *ngFor="let contract of resData">
-      <td>{{ contract.provider.name }} <img style="max-height: 30px; max-width: 30px"></td>
-      <td>{{ contract.dateStart }}</td>
-      <td>{{ contract.dateFinish }}</td>
-      <td> {{ contract.text }}</td>
-      <td> {{contract.price  |  currency: contract.priceCurrency: true}}</td>
-      <td>
-        <div class="dropdown">
-          <span class=" dropdown-toggle" id="dropdownDocs">
-            <i class="fa fa-cloud-download"
-                >
-            </i>
-          </span>
-          <div class="dropdown-menu" aria-labelledby="dropdownDocs">
-            <a style="padding: 5px" class="dropdown-item"
-               *ngFor="let doc of contract?.attachments" href="{{doc.path}}" download>
-              {{doc.fileName}}
-              {{doc.path}}
-            </a>
-            <br>
+      <tr *ngFor="let contract of resData">
+        <td>{{ contract.provider.name }}</td>
+        <td>{{ contract.dateStart }}</td>
+        <td>{{ contract.dateFinish }}</td>
+        <td> {{ contract.text }}</td>
+        <td> {{contract.price  |  currency: contract.priceCurrency: true}}</td>
+        <td>
+          <div class="dropdown">
+            <span class=" dropdown-toggle" id="dropdownDocs">
+              <i class="fa fa-cloud-download"></i>
+            </span>
+            <div class="dropdown-menu"
+                 aria-labelledby="dropdownDocs">
+              <a class="dropdown-item"
+                 *ngFor="let doc of contract?.attachments"
+                 href="{{doc.path}}" download>
+                {{doc.fileName}}
+                {{doc.path}}
+              </a>
+              <br>
+            </div>
           </div>
-        </div>
-      </td>
-      <td>
-        <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownContract"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            {{ 'options'}}
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownContract">
-            <li><a style="cursor: pointer" (click)="openEditModal(contract)" class="yellow">{{
-              'edit'}}</a></li>
-            <li><a style="cursor: pointer" (click)="openDelModal(contract.contractId)"
-                   class="red"> {{ 'delete'}}</a></li>
-          </ul>
-        </div>
-      </td>
-    </tr>
+        </td>
+        <td>
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle"
+                    type="button"
+                    id="dropdownContract"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="true">
+              {{ 'options'}}
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu"
+                aria-labelledby="dropdownContract">
+              <li>
+                <a (click)="openEditModal(contract)"
+                   class="yellow"> {{'edit'}}
+                </a>
+              </li>
+              <li>
+                <a (click)="openDelModal(contract.contractId)"
+                   class="red"> {{ 'delete'}}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
     </tbody>
   </table>
-  <div class="create">
-    <button type="button" class="btn btn-success" (click)="openCreateModal()">
+  <div class="contracts_create">
+    <button type="button"
+            class="btn btn-success btn-foot"
+            (click)="openCreateModal()">
       {{ 'create' | capitalize }}
     </button>
   </div>
-  <div >&nbsp;</div>
+  <div></div>
+</div>
+
+<div bsModal
+     #delModal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="mySmallModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button"
+                class="close"
+                aria-label="Close"
+                (click)="delModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">{{ 'removing'  | capitalize }}</h4>
+      </div>
+      <div class="modal-body">
+        <h5>{{ 'confirmDelete'  | capitalize }}</h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-default"
+                (click)="delModal.hide()">
+          {{ 'no' | capitalize }}
+        </button>
+        <button type="button"
+                class="btn btn-primary"
+                (click)="closeDelModal()">
+          {{ 'yes' | capitalize }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal
+     #editModal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="mySmallModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button"
+                class="close"
+                aria-label="Close"
+                (click)="editModal.hide()">
+        </button>
+        <h4 class="modal-title"> {{ 'edit' | capitalize }}</h4>
+      </div>
+      <form  (ngSubmit)="onEditContractSubmit()"
+             #contractForm="ngForm">
+        <div class="modal-body">
+          <div >
+            <div class="form-group">
+              <label for="dateStart"> {{ 'dateStart'  | capitalize }}</label>
+              <input type="date"
+                     class="form-control"
+                     id="dateStart"
+                     required
+                     (keyup)="clearDateValid()"
+                     name="dateStart">
+            </div>
+            <div class="form-group">
+              <label for="dateFinish"> {{ 'dateFinish'  | capitalize }}</label>
+              <input type="date"
+                     class="form-control"
+                     id="dateFinish"
+                     required
+                     (keyup)="clearDateValid()"
+                     name="description">
+            </div>
+            <div class="form-group">
+              <label for="price"> {{ 'price'  | capitalize }}</label>
+              <input type="number"
+                     id="price"
+                     class="form-control"
+                     required
+                     name="price">
+            </div>
+            <div class="form-group">
+              <label for="text"> {{ 'text'  | capitalize }}</label>
+              <textarea class="form-control"
+                        id="text"
+                        name="text">
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-default" >
+            {{ 'save' | capitalize }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div bsModal
+     #createModal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="mySmallModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button"
+                class="close"
+                aria-label="Close"
+                (click)="createModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title"> {{ 'create'  | capitalize }}
+        </h4>
+      </div>
+      <form  (ngSubmit)="onCreateContractSubmit()"
+             #contractForm="ngForm">
+        <div class="modal-body">
+          <div>
+            <div class="form-group">
+              <label for="datestarts">
+                {{ 'dateStart' | capitalize }}
+              </label>
+              <input type="date"
+                     class="form-control"
+                     id="datestarts"
+                     required (keyup)="clearDateValid()"
+                     name="date">
+            </div>
+            <div class="form-group">
+              <span>
+                {{ 'dateFinish' | capitalize }}
+              </span>
+              <input type="date"
+                     class="form-control"
+                     required
+                     (keyup)="clearDateValid()"
+                     name="dateFinish" >
+            </div>
+            <div class="form-group">
+              <span>{{ 'price' | capitalize }}
+            </span>
+              <input type="number"
+                     class="form-control"
+                     required
+                     name="price"/>
+            </div>
+            <div class="form-group">
+              <label>{{ 'text'  | capitalize }}</label>
+              <textarea class="form-control"
+                        name="text">
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit"
+                  class="btn btn-default" >
+            {{ 'save' | capitalize }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

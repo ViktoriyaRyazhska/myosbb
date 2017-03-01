@@ -1,0 +1,28 @@
+<div class="content">
+    <br>
+    <br>
+    <div class="panel-body">
+        <div class="col-md-6">
+            <div class="text-center">
+                <h3><b>Подія</b></h3>
+                <img src="assets/img/event.png" alt="my_event" width="300" height="300">
+            </div>
+        </div>
+        <ul *ngFor="let event of eventsDetail">
+            <li><b>Назва: {{event.title}}</b></li>
+            <br>
+            <li><b>Автор: {{event.author.firstName + " " + event.author.lastName}}</b></li>
+            <br>
+            <li><b>Статус: {{event.status}}</b></li>
+            <br>
+            <li><b>Початок: {{event.start | date: 'dd/MM/yyyy'}}</b></li>
+            <br>
+            <li><b>Кінець: {{event.end | date: 'dd/MM/yyyy'}}</b></li>
+            <br>
+            <li><b>Повтор: {{event.repeat}}</b></li>
+            <br>
+            <li><b>Дод.інформація: {{event.description}}</b></li>
+            <br>
+        </ul>
+    </div>
+</div>

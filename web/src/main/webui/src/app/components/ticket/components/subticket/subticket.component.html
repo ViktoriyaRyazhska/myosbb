@@ -1,0 +1,168 @@
+<div class="page-content container-fluid " >
+
+<breadcrumb [header]="title"></breadcrumb>
+  <div class="sub-ticket">
+  <div class="row">
+    <div class="col-md-1">
+      <button class="btn btn-default btn-md"
+         [routerLink]="['../']">
+          {{'back' | capitalize }}
+      </button>
+    </div>
+    <div class="container-fluid">
+      <div class="pull-right">
+        {{ticket?.time | date: 'fullDate'}}
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <span class="sub-ticket_header-text">
+      {{ticket?.name}}
+    </span>
+    <span *ngIf=" ticket?.state == 'NEW' "
+          class="sub-ticket_label label-text btn-round label-info sub-ticket_label-status">
+      {{ 'new'}}
+    </span>
+     <span *ngIf=" ticket?.state == '1' || ticket?.state == 'IN_PROGRESS'"
+          class="sub-ticket_label btn-round label-success btn-md sub-ticket_label-status">
+        {{'in_progress'}}
+     </span>
+      <span *ngIf=" ticket?.state == '2' || ticket?.state == 'DONE'"
+            class="sub-ticket_label btn-round label-danger btn-md sub-ticket_label-status">
+        {{'done'}}
+      </span>
+      <div class="btn-group ">
+        <button type="button"
+                class="btn-default btn btn-theme dropdown-toggle"
+                data-toggle="dropdown">
+          {{'changeStatus'}}
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu"
+            role="menu">
+          <li>
+            <a (click)="editState('IN_PROGRESS')">{{ 'in_progress' }}</a>
+          </li>
+          <li>
+            <a (click)="editState('DONE')">{{ 'done'  }}</a>
+          </li>
+        </ul>
+      </div>
+    <div class="pull-right create-date ticket-edit-btn">
+      {{'author:' | capitalize}}
+      <a class="sub-ticket_creator-name" href="">
+        {{ticket?.user.firstName | capitalize}}
+        {{ticket?.user.lastName | capitalize}}
+      </a>
+    </div>
+  </div>
+  <section class="sub-ticket_content">
+    <div>
+      <p>{{'description'}}:</p>
+      <p>{{ticket?.description}}</p>
+    </div>
+    <br>
+    <p>
+      {{'deadline'}}:
+      <span *ngIf="ticket?.deadline!=null">
+        {{ticket?.deadline | date: 'fullDate'}}
+      </span>
+      <span *ngIf="ticket?.deadline==null">
+        {{'notset'}}
+      </span>
+    </p>
+    <div>
+      <p *ngIf="ticket?.discussed == null">{{'discussed:' | capitalize}} {{'No'}}</p>
+      <div class="ticket-status-display">{{'statusUpdateslast' | capitalize}}:
+        {{ticket?.stateTime | date:'fullDate' }}
+        <button class="btn btn-success pull-right"
+                (click)="editDiscussedForm.initUpdatedTicket(ticket);">
+          {{'choosedate'}}
+        </button>
+      </div>
+      <div class="ticket-status-display"
+           *ngIf="ticket?.discussed != null">
+        {{'isDiscussed'}}
+        {{ticket?.discussed | date: 'fullDate'}}
+        <button class="btn btn-success pull-right"
+                (click) =" editDiscussedForm.initUpdatedTicket(ticket);">
+          {{'choosedate'}}
+        </button>
+      </div>
+    </div>
+  </section>
+  <div class="dropdown pull-right ticket-edit-btn">
+    <button class="btn btn-default dropdown-toggle"
+            type="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="true" >
+      {{'optionsTicket'}}
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu"
+        aria-labelledby="dropdownMenu1">
+      <li>
+        <a (click)="editForm.initUpdatedTicket(ticket);editForm.openEditModal()">
+          {{'editTicket'}}
+        </a>
+      </li>
+      <li>
+        <a (click)="delForm.openDelModal(ticket)">
+          {{'deleteTicket'}}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="pull-right ticket-edit-btn">
+    <button class="btn btn-info sub-ticket_btn-left"
+            (click)="voteVar.openModalWindow()">
+      {{'addVoting'}}
+    </button>
+  </div>
+      <div class="sub-ticket_comments-area">
+        <div class="sub-ticket_comments">{{'comment'}}:</div>
+        <textarea class="area comm form-control"
+                  type="text"
+                  name="message"
+                  value={{messText}}
+                  #message>
+        </textarea>
+        <button class="btn btn-info pull-right ticket-edit-btn"
+                (click)="createMessage(message.value); message.value='' ">
+          {{'send'}}
+        </button>
+      </div>
+      <button class="btn btn-default sub-ticket_show-comments"
+              (click)="getComments()">
+        {{'Show Comments'}}
+      </button>
+    </div>
+
+    <div  class="modal fade"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="mySmallModalLabel"
+          aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="galleryPrev" (click)="prev()"></div>
+        <div class="galleryNext" (click)="next()"></div>
+        <button type="button"
+                class="close"
+                (click)="closeGallery()"
+                aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <img src="{{currentAttachment?.url}}"
+             (click)="next()"
+             alt="{{currentAttachment?.fileName}}"
+             height="100%"
+             width="100%">
+      </div>
+    </div>
+</div>
+<ticket-edit-form #editForm></ticket-edit-form>
+<ticket-del-form #delForm></ticket-del-form>
+<ticket-editdiscussed-form  #editDiscussedForm></ticket-editdiscussed-form>
+

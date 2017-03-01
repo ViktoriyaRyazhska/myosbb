@@ -1,0 +1,81 @@
+.profile{
+    margin-left: 210px;
+    width: 100%;
+    height:100%;
+    position:fixed;
+    top: 60px;
+    background-color:#f2f2f2;
+    overflow-y:hidden;
+    text-align: center;
+    padding: 20px;
+}
+.top-label{
+    margin:5px;
+    text-align:left;
+    font-weight: bold;
+    color: #00838F;
+}
+.image{
+    pading-bottom:29px;
+}
+.images{
+    height:20.5%;
+}
+.panel{
+    padding: 20px 10px 20px 10px;
+}
+.btn{
+    margin-top: 10px;
+}
+.left{
+    height:75%;
+}
+.right{
+    height:75%;
+    margin-left: 5px;
+}
+.right label{
+    margin-top: 20px;
+    text-align: left;
+    color: #00838F;
+    font-weight: bold;
+}
+.right-user-data{
+    height:70%;
+    padding-bottom: 30px;
+}
+.right-user-data span{
+    font-size: 16px;
+    margin-top: 20px;
+    text-align: left;
+}
+.right-user-panel{
+    height: 26%;
+}
+.profile-text{
+    color: #607D8B;
+}
+.modal-header{
+    background-color: #80D8FF;
+    color: white;
+}
+.modal-body label{
+    color: #00838F;
+    margin-top: 10px;
+    font-weight: bold;
+}
+.modal-body input {
+    color: #607D8B;
+    font-size: 14px;
+    font-weight: bold;
+    
+}
+.modal-body select {
+    color: #607D8B;
+    font-size: 14px;
+    font-weight: bold;
+    
+}
+.profile-data{
+    padding: 20px;
+}

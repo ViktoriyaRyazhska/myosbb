@@ -1,52 +1,57 @@
-<div class="content container-fluid ticket" >
-  <breadcrumb [header]="title"></breadcrumb>
+<div class="page-content ticket" >
+  <div class="container-fluid">
+    <breadcrumb [header]="title"></breadcrumb>
+    <button class="btn btn-success"
+            (click)="addForm.openAddModal()">
+      {{'create_ticket' | capitalize}}
+    </button>
+    <ticket-add-form #addForm></ticket-add-form>
 
-  <div class="col-md-2 pull-right search-box">
-    <input type="search"
-           (keyup)="findTicketByName(findName.value)"
-           #findName
-           class="form-control input-sm"
-           placeholder="find..."
-           aria-controls="example">
+    <div class="col-md-2 pull-right ticket_search-box">
+      <input type="search"
+             (keyup)="findTicketByName(findName.value)"
+             #findName
+             class="form-control input-sm"
+             placeholder="find..."
+             aria-controls="example">
+    </div>
   </div>
-
-  <table class="table
-                table-hover"
-         style="table-layout: fixed;">
+  <br>
+  <table class="table table-hover">
     <thead>
       <tr>
         <th class="table-size-large">
           <i class="fa fa-bullhorn"></i>
             {{'nameTicket' | capitalize}}
-          <a (click)="sortBy('name')">
+          <a (click)="('name')">
             <span class="fa fa-fw fa-sort"></span>
           </a>
         </th>
         <th class="table-size-medium">
           <i class=" fa fa-edit"></i>
           {{'authorTicket' | capitalize}}
-          <a (click)="sortBy('user')">
+          <a (click)="('user')">
             <span class="fa fa-fw fa-sort"></span>
           </a>
         </th>
         <th class="table-size-big">
           <i class=" fa fa-edit"></i>
             {{'dateTicket' | capitalize}}
-          <a (click)="sortBy('time')">
+          <a (click)="('time')">
             <span class="fa fa-fw fa-sort"></span>
           </a>
         </th>
         <th class="table-size-medium">
           <i class=" fa fa-edit"></i>
             {{'answer' | capitalize}}
-          <a (click)="sortBy('assigned')">
+          <a (click)="('assigned')">
             <span class="fa fa-fw fa-sort"></span>
           </a>
         </th>
         <th class="table-size-small">
           <i class=" fa fa-edit"></i>
             {{'state' | capitalize}}
-          <a (click)="sortBy('state')">
+          <a (click)="('state')">
             <span class="fa fa-fw fa-sort"></span>
           </a>
         </th>
@@ -59,7 +64,8 @@
     <tbody>
       <tr *ngFor="let item of resData">
         <td>
-          <a (click)="subTicketNavigation(item.ticketId)">
+          <a class="ticket_first-row-data"
+             (click)="subTicketNavigation(item.ticketId)">
             {{item.name | capitalize}}
           </a>
         </td>
@@ -98,34 +104,33 @@
       </tr>
     </tbody>
   </table>
-
-  <div class="row">
+  <div class="container-fluid">
+  <div class="row ticket_footer-btn-group">
     <div class="col-sm-2
-                span-group"
-         style="white-space: nowrap">
+                ticket_span-group">
       <span class="label
                    btn-round
                    label-danger
-                   span-btn-group"
+                   ticket_span-btn-group"
             (click)="findTicketByState('DONE')">{{'done' | capitalize}}</span>
       <span class="label
                    btn-round
                    label-success
-                   span-btn-group"
+                   ticket_span-btn-group"
             (click)="findTicketByState('IN_PROGRESS')">{{ 'in Progress' | capitalize}}</span>
       <span class="label
                    btn-round
                    label-info
-                   span-btn-group"
+                   ticket_span-btn-group"
             (click)="findTicketByState('NEW')">{{'new' | capitalize}}</span>
     </div>
     <div class="btn-group
                 pull-right
-                btn-find-group"
+                ticket_btn-find-group"
          role="group"
          aria-label="...">
       <button type="button"
-              (click)="getTicketsByPageNum(1,10)"
+              (click)="getTicketsByPageNum()"
               class="btn btn-default">
         All
       </button>
@@ -141,7 +146,8 @@
       </button>
     </div>
   </div>
-  <div>&nbsp;</div>
+  </div>
 </div>
 
-`
+
+
