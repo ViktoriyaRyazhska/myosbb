@@ -64,7 +64,8 @@ import { OsbbBillsComponent }          from './components/osbbBils';
 import { ContractsComponent }          from  './components/contracts';
 import { TicketComponent }             from './components/ticket';
 import { ProviderComponent }           from './components/provider';
-import { ApartmentComponent }          from './components/apartment';
+import { ApartmentComponent }          from './components/apartments';
+import { ApartmentAboutComponent }     from './components/apartment';
 import { CalendarComponent }           from './components/calendar';
 import { BreadcrumbComponent }         from './components/breadcrumb';
 import { SidebarComponent }            from './shared/sidebar';
@@ -125,6 +126,7 @@ type StoreType = {
     EventsComponent,
     EventsDetailComponent,
     ApartmentComponent,
+    ApartmentAboutComponent,
     BreadcrumbComponent,
     CalendarComponent,
     ProviderComponent,
