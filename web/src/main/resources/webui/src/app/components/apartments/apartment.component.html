@@ -1,0 +1,142 @@
+<div class="content" >
+  <breadcrumb [header]="title"></breadcrumb>
+    <div class="pull-right">
+   <button type="button"
+            class="btn btn-success btn-foot"
+            (click)="openCreateModal()">
+          {{'Create Apartment'| capitalize}}
+    </button>
+      
+  
+  </div>
+  <section>
+        <table class="table">
+          <tr>
+            <th>Street</th>
+            <th>City</th>
+            <th>Number</th>
+            <th>Square</th>
+            <th>Options</th>
+            <!--<th>Osbb</th>
+            <th>Home page</th>
+            <th>Add. info</th></tr>-->
+          <tr *ngFor="let item of resData">
+            <td>{{item.house.street.name}}</td>
+            <td>{{item.house.street.city.name}}</td>
+            <td>{{item.number}}</td>
+            <td>{{item.square}}</td>
+            <td><ul>
+              <li>Edit</li>
+              <li>Delete</li>
+              </ul></td>
+            <!--<td>{{item.osbbName}}</td>
+            <td><input type="button" class="btn" value="Go to"(click)="onNavigate(item.houseId)"></td>
+            <td>{{item.description}}</td>-->
+          </tr>
+        </table>
+  </section>
+
+</div>
+
+<div bsModal
+     #createModal="bs-modal"
+     class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="mySmallModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button"
+                class="close"
+                aria-label="Close"
+                (click)="createModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title"> {{ 'create'  | capitalize }}
+        </h4>
+      </div>
+      <form  (ngSubmit)="onCreateContractSubmit()"
+             #contractForm="ngForm">
+        <div class="modal-body">
+          <div>
+            <div class="form-group">
+              <label for="appart_num">
+                {{ 'Apartment number' | capitalize }}
+              </label>
+              <input type="number"
+                     class="form-control"
+                     id="appart_num"
+                     required 
+                     name="appart_num">
+            </div>
+            <div class="form-group">
+              <label for="square">
+                {{ 'Apartment square' | capitalize }}
+              </label>
+              <input type="number"
+                     class="form-control"
+                     id="square"
+                     required 
+                     name="square">
+            </div>
+               <div class="form-group">
+              <label for="firstname">
+                {{ 'User firstname' | capitalize }}
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="firstname"
+                     required 
+                     name="firstname">
+            </div>
+             
+               <div class="form-group">
+              <label for="lastname">
+                {{ 'User lastname' | capitalize }}
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="lastname"
+                     required 
+                     name="lastname">
+            </div>
+
+            <div class="form-group">
+              <label for="email">
+                {{ 'User email' | capitalize }}
+              </label>
+              <input type="email"
+                     class="form-control"
+                     id="email"
+                     required 
+                     name="email">
+            </div>
+             <div class="form-group">
+              <label for="phone">
+                {{ 'User phone' | capitalize }}
+              </label>
+              <input type="text"
+                     class="form-control"
+                     id="phone"
+                     required 
+                     name="phone">
+            </div>
+
+
+
+
+            
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit"
+                  class="btn btn-default" >
+            {{ 'save' | capitalize }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
