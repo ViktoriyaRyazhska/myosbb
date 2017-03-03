@@ -27,6 +27,7 @@ public class House implements Serializable {
     private Osbb osbb;
     private Collection<User> users;
     private Collection<Apartment> apartments;
+    private Collection<Utility> utilities;
 
     public House() {
         //default
@@ -120,7 +121,17 @@ public class House implements Serializable {
 		this.users = users;
 	}
 
-	@Override
+	@JsonIgnore
+    @ManyToMany(mappedBy = "houses")
+    public Collection<Utility> getUtilities() {
+        return utilities;
+    }
+
+    public void setUtilities(Collection<Utility> utilities) {
+        this.utilities = utilities;
+    }
+
+    @Override
 	public String toString() {
 		return "House [houseId=" + houseId + ", numberHouse=" + numberHouse + ", zipCode=" + zipCode + ", description="
 				+ description + ", street=" + street + ", osbb=" + osbb + "]";

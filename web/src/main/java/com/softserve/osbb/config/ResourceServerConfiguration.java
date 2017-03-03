@@ -61,6 +61,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .antMatchers("/registration/osbb").permitAll()
                 .antMatchers("/validEmail").permitAll()
                 .antMatchers("/restful/mail").permitAll()
+                .antMatchers("/restful//utility**").permitAll()
                 .antMatchers("/forgotEmail").permitAll()
                 .antMatchers("/restful/creator/osbb/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/restful/user/**").permitAll()
