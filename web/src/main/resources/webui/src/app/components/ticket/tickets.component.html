@@ -3,7 +3,7 @@
     <breadcrumb [header]="title"></breadcrumb>
     <button class="btn btn-success"
             (click)="addForm.openAddModal()">
-      {{'create_ticket' | capitalize}}
+      {{'create_ticket' | translate | myCapitalize}}
     </button>
     <ticket-add-form #addForm></ticket-add-form>
 
@@ -22,42 +22,42 @@
       <tr>
         <th class="table-size-large">
           <i class="fa fa-bullhorn"></i>
-            {{'nameTicket' | capitalize}}
+            {{'nameTicket' | translate}}
           <a (click)="('name')">
             <span class="fa fa-fw fa-sort"></span>
           </a>
         </th>
         <th class="table-size-medium">
           <i class=" fa fa-edit"></i>
-          {{'authorTicket' | capitalize}}
+          {{'authorTicket' | translate}}
           <a (click)="('user')">
             <span class="fa fa-fw fa-sort"></span>
           </a>
         </th>
         <th class="table-size-big">
           <i class=" fa fa-edit"></i>
-            {{'dateTicket' | capitalize}}
+            {{'dateTicket' | translate}}
           <a (click)="('time')">
             <span class="fa fa-fw fa-sort"></span>
           </a>
         </th>
         <th class="table-size-medium">
           <i class=" fa fa-edit"></i>
-            {{'answer' | capitalize}}
+            {{'answer' | translate}}
           <a (click)="('assigned')">
             <span class="fa fa-fw fa-sort"></span>
           </a>
         </th>
         <th class="table-size-small">
           <i class=" fa fa-edit"></i>
-            {{'state' | capitalize}}
+            {{'state' | translate}}
           <a (click)="('state')">
             <span class="fa fa-fw fa-sort"></span>
           </a>
         </th>
         <th class="table-size-small">
           <i class=" fa fa-edit"></i>
-            {{'discussed' | capitalize}}
+            {{'discussed' | translate}}
         </th>
       </tr>
       </thead>
@@ -66,39 +66,39 @@
         <td>
           <a class="ticket_first-row-data"
              (click)="subTicketNavigation(item.ticketId)">
-            {{item.name | capitalize}}
+            {{item.name | translate}}
           </a>
         </td>
         <td class="table-text-align" >
-          {{item.user.firstName | capitalize}}
-          {{item.user.lastName | capitalize}}
+          {{item.user.firstName | translate}}
+          {{item.user.lastName | translate}}
         </td>
         <td class="table-text-align" >
           {{item.time | date:'mediumDate'}}
         </td>
         <td class="table-text-align" >
-          {{item.assigned.firstName | capitalize}}
-          {{item.assigned.lastName | capitalize}}
+          {{item.assigned.firstName | translate}}
+          {{item.assigned.lastName | translate}}
         </td>
         <td class="table-text-align" >
           <div *ngIf=" item.state == 'NEW' || item.state == '0'">
             <span class="label btn-round label-info "
-                  list="assign">{{ 'New' }}
+                  list="assign">{{ 'New' | translate}}
             </span>
           </div>
           <div *ngIf=" item.state == '1' || item.state == 'IN_PROGRESS'">
-            <span class="label btn-round label-success">{{ 'In Progress' }}</span>
+            <span class="label btn-round label-success">{{ 'In Progress' | translate }}</span>
           </div>
           <div *ngIf=" item.state == '2' || item.state == 'DONE'">
-            <span class="label btn-round label-danger">{{ 'Done' }}</span>
+            <span class="label btn-round label-danger">{{ 'Done' | translate}}</span>
           </div>
         </td>
         <td class="table-text-align">
           <div *ngIf="item.discussed == null">
-            {{ 'no' | capitalize}}
+            {{ 'no' | translate}}
           </div>
           <div *ngIf="item.discussed != null">
-            {{ 'yes' | capitalize}}
+            {{ 'yes' | translate}}
           </div>
         </td>
       </tr>
@@ -112,17 +112,17 @@
                    btn-round
                    label-danger
                    ticket_span-btn-group"
-            (click)="findTicketByState('DONE')">{{'done' | capitalize}}</span>
+            (click)="findTicketByState('DONE')">{{'done' | translate}}</span>
       <span class="label
                    btn-round
                    label-success
                    ticket_span-btn-group"
-            (click)="findTicketByState('IN_PROGRESS')">{{ 'in Progress' | capitalize}}</span>
+            (click)="findTicketByState('IN_PROGRESS')">{{ 'in_progress' | translate}}</span>
       <span class="label
                    btn-round
                    label-info
                    ticket_span-btn-group"
-            (click)="findTicketByState('NEW')">{{'new' | capitalize}}</span>
+            (click)="findTicketByState('NEW')">{{'new' | translate}}</span>
     </div>
     <div class="btn-group
                 pull-right
@@ -132,17 +132,17 @@
       <button type="button"
               (click)="getTicketsByPageNum()"
               class="btn btn-default">
-        All
+        All | translate
       </button>
       <button type="button"
               (click)="findMyTickets()"
               class="btn btn-default">
-        Tickets
+        Tickets | translate
       </button>
       <button type="button"
               (click)="findMyAssigned()"
               class="btn btn-default">
-        Assign
+        Assign | translate
       </button>
     </div>
   </div>
