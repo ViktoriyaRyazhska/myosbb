@@ -63,6 +63,7 @@ import { EventsComponent }             from './components/events';
 import { OsbbBillsComponent }          from './components/osbbBils';
 import { ContractsComponent }          from  './components/contracts';
 import { TicketComponent }             from './components/ticket';
+import { ChatComponent }             from './components/chat';
 import { ProviderComponent }           from './components/provider';
 import { ApartmentComponent }          from './components/apartment';
 import { CalendarComponent }           from './components/calendar';
@@ -134,6 +135,7 @@ type StoreType = {
     SidebarComponent,
     HouseAboutComponent,
     SubTicketComponent,
+    ChatComponent,
     UserComponent,
     UsersComponent,
     SetLanguageComponent,
