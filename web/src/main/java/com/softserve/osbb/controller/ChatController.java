@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Controller
 public class ChatController {
 	
-	@MessageMapping("/hello")
+	@MessageMapping("/chat")
     @SendTo("/topic/greetings")
     public Greeting greeting(ChatMessage message) throws Exception {
         Thread.sleep(1000); // simulated delay    
