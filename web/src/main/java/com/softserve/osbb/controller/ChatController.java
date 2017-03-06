@@ -9,6 +9,7 @@ import com.softserve.osbb.model.Message;
 
 import java.sql.Timestamp;
 
+
 @Controller
 public class ChatController {
 	

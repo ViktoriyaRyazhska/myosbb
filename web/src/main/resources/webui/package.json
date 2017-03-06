@@ -104,6 +104,9 @@
     "rxjs": "5.0.2",
     "save-as": "^0.1.8",
     "text-mask-addons": "^3.2.0",
+    "es6-shim": "0.35.1",
+    "stompjs": "^2.3.3",
+    "systemjs": "0.19.26",
     "zone.js": "0.7.6"
   },
   "devDependencies": {
