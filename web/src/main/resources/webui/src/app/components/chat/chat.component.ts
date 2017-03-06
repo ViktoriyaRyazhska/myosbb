@@ -4,7 +4,7 @@ import { StompService } from './stomp.service';
 @Component({
     selector: 'chat',
     templateUrl: 'chat.component.html',
-    styleUrls: ['../../../assets/css/manager.page.layout.scss'],
+    styleUrls: ['../../../assets/css/manager.page.layout.scss', './chat.component.css'],
     providers: [StompService]
 })
 
