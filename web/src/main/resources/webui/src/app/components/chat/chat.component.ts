@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StompService } from './stomp.service';
+import { API_URL } from '../../../shared/models/localhost.config';
 
 @Component({
     selector: 'chat',
@@ -22,6 +23,7 @@ export class ChatComponent implements OnInit {
 
   public send(): void {
     this._stompService.send(this.inputField);
+    this.inputField='';
   }
 
 

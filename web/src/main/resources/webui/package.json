@@ -85,6 +85,7 @@
     "angular2-toaster": "^2.0.0",
     "bootstrap-sass": "^3.3.7",
     "core-js": "^2.4.1",
+    "es6-shim": "0.35.1",
     "font-awesome": "^4.7.0",
     "http-server": "^0.9.0",
     "i": "^0.3.5",
@@ -103,10 +104,10 @@
     "reflect-metadata": "^0.1.9",
     "rxjs": "5.0.2",
     "save-as": "^0.1.8",
-    "text-mask-addons": "^3.2.0",
-    "es6-shim": "0.35.1",
-    "stompjs": "^2.3.3",
+    "stompjs": "2.3.3",
     "systemjs": "0.19.26",
+    "text-mask-addons": "^3.2.0",
+    "ts-helpers": "^1.1.1",
     "zone.js": "0.7.6"
   },
   "devDependencies": {
@@ -180,7 +181,7 @@
     "type": "git",
     "url": "https://github.com/angularclass/angular2-webpack-starter.git"
   },
-  "bugs": {
+ "bugs": {
     "url": "https://github.com/angularclass/angular2-webpack-starter/issues"
   },
   "engines": {
