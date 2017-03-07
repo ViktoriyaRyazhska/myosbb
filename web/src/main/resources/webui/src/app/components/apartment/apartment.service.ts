@@ -6,12 +6,13 @@ import {
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { LoginService } from '../../shared/login/login.service';
+ import { LoginService } from '../../shared/login/login.service';
 import { API_URL } from '../../../shared/models/localhost.config';
-
+// import { LoginConstants } from '../shared/login/login.constants';
 @Injectable()
 
 export class ApartmentService {
+ 
     public apartmentId: number;
     constructor(private http: Http, public LoginService: LoginService) {}
     public getApartment(apartmentId: number): Observable < any > {
@@ -20,4 +21,6 @@ export class ApartmentService {
             .map((res: Response) => res.json())
             .catch((error) => Observable.throw(error));
     }
+
+   
 }
