@@ -46,7 +46,7 @@ export class ApartmentComponent implements OnInit {
   constructor(
     public http: Http,
     public apartment: ApartmentService,
-    public LoginService: LoginService,
+    public loginService: LoginService,
     private toasterService: ToasterService,
     private router: Router
   ) { }
@@ -59,6 +59,17 @@ export class ApartmentComponent implements OnInit {
     this.router.navigate(['manager/apartment', id]);
   }
 
+ public onSubmitUserApartment(){
+  this.apartment.registerApartmentWithUser(this.userApartment, this.house.houseId)
+  .subscribe(
+        (data) => {
+          this.toasterService.pop('success', '', 'Користувача і квартиру було успішно зареєстроване!');
+        },
+        (error) => {
+          this.handleErrors(error);
+        });  
+}
+
    public  onChangeHouse(newObj) {
     this.house = newObj;
     this.houseNumber = this.house.houseId;
@@ -69,10 +80,10 @@ export class ApartmentComponent implements OnInit {
     this.apartment.getApartmentData().subscribe((data) => {
       this.resData = data;
     });
-    this.LoginService.setRole();
-    this.authRole = this.LoginService.getRole();
+    this.loginService.setRole();
+    this.authRole = this.loginService.getRole();
+    console.log(this.authRole);
     this.ListAllHouses();
-    this.house = this.houseList[1];
   }
 
   public openCreateModal() {
