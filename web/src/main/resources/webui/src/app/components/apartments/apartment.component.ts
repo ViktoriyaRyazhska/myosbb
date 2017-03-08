@@ -17,6 +17,7 @@ import { UserApartment } from '../../models/userWithApartment.model';
 import { ToasterService } from 'angular2-toaster';
 import { ModalDirective } from 'ng2-bootstrap/modal';
 import { House } from '../../models/house.model';
+import { User } from '../../models/user.model';
 import { RegistrationConstants } from '../../registration/registration.constant';
 import * as _ from 'lodash';
 
@@ -24,7 +25,7 @@ import * as _ from 'lodash';
   selector: 'apartments',
   templateUrl: 'apartment.component.html',
   styleUrls: ['../../../assets/css/manager.page.layout.scss', './apartment.scss'],
-  providers: [ApartmentService, LoginService]
+  providers: [ApartmentService]
 })
 
 export class ApartmentComponent implements OnInit {
@@ -34,6 +35,7 @@ export class ApartmentComponent implements OnInit {
   public title: string = `Apartments`;
   public resData: any;
   private admin: boolean;
+  private currentUser: User;
   private authRole: string;
   public userApartment: UserApartment = new UserApartment();
   public phoneMask = RegistrationConstants.Masks.phoneMask;
@@ -48,17 +50,11 @@ export class ApartmentComponent implements OnInit {
     public apartment: ApartmentService,
     public loginService: LoginService,
     private toasterService: ToasterService,
-    private router: Router
-  ) { }
-
-  public onNavigate(id: number) {
-    if (this.authRole === 'ROLE_ADMIN') {
-      this.router.navigate(['admin/apartment', id]);
-      return;
-    }
-    this.router.navigate(['manager/apartment', id]);
+  ) { 
+    this.currentUser = loginService.getUser();
   }
 
+ 
  public onSubmitUserApartment(){
   this.apartment.registerApartmentWithUser(this.userApartment, this.house.houseId)
   .subscribe(
@@ -77,14 +73,33 @@ export class ApartmentComponent implements OnInit {
   }
 
   public ngOnInit() {
+      // this.getCurrentUser();
     this.apartment.getApartmentData().subscribe((data) => {
       this.resData = data;
     });
-    this.loginService.setRole();
-    this.authRole = this.loginService.getRole();
-    console.log(this.authRole);
-    this.ListAllHouses();
+     this.ListHouses();
+
   }
+
+  public ListHouses(){
+    
+    console.log(this.loginService.currentUser);
+     console.log(this.loginService.getRole());
+     console.log(this.currentUser);
+
+      switch (this.loginService.getRole()) {
+      case 'ROLE_ADMIN':
+       this.ListAllHouses();
+        break;
+       case 'ROLE_MANAGER':
+        this.listManagerHouses(this.currentUser.osbbId);
+         break;
+      default :
+        console.log(this.loginService.getRole());
+         break;
+     }
+  }
+  
 
   public openCreateModal() {
     this.createModal.show();
@@ -92,6 +107,16 @@ export class ApartmentComponent implements OnInit {
 
   public ListAllHouses() {
     this.apartment.getAllHouses()
+      .subscribe((data) => {
+        this.houseList = data;
+      },
+      (error) => {
+        this.handleErrors(error);
+      });
+  }
+
+  public listManagerHouses(osbbId: number){
+      this.apartment.getAllHousesByOsbb(osbbId)
       .subscribe((data) => {
         this.houseList = data;
       },
@@ -109,6 +134,12 @@ export class ApartmentComponent implements OnInit {
 
   public selectedHouse(value: any) {
     this.houseNumber = value.text;
+  }
+
+  public getCurrentUser(){
+    this.apartment.getUser().subscribe((response) => {
+      this.currentUser = response;
+    });
   }
 
   public handleErrors(error) {
