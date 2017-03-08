@@ -5,16 +5,18 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { API_URL } from '../../../shared/models/localhost.config';
+import { LoginService } from '../../shared/login/login.service';
 import { LoginConstants } from '../../shared/login/login.constants';
 import { UserApartment } from '../../models/userWithApartment.model';
 
 @Injectable()
 
 export class ApartmentService {
+     public num: number = Number(localStorage.getItem('user'));
     public _pathUrlForUserWithApartment = LoginConstants.Login.serverUrl + '/restful/house/withUser/';
     public houseAllURL: string = LoginConstants.Login.serverUrl + '/restful/house/all';
 
-    constructor(private http: Http) {}
+    constructor(private http: Http,  private login: LoginService) {}
 
     public getApartmentData(): Observable < any > {
         return this.http.get(`${API_URL}/restful/apartment/`)
@@ -28,10 +30,22 @@ export class ApartmentService {
       .catch((error) => Observable.throw(error));
     }
 
+    public getAllHousesByOsbb(osbbId: number): Observable<any> {
+     return this.http.get(this.houseAllURL +'/' + osbbId)
+      .map((response) => response.json())
+      .catch((error) => Observable.throw(error));
+    }
+
     public registerApartmentWithUser(apartmentWithUser: UserApartment, houseId : number): Observable<any> {
     let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
     return this.http.post(this._pathUrlForUserWithApartment + houseId, apartmentWithUser, options)
       .map((res: Response) => res.json())
       .catch((error) => Observable.throw(error));
   }
+
+  public getUser(): Observable<any> {
+    return this.http.get(`${API_URL}/restful/user/${this.num}`, this.login.getRequestOptionArgs())
+      .map((res: Response) => res.json())
+      .catch((error) => Observable.throw(error));
+  };
 }
