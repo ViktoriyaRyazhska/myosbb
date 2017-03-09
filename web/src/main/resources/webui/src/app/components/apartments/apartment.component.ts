@@ -13,25 +13,32 @@ import 'rxjs/add/operator/map';
 import { ApartmentService } from './apartment.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from '../../shared/login/login.service';
+import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
 import { UserApartment } from '../../models/userWithApartment.model';
 import { ToasterService } from 'angular2-toaster';
 import { ModalDirective } from 'ng2-bootstrap/modal';
 import { House } from '../../models/house.model';
+import { TranslateService } from 'ng2-translate';
 import { User } from '../../models/user.model';
 import { RegistrationConstants } from '../../registration/registration.constant';
 import * as _ from 'lodash';
+import { DriveFile } from '../osbb-docs-and-reports/google-drive-service/drive-file.model';
+import { OsbbDocumentsAndReportsConstants } from '../osbb-docs-and-reports/osbb-docs-and-reports.constants';
+import { API_URL } from '../../../shared/models/localhost.config';
 
 @Component({
   selector: 'apartments',
   templateUrl: 'apartment.component.html',
   styleUrls: ['../../../assets/css/manager.page.layout.scss', './apartment.scss'],
-  providers: [ApartmentService]
+  providers: [ApartmentService,OsbbDocumentsAndReportsConstants]
 })
 
 export class ApartmentComponent implements OnInit {
 
   @ViewChild('createModal') public createModal: ModalDirective;
 
+public EMAIL_REGEXP  = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
+ public uploader: FileUploader;
   public title: string = `Apartments`;
   public resData: any;
   private admin: boolean;
@@ -42,6 +49,7 @@ export class ApartmentComponent implements OnInit {
   public houseNumber: number;
   public house: House;
   private houseList: House[] = [];
+  public  files: DriveFile[];
 
   
 
@@ -50,15 +58,28 @@ export class ApartmentComponent implements OnInit {
     public apartment: ApartmentService,
     public loginService: LoginService,
     private toasterService: ToasterService,
+    public translateService: TranslateService,
+    private router: Router,
+    public docsConsts: OsbbDocumentsAndReportsConstants
   ) { 
     this.currentUser = loginService.getUser();
   }
 
+
+ public ngOnInit() {
+     
+      this.getApartments();
+     this.ListHouses();
+    
+
+  }
  
  public onSubmitUserApartment(){
   this.apartment.registerApartmentWithUser(this.userApartment, this.house.houseId)
   .subscribe(
         (data) => {
+          this.getApartments();
+          this.createModal.hide();
           this.toasterService.pop('success', '', 'Користувача і квартиру було успішно зареєстроване!');
         },
         (error) => {
@@ -66,27 +87,22 @@ export class ApartmentComponent implements OnInit {
         });  
 }
 
+ public onNavigate(id: number) {
+        if (this.authRole === 'ROLE_ADMIN') {
+            this.router.navigate(['admin/apartment', id]);
+            return;
+        }
+        this.router.navigate(['manager/apartment', id]);
+    }
+
    public  onChangeHouse(newObj) {
     this.house = newObj;
     this.houseNumber = this.house.houseId;
-    // ... do other stuff here ...
   }
 
-  public ngOnInit() {
-      // this.getCurrentUser();
-    this.apartment.getApartmentData().subscribe((data) => {
-      this.resData = data;
-    });
-     this.ListHouses();
-
-  }
+ 
 
   public ListHouses(){
-    
-    console.log(this.loginService.currentUser);
-     console.log(this.loginService.getRole());
-     console.log(this.currentUser);
-
       switch (this.loginService.getRole()) {
       case 'ROLE_ADMIN':
        this.ListAllHouses();
@@ -99,7 +115,37 @@ export class ApartmentComponent implements OnInit {
          break;
      }
   }
+
+  public getApartments(){
+    switch (this.loginService.getRole()) {
+      case 'ROLE_ADMIN':
+       this.getAllApartments();
+        break;
+       case 'ROLE_MANAGER':
+        this.getApartmentsForManager(this.currentUser.osbbId);
+         break;
+      default :
+        console.log(this.loginService.getRole());
+         break;
+     }
+  }
   
+  /**
+   * getApartmentsForAdmin
+   */
+  public getAllApartments(){
+       this.apartment.getApartmentData().subscribe((data) => {
+      this.resData = data;
+    });
+  }
+  /**
+   * getApartmentsForManager
+   */
+  public getApartmentsForManager(osbbId:number) {
+    this.apartment.getApartmentDataForManager(osbbId).subscribe((data) => {
+      this.resData = data;
+    });
+  }
 
   public openCreateModal() {
     this.createModal.show();
@@ -136,12 +182,7 @@ export class ApartmentComponent implements OnInit {
     this.houseNumber = value.text;
   }
 
-  public getCurrentUser(){
-    this.apartment.getUser().subscribe((response) => {
-      this.currentUser = response;
-    });
-  }
-
+ 
   public handleErrors(error) {
     if (error.status === 403) {
       this.toasterService.pop('error', 'user or house already exist');
@@ -156,4 +197,58 @@ export class ApartmentComponent implements OnInit {
       this.toasterService.pop('error', 'Нажаль, сталася помилка під час реєстрації');
     }
   }
+
+  public clearQueue() {
+    this.uploader.clearQueue();
+  }
+
+   public onUpload() {
+    console.log(this.userApartment.userRegitrationByAdminDTO.email);
+
+    console.log(this.uploader.options.url);
+
+    this.uploader.options.url = API_URL + '/restful/house/upload/' + this.userApartment.userRegitrationByAdminDTO.email,
+    
+     console.log(this.uploader.options.url);
+    
+     this.uploader.queue.forEach( (item) => {
+      
+        item.upload();
+     
+    });
+  }
+
+  public initUploader(email:string){
+      this.uploader = new FileUploader({
+      url: API_URL + '/restful/house/upload/' + email,
+      authToken: 'Bearer ' + localStorage.getItem('access_token'),
+    });
+  }
+
+  public exist(name: string): boolean {
+    let exist = false;
+    this.files.forEach( (file) => {
+      if (file.name.toUpperCase() === name.toUpperCase()) { exist = true; };
+    });
+    return exist;
+  }
+
+  public translate(message: string): string {
+    let translation: string;
+    this.translateService.get(message).subscribe(
+      (data) => translation = data
+    );
+    return translation;
+  }
+
+  isValidMailFormat(){
+        let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
+
+        if (this.userApartment.userRegitrationByAdminDTO.email != "" && (this.userApartment.userRegitrationByAdminDTO.email.length <= 5 || !EMAIL_REGEXP.test(this.userApartment.userRegitrationByAdminDTO.email))) {
+            return false;
+        }
+
+        return true;
+    }
+
 }

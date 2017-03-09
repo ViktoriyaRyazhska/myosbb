@@ -23,12 +23,14 @@
           <td>{{item.house.street.city.name}}</td>
           <td>{{item.number}}</td>
           <td>{{item.square}}</td>
+          <td><input type="button" class="btn" value="Go to"(click)="onNavigate(item.apartmentId)"></td>
+<!--          
           <td>
             <ul>
               <li>Edit</li>
               <li>Delete</li>
             </ul>
-          </td>
+          </td>-->
           <!--<td>{{item.osbbName}}</td>
             <td><input type="button" class="btn" value="Go to"(click)="onNavigate(item.houseId)"></td>
             <td>{{item.description}}</td>-->
@@ -109,6 +111,47 @@
                 <option>RENTER</option>
              </select>
             </div>
+            <!--//-->
+            <div *ngIf="isValidMailFormat()">
+             <div>
+               <input type="file" ng2FileSelect [uploader]="uploader" (click)="initUploader(userApartment.userRegitrationByAdminDTO.email)"/>
+            </div>
+            <div>
+              <table class="table table-font">
+                <thead>
+                  <tr>
+                    <th width="40%">{{ 'name' | translate | myCapitalize }}</th>
+                    <th width="15%">{{ 'size' | translate | myCapitalize }}</th>
+                    <th width="5%">{{ 'status' | translate | myCapitalize }}</th>
+                    <th width="40%">{{ 'actions' | translate | myCapitalize }}</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="uploader">
+                  <tr *ngFor="let item of uploader.queue">
+                    <td width="40%"><strong>{{ item?.file?.name }}</strong></td>
+                    <td *ngIf="uploader.isHTML5" width="15%" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                    <td *ngIf="!uploader.isHTML5" width="15%" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                    <td width="5%" class="text-center">
+                      <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                      <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                      <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                    </td>
+                    <td width="40%" nowrap>
+                      <button type="button" class="btn btn-success btn-xs"
+                              (click)="onUpload()"
+                              [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                        {{ 'upload' | translate | myCapitalize }}
+                      </button>
+                      <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                        {{ 'remove' | translate | myCapitalize }}
+                      </button>
+                      </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+            <!---->
             {{userApartment | json}}
           </div>
         </div>
