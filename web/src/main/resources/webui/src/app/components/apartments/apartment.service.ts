@@ -30,6 +30,12 @@ export class ApartmentService {
             .catch((error) => Observable.throw(error));
     }
 
+    public getApartmentsByHouse(houseId: number): Observable < any > {
+        return this.http.get(`${API_URL}/restful/house/`+houseId+`/apartments`)
+            .map((res: Response) => res.json())
+            .catch((error) => Observable.throw(error));
+    }
+
     public getAllHouses(): Observable<any> {
      return this.http.get(this.houseAllURL)
       .map((response) => response.json())
