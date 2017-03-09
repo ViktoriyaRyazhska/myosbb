@@ -24,6 +24,12 @@ export class ApartmentService {
             .catch((error) => Observable.throw(error));
     }
 
+    public getApartmentDataForManager(osbbId: number): Observable < any > {
+        return this.http.get(`${API_URL}/restful/apartment/osbb/` + osbbId)
+            .map((res: Response) => res.json())
+            .catch((error) => Observable.throw(error));
+    }
+
     public getAllHouses(): Observable<any> {
      return this.http.get(this.houseAllURL)
       .map((response) => response.json())
