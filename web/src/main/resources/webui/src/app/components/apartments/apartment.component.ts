@@ -48,6 +48,7 @@ public EMAIL_REGEXP  = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0
   public phoneMask = RegistrationConstants.Masks.phoneMask;
   public houseNumber: number;
   public house: House;
+  public chosenHouseApartmentList: any;
   private houseList: House[] = [];
   public  files: DriveFile[];
 
@@ -57,7 +58,7 @@ public EMAIL_REGEXP  = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0
     public http: Http,
     public apartment: ApartmentService,
     public loginService: LoginService,
-    private toasterService: ToasterService,
+    public toasterService: ToasterService,
     public translateService: TranslateService,
     private router: Router,
     public docsConsts: OsbbDocumentsAndReportsConstants
@@ -78,6 +79,7 @@ public EMAIL_REGEXP  = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0
   this.apartment.registerApartmentWithUser(this.userApartment, this.house.houseId)
   .subscribe(
         (data) => {
+          this.onUpload();
           this.getApartments();
           this.createModal.hide();
           this.toasterService.pop('success', '', 'Користувача і квартиру було успішно зареєстроване!');
@@ -98,6 +100,7 @@ public EMAIL_REGEXP  = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0
    public  onChangeHouse(newObj) {
     this.house = newObj;
     this.houseNumber = this.house.houseId;
+    this.getApartmentsForChosenHouse(this.house.houseId);
   }
 
  
@@ -144,6 +147,12 @@ public EMAIL_REGEXP  = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0
   public getApartmentsForManager(osbbId:number) {
     this.apartment.getApartmentDataForManager(osbbId).subscribe((data) => {
       this.resData = data;
+    });
+  }
+
+   public getApartmentsForChosenHouse(houseId:number){
+       this.apartment.getApartmentsByHouse(houseId).subscribe((data) => {
+      this.chosenHouseApartmentList = data;
     });
   }
 
@@ -203,18 +212,8 @@ public EMAIL_REGEXP  = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0
   }
 
    public onUpload() {
-    console.log(this.userApartment.userRegitrationByAdminDTO.email);
-
-    console.log(this.uploader.options.url);
-
-    this.uploader.options.url = API_URL + '/restful/house/upload/' + this.userApartment.userRegitrationByAdminDTO.email,
-    
-     console.log(this.uploader.options.url);
-    
-     this.uploader.queue.forEach( (item) => {
-      
+      this.uploader.queue.forEach( (item) => {
         item.upload();
-     
     });
   }
 
@@ -225,13 +224,7 @@ public EMAIL_REGEXP  = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0
     });
   }
 
-  public exist(name: string): boolean {
-    let exist = false;
-    this.files.forEach( (file) => {
-      if (file.name.toUpperCase() === name.toUpperCase()) { exist = true; };
-    });
-    return exist;
-  }
+
 
   public translate(message: string): string {
     let translation: string;
@@ -241,14 +234,29 @@ public EMAIL_REGEXP  = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0
     return translation;
   }
 
-  isValidMailFormat(){
-        let EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
+// Validation
 
-        if (this.userApartment.userRegitrationByAdminDTO.email != "" && (this.userApartment.userRegitrationByAdminDTO.email.length <= 5 || !EMAIL_REGEXP.test(this.userApartment.userRegitrationByAdminDTO.email))) {
+     public isValidMailFormat(){
+        if (this.userApartment.userRegitrationByAdminDTO.email === "" || (this.userApartment.userRegitrationByAdminDTO.email.length <= 5 || !this.EMAIL_REGEXP.test(this.userApartment.userRegitrationByAdminDTO.email))) {
             return false;
         }
-
         return true;
     }
+
+    public isValidAppartment(){
+     this.chosenHouseApartmentList.forEach((apartment: any)=>{
+      if (!this.userApartment.apartment.number || this.userApartment.apartment.number === apartment.number){
+        return false;
+         }
+      });
+      return true;
+     }
+
+     public isFormValid(){
+       if(this.chosenHouseApartmentList){
+       return ( this.isValidAppartment() && this.isValidMailFormat());
+      }
+      return false;
+     }
 
 }
