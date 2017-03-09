@@ -32,4 +32,6 @@ public interface ApartmentService {
 
     Page<Apartment> getByPageNumber(Integer pageNumber, String sortedBy, Boolean ascOrder,Integer number);
 
+	List<Apartment> findAllByOsbbId(Integer osbbId);
+
 }

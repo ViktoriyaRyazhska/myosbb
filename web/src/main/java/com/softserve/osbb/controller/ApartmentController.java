@@ -64,6 +64,12 @@ public class ApartmentController {
         logger.info("Getting all apartments.");        
         return new ResponseEntity<>(getResources(apartmentService.findAll()), HttpStatus.OK);
     }
+    
+    @RequestMapping(value = "/osbb/{osbbId}", method = RequestMethod.GET)
+    public ResponseEntity<List<Resource<Apartment>>> getApartmentsByOsbb(@PathVariable("osbbId") Integer osbbId) {
+        logger.info("Getting all apartments.");        
+        return new ResponseEntity<>(getResources(apartmentService.findAllByOsbbId(osbbId)), HttpStatus.OK);
+    }
 
     /*
      * Processes list by adding self-link
