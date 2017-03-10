@@ -1,3 +1,4 @@
+<toaster-container></toaster-container>
 <div class="content">
   <breadcrumb [header]="title"></breadcrumb>
   <div class="pull-right">
@@ -109,7 +110,7 @@
                 <input type="file" ng2FileSelect [uploader]="uploader" (click)="initUploader(userApartment.userRegitrationByAdminDTO.email)"
                 />
               </div>
-              <div>
+              <div *ngIf="uploader">
                 <table class="table table-font">
                   <thead>
                     <tr>
@@ -119,7 +120,7 @@
                       <th width="40%">{{ 'actions' | translate | myCapitalize }}</th>
                     </tr>
                   </thead>
-                  <tbody *ngIf="uploader">
+                  <tbody>
                     <tr *ngFor="let item of uploader.queue">
                       <td width="40%"><strong>{{ item?.file?.name }}</strong></td>
                       <td *ngIf="uploader.isHTML5" width="15%" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
@@ -147,7 +148,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button [disabled]="isFormValid()" type="submit" class="btn btn-default">
+          <button [disabled]="!isFormValid()" type="submit" class="btn btn-default">
             {{ 'save' | capitalize }}
           </button>
         </div>

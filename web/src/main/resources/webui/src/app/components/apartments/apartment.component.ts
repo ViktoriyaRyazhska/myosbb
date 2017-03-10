@@ -78,19 +78,24 @@ public EMAIL_REGEXP  = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0
  public onSubmitUserApartment(){
   this.apartment.registerApartmentWithUser(this.userApartment, this.house.houseId)
   .subscribe(
+
         (data) => {
-          this.onUpload();
+          
+          console.log("data");
+         if(this.uploader) this.onUpload();
           this.getApartments();
           this.createModal.hide();
           this.toasterService.pop('success', '', 'Користувача і квартиру було успішно зареєстроване!');
         },
         (error) => {
-          this.handleErrors(error);
+            console.log(error.json());
+            var errorJson = error.json();
+            this.toasterService.pop('error', error.status , errorJson.message );
         });  
 }
 
  public onNavigate(id: number) {
-        if (this.authRole === 'ROLE_ADMIN') {
+        if (this.loginService.getRole() === 'ROLE_ADMIN') {
             this.router.navigate(['admin/apartment', id]);
             return;
         }
@@ -193,17 +198,18 @@ public EMAIL_REGEXP  = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0
 
  
   public handleErrors(error) {
+    var errorJson = error.json;
     if (error.status === 403) {
-      this.toasterService.pop('error', 'user or house already exist');
+      this.toasterService.pop('error','403', errorJson.message);
     }
     if (error.status === 202) {
-      this.toasterService.pop('error', 'something wrong with internet connection. cannot send mail');
+      this.toasterService.pop('error', '202',  errorJson.message);
     }
     if (error.status === 400) {
-      this.toasterService.pop('error', 'wrong credentials');
+      this.toasterService.pop('error', '',  errorJson.message);
     }
     if (error.status === 500) {
-      this.toasterService.pop('error', 'Нажаль, сталася помилка під час реєстрації');
+      this.toasterService.pop('error','', 'Нажаль, сталася помилка під час реєстрації');
     }
   }
 
@@ -244,8 +250,8 @@ public EMAIL_REGEXP  = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0
     }
 
     public isValidAppartment(){
-     this.chosenHouseApartmentList.forEach((apartment: any)=>{
-      if (!this.userApartment.apartment.number || this.userApartment.apartment.number === apartment.number){
+     this.chosenHouseApartmentList.forEach((ap: any)=>{
+      if (!this.userApartment.apartment.number || this.userApartment.apartment.number === ap.number){
         return false;
          }
       });
