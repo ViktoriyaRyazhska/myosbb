@@ -132,17 +132,17 @@
       <button type="button"
               (click)="getTicketsByPageNum()"
               class="btn btn-default">
-        All | translate
+        {{'all' | translate | myCapitalize }} 
       </button>
       <button type="button"
               (click)="findMyTickets()"
               class="btn btn-default">
-        Tickets | translate
+        {{'tickets' | translate | myCapitalize }}
       </button>
       <button type="button"
               (click)="findMyAssigned()"
               class="btn btn-default">
-        Assign | translate
+       {{'my_assign' | translate | myCapitalize}}
       </button>
     </div>
   </div>

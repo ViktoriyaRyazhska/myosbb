@@ -55,13 +55,7 @@ export class TicketComponent implements OnInit {
   };
 
   public subTicketNavigation(ticket: any) {
-   
-
-     console.log("role: "+this.user.role);
     console.log("subTicketNavigation start");
-    console.log(this.loginService.currentUser);
-     console.log(this.loginService.getRole());
-     console.log(this.user);
     switch (this.loginService.getRole()) {
       case 'ROLE_USER':
         this.router.navigate([`./user/ticket/`, ticket]);

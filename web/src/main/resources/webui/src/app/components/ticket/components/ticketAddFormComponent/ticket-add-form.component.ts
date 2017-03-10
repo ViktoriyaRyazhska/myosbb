@@ -17,7 +17,7 @@ import { LoginService } from '../../../../shared/login/login.service';
 
 @Component({
     selector: 'ticket-add-form',
-    providers: [TicketService, FormBuilder, LoginService],
+    providers: [TicketService],
     templateUrl: './ticket-add-form.html',
     styleUrls: ['../../../../../assets/css/page.layout.scss']
 })
@@ -40,10 +40,7 @@ export class TicketAddFormComponent {
   private assignTicket: string = '';
   private endTimeStr: string;
  private builder:FormBuilder;
-  constructor(private ticketService:TicketService,
-                private loginService:LoginService) {
- 
-        this.currentUser =loginService.currentUser;
+  constructor() {
         this.created = new EventEmitter<Ticket>();
         this.ticket = new Ticket("","",TicketState.NEW,null);
         this.submitAttempt = false;
@@ -100,11 +97,13 @@ public onCreateTicket() {
     this.closeAddModal();
   };
       createTicket():Ticket {
+        console.log("Create Ticket Start");
         let ticket = new Ticket(this.nameTicket, this.descriptionTicket, TicketState.NEW,null);
         ticket.user = this.currentUser;
        // ticket.attachments = this.attachments;
         ticket.assigned = this.getAssignedId(this.assignTicket);
         ticket.deadline = this.castDeadLineStringToDate();
+         console.log("Create Ticket End");
         return ticket;
 
     }
