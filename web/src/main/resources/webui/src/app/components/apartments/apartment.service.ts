@@ -51,8 +51,7 @@ export class ApartmentService {
     public registerApartmentWithUser(apartmentWithUser: UserApartment, houseId : number): Observable<any> {
     let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
     return this.http.post(this._pathUrlForUserWithApartment + houseId, apartmentWithUser, options)
-      .map((res: Response) => res.json())
-      .catch((error) => Observable.throw(error));
+      .map((res: Response) => res.json());
   }
 
   public getUser(): Observable<any> {
