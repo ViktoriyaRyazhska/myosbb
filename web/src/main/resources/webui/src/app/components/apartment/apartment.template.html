@@ -1,33 +1,51 @@
 <br>
 <br>
-<div class="content" >
-<div class="panel-body">
-    <div class="col-md-6">
-        <div class="text-center">
-            <h5><b>Мій Будинок</b></h5>
-            <img src="assets/img/my_house.png" class="img-rounded" alt="my_house" width="304" height="236">
+<div class="content">
+    <div class="panel-body">
+        <div class="col-md-6">
+            <div class="text-center">
+                <h5><b>Моя Квартира</b></h5>
+                <img src="assets/img/apartment.png" class="img-rounded" alt="my_apartment" width="304" height="236">
+            </div>
         </div>
-    </div>
-    <br>
-    <ul *ngFor="let c of apartment">
-        <li>{{c | json}}
+        <br>
+        <ul *ngFor="let c of apartment">
+            <li><b>ОСББ: {{c.house.osbb.name}}</b></li>
             <br>
-            {{c}}
-        </li>
-        <!--<li><b>ОСББ: {{c.house.osbbName}}</b></li>
-        <br>
-        <li><b>Місто: {{c.street.city.name}}</b></li>
-        <br>
-        <li><b>Вулиця: {{c.street.name}}</b></li>
-        <br>-->
-        <!--<li><b>Поштовий індекс: {{c.zipCode}}</b></li>
-        <br>
-        <li><b>Кількість квартир: {{c.apartmentCount}}</b></li>
-        <br>
-        <li><b>Кількість жителів: {{c.numberOfInhabitants}}</b></li>
-        <br>
-        <li><b>Додаткова інформація: {{c.description}}</b></li>-->
-        <br>
-    </ul>
-</div>
+            <li><b>Місто: {{c.house.street.city.name}}</b></li>
+            <br>
+            <li><b>Вулиця: {{c.house.street.name}}</b></li>
+            <br>
+            <li><b>Будинок № {{c.house.numberHouse}}</b></li>
+            <br>
+        </ul>
+        <ul *ngFor="let item of owner">
+            <h2>Власник</h2>
+            <br>
+            <li><b>Ім'я {{item.firstName}} {{item.lastName}}</b></li>
+            <br>
+            <li><b>E-mail: {{item.email}}</b></li>
+            <br>
+            <li><b>Номер телефону: {{item.phoneNumber}}</b></li>
+            <br>
+            <li><b>Стать: {{item.gender}}</b></li>
+            <br>
+        </ul>
+    </div>
+    <table class="table table-hover">
+        <tr>
+            <th>Ім'я</th>
+            <th>Прізвище</th>
+            <th>Номер телефону</th>
+            <th>Емейл</th>
+            <th>Стать</th>
+        </tr>
+        <tr *ngFor="let c of users" class="info">
+            <td>{{c.firstName}}</td>
+            <td>{{c.lastName}}</td>
+            <td>{{c.phoneNumber}}</td>
+            <td>{{c.email}}</td>
+            <td>{{c.gender}}</td>
+        </tr>
+    </table>
 </div>

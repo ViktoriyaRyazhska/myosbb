@@ -19,16 +19,42 @@ export class ApartmentAboutComponent implements OnInit {
     public apartment: string[];
     public apartmentId: number;
     private sub: Subscription;
+    public users: string[];
+    public owner: string[];
+
     constructor(
-        public route: ActivatedRoute, public http: Http, public ApartmentService: ApartmentService
-    ) {}
+        public route: ActivatedRoute,
+        public http: Http,
+        public ApartmentService: ApartmentService
+    ) { }
+
     public ngOnInit(): any {
         this.sub = this.route.params.subscribe((params) => {
             return this.apartmentId = +params['id'];
         });
+        this.initApartment();
+        this.initUsers();
+        this.initOwner();
+
+    }
+
+    public initApartment() {
         this.ApartmentService.getApartment(this.apartmentId)
             .subscribe((data) => {
                 this.apartment = Array.of(data);
             });
     }
+
+    public initUsers() {
+        this.ApartmentService.getUsers(this.apartmentId).subscribe((data) => {
+            this.users = data;
+        });
+    }
+
+    public initOwner() {
+        this.ApartmentService.getOwner(this.apartmentId).subscribe((data) => {
+            this.owner = Array.of(data);
+        });
+    }
+
 };

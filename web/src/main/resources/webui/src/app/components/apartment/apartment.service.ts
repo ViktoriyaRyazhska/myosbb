@@ -15,12 +15,25 @@ export class ApartmentService {
  
     public apartmentId: number;
     constructor(private http: Http, public LoginService: LoginService) {}
+   
     public getApartment(apartmentId: number): Observable < any > {
         return this.http.get(`${API_URL}/restful/apartment/${apartmentId}`,
             this.LoginService.getRequestOptionArgs())
-            .map((res: Response) => res.json())
-            .catch((error) => Observable.throw(error));
+            .map((res: Response) => res.json());
     }
+
+    public getUsers(apartmentId:number): Observable<any> {
+    return this.http.get(`${API_URL}/restful/apartment/users${apartmentId}`)
+      .map((res: Response) => res.json())
+      .catch((error) => Observable.throw(error));
+  }
+
+    public getOwner(apartmentId: number): Observable < any > {
+        return this.http.get(`${API_URL}/restful/apartment/owner/${apartmentId}`,
+            this.LoginService.getRequestOptionArgs())
+            .map((res: Response) => res.json());
+    }
+
 
    
 }
