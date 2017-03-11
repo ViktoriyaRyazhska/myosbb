@@ -10,35 +10,35 @@
         </div>
         <br>
         <ul *ngFor="let c of apartment">
-            <li><b>ОСББ: {{c.house.osbb.name}}</b></li>
+            <li><b>{{ 'osbb' | translate | capitalize }}:  {{c.house.osbb.name}}</b></li>
             <br>
-            <li><b>Місто: {{c.house.street.city.name}}</b></li>
+            <li><b> {{ 'city' | translate | capitalize }}: {{c.house.street.city.name}}</b></li>
             <br>
-            <li><b>Вулиця: {{c.house.street.name}}</b></li>
+            <li><b> {{ 'street' | translate | capitalize }}: {{c.house.street.name}}</b></li>
             <br>
-            <li><b>Будинок № {{c.house.numberHouse}}</b></li>
+            <li><b>{{ 'house' | translate | capitalize }} № {{c.house.numberHouse}}</b></li>
             <br>
         </ul>
         <ul *ngFor="let item of owner">
-            <h2>Власник</h2>
+            <h2>{{ 'owner' | translate | capitalize }}</h2>
             <br>
-            <li><b>Ім'я {{item.firstName}} {{item.lastName}}</b></li>
+            <li><b> {{ 'full_name' | translate | capitalize }} {{item.firstName}} {{item.lastName}}</b></li>
             <br>
-            <li><b>E-mail: {{item.email}}</b></li>
+            <li><b> {{ 'email' | translate | capitalize }}: {{item.email}}</b></li>
             <br>
-            <li><b>Номер телефону: {{item.phoneNumber}}</b></li>
+            <li><b> {{ 'phoneNumber' | translate | capitalize }} {{item.phoneNumber}}</b></li>
             <br>
-            <li><b>Стать: {{item.gender}}</b></li>
+            <li><b> {{ 'gender' | translate | capitalize }}: {{item.gender}}</b></li>
             <br>
         </ul>
     </div>
     <table class="table table-hover">
         <tr>
-            <th>Ім'я</th>
-            <th>Прізвище</th>
-            <th>Номер телефону</th>
-            <th>Емейл</th>
-            <th>Стать</th>
+            <th>{{ 'name' | translate | capitalize }}</th>
+            <th> {{ 'last_name' | translate | capitalize }}</th>
+            <th> {{ 'phoneNumber' | translate | capitalize }}</th>
+            <th>{{ 'email' | translate | capitalize }}</th>
+            <th> {{ 'gender' | translate | capitalize }}</th>
         </tr>
         <tr *ngFor="let c of users" class="info">
             <td>{{c.firstName}}</td>
