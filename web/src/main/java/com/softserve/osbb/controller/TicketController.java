@@ -80,7 +80,7 @@ public class TicketController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Resource<Ticket>> createTicket(@RequestBody Ticket ticket) {
         Resource<Ticket> ticketResource;
-        
+        logger.info("Start saving ticket object ");
         try {
             User user = userService.findOne(ticket.getUser().getUserId());
             ticket.setUser(user);
