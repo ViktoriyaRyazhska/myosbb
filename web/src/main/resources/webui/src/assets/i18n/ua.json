@@ -326,5 +326,16 @@
   "gender_male": "Чоловік",
   "gender_female": "Жінка",
   "could_not_update": "Не вдалось зберегти зміни",
-  "select_ownership":"виберіть право власності"
+  "select_ownership":"виберіть право власності",
+
+   "select_ap_number":"Номер квартири",
+  "select_ap_square":"Площа квартири",
+  "select_user_firstname":"Ім'я користувача",
+  "select_user_lastname":"Прізвище користувача",
+  "select_user_email":"Електронна адреса користувача",
+  "select_user_phone":"Номер телефону користувача",
+  "street_short":"вул.",
+  "create_apartment":"створити квартиру",
+  "owner":"власник",
+  "house":"будинок"
 }

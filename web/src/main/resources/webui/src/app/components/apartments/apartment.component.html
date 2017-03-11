@@ -3,7 +3,7 @@
   <breadcrumb [header]="title"></breadcrumb>
   <div class="pull-right">
     <button type="button" class="btn btn-success btn-foot" (click)="openCreateModal()">
-          {{'Create Apartment'| capitalize}}
+          {{'create_apartment' | translate | capitalize}}
     </button>
 
 
@@ -11,14 +11,14 @@
   <section>
     <table class="table">
       <tr>
-        <th>Street</th>
-        <th>City</th>
-        <th>Number</th>
-        <th>Square</th>
-        <th>Options</th>
+        <th>{{ 'address' | translate | myCapitalize}}</th>
+        <th>{{ 'city' | translate | myCapitalize}}</th>
+        <th>{{ 'select_ap_number' | translate | myCapitalize}} </th>
+        <th>{{ 'select_ap_square' | translate | myCapitalize}} </th>
+        <th>{{ 'go_to' | translate | myCapitalize}} </th>
 
         <tr *ngFor="let item of resData">
-          <td>{{item.house.street.name}}</td>
+          <td>{{item.house.street.name}},{{item.house.numberHouse}}</td>
           <td>{{item.house.street.city.name}}</td>
           <td>{{item.number}}</td>
           <td>{{item.square}}</td>
@@ -37,7 +37,7 @@
         <button type="button" class="close" aria-label="Close" (click)="createModal.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title"> {{ 'create' | capitalize }}
+        <h4 class="modal-title"> {{ 'create' | translate | capitalize }}
         </h4>
       </div>
       <form (ngSubmit)="onSubmitUserApartment()" #registerForm="ngForm">
@@ -45,56 +45,61 @@
           <div>
             <div class="form-group">
               <label>{{ 'choose_house' | translate | myCapitalize}}</label>
-              <select [ngModel]="house" (ngModelChange)="onChangeHouse($event)" name="sel3">
-                <option [ngValue]="i" *ngFor="let i of houseList">{{i.numberHouse}}, вул. {{i.street.name}}</option>
+              <select [ngModel]="house" required (ngModelChange)="onChangeHouse($event)" name="sel3">
+                <option [ngValue]="i" *ngFor="let i of houseList">{{i.numberHouse}},{{ 'street_short' | translate | capitalize }} {{i.street.name}}</option>
              </select>
+             
             </div>
             <div class="form-group">
               <label for="appart_num">
-                {{ 'Apartment number' | capitalize }}
+                {{ 'select_ap_number' | translate | capitalize }}
               </label>
               <input [(ngModel)]="userApartment.apartment.number" type="number" class="form-control" id="appart_num" required name="appart_num"
-                min="1" step="1">
+                min="1" step="1" (blur)="validateApartmentNumber()">
+                <div *ngIf='!apartmentNumberIsValid' class="alert alert-danger" disabled=true>error</div>
             </div>
             <div class="form-group">
               <label for="square">
-                {{ 'Apartment square' | capitalize }}
+                {{ 'select_ap_square' | translate | capitalize }}
               </label>
-              <input [(ngModel)]="userApartment.apartment.square" type="number" class="form-control" id="square" required name="square"
+              <input [(ngModel)]="userApartment.apartment.square" (blur)="validateApartmentSquare()" type="number" class="form-control" id="square" required name="square"
                 min="10">
+                <div *ngIf='!apartmentSquareIsValid' class="alert alert-danger" disabled=true>error</div>
             </div>
             <div class="form-group">
               <label for="firstname">
-                {{ 'User firstname' | capitalize }}
+                {{ 'select_user_firstname' | translate | capitalize }}
               </label>
-              <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.firstName" type="text" class="form-control" id="firstname" required
+              <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.firstName" (blur)="validateName()" type="text" class="form-control" id="firstname" required
                 name="firstname">
-                <div *ngIf='!userApartment.userRegitrationByAdminDTO.firstName' class="alert alert-danger" disabled=true>error</div>
+                <div *ngIf='!nameIsValid' class="alert alert-danger" disabled=true>error</div>
             </div>
             <div class="form-group">
               <label for="lastname">
-                {{ 'User lastname' | capitalize }}
+                {{ 'select_user_lastname' | translate | capitalize }}
               </label>
-              <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.lastName" type="text" class="form-control" id="lastname" required
+              <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.lastName" (blur)="validateLastName()" type="text" class="form-control" id="lastname" required
                 name="lastname">
+                <div *ngIf='!surnameIsValid' class="alert alert-danger" disabled=true>error</div>
             </div>
             <div class="form-group">
               <label for="email">
-                {{ 'User email' | capitalize }}
+                {{ 'select_user_email' | translate | capitalize }}
               </label>
               <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.email" (blur)="isValidMailFormat()" type="email" class="form-control"
                 id="email" required name="email">
+                <div *ngIf='!emailIsValid' class="alert alert-danger" disabled=true>error</div>
             </div>
             <div class="form-group">
               <label for="phone">
-                {{ 'User phone' | capitalize }}
+                {{ 'select_user_phone' | translate | capitalize }}
               </label>
               <input [textMask]="{mask:phoneMask}" [(ngModel)]="userApartment.userRegitrationByAdminDTO.phoneNumber" type="text" class="form-control"
-                id="phone" required name="phone">
+                id="phone"  name="phone">
             </div>
             <div class="form-group">
               <label>{{ 'select_ownership' | translate | myCapitalize}}</label>
-              <select [(ngModel)]="userApartment.userRegitrationByAdminDTO.ownership" name="selOwnership">
+              <select required [(ngModel)]="userApartment.userRegitrationByAdminDTO.ownership" name="selOwnership">
                 <option>OWNER</option>
                 <option>SUBOWNER</option>
                 <option>RENTER</option>
@@ -139,8 +144,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button [disabled]="false" type="submit" class="btn btn-default">
-            {{ 'save' | capitalize }}
+          <button [disabled]="!isFormValid()" type="submit" class="btn btn-default">
+            {{ 'save' | translate | capitalize }}
           </button>
         </div>
       </form>

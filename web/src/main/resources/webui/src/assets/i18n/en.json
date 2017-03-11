@@ -324,5 +324,16 @@
   "gender_male": "Male",
   "gender_female": "Female",
   "could_not_update": "Could not perform update",
-  "select_ownership":"select ownership"
+  "select_ownership":"select ownership",
+
+  "select_ap_number":"Apartment number",
+  "select_ap_square":"Apartment square",
+  "select_user_firstname":"User firstname",
+  "select_user_lastname":"User lastname",
+  "select_user_email":"User email",
+  "select_user_phone":"User phone",
+  "street_short":"str.",
+  "create_apartment":"create apartment",
+  "owner":"owner",
+  "house":"house"
 }
