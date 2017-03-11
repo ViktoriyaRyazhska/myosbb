@@ -12,7 +12,7 @@ import 'rxjs/add/operator/switchMap';
 import { TicketService } from './ticket.service';
 import { LoginService } from '../../shared/login/login.service';
 import { PageRequest } from '../../models/pageRequest.model';
-
+import {User} from '../../models/user.model';
 @Component({
     selector: 'ticket',
     styleUrls: [
@@ -21,8 +21,7 @@ import { PageRequest } from '../../models/pageRequest.model';
     ],
     templateUrl: 'tickets.component.html',
     providers: [
-      TicketService,
-      LoginService
+      TicketService
     ]
 })
 
@@ -30,11 +29,16 @@ export class TicketComponent implements OnInit {
   public resData: any;
   public pageRequest = new PageRequest(1, 10, 'time', false);
   public title: string = 'Tickets';
+ private str:string;
+ private user: User;
 
   constructor(
     public ticketService: TicketService,
-    public router: Router
-  ) { }
+    public router: Router,
+    public loginService:LoginService
+  ) {
+     this.user=loginService.currentUser;
+   }
 
   public ngOnInit() {
     this.ticketService.getTicketData()
@@ -51,7 +55,22 @@ export class TicketComponent implements OnInit {
   };
 
   public subTicketNavigation(ticket: any) {
-    this.router.navigate([`./manager/ticket/`, ticket]);
+    console.log("subTicketNavigation start");
+    switch (this.loginService.getRole()) {
+      case 'ROLE_USER':
+        this.router.navigate([`./user/ticket/`, ticket]);
+        break;
+      case 'ROLE_ADMIN':
+       this.router.navigate([`./admin/ticket/`, ticket]);
+        break;
+       case 'ROLE_MANAGER':
+        this.router.navigate([`./manager/ticket/`, ticket]);
+         break;
+      default :
+        console.log(this.loginService.getRole.arguments);
+         break;
+     }
+     console.log("subTicketNavigation end");
   };
 
   public findMyAssigned() {
