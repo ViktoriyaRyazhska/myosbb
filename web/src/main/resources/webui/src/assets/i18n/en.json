@@ -343,5 +343,6 @@
   "invalid_field":"invalid field input",
   "invalid_email":"invalid email",
   "invalid_phone":"invalid phone",
-  "my_apartment":"my apartment"
+  "my_apartment":"my apartment",
+  "select_avatar":"choose user avatar"
 }
