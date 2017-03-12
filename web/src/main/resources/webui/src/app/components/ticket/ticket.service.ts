@@ -65,4 +65,11 @@ addTicket(ticket:ITicket):Promise<ITicket> {
         return Promise.reject(error.message || error);
     };
 
+ deleteTicket(ticket:ITicket):Promise<ITicket> {
+        return this.http.delete(UrlListConfig.URL_LIST.ticketUrl+`${ticket.ticketId}`,this.login.getRequestOptionArgs())
+            .toPromise()
+            .then(res => ticket)
+            .catch(this.handleError);
+    }
+
 }

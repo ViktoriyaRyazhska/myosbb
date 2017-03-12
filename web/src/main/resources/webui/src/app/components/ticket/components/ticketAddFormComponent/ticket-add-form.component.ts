@@ -100,25 +100,18 @@ return this.ticketSrvice.getAllUsers(this.currentUser.osbbId)
 
 public onCreateTicket() {
   console.log("On Create Ticket Start");
-    // if (this.nameInput.valid && this.descriptionInput.valid && this.assignInput.valid&&
-    //          !this.isEmptyDescription()&&!this.isEmptyName()&&this.isFindAssign() && this.isDeadLineCorrect()) {
-    //         this.created.emit(this.createTicket());
-    //         this.closeAddModal();
-    //     }
-   // this.created.emit(this.createTicket());
      this.ticketSrvice.addTicket(this.createTicket());
-    this.closeAddModal();
+     this.closeAddModal();
  
     console.log("On Create Ticket End");
   };
       createTicket():Ticket {
-        console.log("Create Ticket Start");
-        let ticket = new Ticket(this.nameTicket, this.descriptionTicket, TicketState.NEW,null);
-        ticket.user = this.currentUser;
-       // ticket.attachments = this.attachments;
+       console.log("Create Ticket Start");
+       let ticket = new Ticket(this.nameTicket, this.descriptionTicket, TicketState.NEW,null);
+       ticket.user = this.currentUser;
+       console.log("assign "+this.getAssignedId(this.assignTicket));
        ticket.assigned = this.getAssignedId(this.assignTicket);
-      //  ticket.assigned = this.currentUser;
-        ticket.deadline = this.castDeadLineStringToDate();
+       ticket.deadline = this.castDeadLineStringToDate();
          console.log("Create Ticket End");
         return ticket;
 

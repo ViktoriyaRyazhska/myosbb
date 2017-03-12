@@ -144,7 +144,7 @@
   "createTickModal": "Create",
   "cancel": "Cancel",
   "editTickModal": "Update ticket",
-  "confirmDelTicket": "To remove this ticket?",
+  "confirmDelTicket": "Remove this ticket?",
   "removingTicket": "Removing",
   "nameTicket": "Name",
   "descriptionTicket": "Description",
