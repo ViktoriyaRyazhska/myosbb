@@ -63,6 +63,11 @@ export class ApartmentComponent implements OnInit {
   public phoneIsValid: boolean;
 
 
+  public rowsOnPage = 10;
+  public sortBy = "number";
+  public sortOrder = "asc";
+
+
   constructor(
     public http: Http,
     public apartment: ApartmentService,

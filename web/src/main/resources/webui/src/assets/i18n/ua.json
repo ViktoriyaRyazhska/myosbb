@@ -329,7 +329,7 @@
   "select_ownership":"виберіть право власності",
 
    "select_ap_number":"номер квартири",
-  "select_ap_square":"нлоща квартири",
+  "select_ap_square":"площа квартири",
   "select_user_firstname":"ім'я користувача",
   "select_user_lastname":"прізвище користувача",
   "select_user_email":"електронна адреса користувача",
@@ -345,5 +345,6 @@
   "invalid_field":"введені дані - невірні",
   "invalid_email":"електронна адреса невірна",
   "invalid_phone":"номер телефону невірний",
-  "my_apartment":"моя квартира"
+  "my_apartment":"моя квартира",
+  "select_avatar":"виберіть аватар користувача"
 }
