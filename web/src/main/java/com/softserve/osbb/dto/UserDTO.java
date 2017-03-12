@@ -32,10 +32,11 @@ public class UserDTO {
     private String password;
     private ApartmentDTO apartment;
     private House house;
+   private String photoId;
 
     public UserDTO() {}
 
-    public UserDTO(Integer userId, String firstName, String lastName, String email, Integer osbbId, Apartment apartment, House house, String gender, String password) {
+    public UserDTO(Integer userId, String firstName, String lastName, String email, Integer osbbId, Apartment apartment, House house, String gender, String password, String photoId) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -45,6 +46,7 @@ public class UserDTO {
         this.house = house;
         this.gender = gender;
         this.password = password;
+        this.photoId = photoId;
     }
 
     public UserDTO(User user) {
@@ -61,6 +63,7 @@ public class UserDTO {
             this.osbbId = user.getOsbb().getOsbbId();
         }
         this.apartment= ApartmentDTOMapper.mapApartmentEntityToDTO(user.getApartment());
+        this.photoId = user.getPhotoId();
     }
 
     public Integer getUserId() {
@@ -150,6 +153,14 @@ public class UserDTO {
 	public void setOsbbId(Integer osbbId) {
 		this.osbbId = osbbId;
 	}
+	
+	public String getPhotoId() {
+		return photoId;
+	}
+
+	public void setPhotoId(String photoId) {
+		this.photoId = photoId;
+	}
 
 	@Override
     public String toString() {
@@ -162,6 +173,7 @@ public class UserDTO {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", osbbId=" + osbbId +
                 ", gender='" + gender + '\'' +
+                ", photoId='" + photoId + '\'' +
                 '}';
     }
 }
