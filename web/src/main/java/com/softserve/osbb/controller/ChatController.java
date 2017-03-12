@@ -33,7 +33,6 @@ public class ChatController {
 		Chat chat = new Chat(message.getMessage(), new Timestamp(System.currentTimeMillis()));
 
 		chatService.save(chat);
-		
 		List<Chat> list = new ArrayList<>();
 		list.add(chat);
 		ListMessages listOfMessages = new ListMessages();
