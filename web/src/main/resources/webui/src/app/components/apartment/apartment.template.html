@@ -28,7 +28,7 @@
                 <br>
                 <li><b> {{ 'email' | translate | capitalize }}: {{item.email}}</b></li>
                 <br>
-                <li><b> {{ 'phoneNumber' | translate | capitalize }} {{item.phoneNumber}}</b></li>
+                <li><b> {{ 'phoneNumber' | translate | capitalize }} {{item.phoneNumber | phone_number}}</b></li>
                 <br>
                 <li><b> {{ 'gender' | translate | capitalize }}: {{item.gender}}</b></li>
                 <br>
@@ -46,7 +46,7 @@
         <tr *ngFor="let c of users" class="info">
             <td>{{c.firstName}}</td>
             <td>{{c.lastName}}</td>
-            <td>{{c.phoneNumber}}</td>
+            <td>{{c.phoneNumber | phone_number}}</td>
             <td>{{c.email}}</td>
             <td>{{c.gender}}</td>
         </tr>
