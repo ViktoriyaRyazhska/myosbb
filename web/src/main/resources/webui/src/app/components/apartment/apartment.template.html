@@ -4,37 +4,40 @@
     <div class="panel-body">
         <div class="col-md-6">
             <div class="text-center">
-                <h5><b>Моя Квартира</b></h5>
+                <h5><b>{{ 'my_apartment' | translate | capitalize }}</b></h5>
                 <img src="assets/img/apartment.png" class="img-rounded" alt="my_apartment" width="304" height="236">
             </div>
         </div>
         <br>
-        <ul *ngFor="let c of apartment">
-            <li><b>{{ 'osbb' | translate | capitalize }}:  {{c.house.osbb.name}}</b></li>
-            <br>
-            <li><b> {{ 'city' | translate | capitalize }}: {{c.house.street.city.name}}</b></li>
-            <br>
-            <li><b> {{ 'street' | translate | capitalize }}: {{c.house.street.name}}</b></li>
-            <br>
-            <li><b>{{ 'house' | translate | capitalize }} № {{c.house.numberHouse}}</b></li>
-            <br>
-        </ul>
-        <ul *ngFor="let item of owner">
-            <h2>{{ 'owner' | translate | capitalize }}</h2>
-            <br>
-            <li><b> {{ 'full_name' | translate | capitalize }} {{item.firstName}} {{item.lastName}}</b></li>
-            <br>
-            <li><b> {{ 'email' | translate | capitalize }}: {{item.email}}</b></li>
-            <br>
-            <li><b> {{ 'phoneNumber' | translate | capitalize }} {{item.phoneNumber}}</b></li>
-            <br>
-            <li><b> {{ 'gender' | translate | capitalize }}: {{item.gender}}</b></li>
-            <br>
-        </ul>
+        <div class="col-md-6">
+            <ul *ngFor="let c of apartment">
+                <li><b>{{ 'osbb' | translate | capitalize }}:  {{c.house.osbb.name}}</b></li>
+                <br>
+                <li><b> {{ 'city' | translate | capitalize }}: {{c.house.street.city.name}}</b></li>
+                <br>
+                <li><b> {{ 'street' | translate | capitalize }}: {{c.house.street.name}}</b></li>
+                <br>
+                <li><b>{{ 'house' | translate | capitalize }} № {{c.house.numberHouse}}</b></li>
+                <br>
+            </ul>
+
+            <ul *ngFor="let item of owner">
+                <h2>{{ 'owner' | translate | capitalize }}</h2>
+                <br>
+                <li><b> {{ 'PIB' | translate | capitalize }} {{item.firstName}} {{item.lastName}}</b></li>
+                <br>
+                <li><b> {{ 'email' | translate | capitalize }}: {{item.email}}</b></li>
+                <br>
+                <li><b> {{ 'phoneNumber' | translate | capitalize }} {{item.phoneNumber}}</b></li>
+                <br>
+                <li><b> {{ 'gender' | translate | capitalize }}: {{item.gender}}</b></li>
+                <br>
+            </ul>
+        </div>
     </div>
     <table class="table table-hover">
         <tr>
-            <th>{{ 'name' | translate | capitalize }}</th>
+            <th>{{ 'nameUser' | translate | capitalize }}</th>
             <th> {{ 'last_name' | translate | capitalize }}</th>
             <th> {{ 'phoneNumber' | translate | capitalize }}</th>
             <th>{{ 'email' | translate | capitalize }}</th>
