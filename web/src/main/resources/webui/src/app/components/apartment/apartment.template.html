@@ -4,13 +4,13 @@
     <div class="panel-body">
         <div class="col-md-6">
             <div class="text-center">
-                <h5><b>{{ 'my_apartment' | translate | capitalize }}</b></h5>
                 <img src="assets/img/apartment.png" class="img-rounded" alt="my_apartment" width="304" height="236">
             </div>
         </div>
         <br>
         <div class="col-md-6">
             <ul *ngFor="let c of apartment">
+                <h3><b>{{ 'my_apartment' | translate | capitalize }}</b></h3>
                 <li><b>{{ 'osbb' | translate | capitalize }}:  {{c.house.osbb.name}}</b></li>
                 <br>
                 <li><b> {{ 'city' | translate | capitalize }}: {{c.house.street.city.name}}</b></li>
@@ -22,7 +22,7 @@
             </ul>
 
             <ul *ngFor="let item of owner">
-                <h2>{{ 'owner' | translate | capitalize }}</h2>
+                <h4>{{ 'owner' | translate | capitalize }}</h4>
                 <br>
                 <li><b> {{ 'PIB' | translate | capitalize }} {{item.firstName}} {{item.lastName}}</b></li>
                 <br>
