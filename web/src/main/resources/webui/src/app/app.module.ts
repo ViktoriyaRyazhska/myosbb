@@ -22,6 +22,7 @@ import { ToasterModule, ToasterService } from 'angular2-toaster';
 import { FileSelectDirective, } from 'ng2-file-upload';
 import { TextMaskModule } from 'angular2-text-mask';
 import { SelectModule } from 'ng2-select';
+import {DataTableModule} from "angular2-datatable";
 import { MomentModule } from 'angular2-moment';
 import {
    ScheduleModule,
@@ -90,6 +91,7 @@ import { UserComponent} from './user/user.component';
 // pipes
 import { CapitalizeFirstLetterPipe } from './pipes/capitalize-first-letter';
 import { CapitalizeLetterPipe } from './pipes/capitalize.firstletter';
+import { BeautifyPhonePipe } from './pipes/phone-beautify';
 // services
 import { OsbbService } from './services/osbb.service';
 import { OsbbConstants } from './services/osbb.constants';
@@ -147,7 +149,8 @@ type StoreType = {
     TicketEditFormComponent,
     TicketDelFormComponent,
     TicketEditDiscussedFormComponent,
-    CapitalizeLetterPipe
+    CapitalizeLetterPipe,
+    BeautifyPhonePipe
   ],
   imports: [
     BrowserModule,
@@ -176,7 +179,8 @@ type StoreType = {
     CodeHighlighterModule,
     AlertModule.forRoot(),
     DatepickerModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    DataTableModule
   ],
   providers: [
     ENV_PROVIDERS,

@@ -44,13 +44,14 @@ export class ApartmentComponent implements OnInit {
   private admin: boolean;
   private currentUser: User;
   private authRole: string;
-  public userApartment: UserApartment = new UserApartment();
+  public userApartment: UserApartment;
   public phoneMask = RegistrationConstants.Masks.phoneMask;
   public houseNumber: number;
   public house: House;
   public chosenHouseApartmentList: any;
   private houseList: House[] = [];
   public files: DriveFile[];
+  public tmpPhone: string;
 
 
   public apartmentNumberIsValid: boolean;
@@ -59,7 +60,8 @@ export class ApartmentComponent implements OnInit {
   public nameIsValid: boolean;
   public surnameIsValid: boolean;
   public ownershipSelected: boolean;
-  
+  public phoneIsValid: boolean;
+
 
   constructor(
     public http: Http,
@@ -75,31 +77,22 @@ export class ApartmentComponent implements OnInit {
 
 
   public ngOnInit() {
-
     this.getApartments();
     this.ListHouses();
-    this.emailIsValid = true;
-    this.nameIsValid = true;
-    this.surnameIsValid = true;
-    this.apartmentNumberIsValid = true;
-    this.apartmentSquareIsValid = true;
-    this.ownershipSelected = true;
-
-
+    this.initForm();
   }
 
   public onSubmitUserApartment() {
+        this.createModal.hide();
     this.apartment.registerApartmentWithUser(this.userApartment, this.house.houseId)
       .subscribe(
-
       (data) => {
-
         console.log("data");
         if (this.uploader) this.onUpload();
         this.getApartments();
-        this.createModal.hide();
         this.uploader = null;
         this.toasterService.pop('success', '', 'Користувача і квартиру було успішно зареєстроване!');
+        this.initForm();
       },
       (error) => {
         console.log(error.json());
@@ -179,6 +172,17 @@ export class ApartmentComponent implements OnInit {
     this.createModal.show();
   };
 
+  public initForm() {
+    this.userApartment = new UserApartment();
+    this.emailIsValid = true;
+    this.nameIsValid = true;
+    this.surnameIsValid = true;
+    this.apartmentNumberIsValid = true;
+    this.apartmentSquareIsValid = true;
+    this.ownershipSelected = true;
+    this.phoneIsValid = true;
+  };
+
   public ListAllHouses() {
     this.apartment.getAllHouses()
       .subscribe((data) => {
@@ -255,49 +259,61 @@ export class ApartmentComponent implements OnInit {
   }
 
   // Validation
-  
-    public isValidMailFormat() {
+
+  public isValidMailFormat() {
     if (this.userApartment.userRegitrationByAdminDTO.email === "" || (this.userApartment.userRegitrationByAdminDTO.email.length <= 5 || !this.EMAIL_REGEXP.test(this.userApartment.userRegitrationByAdminDTO.email))) {
       this.emailIsValid = false;
       this.uploader = null;
       return false;
     }
-      this.emailIsValid =  true;
-      this.uploader = null;
-      return true;
+    this.emailIsValid = true;
+    this.uploader = null;
+    return true;
   }
 
- public validateName(){
-   if(this.userApartment.userRegitrationByAdminDTO.firstName && this.userApartment.userRegitrationByAdminDTO.firstName.length > 2){
-     this.nameIsValid = true;
-   }
-   else this.nameIsValid = false;
+  public clearPhoneMask() {
+   this.userApartment.userRegitrationByAdminDTO.phoneNumber = this.tmpPhone.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").substr(0,12);
+    this.validatePhoneNumber();
  }
 
-  public validateLastName(){
-   if(this.userApartment.userRegitrationByAdminDTO.lastName && this.userApartment.userRegitrationByAdminDTO.lastName.length > 2){
-     this.surnameIsValid = true;
-   }
-   else this.surnameIsValid = false;
- }
- 
-   public validateApartmentNumber(){
-   if(this.userApartment.apartment.number &&  this.userApartment.apartment.number > 0){
-     this.apartmentNumberIsValid = true;
-   }
-   else this.apartmentNumberIsValid = false;
- }
+  public validatePhoneNumber() {
+    if (this.userApartment.userRegitrationByAdminDTO.phoneNumber && this.userApartment.userRegitrationByAdminDTO.phoneNumber.length == 12) {
+      this.phoneIsValid = true;
+    }
+    else this.phoneIsValid = false;
+  }
 
- public validateApartmentSquare(){
-   if(this.userApartment.apartment.square &&  this.userApartment.apartment.square > 10){
-     this.apartmentSquareIsValid = true;
-   }
-   else this.apartmentSquareIsValid = false;
- }
+  public validateName() {
+    if (this.userApartment.userRegitrationByAdminDTO.firstName && this.userApartment.userRegitrationByAdminDTO.firstName.length > 1) {
+      this.nameIsValid = true;
+    }
+    else this.nameIsValid = false;
+  }
+
+  public validateLastName() {
+    if (this.userApartment.userRegitrationByAdminDTO.lastName && this.userApartment.userRegitrationByAdminDTO.lastName.length > 1) {
+      this.surnameIsValid = true;
+    }
+    else this.surnameIsValid = false;
+  }
+
+  public validateApartmentNumber() {
+    if (this.userApartment.apartment.number && this.userApartment.apartment.number > 0) {
+      this.apartmentNumberIsValid = true;
+    }
+    else this.apartmentNumberIsValid = false;
+  }
+
+  public validateApartmentSquare() {
+    if (this.userApartment.apartment.square && this.userApartment.apartment.square > 10) {
+      this.apartmentSquareIsValid = true;
+    }
+    else this.apartmentSquareIsValid = false;
+  }
 
   public isFormValid() {
-    if (this.house) {
-      return (this.emailIsValid && this.apartmentNumberIsValid && this.surnameIsValid && this.nameIsValid && this.apartmentSquareIsValid);
+    if (this.house && this.userApartment.userRegitrationByAdminDTO.ownership) {
+      return (this.phoneIsValid && this.emailIsValid && this.apartmentNumberIsValid && this.surnameIsValid && this.nameIsValid && this.apartmentSquareIsValid);
     }
     return false;
   }

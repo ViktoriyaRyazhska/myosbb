@@ -100,8 +100,9 @@
               <label for="phone">
                 {{ 'select_user_phone' | translate | capitalize }}
               </label>
-              <input [textMask]="{mask:phoneMask}" [(ngModel)]="userApartment.userRegitrationByAdminDTO.phoneNumber" type="text" class="form-control"
+              <input [textMask]="{mask:phoneMask}" [(ngModel)]="tmpPhone" (blur)="clearPhoneMask()" type="text" class="form-control" required
                 id="phone"  name="phone">
+                <div *ngIf='!phoneIsValid' class="alert alert-danger" disabled=true> {{ 'invalid_phone' | translate | capitalize }}</div>
             </div>
             <div class="form-group">
               <label>{{ 'select_ownership' | translate | myCapitalize}}</label>
