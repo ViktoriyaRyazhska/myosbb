@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StompService } from './stomp.service';
 import { API_URL } from '../../../shared/models/localhost.config';
-import ScrollGlue from 'angular2-scroll-glue'
 
 @Component({
     selector: 'chat',
