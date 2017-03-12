@@ -2,9 +2,9 @@
   <breadcrumb [header]="title"></breadcrumb>
   <div class="wrapper">
       <div id="chatbox" class="form-control" >
-        <div *ngFor="let response of serverResponse"  class="response" >
-          <span > <b> {{response.timestamp  | date: 'short' }}: </b> </span> 
-          <span > {{response.content}} </span>
+        <div scroll-glue *ngFor="let response of serverResponse"  class="response" >
+         <span > <b> {{response.messageTime  | date: 'short' }}: </b> </span>
+          <span > {{response.message}} </span>
         </div>
       </div>
       <div>

@@ -21,7 +21,7 @@ export class StompService {
         });
     }
     public send(_payload: string) {
-        this._stompClient.send("/app/chat", {}, JSON.stringify({'content': _payload}));
+        this._stompClient.send("/app/chat", {}, JSON.stringify({'message': _payload}));
     }
 
 }

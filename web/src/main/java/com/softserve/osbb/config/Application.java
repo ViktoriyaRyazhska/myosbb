@@ -6,10 +6,16 @@
  */
 package com.softserve.osbb.config;
 
+import javax.persistence.EntityManagerFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * Initializes this Spring Boot application.
@@ -18,6 +24,7 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
  * @version 1.1
  * @since 15.11.2016 
  */
+
 @SpringBootApplication(scanBasePackages = "com.softserve.osbb")
 public class Application extends SpringBootServletInitializer {
 
@@ -27,6 +34,15 @@ public class Application extends SpringBootServletInitializer {
      */
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
+    }
+    
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
+
+    @Bean
+    public PlatformTransactionManager transactionManager() 
+    {
+      return new JpaTransactionManager(entityManagerFactory);
     }
     
     @Override
