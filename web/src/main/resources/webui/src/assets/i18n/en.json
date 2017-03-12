@@ -327,11 +327,7 @@
   "could_not_update": "Could not perform update",
 
 
-  
   "select_ownership":"select ownership",
-
-
-
   "select_ap_number":"Apartment number",
   "select_ap_square":"Apartment square",
   "select_user_firstname":"User firstname",
@@ -341,5 +337,13 @@
   "street_short":"str.",
   "create_apartment":"create apartment",
   "owner":"owner",
-  "house":"house"
+  "house":"house",
+  "invalid_apartment_number":"invalid apartment number",
+  "invalid_apartment_square":"invalid apartment square",
+  "bigger_then":"number must be bigger than",
+  "at_least_length_req": "must be longer than",
+  "invalid_field":"invalid field input",
+  "invalid_email":"invalid email",
+  "invalid_phone":"invalid phone",
+  "my_apartment":"my apartment"
 }
