@@ -2,6 +2,10 @@
   <breadcrumb [header]="title"></breadcrumb>
   <div class="wrapper">
       <div #chatbox id="chatbox" [scrollTop]="chatbox.scrollHeight" class="form-control" >
+        <div *ngFor="let m of messages"  class="response" >
+         <span > <b> {{m.messageTime  | date: 'short' }}: </b> </span>
+          <span > {{m.message}} </span>
+        </div>
         <div *ngFor="let response of serverResponse"  class="response" >
          <span > <b> {{response.messageTime  | date: 'short' }}: </b> </span>
           <span > {{response.message}} </span>

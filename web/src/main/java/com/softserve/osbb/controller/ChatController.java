@@ -1,9 +1,14 @@
 package com.softserve.osbb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.softserve.osbb.model.Chat;
 import com.softserve.osbb.model.ChatMessage;
@@ -20,7 +25,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-@Controller
+@RestController
+@CrossOrigin
+@RequestMapping("/restful/chat")
 public class ChatController {
 
 	@Autowired
@@ -61,5 +68,14 @@ public class ChatController {
 		}
 		return chatService.save(chat);
 	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<Chat>> findAll() {
+        List<Chat> messages = chatService.findAll();
+		
+        return new ResponseEntity<>(messages, HttpStatus.OK);
+    }
+	
+	
 
 }
