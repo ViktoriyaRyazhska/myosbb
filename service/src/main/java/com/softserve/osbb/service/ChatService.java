@@ -1,8 +1,10 @@
 package com.softserve.osbb.service;
 
+import java.io.File;
 import java.util.List;
 
 import com.softserve.osbb.model.Chat;
+import com.softserve.osbb.model.ListMessages;
 
 public interface ChatService {
 
@@ -24,6 +26,10 @@ public interface ChatService {
 	
 	void deleteHalf();
 	
+	void getHalf();
+	
 	long countChatMessages();
+	
+	void saveToDrive(List<Chat> list, ListMessages listOfMessages, Chat chat);
 
 }

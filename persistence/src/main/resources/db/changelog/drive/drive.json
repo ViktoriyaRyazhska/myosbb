@@ -1,0 +1,37 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "2017/02/16",
+        "author": "Nazar, Yurii",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "createTable": {
+              "columns": [
+                {
+                  "column": {
+                    "autoIncrement": true,
+                    "constraints": {
+                      "primaryKey": true,
+                      "primaryKeyName": "drive_pkey"
+                    },
+                    "name": "drive_id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "file",
+                    "type": "VARCHAR(500)"
+                  }
+                }
+              ],
+              "tableName": "drive"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
