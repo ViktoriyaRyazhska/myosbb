@@ -8,19 +8,21 @@ import { ApartmentService } from './apartment.service';
 import { Observable } from 'rxjs/Observable';
 import { LoginService } from '../../shared/login/login.service';
 import { Subscription } from 'rxjs';
+import { API_URL } from '../../../shared/models/localhost.config';
 
 @Component({
     providers: [ApartmentService, LoginService],
     selector: 'apartment',
     templateUrl: './apartment.template.html',
-    styleUrls: ['../../../assets/css/manager.page.layout.scss'],
+    styleUrls: ['../../../assets/css/manager.page.layout.scss', './apartment.scss'],
 })
 export class ApartmentAboutComponent implements OnInit {
     public apartment: string[];
     public apartmentId: number;
     private sub: Subscription;
     public users: string[];
-    public owner: string[];
+    public owner: any;
+    public imgUrl: string;
 
     constructor(
         public route: ActivatedRoute,
@@ -35,7 +37,7 @@ export class ApartmentAboutComponent implements OnInit {
         this.initApartment();
         this.initUsers();
         this.initOwner();
-
+        console.log(this.owner + "   1");
     }
 
     public initApartment() {
@@ -53,8 +55,18 @@ export class ApartmentAboutComponent implements OnInit {
 
     public initOwner() {
         this.ApartmentService.getOwner(this.apartmentId).subscribe((data) => {
-            this.owner = Array.of(data);
+            this.owner = data;
+            this.initImgUrl();
         });
     }
+
+    public initImgUrl() {
+        if (this.owner != null) {
+            this.imgUrl = API_URL + "/restful/house/image/" + this.owner.photoId;
+        }
+    }
+
+
+
 
 };
