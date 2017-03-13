@@ -9,8 +9,6 @@ package com.softserve.osbb.dto;
 import com.softserve.osbb.dto.mappers.ApartmentDTOMapper;
 import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.House;
-import com.softserve.osbb.model.Osbb;
-import com.softserve.osbb.model.Street;
 import com.softserve.osbb.model.User;
 
 import java.util.Date;
@@ -18,6 +16,7 @@ import java.util.Date;
 /**
  * Created by Roman on 16.08.2016.
  * modified by cavayman 23.09.2016
+ * modified by YuriiRozhak 12.03.2017
  */
 public class UserDTO {
     
