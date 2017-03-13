@@ -308,13 +308,19 @@ INSERT into event(title, author, start_time, end_time, description, repeats, osb
 INSERT into event(title, author, start_time, end_time, description, repeats, osbb_id) VALUES(
 'Мешканців міста знайомлять з порядком створення ОСББ',4,'2016-01-01 08:00:00','2017-01-01 08:00:00',
 '1 липня 2015 р. набрав чинності Закон України «Про особливості здійснення права власності в багатоквартирному будинку».','ONE_TIME',4);
-
-
 INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Прибирання','Примітка',235,'UAH',1);
 INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Прибирання Двору','Примітка Підпослуга',153,'UAH',1,1);
 INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Прибирання сходової клітки','Примітка Підпослуга',82,'UAH',1,1);
 INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Ремонт','Примітка',35600,'UAH',2);
 INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Ремонт під`їзду','Примітка Підпослуга',15400,'UAH',2,2);
 INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Ремонт дитячої площадки','Примітка Підпослуга',20200,'UAH',2,2);
+INSERT INTO osbb_provider values (1,1);
+INSERT INTO osbb_provider values (1,2);
+INSERT INTO osbb_provider values (2,1);
+INSERT INTO osbb_provider values (3,1);
+INSERT INTO osbb_provider values (1,4);
+INSERT INTO osbb_provider values (5,1);
+INSERT INTO osbb_provider values (5,3);
+INSERT INTO osbb_provider values (5,4);
 
 --rollback

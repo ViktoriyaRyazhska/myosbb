@@ -52,6 +52,11 @@
     },
     {
       "includeAll": {
+        "path": "classpath:/db/changelog/provider/"
+      }
+    },
+    {
+      "includeAll": {
         "path": "classpath:/db/changelog/street/"
       }
     },
@@ -75,11 +80,7 @@
         "path": "classpath:/db/changelog/folder/"
       }
     },
-    {
-      "includeAll": {
-        "path": "classpath:/db/changelog/provider/"
-      }
-    },
+    
     {
       "includeAll": {
         "path": "classpath:/db/changelog/provider_type/"
@@ -125,10 +126,12 @@
         "path": "classpath:/db/changelog/utility/"
       }
     },
+    
     {
       "includeAll": {
         "path": "classpath:/db/changelog/default.input/"
       }
+    
     }
   ]
 }

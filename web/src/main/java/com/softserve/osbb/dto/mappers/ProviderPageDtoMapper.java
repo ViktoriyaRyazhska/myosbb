@@ -107,12 +107,14 @@ public class ProviderPageDtoMapper {
         
         ArrayList<Attachment> list = new ArrayList<>();
         
+        /**
         for (int i = 0; i < providerPageDTO.getAttachments().size(); i++) {
             list.add(attachmentService.getAttachmentById(providerPageDTO.getAttachments().get(i).getAttachmentId()));
         }
         
-        provider.setAttachments(list); //tmp dirty solution PersistentObjectException, detached Attachment entity passed to persist
         
+        provider.setAttachments(list); //tmp dirty solution PersistentObjectException, detached Attachment entity passed to persist
+        **/
         if (providerId==null) {
             logger.info("saving provider");
           providerService.saveProvider(provider);
