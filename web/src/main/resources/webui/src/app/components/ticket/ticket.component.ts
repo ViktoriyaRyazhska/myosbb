@@ -29,8 +29,8 @@ export class TicketComponent implements OnInit {
   public resData: any;
   public pageRequest = new PageRequest(1, 10, 'time', false);
   public title: string = 'Tickets';
- private str:string;
- private user: User;
+  private str:string;
+  private user: User;
 
   constructor(
     public ticketService: TicketService,

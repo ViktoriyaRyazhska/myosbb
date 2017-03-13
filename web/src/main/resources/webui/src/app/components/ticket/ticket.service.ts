@@ -14,13 +14,13 @@ import { PageRequest } from '../../models/pageRequest.model';
 import { UrlListConfig } from '../../services/apiUrl.service';
 import {Ticket, TicketState, ITicket} from "../../models/ticket.model";
 import { LoginConstants } from '../../shared/login/login.constants';
-
+import {User} from "../../models/user.model";
+import { API_URL } from '../../models/localhost.config';
 
 @Injectable()
-
 export class TicketService {
   private pageRequest = new PageRequest(1, 10, 'time', false);
-  private url:string =LoginConstants.Login.serverUrl + '/restful/ticket';
+  private getUsers:string=API_URL+'/restful/user/osbb';
   constructor(
     private http: Http,
     private login: LoginService,
@@ -46,10 +46,16 @@ export class TicketService {
       .map((response) => response.json())
       .catch((error) => Observable.throw(error));
   };
+
+getAllUsers(osbbId:number):Promise<User[]> {
+        return this.http.get(`${this.getUsers}/${osbbId}`, this.login.getRequestOptionArgs())
+            .toPromise()
+            .then(res => res.json())
+            .catch(this.handleError);
+    }
+
 addTicket(ticket:ITicket):Promise<ITicket> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-        return this.http.post(this.url, JSON.stringify(ticket), options)
+        return this.http.post(UrlListConfig.URL_LIST.ticketUrl, JSON.stringify(ticket), this.login.getRequestOptionArgs())
             .toPromise()
             .then(res => res.json())
             .catch(this.handleError);
@@ -58,5 +64,12 @@ addTicket(ticket:ITicket):Promise<ITicket> {
         console.log('HandleError', error);
         return Promise.reject(error.message || error);
     };
+
+ deleteTicket(ticket:ITicket):Promise<ITicket> {
+        return this.http.delete(UrlListConfig.URL_LIST.ticketUrl+`${ticket.ticketId}`,this.login.getRequestOptionArgs())
+            .toPromise()
+            .then(res => ticket)
+            .catch(this.handleError);
+    }
 
 }

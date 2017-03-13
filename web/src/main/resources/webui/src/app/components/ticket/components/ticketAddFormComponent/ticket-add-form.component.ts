@@ -17,7 +17,7 @@ import { LoginService } from '../../../../shared/login/login.service';
 
 @Component({
     selector: 'ticket-add-form',
-    providers: [TicketService],
+    providers: [TicketService, FormBuilder],
     templateUrl: './ticket-add-form.html',
     styleUrls: ['../../../../../assets/css/page.layout.scss']
 })
@@ -36,18 +36,20 @@ export class TicketAddFormComponent {
  private assignInput:FormControl;
  private submitAttempt: boolean;
  private nameTicket: string = '';
-  private descriptionTicket: string = '';
+ private descriptionTicket: string = '';
   private assignTicket: string = '';
   private endTimeStr: string;
- private builder:FormBuilder;
-  constructor() {
+
+  constructor(private ticketSrvice:TicketService,
+              private loginService:LoginService,
+              private builder:FormBuilder) {
+        this.currentUser=this.loginService.getUser();
         this.created = new EventEmitter<Ticket>();
         this.ticket = new Ticket("","",TicketState.NEW,null);
         this.submitAttempt = false;
         this.nameInput = new FormControl('', Validators.required);
         this.descriptionInput = new FormControl('', Validators.required);
         this.assignInput = new FormControl('', Validators.required);
-        this.builder = new FormBuilder();
         this.creatingForm =this.builder.group({
             nameInput: this.nameInput,
             descriptionInput: this.descriptionInput,
@@ -55,10 +57,18 @@ export class TicketAddFormComponent {
         });
    }
 
+   ngOnInit(){
+   }
+
   public openAddModal() {
     this.addModal.show();
+    this.getAllOsbbUsers();
   };
-
+getAllOsbbUsers(){
+   console.log(this.currentUser.osbbId);
+return this.ticketSrvice.getAllUsers(this.currentUser.osbbId)
+.then(userAssignArr =>this.userAssignArr=userAssignArr)
+}
   public isEmptyName(): boolean {
     return this.nameTicket.length >= 10 ? false : true;
   };
@@ -89,20 +99,19 @@ export class TicketAddFormComponent {
   };
 
 public onCreateTicket() {
-    if (this.nameInput.valid && this.descriptionInput.valid && this.assignInput.valid&&
-             !this.isEmptyDescription()&&!this.isEmptyName()&&this.isFindAssign() && this.isDeadLineCorrect()) {
-            this.created.emit(this.createTicket());
-            this.closeAddModal();
-        }
-    this.closeAddModal();
+  console.log("On Create Ticket Start");
+     this.ticketSrvice.addTicket(this.createTicket());
+     this.closeAddModal();
+ 
+    console.log("On Create Ticket End");
   };
       createTicket():Ticket {
-        console.log("Create Ticket Start");
-        let ticket = new Ticket(this.nameTicket, this.descriptionTicket, TicketState.NEW,null);
-        ticket.user = this.currentUser;
-       // ticket.attachments = this.attachments;
-        ticket.assigned = this.getAssignedId(this.assignTicket);
-        ticket.deadline = this.castDeadLineStringToDate();
+       console.log("Create Ticket Start");
+       let ticket = new Ticket(this.nameTicket, this.descriptionTicket, TicketState.NEW,null);
+       ticket.user = this.currentUser;
+       console.log("assign "+this.getAssignedId(this.assignTicket));
+       ticket.assigned = this.getAssignedId(this.assignTicket);
+       ticket.deadline = this.castDeadLineStringToDate();
          console.log("Create Ticket End");
         return ticket;
 
