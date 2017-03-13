@@ -2,6 +2,7 @@ package com.softserve.osbb.service;
 
 import java.util.List;
 
+import com.softserve.osbb.model.House;
 import org.springframework.stereotype.Service;
 
 import com.softserve.osbb.model.Utility;
@@ -21,5 +22,7 @@ public interface UtilityService {
 	void delete(Integer id);
 
 	Utility updateUtility(Utility utility);
+
+	List<Utility> getUtilitiesByHouse(House house);
 	
 }
