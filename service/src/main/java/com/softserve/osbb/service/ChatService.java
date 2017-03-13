@@ -1,7 +1,16 @@
 package com.softserve.osbb.service;
 
-import com.softserve.osbb.model.Chat;
+import javax.transaction.Transactional;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+
+import com.softserve.osbb.model.Chat;
+import com.softserve.osbb.model.Message;
+
+
+@Service
+@Transactional
 public interface ChatService {
 
 	 void delete(Integer id);
@@ -12,11 +21,13 @@ public interface ChatService {
 	  
 	  Chat update(Chat chat);
 	  
-	 Chat findOne(Integer id);
+	  Chat findOne(Integer id);
 
-	Chat findOne(String id);
+	  Chat findOne(String id);
 
-	Chat save(Chat chat);
+	  Chat save(Chat chat);
+	  
+	  Chat saveAndFlush(Chat message);
 	
 	
 }

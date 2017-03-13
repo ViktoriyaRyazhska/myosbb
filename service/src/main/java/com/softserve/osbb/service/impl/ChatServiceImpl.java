@@ -1,16 +1,22 @@
 package com.softserve.osbb.service.impl;
 
-import javax.transaction.Transactional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.osbb.model.Chat;
+import com.softserve.osbb.model.Message;
 import com.softserve.osbb.repository.ChatRepository;
 import com.softserve.osbb.service.ChatService;
 
 @Service
 @Transactional
+@Scope( proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ChatServiceImpl implements ChatService{
 
 	@Autowired
@@ -18,7 +24,6 @@ public class ChatServiceImpl implements ChatService{
 	
 	@Override
 	public void delete(Chat chat) {
-		
 		chatRepository.delete(chat.getChatId());
 		
 	}
@@ -58,5 +63,11 @@ public class ChatServiceImpl implements ChatService{
 	public void delete(Integer id) {
 		chatRepository.delete(id);
 	}
+	
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public Chat saveAndFlush(Chat chat) {
+        return chatRepository.saveAndFlush(chat);
+    }
 
 }
