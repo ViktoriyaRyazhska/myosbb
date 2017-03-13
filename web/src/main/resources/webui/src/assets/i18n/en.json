@@ -345,5 +345,6 @@
   "invalid_email":"invalid email",
   "invalid_phone":"invalid phone",
   "my_apartment":"my apartment",
-  "select_avatar":"choose user avatar"
+  "select_avatar":"choose user avatar",
+  "invalid_file_type": "file type isn't image it will not be uploaded as avatar"
 }

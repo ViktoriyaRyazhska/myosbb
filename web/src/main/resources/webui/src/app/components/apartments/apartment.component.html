@@ -17,7 +17,7 @@
           </th>
           <th>
             <mfDefaultSorter by="house.street.city.name">{{ 'city' | translate | myCapitalize}}</mfDefaultSorter>
-            </th>
+          </th>
           <th>
             <mfDefaultSorter by="number">{{ 'select_ap_number' | translate | myCapitalize}} </mfDefaultSorter>
           </th>
@@ -74,8 +74,8 @@
               </label>
               <input [(ngModel)]="userApartment.apartment.number" type="number" class="form-control" id="appart_num" required name="appart_num"
                 min="1" step="1" (blur)="validateApartmentNumber()">
-                <div *ngIf='!apartmentNumberIsValid' class="alert alert-danger" disabled=true>
-                  {{ 'invalid_apartment_number' | translate | capitalize }}. {{ 'bigger_then' | translate | capitalize }} 0</div>
+              <div *ngIf='!apartmentNumberIsValid' class="alert alert-danger" disabled=true>
+                {{ 'invalid_apartment_number' | translate | capitalize }}. {{ 'bigger_then' | translate | capitalize }} 0</div>
             </div>
             <div class="form-group">
               <label for="square">
@@ -83,8 +83,8 @@
               </label>
               <input [(ngModel)]="userApartment.apartment.square" (blur)="validateApartmentSquare()" type="number" class="form-control"
                 id="square" required name="square" min="10">
-                <div *ngIf='!apartmentSquareIsValid' class="alert alert-danger" disabled=true>
-                  {{ 'invalid_apartment_square' | translate | capitalize }}. {{ 'bigger_then' | translate | capitalize }} 10</div>
+              <div *ngIf='!apartmentSquareIsValid' class="alert alert-danger" disabled=true>
+                {{ 'invalid_apartment_square' | translate | capitalize }}. {{ 'bigger_then' | translate | capitalize }} 10</div>
             </div>
             <div class="form-group">
               <label for="firstname">
@@ -92,9 +92,9 @@
               </label>
               <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.firstName" (blur)="validateName()" type="text" class="form-control"
                 id="firstname" required name="firstname">
-                <div *ngIf='!nameIsValid' class="alert alert-danger" disabled=true>
-                  {{ 'invalid_field' | translate | capitalize }}. {{ 'at_least_length_req' | translate | capitalize }} 2
-                </div>
+              <div *ngIf='!nameIsValid' class="alert alert-danger" disabled=true>
+                {{ 'invalid_field' | translate | capitalize }}. {{ 'at_least_length_req' | translate | capitalize }} 2
+              </div>
             </div>
             <div class="form-group">
               <label for="lastname">
@@ -102,9 +102,9 @@
               </label>
               <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.lastName" (blur)="validateLastName()" type="text" class="form-control"
                 id="lastname" required name="lastname">
-                <div *ngIf='!surnameIsValid' class="alert alert-danger" disabled=true>
-                  {{ 'invalid_field' | translate | capitalize }}. {{ 'at_least_length_req' | translate | capitalize }} 2
-                </div>
+              <div *ngIf='!surnameIsValid' class="alert alert-danger" disabled=true>
+                {{ 'invalid_field' | translate | capitalize }}. {{ 'at_least_length_req' | translate | capitalize }} 2
+              </div>
             </div>
             <div class="form-group">
               <label for="email">
@@ -112,15 +112,15 @@
               </label>
               <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.email" (blur)="isValidMailFormat()" type="email" class="form-control"
                 id="email" required name="email">
-                <div *ngIf='!emailIsValid' class="alert alert-danger" disabled=true> {{ 'invalid_email' | translate | capitalize }}</div>
+              <div *ngIf='!emailIsValid' class="alert alert-danger" disabled=true> {{ 'invalid_email' | translate | capitalize }}</div>
             </div>
             <div class="form-group">
               <label for="phone">
                 {{ 'select_user_phone' | translate | capitalize }}
               </label>
-              <input [textMask]="{mask:phoneMask}" [(ngModel)]="tmpPhone" (blur)="clearPhoneMask()" type="text" class="form-control" required
-                id="phone" name="phone">
-                <div *ngIf='!phoneIsValid' class="alert alert-danger" disabled=true> {{ 'invalid_phone' | translate | capitalize }}</div>
+              <input [textMask]="{mask:phoneMask}" [(ngModel)]="tmpPhone" (change)="clearPhoneMask()" type="text" class="form-control"
+                required id="phone" name="phone">
+              <div *ngIf='!phoneIsValid' class="alert alert-danger" disabled=true> {{ 'invalid_phone' | translate | capitalize }}</div>
             </div>
             <div class="form-group">
               <label>{{ 'select_ownership' | translate | myCapitalize}}</label>
@@ -133,10 +133,11 @@
 
             <div *ngIf="emailIsValid ">
               <div>
-                 <label for="avatar">
+                <label for="avatar">
                 {{ 'select_avatar' | translate | capitalize }}
               </label>
-                <input id="avatar" name="avatar" type="file" ng2FileSelect [uploader]="uploader" (click)="initUploader(userApartment.userRegitrationByAdminDTO.email)"/>
+                <input id="avatar" name="avatar" accept="image/*" type="file" ng2FileSelect [uploader]="uploader" (change)="validateItemType()"
+                  (click)="initUploader(userApartment.userRegitrationByAdminDTO.email)" />
               </div>
               <div *ngIf="uploader">
                 <table class="table table-font">
@@ -167,6 +168,7 @@
                   </tbody>
                 </table>
               </div>
+              <div *ngIf='!itemTypeValid' class="alert alert-warning" disabled=true> {{ 'invalid_file_type' | translate | capitalize }}</div>
             </div>
           </div>
         </div>
