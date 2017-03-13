@@ -125,9 +125,9 @@
             <div class="form-group">
               <label>{{ 'select_ownership' | translate | myCapitalize}}</label>
               <select required [(ngModel)]="userApartment.userRegitrationByAdminDTO.ownership" name="selOwnership">
-                <option>OWNER</option>
-                <option>SUBOWNER</option>
-                <option>RENTER</option>
+                <option label="{{'OWNER' | translate | capitalize}}">OWNER</option>
+                <option label="{{'SUBOWNER' | translate | capitalize}}">SUBOWNER</option>
+                <option label="{{'RENTER' | translate | capitalize}}">RENTER</option>
              </select>
             </div>
 
