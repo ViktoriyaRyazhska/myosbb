@@ -61,6 +61,7 @@ export class ApartmentComponent implements OnInit {
   public surnameIsValid: boolean;
   public ownershipSelected: boolean;
   public phoneIsValid: boolean;
+  public itemTypeValid: boolean;
 
 
   public rowsOnPage = 10;
@@ -88,12 +89,11 @@ export class ApartmentComponent implements OnInit {
   }
 
   public onSubmitUserApartment() {
-        this.createModal.hide();
+    this.createModal.hide();
     this.apartment.registerApartmentWithUser(this.userApartment, this.house.houseId)
       .subscribe(
       (data) => {
-        console.log("data");
-        if (this.uploader) this.onUpload();
+        if (this.uploader && this.uploader.queue.length > 0) this.onUpload();
         this.getApartments();
         this.uploader = null;
         this.toasterService.pop('success', '', 'Користувача і квартиру було успішно зареєстроване!');
@@ -186,6 +186,7 @@ export class ApartmentComponent implements OnInit {
     this.apartmentSquareIsValid = true;
     this.ownershipSelected = true;
     this.phoneIsValid = true;
+    this.itemTypeValid = true;
   };
 
   public ListAllHouses() {
@@ -241,9 +242,11 @@ export class ApartmentComponent implements OnInit {
   }
 
   public onUpload() {
-    this.uploader.queue.forEach((item) => {
-      item.upload();
-    });
+    if (this.itemTypeValid) {
+      this.uploader.queue.forEach((item) => {
+        item.upload();
+      });
+    }
   }
 
   public initUploader(email: string) {
@@ -277,9 +280,20 @@ export class ApartmentComponent implements OnInit {
   }
 
   public clearPhoneMask() {
-   this.userApartment.userRegitrationByAdminDTO.phoneNumber = this.tmpPhone.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").substr(0,12);
+    this.userApartment.userRegitrationByAdminDTO.phoneNumber = this.tmpPhone.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "").substr(0, 12);
     this.validatePhoneNumber();
- }
+  }
+
+  public validateItemType() {
+    this.uploader.queue.forEach((item) => {
+      if (item.file.type.match('image.*')) {
+        this.itemTypeValid = true;
+      }
+      else {
+        this.itemTypeValid = false;
+      }
+    });
+  }
 
   public validatePhoneNumber() {
     if (this.userApartment.userRegitrationByAdminDTO.phoneNumber && this.userApartment.userRegitrationByAdminDTO.phoneNumber.length == 12) {

@@ -4,6 +4,7 @@
     display: none;
   }
 }
+
 @media only screen and (max-width: 640px) {
   #unseen table td:nth-child(4),
   #unseen table th:nth-child(4),
@@ -24,42 +25,34 @@
     clear: both;
     height: 0;
   }
-
   #flip-scroll * html .cf {
     zoom: 1;
   }
-
-  #flip-scroll *:first-child + html .cf {
+  #flip-scroll *:first-child+html .cf {
     zoom: 1;
   }
-
   #flip-scroll table {
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
   }
-
   #flip-scroll th,
   #flip-scroll td {
     margin: 0;
     vertical-align: top;
   }
-
   #flip-scroll th {
     text-align: left;
   }
-
   #flip-scroll table {
     display: block;
     position: relative;
     width: 100%;
   }
-
   #flip-scroll thead {
     display: block;
     float: left;
   }
-
   #flip-scroll tbody {
     display: block;
     width: auto;
@@ -67,49 +60,40 @@
     overflow-x: auto;
     white-space: nowrap;
   }
-
   #flip-scroll thead tr {
     display: block;
   }
-
   #flip-scroll th {
     display: block;
     text-align: right;
   }
-
   #flip-scroll tbody tr {
     display: inline-block;
     vertical-align: top;
   }
-
   #flip-scroll td {
     display: block;
     min-height: 1.25em;
     text-align: left;
   }
-
   /* sort out borders */
   #flip-scroll th {
     border-bottom: 0;
     border-left: 0;
   }
-
   #flip-scroll td {
     border-left: 0;
     border-right: 0;
     border-bottom: 0;
   }
-
   #flip-scroll tbody tr {
     border-left: 1px solid #babcbf;
   }
-
   #flip-scroll th:last-child,
   #flip-scroll td:last-child {
     border-bottom: 1px solid #babcbf;
   }
 }
-
 
 @media only screen and (max-width: 800px) {
   #no-more-tables table,
@@ -120,18 +104,15 @@
   #no-more-tables tr {
     display: block;
   }
-
   /* Hide table headers (but not display: none;, for accessibility) */
   #no-more-tables thead tr {
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
-
   #no-more-tables tr {
     border: 1px solid #ccc;
   }
-
   #no-more-tables td {
     /* Behave like a "row" */
     border: none;
@@ -141,7 +122,6 @@
     white-space: normal;
     text-align: left;
   }
-
   #no-more-tables td:before {
     /* Now like a table header */
     position: absolute;
@@ -154,7 +134,6 @@
     text-align: left;
     font-weight: bold;
   }
-
   /*
   Label the data
   */

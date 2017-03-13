@@ -37,7 +37,6 @@ export class ApartmentAboutComponent implements OnInit {
         this.initApartment();
         this.initUsers();
         this.initOwner();
-        console.log(this.owner + "   1");
     }
 
     public initApartment() {
@@ -57,7 +56,10 @@ export class ApartmentAboutComponent implements OnInit {
         this.ApartmentService.getOwner(this.apartmentId).subscribe((data) => {
             this.owner = data;
             this.initImgUrl();
-        });
+        },
+            (error) => {
+                console.log(error);
+            });
     }
 
     public initImgUrl() {
