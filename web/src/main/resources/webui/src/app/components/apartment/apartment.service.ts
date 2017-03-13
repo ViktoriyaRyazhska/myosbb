@@ -29,9 +29,9 @@ export class ApartmentService {
   }
 
     public getOwner(apartmentId: number): Observable < any > {
-        return this.http.get(`${API_URL}/restful/apartment/owner/${apartmentId}`,
-            this.LoginService.getRequestOptionArgs())
-            .map((res: Response) => res.json());
+        return this.http.get(`${API_URL}/restful/apartment/owner/${apartmentId}`)
+            .map((res: Response) => res.json())
+             .catch((error) => Observable.throw(error));
     }
 
 
