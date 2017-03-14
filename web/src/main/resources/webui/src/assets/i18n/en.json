@@ -355,5 +355,10 @@
   
   "user_appartment_success":"Apartment with user were successfully added",
   "apartment_exist":"apartment with this number in this house already exists",
-  "wrong_email":"wrong e-mail. Can't find host"
-}
+  "wrong_email":"wrong e-mail. Can't find host",
+  "server_disconect":"something wrong with internet connection. cannot send mail",
+  "unknown_error":"server error",
+  "null_input":"no data provided in request body",
+  "some_data_null":"some required field was not provided",
+  "email_null":"email was not provided"
+  }

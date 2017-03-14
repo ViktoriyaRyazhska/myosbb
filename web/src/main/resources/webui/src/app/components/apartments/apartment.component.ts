@@ -103,23 +103,36 @@ export class ApartmentComponent implements OnInit {
         this.initForm();
       },
       (error) => {
-        console.log(error.json());
-        this.handleErrors(error);
+        var errorJson = error.json();
+        this.handleErrors(errorJson);
       });
   }
 
-  public handleErrors(error) {
-    var errorJson = error.json();
+  public handleErrors(errorJson) {
     switch (errorJson.message) {
       case "user already exists":
-        this.toasterService.pop('error', '403', this.translate('user') + " " + this.translate('exist'));
+        this.toasterService.pop('error', '', this.translate('user').toUpperCase() + " " + this.translate('exist').toUpperCase());
         break;
       case "apartment with this number in this house already exists":
-        this.toasterService.pop('error', '403', this.translate('apartment_exist').toUpperCase());
+        this.toasterService.pop('error', '', this.translate('apartment_exist').toUpperCase());
         break;
       case "wrong e-mail":
-        this.toasterService.pop('error', '403', this.translate('wrong_email').toUpperCase());
+        this.toasterService.pop('error', '', this.translate('wrong_email').toUpperCase());
         break;
+      case "something wrong with internet connection. cannot send mail":
+        this.toasterService.pop('error', '', this.translate('server_disconect').toUpperCase());
+        break;
+      case "Incoming dto is null":
+        this.toasterService.pop('error', '', this.translate('null_input').toUpperCase());
+        break;
+      case "incoming data contains null element on place of required":
+        this.toasterService.pop('error', '', this.translate('some_data_null').toUpperCase());
+        break;
+      case "incoming data contains null where e-mail address supposed to be":
+        this.toasterService.pop('error', '', this.translate('email_null').toUpperCase());
+        break;
+      default:
+        this.toasterService.pop('error', '', errorJson.message);
     }
   }
 
