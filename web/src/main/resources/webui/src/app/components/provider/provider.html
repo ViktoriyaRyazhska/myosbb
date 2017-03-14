@@ -1,4 +1,312 @@
 <div class="content">
-  <breadcrumb [header]="title"></breadcrumb>
-  <p>provider</p>
+	<breadcrumb [header]="title"></breadcrumb>
+	<div style="padding-left: 30px; position:relative;">
+  <button   type="button" class="btn btn-success" (click)="openCreateModal()" >{{ 'create' }}  
+  </button>
+  <button  type="button" class="btn btn-success" (click)="openAddModal()">{{ 'add_to_osbb' }}
+</button>
+</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div *ngFor="let provider of providers; let i = index ">
+				<template [ngIf]="i%2==0">
+				<div class="col-xs-12">
+					<label class="col-xs-6 text-center"><b
+						style="font-size: 20px;">{{provider.name}}</b></label>
+				</div>
+				<div class="col-xs-12">
+					<label class="col-xs-6"><b>{{'type'}} </b></label> <label
+						class="col-xs-6">{{provider.type.providerTypeName}}</label>
+				</div>
+				<div class="col-xs-12">
+					<label class="col-xs-6"><b>{{'whatwedo'}}</b></label> <label
+						class="col-xs-6">{{provider.description}}</label>
+				</div>
+				<address>
+					<div class="col-xs-12">
+						<label class="col-xs-6"><b>{{ 'address'}}</b></label> <label
+							class="col-xs-6">{{provider.address}}</label>
+					</div>
+				</address>
+				<div class="col-xs-12">
+					<label class="col-xs-6"><b>{{'schedule' }}</b></label> <label
+						class="col-xs-6">{{provider.schedule}}</label>
+				</div>
+				<address>
+					<div class="col-xs-12">
+						<label class="col-xs-6"><b>{{ 'phone' }}</b></label> <label
+							class="col-xs-6">{{provider.phone}}</label>
+					</div>
+				</address>
+				<address>
+					<div class="col-xs-12">
+						<label class="col-xs-6"><b>{{ 'email' }}</b></label> <label
+							class="col-xs-6"><a href="mailto:#">{{provider.email}}</a></label>
+					</div>
+				</address>
+				<div class="col-xs-12">
+					<label class="col-xs-6"><b>{{ 'periodicity'}}</b></label> <label
+						class="col-xs-6">{{provider.periodicity}}</label>
+				</div>
+
+				<div style="padding-left: 30px" class="dropdown">
+					<button class="btn btn-default dropdown-toggle" type="button"
+						id="dropdownProviderLeft" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="true">
+						{{ 'options' }} <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownProviderLeft">
+						<li><a style="cursor: pointer" class="yellow">{{ 'edit'
+								}}</a></li>
+						<li><a style="cursor: pointer"
+							(click)="openDelModal(provider)" class="red"> {{ 'delete'}}</a></li>
+						<li><a style="cursor: pointer"> {{ 'GoToProviderPage' }}</a></li>
+					</ul>
+				</div>
+
+
+				</template>
+			</div>
+		</div>
+
+
+		<div class="col-md-6">
+			<div *ngFor="let provider of providers; let i = index ">
+				<template [ngIf]="i%2!=0">
+				<div class="col-xs-12">
+					<label class="col-xs-6 text-center"><b
+						style="font-size: 20px;">{{provider.name}}</b></label>
+				</div>
+				<div class="col-xs-12">
+					<label class="col-xs-6"><b>{{'type'}} </b></label> <label
+						class="col-xs-6">{{provider.type.providerTypeName}}</label>
+				</div>
+				<div class="col-xs-12">
+					<label class="col-xs-6"><b>{{'whatwedo'}}</b></label> <label
+						class="col-xs-6">{{provider.description}}</label>
+				</div>
+				<address>
+					<div class="col-xs-12">
+						<label class="col-xs-6"><b>{{ 'address'}}</b></label> <label
+							class="col-xs-6">{{provider.address}}</label>
+					</div>
+				</address>
+				<div class="col-xs-12">
+					<label class="col-xs-6"><b>{{'schedule' }}</b></label> <label
+						class="col-xs-6">{{provider.schedule}}</label>
+				</div>
+				<address>
+					<div class="col-xs-12">
+						<label class="col-xs-6"><b>{{ 'phone' }}</b></label> <label
+							class="col-xs-6">{{provider.phone}}</label>
+					</div>
+				</address>
+				<address>
+					<div class="col-xs-12">
+						<label class="col-xs-6"><b>{{ 'email' }}</b></label> <label
+							class="col-xs-6"><a href="mailto:#">{{provider.email}}</a></label>
+					</div>
+				</address>
+				<div class="col-xs-12">
+					<label class="col-xs-6"><b>{{ 'periodicity'}}</b></label> <label
+						class="col-xs-6">{{provider.periodicity}}</label>
+				</div>
+				<div style="padding-left: 30px" class="dropdown">
+					<button class="btn btn-default dropdown-toggle" type="button"
+						id="dropdownProviderLeft" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="true">
+						{{ 'options' }} <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownProviderLeft">
+						<li><a style="cursor: pointer" class="yellow">{{ 'edit'
+								}}</a></li>
+						<li><a style="cursor: pointer"
+							(click)="openDelModal(provider)" class="red"> {{ 'delete'}}</a></li>
+						<li><a style="cursor: pointer"> {{ 'GoToProviderPage' }}</a></li>
+					</ul>
+				</div>
+				</template>
+			</div>
+		</div>
+	</div>
+
+  <!-- add modal-->
+        <div bsModal #addModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+             aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" aria-label="Close"
+                                (click)="addModal.hide()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">{{ 'adding'  }} ...</h4>
+                    </div>
+                 <form (ngSubmit)="onAddProviderSubmit()" #registerForm="ngForm">   
+                    <div class="modal-body">
+                <div class="form-group">
+                <label for="provider">select_from_list</label>
+                <select id="provider" class="form-control"
+                name="provider"
+                [(ngModel)]="providerForAdding" required
+                #pro="ngModel">
+                <option *ngFor="let f of allProviders" [ngValue]="f">{{f.description}}</option>
+                </select>   
+            </div> 
+               </div>
+                    <div class="modal-footer">
+          <button type="submit"  class="btn btn-primary" >
+            {{ 'ok' }}
+          </button>
+        </div>
+      </form></div>
+            </div>
+        </div>		
+    
+	<!-- delete modal-->
+        <div bsModal #delModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+             aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" aria-label="Close"
+                                (click)="delModal.hide()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">{{ 'removing'}} ...</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h5>{{ 'confirmDelete'}}</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" (click)="delModal.hide()">{{ 'no' }}
+                        </button>
+                        <button type="button" class="btn btn-primary" (click)="closeDelModal()">{{ 'yes' }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+	<div bsModal #createModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="createModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title"> {{ 'create' }}
+        </h4>
+      </div>
+      <form (ngSubmit)="onCreateProviderSubmit()" #registerForm="ngForm">
+        <div class="modal-body">
+          <div>
+            <div class="form-group">
+                <label for="name">company</label>
+                <input type="text" id="name" class="form-control"
+                name="name" #name="ngModel" required
+                [(ngModel)]="newProvider.name" >
+                <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                {{ 'requiredField'}}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="type">type</label>
+                <select id="type" class="form-control"
+                name="type"
+                [(ngModel)]="newProvider.type" required
+                #type="ngModel">
+                <option *ngFor="let t of providerTypes" [value]="t">{{t.providerTypeName}}</option>
+                </select>
+            </div> 
+
+            <div class="form-group">
+                <label for="periodicity">periodicity</label>
+                <select id="periodicity" class="form-control"
+                name="periodicity"
+                [(ngModel)]="newProvider.periodicity" required
+                #periodicity="ngModel">
+                <option *ngFor="let p of periodicities" [value]="p">{{p}}</option>
+                </select>
+            </div> 
+
+         
+
+          <div class="form-group">
+                <label for="description">description</label>
+                <input type="text" id="description" class="form-control"
+                name="description" required
+                [(ngModel)]="newProvider.description" #description="ngModel" >
+                <div [hidden]="description.valid || description.pristine"
+                class="alert alert-danger">
+                {{ 'requiredField'}}
+                </div>
+          </div>
+
+
+         <div class="form-group">
+                <label for="email">email</label>
+                <input type="text" id="description" class="form-control"
+                name="email"
+                [(ngModel)]="newProvider.email" required
+                #email="ngModel"
+                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+                <div *ngIf="email.errors && email.errors.required  &&  !email.pristine"
+                class="alert alert-danger">
+                {{ 'requiredField' }}
+                </div>
+                <div *ngIf="email.errors && email.errors.pattern && !email.pristine"
+                class="alert alert-danger">
+                {{ 'mail_format_err'}}
+                </div>
+         </div>
+
+         <div class="form-group">
+                <label for="phone">phone</label>
+                <input  type="text" id="phone" class="form-control"
+                name="phone"
+                [(ngModel)]="newProvider.phone" 
+                placeholder="(0__) ___-____" 
+                #phone="ngModel" required>
+         </div>
+
+
+          <div class="form-group">
+                <label for="address">address</label>
+                <input type="text" id="address" class="form-control"
+                name="address"
+                [(ngModel)]="newProvider.address" 
+                #address="ngModel" required>
+
+                <div [hidden]="address.valid || address.pristine"
+                class="alert alert-danger">
+                {{ 'requiredField'}} </div>
+         </div>
+
+
+         <div class="form-group">
+                <label for="shedule">shedule</label>
+                <input type="text" id="shedule" class="form-control"
+                name="shedule"
+                [(ngModel)]="newProvider.shedule" 
+                #shedule="ngModel" required>
+
+                <div [hidden]="shedule.valid || shedule.pristine"
+                class="alert alert-danger">
+                {{ 'requiredField'}} </div>
+         </div>
+                
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-default">
+            {{ 'save' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 </div>
