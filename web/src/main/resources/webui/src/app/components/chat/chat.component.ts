@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StompService } from './stomp.service';
-import { API_URL } from '../../../shared/models/localhost.config';
+import { WebSocket_URL } from '../../../shared/models/localhost.config';
 import { Http, Response } from '@angular/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -24,7 +24,7 @@ export class ChatComponent implements OnInit {
    this._stompService.getMessages().subscribe((data) => {
                 this.messages = data;
             });
-   this._stompService.connect('ws://java.training.local:8080/myosbb/stompTest');
+   this._stompService.connect(`${WebSocket_URL}/stompTest`);
    this.serverResponse= this._stompService._serverResponse;
   }
 
