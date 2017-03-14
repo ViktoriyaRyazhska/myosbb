@@ -168,6 +168,7 @@ INSERT INTO house(number_house, zip_code, description, street_id, osbb_id) VALUE
 INSERT INTO house(number_house, zip_code, description, street_id, osbb_id) VALUES(11, '79058', 'a nice house with a lot of parking spaces',2,3);
 INSERT INTO house(number_house, zip_code, description, street_id, osbb_id) VALUES(13, '79059', 'a nice house with a lot of parking spaces',2,2);
 INSERT INTO house(number_house, zip_code, description, street_id, osbb_id) VALUES(1, '79060', 'a nice house with a lot of parking spaces',3,2);
+SET @house_id = LAST_INSERT_ID();
 INSERT INTO house(number_house, zip_code, description, street_id, osbb_id) VALUES(2, '79061', 'a nice house with a lot of parking spaces',3,3);
 INSERT INTO house(number_house, zip_code, description, street_id, osbb_id) VALUES(3, '79062', 'a nice house with a lot of parking spaces',3,5);
 INSERT INTO house(number_house, zip_code, description, street_id, osbb_id) VALUES(4, '79063', 'a nice house with a lot of parking spaces',3,7);
@@ -311,10 +312,47 @@ INSERT into event(title, author, start_time, end_time, description, repeats, osb
 
 
 INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Прибирання','Примітка',235,'UAH',1);
+SET @utility_id = LAST_INSERT_ID();
+INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
 INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Прибирання Двору','Примітка Підпослуга',153,'UAH',1,1);
+SET @utility_id = LAST_INSERT_ID();
+INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
 INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Прибирання сходової клітки','Примітка Підпослуга',82,'UAH',1,1);
+SET @utility_id = LAST_INSERT_ID();
+INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
 INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Ремонт','Примітка',35600,'UAH',2);
-INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Ремонт під`їзду','Примітка Підпослуга',15400,'UAH',2,2);
-INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Ремонт дитячої площадки','Примітка Підпослуга',20200,'UAH',2,2);
+SET @utility_id = LAST_INSERT_ID();
+INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
+INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Ремонт під`їзду','Примітка Підпослуга',15400,'UAH',1,4);
+SET @utility_id = LAST_INSERT_ID();
+INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
+INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Ремонт дитячої площадки','Примітка Підпослуга',20200,'UAH',1,4);
+SET @utility_id = LAST_INSERT_ID();
+INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
+INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Очищення даху','Очищення даху в зимовий період',40,'UAH',1);
+SET @utility_id = LAST_INSERT_ID();
+INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
+INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Очищення даху від снігу','Очищення даху від снігу в зимовий період, коли спостерігається велика кількість опадів',20,'UAH',1,7);
+SET @utility_id = LAST_INSERT_ID();
+INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
+INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Очищення даху від бурульок','Дах очищується від бурульок в зимовий період, коли спостерігається низька температура',82,'UAH',1,7);
+SET @utility_id = LAST_INSERT_ID();
+INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
+INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Насадження','Примітка',50,'UAH',1);
+SET @utility_id = LAST_INSERT_ID();
+INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
+INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Зелені насадження','Проводиться посадка дерев та кущів на території подвір*я',30,'UAH',1,10);
+SET @utility_id = LAST_INSERT_ID();
+INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
+INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Насадження квітів','Здійснюється посадка квітів та догляд за клумбами у нехолодні пори року',20,'UAH',1,10);
+SET @utility_id = LAST_INSERT_ID();
+INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
+
+INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Вивіз сміття','Щотижня відбувається вивіз сміття з території',65,'UAH',1);
+SET @utility_id = LAST_INSERT_ID();
+INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
+INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Дитячий майданчик','Підтримання порядку на території дитячого майданчика',25,'UAH',1);
+SET @utility_id = LAST_INSERT_ID();
+INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
 
 --rollback

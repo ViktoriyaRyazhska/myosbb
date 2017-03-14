@@ -1,4 +1,3 @@
-
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
@@ -69,6 +68,7 @@ import { CalendarComponent }           from './components/calendar';
 import { BreadcrumbComponent }         from './components/breadcrumb';
 import { SidebarComponent }            from './shared/sidebar';
 import { SubTicketComponent }          from './components/ticket/components/subticket';
+import { UtilityComponent }            from './components/utilities';
 import { TicketAddFormComponent } from './components/ticket/components/ticketAddFormComponent/ticket-add-form.component';
 import { TicketEditFormComponent } from './components/ticket/components/ticketEditFromComponent/ticket-edit-form.component';
 import { TicketDelFormComponent } from './components/ticket/components/ticketDelFormComponent/ticket-del-form.component'
@@ -87,6 +87,7 @@ import { ManagerComponent } from './manager/manager.component';
 import { UserComponent} from './user/user.component';
 
 // pipes
+import { SpecArrayFilterPipe } from './pipes/spec-array-filter.pipe';
 import { CapitalizeFirstLetterPipe } from './pipes/capitalize-first-letter';
 import { CapitalizeLetterPipe } from './pipes/capitalize.firstletter';
 // services
@@ -136,6 +137,7 @@ type StoreType = {
     SubTicketComponent,
     UserComponent,
     UsersComponent,
+    UtilityComponent,
     SetLanguageComponent,
     CapitalizeFirstLetterPipe,
     OsbbDocumentsAndReportsComponent,
@@ -145,7 +147,8 @@ type StoreType = {
     TicketEditFormComponent,
     TicketDelFormComponent,
     TicketEditDiscussedFormComponent,
-    CapitalizeLetterPipe
+    CapitalizeLetterPipe,
+    SpecArrayFilterPipe
   ],
   imports: [
     BrowserModule,

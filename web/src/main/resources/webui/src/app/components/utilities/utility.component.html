@@ -1,0 +1,71 @@
+<div class="content">
+    <breadcrumb [header]="title"></breadcrumb>
+    <div *ngIf="!isSubUtilityShow">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th><i class="fa fa-bullhorn"></i> {{'name' | translate | capitalize}}
+                    <span class="fa fa-fw fa-sort"></span>
+                </th>
+                <th><i class="fa fa-credit-card"></i> {{'price' | translate | capitalize}}
+                    <span class="fa fa-fw fa-sort"></span>
+                </th>
+                <th><i class="fa fa-money"></i> {{'currency' | translate | capitalize}}
+                </th>
+                <th><i class="fa fa-bars"></i> {{'subutilities' | translate | capitalize}}
+                </th>
+                <th><i class="fa fa-edit"></i> {{'description' | translate | capitalize}}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of resData | specArrayFilter:utilityId">
+                <td>{{item.name}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.priceCurrency}}</td>
+                <td>
+                    <div *ngIf=" checkIfParent(item.utilityId) ">
+                        <span><input type="button" class="btn btn-success"
+                                     value="{{'show_subutilities' | translate | myCapitalize}}" (click)="switchMode(item.utilityId)"></span>
+                    </div>
+                    <div *ngIf=" !checkIfParent(item.utilityId) ">
+                        <span><input type="button" class="btn btn-default disabled" value="{{'no_subutilities' | translate | myCapitalize}}"></span>
+                    </div>
+                </td>
+                <td>{{item.description}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="isSubUtilityShow">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th><i class="fa fa-bullhorn"></i> {{'name' | translate | capitalize}}
+                    <span class="fa fa-fw fa-sort"></span>
+                </th>
+                <th><i class="fa fa-credit-card"></i> {{'price' | translate | capitalize}}
+                    <span class="fa fa-fw fa-sort"></span>
+                </th>
+                <th><i class="fa fa-money"></i> {{'currency' | translate | capitalize}}
+                </th>
+                <th><i class="fa fa-edit"></i> {{'description' | translate | capitalize}}
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of resData | specArrayFilter:utilityId">
+                <td>{{item.name}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.priceCurrency}}</td>
+                <td>{{item.description}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            <button (click)="switchMode(null)" class="btn btn-success" type="button">
+                <i class="fa fa-arrow-left"></i> {{'go_back' | translate | myCapitalize}}
+            </button>
+        </div>
+    </div>
+</div>

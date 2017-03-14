@@ -157,7 +157,7 @@
               "constraintName": "fk_house_house_id",
               "deferrable": false,
               "initiallyDeferred": false,
-              "onDelete": "NO ACTION",
+              "onDelete": "CASCADE",
               "onUpdate": "NO ACTION",
               "referencedColumnNames": "house_id",
               "referencedTableName": "house"
@@ -179,7 +179,7 @@
               "constraintName": "fk_utilities_utility_id",
               "deferrable": false,
               "initiallyDeferred": false,
-              "onDelete": "NO ACTION",
+              "onDelete": "CASCADE",
               "onUpdate": "NO ACTION",
               "referencedColumnNames": "utility_id",
               "referencedTableName": "utilities"

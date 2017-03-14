@@ -13,6 +13,7 @@ import { SubTicketComponent } from '../components/ticket/components/subticket';
 import { OsbbDocumentsAndReportsComponent } from '../components/osbb-docs-and-reports';
 import { OsbbContactsComponent } from '../components/osbb-contacts';
 import { LogedInGuard } from '../services/loged-in-guard.service';
+import { UtilityComponent } from '../components/utilities';
 
 export const UserRoutes: Routes = [
   { path: 'user',  component: UserComponent,
@@ -31,6 +32,7 @@ export const UserRoutes: Routes = [
       { path: 'provider', component: ProviderComponent },
       { path: 'apartment', component: ApartmentComponent },
       { path: 'calendar', component: CalendarComponent },
-      { path: 'contacts', component: OsbbContactsComponent }
+      { path: 'contacts', component: OsbbContactsComponent },
+      { path: 'utilities', component: UtilityComponent }
     ]},
 ];
