@@ -2,7 +2,7 @@
 <div class="content" style="padding-bottom: 80px">
 	<breadcrumb [header]="title"></breadcrumb>
 	<div style="padding-left: 30px; position:relative;">
-  <button   type="button" class="btn btn-success" (click)="openCreateModal()" >{{ 'create' }}  
+  <button   type="button" class="btn btn-success" (click)="openCreateModal()" >{{ 'create' | translate | capitalize }}  
   </button>
   <button  type="button" class="btn btn-success" (click)="openAddModal()">{{ 'add_to_osbb' }}
 </button>
@@ -13,40 +13,40 @@
 				<template [ngIf]="i%2==0">
 				<div class="col-xs-12">
 					<label class="col-xs-6 text-center"><b
-						style="font-size: 20px;">{{provider.name}}</b></label>
+						style="font-size: 20px;">{{provider.name }}</b></label>
 				</div>
 				<div class="col-xs-12">
-					<label class="col-xs-6"><b>{{'type'}} </b></label> <label
+					<label class="col-xs-6"><b>{{'type' | translate | capitalize}} </b></label> <label
 						class="col-xs-6">{{provider.type.providerTypeName}}</label>
 				</div>
 				<div class="col-xs-12">
-					<label class="col-xs-6"><b>{{'whatwedo'}}</b></label> <label
+					<label class="col-xs-6"><b>{{'whatwedo' | translate | capitalize}}</b></label> <label
 						class="col-xs-6">{{provider.description}}</label>
 				</div>
 				<address>
 					<div class="col-xs-12">
-						<label class="col-xs-6"><b>{{ 'address'}}</b></label> <label
+						<label class="col-xs-6"><b>{{ 'address' | translate | capitalize}}</b></label> <label
 							class="col-xs-6">{{provider.address}}</label>
 					</div>
 				</address>
 				<div class="col-xs-12">
-					<label class="col-xs-6"><b>{{'schedule' }}</b></label> <label
+					<label class="col-xs-6"><b>{{'schedule' | translate | capitalize}}</b></label> <label
 						class="col-xs-6">{{provider.schedule}}</label>
 				</div>
 				<address>
 					<div class="col-xs-12">
-						<label class="col-xs-6"><b>{{ 'phone' }}</b></label> <label
+						<label class="col-xs-6"><b>{{ 'phone'  | translate | capitalize}}</b></label> <label
 							class="col-xs-6">{{provider.phone}}</label>
 					</div>
 				</address>
 				<address>
 					<div class="col-xs-12">
-						<label class="col-xs-6"><b>{{ 'email' }}</b></label> <label
+						<label class="col-xs-6"><b>{{ 'email'  | translate | capitalize}}</b></label> <label
 							class="col-xs-6"><a href="mailto:#">{{provider.email}}</a></label>
 					</div>
 				</address>
 				<div class="col-xs-12">
-					<label class="col-xs-6"><b>{{ 'periodicity'}}</b></label> <label
+					<label class="col-xs-6"><b>{{ 'periodicity'  | translate | capitalize}}</b></label> <label
 						class="col-xs-6">{{provider.periodicity}}</label>
 				</div>
 
@@ -57,11 +57,11 @@
 						{{ 'options' }} <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" aria-labelledby="dropdownProviderLeft">
-						<li><a style="cursor: pointer" class="yellow">{{ 'edit'
+						<li><a style="cursor: pointer" class="yellow">{{ 'edit' | translate | capitalize
 								}}</a></li>
 						<li><a style="cursor: pointer"
-							(click)="openDelModal(provider)" class="red"> {{ 'delete'}}</a></li>
-						<li><a style="cursor: pointer" (click)="onNavigate(provider.providerId)" > {{ 'GoToProviderPage' }}</a></li>
+							(click)="openDelModal(provider)" class="red"> {{ 'delete'  | translate | capitalize}}</a></li>
+						<li><a style="cursor: pointer" (click)="onNavigate(provider.providerId)" > {{ 'GoToProviderPage' | translate | capitalize }}</a></li>
 					</ul>
 				</div>
 
@@ -79,37 +79,37 @@
 						style="font-size: 20px;">{{provider.name}}</b></label>
 				</div>
 				<div class="col-xs-12">
-					<label class="col-xs-6"><b>{{'type'}} </b></label> <label
-						class="col-xs-6">{{provider.type.providerTypeName}}</label>
+					<label class="col-xs-6"><b>{{'type'  | translate | capitalize}} </b></label> <label
+						class="col-xs-6">{{provider.type.providerTypeName  | translate | capitalize}}</label>
 				</div>
 				<div class="col-xs-12">
-					<label class="col-xs-6"><b>{{'whatwedo'}}</b></label> <label
+					<label class="col-xs-6"><b>{{'whatwedo'  | translate | capitalize}}</b></label> <label
 						class="col-xs-6">{{provider.description}}</label>
 				</div>
 				<address>
 					<div class="col-xs-12">
-						<label class="col-xs-6"><b>{{ 'address'}}</b></label> <label
+						<label class="col-xs-6"><b>{{ 'address'   | translate | capitalize}}</b></label> <label
 							class="col-xs-6">{{provider.address}}</label>
 					</div>
 				</address>
 				<div class="col-xs-12">
-					<label class="col-xs-6"><b>{{'schedule' }}</b></label> <label
+					<label class="col-xs-6"><b>{{'schedule'  | translate | capitalize }}</b></label> <label
 						class="col-xs-6">{{provider.schedule}}</label>
 				</div>
 				<address>
 					<div class="col-xs-12">
-						<label class="col-xs-6"><b>{{ 'phone' }}</b></label> <label
+						<label class="col-xs-6"><b>{{ 'phone'  | translate | capitalize }}</b></label> <label
 							class="col-xs-6">{{provider.phone}}</label>
 					</div>
 				</address>
 				<address>
 					<div class="col-xs-12">
-						<label class="col-xs-6"><b>{{ 'email' }}</b></label> <label
+						<label class="col-xs-6"><b>{{ 'email'  | translate | capitalize}}</b></label> <label
 							class="col-xs-6"><a href="mailto:#">{{provider.email}}</a></label>
 					</div>
 				</address>
 				<div class="col-xs-12">
-					<label class="col-xs-6"><b>{{ 'periodicity'}}</b></label> <label
+					<label class="col-xs-6"><b>{{ 'periodicity'  | translate | capitalize}}</b></label> <label
 						class="col-xs-6">{{provider.periodicity}}</label>
 				</div>
 				<div style="padding-left: 30px" class="dropdown">
@@ -119,11 +119,11 @@
 						{{ 'options' }} <span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" aria-labelledby="dropdownProviderLeft">
-						<li><a style="cursor: pointer" class="yellow">{{ 'edit'
+						<li><a style="cursor: pointer" class="yellow">{{ 'edit' | translate | capitalize
 								}}</a></li>
 						<li><a style="cursor: pointer"
-							(click)="openDelModal(provider)" class="red"> {{ 'delete'}}</a></li>
-						<li><a style="cursor: pointer" (click)="onNavigate(provider.providerId)"> {{ 'GoToProviderPage' }} </a></li>
+							(click)="openDelModal(provider)" class="red"> {{ 'delete'  | translate | capitalize}}</a></li>
+						<li><a style="cursor: pointer" (click)="onNavigate(provider.providerId)"> {{ 'GoToProviderPage'  | translate | capitalize }} </a></li>
 					</ul>
 				</div>
 				</template>
@@ -141,7 +141,7 @@
                                 (click)="addModal.hide()">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">{{ 'adding'  }} ...</h4>
+                        <h4 class="modal-title">{{ 'adding' | translate | capitalize  }} ...</h4>
                     </div>
                  <form (ngSubmit)="onAddProviderSubmit()" #registerForm="ngForm">   
                     <div class="modal-body">
@@ -157,7 +157,7 @@
                </div>
                     <div class="modal-footer">
           <button type="submit"  class="btn btn-primary" >
-            {{ 'ok' }}
+            {{ 'ok' | translate | capitalize }}
           </button>
         </div>
       </form></div>
@@ -174,15 +174,15 @@
                                 (click)="delModal.hide()">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title">{{ 'removing'}} ...</h4>
+                        <h4 class="modal-title">{{ 'removing'  | translate | capitalize }} ...</h4>
                     </div>
                     <div class="modal-body">
-                        <h5>{{ 'confirmDelete'}}</h5>
+                        <h5>{{ 'confirmDelete'  | translate | capitalize}}</h5>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" (click)="delModal.hide()">{{ 'no' }}
+                        <button type="button" class="btn btn-default" (click)="delModal.hide()">{{ 'no'  | translate | capitalize}}
                         </button>
-                        <button type="button" class="btn btn-primary" (click)="closeDelModal()">{{ 'yes' }}
+                        <button type="button" class="btn btn-primary" (click)="closeDelModal()">{{ 'yes'  | translate | capitalize }}
                         </button>
                     </div>
                 </div>
@@ -196,7 +196,7 @@
         <button type="button" class="close" aria-label="Close" (click)="createModal.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title"> {{ 'create' }}
+        <h4 class="modal-title"> {{ 'create' | translate | capitalize }}
         </h4>
       </div>
       <form (ngSubmit)="onCreateProviderSubmit()" #registerForm="ngForm">
@@ -297,7 +297,6 @@
                 class="alert alert-danger">
                 {{ 'requiredField'}} </div>
          </div>
-                  {{newProvider | json}} 
           </div>
         </div>
         <div class="modal-footer">

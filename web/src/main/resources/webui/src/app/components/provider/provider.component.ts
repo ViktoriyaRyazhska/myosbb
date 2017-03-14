@@ -6,7 +6,9 @@ import { LoginService } from '../../shared/login/login.service';
 import { ModalDirective } from 'ng2-bootstrap/modal';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToasterService } from 'angular2-toaster';
+import { TranslateService } from 'ng2-translate';
 import * as _ from 'lodash';
+
 
 import { User } from '../../models/user.model';
 import { ProviderType } from "../../models/provider.type.interface";
