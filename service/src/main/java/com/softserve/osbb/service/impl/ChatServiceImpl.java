@@ -108,6 +108,7 @@ public class ChatServiceImpl implements ChatService {
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 			
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			//мб треба стерти
 			if (file.length() != 0) {
 				listOfMessages = (ListMessages) jaxbUnmarshaller.unmarshal(input);
 				for(Chat t: listOfMessages.getMessages()){
