@@ -1,6 +1,6 @@
 package com.softserve.osbb.service.impl;
 
-
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -19,13 +19,14 @@ import com.softserve.osbb.service.ChatService;
 @Scope( proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ChatServiceImpl implements ChatService{
 
+
+
 	@Autowired
 	ChatRepository chatRepository;
-	
+
 	@Override
 	public void delete(Chat chat) {
 		chatRepository.delete(chat.getChatId());
-		
 	}
 
 	@Override
@@ -39,23 +40,22 @@ public class ChatServiceImpl implements ChatService{
 	}
 
 	@Override
-	 public Chat findOne(Integer id) {
-	  return chatRepository.findOne(id);
-	 }
+	public Chat findOne(Integer id) {
+		return chatRepository.findOne(id);
+	}
 
-	 @Override
-	 public Chat findOne(String id) {
-	  try {
-	            return chatRepository.findOne(Integer.parseInt(id));
-	        } catch (NumberFormatException e) {
-	            e.printStackTrace();
-	        }
-	        return null;
-	 }
+	@Override
+	public Chat findOne(String id) {
+		try {
+			return chatRepository.findOne(Integer.parseInt(id));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public Chat save(Chat chat) {
-	
 		return chatRepository.save(chat);
 	}
 
@@ -64,10 +64,29 @@ public class ChatServiceImpl implements ChatService{
 		chatRepository.delete(id);
 	}
 	
+
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public Chat saveAndFlush(Chat chat) {
         return chatRepository.saveAndFlush(chat);
     }
+
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    @Override
+    public List<Chat> findAll() {
+        return chatRepository.findAll();
+    }
+
+	@Transactional
+	@Override
+	public void deleteHalf() {
+		chatRepository.deleteHalf();
+	}
+
+	@Override
+	public long countChatMessages() {
+		return chatRepository.count();
+	}
+	
 
 }

@@ -5,6 +5,7 @@
     height:300px;  
     border:1px solid #ACD8F0;  
     overflow-x: hidden;
+    overflow-y: scroll;
 }  
 .wrapper{
     width:600px;

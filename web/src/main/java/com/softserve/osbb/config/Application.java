@@ -22,6 +22,9 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+
 /**
  * Initializes this Spring Boot application.
  * 
@@ -29,6 +32,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @version 1.1
  * @since 15.11.2016 
  */
+
 @SpringBootApplication(scanBasePackages = "com.softserve.osbb")
 public class Application extends SpringBootServletInitializer {
 
@@ -40,7 +44,7 @@ public class Application extends SpringBootServletInitializer {
         SpringApplication.run(Application.class, args);
     }
     
-    
+
     @Autowired
     private EntityManagerFactory entityManagerFactory;
 
