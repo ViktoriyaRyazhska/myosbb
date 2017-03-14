@@ -23,6 +23,9 @@ import { ToasterModule, ToasterService } from 'angular2-toaster';
 import { FileSelectDirective, } from 'ng2-file-upload';
 import { TextMaskModule } from 'angular2-text-mask';
 import { SelectModule } from 'ng2-select';
+
+import {DataTableModule} from "angular2-datatable";
+
 import { MomentModule } from 'angular2-moment';
 import {
    ScheduleModule,
@@ -65,7 +68,8 @@ import { OsbbBillsComponent }          from './components/osbbBils';
 import { ContractsComponent }          from  './components/contracts';
 import { TicketComponent }             from './components/ticket';
 import { ProviderComponent }           from './components/provider';
-import { ApartmentComponent }          from './components/apartment';
+import { ApartmentComponent }          from './components/apartments';
+import { ApartmentAboutComponent }     from './components/apartment';
 import { CalendarComponent }           from './components/calendar';
 import { BreadcrumbComponent }         from './components/breadcrumb';
 import { SidebarComponent }            from './shared/sidebar';
@@ -92,6 +96,7 @@ import { UserComponent} from './user/user.component';
 // pipes
 import { CapitalizeFirstLetterPipe } from './pipes/capitalize-first-letter';
 import { CapitalizeLetterPipe } from './pipes/capitalize.firstletter';
+import { BeautifyPhonePipe } from './pipes/phone-beautify';
 // services
 import { OsbbService } from './services/osbb.service';
 import { OsbbConstants } from './services/osbb.constants';
@@ -130,6 +135,7 @@ type StoreType = {
     EventsComponent,
     EventsDetailComponent,
     ApartmentComponent,
+    ApartmentAboutComponent,
     BreadcrumbComponent,
     CalendarComponent,
     ProviderComponent,
@@ -150,7 +156,8 @@ type StoreType = {
     TicketEditFormComponent,
     TicketDelFormComponent,
     TicketEditDiscussedFormComponent,
-    CapitalizeLetterPipe
+    CapitalizeLetterPipe,
+    BeautifyPhonePipe
   ],
   imports: [
     ReactiveFormsModule,
@@ -180,7 +187,8 @@ type StoreType = {
     CodeHighlighterModule,
     AlertModule.forRoot(),
     DatepickerModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    DataTableModule
   ],
   providers: [
     ENV_PROVIDERS,

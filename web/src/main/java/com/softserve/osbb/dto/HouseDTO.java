@@ -73,9 +73,6 @@ public class HouseDTO {
 		return numberHouse;
 	}
 
-
-
-
 	public static class HouseDTOBuilder {
         private Integer houseId;
         private Integer numberHouse;
