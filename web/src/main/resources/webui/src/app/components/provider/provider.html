@@ -1,4 +1,5 @@
-<div class="content">
+<toaster-container></toaster-container>
+<div class="content" style="padding-bottom: 80px">
 	<breadcrumb [header]="title"></breadcrumb>
 	<div style="padding-left: 30px; position:relative;">
   <button   type="button" class="btn btn-success" (click)="openCreateModal()" >{{ 'create' }}  
@@ -60,7 +61,7 @@
 								}}</a></li>
 						<li><a style="cursor: pointer"
 							(click)="openDelModal(provider)" class="red"> {{ 'delete'}}</a></li>
-						<li><a style="cursor: pointer"> {{ 'GoToProviderPage' }}</a></li>
+						<li><a style="cursor: pointer" (click)="onNavigate(provider.providerId)" > {{ 'GoToProviderPage' }}</a></li>
 					</ul>
 				</div>
 
@@ -122,7 +123,7 @@
 								}}</a></li>
 						<li><a style="cursor: pointer"
 							(click)="openDelModal(provider)" class="red"> {{ 'delete'}}</a></li>
-						<li><a style="cursor: pointer"> {{ 'GoToProviderPage' }}</a></li>
+						<li><a style="cursor: pointer" (click)="onNavigate(provider.providerId)"> {{ 'GoToProviderPage' }} </a></li>
 					</ul>
 				</div>
 				</template>
@@ -217,7 +218,7 @@
                 name="type"
                 [(ngModel)]="newProvider.type" required
                 #type="ngModel">
-                <option *ngFor="let t of providerTypes" [value]="t">{{t.providerTypeName}}</option>
+                <option *ngFor="let t of providerTypes" [ngValue]="t">{{t.providerTypeName}}</option>
                 </select>
             </div> 
 
@@ -286,17 +287,17 @@
 
 
          <div class="form-group">
-                <label for="shedule">shedule</label>
+                <label for="schedule">shedule</label>
                 <input type="text" id="shedule" class="form-control"
-                name="shedule"
-                [(ngModel)]="newProvider.shedule" 
-                #shedule="ngModel" required>
+                name="schedule"
+                [(ngModel)]="newProvider.schedule" 
+                #schedule="ngModel" required>
 
-                <div [hidden]="shedule.valid || shedule.pristine"
+                <div [hidden]="schedule.valid || schedule.pristine"
                 class="alert alert-danger">
                 {{ 'requiredField'}} </div>
          </div>
-                
+                  {{newProvider | json}} 
           </div>
         </div>
         <div class="modal-footer">

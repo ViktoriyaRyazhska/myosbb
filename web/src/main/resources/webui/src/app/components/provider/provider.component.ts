@@ -4,6 +4,9 @@ import { Http,Response} from '@angular/http';
 import {ProviderService} from './provider.service';
 import { LoginService } from '../../shared/login/login.service';
 import { ModalDirective } from 'ng2-bootstrap/modal';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ToasterService } from 'angular2-toaster';
+import * as _ from 'lodash';
 
 import { User } from '../../models/user.model';
 import { ProviderType } from "../../models/provider.type.interface";
@@ -59,7 +62,15 @@ export class ProviderComponent implements OnInit {
         attachments: null
   };
   
-  constructor(private http:Http,public providerService:ProviderService,public loginService:LoginService){
+  constructor
+  (
+  private http:Http,
+  public providerService:ProviderService,
+  public loginService:LoginService,
+  private router: Router,
+  public toasterService: ToasterService,
+  )
+  {
     this.user=this.loginService.currentUser;
   }
 
@@ -70,7 +81,7 @@ export class ProviderComponent implements OnInit {
   this.providerService.getAllProviderTypes().subscribe((data) => {
   this.providerTypes = data; 
 });
-this.providerService.getAllProviders().subscribe((data) => {
+  this.providerService.getAllProviders().subscribe((data) => {
   this.allProviders = data; 
   });
   
@@ -86,17 +97,22 @@ openAddModal(){
 
   public onCreateProviderSubmit() {
   this.providerService.addProvider(this.newProvider)
-  .subscribe((data) => {this.emptyFields();
-  this.createModal.hide();},
+  .subscribe((data) => {
+  this.toasterService.pop('success', '', 'Провайдер було створено!');
+  this.emptyFields();
+  this.createModal.hide();
+  this.reLoad();
+  },
+
   (error) => {this.handleErrors(error)} );  
 }
 
 public onAddProviderSubmit() {
   this.providerService.addProviderToOsbb(this.providerForAdding,this.user.osbbId)
   .subscribe((data) => {
-  this.addModal.hide();    
-  this.providerService.getProvidersByOsbb(this.user.osbbId).subscribe((data) => {
-  this.providers = data;  });
+    this.toasterService.pop('success', '', 'Провадера було успішно додано до ОСББ!');
+   this.addModal.hide();    
+   this.reLoad();
    },
   (error) => {this.handleErrors(error)} );  
   
@@ -104,6 +120,7 @@ public onAddProviderSubmit() {
 
  private handleErrors(error) {
    console.log(error);
+   this.toasterService.pop('error', '', 'Нажаль, сталась помилка');
   }
  private emptyFields() {
   this.newProvider = {
@@ -122,18 +139,34 @@ public onAddProviderSubmit() {
 };
  }
 
+ public onNavigate(id: number) {
+this.router.navigate(['manager/provider-info', id]);
+}
+ 
+
 public openDelModal(provider: Provider) {
         this.delModal.show();
         this.selectedProvider=provider;
 
 }
 
-public closeDelModal() {
-  this.providerService.deleteProvider(this.selectedProvider.providerId)
-  .subscribe((data) => {
+private reLoad() {
   this.providerService.getProvidersByOsbb(this.user.osbbId).subscribe((data) => {
   this.providers = data; 
   });
+  this.providerService.getAllProviderTypes().subscribe((data) => {
+  this.providerTypes = data; 
+});
+  this.providerService.getAllProviders().subscribe((data) => {
+  this.allProviders = data; 
+  });
+}
+
+public closeDelModal() {
+  this.providerService.deleteProvider(this.selectedProvider.providerId)
+  .subscribe((data) => {
+   this.toasterService.pop('success', '', 'Провайдера успішно видалено!');
+  this.reLoad();
   },
   (error) => {this.handleErrors(error)} );  
   this.delModal.hide();

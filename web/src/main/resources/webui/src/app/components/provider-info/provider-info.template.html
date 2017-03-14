@@ -1,0 +1,29 @@
+<br>
+<br>
+<div class="content" >
+<div class="panel-body">
+    <div class="col-md-6">
+        <div class="text-center">
+            <h5><b>provider</b></h5>
+            <img src="https://www.wellcentive.com/wp-content/uploads/2015/10/payer-provider-collaboration-icon.png" class="img-rounded" alt="my_house" width="304" height="236">
+        </div>
+    </div>
+    <br>
+    <ul *ngFor="let c of provider">
+        <li><b>{{'company'}}: {{c.name}}</b></li>
+        <br>
+        <li><b>{{'type'}}: {{c.type.providerTypeName}}</b></li>
+        <br>
+        <li><b>{{'whatwedo'}} {{c.description}}</b></li>
+        <br>
+        <li><b>{{ 'phone'}}: {{c.phone}}</b></li>
+        <br>
+        <li><b>{{ 'email'}}: {{c.email}}</b></li>
+        <br>
+        <li><b>{{ 'address' }}: {{c.address}}</b></li>
+        <br>
+        <li><b>{{'schedule'}}: {{c.schedule}}</b></li>
+        <br>
+    </ul>
+</div>
+</div>
