@@ -31,6 +31,7 @@ export class ProviderComponent implements OnInit {
   @ViewChild('createModal') public createModal: ModalDirective;
   @ViewChild('delModal') public delModal: ModalDirective;
   @ViewChild('addModal') public addModal:ModalDirective;
+  @ViewChild('editModal') public editModal:ModalDirective;
   public providerTypes:ProviderType[];
   public periodicities =["ONE_TIME","PERMANENT_DAYLY","PERMANENT_WEEKLY","PERMANENT_MONTHLY","PERMANENT_YEARLY"];
   public providerForAdding;
@@ -38,7 +39,7 @@ export class ProviderComponent implements OnInit {
         providerId:null,
         name: '',
         description: '',
-        logoUrl: 'empty',
+        logoUrl: '',
         periodicity:'',
         type: {providerTypeId :null, providerTypeName:''},
         email: '',
@@ -63,7 +64,23 @@ export class ProviderComponent implements OnInit {
         active: false,
         attachments: null
   };
+
+  private updatedProvider: Provider = {
+        providerId:null,
+        name: '',
+        description: '',
+        logoUrl: 'empty',
+        periodicity:'',
+        type: {providerTypeId :null, providerTypeName:''},
+        email: '',
+        phone: '',
+        address: '',
+        schedule: '',
+        active: false,
+        attachments: null
+  };
   
+  private authRole:string;
   constructor
   (
   private http:Http,
@@ -74,6 +91,7 @@ export class ProviderComponent implements OnInit {
   )
   {
     this.user=this.loginService.currentUser;
+    this.authRole=this.loginService.getRole();
   }
 
   public ngOnInit() {
@@ -89,18 +107,37 @@ export class ProviderComponent implements OnInit {
   
 }
 
- public openCreateModal() {
+public openCreateModal() {
     this.createModal.show();
 }
 
-openAddModal(){
+public openAddModal(){
 	this.addModal.show();
 }
 
-  public onCreateProviderSubmit() {
+public openEditModal(provider: Provider) {
+        this.updatedProvider = provider;
+        this.editModal.show();
+    }
+
+
+public  onEditProviderSubmit() {
+      this.providerService.editProvider(this.updatedProvider,this.updatedProvider.providerId)
+  .subscribe((data) => {
+  this.toasterService.pop('success', '', 'Провайдерa було оновлено!');
+  this.emptyFields();
+  this.editModal.hide();
+  this.reLoad();
+  },
+
+  (error) => {this.handleErrors(error)} ); 
+
+    }
+
+public onCreateProviderSubmit() {
   this.providerService.addProvider(this.newProvider)
   .subscribe((data) => {
-  this.toasterService.pop('success', '', 'Провайдер було створено!');
+  this.toasterService.pop('success', '', 'Провайдерa було створено!');
   this.emptyFields();
   this.createModal.hide();
   this.reLoad();
@@ -142,14 +179,12 @@ public onAddProviderSubmit() {
  }
 
  public onNavigate(id: number) {
-this.router.navigate(['manager/provider-info', id]);
-}
- 
+ this.router.navigate(['manager/provider-info', id]);
+ }
 
 public openDelModal(provider: Provider) {
         this.delModal.show();
         this.selectedProvider=provider;
-
 }
 
 private reLoad() {

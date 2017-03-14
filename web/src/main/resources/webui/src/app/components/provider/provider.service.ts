@@ -34,11 +34,18 @@ export class ProviderService {
 
     public addProvider(provider: Provider) {
         console.log("sending http POST" );
-        alert(provider);
         console.log("saving ", provider);
         provider.active = true;
         let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
         return this.http.post(`${API_URL}/restful/provider/`,provider, options)
+      .map((res: Response) => res.json())
+      .catch((error) => Observable.throw(error));
+    }
+
+    public editProvider(provider: Provider,providerId) {
+        console.log("Editing ", provider);
+        let options = new RequestOptions({headers: new Headers({'Content-Type': 'application/json'})});
+        return this.http.put(`${API_URL}/restful/provider/${providerId}`,provider, options)
       .map((res: Response) => res.json())
       .catch((error) => Observable.throw(error));
     }

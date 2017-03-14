@@ -14,6 +14,7 @@ import { HouseAboutComponent } from '../components/house';
 import { EventsDetailComponent } from '../components/events/eventsDetail';
 import { UsersComponent } from '../components/users';
 
+
 export const AdminRoutes: Routes = [
   { path: 'admin',  component: AdminComponent,
     canActivate: [LogedInGuard],

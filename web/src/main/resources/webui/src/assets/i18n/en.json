@@ -323,5 +323,8 @@
   "you_incorrectly_filled_captcha": "You incorrectly filled captcha",
   "gender_male": "Male",
   "gender_female": "Female",
-  "could_not_update": "Could not perform update"
+  "could_not_update": "Could not perform update",
+  "add_to_osbb": "Add To Osbb",
+  "select_from_list" :"Select from list",
+  "adding":"Adding"
 }

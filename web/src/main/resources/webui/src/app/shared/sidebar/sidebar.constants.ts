@@ -26,8 +26,8 @@ export class SidebarConstants {
       {route: 'ticket' , name: 'tickets' , class: 'fa fa-ticket'},
       {route: 'calendar' , name: 'calendar' , class: 'fa fa-calendar'},
       {route: 'events' , name: 'events' , class: 'fa fa-comments'},
-      {route: 'provider/info' , name: 'providers' , class: 'fa fa-building-o'},
       {route: 'report' , name: 'reports' , class: 'fa fa-list-alt'},
+      {route: 'provider' , name: 'providers' , class: 'fa fa-building'},
       {route: 'chat' , name: 'chat' , class: 'fa fa-bookmark'}
     ]; }
   public static get providers() { return [

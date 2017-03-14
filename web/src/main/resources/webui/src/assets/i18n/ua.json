@@ -325,5 +325,8 @@
   "you_incorrectly_filled_captcha": "Ви погано заповнили капчу",
   "gender_male": "Чоловік",
   "gender_female": "Жінка",
-  "could_not_update": "Не вдалось зберегти зміни"
+  "could_not_update": "Не вдалось зберегти зміни",
+  "add_to_osbb": "Додати до ОСББ",
+  "select_from_list" :"Вибрати зі списку",
+  "adding":"Додавання"
 }
