@@ -2,7 +2,7 @@ import {
     Component,
     OnInit
 } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Http, Response } from '@angular/http';
 import { ApartmentService } from './apartment.service';
 import { Observable } from 'rxjs/Observable';
@@ -26,6 +26,8 @@ export class ApartmentAboutComponent implements OnInit {
 
     constructor(
         public route: ActivatedRoute,
+        public loginService: LoginService,
+         private router: Router,
         public http: Http,
         public ApartmentService: ApartmentService
     ) { }
@@ -45,6 +47,14 @@ export class ApartmentAboutComponent implements OnInit {
                 this.apartment = Array.of(data);
             });
     }
+
+    public toApartments(){
+    if (this.loginService.getRole() === 'ROLE_ADMIN') {
+      this.router.navigate(['admin/apartment']);
+      return;
+    }
+    this.router.navigate(['manager/apartment']);
+  }
 
     public initUsers() {
         this.ApartmentService.getUsers(this.apartmentId).subscribe((data) => {
