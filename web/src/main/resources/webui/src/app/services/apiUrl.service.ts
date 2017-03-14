@@ -3,6 +3,7 @@ import { API_URL } from '../models/localhost.config';
 export class UrlListConfig {
   public static URL_LIST = {
     pageUrl: `${API_URL}/restful/ticket/page`,
+    ticketUrl: `${API_URL}/restful/ticket/`,
     stateUrl: `${API_URL}/restful/ticket/state`,
     assignUrl: `${API_URL}/restful/ticket/user`,
     billUrl: `${API_URL}/restful/bill/?status=`,

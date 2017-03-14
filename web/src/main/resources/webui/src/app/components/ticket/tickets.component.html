@@ -83,14 +83,14 @@
         <td class="table-text-align" >
           <div *ngIf=" item.state == 'NEW' || item.state == '0'">
             <span class="label btn-round label-info "
-                  list="assign">{{ 'New' | translate}}
+                  list="assign">{{ 'new' | translate}}
             </span>
           </div>
           <div *ngIf=" item.state == '1' || item.state == 'IN_PROGRESS'">
-            <span class="label btn-round label-success">{{ 'In Progress' | translate }}</span>
+            <span class="label btn-round label-success">{{ 'in_progress' | translate }}</span>
           </div>
           <div *ngIf=" item.state == '2' || item.state == 'DONE'">
-            <span class="label btn-round label-danger">{{ 'Done' | translate}}</span>
+            <span class="label btn-round label-danger">{{ 'done' | translate}}</span>
           </div>
         </td>
         <td class="table-text-align">
@@ -137,7 +137,7 @@
       <button type="button"
               (click)="findMyTickets()"
               class="btn btn-default">
-        {{'tickets' | translate | myCapitalize }}
+        {{'my_tickets' | translate | myCapitalize }}
       </button>
       <button type="button"
               (click)="findMyAssigned()"

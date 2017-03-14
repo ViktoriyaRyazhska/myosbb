@@ -14,15 +14,15 @@
                         (click)="delModal.hide()">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">{{'removingTicket'|capitalize}}...</h4>
+                <h4 class="modal-title">{{'removingTicket' | translate | capitalize}}...</h4>
             </div>
             <div class="modal-body">
-                <h5>{{'confirmDelTicket'|capitalize}}</h5>
+                <h5>{{'confirmDelTicket'| translate |capitalize}}</h5>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" (click)="delModal.hide()">{{'no'|capitalize}}</button>
-                <button type="button" class="btn btn-primary" (click)="delTicket();delModal.hide()">
-                    {{'yes'|capitalize}}
+                <button type="button" class="btn btn-default" (click)="delModal.hide()">{{'no'| translate |capitalize}}</button>
+                <button type="button" class="btn btn-primary" (click)="delTicket();delModal.hide()" [routerLink]="['../']">
+                    {{'yes'| translate |capitalize}}
                 </button>
             </div>
         </div>

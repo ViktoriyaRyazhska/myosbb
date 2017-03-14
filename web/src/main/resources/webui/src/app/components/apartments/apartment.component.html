@@ -1,0 +1,183 @@
+<toaster-container></toaster-container>
+<div class="content">
+  <breadcrumb [header]="title"></breadcrumb>
+  <div class="pull-right">
+    <button type="button" class="btn btn-success btn-foot" (click)="openCreateModal()">
+          {{'create_apartment' | translate | capitalize}}
+    </button>
+
+
+  </div>
+  <section>
+    <table class="table" [mfData]="resData" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+      <thead>
+        <tr>
+          <th>
+            <mfDefaultSorter by="house.street.name">{{ 'address' | translate | myCapitalize}}</mfDefaultSorter>
+          </th>
+          <th>
+            <mfDefaultSorter by="house.street.city.name">{{ 'city' | translate | myCapitalize}}</mfDefaultSorter>
+          </th>
+          <th>
+            <mfDefaultSorter by="number">{{ 'select_ap_number' | translate | myCapitalize}} </mfDefaultSorter>
+          </th>
+          <th>
+            <mfDefaultSorter by="square">{{ 'select_ap_square' | translate | myCapitalize}}</mfDefaultSorter>
+          </th>
+          <th>{{ 'go_to' | translate | myCapitalize}} </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of mf.data">
+          <td>{{item.house.street.name}},{{item.house.numberHouse}}</td>
+          <td>{{item.house.street.city.name}}</td>
+          <td>{{item.number}}</td>
+          <td>{{item.square}}</td>
+          <td><input type="button" class="btn" value="{{ 'go_to' | translate | myCapitalize}}" (click)="onNavigate(item.apartmentId)"></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5">
+            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </section>
+
+</div>
+
+<div bsModal #createModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="createModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title"> {{ 'create' | translate | capitalize }}
+        </h4>
+      </div>
+      <form (ngSubmit)="onSubmitUserApartment()" #registerForm="ngForm">
+        <div class="modal-body">
+          <div>
+            <div class="form-group">
+              <label>{{ 'choose_house' | translate | myCapitalize}}</label>
+              <select [ngModel]="house" required (ngModelChange)="onChangeHouse($event)" name="sel3">
+                <option [ngValue]="i" *ngFor="let i of houseList">{{i.numberHouse}},{{ 'street_short' | translate | capitalize }} {{i.street.name}}</option>
+             </select>
+
+            </div>
+            <div class="form-group">
+              <label for="appart_num">
+                {{ 'select_ap_number' | translate | capitalize }}
+              </label>
+              <input [(ngModel)]="userApartment.apartment.number" type="number" class="form-control" id="appart_num" required name="appart_num"
+                min="1" step="1" (blur)="validateApartmentNumber()">
+              <div *ngIf='!apartmentNumberIsValid' class="alert alert-danger" disabled=true>
+                {{ 'invalid_apartment_number' | translate | capitalize }}. {{ 'bigger_then' | translate | capitalize }} 0</div>
+            </div>
+            <div class="form-group">
+              <label for="square">
+                {{ 'select_ap_square' | translate | capitalize }}
+              </label>
+              <input [(ngModel)]="userApartment.apartment.square" (blur)="validateApartmentSquare()" type="number" class="form-control"
+                id="square" required name="square" min="10">
+              <div *ngIf='!apartmentSquareIsValid' class="alert alert-danger" disabled=true>
+                {{ 'invalid_apartment_square' | translate | capitalize }}. {{ 'bigger_then' | translate | capitalize }} 10</div>
+            </div>
+            <div class="form-group">
+              <label for="firstname">
+                {{ 'select_user_firstname' | translate | capitalize }}
+              </label>
+              <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.firstName" (blur)="validateName()" type="text" class="form-control"
+                id="firstname" required name="firstname">
+              <div *ngIf='!nameIsValid' class="alert alert-danger" disabled=true>
+                {{ 'invalid_field' | translate | capitalize }}. {{ 'at_least_length_req' | translate | capitalize }} 2
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="lastname">
+                {{ 'select_user_lastname' | translate | capitalize }}
+              </label>
+              <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.lastName" (blur)="validateLastName()" type="text" class="form-control"
+                id="lastname" required name="lastname">
+              <div *ngIf='!surnameIsValid' class="alert alert-danger" disabled=true>
+                {{ 'invalid_field' | translate | capitalize }}. {{ 'at_least_length_req' | translate | capitalize }} 2
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">
+                {{ 'select_user_email' | translate | capitalize }}
+              </label>
+              <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.email" (blur)="isValidMailFormat()" type="email" class="form-control"
+                id="email" required name="email">
+              <div *ngIf='!emailIsValid' class="alert alert-danger" disabled=true> {{ 'invalid_email' | translate | capitalize }}</div>
+            </div>
+            <div class="form-group">
+              <label for="phone">
+                {{ 'select_user_phone' | translate | capitalize }}
+              </label>
+              <input [textMask]="{mask:phoneMask}" [(ngModel)]="tmpPhone" (change)="clearPhoneMask()" type="text" class="form-control"
+                required id="phone" name="phone">
+              <div *ngIf='!phoneIsValid' class="alert alert-danger" disabled=true> {{ 'invalid_phone' | translate | capitalize }}</div>
+            </div>
+            <div class="form-group">
+              <label>{{ 'select_ownership' | translate | myCapitalize}}</label>
+              <select required [(ngModel)]="userApartment.userRegitrationByAdminDTO.ownership" name="selOwnership">
+                <option label="{{'OWNER' | translate | capitalize}}">OWNER</option>
+                <option label="{{'SUBOWNER' | translate | capitalize}}">SUBOWNER</option>
+                <option label="{{'RENTER' | translate | capitalize}}">RENTER</option>
+             </select>
+            </div>
+
+            <div *ngIf="emailIsValid ">
+              <div>
+                <label for="avatar">
+                {{ 'select_avatar' | translate | capitalize }}
+              </label>
+                <input id="avatar" name="avatar" accept="image/*" type="file" ng2FileSelect [uploader]="uploader" (change)="validateItemType()"
+                  (click)="initUploader(userApartment.userRegitrationByAdminDTO.email)" />
+              </div>
+              <div *ngIf="uploader">
+                <table class="table table-font">
+                  <thead>
+                    <tr>
+                      <th width="40%">{{ 'name' | translate | myCapitalize }}</th>
+                      <th width="15%">{{ 'size' | translate | myCapitalize }}</th>
+                      <th width="5%">{{ 'status' | translate | myCapitalize }}</th>
+                      <th width="40%">{{ 'actions' | translate | myCapitalize }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of uploader.queue">
+                      <td width="40%"><strong>{{ item?.file?.name }}</strong></td>
+                      <td *ngIf="uploader.isHTML5" width="15%" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                      <td *ngIf="!uploader.isHTML5" width="15%" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                      <td width="5%" class="text-center">
+                        <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                        <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                        <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                      </td>
+                      <td width="40%" nowrap>
+                        <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                        {{ 'remove' | translate | myCapitalize }}
+                      </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div *ngIf='!itemTypeValid' class="alert alert-warning" disabled=true> {{ 'invalid_file_type' | translate | capitalize }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button [disabled]="!isFormValid()" type="submit" class="btn btn-default">
+            {{ 'save' | translate | capitalize }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

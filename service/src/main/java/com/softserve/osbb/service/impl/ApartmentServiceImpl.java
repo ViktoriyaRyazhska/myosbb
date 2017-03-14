@@ -47,6 +47,12 @@ public class ApartmentServiceImpl implements ApartmentService {
     public List<Apartment> findAll() {
         return apartmentRepository.findAll();
     }
+    
+    @Transactional(readOnly = true)
+    @Override
+    public List<Apartment> findAllByOsbbId(Integer osbbId) {
+        return apartmentRepository.findAllByOsbbId(osbbId);
+    }
 
     @Transactional
     @Override
