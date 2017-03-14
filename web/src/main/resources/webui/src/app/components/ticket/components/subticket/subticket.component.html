@@ -6,12 +6,12 @@
     <div class="col-md-1">
       <button class="btn btn-default btn-md"
          [routerLink]="['../']">
-          {{'back' | capitalize }}
+          {{'go_back' | translate | capitalize }}
       </button>
     </div>
     <div class="container-fluid">
       <div class="pull-right">
-        {{ticket?.time | date: 'fullDate'}}
+        {{ticket?.time | date: 'fullDate' | translate}}
       </div>
     </div>
   </div>
@@ -22,35 +22,35 @@
     </span>
     <span *ngIf=" ticket?.state == 'NEW' "
           class="sub-ticket_label label-text btn-round label-info sub-ticket_label-status">
-      {{ 'new'}}
+      {{ 'new' | translate}}
     </span>
      <span *ngIf=" ticket?.state == '1' || ticket?.state == 'IN_PROGRESS'"
           class="sub-ticket_label btn-round label-success btn-md sub-ticket_label-status">
-        {{'in_progress'}}
+        {{'in_progress'| translate | capitalize}}
      </span>
       <span *ngIf=" ticket?.state == '2' || ticket?.state == 'DONE'"
             class="sub-ticket_label btn-round label-danger btn-md sub-ticket_label-status">
-        {{'done'}}
+        {{'done'| translate | capitalize}}
       </span>
       <div class="btn-group ">
         <button type="button"
                 class="btn-default btn btn-theme dropdown-toggle"
                 data-toggle="dropdown">
-          {{'changeStatus'}}
+          {{'changeStatus'| translate | capitalize }}
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu"
             role="menu">
           <li>
-            <a (click)="editState('IN_PROGRESS')">{{ 'in_progress' }}</a>
+            <a (click)="editState('IN_PROGRESS')">{{ 'in_progress' | translate | capitalize }}</a>
           </li>
           <li>
-            <a (click)="editState('DONE')">{{ 'done'  }}</a>
+            <a (click)="editState('DONE')">{{ 'done' | translate | capitalize  }}</a>
           </li>
         </ul>
       </div>
     <div class="pull-right create-date ticket-edit-btn">
-      {{'author:' | capitalize}}
+      {{'author:' | translate | capitalize}}
       <a class="sub-ticket_creator-name" href="">
         {{ticket?.user.firstName | capitalize}}
         {{ticket?.user.lastName | capitalize}}
@@ -59,35 +59,35 @@
   </div>
   <section class="sub-ticket_content">
     <div>
-      <p>{{'description'}}:</p>
+      <p>{{'description'| translate | capitalize}}:</p>
       <p>{{ticket?.description}}</p>
     </div>
     <br>
     <p>
-      {{'deadline'}}:
+      {{'deadline'| translate | capitalize}}:
       <span *ngIf="ticket?.deadline!=null">
         {{ticket?.deadline | date: 'fullDate'}}
       </span>
       <span *ngIf="ticket?.deadline==null">
-        {{'notset'}}
+        {{'notset'| translate | capitalize}}
       </span>
     </p>
     <div>
-      <p *ngIf="ticket?.discussed == null">{{'discussed:' | capitalize}} {{'No'}}</p>
-      <div class="ticket-status-display">{{'statusUpdateslast' | capitalize}}:
-        {{ticket?.stateTime | date:'fullDate' }}
+      <p *ngIf="ticket?.discussed == null">{{'discussed:' | translate | capitalize}} {{'No'| translate | capitalize}}</p>
+      <div class="ticket-status-display">{{'statusUpdateslast' | translate | capitalize}}:
+        {{ticket?.stateTime | date:'fullDate'| translate }}
         <button class="btn btn-success pull-right"
                 (click)="editDiscussedForm.initUpdatedTicket(ticket);">
-          {{'choosedate'}}
+          {{'choosedate'| translate | capitalize}}
         </button>
       </div>
       <div class="ticket-status-display"
            *ngIf="ticket?.discussed != null">
-        {{'isDiscussed'}}
-        {{ticket?.discussed | date: 'fullDate'}}
+        {{'isDiscussed'| translate | capitalize}}
+        {{ticket?.discussed | date: 'fullDate'| translate}}
         <button class="btn btn-success pull-right"
                 (click) =" editDiscussedForm.initUpdatedTicket(ticket);">
-          {{'choosedate'}}
+          {{'choosedate'| translate | capitalize}}
         </button>
       </div>
     </div>
@@ -98,19 +98,19 @@
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="true" >
-      {{'optionsTicket'}}
+      {{'optionsTicket'| translate | capitalize}}
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu"
         aria-labelledby="dropdownMenu1">
       <li>
         <a (click)="editForm.initUpdatedTicket(ticket);editForm.openEditModal()">
-          {{'editTicket'}}
+          {{'editTicket'| translate | capitalize}}
         </a>
       </li>
       <li>
         <a (click)="delForm.openDelModal(ticket)">
-          {{'deleteTicket'}}
+          {{'deleteTicket'| translate | capitalize}}
         </a>
       </li>
     </ul>
@@ -118,11 +118,11 @@
   <div class="pull-right ticket-edit-btn">
     <button class="btn btn-info sub-ticket_btn-left"
             (click)="voteVar.openModalWindow()">
-      {{'addVoting'}}
+      {{'addVoting'| translate | capitalize}}
     </button>
   </div>
       <div class="sub-ticket_comments-area">
-        <div class="sub-ticket_comments">{{'comment'}}:</div>
+        <div class="sub-ticket_comments">{{'comment'| translate | capitalize}}:</div>
         <textarea class="area comm form-control"
                   type="text"
                   name="message"
@@ -131,12 +131,12 @@
         </textarea>
         <button class="btn btn-info pull-right ticket-edit-btn"
                 (click)="createMessage(message.value); message.value='' ">
-          {{'send'}}
+          {{'send'| translate | capitalize}}
         </button>
       </div>
       <button class="btn btn-default sub-ticket_show-comments"
               (click)="getComments()">
-        {{'Show Comments'}}
+        {{'Show Comments'| translate | capitalize}}
       </button>
     </div>
 
