@@ -29,6 +29,7 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.softserve.osbb.model.User;
+import com.softserve.osbb.service.DriveService;
 import com.softserve.osbb.service.GoogleDriveService;
 import com.softserve.osbb.service.UserService;
 import com.softserve.osbb.service.exceptions.GoogleDriveException;
@@ -42,6 +43,7 @@ import com.softserve.osbb.service.exceptions.GoogleDriveException;
  */
 @Service
 public class GoogleDriveServiceImpl implements GoogleDriveService {
+	
 
 	private final Logger LOGGER = LoggerFactory.getLogger(GoogleDriveServiceImpl.class);
 
@@ -84,6 +86,9 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private DriveService dService;
 
 	/** Global instance of the HTTP transport. */
 	private HttpTransport HTTP_TRANSPORT;
@@ -172,7 +177,6 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 
 		return file;
 	}
-
 	@Override
 	public List<File> getAll() {
 		List<File> result = new ArrayList<>();
@@ -215,7 +219,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		return getFileWithFields(parentId, CORE);
 	}
 
-	private File findByName(String folderName, String parentId) {
+	public File findByName(String folderName, String parentId) {
 
 		File folder = null;
 		List<File> childrenFiles = findByParentId(parentId);
@@ -270,6 +274,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		validateName(fileName);
 		checkIfExist(fileName, folderId);
 		fileName = new StringBuilder(TEMP).append("/").append(fileName).toString();
+		
 		try {
 			createTempCopy(fileName, uploading.getInputStream());
 		} catch (IOException e) {
@@ -286,6 +291,27 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		} catch (IOException e) {
 			processGDE("Could not upload " + fileName);
 		}
+	}
+	
+	public void insertChatFile (String description, String fileName, java.io.File file) {
+		File body = new File();
+		body.setDescription(description);
+		// Set the parent folder.
+		String parentId= APP_FOLDER_ID;
+		File fileMetadata = getFileWithMetadata(fileName, parentId);
+	    FileContent mediaContent = new FileContent(null, file);
+	
+	   try {
+		 File driveFile=	driveService.files().create(fileMetadata, mediaContent).setFields("id, parents").execute();
+		
+		System.out.println(driveFile.getId());
+		com.softserve.osbb.model.Drive drive = new com.softserve.osbb.model.Drive(driveFile.getId());
+		dService.save(drive);
+		 file.delete();
+		} catch (IOException e) {
+			processGDE("Could not upload " + fileName);
+		}
+	  
 	}
 
 	private void createTempCopy(String path, InputStream in) {

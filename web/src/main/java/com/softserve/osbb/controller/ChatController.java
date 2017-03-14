@@ -21,8 +21,12 @@ import com.softserve.osbb.service.MessageService;
 import com.softserve.osbb.model.ChatMessage;
 import com.softserve.osbb.model.ListMessages;
 import com.softserve.osbb.service.ChatService;
+import com.softserve.osbb.service.ChatService;
+import com.softserve.osbb.service.DriveService;
+import com.softserve.osbb.service.GoogleDriveService;
 
 import java.io.File;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,38 +45,49 @@ public class ChatController {
 
 	
 	@Autowired
-    private ChatService chatService;
-	
 
+	private ChatService chatService;
+
+	@Autowired
+	private GoogleDriveService driveService;
+
+	@Autowired
+	private DriveService d;
+
+	@MessageMapping("/chat")
 	@SendTo("/topic/greetings")
 	public Chat chat(ChatMessage message) throws Exception {
-		Thread.sleep(1000);
+        System.out.println(message.getMessage());
 		Chat chat = new Chat(message.getMessage(), new Timestamp(System.currentTimeMillis()));
 		chatService.save(chat);
 		List<Chat> list = new ArrayList<>();
 		list.add(chat);
 		ListMessages listOfMessages = new ListMessages();
-		listOfMessages.setMessages(list);
-		
-		if(chatService.countChatMessages()>7)chatService.deleteHalf();
 
-		try {
+		if (chatService.countChatMessages() == 6)
+			chatService.deleteHalf();
+		if (chatService.countChatMessages() == 5) {
+			try {
+				File file = new File("file.xml");
+				String driveId = d.findAll().get(0).getFile();
+				InputStream input = driveService.getInput(driveId);
+				JAXBContext jaxbContext = JAXBContext.newInstance(ListMessages.class, Chat.class);
+				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
-			File file = new File("D:\\file.xml");
-			JAXBContext jaxbContext = JAXBContext.newInstance(ListMessages.class, Chat.class);
-			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
-			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			if (file.length() != 0) {
-				listOfMessages = (ListMessages) jaxbUnmarshaller.unmarshal(file);
-				listOfMessages.getMessages().add(chat);
+				listOfMessages = (ListMessages) jaxbUnmarshaller.unmarshal(input);
+				listOfMessages.setMessages(chatService.findAll());
+
+				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+				jaxbMarshaller.marshal(listOfMessages, file);
+				driveService.delete(driveId);
+				d.deleteAll();
+				driveService.insertChatFile("Chat messages", file.getName(), file);
+
+			} catch (JAXBException e) {
+				e.printStackTrace();
 			}
-
-			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.marshal(listOfMessages, file);
-
-		} catch (JAXBException e) {
-			e.printStackTrace();
 		}
 		return chatService.save(chat);
 	}

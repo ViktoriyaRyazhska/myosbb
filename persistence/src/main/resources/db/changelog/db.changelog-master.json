@@ -123,6 +123,11 @@
     },
     {
       "includeAll": {
+        "path": "classpath:/db/changelog/drive/"
+      }
+    },
+    {
+      "includeAll": {
         "path": "classpath:/db/changelog/utility/"
       }
     },

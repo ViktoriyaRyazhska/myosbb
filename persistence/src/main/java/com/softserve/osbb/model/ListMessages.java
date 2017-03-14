@@ -23,4 +23,9 @@ public class ListMessages {
         this.messages = messages;
     }
 
+	@Override
+	public String toString() {
+		return "ListMessages [messages=" + messages + "]";
+	}
+
 }
