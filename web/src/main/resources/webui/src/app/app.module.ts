@@ -1,6 +1,7 @@
 
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { HttpModule, Http } from '@angular/http';
 import {
@@ -73,6 +74,8 @@ import { TicketAddFormComponent } from './components/ticket/components/ticketAdd
 import { TicketEditFormComponent } from './components/ticket/components/ticketEditFromComponent/ticket-edit-form.component';
 import { TicketDelFormComponent } from './components/ticket/components/ticketDelFormComponent/ticket-del-form.component'
 import { TicketEditDiscussedFormComponent } from './components/ticket/components/ticketEditDistFormComponent/ticket-editdiscussed-form.component';
+import { UtilityComponent }            from './components/utility';
+import { UtilityFormComponent }            from './components/utility/utility-form';
 
 import { SetLanguageComponent }             from './shared/set-language/';
 import { OsbbDocumentsAndReportsComponent } from './components/osbb-docs-and-reports';
@@ -110,6 +113,8 @@ type StoreType = {
 @NgModule({
   bootstrap: [ AppComponent ],
   declarations: [
+    UtilityFormComponent,
+    UtilityComponent,
     AppHeaderComponent,
     AppComponent,
     LoginComponent,
@@ -148,6 +153,7 @@ type StoreType = {
     CapitalizeLetterPipe
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     FormsModule,
     HttpModule,

@@ -323,5 +323,10 @@
   "you_incorrectly_filled_captcha": "You incorrectly filled captcha",
   "gender_male": "Male",
   "gender_female": "Female",
-  "could_not_update": "Could not perform update"
+  "could_not_update": "Could not perform update",
+  "create_utility": "Create utility",
+  "currency": "Currency",
+  "clear": "Clear",
+  "add_sub_utility": "Add sub-utility",
+  "choose_houses": "Choose houses"
 }
