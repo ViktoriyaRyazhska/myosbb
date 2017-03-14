@@ -2,7 +2,7 @@
 <div class="content">
   <breadcrumb [header]="title"></breadcrumb>
   <div>
-    <button type="button" class="btn btn-success col-md-1 col-md-offset-10" (click)="openCreateModal()">
+    <button type="button" class="btn btn-success  col-md-offset-10" (click)="openCreateModal()">
           {{'create_apartment' | translate | capitalize}}
     </button>
   </div>
@@ -88,8 +88,8 @@
               <label for="firstname">
                 {{ 'select_user_firstname' | translate | capitalize }}
               </label>
-              <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.firstName" (blur)="validateName()" type="text" class="form-control" autocomplete="off"
-                id="firstname" required name="firstname">
+              <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.firstName" (blur)="validateName()" type="text" class="form-control"
+                autocomplete="off" id="firstname" required name="firstname">
               <div *ngIf='!nameIsValid' class="alert alert-danger" disabled=true>
                 {{ 'invalid_field' | translate | capitalize }}. {{ 'at_least_length_req' | translate | capitalize }} 2
               </div>
@@ -98,8 +98,8 @@
               <label for="lastname">
                 {{ 'select_user_lastname' | translate | capitalize }}
               </label>
-              <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.lastName" (blur)="validateLastName()" type="text" class="form-control" autocomplete="off"
-                id="lastname" required name="lastname">
+              <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.lastName" (blur)="validateLastName()" type="text" class="form-control"
+                autocomplete="off" id="lastname" required name="lastname">
               <div *ngIf='!surnameIsValid' class="alert alert-danger" disabled=true>
                 {{ 'invalid_field' | translate | capitalize }}. {{ 'at_least_length_req' | translate | capitalize }} 2
               </div>
@@ -108,16 +108,16 @@
               <label for="email">
                 {{ 'select_user_email' | translate | capitalize }}
               </label>
-              <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.email" (blur)="isValidMailFormat()" type="email" class="form-control" autocomplete="off"
-                id="email" required name="email">
+              <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.email" (blur)="isValidMailFormat()" type="email" class="form-control"
+                autocomplete="off" id="email" required name="email">
               <div *ngIf='!emailIsValid' class="alert alert-danger" disabled=true> {{ 'invalid_email' | translate | capitalize }}</div>
             </div>
             <div class="form-group">
               <label for="phone">
                 {{ 'select_user_phone' | translate | capitalize }}
               </label>
-              <input [textMask]="{mask:phoneMask}" [(ngModel)]="tmpPhone" (change)="clearPhoneMask()" type="text" class="form-control" autocomplete="off"
-                required id="phone" name="phone">
+              <input [textMask]="{mask:phoneMask}" [(ngModel)]="tmpPhone" (change)="clearPhoneMask()" type="text" class="form-control"
+                autocomplete="off" required id="phone" name="phone">
               <div *ngIf='!phoneIsValid' class="alert alert-danger" disabled=true> {{ 'invalid_phone' | translate | capitalize }}</div>
             </div>
             <div class="form-group">
@@ -138,7 +138,7 @@
                   (click)="initUploader(userApartment.userRegitrationByAdminDTO.email)" />
               </div>
               <div *ngIf="uploader">
-                <table class="table table-font"  *ngIf='itemTypeValid && itemSizeValid'>
+                <table class="table table-font" *ngIf='itemTypeValid && itemSizeValid'>
                   <thead>
                     <tr>
                       <th width="40%">{{ 'name' | translate | myCapitalize }}</th>
