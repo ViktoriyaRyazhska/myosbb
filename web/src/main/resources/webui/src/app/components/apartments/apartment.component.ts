@@ -62,11 +62,14 @@ export class ApartmentComponent implements OnInit {
   public ownershipSelected: boolean;
   public phoneIsValid: boolean;
   public itemTypeValid: boolean;
+  public itemSizeValid: boolean;
 
 
   public rowsOnPage = 10;
   public sortBy = "number";
   public sortOrder = "asc";
+
+  public size: any;
 
 
   constructor(
@@ -96,14 +99,28 @@ export class ApartmentComponent implements OnInit {
         if (this.uploader && this.uploader.queue.length > 0) this.onUpload();
         this.getApartments();
         this.uploader = null;
-        this.toasterService.pop('success', '', 'Користувача і квартиру було успішно зареєстроване!');
+        this.toasterService.pop('success', '', this.translate('user_appartment_success'));
         this.initForm();
       },
       (error) => {
         console.log(error.json());
-        var errorJson = error.json();
-        this.toasterService.pop('error', error.status, errorJson.message);
+        this.handleErrors(error);
       });
+  }
+
+  public handleErrors(error) {
+    var errorJson = error.json();
+    switch (errorJson.message) {
+      case "user already exists":
+        this.toasterService.pop('error', '403', this.translate('user') + " " + this.translate('exist'));
+        break;
+      case "apartment with this number in this house already exists":
+        this.toasterService.pop('error', '403', this.translate('apartment_exist').toUpperCase());
+        break;
+      case "wrong e-mail":
+        this.toasterService.pop('error', '403', this.translate('wrong_email').toUpperCase());
+        break;
+    }
   }
 
   public onNavigate(id: number) {
@@ -187,6 +204,7 @@ export class ApartmentComponent implements OnInit {
     this.ownershipSelected = true;
     this.phoneIsValid = true;
     this.itemTypeValid = true;
+    this.itemSizeValid = true;
   };
 
   public ListAllHouses() {
@@ -221,28 +239,14 @@ export class ApartmentComponent implements OnInit {
   }
 
 
-  public handleErrors(error) {
-    var errorJson = error.json;
-    if (error.status === 403) {
-      this.toasterService.pop('error', '403', errorJson.message);
-    }
-    if (error.status === 202) {
-      this.toasterService.pop('error', '202', errorJson.message);
-    }
-    if (error.status === 400) {
-      this.toasterService.pop('error', '', errorJson.message);
-    }
-    if (error.status === 500) {
-      this.toasterService.pop('error', '', 'Нажаль, сталася помилка під час реєстрації');
-    }
-  }
+
 
   public clearQueue() {
     this.uploader.clearQueue();
   }
 
   public onUpload() {
-    if (this.itemTypeValid) {
+    if (this.itemTypeValid && this.itemSizeValid) {
       this.uploader.queue.forEach((item) => {
         item.upload();
       });
@@ -291,6 +295,17 @@ export class ApartmentComponent implements OnInit {
       }
       else {
         this.itemTypeValid = false;
+      }
+    });
+  }
+
+  public validateItemSize() {
+    this.uploader.queue.forEach((item) => {
+      if (item.file.size < 131072) {
+        this.itemSizeValid = true;
+      }
+      else {
+        this.itemSizeValid = false;
       }
     });
   }
