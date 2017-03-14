@@ -1,25 +1,28 @@
 <div class="content">
     <breadcrumb [header]="title"></breadcrumb>
     <div *ngIf="!isSubUtilityShow">
-        <table class="table table-hover">
+        <table class="table table-hover" [mfData]="resData | specArrayFilter:utilityId" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
             <thead>
             <tr>
-                <th><i class="fa fa-bullhorn"></i> {{'name' | translate | capitalize}}
-                    <span class="fa fa-fw fa-sort"></span>
+                <th><mfDefaultSorter by="name"><i class="fa fa-bullhorn"></i> {{'name' | translate | capitalize}}
+                </mfDefaultSorter>
                 </th>
-                <th><i class="fa fa-credit-card"></i> {{'price' | translate | capitalize}}
-                    <span class="fa fa-fw fa-sort"></span>
+                <th><mfDefaultSorter by="price"><i class="fa fa-credit-card"></i> {{'price' | translate | capitalize}}
+                    </mfDefaultSorter>
                 </th>
-                <th><i class="fa fa-money"></i> {{'currency' | translate | capitalize}}
+                <th><mfDefaultSorter by="currency"><i class="fa fa-money"></i> {{'currency' | translate | capitalize}}
+                    </mfDefaultSorter>
                 </th>
-                <th><i class="fa fa-bars"></i> {{'subutilities' | translate | capitalize}}
+                <th><mfDefaultSorter by="subutilities"><i class="fa fa-bars"></i> {{'subutilities' | translate | capitalize}}
+                </mfDefaultSorter>
                 </th>
-                <th><i class="fa fa-edit"></i> {{'description' | translate | capitalize}}
+                <th><mfDefaultSorter by="description"><i class="fa fa-edit"></i> {{'description' | translate | capitalize}}
+                </mfDefaultSorter>
                 </th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let item of resData | specArrayFilter:utilityId">
+            <tr *ngFor="let item of mf.data | specArrayFilter:utilityId">
                 <td>{{item.name}}</td>
                 <td>{{item.price}}</td>
                 <td>{{item.priceCurrency}}</td>
@@ -35,32 +38,48 @@
                 <td>{{item.description}}</td>
             </tr>
             </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="5">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+            </tfoot>
         </table>
     </div>
     <div *ngIf="isSubUtilityShow">
-        <table class="table table-hover">
+        <table class="table table-hover" [mfData]="resData | specArrayFilter:utilityId" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
             <thead>
             <tr>
-                <th><i class="fa fa-bullhorn"></i> {{'name' | translate | capitalize}}
-                    <span class="fa fa-fw fa-sort"></span>
+                <th><mfDefaultSorter by="name"><i class="fa fa-bullhorn"></i> {{'name' | translate | capitalize}}
+                </mfDefaultSorter>
                 </th>
-                <th><i class="fa fa-credit-card"></i> {{'price' | translate | capitalize}}
-                    <span class="fa fa-fw fa-sort"></span>
+                <th><mfDefaultSorter by="price"><i class="fa fa-credit-card"></i> {{'price' | translate | capitalize}}
+                </mfDefaultSorter>
                 </th>
-                <th><i class="fa fa-money"></i> {{'currency' | translate | capitalize}}
+                <th><mfDefaultSorter by="currency"><i class="fa fa-money"></i> {{'currency' | translate | capitalize}}
+                </mfDefaultSorter>
                 </th>
-                <th><i class="fa fa-edit"></i> {{'description' | translate | capitalize}}
+                <th><mfDefaultSorter by="description"><i class="fa fa-edit"></i> {{'description' | translate | capitalize}}
+                </mfDefaultSorter>
                 </th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let item of resData | specArrayFilter:utilityId">
+            <tr *ngFor="let item of mf.data | specArrayFilter:utilityId">
                 <td>{{item.name}}</td>
                 <td>{{item.price}}</td>
                 <td>{{item.priceCurrency}}</td>
                 <td>{{item.description}}</td>
             </tr>
             </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="5">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+            </tfoot>
         </table>
         <div>
             <button (click)="switchMode(null)" class="btn btn-success" type="button">

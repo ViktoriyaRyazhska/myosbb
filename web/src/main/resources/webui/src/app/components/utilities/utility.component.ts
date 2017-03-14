@@ -9,6 +9,7 @@ import { UtilityService } from './utility.service';
 })
 export class UtilityComponent implements OnInit {
     public title: string = `Utilities`;
+    public rowsOnPage = 10;
     public resData: any;
     public isSubUtilityShow = false;
     public utilityId = null;

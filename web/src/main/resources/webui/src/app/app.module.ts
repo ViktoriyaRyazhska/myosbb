@@ -20,6 +20,7 @@ import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-tra
 import { ToasterModule, ToasterService } from 'angular2-toaster';
 import { FileSelectDirective, } from 'ng2-file-upload';
 import { TextMaskModule } from 'angular2-text-mask';
+import {DataTableModule} from "angular2-datatable";
 import { SelectModule } from 'ng2-select';
 import { MomentModule } from 'angular2-moment';
 import {
@@ -173,6 +174,7 @@ type StoreType = {
     CheckboxModule,
     ButtonModule,
     TabViewModule,
+    DataTableModule,
     CalendarModule,
     CodeHighlighterModule,
     AlertModule.forRoot(),
