@@ -360,5 +360,7 @@
   "unknown_error":"server error",
   "null_input":"no data provided in request body",
   "some_data_null":"some required field was not provided",
-  "email_null":"email was not provided"
+  "email_null":"email was not provided",
+  "removingApartment":"remove apartment",
+  "rm_ap_alert":"all users will be removed too"
   }

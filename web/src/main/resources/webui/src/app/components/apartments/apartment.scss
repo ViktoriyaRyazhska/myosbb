@@ -140,4 +140,12 @@
   #no-more-tables td:before {
     content: attr(data-title);
   }
+
+  .button_app{
+    margin-left: 2mm;
+  }
+
+  .button_red{
+    background-color: darkred;
+  }
 }

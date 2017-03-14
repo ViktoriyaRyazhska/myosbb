@@ -35,7 +35,8 @@ import { API_URL } from '../../../shared/models/localhost.config';
 
 export class ApartmentComponent implements OnInit {
 
-  @ViewChild('createModal') public createModal: ModalDirective;
+  @ViewChild('createModal')  createModal: ModalDirective;
+   @ViewChild('delModal') delModal:ModalDirective;
 
   public EMAIL_REGEXP = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
   public uploader: FileUploader;
@@ -64,6 +65,7 @@ export class ApartmentComponent implements OnInit {
   public itemTypeValid: boolean;
   public itemSizeValid: boolean;
 
+public apartmentDelId: number;
 
   public rowsOnPage = 10;
   public sortBy = "number";
@@ -100,7 +102,7 @@ export class ApartmentComponent implements OnInit {
         this.getApartments();
         this.uploader = null;
         this.toasterService.pop('success', '', this.translate('user_appartment_success'));
-        this.initForm();
+        // this.initForm();
       },
       (error) => {
         var errorJson = error.json();
@@ -203,9 +205,26 @@ export class ApartmentComponent implements OnInit {
     });
   }
 
+  delApartment(){
+    this.apartment.deleteApartment(this.apartmentDelId).subscribe((data)=>{
+      this.toasterService.pop('success', '', this.translate('deleted')); 
+      this.getApartments();   
+    }) 
+  }
+
   public openCreateModal() {
     this.createModal.show();
   };
+
+   public openDelModal(apartmentId: number):void {
+    this.apartmentDelId = apartmentId;
+    this.delModal.show();
+  }
+
+  public closeDelModal(){
+    this.apartmentDelId = null;
+    this.delModal.hide();
+  }
 
   public initForm() {
     this.userApartment = new UserApartment();
@@ -241,15 +260,12 @@ export class ApartmentComponent implements OnInit {
   }
 
 
-  public selectedHouse(value: any) {
-    this.houseNumber = value.text;
-  }
 
   public clearQueue() {
     this.uploader.clearQueue();
   }
 
-  public onUpload() {
+  private onUpload() {
     if (this.itemTypeValid && this.itemSizeValid) {
       this.uploader.queue.forEach((item) => {
         item.upload();
@@ -265,7 +281,7 @@ export class ApartmentComponent implements OnInit {
   }
 
 
-  public translate(message: string): string {
+  private translate(message: string): string {
     let translation: string;
     this.translateService.get(message).subscribe(
       (data) => translation = data
@@ -355,4 +371,4 @@ export class ApartmentComponent implements OnInit {
     return false;
   }
 
-}
+  }
