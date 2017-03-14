@@ -37,10 +37,10 @@ public class ChatController {
 	private ChatService chatService;
 
 	@Autowired
-	private GoogleDriveService driveService;
+	private GoogleDriveService googleDriveService;
 
 	@Autowired
-	private DriveService d;
+	private DriveService driveService;
 
 	@MessageMapping("/chat")
 	@SendTo("/topic/greetings")
@@ -53,8 +53,8 @@ public class ChatController {
 		}
 		if (chatService.countChatMessages() == 20) {
 			File file = new File("file.xml");
-			String driveId = d.findAll().get(0).getFile();
-			InputStream input = driveService.getInput(driveId);
+			String driveId = driveService.findAll().get(0).getFile();
+			InputStream input = googleDriveService.getInput(driveId);
 			
 			ListMessages listOfMessages = new ListMessages();
 			
@@ -68,9 +68,9 @@ public class ChatController {
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(listOfMessages, file);
 			
-			driveService.delete(driveId);
-			d.deleteAll();
-			driveService.insertChatFile("Chat messages", file.getName(), file);
+			googleDriveService.delete(driveId);
+			driveService.deleteAll();
+			googleDriveService.insertChatFile("Chat messages", file.getName(), file);
 		}
 		return chatService.save(chat);
 	}
