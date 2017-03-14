@@ -32,6 +32,7 @@ public class HouseDTO {
 
     public HouseDTO(HouseDTOBuilder houseDTOBuilder) {
         this.houseId = houseDTOBuilder.houseId;
+        this.numberHouse = houseDTOBuilder.numberHouse;
         this.street = houseDTOBuilder.street;
         this.zipCode = houseDTOBuilder.zipCode;
         this.description = houseDTOBuilder.description;
@@ -72,9 +73,6 @@ public class HouseDTO {
 		return numberHouse;
 	}
 
-	public void setNumberHouse(Integer numberHouse) {
-		this.numberHouse = numberHouse;
-	}
 
 
 
