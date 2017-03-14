@@ -7,7 +7,7 @@ import { OsbbBillsComponent } from '../components/osbbBils';
 import { ContractsComponent } from '../components/contracts';
 import { TicketComponent  } from '../components/ticket';
 import { ProviderComponent } from '../components/provider';
-import { ApartmentComponent } from '../components/apartment';
+import { ApartmentComponent } from '../components/apartments';
 import { CalendarComponent } from '../components/calendar';
 import { SubTicketComponent } from '../components/ticket/components/subticket';
 import { OsbbDocumentsAndReportsComponent } from '../components/osbb-docs-and-reports';

@@ -257,23 +257,29 @@ public class HouseController {
 	@RequestMapping(value = "/withUser/{id}", method = RequestMethod.POST)
 	public ResponseEntity<Resource<Apartment>> addApartmentWithUserToHouse(@PathVariable("id") Integer id,
 			@RequestBody AppartmentUserDTO apartmentUser) {
+		logger.info("Saving user with apartment for house " + id);
 		if (apartmentUser == null) {
+			logger.warn("No request body");
 			throw new InvalidInputDataException("Incoming dto is null");
 		}
 		Apartment apartment = apartmentUser.getApartment();
 		UserRegitrationByAdminDTO userRegitrationByAdminDTO = apartmentUser.getUserRegitrationByAdminDTO();
 		if (apartment == null || userRegitrationByAdminDTO == null) {
+			logger.warn("incoming data contains null element on place of required ");
 			throw new InvalidInputDataException("incoming data contains null element on place of required");
 		}
 		if (userRegitrationByAdminDTO.getEmail() == null) {
+			logger.warn("e-mail was not provided in request body");
 			throw new InvalidInputDataException("incoming data contains null where e-mail address supposed to be");
 		}
 		User foundUser = userService.findUserByEmail(userRegitrationByAdminDTO.getEmail());
 		if (foundUser != null) {
+			logger.warn("user with e-mail" + userRegitrationByAdminDTO.getEmail() + " already exists");
 			throw new UserAlreadyExistsException("user already exists");
 		}
 		Apartment foundApartment = apartmentService.findByHouseAndNumber(apartment.getNumber(), id);
 		if (foundApartment != null) {
+			logger.warn("apartment with number " +apartment.getNumber()+" in house with id "+id+" already exists");
 			throw new ApartmentAlreadyExistsException("apartment with this number in this house already exists");
 		}
 		User user = userRegistrationByAdminDTOMapper.mapDTOToEntity(userRegitrationByAdminDTO);
@@ -282,13 +288,16 @@ public class HouseController {
 
 		ResponseEntity<Resource<Apartment>> response = null;
 		if (house == null) {
+			logger.warn("house with id "+id+" was not found in DB");
 			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
 		try {
 			apartmentUserRS.registerAppartmentWithUser(user, apartment, house);
 		} catch (MessagingException | MailException e) {
+			logger.warn("something wrong with internet connection. cannot send mail");
 			throw new CannotSendMailException("something wrong with internet connection. cannot send mail");
 		} catch (UnknownHostException | InvalidEmailException e) {
+			logger.warn("email "+ userRegitrationByAdminDTO.getEmail() + " doesn't match reg-ex or has fake host name");
 			throw new WrongEmailException("wrong e-mail");
 		}
 

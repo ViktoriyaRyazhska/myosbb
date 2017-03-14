@@ -9,8 +9,6 @@ package com.softserve.osbb.dto;
 import com.softserve.osbb.dto.mappers.ApartmentDTOMapper;
 import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.House;
-import com.softserve.osbb.model.Osbb;
-import com.softserve.osbb.model.Street;
 import com.softserve.osbb.model.User;
 
 import java.util.Date;
@@ -18,6 +16,7 @@ import java.util.Date;
 /**
  * Created by Roman on 16.08.2016.
  * modified by cavayman 23.09.2016
+ * modified by YuriiRozhak 12.03.2017
  */
 public class UserDTO {
     
@@ -32,10 +31,11 @@ public class UserDTO {
     private String password;
     private ApartmentDTO apartment;
     private House house;
+   private String photoId;
 
     public UserDTO() {}
 
-    public UserDTO(Integer userId, String firstName, String lastName, String email, Integer osbbId, Apartment apartment, House house, String gender, String password) {
+    public UserDTO(Integer userId, String firstName, String lastName, String email, Integer osbbId, Apartment apartment, House house, String gender, String password, String photoId) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -45,6 +45,7 @@ public class UserDTO {
         this.house = house;
         this.gender = gender;
         this.password = password;
+        this.photoId = photoId;
     }
 
     public UserDTO(User user) {
@@ -61,6 +62,7 @@ public class UserDTO {
             this.osbbId = user.getOsbb().getOsbbId();
         }
         this.apartment= ApartmentDTOMapper.mapApartmentEntityToDTO(user.getApartment());
+        this.photoId = user.getPhotoId();
     }
 
     public Integer getUserId() {
@@ -150,6 +152,14 @@ public class UserDTO {
 	public void setOsbbId(Integer osbbId) {
 		this.osbbId = osbbId;
 	}
+	
+	public String getPhotoId() {
+		return photoId;
+	}
+
+	public void setPhotoId(String photoId) {
+		this.photoId = photoId;
+	}
 
 	@Override
     public String toString() {
@@ -162,6 +172,7 @@ public class UserDTO {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", osbbId=" + osbbId +
                 ", gender='" + gender + '\'' +
+                ", photoId='" + photoId + '\'' +
                 '}';
     }
 }
