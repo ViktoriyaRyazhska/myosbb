@@ -183,7 +183,7 @@ export class ApartmentComponent implements OnInit {
   /**
    * getApartmentsForAdmin
    */
-  public getAllApartments() {
+  private getAllApartments() {
     this.apartment.getApartmentData().subscribe((data) => {
       this.resData = data;
     });
@@ -191,7 +191,7 @@ export class ApartmentComponent implements OnInit {
   /**
    * getApartmentsForManager
    */
-  public getApartmentsForManager(osbbId: number) {
+  private getApartmentsForManager(osbbId: number) {
     this.apartment.getApartmentDataForManager(osbbId).subscribe((data) => {
       this.resData = data;
     });
@@ -220,7 +220,7 @@ export class ApartmentComponent implements OnInit {
     this.itemSizeValid = true;
   };
 
-  public ListAllHouses() {
+  private ListAllHouses() {
     this.apartment.getAllHouses()
       .subscribe((data) => {
         this.houseList = data;
@@ -230,7 +230,7 @@ export class ApartmentComponent implements OnInit {
       });
   }
 
-  public listManagerHouses(osbbId: number) {
+  private listManagerHouses(osbbId: number) {
     this.apartment.getAllHousesByOsbb(osbbId)
       .subscribe((data) => {
         this.houseList = data;
@@ -240,19 +240,10 @@ export class ApartmentComponent implements OnInit {
       });
   }
 
-  public fillHouse(): number[] {
-    let stri: string;
-    let tempArr: number[] = [];
-    _.map(this.houseList, (hs) => { tempArr.push(hs.houseId); });
-    return tempArr;
-  }
 
   public selectedHouse(value: any) {
     this.houseNumber = value.text;
   }
-
-
-
 
   public clearQueue() {
     this.uploader.clearQueue();
@@ -272,7 +263,6 @@ export class ApartmentComponent implements OnInit {
       authToken: 'Bearer ' + localStorage.getItem('access_token'),
     });
   }
-
 
 
   public translate(message: string): string {
