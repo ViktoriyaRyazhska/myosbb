@@ -102,7 +102,7 @@ public apartmentDelId: number;
         this.getApartments();
         this.uploader = null;
         this.toasterService.pop('success', '', this.translate('user_appartment_success'));
-        // this.initForm();
+        this.initForm();
       },
       (error) => {
         var errorJson = error.json();
