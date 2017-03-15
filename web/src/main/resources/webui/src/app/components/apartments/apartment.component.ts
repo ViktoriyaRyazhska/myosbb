@@ -35,7 +35,8 @@ import { API_URL } from '../../../shared/models/localhost.config';
 
 export class ApartmentComponent implements OnInit {
 
-  @ViewChild('createModal') public createModal: ModalDirective;
+  @ViewChild('createModal')  createModal: ModalDirective;
+   @ViewChild('delModal') delModal:ModalDirective;
 
   public EMAIL_REGEXP = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
   public uploader: FileUploader;
@@ -62,11 +63,15 @@ export class ApartmentComponent implements OnInit {
   public ownershipSelected: boolean;
   public phoneIsValid: boolean;
   public itemTypeValid: boolean;
+  public itemSizeValid: boolean;
 
+public apartmentDelId: number;
 
   public rowsOnPage = 10;
   public sortBy = "number";
   public sortOrder = "asc";
+
+  public size: any;
 
 
   constructor(
@@ -96,14 +101,41 @@ export class ApartmentComponent implements OnInit {
         if (this.uploader && this.uploader.queue.length > 0) this.onUpload();
         this.getApartments();
         this.uploader = null;
-        this.toasterService.pop('success', '', 'Користувача і квартиру було успішно зареєстроване!');
+        this.toasterService.pop('success', '', this.translate('user_appartment_success'));
         this.initForm();
       },
       (error) => {
-        console.log(error.json());
         var errorJson = error.json();
-        this.toasterService.pop('error', error.status, errorJson.message);
+        this.handleErrors(errorJson);
       });
+  }
+
+  public handleErrors(errorJson) {
+    switch (errorJson.message) {
+      case "user already exists":
+        this.toasterService.pop('error', '', this.translate('user').toUpperCase() + " " + this.translate('exist').toUpperCase());
+        break;
+      case "apartment with this number in this house already exists":
+        this.toasterService.pop('error', '', this.translate('apartment_exist').toUpperCase());
+        break;
+      case "wrong e-mail":
+        this.toasterService.pop('error', '', this.translate('wrong_email').toUpperCase());
+        break;
+      case "something wrong with internet connection. cannot send mail":
+        this.toasterService.pop('error', '', this.translate('server_disconect').toUpperCase());
+        break;
+      case "Incoming dto is null":
+        this.toasterService.pop('error', '', this.translate('null_input').toUpperCase());
+        break;
+      case "incoming data contains null element on place of required":
+        this.toasterService.pop('error', '', this.translate('some_data_null').toUpperCase());
+        break;
+      case "incoming data contains null where e-mail address supposed to be":
+        this.toasterService.pop('error', '', this.translate('email_null').toUpperCase());
+        break;
+      default:
+        this.toasterService.pop('error', '', errorJson.message);
+    }
   }
 
   public onNavigate(id: number) {
@@ -153,7 +185,7 @@ export class ApartmentComponent implements OnInit {
   /**
    * getApartmentsForAdmin
    */
-  public getAllApartments() {
+  private getAllApartments() {
     this.apartment.getApartmentData().subscribe((data) => {
       this.resData = data;
     });
@@ -161,7 +193,7 @@ export class ApartmentComponent implements OnInit {
   /**
    * getApartmentsForManager
    */
-  public getApartmentsForManager(osbbId: number) {
+  private getApartmentsForManager(osbbId: number) {
     this.apartment.getApartmentDataForManager(osbbId).subscribe((data) => {
       this.resData = data;
     });
@@ -173,9 +205,26 @@ export class ApartmentComponent implements OnInit {
     });
   }
 
+  delApartment(){
+    this.apartment.deleteApartment(this.apartmentDelId).subscribe((data)=>{
+      this.toasterService.pop('success', '', this.translate('deleted')); 
+      this.getApartments();   
+    }) 
+  }
+
   public openCreateModal() {
     this.createModal.show();
   };
+
+   public openDelModal(apartmentId: number):void {
+    this.apartmentDelId = apartmentId;
+    this.delModal.show();
+  }
+
+  public closeDelModal(){
+    this.apartmentDelId = null;
+    this.delModal.hide();
+  }
 
   public initForm() {
     this.userApartment = new UserApartment();
@@ -187,9 +236,10 @@ export class ApartmentComponent implements OnInit {
     this.ownershipSelected = true;
     this.phoneIsValid = true;
     this.itemTypeValid = true;
+    this.itemSizeValid = true;
   };
 
-  public ListAllHouses() {
+  private ListAllHouses() {
     this.apartment.getAllHouses()
       .subscribe((data) => {
         this.houseList = data;
@@ -199,7 +249,7 @@ export class ApartmentComponent implements OnInit {
       });
   }
 
-  public listManagerHouses(osbbId: number) {
+  private listManagerHouses(osbbId: number) {
     this.apartment.getAllHousesByOsbb(osbbId)
       .subscribe((data) => {
         this.houseList = data;
@@ -209,40 +259,14 @@ export class ApartmentComponent implements OnInit {
       });
   }
 
-  public fillHouse(): number[] {
-    let stri: string;
-    let tempArr: number[] = [];
-    _.map(this.houseList, (hs) => { tempArr.push(hs.houseId); });
-    return tempArr;
-  }
 
-  public selectedHouse(value: any) {
-    this.houseNumber = value.text;
-  }
-
-
-  public handleErrors(error) {
-    var errorJson = error.json;
-    if (error.status === 403) {
-      this.toasterService.pop('error', '403', errorJson.message);
-    }
-    if (error.status === 202) {
-      this.toasterService.pop('error', '202', errorJson.message);
-    }
-    if (error.status === 400) {
-      this.toasterService.pop('error', '', errorJson.message);
-    }
-    if (error.status === 500) {
-      this.toasterService.pop('error', '', 'Нажаль, сталася помилка під час реєстрації');
-    }
-  }
 
   public clearQueue() {
     this.uploader.clearQueue();
   }
 
-  public onUpload() {
-    if (this.itemTypeValid) {
+  private onUpload() {
+    if (this.itemTypeValid && this.itemSizeValid) {
       this.uploader.queue.forEach((item) => {
         item.upload();
       });
@@ -257,8 +281,7 @@ export class ApartmentComponent implements OnInit {
   }
 
 
-
-  public translate(message: string): string {
+  private translate(message: string): string {
     let translation: string;
     this.translateService.get(message).subscribe(
       (data) => translation = data
@@ -291,6 +314,17 @@ export class ApartmentComponent implements OnInit {
       }
       else {
         this.itemTypeValid = false;
+      }
+    });
+  }
+
+  public validateItemSize() {
+    this.uploader.queue.forEach((item) => {
+      if (item.file.size < 131072) {
+        this.itemSizeValid = true;
+      }
+      else {
+        this.itemSizeValid = false;
       }
     });
   }
@@ -337,4 +371,4 @@ export class ApartmentComponent implements OnInit {
     return false;
   }
 
-}
+  }

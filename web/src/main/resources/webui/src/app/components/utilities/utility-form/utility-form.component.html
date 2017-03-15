@@ -1,0 +1,38 @@
+<div bsModal #modalWindow="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{'create_utility' | translate | capitalize }}</h4>
+                <button type="button" class="close pull-right" (click)="closeModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="loginForm">
+                    <div class="form-group">
+                        <label>{{'name' | translate | capitalize }}</label>
+                        <input class="form-control" type="text" id="name" (blur)="checkName($event)" formControlName="name" required>
+                        <div *ngIf='nameError' class="alert alert-danger" disabled=true>{{ 'name_err_description' | translate}}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>{{'price' | translate | capitalize }}</label>
+                        <input class="form-control" type="text" id="price" formControlName="price" required>
+                    </div>
+                    <div class="form-group">
+                        <label>{{'houses' | translate | capitalize }}</label>
+                        <ng-select [multiple]="true" [items]="houseItems" (selected)="selectedHouse($event)" (removed)="removedHouse($event)" (blur)="checkHouse($event)" formControlName="houses" id="houses"
+                            placeholder="{{'choose_houses' | translate | capitalize }}">
+                        </ng-select>
+                        <div *ngIf='houseError' class="alert alert-danger" disabled=true>{{ 'name_err_description' | translate}}</div>
+                    </div>
+                    <div class="form-group">
+                        <label>{{'description' | translate | capitalize }}</label>
+                        <textarea id="description" formControlName="description" rows="3" style="min-width: 100%"></textarea>
+</div>
+<button type="button" (click)="onSubmit(loginForm)" [disabled]="submit" class="btn btn-primary">{{'save' | translate | capitalize }}</button>
+<button type="button" (click)="onClear(loginForm)" class="btn btn-default">{{'clear' | translate | capitalize }}</button>
+</form>
+</div>
+</div>
+</div>
+</div>

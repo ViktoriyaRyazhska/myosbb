@@ -73,12 +73,6 @@ public class HouseDTO {
 		return numberHouse;
 	}
 
-	public void setNumberHouse(Integer numberHouse) {
-		this.numberHouse = numberHouse;
-	}
-
-
-
 	public static class HouseDTOBuilder {
         private Integer houseId;
         private Integer numberHouse;

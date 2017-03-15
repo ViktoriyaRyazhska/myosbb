@@ -1,4 +1,3 @@
-
 {
   "apartment": "apartment",
   "apartments": "apartments",
@@ -16,6 +15,7 @@
   "confirmDeleteEvents": "Do you really want to delete all events?",
   "createEvent": "create event",
   "calendar": "calendar",
+  "currency": "currency",
   "eventDetails": "event details",
   "title": "title",
   "start": "start",
@@ -55,6 +55,7 @@
   "go_to": "go to",
   "schedule": "schedule",
   "text": "text",
+  "description": "description",
   "providers": "providers",
   "company": "company",
   "type": "type",
@@ -69,7 +70,6 @@
   "PERMANENT_YEARLY": "yearly",
   "PERMANENT_MONTHLY": "monthly",
   "search": "search",
-  "description": "description",
   "edit": "Edit",
   "delete": "Delete",
   "GoToProviderPage": "Go to provider page",
@@ -97,7 +97,7 @@
   "providergo": "go to provider page",
   "error404": "Error 404",
   "error404title": "This resource wasn't found",
-  "go_back": "Go Back",
+  "go_back": "go back",
   "add": "add",
   "wrong_symbol": "wrong symbols",
   "number": "Number",
@@ -276,6 +276,10 @@
   "notset":"not defined",
   "deny":"do not discuss",
   "fees_for_services": "Fees for services",
+  "utilities": "utilities",
+  "subutilities": "subutilities",
+  "show_subutilities": "show subutilities",
+  "no_subutilities": "no subutilities",
   "passMatchError": "Passwords don't match. Please try again",
   "passLengthError": "Password cannot be shorter than 4 and longer than 16 characters",
   "errorBirthDateMsg": "Birthdate is invalid",
@@ -347,7 +351,27 @@
   "my_apartment":"my apartment",
   "select_avatar":"choose user avatar",
   "invalid_file_type": "file type isn't image it will not be uploaded as avatar",
+  "invalid_file_size": "file is too big it will not be uploaded as avatar",
+  "file_size_restriction": "maximum file size",
   "OWNER":"owner",
   "SUBOWNER":"subowner",
-  "RENTER":"renter"
-}
+  "RENTER":"renter",
+
+  "create_utility": "Create utility",
+  "currency": "Currency",
+  "clear": "Clear",
+  "add_sub_utility": "Add sub-utility",
+  "choose_houses": "Choose houses",
+
+  
+  "user_appartment_success":"Apartment with user were successfully added",
+  "apartment_exist":"apartment with this number in this house already exists",
+  "wrong_email":"wrong e-mail. Can't find host",
+  "server_disconect":"something wrong with internet connection. cannot send mail",
+  "unknown_error":"server error",
+  "null_input":"no data provided in request body",
+  "some_data_null":"some required field was not provided",
+  "email_null":"email was not provided",
+  "removingApartment":"remove apartment",
+  "rm_ap_alert":"all users will be removed too"
+  }

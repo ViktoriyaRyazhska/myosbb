@@ -3,6 +3,7 @@ package com.softserve.osbb.service;
 import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.House;
 import com.softserve.osbb.model.Osbb;
+import com.softserve.osbb.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -41,4 +42,6 @@ public interface HouseService {
     List<House> getAllHousesByOsbb(Integer osbbId);
 
     Page<House> getAllHousesByOsbb(Osbb osbb, Pageable pageable);
+
+    House findHouseByUser(User user);
 }

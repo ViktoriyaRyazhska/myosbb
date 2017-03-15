@@ -9,6 +9,7 @@ package com.softserve.osbb.controller;
 import static com.softserve.osbb.util.resources.util.ResourceUtil.toResource;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -291,6 +292,7 @@ public class HouseController {
 			logger.warn("house with id "+id+" was not found in DB");
 			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
+		checkConnection();
 		try {
 			apartmentUserRS.registerAppartmentWithUser(user, apartment, house);
 		} catch (MessagingException | MailException e) {
@@ -397,6 +399,14 @@ public class HouseController {
 		ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
 		return responseEntity;
 	}
+	
+	private void checkConnection() {
+		try {
+		InetAddress.getByName("google.com");
+		} catch (UnknownHostException e) {
+			throw new CannotSendMailException("something wrong with internet connection. cannot send mail");
+		}
+	}
 
 	@SuppressWarnings("serial")
 	@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "user already exists")
@@ -417,7 +427,7 @@ public class HouseController {
 	}
 
 	@SuppressWarnings("serial")
-	@ResponseStatus(value = HttpStatus.ACCEPTED, reason = "something wrong with internet connection. cannot send mail")
+	@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "something wrong with internet connection. cannot send mail")
 	private static class CannotSendMailException extends RuntimeException {
 
 		CannotSendMailException(String message) {
@@ -442,4 +452,6 @@ public class HouseController {
 			super(message);
 		}
 	}
+	
+	
 }
