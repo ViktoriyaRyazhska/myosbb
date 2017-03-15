@@ -77,8 +77,4 @@ export class ApartmentAboutComponent implements OnInit {
             this.imgUrl = API_URL + "/restful/house/image/" + this.owner.photoId;
         }
     }
-
-
-
-
-};
+}
