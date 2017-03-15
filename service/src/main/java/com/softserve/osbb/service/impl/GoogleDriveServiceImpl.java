@@ -303,6 +303,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 			com.softserve.osbb.model.Drive drive = new com.softserve.osbb.model.Drive(driveFile.getId());
 			dService.save(drive);
 			file.delete();
+			
 		} catch (IOException e) {
 			processGDE("Could not insert" + fileName);
 		}
@@ -331,6 +332,8 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		} catch (IOException e) {
 			processGDE("Error occured while trying to download file with id = " + id);
 		}
+		
+	 System.out.println(findByName("file.xml",APP_FOLDER_ID));
 	}
 
 	private void processIAE(String message) {
