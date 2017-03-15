@@ -23,8 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Utility;
+import com.softserve.osbb.service.OsbbService;
 import com.softserve.osbb.service.UtilityService;
 
 @RestController
@@ -44,6 +45,9 @@ public class UtilityController {
 
 	@Autowired
 	private HouseService houseService;
+
+	@Autowired
+	private OsbbService osbbService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Resource<Utility>>> getAll() {
@@ -89,6 +93,21 @@ public class UtilityController {
 		logger.info("Delete utility with id: " + id);
         utilityService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+	@RequestMapping(value = "/osbb/{id}", method = RequestMethod.GET)
+    public ResponseEntity<List<Resource<Utility>>> getUtilityByOsbbId(@PathVariable("id")Integer osbbId) {
+        logger.info("Getting utilities from database with osbb id" + osbbId);
+        Osbb osbb = osbbService.getOsbb(osbbId);
+
+        List<Utility> utilities = utilityService.getUtilitiesByOsbb(osbb);
+        List<Resource<Utility>> resources = new ArrayList<>();
+            for (Utility temp : utilities) {
+                resources.add(getUtilityResource(temp));
+            }
+        logger.info("Getting users from database with osbb id" + utilities.toArray().length);
+
+        return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)

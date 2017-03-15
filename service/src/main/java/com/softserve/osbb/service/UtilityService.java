@@ -5,6 +5,7 @@ import java.util.List;
 import com.softserve.osbb.model.House;
 import org.springframework.stereotype.Service;
 
+import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Utility;
 
 /**
@@ -24,5 +25,7 @@ public interface UtilityService {
 	Utility updateUtility(Utility utility);
 
 	List<Utility> getUtilitiesByHouse(House house);
+	
+	public List<Utility> getUtilitiesByOsbb(Osbb osbb);
 	
 }

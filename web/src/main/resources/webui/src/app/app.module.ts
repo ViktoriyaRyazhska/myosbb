@@ -1,3 +1,4 @@
+
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
@@ -64,16 +65,18 @@ import { OsbbBillsComponent }          from './components/osbbBils';
 import { ContractsComponent }          from  './components/contracts';
 import { TicketComponent }             from './components/ticket';
 import { ProviderComponent }           from './components/provider';
-import { ApartmentComponent }          from './components/apartment';
+import { ApartmentComponent }          from './components/apartments';
+import { ApartmentAboutComponent }     from './components/apartment';
 import { CalendarComponent }           from './components/calendar';
 import { BreadcrumbComponent }         from './components/breadcrumb';
 import { SidebarComponent }            from './shared/sidebar';
 import { SubTicketComponent }          from './components/ticket/components/subticket';
-import { UtilityComponent }            from './components/utilities';
 import { TicketAddFormComponent } from './components/ticket/components/ticketAddFormComponent/ticket-add-form.component';
 import { TicketEditFormComponent } from './components/ticket/components/ticketEditFromComponent/ticket-edit-form.component';
 import { TicketDelFormComponent } from './components/ticket/components/ticketDelFormComponent/ticket-del-form.component'
 import { TicketEditDiscussedFormComponent } from './components/ticket/components/ticketEditDistFormComponent/ticket-editdiscussed-form.component';
+import { UtilityComponent }            from './components/utility';
+import { UtilityFormComponent }            from './components/utility/utility-form';
 
 import { SetLanguageComponent }             from './shared/set-language/';
 import { OsbbDocumentsAndReportsComponent } from './components/osbb-docs-and-reports';
@@ -91,6 +94,7 @@ import { UserComponent} from './user/user.component';
 import { SpecArrayFilterPipe } from './pipes/spec-array-filter.pipe';
 import { CapitalizeFirstLetterPipe } from './pipes/capitalize-first-letter';
 import { CapitalizeLetterPipe } from './pipes/capitalize.firstletter';
+import { BeautifyPhonePipe } from './pipes/phone-beautify';
 // services
 import { OsbbService } from './services/osbb.service';
 import { OsbbConstants } from './services/osbb.constants';
@@ -112,6 +116,8 @@ type StoreType = {
 @NgModule({
   bootstrap: [ AppComponent ],
   declarations: [
+    UtilityFormComponent,
+    UtilityComponent,
     AppHeaderComponent,
     AppComponent,
     LoginComponent,
@@ -138,7 +144,6 @@ type StoreType = {
     SubTicketComponent,
     UserComponent,
     UsersComponent,
-    UtilityComponent,
     SetLanguageComponent,
     CapitalizeFirstLetterPipe,
     OsbbDocumentsAndReportsComponent,
@@ -149,9 +154,12 @@ type StoreType = {
     TicketDelFormComponent,
     TicketEditDiscussedFormComponent,
     CapitalizeLetterPipe,
+    BeautifyPhonePipe
+    CapitalizeLetterPipe,
     SpecArrayFilterPipe
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -174,12 +182,12 @@ type StoreType = {
     CheckboxModule,
     ButtonModule,
     TabViewModule,
-    DataTableModule,
     CalendarModule,
     CodeHighlighterModule,
     AlertModule.forRoot(),
     DatepickerModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    DataTableModule
   ],
   providers: [
     ENV_PROVIDERS,

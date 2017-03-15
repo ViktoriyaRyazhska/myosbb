@@ -257,7 +257,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		try {
 			File file = driveService.files().create(fileMetadata, mediaContent).setFields("id, parents").execute();
 			user.setPhotoId(file.getId());
-			userService.saveAndFlush(user);
+			userService.update(user);
 			content.delete();
 		} catch (Exception e) {
 			processGDE("Could not upload " + fileName);

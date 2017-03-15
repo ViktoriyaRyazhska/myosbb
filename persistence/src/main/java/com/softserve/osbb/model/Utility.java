@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "utilities")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Utility implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -123,20 +123,19 @@ public class Utility implements Serializable {
 	}
 
 	@Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
-    }
+	public boolean equals(Object obj) {
+		return EqualsBuilder.reflectionEquals(this, obj);
+	}
 
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
-    }
+	@Override
+	public int hashCode() {
+		return HashCodeBuilder.reflectionHashCode(this);
+	}
 
 	@Override
 	public String toString() {
 		return "Utility [utilityId=" + utilityId + ", name=" + name + ", description=" + description + ", price="
 				+ price + ", priceCurrency=" + priceCurrency + ", osbb=" + osbb + ", parent=" + parent + "]";
 	}
-    
-    
+
 }

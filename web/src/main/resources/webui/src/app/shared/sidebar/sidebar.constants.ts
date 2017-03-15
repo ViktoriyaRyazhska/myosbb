@@ -18,10 +18,11 @@ export class SidebarConstants {
       {route: 'events' , name: 'events' , class: 'fa fa-comments'},
       {route: 'osbbBills' , name: 'bills_osbb' , class: 'fa fa-credit-card-alt'},
       {route: 'provider' , name: 'providers' , class: 'fa fa-building'},
-      {route: 'contract' , name: 'contracts' , class: 'fa fa-bookmark'}
+      {route: 'contract' , name: 'contracts' , class: 'fa fa-bookmark'},
+      {route: 'utility' , name: 'utility' , class: 'fa fa-bookmark'}
     ]; }
   public static get user() { return [
-      {route: 'utilities' , name: 'fees_for_services', class: 'fa fa-list'},
+      {route: 'utility' , name: 'fees_for_services', class: 'fa fa-list'},
       {route: 'ticket' , name: 'tickets' , class: 'fa fa-ticket'},
       {route: 'calendar' , name: 'calendar' , class: 'fa fa-calendar'},
       {route: 'events' , name: 'events' , class: 'fa fa-comments'},
