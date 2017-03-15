@@ -47,7 +47,7 @@ public class Utility implements Serializable {
 	@JoinColumn(name = "parent_id")
 	private Utility parent;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinTable(name="house_utility",
 			inverseJoinColumns = @JoinColumn(name="house_id", referencedColumnName = "house_id"),
 			joinColumns = @JoinColumn(name="utility_id", referencedColumnName = "utility_id")

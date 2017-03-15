@@ -24,7 +24,7 @@ export class UtilitiesService {
             .catch((error) => Observable.throw(error));
     }
 
-    public listAllUtilities(): Observable<any> {
+    public listAllUtilitiesByOsbb(): Observable<any> {
         return this.http.get(`${API_URL}/restful/utility/osbb/${this.osbbId}`)
             .map((response) => response.json())
             .catch((error) => Observable.throw(error));

@@ -10,8 +10,11 @@ import {Utility} from '../../models/utility.model';
     providers: [UtilitiesService]
 })
 export class UtilitiesComponent implements OnInit {
-    public authRole: string;
+    
     public title: string = `Utilities`;
+    public utilities: Utility[];
+    public deleteUtility: Utility;
+    public authRole: string;
     public rowsOnPage = 10;
     public resData: Utility[];
     public isSubUtilityShow = false;
@@ -26,7 +29,18 @@ export class UtilitiesComponent implements OnInit {
             .subscribe((data) => {
                 this.resData = data;
             });
+
+        this.listUtilities();
     }
+
+    public listUtilities() {
+        this.utilityService.listAllUtilitiesByOsbb().subscribe((data) => {
+                this.utilities = data;
+            },
+            (error) => {
+                this.handleError(error);
+            });
+     }
 
     public switchMode(id: number) {
         this.utilityId = id;
@@ -52,11 +66,16 @@ export class UtilitiesComponent implements OnInit {
         console.log(item);
     }
 
-    onDelete(utility: Utility) {
-        this.utilityService.deleteUtility(utility).subscribe(() => this.resData.splice(this.resData.indexOf(utility, 0), 1));
-    }
-
     createUtility(utility: Utility) {
         this.resData.push(utility);
     }
+    onDelete(utility: Utility) {
+        this.deleteUtility = utility;
+    }
+
+    onConfirmDelete(){
+        this.utilityService.deleteUtility(this.deleteUtility)
+        .subscribe(()=>this.resData.splice(this.resData.indexOf(this.deleteUtility, 0), 1));
+    }
+
 }
