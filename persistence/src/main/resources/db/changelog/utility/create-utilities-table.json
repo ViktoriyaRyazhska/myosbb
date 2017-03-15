@@ -47,7 +47,7 @@
                     }
                   }
                 },
-                 {
+                {
                   "column": {
                     "name": "osbb_id",
                     "type": "INT"
@@ -61,6 +61,40 @@
                 }
               ],
               "tableName": "utilities"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2017/02/24-22",
+        "author": "Volodymyr Derkach",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "createTable": {
+              "columns": [
+                {
+                  "column": {
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "name": "house_id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "name": "utility_id",
+                    "type": "INT"
+                  }
+                }
+              ],
+              "tableName": "house_utility"
             }
           }
         ]
@@ -112,28 +146,6 @@
     },
     {
       "changeSet": {
-        "id": "2017/02/24-20",
-        "author": "Volodymyr Derkach",
-        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
-        "changes": [
-          {
-            "addForeignKeyConstraint": {
-              "baseColumnNames": "utility_id",
-              "baseTableName": "house_utility",
-              "constraintName": "fk_utilities_utility_id",
-              "deferrable": false,
-              "initiallyDeferred": false,
-              "onDelete": "CASCADE",
-              "onUpdate": "NO ACTION",
-              "referencedColumnNames": "utility_id",
-              "referencedTableName": "utilities"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "changeSet": {
         "id": "2017/02/24-19",
         "author": "Volodymyr Derkach",
         "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
@@ -149,6 +161,28 @@
               "onUpdate": "NO ACTION",
               "referencedColumnNames": "house_id",
               "referencedTableName": "house"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2017/02/24-20",
+        "author": "Volodymyr Derkach",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "utility_id",
+              "baseTableName": "house_utility",
+              "constraintName": "fk_utilities_utility_id",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "CASCADE",
+              "onUpdate": "NO ACTION",
+              "referencedColumnNames": "utility_id",
+              "referencedTableName": "utilities"
             }
           }
         ]

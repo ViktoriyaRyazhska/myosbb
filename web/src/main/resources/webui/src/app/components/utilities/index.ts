@@ -1,2 +1,2 @@
-export * from './utility.component';
+export * from './utilities.component';
 

@@ -1,0 +1,184 @@
+<div [ngSwitch]=authRole>
+    <div class="content" *ngSwitchCase="'ROLE_USER'">
+        <breadcrumb [header]="title"></breadcrumb>
+        <div *ngIf="!isSubUtilityShow">
+            <table class="table table-hover" [mfData]="resData | specArrayFilter:utilityId" #mf="mfDataTable"
+                   [mfRowsOnPage]="rowsOnPage">
+                <thead>
+                <tr>
+                    <th>
+                        <mfDefaultSorter by="name"><i class="fa fa-bullhorn"></i> {{'name' | translate | capitalize}}
+                        </mfDefaultSorter>
+                    </th>
+                    <th>
+                        <mfDefaultSorter by="price"><i class="fa fa-credit-card"></i> {{'price' | translate |
+                            capitalize}}
+                        </mfDefaultSorter>
+                    </th>
+                    <th>
+                        <mfDefaultSorter by="currency"><i class="fa fa-money"></i> {{'currency' | translate |
+                            capitalize}}
+                        </mfDefaultSorter>
+                    </th>
+                    <th>
+                        <mfDefaultSorter by="subutilities"><i class="fa fa-bars"></i> {{'subutilities' | translate |
+                            capitalize}}
+                        </mfDefaultSorter>
+                    </th>
+                    <th>
+                        <mfDefaultSorter by="description"><i class="fa fa-edit"></i> {{'description' | translate |
+                            capitalize}}
+                        </mfDefaultSorter>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of mf.data | specArrayFilter:utilityId">
+                    <td>{{item.name}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.priceCurrency}}</td>
+                    <td>
+                        <div *ngIf=" checkIfParent(item.utilityId) ">
+                        <span><input type="button" class="btn btn-success"
+                                     value="{{'show_subutilities' | translate | myCapitalize}}"
+                                     (click)="switchMode(item.utilityId)"></span>
+                        </div>
+                        <div *ngIf=" !checkIfParent(item.utilityId) ">
+                            <span><input type="button" class="btn btn-default disabled"
+                                         value="{{'no_subutilities' | translate | myCapitalize}}"></span>
+                        </div>
+                    </td>
+                    <td>{{item.description}}</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div *ngIf="isSubUtilityShow">
+            <table class="table table-hover" [mfData]="resData | specArrayFilter:utilityId" #mf="mfDataTable"
+                   [mfRowsOnPage]="rowsOnPage">
+                <thead>
+                <tr>
+                    <th>
+                        <mfDefaultSorter by="name"><i class="fa fa-bullhorn"></i> {{'name' | translate | capitalize}}
+                        </mfDefaultSorter>
+                    </th>
+                    <th>
+                        <mfDefaultSorter by="price"><i class="fa fa-credit-card"></i> {{'price' | translate |
+                            capitalize}}
+                        </mfDefaultSorter>
+                    </th>
+                    <th>
+                        <mfDefaultSorter by="currency"><i class="fa fa-money"></i> {{'currency' | translate |
+                            capitalize}}
+                        </mfDefaultSorter>
+                    </th>
+                    <th>
+                        <mfDefaultSorter by="description"><i class="fa fa-edit"></i> {{'description' | translate |
+                            capitalize}}
+                        </mfDefaultSorter>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let item of mf.data | specArrayFilter:utilityId">
+                    <td>{{item.name}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.priceCurrency}}</td>
+                    <td>{{item.description}}</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+            <div>
+                <button (click)="switchMode(null)" class="btn btn-success" type="button">
+                    <i class="fa fa-arrow-left"></i> {{'go_back' | translate | myCapitalize}}
+                </button>
+            </div>
+        </div>
+    </div>
+    <div *ngSwitchCase="'ROLE_MANAGER'">
+        <div class="ui segment form">
+            <utility-form (created)="createUtility($event)" #addForm></utility-form>
+        </div>
+        <div class="content">
+            <breadcrumb [header]="title">
+            </breadcrumb>
+            <button (click)="addForm.openModal()" type="button" class="btn btn-primary btn-classic"
+                    style="margin:0 -50 0 20">{{'create_utility' | translate | capitalize }}
+            </button>
+            <section>
+                <table class="table">
+                    <tr>
+                        <th><span class="glyphicon glyphicon-check" aria-hidden="true"></span></th>
+                        <th><span class="fa fa-fw fa-sort"></span>{{'name' | translate | capitalize }}</th>
+                        <th><span class="fa fa-fw fa-sort"></span>{{'price' | translate | capitalize }}</th>
+                        <th>{{'currency' | translate | capitalize }}</th>
+                        <th>{{'description' | translate | capitalize }}</th>
+                        <th>{{'houses' | translate | capitalize }}</th>
+                        <th>{{'edit' | translate | capitalize }}</th>
+                        <th>{{'delete' | translate | capitalize }}</th>
+                    </tr>
+                    <tr *ngFor="let item of resData" (click)="showChild()">
+                        <td><input type="checkbox" class="checkthis"/></td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.priceCurrency}}</td>
+                        <td>{{item.description}}</td>
+                        <td>
+                            <ul>
+                                <li *ngFor="let house of item.houses">{{house.street.name + ' - ' +
+                                    house.numberHouse}}
+                                </li>
+                            </ul>
+                        </td>
+
+                        <td>
+
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle"
+                                        type="button"
+                                        id="dropdownMenu1"
+                                        data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="true">
+                                    {{'options' | translate | capitalize }}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <li>
+                                        <a (click)="addForm.openModal(item)">{{'add_sub_utility' | translate |
+                                            capitalize }}</a>
+                                    </li>
+                                    <li>
+                                        <a>{{'edit' | translate | capitalize }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                <button class="btn btn-danger btn-xs" (click)="onDelete(item)" data-toggle="modal"
+                                        data-target="#delete">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    {{'delete' | translate | capitalize }}
+                                </button>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </section>
+        </div>
+    </div>
+</div>
