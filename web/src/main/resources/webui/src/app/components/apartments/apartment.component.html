@@ -1,12 +1,10 @@
 <toaster-container></toaster-container>
 <div class="content">
   <breadcrumb [header]="title"></breadcrumb>
-  <div class="pull-right">
-    <button type="button" class="btn btn-success btn-foot" (click)="openCreateModal()">
+  <div>
+    <button type="button" class="btn btn-success button_app" (click)="openCreateModal()">
           {{'create_apartment' | translate | capitalize}}
     </button>
-
-
   </div>
   <section>
     <table class="table" [mfData]="resData" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
@@ -25,6 +23,7 @@
             <mfDefaultSorter by="square">{{ 'select_ap_square' | translate | myCapitalize}}</mfDefaultSorter>
           </th>
           <th>{{ 'go_to' | translate | myCapitalize}} </th>
+          <th>{{'delete' | translate | myCapitalize}}</th>
         </tr>
       </thead>
       <tbody>
@@ -34,6 +33,8 @@
           <td>{{item.number}}</td>
           <td>{{item.square}}</td>
           <td><input type="button" class="btn" value="{{ 'go_to' | translate | myCapitalize}}" (click)="onNavigate(item.apartmentId)"></td>
+          <td><input type="button" class="btn btn-danger" value="{{ 'delete' | translate | myCapitalize}}"
+              (click)="openDelModal(item.apartmentId)"></td>
         </tr>
       </tbody>
       <tfoot>
@@ -63,7 +64,7 @@
           <div>
             <div class="form-group">
               <label>{{ 'choose_house' | translate | myCapitalize}}</label>
-              <select [ngModel]="house" required (ngModelChange)="onChangeHouse($event)" name="sel3">
+              <select [ngModel]="house" required (ngModelChange)="onChangeHouse($event)" name="sel3" class="form-control">
                 <option [ngValue]="i" *ngFor="let i of houseList">{{i.numberHouse}},{{ 'street_short' | translate | capitalize }} {{i.street.name}}</option>
              </select>
 
@@ -91,7 +92,7 @@
                 {{ 'select_user_firstname' | translate | capitalize }}
               </label>
               <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.firstName" (blur)="validateName()" type="text" class="form-control"
-                id="firstname" required name="firstname">
+                autocomplete="off" id="firstname" required name="firstname">
               <div *ngIf='!nameIsValid' class="alert alert-danger" disabled=true>
                 {{ 'invalid_field' | translate | capitalize }}. {{ 'at_least_length_req' | translate | capitalize }} 2
               </div>
@@ -101,7 +102,7 @@
                 {{ 'select_user_lastname' | translate | capitalize }}
               </label>
               <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.lastName" (blur)="validateLastName()" type="text" class="form-control"
-                id="lastname" required name="lastname">
+                autocomplete="off" id="lastname" required name="lastname">
               <div *ngIf='!surnameIsValid' class="alert alert-danger" disabled=true>
                 {{ 'invalid_field' | translate | capitalize }}. {{ 'at_least_length_req' | translate | capitalize }} 2
               </div>
@@ -111,7 +112,7 @@
                 {{ 'select_user_email' | translate | capitalize }}
               </label>
               <input [(ngModel)]="userApartment.userRegitrationByAdminDTO.email" (blur)="isValidMailFormat()" type="email" class="form-control"
-                id="email" required name="email">
+                autocomplete="off" id="email" required name="email">
               <div *ngIf='!emailIsValid' class="alert alert-danger" disabled=true> {{ 'invalid_email' | translate | capitalize }}</div>
             </div>
             <div class="form-group">
@@ -119,12 +120,12 @@
                 {{ 'select_user_phone' | translate | capitalize }}
               </label>
               <input [textMask]="{mask:phoneMask}" [(ngModel)]="tmpPhone" (change)="clearPhoneMask()" type="text" class="form-control"
-                required id="phone" name="phone">
+                autocomplete="off" required id="phone" name="phone">
               <div *ngIf='!phoneIsValid' class="alert alert-danger" disabled=true> {{ 'invalid_phone' | translate | capitalize }}</div>
             </div>
             <div class="form-group">
               <label>{{ 'select_ownership' | translate | myCapitalize}}</label>
-              <select required [(ngModel)]="userApartment.userRegitrationByAdminDTO.ownership" name="selOwnership">
+              <select required [(ngModel)]="userApartment.userRegitrationByAdminDTO.ownership" name="selOwnership" class="form-control">
                 <option label="{{'OWNER' | translate | capitalize}}">OWNER</option>
                 <option label="{{'SUBOWNER' | translate | capitalize}}">SUBOWNER</option>
                 <option label="{{'RENTER' | translate | capitalize}}">RENTER</option>
@@ -136,11 +137,11 @@
                 <label for="avatar">
                 {{ 'select_avatar' | translate | capitalize }}
               </label>
-                <input id="avatar" name="avatar" accept="image/*" type="file" ng2FileSelect [uploader]="uploader" (change)="validateItemType()"
+                <input id="avatar" name="avatar" accept="image/*" type="file" ng2FileSelect [uploader]="uploader" (change)="validateItemType();validateItemSize()"
                   (click)="initUploader(userApartment.userRegitrationByAdminDTO.email)" />
               </div>
               <div *ngIf="uploader">
-                <table class="table table-font">
+                <table class="table table-font" *ngIf='itemTypeValid && itemSizeValid'>
                   <thead>
                     <tr>
                       <th width="40%">{{ 'name' | translate | myCapitalize }}</th>
@@ -169,6 +170,7 @@
                 </table>
               </div>
               <div *ngIf='!itemTypeValid' class="alert alert-warning" disabled=true> {{ 'invalid_file_type' | translate | capitalize }}</div>
+              <div *ngIf='!itemSizeValid' class="alert alert-warning" disabled=true> {{ 'invalid_file_size' | translate | capitalize }}.{{ 'file_size_restriction' | translate | capitalize }}:128KB</div>
             </div>
           </div>
         </div>
@@ -178,6 +180,28 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<div bsModal #delModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="delModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+        <h4 class="modal-title">{{'removingApartment' | translate | capitalize}}???</h4>
+      </div>
+      <div class="modal-body">
+        <h3>{{'rm_ap_alert'| translate |capitalize}}</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="closeDelModal()">{{'no'| translate |capitalize}}</button>
+        <button type="button" class="btn btn-primary" (click)=" delApartment();closeDelModal()" >
+                    {{'yes'| translate |capitalize}}
+                </button>
+      </div>
     </div>
   </div>
 </div>

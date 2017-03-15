@@ -352,6 +352,8 @@
   "my_apartment":"my apartment",
   "select_avatar":"choose user avatar",
   "invalid_file_type": "file type isn't image it will not be uploaded as avatar",
+  "invalid_file_size": "file is too big it will not be uploaded as avatar",
+  "file_size_restriction": "maximum file size",
   "OWNER":"owner",
   "SUBOWNER":"subowner",
   "RENTER":"renter",
@@ -360,5 +362,17 @@
   "currency": "Currency",
   "clear": "Clear",
   "add_sub_utility": "Add sub-utility",
-  "choose_houses": "Choose houses"
-}
+  "choose_houses": "Choose houses",
+
+  
+  "user_appartment_success":"Apartment with user were successfully added",
+  "apartment_exist":"apartment with this number in this house already exists",
+  "wrong_email":"wrong e-mail. Can't find host",
+  "server_disconect":"something wrong with internet connection. cannot send mail",
+  "unknown_error":"server error",
+  "null_input":"no data provided in request body",
+  "some_data_null":"some required field was not provided",
+  "email_null":"email was not provided",
+  "removingApartment":"remove apartment",
+  "rm_ap_alert":"all users will be removed too"
+  }

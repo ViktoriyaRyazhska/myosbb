@@ -18,43 +18,49 @@ export class ApartmentService {
 
     constructor(private http: Http, private login: LoginService) { }
 
-    public getApartmentData(): Observable<any> {
+    getApartmentData(): Observable<any> {
         return this.http.get(`${API_URL}/restful/apartment/`)
             .map((res: Response) => res.json())
             .catch((error) => Observable.throw(error));
     }
 
-    public getApartmentDataForManager(osbbId: number): Observable<any> {
+    deleteApartment(apartmentId: number): Observable<any> {
+        return this.http.delete(`${API_URL}/restful/apartment/` + apartmentId)
+           .map((res: Response) => res)
+            .catch((error) => Observable.throw(error));
+    }
+
+    getApartmentDataForManager(osbbId: number): Observable<any> {
         return this.http.get(`${API_URL}/restful/apartment/osbb/` + osbbId)
             .map((res: Response) => res.json())
             .catch((error) => Observable.throw(error));
     }
 
-    public getApartmentsByHouse(houseId: number): Observable<any> {
+    getApartmentsByHouse(houseId: number): Observable<any> {
         return this.http.get(`${API_URL}/restful/house/` + houseId + `/apartments`)
             .map((res: Response) => res.json())
             .catch((error) => Observable.throw(error));
     }
 
-    public getAllHouses(): Observable<any> {
+    getAllHouses(): Observable<any> {
         return this.http.get(this.houseAllURL)
             .map((response) => response.json())
             .catch((error) => Observable.throw(error));
     }
 
-    public getAllHousesByOsbb(osbbId: number): Observable<any> {
+    getAllHousesByOsbb(osbbId: number): Observable<any> {
         return this.http.get(this.houseAllURL + '/' + osbbId)
             .map((response) => response.json())
             .catch((error) => Observable.throw(error));
     }
 
-    public registerApartmentWithUser(apartmentWithUser: UserApartment, houseId: number): Observable<any> {
+    registerApartmentWithUser(apartmentWithUser: UserApartment, houseId: number): Observable<any> {
         let options = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
         return this.http.post(this._pathUrlForUserWithApartment + houseId, apartmentWithUser, options)
             .map((res: Response) => res.json());
     }
 
-    public getUser(): Observable<any> {
+    private getUser(): Observable<any> {
         return this.http.get(`${API_URL}/restful/user/${this.num}`, this.login.getRequestOptionArgs())
             .map((res: Response) => res.json())
             .catch((error) => Observable.throw(error));
