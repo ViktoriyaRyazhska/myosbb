@@ -63,7 +63,9 @@ public class ChatController {
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
 			listOfMessages = (ListMessages) jaxbUnmarshaller.unmarshal(input);
-			listOfMessages.setMessages(chatService.getHalf());
+			List<Chat> list = listOfMessages.getMessages();
+			boolean isAdded=list.addAll(chatService.getHalf());
+			listOfMessages.setMessages(list);
 
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			jaxbMarshaller.marshal(listOfMessages, file);

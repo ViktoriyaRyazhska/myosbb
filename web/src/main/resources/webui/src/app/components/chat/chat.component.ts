@@ -24,6 +24,7 @@ export class ChatComponent implements OnInit {
    this._stompService.getMessages().subscribe((data) => {
                 this.messages = data;
             });
+         `${WebSocket_URL}/stompTest`
    this._stompService.connect(`${WebSocket_URL}/stompTest`);
    this.serverResponse= this._stompService._serverResponse;
   }
