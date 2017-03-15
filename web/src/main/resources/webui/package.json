@@ -80,6 +80,7 @@
     "@angularclass/conventions-loader": "^1.0.2",
     "@angularclass/hmr": "~1.2.2",
     "@angularclass/hmr-loader": "~3.0.2",
+    "angular2-datatable": "^0.5.3",
     "angular2-moment": "^1.2.0",
     "angular2-text-mask": "^5.0.0",
     "angular2-toaster": "^2.0.0",

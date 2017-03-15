@@ -7,10 +7,7 @@
 package com.softserve.osbb.dto.mappers;
 
 import com.softserve.osbb.dto.UserDTO;
-import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.User;
-import com.softserve.osbb.service.OsbbService;
-import com.softserve.osbb.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,6 +41,7 @@ public class UserDTOMapper {
             userDTO.setOsbbId(user.getOsbb().getOsbbId());
             userDTO.setHouse(user.getHouse());;
             userDTO.setPassword(user.getPassword());
+            userDTO.setPhotoId(user.getPhotoId());
         }
         
         return userDTO;
@@ -72,6 +70,7 @@ public class UserDTOMapper {
             user.setPhoneNumber(userDTO.getPhoneNumber());
             user.setHouse(userDTO.getHouse());;
             user.setPassword(userDTO.getPassword());
+            user.setPhotoId(userDTO.getPhotoId());
         }
         
         return user;

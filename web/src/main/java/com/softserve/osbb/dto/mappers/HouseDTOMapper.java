@@ -23,6 +23,7 @@ public class HouseDTOMapper {
         if (house != null) {
             houseDTO = new HouseDTO.HouseDTOBuilder()
                     .setHouseId(house.getHouseId())
+                    .setNumberHouse(house.getNumberHouse())
                     .setDescription(house.getDescription())
                     .setStreet(house.getStreet())
                     .setZipCode(house.getZipCode())
