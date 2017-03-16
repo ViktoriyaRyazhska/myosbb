@@ -5,7 +5,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { API_URL }       from '../../../../shared/models/localhost.config';
 import { User }          from '../../../models/User';
-import { Settings }      from './settings';
+import { Settings }      from './Settings';
 import { Observable }    from 'rxjs/Observable';
 import { LoginService }  from '../../../shared/login/login.service';
 
