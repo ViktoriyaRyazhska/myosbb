@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { API_URL } from '../../../shared/models/localhost.config';
 import { LoginService } from '../../shared/login/login.service';
-import { Utility } from './models/utility.model';
+import { Utility } from '../../models/utility.model';
 
 @Injectable()
 export class UtilityService {
