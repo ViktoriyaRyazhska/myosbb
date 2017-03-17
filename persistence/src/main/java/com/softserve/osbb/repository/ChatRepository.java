@@ -21,5 +21,4 @@ public interface ChatRepository extends JpaRepository<Chat, Integer> {
 	@Modifying
 	@Query(value="SELECT * FROM chat ORDER BY chat_id ASC limit 10", nativeQuery = true)
 	public List<Chat> getHalf();
-	
 }

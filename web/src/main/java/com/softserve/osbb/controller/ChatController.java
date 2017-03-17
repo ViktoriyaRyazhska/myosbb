@@ -33,6 +33,7 @@ import javax.xml.bind.Unmarshaller;
 @RequestMapping("/restful/chat")
 public class ChatController {
 
+
 	@Autowired
 	private ChatService chatService;
 
