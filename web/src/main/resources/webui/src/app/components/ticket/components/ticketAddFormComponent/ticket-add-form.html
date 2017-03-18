@@ -46,6 +46,13 @@
               </ng-select>
               <div *ngIf="isAssigneeCorrect" class="alert alert-danger" disable=true> {{'assigneeError' | translate | capitalize}}</div>
           </div>
+          <div class="form-group" [ngClass]="{ 'has-error' : submitAttempt && !isDeadLineCorrect() }">
+                    <label>{{'deadlineDate' | translate}}</label>
+                    <input class="form-control" type="datetime-local" [(ngModel)]="endTimeStr" required/>
+                    <div class="alert alert-danger" *ngIf="submitAttempt && !isDeadLineCorrect()">{{'invalidDate' |
+                        translate | capitalize}}
+                    </div>
+                </div>
           </form>
         </div>
       </div>
