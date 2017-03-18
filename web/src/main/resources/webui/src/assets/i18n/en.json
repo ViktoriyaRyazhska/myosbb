@@ -373,5 +373,9 @@
   "some_data_null":"some required field was not provided",
   "email_null":"email was not provided",
   "removingApartment":"remove apartment",
-  "rm_ap_alert":"all users will be removed too"
+  "rm_ap_alert":"all users will be removed too",
+
+"enteTicketName": "Enter ticket name",
+"enterAssignee": "Select Assignee",
+"assigneeError": "Assignee is not selected"
   }
