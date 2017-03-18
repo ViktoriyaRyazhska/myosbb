@@ -126,9 +126,10 @@ public class HouseServiceImpl implements HouseService {
 		return houseRepository.getByNumberHouseAndStreet(numberHouse, streetId);
 	}
 
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-    @Override
-    public House findHouseByUser(User user) {
-        return houseRepository.findByUsers(user);
-    }
+	@Override
+	public House findHouseByUser(User user) {
+
+		return null;
+	}
+
 }

@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.lang.annotation.Native;
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -31,5 +32,4 @@ public interface HouseRepository extends JpaRepository<House, Integer> {
 
     Page<House> findByOsbb(Osbb osbb, Pageable pageable);
 
-    House findByUsers(User user);
 }

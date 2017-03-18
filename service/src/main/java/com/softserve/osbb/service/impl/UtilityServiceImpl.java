@@ -61,7 +61,7 @@ public class UtilityServiceImpl implements UtilityService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	@Override
 	public List<Utility> getUtilitiesByHouse(House house) {
-        return utilityRepository.findByHouses(house);
+        return null;
 	}
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)

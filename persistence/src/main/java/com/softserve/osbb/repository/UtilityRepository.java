@@ -18,5 +18,4 @@ public interface UtilityRepository extends JpaRepository<Utility, Integer>{
 
 	public List<Utility> findByOsbb(Osbb osbb);
 
-    public List<Utility> findByHouses(House house);
 }
