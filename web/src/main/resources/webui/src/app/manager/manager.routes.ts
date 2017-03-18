@@ -16,8 +16,7 @@ import { HouseAboutComponent } from '../components/house';
 import { OsbbDocumentsAndReportsComponent } from '../components/osbb-docs-and-reports';
 import { OsbbContactsComponent } from '../components/osbb-contacts';
 import { LogedInGuard } from '../services/loged-in-guard.service';
-
-import { UtilityComponent } from '../components/utility';
+import { UtilitiesComponent } from '../components/utilities';
 
 export const ManagerRoutes: Routes = [
   { path: 'manager',  component: ManagerComponent,
@@ -40,6 +39,6 @@ export const ManagerRoutes: Routes = [
       { path: 'house/:id', component: HouseAboutComponent },
       { path: 'contacts', component: OsbbContactsComponent },
       { path: 'documents-and-reports', component: OsbbDocumentsAndReportsComponent },
-      { path: 'utility', component: UtilityComponent}
+      { path: 'utilities', component: UtilitiesComponent}
     ]},
 ];

@@ -3,12 +3,11 @@ import { NgModel, FormControl, FormGroup, FormBuilder, Validators } from '@angul
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { ModalDirective } from 'ng2-bootstrap';
-import { DatepickerModule } from 'ng2-bootstrap';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 import { LoginService } from '../../../shared/login/login.service';
-import { UtilityService } from '../utility.service';
+import { UtilitiesService } from '../utilities.service';
 
 import { Utility } from '../../../models/utility.model';
 import { Osbb } from '../../../models/osbb.model';
@@ -20,7 +19,7 @@ import { House } from '../../../models/house.model';
     selector: 'utility-form',
     templateUrl: 'utility-form.component.html',
     styleUrls: ['../../../../assets/css/manager.page.layout.scss'],
-    providers: [UtilityService]
+    providers: [UtilitiesService]
 
 })
 export class UtilityFormComponent implements OnInit {
@@ -41,10 +40,9 @@ export class UtilityFormComponent implements OnInit {
     private houseError: boolean = false;
     private submit: boolean = true;
 
-    constructor(public fb: FormBuilder, public utilityService: UtilityService, private LoginService: LoginService) {
+    constructor(public fb: FormBuilder, public utilityService: UtilitiesService, private LoginService: LoginService) {
         this.utility = new Utility();
         this.created = new EventEmitter<Utility>();
-        console.log(this.LoginService.currentUser);
     }
 
 
@@ -84,7 +82,7 @@ export class UtilityFormComponent implements OnInit {
     }
 
     listAllUtilities() {
-        this.utilityService.listAllUtilities().subscribe((data) => {
+        this.utilityService.listAllUtilitiesByOsbb().subscribe((data) => {
             this.utilities = data;
         },
             (error) => {
@@ -183,8 +181,6 @@ export class UtilityFormComponent implements OnInit {
     }
 
     public checkName(event: any) {
-        console.log(this.loginForm.value.name);
-        console.log(this.loginForm.value.houses);
         this.nameError = this.loginForm.value.name.length <= 5 ? true : false;
         this.submit = this.nameError;
     }

@@ -9,9 +9,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 
-/**
- * Created by cavayman on 05.07.2016.
- */
 @Entity
 @Table(name = "house")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -29,9 +26,9 @@ public class House implements Serializable {
 	private Collection<Apartment> apartments;
 	private Collection<Utility> utilities;
 
-	public House() {
-		// default
-	}
+    public House() {
+
+    }
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

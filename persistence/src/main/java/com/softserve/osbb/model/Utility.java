@@ -1,30 +1,15 @@
 package com.softserve.osbb.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.softserve.osbb.model.enums.Currency;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.softserve.osbb.model.enums.Currency;
 
 /**
  * Created by YaroslavStefanyshyn on 02.10.2017.
@@ -63,7 +48,10 @@ public class Utility implements Serializable {
 	private Utility parent;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-	@JoinTable(name = "house_utility", inverseJoinColumns = @JoinColumn(name = "house_id", referencedColumnName = "house_id"), joinColumns = @JoinColumn(name = "utility_id", referencedColumnName = "utility_id"))
+	@JoinTable(name="house_utility",
+			inverseJoinColumns = @JoinColumn(name="house_id", referencedColumnName = "house_id"),
+			joinColumns = @JoinColumn(name="utility_id", referencedColumnName = "utility_id")
+	)
 	private List<House> houses = new ArrayList<>();
 
 	public Utility() {

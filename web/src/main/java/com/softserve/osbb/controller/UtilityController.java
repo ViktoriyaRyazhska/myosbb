@@ -6,6 +6,10 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.softserve.osbb.model.House;
+import com.softserve.osbb.model.User;
+import com.softserve.osbb.service.HouseService;
+import com.softserve.osbb.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +39,16 @@ public class UtilityController {
 	
 	@Autowired
 	private UtilityService utilityService;
-	
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private HouseService houseService;
+
 	@Autowired
 	private OsbbService osbbService;
-	 
+
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Resource<Utility>>> getAll() {
 		logger.info("Get all utilities.....");
@@ -84,11 +94,12 @@ public class UtilityController {
         utilityService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 	@RequestMapping(value = "/osbb/{id}", method = RequestMethod.GET)
     public ResponseEntity<List<Resource<Utility>>> getUtilityByOsbbId(@PathVariable("id")Integer osbbId) {
         logger.info("Getting utilities from database with osbb id" + osbbId);
         Osbb osbb = osbbService.getOsbb(osbbId);
-        
+
         List<Utility> utilities = utilityService.getUtilitiesByOsbb(osbb);
         List<Resource<Utility>> resources = new ArrayList<>();
             for (Utility temp : utilities) {
@@ -98,6 +109,20 @@ public class UtilityController {
 
         return new ResponseEntity<>(resources, HttpStatus.OK);
     }
+
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<Resource<Utility>>> getUtilityByUserId(@PathVariable("id")Integer userId) {
+		logger.info("Getting utilities from database for user with id" + userId);
+		User user = userService.findOne(userId);
+		House house = houseService.findHouseByUser(user);
+        List<Utility> utilities = utilityService.getUtilitiesByHouse(house);
+		List<Resource<Utility>> resources = new ArrayList<>();
+		for (Utility temp : utilities) {
+			resources.add(getUtilityResource(temp));
+		}
+
+		return new ResponseEntity<>(resources, HttpStatus.OK);
+	}
 
     private Resource<Utility> getUtilityResource(Utility utility) {
         if (utility == null) {

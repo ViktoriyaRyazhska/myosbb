@@ -1,6 +1,7 @@
 package com.softserve.osbb.service.impl;
 
 import com.softserve.osbb.model.Osbb;
+import com.softserve.osbb.model.House;
 import com.softserve.osbb.model.Utility;
 import com.softserve.osbb.repository.UtilityRepository;
 import com.softserve.osbb.service.UtilityService;
@@ -55,6 +56,12 @@ public class UtilityServiceImpl implements UtilityService {
 					"Utility with id=" + utility.getUtilityId() + " doesn't exist. First try to add this utility.");
 		}
 
+	}
+
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	@Override
+	public List<Utility> getUtilitiesByHouse(House house) {
+        return utilityRepository.findByHouses(house);
 	}
 
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
