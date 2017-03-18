@@ -17,6 +17,8 @@ import { OsbbDocumentsAndReportsComponent } from '../components/osbb-docs-and-re
 import { OsbbContactsComponent } from '../components/osbb-contacts';
 import { LogedInGuard } from '../services/loged-in-guard.service';
 
+import { UtilityComponent } from '../components/utility';
+
 export const ManagerRoutes: Routes = [
   { path: 'manager',  component: ManagerComponent,
     canActivate: [LogedInGuard],
@@ -38,5 +40,6 @@ export const ManagerRoutes: Routes = [
       { path: 'house/:id', component: HouseAboutComponent },
       { path: 'contacts', component: OsbbContactsComponent },
       { path: 'documents-and-reports', component: OsbbDocumentsAndReportsComponent },
+      { path: 'utility', component: UtilityComponent}
     ]},
 ];

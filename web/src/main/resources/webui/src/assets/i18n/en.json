@@ -1,4 +1,3 @@
-
 {
   "apartment": "apartment",
   "apartments": "apartments",
@@ -349,5 +348,11 @@
   "invalid_file_type": "file type isn't image it will not be uploaded as avatar",
   "OWNER":"owner",
   "SUBOWNER":"subowner",
-  "RENTER":"renter"
+  "RENTER":"renter",
+
+  "create_utility": "Create utility",
+  "currency": "Currency",
+  "clear": "Clear",
+  "add_sub_utility": "Add sub-utility",
+  "choose_houses": "Choose houses"
 }

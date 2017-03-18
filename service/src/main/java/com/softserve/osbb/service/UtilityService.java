@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.softserve.osbb.model.Osbb;
 import com.softserve.osbb.model.Utility;
 
 /**
@@ -21,5 +22,7 @@ public interface UtilityService {
 	void delete(Integer id);
 
 	Utility updateUtility(Utility utility);
+	
+	public List<Utility> getUtilitiesByOsbb(Osbb osbb);
 	
 }
