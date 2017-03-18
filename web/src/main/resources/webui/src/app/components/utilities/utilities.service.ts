@@ -8,7 +8,7 @@ import { LoginService } from '../../shared/login/login.service';
 import { Utility } from '../../models/utility.model';
 
 @Injectable()
-export class UtilityService {
+export class UtilitiesService {
 
     private osbbId: number;
     private userId: number;
@@ -23,7 +23,7 @@ export class UtilityService {
             .catch((error) => Observable.throw(error));
     }
 
-    public listAllUtilities(): Observable<any> {
+    public listAllUtilitiesByOsbb(): Observable<any> {
         return this.http.get(`${API_URL}/restful/utility/osbb/${this.osbbId}`)
             .map((response) => response.json())
             .catch((error) => Observable.throw(error));
