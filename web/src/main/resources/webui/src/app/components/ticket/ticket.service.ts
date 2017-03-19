@@ -59,6 +59,7 @@ listAllUsersInOsbb(osbbId:number):Observable<any>{
             .catch(this.handleError);
 }
 addTicket(ticket:ITicket):Promise<ITicket> {
+  console.log('ticket service.add start')
         return this.http.post(UrlListConfig.URL_LIST.ticketUrl, JSON.stringify(ticket), this.login.getRequestOptionArgs())
             .toPromise()
             .then(res => res.json())
