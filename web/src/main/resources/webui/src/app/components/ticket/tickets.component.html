@@ -80,7 +80,7 @@
           {{item.assigned.firstName | translate}}
           {{item.assigned.lastName | translate}}
         </td>
-        <td class="table-text-align" >
+        <td class="state-column table-text-align" >
           <div *ngIf=" item.state == 'NEW' || item.state == '0'">
             <span class="label btn-round label-info "
                   list="assign">{{ 'new' | translate}}
@@ -106,8 +106,7 @@
   </table>
   <div class="container-fluid">
   <div class="row ticket_footer-btn-group">
-    <div class="col-sm-2
-                ticket_span-group">
+    <div class="ticket_span-group">
       <span class="label
                    btn-round
                    label-danger
