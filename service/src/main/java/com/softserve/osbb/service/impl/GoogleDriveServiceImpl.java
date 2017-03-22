@@ -328,6 +328,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 	public void download(String id, HttpServletResponse response) {
 		try {
 			driveService.files().get(id).executeMediaAndDownloadTo(response.getOutputStream());
+		 System.out.println(findByName("file.xml",APP_FOLDER_ID));
 		} catch (IOException e) {
 			processGDE("Error occured while trying to download file with id = " + id);
 		}
