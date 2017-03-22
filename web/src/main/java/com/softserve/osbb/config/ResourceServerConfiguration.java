@@ -71,3 +71,4 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .antMatchers("/restful/**").authenticated();
     }
 }
+
