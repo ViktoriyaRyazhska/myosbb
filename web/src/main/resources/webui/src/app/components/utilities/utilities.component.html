@@ -131,7 +131,7 @@
                         <th>{{'edit' | translate | capitalize }}</th>
                         <th>{{'delete' | translate | capitalize }}</th>
                     </tr>
-                    <tr *ngFor="let item of utilities" (click)="showChild()">
+                    <tr *ngFor="let item of utilities">
                         <td><input type="checkbox" class="checkthis"/></td>
                         <td>{{item.name}}</td>
                         <td>{{item.price}}</td>
