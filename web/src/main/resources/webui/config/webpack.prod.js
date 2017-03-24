@@ -156,7 +156,7 @@ module.exports = function (env) {
       new DefinePlugin({
         'ENV': JSON.stringify(METADATA.ENV),
         'HMR': METADATA.HMR,
-        'API_SERVER': JSON.stringify(process.env.API_SERVER || '/myosbb'),
+        'API_SERVER': JSON.stringify(process.env.API_SERVER || '/osbb'),
         'process.env': {
           'ENV': JSON.stringify(METADATA.ENV),
           'NODE_ENV': JSON.stringify(METADATA.ENV),
