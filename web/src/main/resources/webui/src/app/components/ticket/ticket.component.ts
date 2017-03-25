@@ -31,6 +31,8 @@ import {Ticket, TicketState, ITicket} from "../../models/ticket.model";
 
 export class TicketComponent implements OnInit {
  @Input() ticket:Ticket;
+  private ticketArr:ITicket[] = [];
+  private updatedTicket:ITicket;
   public resData: any;
   public pageRequest = new PageRequest(1, 10, 'time', false);
   public title: string = 'Tickets';
@@ -58,7 +60,7 @@ export class TicketComponent implements OnInit {
     then(ticket=>this.addTicket(ticket));
   }
 private addTicket(ticket:Ticket):void{
-  this.resData.unsift(ticket)
+  this.resData.unshift(ticket)
 }
 
   public findTicketByState(state: string) {

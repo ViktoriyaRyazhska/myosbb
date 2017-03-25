@@ -23,7 +23,7 @@ import { LoginService } from '../../../../shared/login/login.service';
 })
 
 export class TicketAddFormComponent implements OnInit{
-  @Output() created:EventEmitter<Ticket>;
+  @Output() created:EventEmitter<Ticket>=new EventEmitter<Ticket>();;
   @Input() ticket:Ticket;
   @ViewChild('addModal')
   addModal: ModalDirective;
@@ -50,7 +50,6 @@ export class TicketAddFormComponent implements OnInit{
               private loginService:LoginService,
               private builder:FormBuilder) {
        this.currentUser=this.loginService.getUser();
-        this.created = new EventEmitter<Ticket>();
         this.ticket = new Ticket("","",TicketState.NEW,null);
       
    }
@@ -193,24 +192,20 @@ createTicket(addTicketForm: FormGroup):Ticket{
       this.descriptionTicket=addTicketForm.value.description;
       this.ticket.name=addTicketForm.value.name;
       this.ticket.description=addTicketForm.value.description;
-   //   this.ticket.deadline=new Date(addTicketForm.value.endTimeIntput);
       this.ticket.state=TicketState.NEW;
       this.ticket.assigned=this.getAssignedId( this.usersAssignee);
       this.ticket.user=this.currentUser;
-      console.log('ticketaddComponent create: '+this.ticket)
+      console.log('ticketaddComponent create: '+this.ticket.name)
       return this.ticket;
 }
 
     // Saving the ticket
     onSubmit(addTicketForm: FormGroup) {
 if(!this.isNameCorrect&&!this.isDescriptionCorrect&&!this.isAssigneeCorrect&&!this.isDateCorrect){
- //this.created.emit(this.createTicket(addTicketForm));
- this.ticketSrvice.addTicket(this.ticket)
+ this.created.emit(this.createTicket(addTicketForm));
+//this.ticketSrvice.addTicket(this.createTicket(addTicketForm))
  this.closeAddModal();
 }
-   
-
-      
     }
 
 }
