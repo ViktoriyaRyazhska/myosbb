@@ -6,65 +6,8 @@
                    [mfRowsOnPage]="rowsOnPage">
                 <thead>
                 <tr>
-                    <th>
-                        <mfDefaultSorter by="name"><i class="fa fa-bullhorn"></i> {{'name' | translate | capitalize}}
-                        </mfDefaultSorter>
+                    <th><i class="fa fa-toggle-right"></i>
                     </th>
-                    <th>
-                        <mfDefaultSorter by="price"><i class="fa fa-credit-card"></i> {{'price' | translate |
-                            capitalize}}
-                        </mfDefaultSorter>
-                    </th>
-                    <th>
-                        <mfDefaultSorter by="currency"><i class="fa fa-money"></i> {{'currency' | translate |
-                            capitalize}}
-                        </mfDefaultSorter>
-                    </th>
-                    <th>
-                        <mfDefaultSorter by="subutilities"><i class="fa fa-bars"></i> {{'subutilities' | translate |
-                            capitalize}}
-                        </mfDefaultSorter>
-                    </th>
-                    <th>
-                        <mfDefaultSorter by="description"><i class="fa fa-edit"></i> {{'description' | translate |
-                            capitalize}}
-                        </mfDefaultSorter>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let item of mf.data | specArrayFilter:utilityId">
-                    <td>{{item.name}}</td>
-                    <td>{{item.price}}</td>
-                    <td>{{item.priceCurrency}}</td>
-                    <td>
-                        <div *ngIf=" checkIfParent(item.utilityId) ">
-                        <span><input type="button" class="btn btn-success"
-                                     value="{{'show_subutilities' | translate | myCapitalize}}"
-                                     (click)="switchMode(item.utilityId)"></span>
-                        </div>
-                        <div *ngIf=" !checkIfParent(item.utilityId) ">
-                            <span><input type="button" class="btn btn-default disabled"
-                                         value="{{'no_subutilities' | translate | myCapitalize}}"></span>
-                        </div>
-                    </td>
-                    <td>{{item.description}}</td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td colspan="5">
-                        <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-        <div *ngIf="isSubUtilityShow">
-            <table class="table table-hover" [mfData]="resData | specArrayFilter:utilityId" #mf="mfDataTable"
-                   [mfRowsOnPage]="rowsOnPage">
-                <thead>
-                <tr>
                     <th>
                         <mfDefaultSorter by="name"><i class="fa fa-bullhorn"></i> {{'name' | translate | capitalize}}
                         </mfDefaultSorter>
@@ -86,12 +29,38 @@
                     </th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr *ngFor="let item of mf.data | specArrayFilter:utilityId">
+                <tbody *ngFor="let item of mf.data | specArrayFilter:utilityId; let i = index">
+                <tr [ngStyle]="{cursor: checkIfParent(item.utilityId) ? 'pointer' : 'default'}"
+                    (click)="expColl(i)">
+                    <td><i *ngIf="checkIfParent(item.utilityId)"
+                           [ngClass]="dataExpand[i] ? 'fa fa-caret-down' : 'fa fa-caret-right'"></i></td>
                     <td>{{item.name}}</td>
                     <td>{{item.price}}</td>
                     <td>{{item.priceCurrency}}</td>
                     <td>{{item.description}}</td>
+                </tr>
+                <tr *ngIf="checkIfParent(item.utilityId)">
+                    <td colspan="1" *ngIf="dataExpand[i]"></td>
+                    <td colspan="4" *ngIf="dataExpand[i]">
+                            <table class="table table-hover table-condensed" [ngStyle]="{'font-size' : '12px', 'margin-bottom' : '0px'}">
+                                <thead>
+                                <tr>
+                                    <th>{{'name' | translate | capitalize}}</th>
+                                    <th>{{'price' | translate | capitalize}}</th>
+                                    <th>{{'currency' | translate | capitalize}}</th>
+                                    <th>{{'description' | translate | capitalize}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let item of resData | specArrayFilter:item.utilityId">
+                                    <td width="20%">{{item.name}}</td>
+                                    <td width="11%">{{item.price}}</td>
+                                    <td width="14%">{{item.priceCurrency}}</td>
+                                    <td width="55%">{{item.description}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                    </td>
                 </tr>
                 </tbody>
                 <tfoot>
@@ -102,11 +71,6 @@
                 </tr>
                 </tfoot>
             </table>
-            <div>
-                <button (click)="switchMode(null)" class="btn btn-success" type="button">
-                    <i class="fa fa-arrow-left"></i> {{'go_back' | translate | myCapitalize}}
-                </button>
-            </div>
         </div>
     </div>
     <div *ngSwitchCase="'ROLE_MANAGER'">
@@ -148,7 +112,7 @@
                         <td>
 
                             <div class="dropdown">
-                                 <button class="btn btn-default dropdown-toggle"
+                                <button class="btn btn-default dropdown-toggle"
                                         type="button"
                                         id="dropdownMenu1"
                                         data-toggle="dropdown" aria-haspopup="true"
@@ -169,7 +133,8 @@
                         </td>
                         <td>
                             <p data-placement="top" data-toggle="tooltip" title="Delete">
-                                <button class="btn btn-danger btn-xs" (click)="staticModal.show()" (click)="onDelete(item)" data-toggle="modal"
+                                <button class="btn btn-danger btn-xs" (click)="staticModal.show()"
+                                        (click)="onDelete(item)" data-toggle="modal"
                                         data-target="#delete">
                                     <span class="glyphicon glyphicon-trash"></span>
                                     {{'delete' | translate | capitalize }}
@@ -185,18 +150,22 @@
 
 <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}"
      tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title pull-left">{{ 'confirmDelete' | translate | capitalize}}</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <button type="button" class="btn btn-default" (click)="onConfirmDelete()" (click)="staticModal.hide()">{{ 'yes' | translate | capitalize}}</button>
-         <button type="button" class="btn btn-default" (click)="staticModal.hide()">{{ 'no' | translate | capitalize}}</button>
-      </div>
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{ 'confirmDelete' | translate | capitalize}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button type="button" class="btn btn-default" (click)="onConfirmDelete()" (click)="staticModal.hide()">
+                    {{ 'yes' | translate | capitalize}}
+                </button>
+                <button type="button" class="btn btn-default" (click)="staticModal.hide()">{{ 'no' | translate |
+                    capitalize}}
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
