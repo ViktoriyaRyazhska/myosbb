@@ -18,10 +18,10 @@
               type="text" 
               id="name"  
               placeholder= "{{'enteTicketName' | translate | capitalize}}" 
-              (blur)="isEmptyName($event)" 
+              (keyup)="isEmptyName($event)" 
               formControlName="name" 
               required>
-              <div *ngIf="isNameCorrect" class="alert alert-danger" disable=true> {{'nameErrorTicket' | translate | capitalize}}</div>
+              <div *ngIf="isNameCorrect && submitAttempt" class="alert alert-danger" disable=true> {{'nameErrorTicket' | translate | capitalize}}</div>
           </div>
            <div class="form-group">
                <label>{{'descriptionTicket' | translate | capitalize }}</label>
@@ -30,12 +30,12 @@
              style="min-height:150px; text-align: top"
               type="text" 
               id="description"  
-              (blur)="isEmptyDescription($event)" 
+              (keyup)="isEmptyDescription($event)" 
               formControlName="description"
               rows="3"
                required>
             </textarea>
-              <div *ngIf="isDescriptionCorrect" class="alert alert-danger" disable=true> {{'descrErrorTicket' | translate | capitalize}}</div>
+              <div *ngIf="isDescriptionCorrect && submitAttempt" class="alert alert-danger" disable=true> {{'descrErrorTicket' | translate | capitalize}}</div>
           </div>
            <div class="form-group">
                 <label>{{'assignee' | translate | capitalize }}</label>
@@ -43,12 +43,12 @@
              [items]="assigneeItems"
              (selected)="selectUser($event)"
              (removed)="removedUser($event)"
-             (blur)="isEmptyAssignee($event)"
+             (keyup)="isEmptyAssignee($event)"
              formControlName="assignee"
              id="assignee"
              placeholder="{{'enterAssignee'| translate | capitalize}}">
               </ng-select>
-              <div *ngIf="isAssigneeCorrect" class="alert alert-danger" disable=true> {{'assigneeError' | translate | capitalize}}</div>
+              <div *ngIf="isAssigneeCorrect && submitAttempt" class="alert alert-danger" disable=true> {{'assigneeError' | translate | capitalize}}</div>
           </div>
           <div class="form-group" >
                     <label>{{'deadlineDate' | translate}}</label>
@@ -57,8 +57,9 @@
                     id="endTimeIntput"
                      data-format="dd/MM/yyyy hh:mm:ss"
                     formControlName="endTimeIntput" 
+                    (keyup)="isDeadLineCorrect($event)"
                      required/>
-                    <div class="alert alert-danger" *ngIf="submitAttempt && !isDeadLineCorrect()">{{'invalidDate' |
+                    <div *ngIf="isDateCorrect && submitAttempt" class="alert alert-danger" >{{'invalidDate' |
                         translate | capitalize}}
                     </div>
                 </div>
@@ -70,7 +71,7 @@
                     </div>
                 </div>
             <div class="modal-footer">
-                <button style="float: right; width: 20%;" type="button" [disabled]="submit" 
+                <button style="float: right; width: 20%;" type="button"
                         (click)="toggleSubmitAttempt();onSubmit(addTicketForm);  " class="btn btn-primary">
                     {{'createTickModal'|translate}}
                 </button>
