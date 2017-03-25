@@ -17,7 +17,7 @@ export class UtilitiesComponent implements OnInit {
     public authRole: string;
     public rowsOnPage = 10;
     public resData: Utility[];
-    public isSubUtilityShow = false;
+    public dataExpand: boolean[] = [];
     public utilityId = null;
 
     constructor(public utilityService: UtilitiesService, private LoginService: LoginService) {
@@ -42,15 +42,13 @@ export class UtilitiesComponent implements OnInit {
             });
      }
 
-    public switchMode(id: number) {
-        this.utilityId = id;
-        this.isSubUtilityShow = !this.isSubUtilityShow;
+    public expColl(index: number) {
+        this.dataExpand[index] = !this.dataExpand[index];
     }
 
     public checkIfParent(id: number): boolean {
         for (let i = 0; i < this.resData.length; i++) {
             if (this.resData[i].parent != null && this.resData[i].parent.utilityId == id) {
-                console.log(true);
                 return true;
             }
         }
