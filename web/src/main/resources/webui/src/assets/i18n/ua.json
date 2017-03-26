@@ -208,6 +208,7 @@
   "iAssigned": "Мене обрано відповідальним за інциндент",
   "newCommentSetting": "Новий коментар до інцинденту",
   "newAnswerForMyComment": "Відповідь на мій коментар",
+  "assigneeError": "Відповідальна особа не вибрана",
   "notice": "оповіщення",
   "otherSettings": "інші налаштування",
   "changeStatusN": "Статус змінено",
