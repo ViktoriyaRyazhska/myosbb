@@ -14,7 +14,7 @@
                 (click)="editModal.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title">{{'editTickModal'}}</h4>
+        <h4 class="modal-title">{{'editTickModal'| translate | capitalize}}</h4>
       </div>
       <div class="modal-body">
         <div class="form-group"
@@ -29,7 +29,7 @@
           </textarea>
           <div class="alert alert-danger"
                *ngIf="submitAttempt &&  isEmptyName() ">
-            {{'nameErrorTicket'}}
+            {{'nameErrorTicket'| translate | capitalize}}
           </div>
         </div>
         <div class="form-group"
@@ -44,7 +44,7 @@
           </textarea>
           <div class="alert alert-danger"
                *ngIf="submitAttempt &&  isEmptyDescription() ">
-            {{'descrErrorTicket'}}
+            {{'descrErrorTicket'| translate | capitalize}}
           </div>
           <br>
         </div>
@@ -76,7 +76,7 @@
           <label type="button"
                  class="label label-info"
                  (click)="uploadForm.openUploadModal()">
-            {{'upload'  }} {{'file'}}</label>
+            {{'upload'  | translate | capitalize}} {{'file'}}</label>
         </div>
         <div>
         </div>
@@ -84,12 +84,12 @@
           <button type="button"
                   (click)="toggleSubmitAttempt(); onEditTicket()"
                   class="btn btn-primary">
-            {{'editTicket'}}
+            {{'editTicket'| translate | capitalize}}
           </button>
           <button type="button"
                   (click)="closeEditModal()"
                   class="btn btn-default">
-            {{'cancel'}}
+            {{'cancel'| translate | capitalize}}
           </button>
         </div>
       </div>

@@ -53,8 +53,13 @@ getAllUsers(osbbId:number):Promise<User[]> {
             .then(res => res.json())
             .catch(this.handleError);
     }
-
+listAllUsersInOsbb(osbbId:number):Observable<any>{
+ return this.http.get(`${this.getUsers}/${osbbId}`, this.login.getRequestOptionArgs())
+            .map(res => res.json())
+            .catch(this.handleError);
+}
 addTicket(ticket:ITicket):Promise<ITicket> {
+  console.log('ticket service.add start')
         return this.http.post(UrlListConfig.URL_LIST.ticketUrl, JSON.stringify(ticket), this.login.getRequestOptionArgs())
             .toPromise()
             .then(res => res.json())
