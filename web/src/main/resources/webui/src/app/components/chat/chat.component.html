@@ -7,6 +7,9 @@
           <span > {{m.message}} </span>
         </div>
         <div *ngFor="let response of serverResponse"  class="response" >
+          <span>{{ currentUser.firstName }}
+            {{ currentUser.firstName }}
+          </span>
          <span > <b> {{response.messageTime  | date: 'short' }}: </b> </span>
           <span > {{response.message}} </span>
         </div>
