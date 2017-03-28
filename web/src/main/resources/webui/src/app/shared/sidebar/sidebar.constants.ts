@@ -11,6 +11,7 @@ export class SidebarConstants {
       {route: 'role' , name: 'roles' , class: 'fa fa-building-o'}
     ]; }
   public static get manager() { return [
+      {route: 'utilities' , name: 'utilities' , class: 'fa fa-list'},
       {route: 'houses' , name: 'houses' , class: 'fa fa-user'},
       {route: 'apartment' , name: 'rents' , class: 'fa fa-building-o'},
       {route: 'ticket' , name: 'tickets' , class: 'fa fa-ticket'},
@@ -23,6 +24,7 @@ export class SidebarConstants {
 
     ]; }
   public static get user() { return [
+      {route: 'utilities' , name: 'fees_for_services', class: 'fa fa-list'},
       {route: 'ticket' , name: 'tickets' , class: 'fa fa-ticket'},
       {route: 'calendar' , name: 'calendar' , class: 'fa fa-calendar'},
       {route: 'events' , name: 'events' , class: 'fa fa-comments'},

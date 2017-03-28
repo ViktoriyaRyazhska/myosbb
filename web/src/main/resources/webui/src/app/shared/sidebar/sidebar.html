@@ -43,16 +43,6 @@
           <li role="separator" class="divider"></li>
         </ul>
       </li>
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
-          <i class="fa fa-credit-card fa-fw fa-4x"></i>
-          <span>{{ 'fees_for_services' | translate| myCapitalize}} <span class="caret animated"></span></span>
-        </a>
-        <ul class="dropdown-menu updown">
-          <li *ngFor="let provider of providers"><a [routerLink]="provider.route">{{ provider.name | translate| myCapitalize}}</a></li>
-          <li role="separator" class="divider"></li>
-        </ul>
-      </li>
       <li class="sub-menu" *ngFor="let user of users">
         <a [routerLink]="user.route">
           <i class="{{user.class}}"></i>
