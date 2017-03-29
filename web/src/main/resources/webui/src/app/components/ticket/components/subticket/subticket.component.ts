@@ -13,6 +13,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import { SubTicketService } from './subticket.service';
 import { LoginService } from '../../../../shared/login/login.service';
+import {Ticket, ITicket,TicketState} from '../../../../models/ticket.model';
 
 @Component({
   selector: 'ticket',
@@ -27,11 +28,13 @@ import { LoginService } from '../../../../shared/login/login.service';
 export class SubTicketComponent implements OnInit {
   public ticket: any;
   public title: string = 'Subticket';
+  public ticketState:string;
 
   constructor(
     public ticketService: SubTicketService,
     public router: Router,
-    public activeRoute: ActivatedRoute
+    public activeRoute: ActivatedRoute,
+    public subTicketService:SubTicketService
   ) { }
 
   public ngOnInit() {
@@ -39,7 +42,29 @@ export class SubTicketComponent implements OnInit {
       this.ticketService.getTicketData(params['id'])
         .subscribe((response) => {
           this.ticket = response;
+          this.ticketState=this.ticket.state;
         });
     });
   };
+
+  editState(state:string) {
+      switch (state) {
+      case 'IN_PROGRESS':
+            this.ticket.state = TicketState.IN_PROGRESS;
+            this.ticketState = 'IN_PROGRESS';
+        break;
+      case 'DONE':
+            this.ticket.state = TicketState.DONE;
+            this.ticketState = 'DONE';
+        break;
+       case 'NEW':
+            this.ticket.state = TicketState.NEW;
+            this.ticketState = 'NEW';
+         break;
+      default :
+         break;
+     }
+        this.subTicketService.editState(this.ticket);
+    }
+
 }

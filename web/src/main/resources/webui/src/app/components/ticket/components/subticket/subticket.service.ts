@@ -9,6 +9,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 import { API_URL } from '../../../../models/localhost.config';
 import { LoginService } from '../../../../shared/login/login.service';
+import {Ticket, ITicket,TicketState} from '../../../../models/ticket.model';
 
 @Injectable()
 
@@ -24,4 +25,11 @@ export class SubTicketService {
       .map((res: Response) => res.json())
       .catch((error) => Observable.throw(error));
   }
+
+      editState(ticket:Ticket):Promise<ITicket> {
+        return this.http.put(`${API_URL}/restful/ticket/state`, JSON.stringify(ticket), this.login.getRequestOptionArgs())
+            .toPromise()
+            .then(res => res.json())
+            .catch((error) => Observable.throw(error));
+    }
 }
