@@ -13,18 +13,19 @@ import {Ticket, TicketState, ITicket} from "../../../../models/ticket.model";
 })
 
 export class TicketDelFormComponent {
-  @Output() delete:EventEmitter<ITicket>;
+  @Input() ticket:ITicket;
+  @Output() delete:EventEmitter<ITicket>=new EventEmitter<ITicket>();
   @ViewChild('delModal')
   delModal:ModalDirective;
-  private ticket:ITicket;
 
     constructor(private ticketService:TicketService) {}
 
   public openDelModal(ticket: ITicket):void {
     this.ticket = ticket;
+    console.log(this.ticket);
     this.delModal.show();
   }
-    delTicket():void {
+    delTicket(event:any):void {
         this.ticketService.deleteTicket(this.ticket);
     }
 }

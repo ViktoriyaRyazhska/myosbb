@@ -54,14 +54,26 @@ export class TicketComponent implements OnInit {
       });
   };
 
-  createTicket(ticket:Ticket):void{
+  createTicket(ticket:ITicket):void{
     console.log('ticket component')
     this.ticketService.addTicket(ticket).
     then(ticket=>this.addTicket(ticket));
   }
-private addTicket(ticket:Ticket):void{
+private addTicket(ticket:ITicket):void{
   this.resData.unshift(ticket)
 }
+
+  deleteTicket(ticket:ITicket):void {
+        this.ticketService.deleteTicket(ticket).then(ticket => this.deleteTicketFromArr(ticket));
+    }
+
+
+    private deleteTicketFromArr(ticket:ITicket):void {
+        let index = this.resData.indexOf(ticket);
+        if (index > -1) {
+            this.resData.splice(index, 1);
+        }
+    }
 
   public findTicketByState(state: string) {
     this.ticketService.findByState(state)
