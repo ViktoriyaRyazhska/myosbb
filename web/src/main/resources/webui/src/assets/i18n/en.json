@@ -55,7 +55,7 @@
   "go_to": "go to",
   "schedule": "schedule",
   "text": "text",
-  "description": "description",
+  "enterTicketDescription": "Enter description",
   "providers": "providers",
   "company": "company",
   "type": "type",
@@ -148,6 +148,8 @@
   "confirmDelTicket": "Remove this ticket?",
   "removingTicket": "Removing",
   "nameTicket": "Name",
+  "ticketsName": "Ticket name",
+   "assignee": "Assignee",
   "descriptionTicket": "Description",
   "authorTicket": "Author",
   "dateTicket": "Date",
@@ -371,5 +373,9 @@
   "some_data_null":"some required field was not provided",
   "email_null":"email was not provided",
   "removingApartment":"remove apartment",
-  "rm_ap_alert":"all users will be removed too"
+  "rm_ap_alert":"all users will be removed too",
+
+"enteTicketName": "Enter ticket name",
+"enterAssignee": "Select Assignee",
+"assigneeError": "Assignee is not selected"
   }

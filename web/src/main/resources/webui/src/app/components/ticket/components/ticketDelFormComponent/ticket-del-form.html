@@ -21,7 +21,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" (click)="delModal.hide()">{{'no'| translate |capitalize}}</button>
-                <button type="button" class="btn btn-primary" (click)="delTicket();delModal.hide()" [routerLink]="['../']">
+                <button type="button" class="btn btn-primary" (click)="delTicket(this.ticket);delModal.hide()" [routerLink]="['../']">
                     {{'yes'| translate |capitalize}}
                 </button>
             </div>

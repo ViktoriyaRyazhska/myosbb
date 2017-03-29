@@ -17,119 +17,195 @@ import { LoginService } from '../../../../shared/login/login.service';
 
 @Component({
     selector: 'ticket-add-form',
-    providers: [TicketService, FormBuilder],
+    providers: [TicketService],
     templateUrl: './ticket-add-form.html',
     styleUrls: ['../../../../../assets/css/page.layout.scss']
 })
 
-export class TicketAddFormComponent {
-  @Output() created:EventEmitter<Ticket>;
-  @Input() ticket: Ticket;
+export class TicketAddFormComponent implements OnInit{
+  @Output() created:EventEmitter<Ticket>=new EventEmitter<Ticket>();;
+  @Input() ticket:Ticket;
   @ViewChild('addModal')
   addModal: ModalDirective;
 
  private currentUser:User;
  private userAssignArr:User[] = [];
- private creatingForm:FormGroup;
- private nameInput:FormControl;
- private descriptionInput:FormControl;
- private assignInput:FormControl;
- private submitAttempt: boolean;
+ private usersAssignee:Array<User>;
+ private addTicketForm:FormGroup;
+ private submitAttempt: boolean=false;
  private nameTicket: string = '';
  private descriptionTicket: string = '';
   private assignTicket: string = '';
   private endTimeStr: string;
+  private isNameCorrect:boolean =true;
+  private isDescriptionCorrect:boolean =true;
+  private isAssigneeCorrect:boolean =true;
+  private isDateCorrect: boolean =true;
+ // private ticket: Ticket;
+  private assigneeItems: string [] =[];
+  private name:string='';
+  private selectedUserId: any;
 
   constructor(private ticketSrvice:TicketService,
               private loginService:LoginService,
               private builder:FormBuilder) {
-        this.currentUser=this.loginService.getUser();
-        this.created = new EventEmitter<Ticket>();
+       this.currentUser=this.loginService.getUser();
         this.ticket = new Ticket("","",TicketState.NEW,null);
-        this.submitAttempt = false;
-        this.nameInput = new FormControl('', Validators.required);
-        this.descriptionInput = new FormControl('', Validators.required);
-        this.assignInput = new FormControl('', Validators.required);
-        this.creatingForm =this.builder.group({
-            nameInput: this.nameInput,
-            descriptionInput: this.descriptionInput,
-            assignInput: this.assignInput
-        });
+      
    }
 
    ngOnInit(){
-   }
+
+    this.buildForm();
+    console.log('ticket add onInit');
+    this.listAllUsers();
+    for(let user of this.userAssignArr ){
+    console.log(user);
+    }
+   };
+
+buildForm():void{
+this.addTicketForm=this.builder.group({
+name: ['',[Validators.required]],
+description: ['',[Validators.required]],
+assignee: [null,[Validators.required]],
+endTimeIntput:['',[Validators.required]]
+});
+}
 
   public openAddModal() {
-    this.addModal.show();
-    this.getAllOsbbUsers();
-  };
+    this.addModal.show(); 
+  }
 getAllOsbbUsers(){
    console.log(this.currentUser.osbbId);
 return this.ticketSrvice.getAllUsers(this.currentUser.osbbId)
 .then(userAssignArr =>this.userAssignArr=userAssignArr)
 }
-  public isEmptyName(): boolean {
-    return this.nameTicket.length >= 10 ? false : true;
-  };
 
-  public isEmptyDescription(): boolean {
-    return this.descriptionTicket.length >= 20 ? false : true;
-  };
+listAllUsers(){
+  this.ticketSrvice.listAllUsersInOsbb(this.currentUser.osbbId).subscribe((data)=>{
+  this.usersAssignee=data;
+  this.assigneeItems=this.fillAssigneeItems();
+},
+(error)=>{
+  this.henleError(error);
+});
+}
 
-  public isFindAssign(): boolean {
-    return true;
-  };
+fillAssigneeItems():string[]{
+let opts = new Array(this.usersAssignee.length)
+for(let user of this.usersAssignee ){
+  opts.push({
+    id: user.userId,
+    text: user.firstName.toString()+' '+user.lastName.toString()
+  })
+}
+return opts.slice(0);
+}
+
+selectUser(value: any):string{
+this.assignTicket=value.text;
+this.selectedUserId=value.id;
+console.log('selectedUserId: '+this.selectedUserId);
+console.log(this.assignTicket);
+this.isAssigneeCorrect=false;
+return this.assignTicket;
+}
+removedUser(value: any){
+ this.assignTicket='';
+ this.isAssigneeCorrect=true;
+}
+
+
+  public isEmptyName(event:any): boolean {
+    this.isNameCorrect = this.addTicketForm.value.name.length <= 10 ? true : false;
+    return this.addTicketForm.value.name.length <= 10 ? true : false;
+  }
+
+  public isEmptyDescription(event:any): boolean {
+    this.isDescriptionCorrect = this.addTicketForm.value.description.length <= 10 ? true : false;
+    return this.addTicketForm.value.description.length <= 20 ? true : false;
+  }
+
+  public isEmptyAssignee(value :any): boolean {
+    this.isAssigneeCorrect= this.addTicketForm.value.assignee.length <= 0 ? true : false;
+    this.toggleSubmitAttempt();
+    return this.isAssigneeCorrect;
+  }
 
   public toggleSubmitAttempt() {
-    this.submitAttempt = true;
-  };
+    this.submitAttempt = true; 
+  }
 
   public closeAddModal() {
     this.submitAttempt = false;
     this.clearAddModal();
     this.addModal.hide();
-  };
+    this.ticket = new Ticket("","",TicketState.NEW,null);
+  }
 
   public clearAddModal() {
-    this.nameTicket = '';
-    this.descriptionTicket = '';
-    this.assignTicket = '';
-    this.endTimeStr = '';
-  };
+    this.isNameCorrect=true;
+    this.isDescriptionCorrect=true;
+    this.isAssigneeCorrect =true;
+    this.isDateCorrect=true;
+    this.submitAttempt = false;
+    this.buildForm();
+  }
 
-public onCreateTicket() {
-  console.log("On Create Ticket Start");
-     this.ticketSrvice.addTicket(this.createTicket());
-     this.closeAddModal();
- 
-    console.log("On Create Ticket End");
-  };
-      createTicket():Ticket {
-       console.log("Create Ticket Start");
-       let ticket = new Ticket(this.nameTicket, this.descriptionTicket, TicketState.NEW,null);
-       ticket.user = this.currentUser;
-       console.log("assign "+this.getAssignedId(this.assignTicket));
-       ticket.assigned = this.getAssignedId(this.assignTicket);
-       ticket.deadline = this.castDeadLineStringToDate();
-         console.log("Create Ticket End");
-        return ticket;
-
-    }
-    getAssignedId(assign:string):User {
-        let str = assign.split(' ');
-        for (let i = 0; i < this.userAssignArr.length; i++) {
-            if (str[0] == this.userAssignArr[i].firstName && str[1] == this.userAssignArr[i].lastName) {
-                return this.userAssignArr[i];
+    getAssignedId(assignees:Array<User>):User {
+        for (let i = 0; i < assignees.length; i++) {
+          if (assignees[i].userId==this.selectedUserId) {
+                return assignees[i];
             }
         } 
     }
-        isDeadLineCorrect(): boolean {
+        isDeadLineCorrect(event:any): boolean {
+        this.ticket.deadline=new Date(this.addTicketForm.value.endTimeIntput);
         let startTime = new Date();
-        let res = this.castDeadLineStringToDate().valueOf() - startTime.valueOf();
+        let res = this.ticket.deadline.valueOf() - startTime.valueOf();
+        this.isDateCorrect=res < 0;
+        this.toggleSubmitAttempt();
         return res > 0;
     }
+
+      isDeadLineSet():boolean{
+        this.ticket.deadline=new Date(this.addTicketForm.value.endTimeIntput);
+        let startTime = new Date();
+        let res = this.ticket.deadline.valueOf() - startTime.valueOf();
+        this.isDateCorrect=res < 0;
+        return res > 0;
+      }
+
     castDeadLineStringToDate(): Date {
         return new Date(this.endTimeStr);
-    };
+    }
+
+private henleError(error:any):Promise<any>{
+console.log('Add ticket Hendle Error',error)
+return Promise.reject(error.message || error)
+}
+
+createTicket(addTicketForm: FormGroup):Ticket{
+
+ this.nameTicket=addTicketForm.value.name;
+      this.descriptionTicket=addTicketForm.value.description;
+      this.ticket.name=addTicketForm.value.name;
+      this.ticket.description=addTicketForm.value.description;
+      this.ticket.state=TicketState.NEW;
+      this.ticket.assigned=this.getAssignedId( this.usersAssignee);
+      this.ticket.user=this.currentUser;
+      console.log('ticketaddComponent create: '+this.ticket.name)
+      return this.ticket;
+}
+
+    // Saving the ticket
+    onSubmit(addTicketForm: FormGroup) {
+if(!this.isNameCorrect&&!this.isDescriptionCorrect&&!this.isAssigneeCorrect&&!this.isDateCorrect){
+ this.created.emit(this.createTicket(addTicketForm));
+//this.ticketSrvice.addTicket(this.createTicket(addTicketForm))
+ this.closeAddModal();
+}
+    }
+
 }
