@@ -6,9 +6,10 @@ import { EventsComponent } from '../components/events';
 import { OsbbBillsComponent } from '../components/osbbBils';
 import { ContractsComponent } from '../components/contracts';
 import { TicketComponent  } from '../components/ticket';
-import { ProviderComponent } from '../components/provider'; 
-import{ProviderAboutComponent} from '../components/provider-info';
-import { ApartmentComponent } from '../components/apartment';
+import { ProviderComponent } from '../components/provider';
+import { ProviderAboutComponent } from '../components/provider-info';
+import { ApartmentComponent } from '../components/apartments';
+import { ApartmentAboutComponent } from '../components/apartment';
 import { CalendarComponent } from '../components/calendar';
 import { SubTicketComponent } from '../components/ticket/components/subticket';
 import { EventsDetailComponent } from '../components/events/eventsDetail';
@@ -16,6 +17,7 @@ import { HouseAboutComponent } from '../components/house';
 import { OsbbDocumentsAndReportsComponent } from '../components/osbb-docs-and-reports';
 import { OsbbContactsComponent } from '../components/osbb-contacts';
 import { LogedInGuard } from '../services/loged-in-guard.service';
+import { UtilitiesComponent } from '../components/utilities';
 
 export const ManagerRoutes: Routes = [
   { path: 'manager',  component: ManagerComponent,
@@ -33,10 +35,12 @@ export const ManagerRoutes: Routes = [
       { path: 'ticket/:id', component: SubTicketComponent },
       { path: 'provider', component: ProviderComponent },
       { path: 'apartment', component: ApartmentComponent },
+      { path: 'apartment/:id', component: ApartmentAboutComponent },
       { path: 'calendar', component: CalendarComponent },
       { path: 'house/:id', component: HouseAboutComponent },
       { path: 'provider-info/:id', component: ProviderAboutComponent },
       { path: 'contacts', component: OsbbContactsComponent },
       { path: 'documents-and-reports', component: OsbbDocumentsAndReportsComponent },
+      { path: 'utilities', component: UtilitiesComponent}
     ]},
 ];

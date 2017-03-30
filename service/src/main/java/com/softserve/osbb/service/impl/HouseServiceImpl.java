@@ -3,6 +3,7 @@ package com.softserve.osbb.service.impl;
 import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.House;
 import com.softserve.osbb.model.Osbb;
+import com.softserve.osbb.model.User;
 import com.softserve.osbb.repository.HouseRepository;
 import com.softserve.osbb.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,4 +125,10 @@ public class HouseServiceImpl implements HouseService {
 	public House getByNumberHouseAndStreet(Integer numberHouse, Integer streetId) {		
 		return houseRepository.getByNumberHouseAndStreet(numberHouse, streetId);
 	}
+
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    @Override
+    public House findHouseByUser(User user) {
+        return houseRepository.findByUsers(user);
+    }
 }

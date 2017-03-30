@@ -265,7 +265,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		try {
 			File file = driveService.files().create(fileMetadata, mediaContent).setFields("id, parents").execute();
 			user.setPhotoId(file.getId());
-			userService.saveAndFlush(user);
+			userService.update(user);
 			content.delete();
 		} catch (Exception e) {
 			processGDE("Could not upload " + fileName);
@@ -330,6 +330,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		try {
 			System.out.println(findByName("file.xml", APP_FOLDER_ID));
 			driveService.files().get(id).executeMediaAndDownloadTo(response.getOutputStream());
+		 System.out.println(findByName("file.xml",APP_FOLDER_ID));
 		} catch (IOException e) {
 			processGDE("Error occured while trying to download file with id = " + id);
 		}

@@ -1,5 +1,7 @@
 package com.softserve.osbb.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,5 +29,8 @@ public interface ApartmentRepository extends JpaRepository<Apartment, Integer> {
     Page<Apartment> findAllForUser(Pageable pageable, @Param("osbbId") Integer osbbId);
     
     Page<Apartment> findAll(Pageable pageable);
+    
+    @Query("select ap from Apartment ap join ap.house h join h.osbb o where o.osbbId = :osbbId")
+    List<Apartment> findAllByOsbbId(@Param("osbbId") Integer osbbId);
 
 }
