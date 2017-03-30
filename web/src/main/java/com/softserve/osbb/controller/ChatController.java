@@ -14,18 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.softserve.osbb.model.Chat;
 import com.softserve.osbb.service.ChatService;
 import com.softserve.osbb.model.ChatMessage;
-import com.softserve.osbb.model.ListMessages;
-import com.softserve.osbb.service.DriveService;
-import com.softserve.osbb.service.GoogleDriveService;
 
-import java.io.File;
-import java.io.InputStream;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.JAXBException;
 
 @Controller
 @RestController
@@ -33,47 +27,24 @@ import javax.xml.bind.Unmarshaller;
 @RequestMapping("/restful/chat")
 public class ChatController {
 
-
 	@Autowired
 	private ChatService chatService;
 
-	@Autowired
-	private GoogleDriveService googleDriveService;
-
-	@Autowired
-	private DriveService driveService;
-
 	@MessageMapping("/chat")
 	@SendTo("/topic/greetings")
-	public Chat chat(ChatMessage message) throws Exception {
+	public Chat chat(ChatMessage message) {
 		Chat chat = new Chat(message.getMessage(), new Timestamp(System.currentTimeMillis()));
-		chatService.save(chat);		
+		chatService.save(chat);
 
-		if (chatService.countChatMessages() == 21){
+		if (chatService.countChatMessages() >= 6) {
 			chatService.deleteHalf();
 		}
-		if (chatService.countChatMessages() == 20) {
-			File file = new File("file.xml");
-			String driveId = driveService.findAll().get(0).getFile();
-			InputStream input = googleDriveService.getInput(driveId);
-			
-			ListMessages listOfMessages = new ListMessages();
-			
-			JAXBContext jaxbContext = JAXBContext.newInstance(ListMessages.class, Chat.class);
-			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-
-			listOfMessages = (ListMessages) jaxbUnmarshaller.unmarshal(input);
-			List<Chat> list = listOfMessages.getMessages();
-			boolean isAdded=list.addAll(chatService.getHalf());
-			listOfMessages.setMessages(list);
-
-			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			jaxbMarshaller.marshal(listOfMessages, file);
-			
-			googleDriveService.delete(driveId);
-			driveService.deleteAll();
-			googleDriveService.insertChatFile("Chat messages", file.getName(), file);
+		if (chatService.countChatMessages() >= 5) {
+			try {
+				chatService.writeFile();
+			} catch (IOException | JAXBException e) {
+				e.printStackTrace();
+			}
 		}
 		return chatService.save(chat);
 	}
@@ -82,6 +53,6 @@ public class ChatController {
 	public ResponseEntity<List<Chat>> findAll() {
 		List<Chat> messages = chatService.findAll();
 		return new ResponseEntity<>(messages, HttpStatus.OK);
-	}	
+	}
 
 }

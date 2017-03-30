@@ -1,4 +1,4 @@
-package org.test;
+package com.softserve.osbb.test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;

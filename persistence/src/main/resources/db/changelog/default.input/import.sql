@@ -323,5 +323,5 @@ INSERT INTO osbb_provider values (5,1);
 INSERT INTO osbb_provider values (5,3);
 INSERT INTO osbb_provider values (5,4);
 INSERT INTO osbb_provider values (5,2);
-INSERT INTO drive values(1,'1SxczlVu-5X40Hjg7k5DV33PoWxEEA6jQ_f2ustYfRbVP');
+
 --rollback

@@ -15,10 +15,9 @@ import com.softserve.osbb.model.Chat;
 public interface ChatRepository extends JpaRepository<Chat, Integer> {
 	
 	@Modifying
-	@Query(value="DELETE FROM chat ORDER BY chat_id ASC limit 10", nativeQuery = true)
+	@Query(value="DELETE FROM chat ORDER BY chat_id ASC limit 5", nativeQuery = true)
 	 public void deleteHalf();
 	
-	@Modifying
-	@Query(value="SELECT * FROM chat ORDER BY chat_id ASC limit 10", nativeQuery = true)
+	@Query(value="SELECT * FROM chat ORDER BY chat_id ASC limit 5", nativeQuery = true)
 	public List<Chat> getHalf();
 }

@@ -44,4 +44,6 @@ public interface GoogleDriveService {
     
     public File findByName(String folderName, String parentId);
     
+    public void validateEmptyFile();
+    
 }
