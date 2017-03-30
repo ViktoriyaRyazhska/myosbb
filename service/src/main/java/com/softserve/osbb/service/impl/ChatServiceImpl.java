@@ -2,6 +2,7 @@ package com.softserve.osbb.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -130,7 +131,6 @@ public class ChatServiceImpl implements ChatService{
 		
 		googleDriveService.delete(googleDriveService.findByName(driveFileName,  driveFolderId).getId());
 		googleDriveService.insertChatFile("Chat messages", file.getName(), file);
-		
 	}	
 
 }
