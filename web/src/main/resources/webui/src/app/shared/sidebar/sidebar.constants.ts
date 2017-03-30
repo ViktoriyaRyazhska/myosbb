@@ -8,7 +8,8 @@ export class SidebarConstants {
       {route: 'events' , name: 'events' , class: 'fa fa-comments'},
       {route: 'attachments' , name: 'attachments' , class: 'fa fa-cloud-download'},
       {route: 'users' , name: 'users' , class: 'fa fa-users'},
-      {route: 'role' , name: 'roles' , class: 'fa fa-building-o'}
+      {route: 'role' , name: 'roles' , class: 'fa fa-building-o'},
+      {route: 'chat' , name: 'chat' , class: 'fa fa-bookmark'}
     ]; }
   public static get manager() { return [
       {route: 'utilities' , name: 'utilities' , class: 'fa fa-list'},
@@ -20,7 +21,7 @@ export class SidebarConstants {
       {route: 'osbbBills' , name: 'bills_osbb' , class: 'fa fa-credit-card-alt'},
       {route: 'provider' , name: 'providers' , class: 'fa fa-building'},
       {route: 'contract' , name: 'contracts' , class: 'fa fa-bookmark'},
-      
+      {route: 'chat' , name: 'chat' , class: 'fa fa-bookmark'}
 
     ]; }
   public static get user() { return [

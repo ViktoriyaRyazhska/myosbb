@@ -44,10 +44,10 @@ public class Chat implements Serializable {
 
 	}
 
-	public Chat(String message, Timestamp messageTime) {
+	public Chat(String message, Timestamp messageTime, User user) {
 		this.message = message;
 		this.messageTime = messageTime;
-		//this.user = user;
+		this.user = user;
 	}
 	
 	public Integer getChatId() {
@@ -77,13 +77,14 @@ public class Chat implements Serializable {
 		this.messageTime = messageTime;
 	}
 
-//	public User getUser() {
-//		return user;
-//	}
-//	
-//	public void setUser(User user) {
-//		this.user = user;
-//	}
+	public User getUser() {
+		return user;
+	}
+	
+	@XmlAttribute
+	public void setUser(User user) {
+		this.user = user;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

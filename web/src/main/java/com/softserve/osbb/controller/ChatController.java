@@ -44,8 +44,8 @@ public class ChatController {
 
 	@MessageMapping("/chat")
 	@SendTo("/topic/greetings")
-	public Chat chat(ChatMessage message) throws Exception {
-		Chat chat = new Chat(message.getMessage(), new Timestamp(System.currentTimeMillis()));
+	public Chat chat(ChatMessage message, ChatMessage user) throws Exception {
+		Chat chat = new Chat(message.getMessage(), new Timestamp(System.currentTimeMillis()), user.getUser());
 		chatService.save(chat);		
 
 		if (chatService.countChatMessages() == 21){
@@ -64,7 +64,7 @@ public class ChatController {
 
 			listOfMessages = (ListMessages) jaxbUnmarshaller.unmarshal(input);
 			List<Chat> list = listOfMessages.getMessages();
-			boolean isAdded=list.addAll(chatService.getHalf());
+			boolean isAdded = list.addAll(chatService.getHalf());
 			listOfMessages.setMessages(list);
 
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
