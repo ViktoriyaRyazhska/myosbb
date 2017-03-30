@@ -1,6 +1,9 @@
 package com.softserve.osbb.service;
 
 import javax.transaction.Transactional;
+import javax.xml.bind.JAXBException;
+
+import java.io.IOException;
 import java.util.List;
 
 import com.softserve.osbb.model.Chat;
@@ -34,5 +37,9 @@ public interface ChatService {
 	List<Chat> getHalf();
 	
 	long countChatMessages();
+	
+	void writeFile() throws IOException, JAXBException;
+		
+	
 
 }

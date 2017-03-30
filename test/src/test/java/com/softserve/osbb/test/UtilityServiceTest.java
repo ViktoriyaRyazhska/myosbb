@@ -1,4 +1,4 @@
-package org.test;
+package com.softserve.osbb.test;
 
 import com.softserve.osbb.model.Utility;
 import com.softserve.osbb.repository.UtilityRepository;

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,9 +30,9 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.softserve.osbb.model.User;
-import com.softserve.osbb.service.DriveService;
 import com.softserve.osbb.service.GoogleDriveService;
 import com.softserve.osbb.service.UserService;
+import com.softserve.osbb.service.exceptions.EmptyFileException;
 import com.softserve.osbb.service.exceptions.GoogleDriveException;
 
 /**
@@ -86,8 +87,6 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private DriveService dService;
 
 	/** Global instance of the HTTP transport. */
 	private HttpTransport HTTP_TRANSPORT;
@@ -128,6 +127,12 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 	private void validateName(String folderName) {
 		if (!folderName.matches(PATTERN)) {
 			throw new IllegalArgumentException("Folder name '" + folderName + "' not allowed!");
+		}
+	}
+	
+	public void validateEmptyFile(java.io.InputStream inputStream) throws EmptyFileException {
+		if(inputStream==null){
+			throw new EmptyFileException("cannot upload empty file");
 		}
 	}
 
@@ -291,22 +296,18 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 			processGDE("Could not upload " + fileName);
 		}
 	}
-
+    
+	@Async
 	public void insertChatFile(String description, String fileName, java.io.File file) {
 		String parentId = APP_FOLDER_ID;
 		File fileMetadata = getFileWithMetadata(fileName, parentId);
 		FileContent mediaContent = new FileContent(null, file);
-
 		try {
 			File driveFile = driveService.files().create(fileMetadata, mediaContent).setFields("id, parents").execute();
-
-			com.softserve.osbb.model.Drive drive = new com.softserve.osbb.model.Drive(driveFile.getId());
-			dService.save(drive);
 			file.delete();
 		} catch (IOException e) {
 			processGDE("Could not insert" + fileName);
 		}
-
 	}
 
 	private void createTempCopy(String path, InputStream in) {
@@ -327,13 +328,14 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 	@Override
 	public void download(String id, HttpServletResponse response) {
 		try {
+			System.out.println(findByName("file.xml", APP_FOLDER_ID));
 			driveService.files().get(id).executeMediaAndDownloadTo(response.getOutputStream());
 		 System.out.println(findByName("file.xml",APP_FOLDER_ID));
 		} catch (IOException e) {
 			processGDE("Error occured while trying to download file with id = " + id);
 		}
-	}
-
+	}	
+	
 	private void processIAE(String message) {
 		LOGGER.error(message);
 		throw new IllegalArgumentException(message);
@@ -342,6 +344,12 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 	private void processGDE(String message) {
 		LOGGER.error(message);
 		throw new GoogleDriveException(message);
+	}
+
+	@Override
+	public void validateEmptyFile() {
+		
+		
 	}
 
 }
