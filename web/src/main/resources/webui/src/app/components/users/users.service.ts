@@ -19,4 +19,9 @@ constructor(private http: Http, private LoginService: LoginService) { }
       .map((res: Response) => res.json())
       .catch((error) => Observable.throw(error));
   }
+  public getUserById(userId:number): Observable<any> {
+    return this.http.get(`${API_URL}/restful/userID`, this.LoginService.getRequestOptionArgs())
+      .map((res: Response) => res.json())
+      .catch((error) => Observable.throw(error));
+  }
 }

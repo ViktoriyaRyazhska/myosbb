@@ -14,7 +14,7 @@ import 'rxjs/add/operator/map';
 import { SubTicketService } from './subticket.service';
 import { LoginService } from '../../../../shared/login/login.service';
 import {Ticket, ITicket,TicketState} from '../../../../models/ticket.model';
-
+import {User} from "../../../../models/user.model";
 @Component({
   selector: 'ticket',
   styleUrls: [
@@ -22,20 +22,25 @@ import {Ticket, ITicket,TicketState} from '../../../../models/ticket.model';
     './subticket.style.scss'
   ],
   templateUrl: './subticket.component.html',
-  providers: [ SubTicketService, LoginService ]
+  providers: [ SubTicketService ]
 })
 
 export class SubTicketComponent implements OnInit {
   public ticket: any;
   public title: string = 'Subticket';
   public ticketState:string;
+  public currentUser:User;
 
   constructor(
     public ticketService: SubTicketService,
     public router: Router,
     public activeRoute: ActivatedRoute,
-    public subTicketService:SubTicketService
-  ) { }
+    public subTicketService:SubTicketService,
+    public loginService:LoginService
+  ) { 
+    this.currentUser=this.loginService.getUser();
+    console.log(this.currentUser);
+  }
 
   public ngOnInit() {
     this.activeRoute.params.subscribe((params) => {

@@ -107,7 +107,7 @@
     <ul class="dropdown-menu"
         aria-labelledby="dropdownMenu1">
       <li>
-        <a (click)="editForm.initUpdatedTicket(ticket);editForm.openEditModal()">
+        <a (click)="editForm.initUpdatedTicket(ticket);editForm.listAllUsers(currentUser); editForm.openEditModal()">
           {{'editTicket'| translate | capitalize}}
         </a>
       </li>

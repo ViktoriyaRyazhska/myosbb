@@ -67,6 +67,14 @@ private addTicket(ticket:ITicket):void{
         this.ticketService.deleteTicket(ticket).then(ticket => this.deleteTicketFromArr(ticket));
     }
 
+    editTicket(ticket:ITicket):void{
+      this.ticketService.editTicket(ticket);
+      let index=this.resData.indexOf(ticket);
+      if(index>1){
+        this.resData[index]=ticket;
+      }
+    }
+
 
     private deleteTicketFromArr(ticket:ITicket):void {
         let index = this.resData.indexOf(ticket);
