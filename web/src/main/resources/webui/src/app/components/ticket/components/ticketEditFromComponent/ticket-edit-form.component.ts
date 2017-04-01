@@ -70,7 +70,7 @@ export class TicketEditFormComponent implements OnInit{
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
       assignee: [null, [Validators.required]],
-      endTimeIntput: ['2014-01-02T11:42:13.510', [Validators.required]]
+      endTimeIntput: [new Date(), [Validators.required]]
     });
   };
 
