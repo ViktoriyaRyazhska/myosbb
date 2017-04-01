@@ -44,12 +44,10 @@ export class TicketEditFormComponent implements OnInit{
   private isDateCorrect: boolean = true;
   private selectedUserId: any;
   private ticket:Ticket=new Ticket("","",TicketState.NEW,null);
+  private testDate:Date=new Date('2014-01-02T11:42:13.510');
 
   constructor(private ticketSrvice: TicketService,
-   // private loginService: LoginService,
     private builder: FormBuilder) {
-  //  this.currentUser = this.loginService.getUser();
-  // console.log("constructor currentUserID: "+this.loginService.getUser().userId)
   }
   ngOnInit() {
 
@@ -70,7 +68,7 @@ export class TicketEditFormComponent implements OnInit{
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
       assignee: [null, [Validators.required]],
-      endTimeIntput: [new Date(), [Validators.required]]
+      endTimeIntput: [this.testDate, [Validators.required]]
     });
   };
 
