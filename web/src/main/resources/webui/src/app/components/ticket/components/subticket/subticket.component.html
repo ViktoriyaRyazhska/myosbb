@@ -20,10 +20,10 @@
     <span class="sub-ticket_header-text">
       {{ticket?.name}}
     </span>
-    <span *ngIf=" ticket?.state == 'NEW' "
+    <span *ngIf=" ticket?.state == '0' || ticket?.state == 'NEW'"
           class="sub-ticket_label label-text btn-round label-info sub-ticket_label-status">
-      {{ 'new' | translate}}
-    </span>
+        {{'new'| translate | capitalize}}
+     </span>
      <span *ngIf=" ticket?.state == '1' || ticket?.state == 'IN_PROGRESS'"
           class="sub-ticket_label btn-round label-success btn-md sub-ticket_label-status">
         {{'in_progress'| translate | capitalize}}
@@ -41,6 +41,9 @@
         </button>
         <ul class="dropdown-menu"
             role="menu">
+          <li>
+            <a (click)="editState('NEW')">{{ 'new' | translate | capitalize }}</a>
+          </li>
           <li>
             <a (click)="editState('IN_PROGRESS')">{{ 'in_progress' | translate | capitalize }}</a>
           </li>
@@ -104,7 +107,7 @@
     <ul class="dropdown-menu"
         aria-labelledby="dropdownMenu1">
       <li>
-        <a (click)="editForm.initUpdatedTicket(ticket);editForm.openEditModal()">
+        <a (click)="editForm.initUpdatedTicket(ticket);editForm.listAllUsers(currentUser); editForm.openEditModal()">
           {{'editTicket'| translate | capitalize}}
         </a>
       </li>
