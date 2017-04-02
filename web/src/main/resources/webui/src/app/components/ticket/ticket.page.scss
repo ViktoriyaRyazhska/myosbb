@@ -7,6 +7,10 @@
   .ticket_span-group {
     margin-top: 8px;
     cursor: pointer;
+      .label {
+      min-width: 110px;
+      display: inline-block;
+      }
   }
   .ticket_btn-find-group {
     display: block;
@@ -30,6 +34,12 @@
     }
     .ticket_first-row-data {
       display: block;
+    }
+    .state-column {
+      .label {
+      min-width: 80px;
+      display: inline-block;
+      }
     }
   }
 }

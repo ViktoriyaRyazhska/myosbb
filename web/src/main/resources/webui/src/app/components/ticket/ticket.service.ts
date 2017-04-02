@@ -53,8 +53,13 @@ getAllUsers(osbbId:number):Promise<User[]> {
             .then(res => res.json())
             .catch(this.handleError);
     }
-
+listAllUsersInOsbb(osbbId:number):Observable<any>{
+ return this.http.get(`${this.getUsers}/${osbbId}`, this.login.getRequestOptionArgs())
+            .map(res => res.json())
+            .catch(this.handleError);
+}
 addTicket(ticket:ITicket):Promise<ITicket> {
+  console.log('ticket service.add start')
         return this.http.post(UrlListConfig.URL_LIST.ticketUrl, JSON.stringify(ticket), this.login.getRequestOptionArgs())
             .toPromise()
             .then(res => res.json())
@@ -70,6 +75,14 @@ addTicket(ticket:ITicket):Promise<ITicket> {
             .toPromise()
             .then(res => ticket)
             .catch(this.handleError);
+    };
+
+   editTicket(ticket:ITicket):Promise<ITicket>{
+     // ticket.discussed=new Date();
+      return this.http.put(UrlListConfig.URL_LIST.ticketUrl+`${ticket.ticketId}`,this.login.getRequestOptionArgs())
+      .toPromise()
+      .then(res=>ticket)
+      .catch(this.handleError);
     }
 
 }

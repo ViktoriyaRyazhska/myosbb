@@ -15,6 +15,7 @@
   "confirmDeleteEvents": "Do you really want to delete all events?",
   "createEvent": "create event",
   "calendar": "calendar",
+  "currency": "currency",
   "eventDetails": "event details",
   "title": "title",
   "start": "start",
@@ -54,7 +55,7 @@
   "go_to": "go to",
   "schedule": "schedule",
   "text": "text",
-  "description": "description",
+  "enterTicketDescription": "Enter description",
   "providers": "providers",
   "company": "company",
   "type": "type",
@@ -147,6 +148,8 @@
   "confirmDelTicket": "Remove this ticket?",
   "removingTicket": "Removing",
   "nameTicket": "Name",
+  "ticketsName": "Ticket name",
+   "assignee": "Assignee",
   "descriptionTicket": "Description",
   "authorTicket": "Author",
   "dateTicket": "Date",
@@ -326,9 +329,6 @@
   "gender_male": "Male",
   "gender_female": "Female",
   "could_not_update": "Could not perform update",
-  "add_to_osbb": "Add To Osbb",
-  "select_from_list" :"Select from list",
-  "adding":"Adding",
 
  "select_ownership":"select ownership",
   "select_ap_number":"apartment number",
@@ -373,5 +373,9 @@
   "some_data_null":"some required field was not provided",
   "email_null":"email was not provided",
   "removingApartment":"remove apartment",
-  "rm_ap_alert":"all users will be removed too"
+  "rm_ap_alert":"all users will be removed too",
+
+"enteTicketName": "Enter ticket name",
+"enterAssignee": "Select Assignee",
+"assigneeError": "Assignee is not selected"
   }

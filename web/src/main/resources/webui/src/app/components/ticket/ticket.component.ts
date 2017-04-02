@@ -1,6 +1,8 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  Input,
+  NgModule
 } from '@angular/core';
 import {
   Router,
@@ -12,7 +14,9 @@ import 'rxjs/add/operator/switchMap';
 import { TicketService } from './ticket.service';
 import { LoginService } from '../../shared/login/login.service';
 import { PageRequest } from '../../models/pageRequest.model';
+import {TicketAddFormComponent} from './components/ticketAddFormComponent/ticket-add-form.component'
 import {User} from '../../models/user.model';
+import {Ticket, TicketState, ITicket} from "../../models/ticket.model";
 @Component({
     selector: 'ticket',
     styleUrls: [
@@ -26,6 +30,9 @@ import {User} from '../../models/user.model';
 })
 
 export class TicketComponent implements OnInit {
+ @Input() ticket:Ticket;
+  private ticketArr:ITicket[] = [];
+  private updatedTicket:ITicket;
   public resData: any;
   public pageRequest = new PageRequest(1, 10, 'time', false);
   public title: string = 'Tickets';
@@ -46,6 +53,35 @@ export class TicketComponent implements OnInit {
         this.resData = response.rows;
       });
   };
+
+  createTicket(ticket:ITicket):void{
+    console.log('ticket component')
+    this.ticketService.addTicket(ticket).
+    then(ticket=>this.addTicket(ticket));
+  }
+private addTicket(ticket:ITicket):void{
+  this.resData.unshift(ticket)
+}
+
+  deleteTicket(ticket:ITicket):void {
+        this.ticketService.deleteTicket(ticket).then(ticket => this.deleteTicketFromArr(ticket));
+    }
+
+    editTicket(ticket:ITicket):void{
+      this.ticketService.editTicket(ticket);
+      let index=this.resData.indexOf(ticket);
+      if(index>1){
+        this.resData[index]=ticket;
+      }
+    }
+
+
+    private deleteTicketFromArr(ticket:ITicket):void {
+        let index = this.resData.indexOf(ticket);
+        if (index > -1) {
+            this.resData.splice(index, 1);
+        }
+    }
 
   public findTicketByState(state: string) {
     this.ticketService.findByState(state)
