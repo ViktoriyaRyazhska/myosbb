@@ -11,10 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.*;
-//import javax.xml.bind.annotation.XmlAttribute;
-//import javax.xml.bind.annotation.XmlElement;
-//import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.softserve.osbb.utils.TimestampAdapter;
@@ -22,7 +21,6 @@ import com.softserve.osbb.utils.TimestampAdapter;
 @Entity
 @Table(name = "chat")
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Chat implements Serializable {
 
 	private static final long serialVersionUID = 1L;
