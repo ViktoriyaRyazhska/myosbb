@@ -27,6 +27,10 @@ import javax.xml.bind.JAXBException;
 @RequestMapping("/restful/chat")
 public class ChatController {
 
+	private static final int DELETION_ZONE = 6;
+	
+	private static final int WRITING_ZONE = 5;
+	
 	@Autowired
 	private ChatService chatService;
 
@@ -36,10 +40,10 @@ public class ChatController {
 		Chat chat = new Chat(message.getMessage(), new Timestamp(System.currentTimeMillis()), user.getUser());
 		chatService.save(chat);		
 
-		if (chatService.countChatMessages() >= 6) {
-			chatService.deleteHalf();
+		if (chatService.countChatMessages() >= DELETION_ZONE) {
+			chatService.cleanDB();
 		}
-		if (chatService.countChatMessages() >= 5) {
+		if (chatService.countChatMessages() >= WRITING_ZONE) {
 			try {
 				chatService.writeFile();
 			} catch (IOException | JAXBException e) {

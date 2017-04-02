@@ -81,7 +81,7 @@ public class Chat implements Serializable {
 		return user;
 	}
 	
-	@XmlAttribute
+	@XmlTransient
 	public void setUser(User user) {
 		this.user = user;
 	}

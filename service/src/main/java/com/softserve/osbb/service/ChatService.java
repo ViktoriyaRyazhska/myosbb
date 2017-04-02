@@ -32,9 +32,9 @@ public interface ChatService {
 
 	List<Chat> findAll();
 
-	void deleteHalf();
+	void cleanDB();
 	
-	List<Chat> getHalf();
+	List<Chat> getPartMessages();
 	
 	long countChatMessages();
 	
