@@ -2,7 +2,6 @@ package com.softserve.osbb.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -123,7 +122,7 @@ public class ChatServiceImpl implements ChatService{
 
 		listOfMessages = (ListMessages) jaxbUnmarshaller.unmarshal(input);
 		List<Chat> list = listOfMessages.getMessages();
-		boolean isAdded=list.addAll(chatService.getPartMessages());
+		boolean isAdded = list.addAll(chatService.getPartMessages());
 		listOfMessages.setMessages(list);
 
 		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
