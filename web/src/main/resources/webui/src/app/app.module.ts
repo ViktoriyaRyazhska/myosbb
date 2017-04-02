@@ -53,6 +53,7 @@ import {APP_RESOLVER_PROVIDERS}      from './app.resolver';
 import {AppState, InternalStateType} from './app.service';
 import {OSBBComponent} from './components/osbb';
 import {HouseAboutComponent} from './components/house';
+import { ProviderAboutComponent } from './components/provider-info';
 import {EventsDetailComponent} from './components/events/eventsDetail';
 import {UsersComponent} from './components/users';
 import {LoginComponent}              from './shared/login';
@@ -65,6 +66,7 @@ import {EventsComponent}             from './components/events';
 import {OsbbBillsComponent}          from './components/osbbBils';
 import {ContractsComponent}          from  './components/contracts';
 import {TicketComponent}             from './components/ticket';
+import { ChatComponent }             from './components/chat';
 import {ProviderComponent}           from './components/provider';
 import {ApartmentComponent}          from './components/apartments';
 import {ApartmentAboutComponent}     from './components/apartment';
@@ -143,7 +145,9 @@ type StoreType = {
         TicketComponent,
         SidebarComponent,
         HouseAboutComponent,
+    	ProviderAboutComponent,
         SubTicketComponent,
+    	ChatComponent,
         UserComponent,
         UsersComponent,
         SetLanguageComponent,

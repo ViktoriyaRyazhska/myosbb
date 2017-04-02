@@ -1,4 +1,4 @@
-package org.test;
+package com.softserve.osbb.test;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyInt;

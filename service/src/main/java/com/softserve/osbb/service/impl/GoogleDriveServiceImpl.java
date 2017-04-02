@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +32,7 @@ import com.google.api.services.drive.model.File;
 import com.softserve.osbb.model.User;
 import com.softserve.osbb.service.GoogleDriveService;
 import com.softserve.osbb.service.UserService;
+import com.softserve.osbb.service.exceptions.EmptyFileException;
 import com.softserve.osbb.service.exceptions.GoogleDriveException;
 
 /**
@@ -85,6 +87,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 	@Autowired
 	private UserService userService;
 
+
 	/** Global instance of the HTTP transport. */
 	private HttpTransport HTTP_TRANSPORT;
 
@@ -124,6 +127,12 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 	private void validateName(String folderName) {
 		if (!folderName.matches(PATTERN)) {
 			throw new IllegalArgumentException("Folder name '" + folderName + "' not allowed!");
+		}
+	}
+	
+	public void validateEmptyFile(java.io.InputStream inputStream) throws EmptyFileException {
+		if(inputStream==null){
+			throw new EmptyFileException("cannot upload empty file");
 		}
 	}
 
@@ -215,7 +224,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		return getFileWithFields(parentId, CORE);
 	}
 
-	private File findByName(String folderName, String parentId) {
+	public File findByName(String folderName, String parentId) {
 
 		File folder = null;
 		List<File> childrenFiles = findByParentId(parentId);
@@ -225,11 +234,10 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		}
 		return folder;
 	}
-	
+
 	/**
-	 * Upload user photo to Google Drive
-	 * Create folder with name as User's email 
-	 * Don't use this method if  User's email has been changed
+	 * Upload user photo to Google Drive Create folder with name as User's email
+	 * Don't use this method if User's email has been changed
 	 */
 
 	@Override
@@ -270,6 +278,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 		validateName(fileName);
 		checkIfExist(fileName, folderId);
 		fileName = new StringBuilder(TEMP).append("/").append(fileName).toString();
+
 		try {
 			createTempCopy(fileName, uploading.getInputStream());
 		} catch (IOException e) {
@@ -287,6 +296,19 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 			processGDE("Could not upload " + fileName);
 		}
 	}
+    
+	@Async
+	public void insertChatFile(String description, String fileName, java.io.File file) {
+		String parentId = APP_FOLDER_ID;
+		File fileMetadata = getFileWithMetadata(fileName, parentId);
+		FileContent mediaContent = new FileContent(null, file);
+		try {
+			File driveFile = driveService.files().create(fileMetadata, mediaContent).setFields("id, parents").execute();
+			file.delete();
+		} catch (IOException e) {
+			processGDE("Could not insert" + fileName);
+		}
+	}
 
 	private void createTempCopy(String path, InputStream in) {
 		try (FileOutputStream fos = new FileOutputStream(new java.io.File(path))) {
@@ -302,18 +324,18 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 			processGDE("IO error occured while trying to make a temporary local copy at " + path);
 		}
 	}
-    
-	
-	
+
 	@Override
 	public void download(String id, HttpServletResponse response) {
 		try {
+			System.out.println(findByName("file.xml", APP_FOLDER_ID));
 			driveService.files().get(id).executeMediaAndDownloadTo(response.getOutputStream());
+		 System.out.println(findByName("file.xml",APP_FOLDER_ID));
 		} catch (IOException e) {
 			processGDE("Error occured while trying to download file with id = " + id);
 		}
-	}
-
+	}	
+	
 	private void processIAE(String message) {
 		LOGGER.error(message);
 		throw new IllegalArgumentException(message);
@@ -322,6 +344,12 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
 	private void processGDE(String message) {
 		LOGGER.error(message);
 		throw new GoogleDriveException(message);
+	}
+
+	@Override
+	public void validateEmptyFile() {
+		
+		
 	}
 
 }

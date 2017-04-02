@@ -1,0 +1,26 @@
+#chatbox {   
+    margin-bottom:25px;  
+    padding:10px;  
+    background:#fff;  
+    height:300px;  
+    border:1px solid #ACD8F0;  
+    overflow-x: hidden;
+    overflow-y: scroll;
+}  
+.wrapper{
+    width:600px;
+    margin-top:20px;
+    margin-left: 40px;  
+    padding-bottom: 40px;
+}
+
+.response {
+    background-color:#DCDCDC;
+    padding: 10px 40px;
+    border: 2px solid white;
+    border-radius: 10px;
+    margin-bottom:15px;
+}
+
+
+

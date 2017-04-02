@@ -134,8 +134,8 @@
               "constraintName": "fk_9owd7fyvy602xgw3rlowyp8ie",
               "deferrable": false,
               "initiallyDeferred": false,
-              "onDelete": "NO ACTION",
-              "onUpdate": "NO ACTION",
+              "onDelete": "CASCADE",
+              "onUpdate": "CASCADE",
               "referencedColumnNames": "provider_id",
               "referencedTableName": "provider"
             }

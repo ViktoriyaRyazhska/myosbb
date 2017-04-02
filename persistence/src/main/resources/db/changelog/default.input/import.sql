@@ -321,6 +321,17 @@ INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VA
 SET @utility_id = LAST_INSERT_ID();
 INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
 INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Ремонт','Примітка',35600,'UAH',2);
+
+INSERT INTO osbb_provider values (1,1);
+INSERT INTO osbb_provider values (1,2);
+INSERT INTO osbb_provider values (2,1);
+INSERT INTO osbb_provider values (3,1);
+INSERT INTO osbb_provider values (1,4);
+INSERT INTO osbb_provider values (5,1);
+INSERT INTO osbb_provider values (5,3);
+INSERT INTO osbb_provider values (5,4);
+INSERT INTO osbb_provider values (5,2);
+
 SET @utility_id = LAST_INSERT_ID();
 INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
 INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Ремонт під`їзду','Примітка Підпослуга',15400,'UAH',1,4);

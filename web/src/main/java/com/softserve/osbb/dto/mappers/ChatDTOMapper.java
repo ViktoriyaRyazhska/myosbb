@@ -15,8 +15,8 @@ public class ChatDTOMapper {
 	            chatDTO.setChatId(chat.getChatId());
 	            chatDTO.setMessage(chat.getMessage());
 	            chatDTO.setAnswers(answerList);
-	            chatDTO.setMessageTime(chat.getMessageTime());
-	            chatDTO.setUser(chat.getUser());
+//	            chatDTO.setMessageTime(chat.getMessageTime());
+//	            chatDTO.setUser(chat.getUser());
 	        }
 	        return chatDTO;
 	    }
@@ -27,8 +27,8 @@ public class ChatDTOMapper {
 	        if(chat != null) {
 	            chat.setChatId(chatDTO.getChatId());
 	            chat.setMessage(chatDTO.getMessage());
-	            chat.setMessageTime(chatDTO.getMessageTime());
-	            chat.setUser(user);
+//	            chat.setMessageTime(chatDTO.getMessageTime());
+//	            chat.setUser(user);
 	        }
 	        return chat;
 	    }

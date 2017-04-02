@@ -76,6 +76,12 @@
                     "name": "logo_id",
                     "type": "INT"
                   }
+                },
+               {
+                  "column": {
+                    "name": "provider_id",
+                    "type": "INT"
+                  }
                 }
               ],
               "tableName": "osbb"
@@ -187,6 +193,107 @@
           }
         ]
       }
+    },
+    {
+      "changeSet": {
+        "id": "2017/03/12-1",
+        "author": "RomanKarplaik",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "createTable": {
+              "columns": [
+                {
+                  "column": {
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "name": "osbb_id",
+                    "type": "INT"
+                  }
+                },
+                {
+                  "column": {
+                    "constraints": {
+                      "nullable": false
+                    },
+                    "name": "provider_id",
+                    "type": "INT"
+                  }
+                }
+              ],
+              "tableName": "osbb_provider"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2017/03/12-2",
+        "author": "RomanKarpliak",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "osbb_id",
+              "baseTableName": "osbb_provider",
+              "constraintName": "fk_bi920n4vsxsssfa2tsfv3k215",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "CASCADE",
+              "onUpdate": "CASCADE",
+              "referencedColumnNames": "osbb_id",
+              "referencedTableName": "osbb"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2017/03/12-3",
+        "author": "RomanKarplaik",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "provider_id",
+              "baseTableName": "osbb_provider",
+              "constraintName": "fk_svijsvlssjvjsvosvhjsiovh",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete":"CASCADE",
+              "onUpdate":"CASCADE",
+              "referencedColumnNames": "provider_id",
+              "referencedTableName": "provider"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "2017/03/12-4",
+        "author": "RomanKarplaik",
+        "objectQuotingStrategy": "QUOTE_ALL_OBJECTS",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "provider_id",
+              "baseTableName": "osbb",
+              "constraintName": "fk_rshjvsgvuqewg12jg1jgscus",
+              "deferrable": false,
+              "initiallyDeferred": false,
+              "onDelete": "CASCADE",
+              "onUpdate": "CASCADE",
+              "referencedColumnNames": "provider_id",
+              "referencedTableName": "provider"
+            }
+          }
+        ]
+      }
     }
   ]
 }
+   

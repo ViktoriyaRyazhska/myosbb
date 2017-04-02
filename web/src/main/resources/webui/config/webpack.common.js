@@ -123,6 +123,8 @@ module.exports = function (options) {
                 aot: AOT
               }
             },
+            
+            
             {
               loader: 'awesome-typescript-loader',
               options: {
@@ -375,6 +377,7 @@ module.exports = function (options) {
       process: true,
       module: false,
       clearImmediate: false,
+      net:'empty',
       setImmediate: false
     }
 
