@@ -29,9 +29,9 @@ import com.softserve.osbb.service.GoogleDriveService;
 @Scope( proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ChatServiceImpl implements ChatService{
 
-	private static String driveFolderId ="1VQ-fkh7WmLYsx_gYvqmAWS7QWj6h";
+	private static final String DRIVE_FOLDER_ID ="1VQ-fkh7WmLYsx_gYvqmAWS7QWj6h";
 	
-	private static String driveFileName = "file.xml";
+	private static final String DRIVE_FILE_NAME = "ChatHistory.xml";
 	
 	@Autowired
 	ChatRepository chatRepository;	
@@ -96,14 +96,14 @@ public class ChatServiceImpl implements ChatService{
 
 	@Transactional
 	@Override
-	public void deleteHalf() {
-		chatRepository.deleteHalf();
+	public void cleanDB() {
+		chatRepository.cleanDB();
 	}
 	
 	@Transactional
 	@Override
-	public List<Chat> getHalf(){
-		return chatRepository.getHalf();
+	public List<Chat> getPartMessages(){
+		return chatRepository.getPartMessages();
 	}
 
 	@Override
@@ -113,8 +113,8 @@ public class ChatServiceImpl implements ChatService{
 	@Async
 	@Override
 	public void writeFile() throws IOException, JAXBException {
-		File file = new File(driveFileName);
-		InputStream input = googleDriveService.getInput(googleDriveService.findByName(driveFileName, driveFolderId).getId());
+		File file = new File(DRIVE_FILE_NAME);
+		InputStream input = googleDriveService.getInput(googleDriveService.findByName(DRIVE_FILE_NAME, DRIVE_FOLDER_ID).getId());
 		ListMessages listOfMessages = new ListMessages();
 		
 		JAXBContext jaxbContext = JAXBContext.newInstance(ListMessages.class, Chat.class);
@@ -123,13 +123,13 @@ public class ChatServiceImpl implements ChatService{
 
 		listOfMessages = (ListMessages) jaxbUnmarshaller.unmarshal(input);
 		List<Chat> list = listOfMessages.getMessages();
-		boolean isAdded=list.addAll(chatService.getHalf());
+		boolean isAdded=list.addAll(chatService.getPartMessages());
 		listOfMessages.setMessages(list);
 
 		jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		jaxbMarshaller.marshal(listOfMessages, file);
 		
-		googleDriveService.delete(googleDriveService.findByName(driveFileName,  driveFolderId).getId());
+		googleDriveService.delete(googleDriveService.findByName(DRIVE_FILE_NAME,  DRIVE_FOLDER_ID).getId());
 		googleDriveService.insertChatFile("Chat messages", file.getName(), file);
 	}	
 

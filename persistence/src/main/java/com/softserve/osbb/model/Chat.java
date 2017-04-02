@@ -22,7 +22,6 @@ import com.softserve.osbb.utils.TimestampAdapter;
 @Entity
 @Table(name = "chat")
 @XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Chat implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -83,7 +82,7 @@ public class Chat implements Serializable {
 		return user;
 	}
 	
-	@XmlAttribute
+	@XmlTransient
 	public void setUser(User user) {
 		this.user = user;
 	}
