@@ -14,6 +14,7 @@ import { OSBBComponent } from '../components/osbb';
 import { HouseAboutComponent } from '../components/house';
 import { EventsDetailComponent } from '../components/events/eventsDetail';
 import { UsersComponent } from '../components/users';
+import { ChatComponent } from '../components/chat';
 
 export const AdminRoutes: Routes = [
   { path: 'admin',  component: AdminComponent,
@@ -33,7 +34,8 @@ export const AdminRoutes: Routes = [
       { path: 'calendar', component: CalendarComponent },
       { path: 'osbb', component: OSBBComponent },
       { path: 'house/:id', component: HouseAboutComponent },
-      { path: 'users', component: UsersComponent }
+      { path: 'users', component: UsersComponent },
+      { path: 'chat', component: ChatComponent }
     ]
   },
 ];

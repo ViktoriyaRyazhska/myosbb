@@ -1,0 +1,27 @@
+<div class="content">
+  <breadcrumb [header]="title"></breadcrumb>
+  <div class="wrapper">
+      <div #chatbox id="chatbox" [scrollTop]="chatbox.scrollHeight" class="form-control" >
+        <div *ngFor="let m of messages"  class="response" >
+         <span>{{ m.user.firstName }}
+            {{ m.user.lastName }}
+         </span>
+         <span > <b> {{m.messageTime  | date: 'short' }}: </b> </span>
+          <span > {{m.message}} </span>
+        </div>
+        <div *ngFor="let response of serverResponse"  class="response" >
+         <span>{{ currentUser.firstName }}
+            {{ currentUser.lastName }}
+        </span>
+         <span > <b> {{response.messageTime  | date: 'short' }}: </b> </span>
+          <span > {{response.message}} </span>
+        </div>
+      </div>
+      <div>
+        <label>Enter message:</label>
+        <textarea name="inputField" [(ngModel)]="inputField" class="form-control"> </textarea>
+        <br />
+        <button class="btn btn-primary" (click)="send()">Send message</button>
+      </div>
+  </div>
+</div>

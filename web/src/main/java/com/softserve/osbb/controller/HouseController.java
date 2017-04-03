@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.Principal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -54,6 +55,7 @@ import com.softserve.osbb.model.User;
 import com.softserve.osbb.service.ApartmentService;
 import com.softserve.osbb.service.GoogleDriveService;
 import com.softserve.osbb.service.AppartmentUserRegistrationService;
+import com.softserve.osbb.service.ChatService;
 import com.softserve.osbb.service.HouseService;
 import com.softserve.osbb.service.OsbbService;
 import com.softserve.osbb.service.RegistrationService;
@@ -79,6 +81,12 @@ public class HouseController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HouseController.class);
 
+	
+	@Autowired
+    private ChatService chatService;
+	
+	
+	
 	@Autowired
 	private HouseService houseService;
 
@@ -311,7 +319,7 @@ public class HouseController {
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "upload/{userEmail:.+}", method = RequestMethod.POST)
 	public void upload(@PathVariable String userEmail, @RequestParam("file") MultipartFile file) {
-		driveService.uploadUserPhoto(file, userEmail);
+		driveService.uploadUserPhoto(file, userEmail);	
 	}
 
 	@RequestMapping(value = "/street/{id}", method = RequestMethod.GET)
@@ -340,6 +348,8 @@ public class HouseController {
 
 		return valid;
 	}
+	
+	
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Resource<HouseDTO>> getHouseById(@PathVariable("id") Integer houseId) {

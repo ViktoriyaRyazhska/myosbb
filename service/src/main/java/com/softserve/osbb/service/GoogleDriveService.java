@@ -40,5 +40,10 @@ public interface GoogleDriveService {
     
     public InputStream getInput(String fileId) throws IOException;
     
+    public void insertChatFile (String description, String fileName, java.io.File file);
+    
+    public File findByName(String folderName, String parentId);
+    
+    public void validateEmptyFile();
     
 }

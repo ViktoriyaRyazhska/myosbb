@@ -8,8 +8,12 @@ package com.softserve.osbb.controller;
 
 import com.softserve.osbb.dto.OsbbDTO;
 import com.softserve.osbb.dto.mappers.OsbbDTOMapper;
+import com.softserve.osbb.model.Apartment;
 import com.softserve.osbb.model.Osbb;
+import com.softserve.osbb.model.Provider;
 import com.softserve.osbb.service.OsbbService;
+import com.softserve.osbb.util.resources.impl.EntityResourceList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,110 +36,140 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RequestMapping("/restful/osbb")
 public class OsbbController {
 
-    private static final Logger logger = LoggerFactory.getLogger(OsbbController.class);
+	private static final Logger logger = LoggerFactory.getLogger(OsbbController.class);
 
-    @Autowired
-    private OsbbService osbbService;
+	@Autowired
+	private OsbbService osbbService;
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Resource<Osbb>> createOsbb(@RequestBody Osbb osbb) {
-        logger.info("Create osbb:  " + osbb);
-        osbb.setLogo(osbb.getLogo());
-        Osbb savedOsbb = osbbService.addOsbb(osbb);
-        return new ResponseEntity<>(addResourceLinkToOsbb(savedOsbb), HttpStatus.OK);
-    }
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Resource<Osbb>> createOsbb(@RequestBody Osbb osbb) {
+		logger.info("Create osbb:  " + osbb);
+		osbb.setLogo(osbb.getLogo());
+		Osbb savedOsbb = osbbService.addOsbb(osbb);
+		return new ResponseEntity<>(addResourceLinkToOsbb(savedOsbb), HttpStatus.OK);
+	}
 
-    @RequestMapping(value = "/dto/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Resource<OsbbDTO>> getOsbbDTOById(@PathVariable("id") Integer osbbId) {
-        logger.info("Get one osbbDto by id: " + osbbId);
-        Osbb osbb = osbbService.getOsbb(osbbId);
-        return new ResponseEntity<>(addResourceLinkToOsbb(OsbbDTOMapper.mapOsbbEntityToDTO(osbb)), HttpStatus.OK);
-    }
+	@RequestMapping(value = "/dto/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Resource<OsbbDTO>> getOsbbDTOById(@PathVariable("id") Integer osbbId) {
+		logger.info("Get one osbbDto by id: " + osbbId);
+		Osbb osbb = osbbService.getOsbb(osbbId);
+		return new ResponseEntity<>(addResourceLinkToOsbb(OsbbDTOMapper.mapOsbbEntityToDTO(osbb)), HttpStatus.OK);
+	}
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Resource<Osbb>> getOsbbById(@PathVariable("id") Integer osbbId) {
-        logger.info("Get one osbb by id: " + osbbId);
-        Osbb osbb = osbbService.getOsbb(osbbId);
-        return new ResponseEntity<>(addResourceLinkToOsbb(osbb), HttpStatus.OK);
-    }
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Resource<Osbb>> getOsbbById(@PathVariable("id") Integer osbbId) {
+		logger.info("Get one osbb by id: " + osbbId);
+		Osbb osbb = osbbService.getOsbb(osbbId);
+		return new ResponseEntity<>(addResourceLinkToOsbb(osbb), HttpStatus.OK);
+	}
 
-    @RequestMapping(value = "/search/{name}", method = RequestMethod.GET)
-    public ResponseEntity<List<Resource<Osbb>>> getOsbbByNameContaining(@PathVariable("name") String osbbName) {
-        logger.info("Get all osbb: " +  osbbName);
-        List<Osbb> osbbList = osbbService.findByNameContaining(osbbName);
-        final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
-        
-        for(Osbb o: osbbList) {
-            resourceOsbbList.add(addResourceLinkToOsbb(o));
-        }
-        
-        return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
-    }
+	@RequestMapping(value = "/search/{name}", method = RequestMethod.GET)
+	public ResponseEntity<List<Resource<Osbb>>> getOsbbByNameContaining(@PathVariable("name") String osbbName) {
+		logger.info("Get all osbb: " + osbbName);
+		List<Osbb> osbbList = osbbService.findByNameContaining(osbbName);
+		final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<Resource<Osbb>>> getAllOsbbByOrder(
-            @RequestParam(value = "sortedBy", required = false) String sortedBy,
-            @RequestParam(value = "asc", required = false) Boolean ascOrder) {
-        logger.info("Get all osbb by order: '" + sortedBy + "'. AscOrder: '" + ascOrder + "'.");
-        List<Osbb> osbbList = osbbService.getAllByOrder(sortedBy, ascOrder);
-        final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
-        
-        for(Osbb o: osbbList) {
-            resourceOsbbList.add(addResourceLinkToOsbb(o));
-        }
-        
-        return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
-    }
+		for (Osbb o : osbbList) {
+			resourceOsbbList.add(addResourceLinkToOsbb(o));
+		}
 
-    @RequestMapping(value = "status/{available}",method = RequestMethod.GET)
-    public ResponseEntity<List<Resource<Osbb>>> getByActive(@PathVariable("available") Boolean available) {
-        logger.info("Get osbb by active: " + available);
-        List<Osbb> osbbList = osbbService.findByAvailable(available);
-        final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
-        
-        for(Osbb o: osbbList) {
-            resourceOsbbList.add(addResourceLinkToOsbb(o));
-        }
-        
-        return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
-    }
+		return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
+	}
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<Resource<Osbb>> updateOsbb(@RequestBody Osbb osbb) {
-        logger.info("Update osbb with id: " + osbb.getOsbbId());
-        Osbb updatedOsbb = osbbService.updateOsbb(osbb);
-        return new ResponseEntity<>(addResourceLinkToOsbb(updatedOsbb), HttpStatus.OK);
-    }
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<Resource<Osbb>>> getAllOsbbByOrder(
+			@RequestParam(value = "sortedBy", required = false) String sortedBy,
+			@RequestParam(value = "asc", required = false) Boolean ascOrder) {
+		logger.info("Get all osbb by order: '" + sortedBy + "'. AscOrder: '" + ascOrder + "'.");
+		List<Osbb> osbbList = osbbService.getAllByOrder(sortedBy, ascOrder);
+		final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Resource<Osbb>> deleteOsbb(@PathVariable("id") Integer id) {
-        logger.info("Delete osbb with id: " + id );
-        osbbService.deleteOsbb(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+		for (Osbb o : osbbList) {
+			resourceOsbbList.add(addResourceLinkToOsbb(o));
+		}
 
-    private Resource<Osbb> addResourceLinkToOsbb(Osbb osbb) {
-        if (osbb == null) {
-            return null;
-        }
-        
-        Resource<Osbb> osbbResource = new Resource<>(osbb);
-        osbbResource.add(linkTo(methodOn(OsbbController.class)
-                .getOsbbById(osbb.getOsbbId()))
-                .withSelfRel());
-        return osbbResource;
-    }
+		return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
+	}
 
-    private Resource<OsbbDTO> addResourceLinkToOsbb(OsbbDTO osbb) {
-        if (osbb == null) {
-            return null;
-        }
-        
-        Resource<OsbbDTO> osbbResource = new Resource<>(osbb);
-        osbbResource.add(linkTo(methodOn(OsbbController.class)
-                .getOsbbById(osbb.getOsbbId()))
-                .withSelfRel());
-        return osbbResource;
-    }
-    
+	@RequestMapping(value = "/{id}/providers", method = RequestMethod.GET)
+	public ResponseEntity<List<Provider>> getAllProvidersByOsbbId(@PathVariable("id") Integer osbbId) {
+		logger.info("Geting all providers by osbbId: " + osbbId);
+		final Osbb osbb = osbbService.getOsbb(osbbId);
+		ResponseEntity<List<Provider>> response = null;
+		if (osbb != null) {
+			final List<Provider> providerList = new ArrayList<>();
+			providerList.addAll(osbb.getProviders());
+			logger.info("All providers" + providerList);
+			response = new ResponseEntity<>(providerList, HttpStatus.OK);
+		} else {
+			logger.error("Error finding osbb by id: ", osbbId);
+			response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return response;
+	}
+
+	@RequestMapping(value = "/provider/{id}", method = RequestMethod.POST)
+	public ResponseEntity<Provider> addProviderToOsbb(@PathVariable("id") Integer id, @RequestBody Provider provider) {
+		final Osbb osbb = osbbService.getOsbb(id);
+		ResponseEntity<Provider> response = null;
+		if (osbb != null) {
+			List<Provider> osbbProviders = osbb.getProviders();
+			osbbProviders.add(provider);
+			osbb.setProviders(osbbProviders);
+			osbbService.updateOsbb(osbb);
+			response = new ResponseEntity<>(provider, HttpStatus.OK);
+		} else {
+			logger.error("Couldn't add provider to osbb: ", id);
+			response = new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+		}
+		return response;
+	}
+
+	@RequestMapping(value = "status/{available}", method = RequestMethod.GET)
+	public ResponseEntity<List<Resource<Osbb>>> getByActive(@PathVariable("available") Boolean available) {
+		logger.info("Get osbb by active: " + available);
+		List<Osbb> osbbList = osbbService.findByAvailable(available);
+		final List<Resource<Osbb>> resourceOsbbList = new ArrayList<>();
+
+		for (Osbb o : osbbList) {
+			resourceOsbbList.add(addResourceLinkToOsbb(o));
+		}
+
+		return new ResponseEntity<>(resourceOsbbList, HttpStatus.OK);
+	}
+
+	@RequestMapping(method = RequestMethod.PUT)
+	public ResponseEntity<Resource<Osbb>> updateOsbb(@RequestBody Osbb osbb) {
+		logger.info("Update osbb with id: " + osbb.getOsbbId());
+		Osbb updatedOsbb = osbbService.updateOsbb(osbb);
+		return new ResponseEntity<>(addResourceLinkToOsbb(updatedOsbb), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Resource<Osbb>> deleteOsbb(@PathVariable("id") Integer id) {
+		logger.info("Delete osbb with id: " + id);
+		osbbService.deleteOsbb(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	private Resource<Osbb> addResourceLinkToOsbb(Osbb osbb) {
+		if (osbb == null) {
+			return null;
+		}
+
+		Resource<Osbb> osbbResource = new Resource<>(osbb);
+		osbbResource.add(linkTo(methodOn(OsbbController.class).getOsbbById(osbb.getOsbbId())).withSelfRel());
+		return osbbResource;
+	}
+
+	private Resource<OsbbDTO> addResourceLinkToOsbb(OsbbDTO osbb) {
+		if (osbb == null) {
+			return null;
+		}
+
+		Resource<OsbbDTO> osbbResource = new Resource<>(osbb);
+		osbbResource.add(linkTo(methodOn(OsbbController.class).getOsbbById(osbb.getOsbbId())).withSelfRel());
+		return osbbResource;
+	}
+
 }

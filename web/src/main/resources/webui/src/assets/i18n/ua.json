@@ -40,6 +40,7 @@
   "contract": "контракт",
   "adress": "адреса",
   "events": "події",
+  "description": "примітка",
   "allEvents": "всі події",
   "myEvents": "мої події",
   "name": "назва",
@@ -331,6 +332,9 @@
   "gender_male": "Чоловік",
   "gender_female": "Жінка",
   "could_not_update": "Не вдалось зберегти зміни",
+  "add_to_osbb": "Додати до ОСББ",
+  "select_from_list" :"Вибрати зі списку",
+  "adding":"Додавання",
  
   "select_ownership": "виберіть право власності",
   "select_ap_number": "номер квартири",

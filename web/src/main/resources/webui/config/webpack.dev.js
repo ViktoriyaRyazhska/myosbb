@@ -54,6 +54,8 @@ module.exports = function (options) {
      *
      * See: http://webpack.github.io/docs/configuration.html#output
      */
+    
+   
     output: {
 
       /**
@@ -249,6 +251,7 @@ module.exports = function (options) {
     node: {
       global: true,
       crypto: 'empty',
+      net:'empty',
       process: true,
       module: false,
       clearImmediate: false,

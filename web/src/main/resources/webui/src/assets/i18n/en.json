@@ -1,3 +1,4 @@
+
 {
   "apartment": "apartment",
   "apartments": "apartments",
@@ -70,7 +71,7 @@
   "PERMANENT_YEARLY": "yearly",
   "PERMANENT_MONTHLY": "monthly",
   "search": "search",
-  "edit": "Edit Ticket",
+  "edit": "Edit",
   "delete": "Delete",
   "GoToProviderPage": "Go to provider page",
   "required": "required",
@@ -155,7 +156,7 @@
   "dateTicket": "Date",
   "answer": "Assigned",
   "state": "State",
-  "editTicket": "Edit",
+  "editTicket": "Edit Ticket",
   "deleteTicket": "Remove",
   "optionsTicket": "options",
   "changeStatus": "To Change status",
@@ -362,6 +363,7 @@
   "clear": "Clear",
   "add_sub_utility": "Add sub-utility",
   "choose_houses": "Choose houses",
+  "description": "description",
 
   
   "user_appartment_success":"Apartment with user were successfully added",

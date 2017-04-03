@@ -7,6 +7,7 @@ import { OsbbBillsComponent } from '../components/osbbBils';
 import { ContractsComponent } from '../components/contracts';
 import { TicketComponent  } from '../components/ticket';
 import { ProviderComponent } from '../components/provider';
+import { ProviderAboutComponent } from '../components/provider-info';
 import { ApartmentComponent } from '../components/apartments';
 import { ApartmentAboutComponent } from '../components/apartment';
 import { CalendarComponent } from '../components/calendar';
@@ -17,6 +18,7 @@ import { OsbbDocumentsAndReportsComponent } from '../components/osbb-docs-and-re
 import { OsbbContactsComponent } from '../components/osbb-contacts';
 import { LogedInGuard } from '../services/loged-in-guard.service';
 import { UtilitiesComponent } from '../components/utilities';
+import { ChatComponent } from '../components/chat';
 
 export const ManagerRoutes: Routes = [
   { path: 'manager',  component: ManagerComponent,
@@ -37,8 +39,10 @@ export const ManagerRoutes: Routes = [
       { path: 'apartment/:id', component: ApartmentAboutComponent },
       { path: 'calendar', component: CalendarComponent },
       { path: 'house/:id', component: HouseAboutComponent },
+      { path: 'provider-info/:id', component: ProviderAboutComponent },
       { path: 'contacts', component: OsbbContactsComponent },
       { path: 'documents-and-reports', component: OsbbDocumentsAndReportsComponent },
-      { path: 'utilities', component: UtilitiesComponent}
+      { path: 'utilities', component: UtilitiesComponent},
+      { path: 'chat', component: ChatComponent }
     ]},
 ];

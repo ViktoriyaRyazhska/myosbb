@@ -1,10 +1,24 @@
 package com.softserve.osbb.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import com.softserve.osbb.model.Chat;
 
-public interface ChatRepository extends JpaRepository<Chat, Integer> {
 
+
+@Repository
+public interface ChatRepository extends JpaRepository<Chat, Integer> {
+	
+	@Modifying
+	@Query(value="DELETE FROM chat ORDER BY chat_id ASC limit 5",  nativeQuery = true)
+	 public void cleanDB();
+	
+	@Query(value="SELECT * FROM chat ORDER BY chat_id ASC limit 5",  nativeQuery = true)
+	public List<Chat> getPartMessages();
 	
 }
