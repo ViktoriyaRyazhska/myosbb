@@ -311,16 +311,16 @@ INSERT into event(title, author, start_time, end_time, description, repeats, osb
 '1 липня 2015 р. набрав чинності Закон України «Про особливості здійснення права власності в багатоквартирному будинку».','ONE_TIME',4);
 
 
-INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Прибирання','Примітка',235,'UAH',1);
+INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Прибирання','Примітка',100,'UAH',1);
 SET @utility_id = LAST_INSERT_ID();
 INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
-INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Прибирання Двору','Примітка Підпослуга',153,'UAH',1,1);
+INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Прибирання Двору','Примітка Підпослуга',55,'UAH',1,1);
 SET @utility_id = LAST_INSERT_ID();
 INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
-INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Прибирання сходової клітки','Примітка Підпослуга',82,'UAH',1,1);
+INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Прибирання сходової клітки','Примітка Підпослуга',45,'UAH',1,1);
 SET @utility_id = LAST_INSERT_ID();
 INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
-INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Ремонт','Примітка',35600,'UAH',2);
+INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Ремонт','Примітка',150,'UAH',2);
 
 INSERT INTO osbb_provider values (1,1);
 INSERT INTO osbb_provider values (1,2);
@@ -334,19 +334,19 @@ INSERT INTO osbb_provider values (5,2);
 
 SET @utility_id = LAST_INSERT_ID();
 INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
-INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Ремонт під`їзду','Примітка Підпослуга',15400,'UAH',1,4);
+INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Ремонт під`їзду','Примітка Підпослуга',80,'UAH',1,4);
 SET @utility_id = LAST_INSERT_ID();
 INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
-INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Ремонт дитячої площадки','Примітка Підпослуга',20200,'UAH',1,4);
+INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Ремонт дитячої площадки','Примітка Підпослуга',70,'UAH',1,4);
 SET @utility_id = LAST_INSERT_ID();
 INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
-INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Очищення даху','Очищення даху в зимовий період',40,'UAH',1);
+INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Очищення даху','Очищення даху в зимовий період',60,'UAH',1);
 SET @utility_id = LAST_INSERT_ID();
 INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
 INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Очищення даху від снігу','Очищення даху від снігу в зимовий період, коли спостерігається велика кількість опадів',20,'UAH',1,7);
 SET @utility_id = LAST_INSERT_ID();
 INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
-INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Очищення даху від бурульок','Дах очищується від бурульок в зимовий період, коли спостерігається низька температура',82,'UAH',1,7);
+INSERT into utilities(name,description,price,price_currency,osbb_id,parent_id)VALUES('Очищення даху від бурульок','Дах очищується від бурульок в зимовий період, коли спостерігається низька температура',40,'UAH',1,7);
 SET @utility_id = LAST_INSERT_ID();
 INSERT into house_utility(house_id,utility_id)VALUES(@house_id,@utility_id);
 INSERT into utilities(name,description,price,price_currency,osbb_id)VALUES('Насадження','Примітка',50,'UAH',1);

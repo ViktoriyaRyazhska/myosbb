@@ -16,9 +16,9 @@ export class UtilitiesComponent implements OnInit {
     public deleteUtility: Utility;
     public authRole: string;
     public rowsOnPage = 10;
-    public resData: Utility[];
+    public userUtil: Utility[];
     public dataExpand: boolean[] = [];
-    public utilityId = null;
+    public utilParentId = null;
 
     constructor(public utilityService: UtilitiesService, private LoginService: LoginService) {
     }
@@ -27,7 +27,7 @@ export class UtilitiesComponent implements OnInit {
         this.authRole = this.LoginService.getRole();
         this.utilityService.getUtilitiesForUser()
             .subscribe((data) => {
-                this.resData = data;
+                this.userUtil = data;
             });
 
         this.listUtilities();
@@ -47,8 +47,8 @@ export class UtilitiesComponent implements OnInit {
     }
 
     public checkIfParent(id: number): boolean {
-        for (let i = 0; i < this.resData.length; i++) {
-            if (this.resData[i].parent != null && this.resData[i].parent.utilityId == id) {
+        for (let i = 0; i < this.userUtil.length; i++) {
+            if (this.userUtil[i].parent != null && this.userUtil[i].parent.utilityId == id) {
                 return true;
             }
         }
@@ -65,7 +65,7 @@ export class UtilitiesComponent implements OnInit {
     }
 
     createUtility(utility: Utility) {
-        this.resData.push(utility);
+        this.userUtil.push(utility);
     }
     onDelete(utility: Utility) {
         this.deleteUtility = utility;
@@ -73,7 +73,7 @@ export class UtilitiesComponent implements OnInit {
 
     onConfirmDelete(){
         this.utilityService.deleteUtility(this.deleteUtility)
-        .subscribe(()=>this.resData.splice(this.resData.indexOf(this.deleteUtility, 0), 1));
+        .subscribe(()=>this.userUtil.splice(this.userUtil.indexOf(this.deleteUtility, 0), 1));
     }
 
 }

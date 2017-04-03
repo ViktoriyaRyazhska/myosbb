@@ -15,6 +15,7 @@ import {
     PreloadAllModules
 } from '@angular/router';
 
+import {ChartModule} from 'primeng/components/chart/chart';
 import {TranslateModule, TranslateLoader, TranslateStaticLoader} from 'ng2-translate';
 import {ToasterModule, ToasterService} from 'angular2-toaster';
 import {FileSelectDirective,} from 'ng2-file-upload';
@@ -78,6 +79,7 @@ import {TicketAddFormComponent} from './components/ticket/components/ticketAddFo
 import {TicketEditFormComponent} from './components/ticket/components/ticketEditFromComponent/ticket-edit-form.component';
 import {TicketDelFormComponent} from './components/ticket/components/ticketDelFormComponent/ticket-del-form.component'
 import {TicketEditDiscussedFormComponent} from './components/ticket/components/ticketEditDistFormComponent/ticket-editdiscussed-form.component';
+import {UtilPieChartComponent}         from './components/utilities/piechart';
 import {UtilitiesComponent}            from './components/utilities';
 import {UtilityFormComponent}            from './components/utilities/utility-form';
 
@@ -98,6 +100,7 @@ import {SpecArrayFilterPipe} from './pipes/spec-array-filter.pipe';
 import {CapitalizeFirstLetterPipe} from './pipes/capitalize-first-letter';
 import {CapitalizeLetterPipe} from './pipes/capitalize.firstletter';
 import {BeautifyPhonePipe} from './pipes/phone-beautify';
+import {ChartDataFilterPipe} from './pipes/chart-data';
 // services
 import {OsbbService} from './services/osbb.service';
 import {OsbbConstants} from './services/osbb.constants';
@@ -119,6 +122,7 @@ type StoreType = {
 @NgModule({
     bootstrap: [AppComponent],
     declarations: [
+    	UtilPieChartComponent,
         UtilityFormComponent,
         UtilitiesComponent,
         AppHeaderComponent,
@@ -161,7 +165,8 @@ type StoreType = {
         TicketEditDiscussedFormComponent,
         CapitalizeLetterPipe,
         BeautifyPhonePipe,
-        SpecArrayFilterPipe
+        SpecArrayFilterPipe,
+        ChartDataFilterPipe
     ],
     imports: [
         ReactiveFormsModule,
@@ -192,7 +197,8 @@ type StoreType = {
         AlertModule.forRoot(),
         DatepickerModule.forRoot(),
         ModalModule.forRoot(),
-        DataTableModule
+        DataTableModule,
+        ChartModule
     ],
     providers: [
         ENV_PROVIDERS,

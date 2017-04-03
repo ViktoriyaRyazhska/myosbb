@@ -1,10 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import {Utility} from '../models/utility.model';
 
 @Pipe({
     name: 'specArrayFilter'
 })
 export class SpecArrayFilterPipe implements PipeTransform {
-    transform(items: any[], id: any): any {
+    transform(items: Utility[], id: any): Utility[] {
 
         if (items == null) {
             return null;
