@@ -1,46 +1,39 @@
-<div class="page-content container-fluid " >
+<div class="page-content container-fluid ">
 
-<breadcrumb [header]="title"></breadcrumb>
+  <breadcrumb [header]="title"></breadcrumb>
   <div class="sub-ticket">
-  <div class="row">
-    <div class="col-md-1">
-      <button class="btn btn-default btn-md"
-         [routerLink]="['../']">
+    <div class="row">
+      <div class="col-md-1">
+        <button class="btn btn-default btn-md" [routerLink]="['../']">
           {{'go_back' | translate | capitalize }}
       </button>
-    </div>
-    <div class="container-fluid">
-      <div class="pull-right">
-        {{ticket?.time | date: 'fullDate' | translate}}
+      </div>
+      <div class="container-fluid">
+        <div class="pull-right">
+          {{ticket?.time | date: 'fullDate' | translate}}
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="container-fluid">
-    <span class="sub-ticket_header-text">
+    <div class="container-fluid">
+      <span class="sub-ticket_header-text">
       {{ticket?.name}}
     </span>
-    <span *ngIf=" ticket?.state == '0' || ticket?.state == 'NEW'"
-          class="sub-ticket_label label-text btn-round label-info sub-ticket_label-status">
+      <span *ngIf=" ticket?.state == '0' || ticket?.state == 'NEW'" class="sub-ticket_label label-text btn-round label-info sub-ticket_label-status">
         {{'new'| translate | capitalize}}
      </span>
-     <span *ngIf=" ticket?.state == '1' || ticket?.state == 'IN_PROGRESS'"
-          class="sub-ticket_label btn-round label-success btn-md sub-ticket_label-status">
+      <span *ngIf=" ticket?.state == '1' || ticket?.state == 'IN_PROGRESS'" class="sub-ticket_label btn-round label-success btn-md sub-ticket_label-status">
         {{'in_progress'| translate | capitalize}}
      </span>
-      <span *ngIf=" ticket?.state == '2' || ticket?.state == 'DONE'"
-            class="sub-ticket_label btn-round label-danger btn-md sub-ticket_label-status">
+      <span *ngIf=" ticket?.state == '2' || ticket?.state == 'DONE'" class="sub-ticket_label btn-round label-danger btn-md sub-ticket_label-status">
         {{'done'| translate | capitalize}}
       </span>
       <div class="btn-group ">
-        <button type="button"
-                class="btn-default btn btn-theme dropdown-toggle"
-                data-toggle="dropdown">
+        <button type="button" class="btn-default btn btn-theme dropdown-toggle" data-toggle="dropdown">
           {{'changeStatus'| translate | capitalize }}
           <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu"
-            role="menu">
+        <ul class="dropdown-menu" role="menu">
           <li>
             <a (click)="editState('NEW')">{{ 'new' | translate | capitalize }}</a>
           </li>
@@ -52,120 +45,91 @@
           </li>
         </ul>
       </div>
-    <div class="pull-right create-date ticket-edit-btn">
-      {{'author:' | translate | capitalize}}
-      <a class="sub-ticket_creator-name" href="">
+      <div class="pull-right create-date ticket-edit-btn">
+        {{'author:' | translate | capitalize}}
+        <a class="sub-ticket_creator-name" href="">
         {{ticket?.user.firstName | capitalize}}
         {{ticket?.user.lastName | capitalize}}
       </a>
+      </div>
     </div>
-  </div>
-  <section class="sub-ticket_content">
-    <div>
-      <p>{{'description'| translate | capitalize}}:</p>
-      <p>{{ticket?.description}}</p>
-    </div>
-    <br>
-    <p>
-      {{'deadline'| translate | capitalize}}:
-      <span *ngIf="ticket?.deadline!=null">
+    <section class="sub-ticket_content">
+      <div>
+        <p>{{'description'| translate | capitalize}}:</p>
+        <p>{{ticket?.description}}</p>
+      </div>
+      <br>
+      <p>
+        {{'deadline'| translate | capitalize}}:
+        <span *ngIf="ticket?.deadline!=null">
         {{ticket?.deadline | date: 'fullDate'}}
       </span>
-      <span *ngIf="ticket?.deadline==null">
+        <span *ngIf="ticket?.deadline==null">
         {{'notset'| translate | capitalize}}
       </span>
-    </p>
-    <div>
-      <p *ngIf="ticket?.discussed == null">{{'discussed:' | translate | capitalize}} {{'No'| translate | capitalize}}</p>
-      <div class="ticket-status-display">{{'statusUpdateslast' | translate | capitalize}}:
-        {{ticket?.stateTime | date:'fullDate'| translate }}
-        <button class="btn btn-success pull-right"
-                (click)="editDiscussedForm.initUpdatedTicket(ticket);">
+      </p>
+      <div>
+        <p *ngIf="ticket?.discussed == null">{{'discussed:' | translate | capitalize}} {{'No'| translate | capitalize}}</p>
+        <div class="ticket-status-display">{{'statusUpdateslast' | translate | capitalize}}: {{ticket?.stateTime | date:'fullDate'| translate }}
+          <button class="btn btn-success pull-right" (click)="editDiscussedForm.initUpdatedTicket(ticket);">
           {{'choosedate'| translate | capitalize}}
         </button>
-      </div>
-      <div class="ticket-status-display"
-           *ngIf="ticket?.discussed != null">
-        {{'isDiscussed'| translate | capitalize}}
-        {{ticket?.discussed | date: 'fullDate'| translate}}
-        <button class="btn btn-success pull-right"
-                (click) =" editDiscussedForm.initUpdatedTicket(ticket);">
+        </div>
+        <div class="ticket-status-display" *ngIf="ticket?.discussed != null">
+          {{'isDiscussed'| translate | capitalize}} {{ticket?.discussed | date: 'fullDate'| translate}}
+          <button class="btn btn-success pull-right" (click)=" editDiscussedForm.initUpdatedTicket(ticket);">
           {{'choosedate'| translate | capitalize}}
         </button>
+        </div>
       </div>
-    </div>
-  </section>
-  <div class="dropdown pull-right ticket-edit-btn">
-    <button class="btn btn-default dropdown-toggle"
-            type="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="true" >
+    </section>
+    <div class="dropdown pull-right ticket-edit-btn">
+      <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
       {{'optionsTicket'| translate | capitalize}}
       <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu"
-        aria-labelledby="dropdownMenu1">
-      <li>
-        <a (click)="editForm.initUpdatedTicket(ticket); editForm.openEditModal()">
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        <li>
+          <a (click)="editForm.initUpdatedTicket(ticket); editForm.openEditModal()">
           {{'editTicket'| translate | capitalize}}
         </a>
-      </li>
-      <li>
-        <a (click)="delForm.openDelModal(ticket)">
+        </li>
+        <li>
+          <a (click)="delForm.openDelModal(ticket)">
           {{'deleteTicket'| translate | capitalize}}
         </a>
-      </li>
-    </ul>
-  </div>
-  <div class="pull-right ticket-edit-btn">
-    <button class="btn btn-info sub-ticket_btn-left"
-            (click)="voteVar.openModalWindow()">
+        </li>
+      </ul>
+    </div>
+    <div class="pull-right ticket-edit-btn">
+      <button class="btn btn-info sub-ticket_btn-left" (click)="voteVar.openModalWindow()">
       {{'addVoting'| translate | capitalize}}
     </button>
-  </div>
-      <div class="sub-ticket_comments-area">
-        <div class="sub-ticket_comments">{{'comment'| translate | capitalize}}:</div>
-        <textarea class="area comm form-control"
-                  type="text"
-                  name="message"
-                  value={{messText}}
-                  #message>
+    </div>
+    <div class="sub-ticket_comments-area">
+      <div class="sub-ticket_comments">{{'comment'| translate | capitalize}}:</div>
+      <textarea class="area comm form-control" type="text" name="message" value={{messText}} #message>
         </textarea>
-        <button class="btn btn-info pull-right ticket-edit-btn"
-                (click)="createMessage(message.value); message.value='' ">
+      <button class="btn btn-info pull-right ticket-edit-btn" (click)="createMessage(message.value); message.value='' ">
           {{'send'| translate | capitalize}}
         </button>
-      </div>
-      <button class="btn btn-default sub-ticket_show-comments"
-              (click)="getComments()">
+    </div>
+    <button class="btn btn-default sub-ticket_show-comments" (click)="getComments()">
         {{'comments'| translate | capitalize}}
       </button>
-    </div>
+  </div>
 
-    <div  class="modal fade"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="mySmallModalLabel"
-          aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="galleryPrev" (click)="prev()"></div>
-        <div class="galleryNext" (click)="next()"></div>
-        <button type="button"
-                class="close"
-                (click)="closeGallery()"
-                aria-label="Close">
+  <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="galleryPrev" (click)="prev()"></div>
+      <div class="galleryNext" (click)="next()"></div>
+      <button type="button" class="close" (click)="closeGallery()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <img src="{{currentAttachment?.url}}"
-             (click)="next()"
-             alt="{{currentAttachment?.fileName}}"
-             height="100%"
-             width="100%">
-      </div>
+      <img src="{{currentAttachment?.url}}" (click)="next()" alt="{{currentAttachment?.fileName}}" height="100%" width="100%">
     </div>
+  </div>
 </div>
 <ticket-edit-form #editForm></ticket-edit-form>
 <ticket-del-form #delForm></ticket-del-form>
-<ticket-editdiscussed-form  #editDiscussedForm></ticket-editdiscussed-form>
-
+<ticket-editdiscussed-form #editDiscussedForm></ticket-editdiscussed-form>
