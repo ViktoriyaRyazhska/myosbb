@@ -1,3 +1,4 @@
+
 {
   "apartment": "apartment",
   "apartments": "apartments",
@@ -155,7 +156,7 @@
   "dateTicket": "Date",
   "answer": "Assigned",
   "state": "State",
-  "editTicket": "Edit",
+  "editTicket": "Edit Ticket",
   "deleteTicket": "Remove",
   "optionsTicket": "options",
   "changeStatus": "To Change status",

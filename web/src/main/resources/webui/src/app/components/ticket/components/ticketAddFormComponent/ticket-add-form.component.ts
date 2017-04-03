@@ -41,7 +41,6 @@ export class TicketAddFormComponent implements OnInit{
   private isDescriptionCorrect:boolean =true;
   private isAssigneeCorrect:boolean =true;
   private isDateCorrect: boolean =true;
- // private ticket: Ticket;
   private assigneeItems: string [] =[];
   private name:string='';
   private selectedUserId: any;
@@ -59,9 +58,6 @@ export class TicketAddFormComponent implements OnInit{
     this.buildForm();
     console.log('ticket add onInit');
     this.listAllUsers();
-    for(let user of this.userAssignArr ){
-    console.log(user);
-    }
    };
 
 buildForm():void{

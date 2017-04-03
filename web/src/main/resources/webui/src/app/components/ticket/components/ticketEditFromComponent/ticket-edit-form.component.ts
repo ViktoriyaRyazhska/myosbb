@@ -22,9 +22,9 @@ import { UsersService } from '../../../users/users.service';
   templateUrl: './ticket-edit-form.html',
   styleUrls: ['../../../../../assets/css/page.layout.scss']
 })
-export class TicketEditFormComponent implements OnInit{
- @Output() update: EventEmitter<Ticket> = new EventEmitter<Ticket>();
-//  @Input() ticket: Ticket;
+export class TicketEditFormComponent implements OnInit {
+  @Output() update: EventEmitter<Ticket> = new EventEmitter<Ticket>();
+  //  @Input() ticket: Ticket;
   @ViewChild('editModal')
   editModal: ModalDirective;
   states: string[];
@@ -43,23 +43,27 @@ export class TicketEditFormComponent implements OnInit{
   private isAssigneeCorrect: boolean = true;
   private isDateCorrect: boolean = true;
   private selectedUserId: any;
-  private ticket:Ticket=new Ticket("","",TicketState.NEW,null);
-  private testDate:Date=new Date('2014-01-02T11:42:13.510');
+  private ticket: Ticket = new Ticket("", "", TicketState.NEW, null);
+  private sekectedAssignee: string;
 
   constructor(private ticketSrvice: TicketService,
+    public loginService: LoginService,
     private builder: FormBuilder) {
   }
   ngOnInit() {
 
     this.buildForm();
-    console.log('ticket edit onInit');
-   
-    for (let user of this.userAssignArr) {
-      console.log(user);
-    }
   };
 
   public openEditModal() {
+    console.log('ticketEdit openEditModalt START');
+    console.log('loginService: ' + this.loginService.getUser().osbbId);
+    this.currentUser = this.loginService.getUser();
+    this.listAllUsers();
+    for (let i = 0; i < this.assigneeItems.length; i++) {
+      console.log(this.assigneeItems[i]);
+    }
+    console.log('ticketEdit openEditModal END');
     this.editModal.show();
   };
 
@@ -67,16 +71,14 @@ export class TicketEditFormComponent implements OnInit{
     this.editTicketForm = this.builder.group({
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      assignee: [null, [Validators.required]],
-      endTimeIntput: [this.testDate, [Validators.required]]
+      assignee: [null, [Validators.required]]
     });
   };
 
 
-   listAllUsers(currentUser:any) {
-     console.log(" listAllUsers");
-     console.log(currentUser);
-    this.ticketSrvice.listAllUsersInOsbb(currentUser.osbbId).subscribe((data) => {
+  listAllUsers() {
+    console.log(" listAllUsers");
+    this.ticketSrvice.listAllUsersInOsbb(this.currentUser.osbbId).subscribe((data) => {
       this.usersAssignee = data;
       this.assigneeItems = this.fillAssigneeItems();
     },
@@ -161,14 +163,15 @@ export class TicketEditFormComponent implements OnInit{
     this.buildForm();
   }
 
-  public initUpdatedTicket(ticket:Ticket) {
-    this.ticket=ticket;
-    this.currentUser=ticket.assigned;
-      this.editTicketForm = this.builder.group({
+  public initUpdatedTicket(ticket: Ticket) {
+    this.ticket = ticket;
+    this.ticket.assigned = ticket.assigned;
+    this.sekectedAssignee = this.ticket.assigned.firstName.toString() + ' ' + this.ticket.assigned.lastName.toString();
+    this.editTicketForm = this.builder.group({
       name: [this.ticket.name, [Validators.required]],
-      description: [this.ticket.description, [Validators.required]]
-     });
-    this.openEditModal();
+      description: [this.ticket.description, [Validators.required]],
+      assignee: ['', [Validators.required]],
+    });
   };
 
 
@@ -176,32 +179,34 @@ export class TicketEditFormComponent implements OnInit{
     console.log('Add ticket Hendle Error', error)
     return Promise.reject(error.message || error)
   };
-    getAssignedId(assignees:Array<User>):User {
-        for (let i = 0; i < assignees.length; i++) {
-          if (assignees[i].userId==this.selectedUserId) {
-                return assignees[i];
-            }
-        } 
+  getAssignedId(assignees: Array<User>): User {
+    for (let i = 0; i < assignees.length; i++) {
+      if (assignees[i].userId == this.selectedUserId) {
+        return assignees[i];
+      }
     }
+  }
 
-createTicket(editTicketForm: FormGroup):Ticket{
+  createTicket(editTicketForm: FormGroup): Ticket {
 
-      this.nameTicket=editTicketForm.value.name;
-      this.descriptionTicket=editTicketForm.value.description;
-      this.ticket.name=editTicketForm.value.name;
-      this.ticket.description=editTicketForm.value.description;
-      this.ticket.state=TicketState.NEW;
-      this.ticket.assigned=this.getAssignedId( this.usersAssignee);
-      this.ticket.user=this.currentUser;
-      console.log('tickeEditComponent create: '+this.ticket.name)
-      return this.ticket;
-}
+    this.nameTicket = editTicketForm.value.name;
+    this.descriptionTicket = editTicketForm.value.description;
+    this.ticket.name = editTicketForm.value.name;
+    this.ticket.description = editTicketForm.value.description;
+    this.ticket.state = TicketState.NEW;
+    this.ticket.assigned = this.getAssignedId(this.usersAssignee);
+    this.ticket.user = this.currentUser;
+    console.log('tickeEditComponent update: ' + this.ticket.name)
+    return this.ticket;
+  }
 
-    // Saving the ticket
-    onSubmit(editTicketForm: FormGroup) {
-if(!this.isNameCorrect&&!this.isDescriptionCorrect&&!this.isAssigneeCorrect&&!this.isDateCorrect){
- this.update.emit(this.createTicket(editTicketForm));
 
- this.closeEditModal();
-}};
+  // Saving the ticket
+  onSubmit(editTicketForm: FormGroup) {
+    if (!this.isNameCorrect && !this.isDescriptionCorrect && !this.isAssigneeCorrect) {
+      this.createTicket(editTicketForm);
+      this.ticketSrvice.editTicket(this.ticket);
+      this.closeEditModal();
+    }
+  };
 }
