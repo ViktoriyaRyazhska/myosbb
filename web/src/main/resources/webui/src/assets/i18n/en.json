@@ -362,6 +362,7 @@
   "clear": "Clear",
   "add_sub_utility": "Add sub-utility",
   "choose_houses": "Choose houses",
+  "description": "description",
 
   
   "user_appartment_success":"Apartment with user were successfully added",
