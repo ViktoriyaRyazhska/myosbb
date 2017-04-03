@@ -44,39 +44,40 @@ export class TicketEditFormComponent implements OnInit{
   private isDateCorrect: boolean = true;
   private selectedUserId: any;
   private ticket:Ticket=new Ticket("","",TicketState.NEW,null);
-  private testDate:Date=new Date('2014-01-02T11:42:13.510');
+  private sekectedAssignee:string;
 
   constructor(private ticketSrvice: TicketService,
+  public loginService:LoginService,
     private builder: FormBuilder) {
   }
   ngOnInit() {
 
     this.buildForm();
-    console.log('ticket edit onInit');
-   
-    for (let user of this.userAssignArr) {
-      console.log(user);
-    }
   };
 
   public openEditModal() {
-    this.editModal.show();
+   console.log('ticketEdit openEditModalt START');
+   console.log('loginService: '+this.loginService.getUser().osbbId);
+   this.currentUser=this.loginService.getUser();
+   this.listAllUsers();
+  for (let i = 0; i < this.assigneeItems.length; i++) {
+       console.log(this.assigneeItems[i]);}
+   console.log('ticketEdit openEditModal END');
+   this.editModal.show();
   };
 
   buildForm(): void {
     this.editTicketForm = this.builder.group({
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      assignee: [null, [Validators.required]],
-      endTimeIntput: [this.testDate, [Validators.required]]
+      assignee: [null, [Validators.required]]
     });
   };
 
 
-   listAllUsers(currentUser:any) {
+   listAllUsers() {
      console.log(" listAllUsers");
-     console.log(currentUser);
-    this.ticketSrvice.listAllUsersInOsbb(currentUser.osbbId).subscribe((data) => {
+    this.ticketSrvice.listAllUsersInOsbb(this.currentUser.osbbId).subscribe((data) => {
       this.usersAssignee = data;
       this.assigneeItems = this.fillAssigneeItems();
     },
@@ -163,12 +164,13 @@ export class TicketEditFormComponent implements OnInit{
 
   public initUpdatedTicket(ticket:Ticket) {
     this.ticket=ticket;
-    this.currentUser=ticket.assigned;
+    this.ticket.assigned=ticket.assigned;
+    this.sekectedAssignee=this.ticket.assigned.firstName.toString()+' '+this.ticket.assigned.lastName.toString();
       this.editTicketForm = this.builder.group({
       name: [this.ticket.name, [Validators.required]],
-      description: [this.ticket.description, [Validators.required]]
+      description: [this.ticket.description, [Validators.required]],
+      assignee: ['', [Validators.required]],
      });
-    this.openEditModal();
   };
 
 
@@ -193,15 +195,16 @@ createTicket(editTicketForm: FormGroup):Ticket{
       this.ticket.state=TicketState.NEW;
       this.ticket.assigned=this.getAssignedId( this.usersAssignee);
       this.ticket.user=this.currentUser;
-      console.log('tickeEditComponent create: '+this.ticket.name)
+      console.log('tickeEditComponent update: '+this.ticket.name)
       return this.ticket;
 }
 
+
     // Saving the ticket
     onSubmit(editTicketForm: FormGroup) {
-if(!this.isNameCorrect&&!this.isDescriptionCorrect&&!this.isAssigneeCorrect&&!this.isDateCorrect){
- this.update.emit(this.createTicket(editTicketForm));
-
+if(!this.isNameCorrect&&!this.isDescriptionCorrect&&!this.isAssigneeCorrect){
+// this.update.emit(this.createTicket(editTicketForm));
+this.createTicket(editTicketForm);
  this.closeEditModal();
 }};
 }

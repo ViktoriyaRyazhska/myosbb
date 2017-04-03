@@ -53,9 +53,9 @@
           <div class="form-group" >
                     <label>{{'deadlineDate' | translate}}</label>
                     <input class="form-control"
-                    type="datetime-local"
+                    type="date-local"
                     id="endTimeIntput"
-                     data-format="dd/MM/yyyy hh:mm:ss"
+                    data-format="dd/MM/yyyy"
                     formControlName="endTimeIntput" 
                     (keyup)="isDeadLineCorrect($event)"
                      required/>

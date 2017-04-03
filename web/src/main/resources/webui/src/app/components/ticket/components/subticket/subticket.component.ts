@@ -1,6 +1,10 @@
 import {
   Component,
-  OnInit
+  Output,
+  Input,
+  EventEmitter,
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import {
   Http,
@@ -26,6 +30,7 @@ import {User} from "../../../../models/user.model";
 })
 
 export class SubTicketComponent implements OnInit {
+   @Output() update: EventEmitter<Ticket> = new EventEmitter<Ticket>();
   public ticket: any;
   public title: string = 'Subticket';
   public ticketState:string;

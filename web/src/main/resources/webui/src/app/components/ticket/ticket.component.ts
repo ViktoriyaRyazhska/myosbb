@@ -68,11 +68,13 @@ private addTicket(ticket:ITicket):void{
     }
 
     editTicket(ticket:ITicket):void{
+      console.log("ticket component start");
       this.ticketService.editTicket(ticket);
       let index=this.resData.indexOf(ticket);
       if(index>1){
         this.resData[index]=ticket;
       }
+       console.log("ticket component end");
     }
 
 

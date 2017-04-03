@@ -78,11 +78,12 @@ addTicket(ticket:ITicket):Promise<ITicket> {
     };
 
    editTicket(ticket:ITicket):Promise<ITicket>{
+      console.log("ticket SERVICE");
      // ticket.discussed=new Date();
       return this.http.put(UrlListConfig.URL_LIST.ticketUrl+`${ticket.ticketId}`,this.login.getRequestOptionArgs())
       .toPromise()
       .then(res=>ticket)
       .catch(this.handleError);
     }
-
+      
 }
