@@ -299,8 +299,7 @@ public class GoogleDriveServiceImpl implements GoogleDriveService {
     
 	@Async
 	public void insertChatFile(String description, String fileName, java.io.File file) {
-		String parentId = APP_FOLDER_ID;
-		File fileMetadata = getFileWithMetadata(fileName, parentId);
+		File fileMetadata = getFileWithMetadata(fileName, APP_FOLDER_ID);
 		FileContent mediaContent = new FileContent(null, file);
 		try {
 			File driveFile = driveService.files().create(fileMetadata, mediaContent).setFields("id, parents").execute();
