@@ -38,7 +38,7 @@ public class ChatController {
 	@SendTo("/topic/greetings")
 	public Chat chat(ChatMessage message, ChatMessage user) throws Exception {
 		Chat chat = new Chat(message.getMessage(), new Timestamp(System.currentTimeMillis()), user.getUser());
-		chatService.save(chat);		
+	    Chat savedChat = chatService.save(chat);		
 
 		if (chatService.countChatMessages() >= DELETION_ZONE) {
 			chatService.cleanDB();
@@ -50,7 +50,7 @@ public class ChatController {
 				e.printStackTrace();
 			}
 		}
-		return chatService.save(chat);
+		return savedChat;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
