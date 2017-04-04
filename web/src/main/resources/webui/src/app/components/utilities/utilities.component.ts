@@ -65,7 +65,7 @@ export class UtilitiesComponent implements OnInit {
     }
 
     createUtility(utility: Utility) {
-        this.userUtil.push(utility);
+        this.utilities.push(utility);
     }
     onDelete(utility: Utility) {
         this.deleteUtility = utility;
@@ -73,7 +73,7 @@ export class UtilitiesComponent implements OnInit {
 
     onConfirmDelete(){
         this.utilityService.deleteUtility(this.deleteUtility)
-        .subscribe(()=>this.userUtil.splice(this.userUtil.indexOf(this.deleteUtility, 0), 1));
+        .subscribe(()=>this.utilities.splice(this.utilities.indexOf(this.deleteUtility, 0), 1));
     }
 
 }
